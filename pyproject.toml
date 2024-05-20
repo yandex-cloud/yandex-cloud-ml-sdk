@@ -31,6 +31,10 @@ classifiers = [
 ]
 requires-python = ">=3.8.1"
 dynamic = ["version"]
+dependencies = [
+    "yandexcloud>=0.278.0",
+    "grpcio>=1.62.0",
+]
 
 [project.optional-dependencies]
 test = [
@@ -54,6 +58,11 @@ targets = "src"
 
 [tool.black]
 line-length = 120
+
+[tool.isort]
+use_parentheses = true
+multi_line_output = 5
+line_length = 120
 
 [tool.flake8]
 max-line-length = 120
@@ -165,7 +174,6 @@ check-str-concat-over-line-jumps="no"
 [tool.pylint.'TYPECHECK']
 contextmanager-decorators="contextlib.contextmanager"
 generated-members="numpy.*,np.*,pyspark.sql.functions,collect_list"
-ignore-mixin-members="yes"
 ignore-none="yes"
 ignore-on-opaque-inference="yes"
 ignored-classes="optparse.Values,thread._local,_thread._local,numpy,torch,swagger_client"
@@ -222,6 +230,6 @@ deprecated-modules="optparse,tkinter.tix"
 
 [tool.pylint.'EXCEPTIONS']
 overgeneral-exceptions= [
-    "BaseException",
-    "Exception"
+    "builtins.BaseException",
+    "builtins.Exception"
 ]
