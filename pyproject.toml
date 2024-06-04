@@ -32,8 +32,9 @@ classifiers = [
 requires-python = ">=3.8.1"
 dynamic = ["version"]
 dependencies = [
-    "yandexcloud>=0.278.0",
+    "yandexcloud>=0.292.0,!=0.293",
     "grpcio>=1.62.0",
+    "get-annotations",
 ]
 
 [project.optional-dependencies]
@@ -95,6 +96,13 @@ suggestion-mode="yes"
 unsafe-load-any-extension="no"
 disable = [
     'missing-module-docstring',
+    'too-few-public-methods',
+    'fixme',
+    'missing-class-docstring',  # TMP
+    'missing-function-docstring',  # TMP
+]
+load-plugins = [
+    'pylint_protobuf'
 ]
 
 [tool.pylint.'MESSAGES CONTROL']
@@ -151,7 +159,6 @@ single-line-if-stmt="no"
 logging-format-style="old"
 logging-modules="logging"
 
-[tool.pylint.'MISCELLANEOUS']
 notes= [
     "FIXME",
     "XXX",
@@ -206,13 +213,18 @@ exclude-protected= [
     "_fields",
     "_replace",
     "_source",
-    "_make"
+    "_make",
+    "_client",
+    "_sdk",
+    "_from_proto",
+    "_result_type",
+    "_proto_result_type",
 ]
 valid-classmethod-first-arg="cls"
 valid-metaclass-classmethod-first-arg="cls"
 
 [tool.pylint.'DESIGN']
-max-args=5
+max-args=10
 max-attributes=7
 max-bool-expr=5
 max-branches=12
@@ -233,3 +245,9 @@ overgeneral-exceptions= [
     "builtins.BaseException",
     "builtins.Exception"
 ]
+
+[[tool.mypy.overrides]]
+module = [
+    "get_annotations",
+]
+ignore_missing_imports = true

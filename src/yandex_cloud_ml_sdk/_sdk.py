@@ -1,12 +1,14 @@
 from __future__ import annotations
 
+from get_annotations import get_annotations
+
 from ._client import AsyncCloudClient
-from ._types import UNDEFINED, UndefinedOr
+from ._models import AsyncModels, Models
+from ._types.misc import UNDEFINED, Undefined, UndefinedOr
+from ._types.resource import BaseResource
 
 
-class SDK:
-    """Main entry point for SDK interactions."""
-
+class BaseSDK:
     def __init__(
         self,
         *,
@@ -31,18 +33,36 @@ class SDK:
         :type service_map: Dict[str, str]
 
         """
+
         self._client = AsyncCloudClient(
             endpoint=self._get_endpoint(endpoint),
-            api_key=api_key,
-            service_map={} if service_map is UNDEFINED else service_map
+            api_key=None if isinstance(api_key, Undefined) else api_key,
+            service_map={} if isinstance(service_map, Undefined) else service_map
         )
         self._folder_id = folder_id
+
+        self._init_resources()
+
+    def _init_resources(self) -> None:
+        members: dict[str, type] = get_annotations(self.__class__, eval_str=True)
+        for member_name, member_class in members.items():
+            if issubclass(member_class, BaseResource):
+                resource = member_class(name=member_name, sdk=self)
+                setattr(self, member_name, resource)
 
     def _get_endpoint(self, endpoint: UndefinedOr[str]) -> str:
         # Here will be more logic, like parsing env vars and/or
         # ~/.config/yandex-cloud/config.yaml
 
-        if endpoint is UNDEFINED:
+        if isinstance(endpoint, Undefined):
             return 'api.cloud.yandex.net:443'
 
         return endpoint
+
+
+class AsyncYCloudML(BaseSDK):
+    models: AsyncModels
+
+
+class YCloudML(BaseSDK):
+    models: Models
