@@ -43,7 +43,7 @@ def messages_to_proto(messages: MessageType | Iterable[MessageType]) -> list[Pro
         elif isinstance(message, dict) and 'role' in message and 'text' in message:
             kwargs = cast(TextMessageDict, message)
         else:
-            raise TypeError(f'{message=} should be str, {"role": str, "text": str} dict or TextMessage instance')
+            raise TypeError(f'{message=} should be str, {{"role": str, "text": str}} dict or TextMessage instance')
 
         result.append(
             ProtoMessage(**kwargs)

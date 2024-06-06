@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
-from typing import Any
+from typing import Any, Sequence
 
 from google.protobuf.message import Message
 from grpc import aio, ssl_channel_credentials
@@ -19,16 +19,22 @@ class AsyncCloudClient:
         endpoint: str,
         api_key: str | None,
         service_map: dict[str, str],
+        interceptors: Sequence[aio.ClientInterceptor] | None,
     ):
         self._endpoint = endpoint
         self._api_key = api_key or os.getenv('YC_API_KEY')
 
         self._service_map_override: dict[str, str] = service_map
         self._service_map: dict[str, str] = {}
+        self._interceptors = interceptors if interceptors else None
 
     async def _init_service_map(self, timeout: int):
         credentials = ssl_channel_credentials()
-        async with aio.secure_channel(self._endpoint, credentials) as channel:
+        async with aio.secure_channel(
+            self._endpoint,
+            credentials,
+            interceptors=self._interceptors
+        ) as channel:
             stub = ApiEndpointServiceStub(channel)
             response = await stub.List(ListApiEndpointsRequest(), timeout=timeout)  # type: ignore[misc]
             for endpoint in response.endpoints:
@@ -57,7 +63,11 @@ class AsyncCloudClient:
 
         credentials = ssl_channel_credentials()
 
-        async with aio.secure_channel(endpoint, credentials) as channel:
+        async with aio.secure_channel(
+            endpoint,
+            credentials,
+            interceptors=self._interceptors
+        ) as channel:
             yield stub_class(channel)
 
     async def call_service_stream(

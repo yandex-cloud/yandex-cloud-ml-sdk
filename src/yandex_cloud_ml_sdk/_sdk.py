@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+from typing import Sequence
+
 from get_annotations import get_annotations
+from grpc import aio
 
 from ._client import AsyncCloudClient
 from ._models import AsyncModels, Models
@@ -16,6 +19,7 @@ class BaseSDK:
         endpoint: UndefinedOr[str] = UNDEFINED,
         api_key: UndefinedOr[str] = UNDEFINED,
         service_map: UndefinedOr[dict[str, str]] = UNDEFINED,
+        interceptors: UndefinedOr[Sequence[aio.ClientInterceptor]] = UNDEFINED,
     ):
         """
         Construct a new asynchronous sdk instance.
@@ -37,7 +41,8 @@ class BaseSDK:
         self._client = AsyncCloudClient(
             endpoint=self._get_endpoint(endpoint),
             api_key=None if isinstance(api_key, Undefined) else api_key,
-            service_map={} if isinstance(service_map, Undefined) else service_map
+            service_map={} if isinstance(service_map, Undefined) else service_map,
+            interceptors=None if isinstance(interceptors, Undefined) else interceptors,
         )
         self._folder_id = folder_id
 
