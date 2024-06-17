@@ -1,15 +1,26 @@
 from __future__ import annotations
 
-import os
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
-from typing import Any, Sequence
+from typing import Protocol, Sequence, TypeVar, cast
 
+import grpc
+import grpc.aio
 from google.protobuf.message import Message
-from grpc import aio, ssl_channel_credentials
 from yandex.cloud.endpoint.api_endpoint_service_pb2 import ListApiEndpointsRequest  # pylint: disable=no-name-in-module
 from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServiceStub
 from yandexcloud._sdk import _service_for_ctor
+
+from ._auth import BaseAuth, get_auth_provider
+
+
+class StubType(Protocol):
+    def __init__(self, channel: grpc.Channel | grpc.aio.Channel) -> None:
+        ...
+
+
+_T = TypeVar('_T', bound=StubType)
+_D = TypeVar('_D', bound=Message)
 
 
 class AsyncCloudClient:
@@ -17,42 +28,58 @@ class AsyncCloudClient:
         self,
         *,
         endpoint: str,
-        api_key: str | None,
+        auth: BaseAuth | str | None,
         service_map: dict[str, str],
-        interceptors: Sequence[aio.ClientInterceptor] | None,
+        interceptors: Sequence[grpc.aio.ClientInterceptor] | None,
+        yc_profile: str | None,
     ):
         self._endpoint = endpoint
-        self._api_key = api_key or os.getenv('YC_API_KEY')
+        self._auth = auth
+        self._auth_provider: BaseAuth | None = None
+        self._yc_profile = yc_profile
 
         self._service_map_override: dict[str, str] = service_map
         self._service_map: dict[str, str] = {}
         self._interceptors = interceptors if interceptors else None
 
-    async def _init_service_map(self, timeout: int):
-        credentials = ssl_channel_credentials()
-        async with aio.secure_channel(
+    async def _init_service_map(self, timeout: float):
+        credentials = grpc.ssl_channel_credentials()
+        metadata = await self._get_metadata(auth_required=False, timeout=timeout)
+        async with grpc.aio.secure_channel(
             self._endpoint,
             credentials,
-            interceptors=self._interceptors
+            interceptors=self._interceptors,
         ) as channel:
             stub = ApiEndpointServiceStub(channel)
-            response = await stub.List(ListApiEndpointsRequest(), timeout=timeout)  # type: ignore[misc]
+            response = await stub.List(
+                ListApiEndpointsRequest(),
+                timeout=timeout,
+                metadata=metadata,
+            )  # type: ignore[misc]
             for endpoint in response.endpoints:
                 self._service_map[endpoint.id] = endpoint.address
 
         # TODO: add a validation for unknown services in override
         self._service_map.update(self._service_map_override)
 
-    @property
-    def _metadata(self) -> tuple[tuple[str, str], ...]:
-        if self._api_key:
-            return (
-                ('authorization', f'Api-Key {self._api_key}'),
-            )
+    async def _get_metadata(self, *, auth_required: bool, timeout: float) -> tuple[tuple[str, str], ...]:
+        if auth_required:
+            if self._auth_provider is None:
+                self._auth_provider = await get_auth_provider(
+                    auth=self._auth,
+                    endpoint=self._endpoint,
+                    yc_profile=self._yc_profile
+                )
+
+            # in case of self._auth=NoAuth(), it will return None
+            # and it is might be okay: for local installations and on-premises
+            auth = await self._auth_provider.get_auth_metadata(client=self, timeout=timeout)
+            if auth:
+                return (auth, )
         return ()
 
     @asynccontextmanager
-    async def get_service_stub(self, stub_class: Any, timeout: int) -> AsyncIterator[aio.Channel]:
+    async def get_service_stub(self, stub_class: type[_T], timeout: float) -> AsyncIterator[_T]:
         service_name: str = _service_for_ctor(stub_class)
 
         if not self._service_map:
@@ -61,9 +88,9 @@ class AsyncCloudClient:
         if not (endpoint := self._service_map.get(service_name)):
             raise ValueError(f'failed to find endpoint for {service_name=} and {stub_class=}')
 
-        credentials = ssl_channel_credentials()
+        credentials = grpc.ssl_channel_credentials()
 
-        async with aio.secure_channel(
+        async with grpc.aio.secure_channel(
             endpoint,
             credentials,
             interceptors=self._interceptors
@@ -72,17 +99,38 @@ class AsyncCloudClient:
 
     async def call_service_stream(
         self,
-        service: aio.UnaryStreamMultiCallable,
+        service: grpc.aio.UnaryStreamMultiCallable | grpc.UnaryStreamMultiCallable,
         request: Message,
-        timeout: int,
-    ) -> AsyncIterator[Message]:
-        async for response in service(request, metadata=self._metadata, timeout=timeout):
-            yield response
+        timeout: float,
+        expected_type: type[_D],  # pylint: disable=unused-argument
+        auth: bool = True,
+    ) -> AsyncIterator[_D]:
+        # NB: when you instantiate a stub class on a async or sync channel, you got
+        # "async" of "sync" stub, and it have relevant methods like __aiter__
+        # and such. But from typing perspective it have no difference,
+        # it just a stub object.
+        # Auto-generated stubs for grpc saying, that attribute stub.Service returns
+        # grpc.Unary...Multicallable, not async one, but in real life
+        # we are using only async stubs in this project.
+        # In ideal world we need to do something like
+        # cast(grpc.aio.UnaryStreamMultiCallable, stub.Service) at usage place,
+        # but it is too lot places to insert this cast, so I'm doing it here.
+        service = cast(grpc.aio.UnaryStreamMultiCallable, service)
+
+        metadata = await self._get_metadata(auth_required=auth, timeout=timeout)
+        async for response in service(request, metadata=metadata, timeout=timeout):
+            yield cast(_D, response)
 
     async def call_service(
         self,
-        service: aio.UnaryUnaryMultiCallable,
+        service: grpc.aio.UnaryUnaryMultiCallable | grpc.UnaryUnaryMultiCallable,
         request: Message,
-        timeout: int,
-    ) -> AsyncIterator[Message]:
-        return await service(request, metadata=self._metadata, timeout=timeout)
+        timeout: float,
+        expected_type: type[_D],  # pylint: disable=unused-argument
+        auth: bool = True,
+    ) -> _D:
+        service = cast(grpc.aio.UnaryUnaryMultiCallable, service)
+
+        metadata = await self._get_metadata(auth_required=auth, timeout=timeout)
+        result = await service(request, metadata=metadata, timeout=timeout)
+        return cast(_D, result)

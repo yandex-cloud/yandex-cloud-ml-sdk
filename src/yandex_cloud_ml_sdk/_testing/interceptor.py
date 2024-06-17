@@ -1,3 +1,4 @@
+# pylint: disable=too-many-instance-attributes
 from __future__ import annotations
 
 import importlib
@@ -24,12 +25,9 @@ class CassetteManager:
             request.getfixturevalue('default_cassette_name')
         ).with_suffix('.gprc.json')
 
-        # we are generating new cassette file only if there is not one,
-        # or if we were asked to
-        self.generate = (
-            request.config.getoption("--regenerate-grpc") or
-            not self.cassette_file.exists()
-        )
+        self.generate = request.config.getoption("--generate-grpc")
+        self.regenerate = request.config.getoption("--regenerate-grpc")
+        self.mode = 'write' if self.generate or self.regenerate else 'read'
 
     def assert_for_grpc(self):
         """
@@ -41,6 +39,14 @@ class CassetteManager:
             raise RuntimeError('gprc requests is disabled, use @pytest.mark.allow_grpc on test')
 
     def new_cassette(self):
+        assert self.mode == 'write'
+
+        if self.regenerate:
+            assert self.cassette_file.exists()
+
+        if self.generate:
+            assert not self.cassette_file.exists()
+
         data = {
             'interactions': []
         }
@@ -74,7 +80,7 @@ class CassetteManager:
         We are obliged to read/write cassette file every time, because
         we don't know in advance when there will be a last write.
         """
-        assert self.generate
+        assert self.mode == 'write'
         if not self.generated:
             self.generated = True
             self.new_cassette()
@@ -105,7 +111,7 @@ class CassetteManager:
         deterministic of testing process.
         """
         assert incoming_request
-        assert not self.generate
+        assert self.mode == 'read'
         if not self._iter:
             cassette = self.read_cassette()
             data = cassette['interactions']
@@ -138,7 +144,7 @@ class CassetteMixin:
 
     @property
     def generate(self) -> bool:
-        return self.cassette_manager.generate
+        return self.cassette_manager.mode == 'write'
 
     @property
     def write(self):

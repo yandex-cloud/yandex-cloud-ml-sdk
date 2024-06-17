@@ -5,10 +5,13 @@ from typing import Any, AsyncIterator, Iterable
 
 from typing_extensions import override
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import CompletionOptions
-from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import CompletionRequest
+from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import (
+    CompletionRequest, CompletionResponse, TokenizeResponse
+)
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2_grpc import (
     TextGenerationAsyncServiceStub, TextGenerationServiceStub, TokenizerServiceStub
 )
+from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 
 from yandex_cloud_ml_sdk._types.model import ModelAsyncMixin, ModelSyncMixin, ModelSyncStreamMixin, OperationTypeT
 from yandex_cloud_ml_sdk._types.operation import AsyncOperation, Operation
@@ -63,7 +66,12 @@ class BaseGPTModel(
             stream=stream,
         )
         async with self._client.get_service_stub(TextGenerationServiceStub, timeout=timeout) as stub:
-            async for response in self._client.call_service_stream(stub.Completion, request, timeout=timeout):
+            async for response in self._client.call_service_stream(
+                stub.Completion,
+                request,
+                timeout=timeout,
+                expected_type=CompletionResponse,
+            ):
                 yield GPTModelResult._from_proto(response)
 
         # something like mypy or pylint asking me to put this return here
@@ -116,7 +124,12 @@ class BaseGPTModel(
             stream=None,
         )
         async with self._client.get_service_stub(TextGenerationAsyncServiceStub, timeout=timeout) as stub:
-            response = await self._client.call_service(stub.Completion, request, timeout=timeout)
+            response = await self._client.call_service(
+                stub.Completion,
+                request,
+                timeout=timeout,
+                expected_type=ProtoOperation
+            )
             return self._operation_type(
                 id=response.id,
                 sdk=self._sdk,
@@ -142,7 +155,12 @@ class BaseGPTModel(
             stream=False,
         )
         async with self._client.get_service_stub(TokenizerServiceStub, timeout=timeout) as stub:
-            response = await self._client.call_service(stub.TokenizeCompletion, request, timeout=timeout)
+            response = await self._client.call_service(
+                stub.TokenizeCompletion,
+                request,
+                timeout=timeout,
+                expected_type=TokenizeResponse
+            )
             return tuple(Token._from_proto(t) for t in response.tokens)
 
 

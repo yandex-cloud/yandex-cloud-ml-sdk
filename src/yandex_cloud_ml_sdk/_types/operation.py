@@ -6,6 +6,8 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, Generic, TypeVar, cast
 
 # pylint: disable-next=no-name-in-module
+from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
+# pylint: disable-next=no-name-in-module
 from yandex.cloud.operation.operation_service_pb2 import CancelOperationRequest, GetOperationRequest
 from yandex.cloud.operation.operation_service_pb2_grpc import OperationServiceStub
 
@@ -62,7 +64,12 @@ class BaseOperation(abc.ABC, Generic[ResultTypeT]):
     async def _get_status(self, *, timeout=60) -> OperationStatus:
         request = GetOperationRequest(operation_id=self.id)
         async with self._client.get_service_stub(OperationServiceStub, timeout=timeout) as stub:
-            response = await self._client.call_service(stub.Get, request, timeout=timeout)
+            response = await self._client.call_service(
+                stub.Get,
+                request,
+                timeout=timeout,
+                expected_type=ProtoOperation,
+            )
             self._last_known_status = status = OperationStatus(
                 done=response.done,
                 error=response.error,
@@ -123,7 +130,12 @@ class BaseOperation(abc.ABC, Generic[ResultTypeT]):
     async def _cancel(self, *, timeout=60) -> OperationStatus:
         request = CancelOperationRequest(operation_id=self.id)
         async with self._client.get_service_stub(OperationServiceStub, timeout=timeout) as stub:
-            response = await self._client.call_service(stub.Cancel, request, timeout=timeout)
+            response = await self._client.call_service(
+                stub.Cancel,
+                request,
+                timeout=timeout,
+                expected_type=ProtoOperation,
+            )
             self._last_known_status = status = OperationStatus(
                 done=response.done,
                 error=response.error,

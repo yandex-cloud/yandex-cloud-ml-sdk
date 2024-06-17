@@ -35,6 +35,7 @@ dependencies = [
     "yandexcloud>=0.292.0,!=0.293",
     "grpcio>=1.62.0",
     "get-annotations",
+    "httpx>=0.27,<1"
 ]
 
 [project.optional-dependencies]

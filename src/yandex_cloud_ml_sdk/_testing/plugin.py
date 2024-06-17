@@ -10,6 +10,14 @@ def pytest_configure(config: Config) -> None:
 
 def pytest_addoption(parser: Parser) -> None:
     group = parser.getgroup("yandex-cloud-ml-sdk")
+
+    group.addoption(
+        '--generate-grpc',
+        action="store_true",
+        default=False,
+        help="Generate cassettes with grpc requests",
+    )
+
     group.addoption(
         "--regenerate-grpc",
         action="store_true",

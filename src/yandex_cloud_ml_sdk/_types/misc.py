@@ -1,8 +1,11 @@
 from __future__ import annotations
 
-from typing import TypeVar, Union
+from typing import TypeVar, Union, cast
+
+from typing_extensions import TypeGuard
 
 _T = TypeVar('_T')
+_D = TypeVar('_D')
 
 
 class Undefined:
@@ -14,3 +17,14 @@ class Undefined:
 
 UNDEFINED = Undefined()
 UndefinedOr = Union[_T, Undefined]
+
+
+def is_defined(obj: _T | Undefined) -> TypeGuard[_T]:
+    return obj is not UNDEFINED
+
+
+def get_defined_value(obj: UndefinedOr[_T], default: _D) -> _T | _D:
+    if is_defined(obj):
+        return cast(_T, obj)
+
+    return cast(_D, default)
