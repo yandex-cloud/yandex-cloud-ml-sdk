@@ -3,7 +3,7 @@ requires = ["flit"]
 build-backend = "flit.buildapi"
 
 [project]
-name =  "yandex-cloud-ml-sdk"
+name =  "yandex-cloud-ml-sdk-preview"
 authors = [
     {name = "Vladimir Lipkin", email = "lipkin@yandex-team.ru"},
 ]
@@ -45,9 +45,9 @@ test = [
 ]
 
 [project.urls]
-Documentation = ""
-Source = ""
-Tracker = ""
+Documentation = "https://wiki.yandex-team.ru/cloud/ai/ml-platform/cloud-ml-sdk/"
+Source = "https://bb.yandexcloud.net/projects/CLOUD/repos/yandex-cloud-ml-sdk"
+Tracker = "https://st.yandex-team.ru/FOMO"
 
 [tool.flit.module]
 name = "yandex_cloud_ml_sdk"
