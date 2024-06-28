@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from concurrent import futures
 from contextlib import asynccontextmanager
 
 import grpc.aio
@@ -48,17 +49,32 @@ def fixture_servicers():
     return []
 
 
+@pytest_asyncio.fixture(name='test_server')
+async def fixture_test_server():
+    thread_pool = futures.ThreadPoolExecutor(max_workers=10000)
+    server = grpc.aio.server(
+        migration_thread_pool=thread_pool,
+        options=(
+            ('grpc.max_concurrent_streams', -1),
+        )
+    )
+    port = server.add_insecure_port('[::]:0')
+    server.port = port
+
+    yield server
+
+    await server.stop(None)
+
+
 @pytest_asyncio.fixture
-async def test_client(auth, servicers):
+async def test_client(auth, servicers, test_server):
     if not servicers:
         yield None
 
-    server = grpc.aio.server()
     for servicer, add_servicer in servicers:
-        add_servicer(servicer, server)
+        add_servicer(servicer, test_server)
 
-    port = server.add_insecure_port('[::]:0')
-    await server.start()
+    await test_server.start()
 
     class TestClient(AsyncCloudClient):
         def __init__(self):
@@ -75,12 +91,10 @@ async def test_client(auth, servicers):
 
         @asynccontextmanager
         async def get_service_stub(self, stub_class, timeout: float):
-            async with grpc.aio.insecure_channel(f'localhost:{port}') as channel:
+            async with grpc.aio.insecure_channel(f'localhost:{test_server.port}') as channel:
                 yield stub_class(channel)
 
     yield TestClient()
-
-    await server.stop(None)
 
 
 @pytest.fixture

@@ -1,3 +1,4 @@
+# pylint: disable=too-many-instance-attributes
 from __future__ import annotations
 
 from collections.abc import AsyncIterator
@@ -42,6 +43,8 @@ class AsyncCloudClient:
         self._service_map: dict[str, str] = {}
         self._interceptors = interceptors if interceptors else None
 
+        self._channels: dict[type[StubType], grpc.aio.Channel] = {}
+
     async def _init_service_map(self, timeout: float):
         credentials = grpc.ssl_channel_credentials()
         metadata = await self._get_metadata(auth_required=False, timeout=timeout)
@@ -78,8 +81,10 @@ class AsyncCloudClient:
                 return (auth, )
         return ()
 
-    @asynccontextmanager
-    async def get_service_stub(self, stub_class: type[_T], timeout: float) -> AsyncIterator[_T]:
+    async def _get_channel(self, stub_class: type[_T], timeout: float) -> grpc.aio.Channel:
+        if stub_class in self._channels:
+            return self._channels[stub_class]
+
         service_name: str = _service_for_ctor(stub_class)
 
         if not self._service_map:
@@ -90,12 +95,20 @@ class AsyncCloudClient:
 
         credentials = grpc.ssl_channel_credentials()
 
-        async with grpc.aio.secure_channel(
+        channel = self._channels[stub_class] = grpc.aio.secure_channel(
             endpoint,
             credentials,
             interceptors=self._interceptors
-        ) as channel:
-            yield stub_class(channel)
+        )
+        return channel
+
+    @asynccontextmanager
+    async def get_service_stub(self, stub_class: type[_T], timeout: float) -> AsyncIterator[_T]:
+        # NB: right now get_service_stub is asynccontextmanager and it is unnecessary,
+        # but in future if we will make some ChannelPool, it could be handy to know,
+        # when "user" releases resource
+        channel = await self._get_channel(stub_class, timeout)
+        yield stub_class(channel)
 
     async def call_service_stream(
         self,

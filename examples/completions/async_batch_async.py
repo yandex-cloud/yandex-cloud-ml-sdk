@@ -60,7 +60,7 @@ async def main():
             tqdm_callback=t.update,
         )
 
-    running_operations = [(i, operation) for i, operation in enumerate(operations)]
+    running_operations = list(enumerate(operations))
     finished_operations = []
     errors = []
 
