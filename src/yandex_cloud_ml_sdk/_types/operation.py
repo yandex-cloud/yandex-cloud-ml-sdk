@@ -120,7 +120,7 @@ class BaseOperation(abc.ABC, Generic[ResultTypeT]):
         poll_interval: float = 10,
     ) -> ResultTypeT:
         coro = self._wait_impl(timeout=timeout, poll_interval=poll_interval)
-        if poll_interval:
+        if poll_timeout:
             coro = asyncio.wait_for(coro, timeout=poll_timeout)
 
         await coro
