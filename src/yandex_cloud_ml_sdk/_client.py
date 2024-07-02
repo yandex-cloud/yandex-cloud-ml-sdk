@@ -1,6 +1,7 @@
 # pylint: disable=too-many-instance-attributes
 from __future__ import annotations
 
+import asyncio
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from typing import Protocol, Sequence, TypeVar, cast
@@ -37,6 +38,7 @@ class AsyncCloudClient:
         self._endpoint = endpoint
         self._auth = auth
         self._auth_provider: BaseAuth | None = None
+        self._auth_lock = asyncio.Lock()
         self._yc_profile = yc_profile
 
         self._service_map_override: dict[str, str] = service_map
@@ -44,6 +46,7 @@ class AsyncCloudClient:
         self._interceptors = interceptors if interceptors else None
 
         self._channels: dict[type[StubType], grpc.aio.Channel] = {}
+        self._channels_lock = asyncio.Lock()
 
     async def _init_service_map(self, timeout: float):
         credentials = grpc.ssl_channel_credentials()
@@ -66,41 +69,55 @@ class AsyncCloudClient:
         self._service_map.update(self._service_map_override)
 
     async def _get_metadata(self, *, auth_required: bool, timeout: float) -> tuple[tuple[str, str], ...]:
-        if auth_required:
-            if self._auth_provider is None:
-                self._auth_provider = await get_auth_provider(
-                    auth=self._auth,
-                    endpoint=self._endpoint,
-                    yc_profile=self._yc_profile
-                )
+        metadata = ()
 
-            # in case of self._auth=NoAuth(), it will return None
-            # and it is might be okay: for local installations and on-premises
-            auth = await self._auth_provider.get_auth_metadata(client=self, timeout=timeout)
-            if auth:
-                return (auth, )
-        return ()
+        if not auth_required:
+            return metadata
+
+        if self._auth_provider is None:
+            async with self._auth_lock:
+                if self._auth_provider is None:
+                    self._auth_provider = await get_auth_provider(
+                        auth=self._auth,
+                        endpoint=self._endpoint,
+                        yc_profile=self._yc_profile
+                    )
+
+        # in case of self._auth=NoAuth(), it will return None
+        # and it is might be okay: for local installations and on-premises
+        auth = await self._auth_provider.get_auth_metadata(client=self, timeout=timeout)
+
+        if auth:
+            return metadata + (auth, )
+
+        return metadata
+
+    def _new_channel(self, endpoint: str) -> grpc.aio.Channel:
+        credentials = grpc.ssl_channel_credentials()
+        return grpc.aio.secure_channel(
+            endpoint,
+            credentials,
+            interceptors=self._interceptors,
+        )
 
     async def _get_channel(self, stub_class: type[_T], timeout: float) -> grpc.aio.Channel:
         if stub_class in self._channels:
             return self._channels[stub_class]
 
-        service_name: str = _service_for_ctor(stub_class)
+        async with self._channels_lock:
+            if stub_class in self._channels:
+                return self._channels[stub_class]
 
-        if not self._service_map:
-            await self._init_service_map(timeout=timeout)
+            service_name: str = _service_for_ctor(stub_class)
 
-        if not (endpoint := self._service_map.get(service_name)):
-            raise ValueError(f'failed to find endpoint for {service_name=} and {stub_class=}')
+            if not self._service_map:
+                await self._init_service_map(timeout=timeout)
 
-        credentials = grpc.ssl_channel_credentials()
+            if not (endpoint := self._service_map.get(service_name)):
+                raise ValueError(f'failed to find endpoint for {service_name=} and {stub_class=}')
 
-        channel = self._channels[stub_class] = grpc.aio.secure_channel(
-            endpoint,
-            credentials,
-            interceptors=self._interceptors
-        )
-        return channel
+            channel = self._channels[stub_class] = self._new_channel(endpoint)
+            return channel
 
     @asynccontextmanager
     async def get_service_stub(self, stub_class: type[_T], timeout: float) -> AsyncIterator[_T]:

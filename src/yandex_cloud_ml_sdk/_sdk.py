@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import asyncio
+import inspect
 import os
+import threading
 from typing import Sequence
 
 from get_annotations import get_annotations
@@ -55,11 +58,16 @@ class BaseSDK:
 
         self._init_resources()
 
+        # NB: it is only required in synchronous client
+        # but I placed it here to not to override __init__ method with
+        # a lot of arguments
+        self._lock = threading.Lock()
+
     def _init_resources(self) -> None:
         members: dict[str, type] = get_annotations(self.__class__, eval_str=True)
-        for member_name, member_class in members.items():
-            if issubclass(member_class, BaseResource):
-                resource = member_class(name=member_name, sdk=self)
+        for member_name, member in members.items():
+            if inspect.isclass(member) and issubclass(member, BaseResource):
+                resource = member(name=member_name, sdk=self)
                 setattr(self, member_name, resource)
 
     def _get_endpoint(self, endpoint: UndefinedOr[str]) -> str:
@@ -78,3 +86,24 @@ class AsyncYCloudML(BaseSDK):
 
 class YCloudML(BaseSDK):
     models: Models
+
+    __event_loop: asyncio.AbstractEventLoop | None = None
+    __loop_thread: threading.Thread | None = None
+
+    def _start_event_loop(self):
+        loop = self.__event_loop
+        asyncio.set_event_loop(loop)
+        loop.run_forever()
+
+    @property
+    def _event_loop(self) -> asyncio.AbstractEventLoop:
+        if self.__event_loop is not None:
+            return self.__event_loop
+
+        with self._lock:
+            if self.__event_loop is None:
+                self.__event_loop = asyncio.new_event_loop()
+                self.__loop_thread = threading.Thread(target=self._start_event_loop, daemon=True)
+                self.__loop_thread.start()
+
+        return self.__event_loop

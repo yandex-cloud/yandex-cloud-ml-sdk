@@ -99,15 +99,22 @@ class RefresheableIAMTokenAuth(BaseIAMTokenAuth):
         if self._token is not None:
             self._issue_time = time.time()
 
-    @override
-    async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float) -> tuple[str, str]:
-        if (
+        self._lock = asyncio.Lock()
+
+    def _need_for_token(self):
+        return (
             self._token is None or
             self._issue_time is None or
             time.time() - self._issue_time > self._token_refresh_period
-        ):
-            self._token = await self._get_token(client, timeout=timeout)
-            self._issue_time = time.time()
+        )
+
+    @override
+    async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float) -> tuple[str, str]:
+        if self._need_for_token():
+            async with self._lock:
+                if self._need_for_token():
+                    self._token = await self._get_token(client, timeout=timeout)
+                    self._issue_time = time.time()
 
         return await super().get_auth_metadata(client, timeout=timeout)
 

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
+from collections.abc import AsyncIterator
 from concurrent import futures
-from contextlib import asynccontextmanager
 
 import grpc.aio
 import pytest
@@ -10,6 +10,7 @@ import pytest_asyncio
 from yandex_cloud_ml_sdk import AsyncYCloudML, YCloudML
 from yandex_cloud_ml_sdk._auth import NoAuth
 from yandex_cloud_ml_sdk._client import AsyncCloudClient
+from yandex_cloud_ml_sdk._testing.client import MockClient
 from yandex_cloud_ml_sdk._testing.interceptor import (
     AsyncUnaryStreamClientInterceptor, AsyncUnaryUnaryClientInterceptor, CassetteManager
 )
@@ -66,42 +67,25 @@ async def fixture_test_server():
     await server.stop(None)
 
 
-@pytest_asyncio.fixture
-async def test_client(auth, servicers, test_server):
+@pytest_asyncio.fixture(name='test_client')
+async def test_client(auth, servicers, test_server) -> AsyncIterator[AsyncCloudClient | None]:
     if not servicers:
         yield None
+        return
 
     for servicer, add_servicer in servicers:
         add_servicer(servicer, test_server)
 
     await test_server.start()
 
-    class TestClient(AsyncCloudClient):
-        def __init__(self):
-            super().__init__(
-                endpoint='test-endpoint',
-                auth=auth,
-                service_map={},
-                interceptors=None,
-                yc_profile=None
-            )
-
-        async def _init_service_map(self, *args, **kwargs):  # pylint: disable=unused-argument
-            self._service_map = {'test': 'test'}
-
-        @asynccontextmanager
-        async def get_service_stub(self, stub_class, timeout: float):
-            async with grpc.aio.insecure_channel(f'localhost:{test_server.port}') as channel:
-                yield stub_class(channel)
-
-    yield TestClient()
+    yield MockClient(port=test_server.port, auth=auth)
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 def sdk(folder_id, interceptors, auth):
     return YCloudML(folder_id=folder_id, interceptors=interceptors, auth=auth)
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 def async_sdk(folder_id, interceptors, auth):
     return AsyncYCloudML(folder_id=folder_id, interceptors=interceptors, auth=auth)

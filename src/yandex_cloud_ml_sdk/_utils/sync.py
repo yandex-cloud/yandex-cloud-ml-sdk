@@ -1,16 +1,16 @@
 from __future__ import annotations
 
 import asyncio
-import atexit
 import inspect
-import sys
 import threading
 from collections.abc import AsyncIterator, Coroutine, Iterator
-from contextvars import ContextVar
 from functools import wraps
-from typing import Any, Awaitable, Callable, TypeVar
+from typing import TYPE_CHECKING, Any, Awaitable, Callable, TypeVar
 
-from typing_extensions import ParamSpec
+from typing_extensions import Concatenate, ParamSpec
+
+if TYPE_CHECKING:
+    from yandex_cloud_ml_sdk._sdk import YCloudML
 
 T = TypeVar("T")
 P = ParamSpec("P")
@@ -19,41 +19,18 @@ P = ParamSpec("P")
 class _TaskRunner:
     """A task runner that runs an asyncio event loop on a background thread."""
 
-    def __init__(self) -> None:
-        self.__io_loop: asyncio.AbstractEventLoop | None = None
-        self.__runner_thread: threading.Thread | None = None
-        self.__lock = threading.Lock()
-        atexit.register(self._close)
-
-    def _close(self) -> None:
-        if self.__io_loop:
-            self.__io_loop.stop()
-
-    def _runner(self) -> None:
-        loop = self.__io_loop
-        assert loop is not None
-        try:
-            loop.run_forever()
-        finally:
-            loop.close()
+    def __init__(self, event_loop: asyncio.AbstractEventLoop) -> None:
+        self.__io_loop = event_loop
 
     def run(self, coro: Any) -> Any:
-        """Synchronously runs a coroutine on a background thread."""
-        with self.__lock:
-            name = f"{threading.current_thread().name} - runner"
-            if self.__io_loop is None:
-                self.__io_loop = asyncio.new_event_loop()
-                self.__runner_thread = threading.Thread(target=self._runner, daemon=True, name=name)
-                self.__runner_thread.start()
         fut = asyncio.run_coroutine_threadsafe(coro, self.__io_loop)
         return fut.result(None)
 
 
-_runner_map: dict[str, _TaskRunner] = {}
-_loop: ContextVar[asyncio.AbstractEventLoop | None] = ContextVar("_loop", default=None)
+_runner_map: dict[tuple[str, YCloudML], _TaskRunner] = {}
 
 
-def run_sync(coro: Callable[P, Awaitable[T]]) -> Callable[P, T]:
+def run_sync(coro: Callable[Concatenate[Any, P], Awaitable[T]]) -> Callable[Concatenate[Any, P], T]:
     """Wraps coroutine in a function that blocks until it has executed.
 
     Parameters
@@ -70,24 +47,14 @@ def run_sync(coro: Callable[P, Awaitable[T]]) -> Callable[P, T]:
         raise AssertionError
 
     @wraps(coro)
-    def wrapped(*args: P.args, **kwargs: P.kwargs) -> T:
-        result: T
+    def wrapped(self: Any, *args: P.args, **kwargs: P.kwargs) -> T:
         name = threading.current_thread().name
-        inner: Awaitable[T] = coro(*args, **kwargs)
-        try:
-            # If a loop is currently running in this thread,
-            # use a task runner.
-            asyncio.get_running_loop()
-            if name not in _runner_map:
-                _runner_map[name] = _TaskRunner()
-            result = _runner_map[name].run(inner)
-            return result
-        except RuntimeError:
-            pass
+        inner: Awaitable[T] = coro(self, *args, **kwargs)
+        key = (name, self._sdk)
+        if key not in _runner_map:
+            _runner_map[key] = _TaskRunner(self._sdk._event_loop)  # pylint: disable=protected-access
 
-        # Run the loop for this thread.
-        loop = ensure_event_loop()
-        result = loop.run_until_complete(inner)
+        result: T = _runner_map[key].run(inner)
         return result
 
     return wrapped
@@ -99,9 +66,12 @@ def run_sync_generator(coro: Callable[..., AsyncIterator[T]]) -> Callable[..., I
     if not inspect.isasyncgenfunction(coro):
         raise AssertionError
 
-    def wrapped(*args: Any, **kwargs: Any) -> Any:
+    def wrapped(self: Any, *args: Any, **kwargs: Any) -> Any:
         name = threading.current_thread().name
-        inner = coro(*args, **kwargs)
+        inner = coro(self, *args, **kwargs)
+        key = (name, self._sdk)
+        if key not in _runner_map:
+            _runner_map[key] = _TaskRunner(self._sdk._event_loop)  # pylint: disable=protected-access
 
         def run_from(runner: Callable[[Coroutine], Any]):
             while True:
@@ -110,37 +80,7 @@ def run_sync_generator(coro: Callable[..., AsyncIterator[T]]) -> Callable[..., I
                 except StopAsyncIteration:
                     break
 
-        try:
-            # If a loop is currently running in this thread,
-            # use a task runner.
-            asyncio.get_running_loop()
-            if name not in _runner_map:
-                _runner_map[name] = _TaskRunner()
-
-            yield from run_from(_runner_map[name].run)
-        except RuntimeError:
-            pass
-
-        # Run the loop for this thread.
-        loop = ensure_event_loop()
-        yield from run_from(loop.run_until_complete)
+        yield from run_from(_runner_map[key].run)
 
     wrapped.__doc__ = coro.__doc__
     return wrapped
-
-
-def ensure_event_loop(prefer_selector_loop: bool = False) -> asyncio.AbstractEventLoop:
-    # Get the loop for this thread, or create a new one.
-    loop = _loop.get()
-    if loop is not None and not loop.is_closed():
-        return loop
-    try:
-        loop = asyncio.get_running_loop()
-    except RuntimeError:
-        if sys.platform == "win32" and prefer_selector_loop:
-            loop = asyncio.WindowsSelectorEventLoopPolicy().new_event_loop()
-        else:
-            loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-    _loop.set(loop)
-    return loop

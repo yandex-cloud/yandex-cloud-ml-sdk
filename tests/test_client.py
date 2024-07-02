@@ -9,10 +9,9 @@ from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServi
 
 from yandex_cloud_ml_sdk import AsyncYCloudML
 
-pytestmark = pytest.mark.asyncio
-
 
 @pytest.mark.heavy
+@pytest.mark.asyncio
 async def test_multiple_requests(folder_id):
     async_sdk = AsyncYCloudML(folder_id=folder_id)
     test_client = async_sdk._client
