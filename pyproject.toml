@@ -250,5 +250,6 @@ overgeneral-exceptions= [
 [[tool.mypy.overrides]]
 module = [
     "get_annotations",
+    "scipy.spatial.distance",
 ]
 ignore_missing_imports = true

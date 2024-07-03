@@ -8,6 +8,7 @@ from yandex_cloud_ml_sdk._types.function import BaseFunction
 from yandex_cloud_ml_sdk._types.resource import BaseResource
 
 from .completions.function import AsyncCompletions, Completions
+from .text_embeddings.function import AsyncTextEmbeddings, TextEmbeddings
 
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
@@ -28,7 +29,9 @@ class BaseModels(BaseResource):
 
 class AsyncModels(BaseModels):
     completions: AsyncCompletions
+    text_embeddings: AsyncTextEmbeddings
 
 
 class Models(BaseModels):
     completions: Completions
+    text_embeddings: TextEmbeddings
