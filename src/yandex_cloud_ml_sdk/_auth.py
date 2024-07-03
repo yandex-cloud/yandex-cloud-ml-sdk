@@ -183,6 +183,9 @@ class YandexCloudCLIAuth(RefresheableIAMTokenAuth):
         if process.returncode:
             return None
 
+        if not stdout:
+            return ''
+
         result = stdout.splitlines(keepends=False)
         return result[-1].decode('utf-8')
 
