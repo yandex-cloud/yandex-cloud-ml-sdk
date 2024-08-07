@@ -10,7 +10,7 @@ import sys
 import time
 import warnings
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Type, cast
+from typing import TYPE_CHECKING
 
 import httpx
 from typing_extensions import Self, override
@@ -25,7 +25,14 @@ if TYPE_CHECKING:
 
 class BaseAuth(ABC):
     @abstractmethod
-    async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float) -> tuple[str, str] | None:
+    async def get_auth_metadata(
+        self,
+        client: AsyncCloudClient,
+        timeout: float,
+        lock: asyncio.Lock
+    ) -> tuple[str, str] | None:
+        # NB: we are can't create lock in Auth constructor, so we a reusing lock from client.
+        # Look at client._lock doctstring for details.
         pass
 
     @classmethod
@@ -36,7 +43,7 @@ class BaseAuth(ABC):
 
 class NoAuth(BaseAuth):
     @override
-    async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float) -> None:
+    async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> None:
         return None
 
     @override
@@ -52,7 +59,7 @@ class APIKeyAuth(BaseAuth):
         self._api_key = api_key
 
     @override
-    async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float) -> tuple[str, str]:
+    async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> tuple[str, str]:
         return ('authorization', f'Api-Key {self._api_key}')
 
     @override
@@ -70,7 +77,7 @@ class BaseIAMTokenAuth(BaseAuth):
         self._token = token
 
     @override
-    async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float) -> tuple[str, str]:
+    async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> tuple[str, str]:
         return ('authorization', f'Bearer {self._token}')
 
 
@@ -99,8 +106,6 @@ class RefresheableIAMTokenAuth(BaseIAMTokenAuth):
         if self._token is not None:
             self._issue_time = time.time()
 
-        self._lock = asyncio.Lock()
-
     def _need_for_token(self):
         return (
             self._token is None or
@@ -109,14 +114,14 @@ class RefresheableIAMTokenAuth(BaseIAMTokenAuth):
         )
 
     @override
-    async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float) -> tuple[str, str]:
+    async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> tuple[str, str]:
         if self._need_for_token():
-            async with self._lock:
+            async with lock:
                 if self._need_for_token():
                     self._token = await self._get_token(client, timeout=timeout)
                     self._issue_time = time.time()
 
-        return await super().get_auth_metadata(client, timeout=timeout)
+        return await super().get_auth_metadata(client, timeout=timeout, lock=lock)
 
     @abstractmethod
     async def _get_token(self, client: AsyncCloudClient, timeout: float) -> str:
@@ -308,8 +313,7 @@ async def get_auth_provider(
             MetadataAuth,
             YandexCloudCLIAuth,
         ):
-            cls = cast(Type[BaseAuth], cls)
-            result = await cls.applicable_from_env(
+            result = await cls.applicable_from_env(  # type: ignore[attr-defined]
                 yc_profile=yc_profile,
                 endpoint=endpoint,
             )

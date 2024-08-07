@@ -8,7 +8,6 @@ from typing import Any
 import pytest
 from typing_extensions import override
 
-from yandex_cloud_ml_sdk import YCloudML
 from yandex_cloud_ml_sdk._auth import RefresheableIAMTokenAuth
 from yandex_cloud_ml_sdk._testing.client import MockClient
 from yandex_cloud_ml_sdk._utils.contextlib import nullcontext
@@ -33,12 +32,12 @@ class RefresheableMockAuth(RefresheableIAMTokenAuth):
 
 
 @pytest.mark.asyncio
-async def test_auth_no_lock(folder_id):
+async def test_auth_no_lock(folder_id, async_sdk):
     auth = RefresheableMockAuth(1)
-    auth._lock = nullcontext()
 
     # using str port value for exception raising in case of network usage
-    client = MockClient(port='<intencionally-non-int-value>', auth=auth)
+    client = MockClient(port='<intencionally-non-int-value>', auth=auth, sdk=async_sdk)
+    client._auth_lock._inst = nullcontext()
 
     coros = []
     for _ in range(100):
@@ -51,11 +50,11 @@ async def test_auth_no_lock(folder_id):
 
 
 @pytest.mark.asyncio
-async def test_auth_with_lock(folder_id):
+async def test_auth_with_lock(folder_id, async_sdk):
     auth = RefresheableMockAuth(1)
 
     # using str port value for exception raising in case of network usage
-    client = MockClient(port='<intencionally-non-int-value>', auth=auth)
+    client = MockClient(port='<intencionally-non-int-value>', auth=auth, sdk=async_sdk)
 
     coros = []
     for _ in range(100):
@@ -71,13 +70,12 @@ class MockSyncClient(MockClient):
     _get_metadata = run_sync(MockClient._get_metadata)  # type: ignore[arg-type,assignment]
 
 
-def test_sync_auth_no_lock(folder_id):
+def test_sync_auth_no_lock(folder_id, sdk):
     auth = RefresheableMockAuth(1)
-    auth._lock = nullcontext()
-    sdk = YCloudML(folder_id=folder_id)
 
     # using str port value for exception raising in case of network usage
     client = MockSyncClient(port='<intencionally-non-int-value>', auth=auth, sdk=sdk)
+    client._auth_lock._inst = nullcontext()
     run = lambda _: client._get_metadata(auth_required=True, timeout=60)
 
     pool = ThreadPoolExecutor(100)
@@ -86,9 +84,8 @@ def test_sync_auth_no_lock(folder_id):
     assert auth.call_counter > 1
 
 
-def test_sync_auth_with_lock(folder_id):
+def test_sync_auth_with_lock(folder_id, sdk):
     auth = RefresheableMockAuth(1)
-    sdk = YCloudML(folder_id=folder_id)
 
     # using str port value for exception raising in case of network usage
     client = MockSyncClient(port='<intencionally-non-int-value>', auth=auth, sdk=sdk)

@@ -4,7 +4,7 @@ import asyncio
 import inspect
 import os
 import threading
-from typing import Sequence
+from typing import Optional, Sequence
 
 from get_annotations import get_annotations
 from grpc import aio
@@ -45,6 +45,11 @@ class BaseSDK:
         :type service_map: Dict[str, str]
 
         """
+        # NB: it is only required in synchronous client
+        # but I placed it here to not to override __init__ method with
+        # a lot of arguments
+        self._lock = threading.Lock()
+
         endpoint = self._get_endpoint(endpoint)
 
         self._client = AsyncCloudClient(
@@ -57,11 +62,6 @@ class BaseSDK:
         self._folder_id = folder_id
 
         self._init_resources()
-
-        # NB: it is only required in synchronous client
-        # but I placed it here to not to override __init__ method with
-        # a lot of arguments
-        self._lock = threading.Lock()
 
     def _init_resources(self) -> None:
         members: dict[str, type] = get_annotations(self.__class__, eval_str=True)
@@ -87,8 +87,10 @@ class AsyncYCloudML(BaseSDK):
 class YCloudML(BaseSDK):
     models: Models
 
-    __event_loop: asyncio.AbstractEventLoop | None = None
-    __loop_thread: threading.Thread | None = None
+    # NB: All typehints on these classes must be 3.8-compatible
+    # to properly work with get_annotations
+    __event_loop: Optional[asyncio.AbstractEventLoop] = None
+    __loop_thread: Optional[threading.Thread] = None
 
     def _start_event_loop(self):
         loop = self.__event_loop

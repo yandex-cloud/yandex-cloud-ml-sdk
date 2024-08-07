@@ -28,6 +28,7 @@ repos:
     hooks:
       - id: pyupgrade
         args: [--py38-plus]
+        exclude: .*\/_sdk.py
 
   - repo: https://github.com/hadialqattan/pycln
     rev: v1.2.5

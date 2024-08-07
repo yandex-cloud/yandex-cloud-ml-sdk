@@ -14,6 +14,7 @@ from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServi
 from yandexcloud._sdk import _service_for_ctor
 
 from ._auth import BaseAuth, get_auth_provider
+from ._utils.lock import LazyLock
 
 
 class StubType(Protocol):
@@ -38,7 +39,6 @@ class AsyncCloudClient:
         self._endpoint = endpoint
         self._auth = auth
         self._auth_provider: BaseAuth | None = None
-        self._auth_lock = asyncio.Lock()
         self._yc_profile = yc_profile
 
         self._service_map_override: dict[str, str] = service_map
@@ -46,7 +46,12 @@ class AsyncCloudClient:
         self._interceptors = interceptors if interceptors else None
 
         self._channels: dict[type[StubType], grpc.aio.Channel] = {}
-        self._channels_lock = asyncio.Lock()
+
+        self._auth_lock = LazyLock()
+        self._channels_lock = LazyLock()
+
+        self._lock_inst: asyncio.Lock | None = None
+        self._channels_lock_inst: asyncio.Lock | None = None
 
     async def _init_service_map(self, timeout: float):
         credentials = grpc.ssl_channel_credentials()
@@ -75,7 +80,7 @@ class AsyncCloudClient:
             return metadata
 
         if self._auth_provider is None:
-            async with self._auth_lock:
+            async with self._auth_lock():
                 if self._auth_provider is None:
                     self._auth_provider = await get_auth_provider(
                         auth=self._auth,
@@ -85,7 +90,7 @@ class AsyncCloudClient:
 
         # in case of self._auth=NoAuth(), it will return None
         # and it is might be okay: for local installations and on-premises
-        auth = await self._auth_provider.get_auth_metadata(client=self, timeout=timeout)
+        auth = await self._auth_provider.get_auth_metadata(client=self, timeout=timeout, lock=self._auth_lock())
 
         if auth:
             return metadata + (auth, )
@@ -104,7 +109,7 @@ class AsyncCloudClient:
         if stub_class in self._channels:
             return self._channels[stub_class]
 
-        async with self._channels_lock:
+        async with self._channels_lock():
             if stub_class in self._channels:
                 return self._channels[stub_class]
 
