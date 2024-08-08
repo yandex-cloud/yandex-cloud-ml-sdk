@@ -24,6 +24,7 @@ async def test_auth(async_sdk, iam_token):
         timeout=1
     )
     assert metadata == (
+        ('yc-ml-sdk-retry', 'NONE'),
         ('authorization', f'Bearer {iam_token}'),
     )
 

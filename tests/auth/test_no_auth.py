@@ -18,7 +18,7 @@ async def test_auth(async_sdk):
         auth_required=True,
         timeout=1
     )
-    assert metadata == ()
+    assert metadata == (('yc-ml-sdk-retry', 'NONE'),)
 
 
 async def test_applicable_from_env():

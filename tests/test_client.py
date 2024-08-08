@@ -21,7 +21,7 @@ async def test_multiple_requests(folder_id):
     for _ in range(20000):
         context = test_client.get_service_stub(ApiEndpointServiceStub, 10)
         ctx.append(context)
-        stub = await context.__aenter__()  # pylint: disable=no-member
+        stub = await context.__aenter__()  # pylint: disable=no-member,unnecessary-dunder-call
         stubs.append(stub)
 
     coros = []

@@ -40,18 +40,17 @@ def servicers(oauth_token):
     return [(Servicer(), add_IamTokenServiceServicer_to_server)]
 
 
-async def test_auth(async_sdk, test_client, auth):
-    async_sdk._client = test_client
-
+async def test_auth(async_sdk, auth):
     metadata = await async_sdk._client._get_metadata(auth_required=True, timeout=1)
 
     assert auth._issue_time is not None
-    assert metadata == (("authorization", "Bearer <iam-token-0>"),)
+    assert metadata == (
+        ('yc-ml-sdk-retry', 'NONE'),
+        ("authorization", "Bearer <iam-token-0>"),
+    )
 
 
-async def test_reissue(async_sdk, test_client, auth, monkeypatch):
-    async_sdk._client = test_client
-
+async def test_reissue(async_sdk, auth, monkeypatch):
     assert auth._token is None
     assert auth._issue_time is None
 

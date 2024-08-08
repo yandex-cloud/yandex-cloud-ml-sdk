@@ -12,6 +12,7 @@ from grpc import aio
 from ._auth import BaseAuth
 from ._client import AsyncCloudClient
 from ._models import AsyncModels, Models
+from ._retry import RetryPolicy
 from ._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
 from ._types.resource import BaseResource
 
@@ -23,6 +24,7 @@ class BaseSDK:
         folder_id: str,
         endpoint: UndefinedOr[str] = UNDEFINED,
         auth: UndefinedOr[str | BaseAuth] = UNDEFINED,
+        retry_policy: UndefinedOr[RetryPolicy] = UNDEFINED,
         yc_profile: UndefinedOr[str] = UNDEFINED,
         service_map: UndefinedOr[dict[str, str]] = UNDEFINED,
         interceptors: UndefinedOr[Sequence[aio.ClientInterceptor]] = UNDEFINED,
@@ -51,11 +53,13 @@ class BaseSDK:
         self._lock = threading.Lock()
 
         endpoint = self._get_endpoint(endpoint)
+        retry_policy = retry_policy if is_defined(retry_policy) else RetryPolicy()
 
         self._client = AsyncCloudClient(
             endpoint=endpoint,
             auth=get_defined_value(auth, None),
             service_map=get_defined_value(service_map, {}),
+            retry_policy=retry_policy,
             interceptors=get_defined_value(interceptors, None),
             yc_profile=get_defined_value(yc_profile, None),
         )

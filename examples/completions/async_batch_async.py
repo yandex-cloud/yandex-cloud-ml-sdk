@@ -56,7 +56,7 @@ async def main():
         operations = await run_chunked_tasks(
             function=model.run_async,
             data=input_data,
-            chunk_size=40,
+            chunk_size=100,
             tqdm_callback=t.update,
         )
 

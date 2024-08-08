@@ -8,26 +8,36 @@ from typing_extensions import override
 
 from yandex_cloud_ml_sdk._auth import BaseAuth
 from yandex_cloud_ml_sdk._client import AsyncCloudClient
+from yandex_cloud_ml_sdk.retry import NoRetryPolicy, RetryPolicy
 
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
+NO_RETRY_DEFAULT = NoRetryPolicy()
+
 
 class MockClient(AsyncCloudClient):
-    def __init__(self, port: int, auth: BaseAuth, sdk: BaseSDK | None = None):
+    def __init__(
+        self,
+        port: int,
+        auth: BaseAuth,
+        sdk: BaseSDK | None = None,
+        retry_policy: RetryPolicy = NO_RETRY_DEFAULT
+    ):
         super().__init__(
             endpoint='test-endpoint',
             auth=auth,
             service_map={},
             interceptors=None,
-            yc_profile=None
+            yc_profile=None,
+            retry_policy=retry_policy,
         )
         self.port = port
         self._sdk = sdk
 
     @override
     def _new_channel(self, endpoint: str) -> grpc.aio.Channel:
-        return grpc.aio.insecure_channel(target=endpoint)
+        return grpc.aio.insecure_channel(target=endpoint, interceptors=self._interceptors)
 
     @override
     async def _init_service_map(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=unused-argument

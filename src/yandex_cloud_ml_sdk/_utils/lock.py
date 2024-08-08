@@ -4,7 +4,7 @@ import asyncio
 
 
 class LazyLock:
-    def __init__(self):
+    def __init__(self) -> None:
         self._inst: asyncio.Lock | None = None
 
     def __call__(self) -> asyncio.Lock:

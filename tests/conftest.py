@@ -8,8 +8,9 @@ import pytest
 import pytest_asyncio
 
 from yandex_cloud_ml_sdk import AsyncYCloudML, YCloudML
-from yandex_cloud_ml_sdk._auth import NoAuth
+from yandex_cloud_ml_sdk._auth import BaseAuth, NoAuth
 from yandex_cloud_ml_sdk._client import AsyncCloudClient
+from yandex_cloud_ml_sdk._retry import NoRetryPolicy, RetryPolicy
 from yandex_cloud_ml_sdk._testing.client import MockClient
 from yandex_cloud_ml_sdk._testing.interceptor import (
     AsyncUnaryStreamClientInterceptor, AsyncUnaryUnaryClientInterceptor, CassetteManager
@@ -67,8 +68,18 @@ async def fixture_test_server():
     await server.stop(None)
 
 
+@pytest.fixture(name='retry_policy')
+def fixture_retry_policy() -> RetryPolicy:
+    return NoRetryPolicy()
+
+
 @pytest_asyncio.fixture(name='test_client')
-async def test_client(auth, servicers, test_server) -> AsyncIterator[AsyncCloudClient | None]:
+async def fixture_test_client(
+    auth,
+    servicers,
+    test_server,
+    retry_policy: RetryPolicy
+) -> AsyncIterator[AsyncCloudClient | None]:
     if not servicers:
         yield None
         return
@@ -78,14 +89,32 @@ async def test_client(auth, servicers, test_server) -> AsyncIterator[AsyncCloudC
 
     await test_server.start()
 
-    yield MockClient(port=test_server.port, auth=auth)
+    yield MockClient(port=test_server.port, auth=auth, retry_policy=retry_policy)
 
 
-@pytest_asyncio.fixture
-def sdk(folder_id, interceptors, auth):
-    return YCloudML(folder_id=folder_id, interceptors=interceptors, auth=auth)
+@pytest_asyncio.fixture(name='sdk')
+def fixture_sdk(
+    folder_id,
+    interceptors,
+    auth: BaseAuth,
+    retry_policy: RetryPolicy,
+    test_client: MockClient | None,
+):
+    sdk = YCloudML(folder_id=folder_id, interceptors=interceptors, auth=auth, retry_policy=retry_policy)
+    if test_client:
+        sdk._client = test_client
+    return sdk
 
 
-@pytest_asyncio.fixture
-def async_sdk(folder_id, interceptors, auth):
-    return AsyncYCloudML(folder_id=folder_id, interceptors=interceptors, auth=auth)
+@pytest_asyncio.fixture(name='async_sdk')
+def fixture_async_sdk(
+    folder_id,
+    interceptors,
+    auth: BaseAuth,
+    retry_policy: RetryPolicy,
+    test_client: MockClient | None,
+):
+    sdk = AsyncYCloudML(folder_id=folder_id, interceptors=interceptors, auth=auth, retry_policy=retry_policy)
+    if test_client:
+        sdk._client = test_client
+    return sdk

@@ -4,7 +4,7 @@ from __future__ import annotations
 import asyncio
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
-from typing import Protocol, Sequence, TypeVar, cast
+from typing import Literal, Protocol, Sequence, TypeVar, cast
 
 import grpc
 import grpc.aio
@@ -14,6 +14,7 @@ from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServi
 from yandexcloud._sdk import _service_for_ctor
 
 from ._auth import BaseAuth, get_auth_provider
+from ._retry import RETRY_KIND_METADATA_KEY, RetryKind, RetryPolicy
 from ._utils.lock import LazyLock
 
 
@@ -35,6 +36,7 @@ class AsyncCloudClient:
         service_map: dict[str, str],
         interceptors: Sequence[grpc.aio.ClientInterceptor] | None,
         yc_profile: str | None,
+        retry_policy: RetryPolicy,
     ):
         self._endpoint = endpoint
         self._auth = auth
@@ -43,7 +45,11 @@ class AsyncCloudClient:
 
         self._service_map_override: dict[str, str] = service_map
         self._service_map: dict[str, str] = {}
-        self._interceptors = interceptors if interceptors else None
+
+        self._interceptors = (
+            (tuple(interceptors) if interceptors else ()) +
+            retry_policy.get_interceptors()
+        )
 
         self._channels: dict[type[StubType], grpc.aio.Channel] = {}
 
@@ -55,7 +61,7 @@ class AsyncCloudClient:
 
     async def _init_service_map(self, timeout: float):
         credentials = grpc.ssl_channel_credentials()
-        metadata = await self._get_metadata(auth_required=False, timeout=timeout)
+        metadata = await self._get_metadata(auth_required=False, timeout=timeout, retry_kind=RetryKind.SINGLE)
         async with grpc.aio.secure_channel(
             self._endpoint,
             credentials,
@@ -73,8 +79,16 @@ class AsyncCloudClient:
         # TODO: add a validation for unknown services in override
         self._service_map.update(self._service_map_override)
 
-    async def _get_metadata(self, *, auth_required: bool, timeout: float) -> tuple[tuple[str, str], ...]:
-        metadata = ()
+    async def _get_metadata(
+        self,
+        *,
+        auth_required: bool,
+        timeout: float,
+        retry_kind: RetryKind = RetryKind.NONE,
+    ) -> tuple[tuple[str, str], ...]:
+        metadata = (
+            (RETRY_KIND_METADATA_KEY, retry_kind.name),
+        )
 
         if not auth_required:
             return metadata
@@ -139,6 +153,7 @@ class AsyncCloudClient:
         timeout: float,
         expected_type: type[_D],  # pylint: disable=unused-argument
         auth: bool = True,
+        retry_kind: Literal[RetryKind.NONE, RetryKind.SINGLE, RetryKind.CONTINUATION] = RetryKind.SINGLE,
     ) -> AsyncIterator[_D]:
         # NB: when you instantiate a stub class on a async or sync channel, you got
         # "async" of "sync" stub, and it have relevant methods like __aiter__
@@ -152,7 +167,7 @@ class AsyncCloudClient:
         # but it is too lot places to insert this cast, so I'm doing it here.
         service = cast(grpc.aio.UnaryStreamMultiCallable, service)
 
-        metadata = await self._get_metadata(auth_required=auth, timeout=timeout)
+        metadata = await self._get_metadata(auth_required=auth, timeout=timeout, retry_kind=retry_kind)
         async for response in service(request, metadata=metadata, timeout=timeout):
             yield cast(_D, response)
 
@@ -163,9 +178,15 @@ class AsyncCloudClient:
         timeout: float,
         expected_type: type[_D],  # pylint: disable=unused-argument
         auth: bool = True,
+        retry_kind: Literal[RetryKind.NONE, RetryKind.SINGLE] = RetryKind.SINGLE,
     ) -> _D:
         service = cast(grpc.aio.UnaryUnaryMultiCallable, service)
 
-        metadata = await self._get_metadata(auth_required=auth, timeout=timeout)
-        result = await service(request, metadata=metadata, timeout=timeout)
+        metadata = await self._get_metadata(auth_required=auth, timeout=timeout, retry_kind=retry_kind)
+        result = await service(
+            request,
+            metadata=metadata,
+            timeout=timeout,
+            wait_for_ready=True,
+        )
         return cast(_D, result)

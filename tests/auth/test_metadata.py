@@ -31,7 +31,10 @@ async def test_auth(async_sdk, iam_token, mock_client):
     mock_client.get.return_value = response
 
     metadata = await async_sdk._client._get_metadata(auth_required=True, timeout=1)
-    assert metadata == (("authorization", f"Bearer {iam_token}"),)
+    assert metadata == (
+        ('yc-ml-sdk-retry', 'NONE'),
+        ("authorization", f"Bearer {iam_token}"),
+    )
 
 
 async def test_reissue(async_sdk, auth, monkeypatch, mock_client):
