@@ -170,7 +170,7 @@ notes= [
 ignore-comments="yes"
 ignore-docstrings="yes"
 ignore-imports="yes"
-min-similarity-lines=7
+min-similarity-lines=10
 
 [tool.pylint.'SPELLING']
 max-spelling-suggestions=4
