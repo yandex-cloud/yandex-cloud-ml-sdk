@@ -61,7 +61,7 @@ async def test_configure(async_sdk):
 
     model = model.configure(task_description="")
 
-    with pytest.raises(ValueError, match="Wrong config values combination"):
+    with pytest.raises(ValueError, match="Incorrect combination of config values."):
         await model.run('foo')
 
     model = model.configure(task_description=None, samples=[])

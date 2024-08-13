@@ -1,24 +1,24 @@
 from __future__ import annotations
 
-from yandex_cloud_ml_sdk import YCloudML
+import asyncio
+
+from yandex_cloud_ml_sdk import AsyncYCloudML
 
 
-def main():
-    sdk = YCloudML(folder_id='b1ghsjum2v37c2un8h64')
+async def main() -> None:
+    sdk = AsyncYCloudML(folder_id='b1ghsjum2v37c2un8h64')
 
-    model = sdk.models.text_classifications('yandexgpt')
-
-    result = model.run_few_shot(
-        "foo",
+    model = sdk.models.text_classifiers('yandexgpt').configure(
         task_description="",
         labels=["foo", "bar"]
     )
 
+    result = await model.run("foo")
+
     for prediction in result:
         print(prediction)
 
-    result = model.run_few_shot(
-        "foo",
+    model = model.configure(
         task_description="",
         labels=["foo", "bar"],
         samples=[
@@ -27,9 +27,11 @@ def main():
         ],
     )
 
+    result = await model.run("foo")
+
     for prediction in result:
         print(prediction)
 
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())
