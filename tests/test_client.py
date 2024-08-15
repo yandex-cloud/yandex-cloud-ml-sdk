@@ -1,13 +1,42 @@
 from __future__ import annotations
 
 import asyncio
+import time
 
 import pytest
+# pylint: disable-next=no-name-in-module
+from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import CompletionResponse
+from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2_grpc import (
+    TextGenerationServiceServicer, add_TextGenerationServiceServicer_to_server
+)
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.endpoint.api_endpoint_service_pb2 import ListApiEndpointsRequest, ListApiEndpointsResponse
 from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServiceStub
 
 from yandex_cloud_ml_sdk import AsyncYCloudML
+
+
+@pytest.fixture(name='servicers')
+def fixture_servicers():
+    class TextGenerationServicer(TextGenerationServiceServicer):
+        def __init__(self):
+            self.i = 0
+
+        def Completion(self, request, context):
+            for i in range(10):
+                yield CompletionResponse(
+                    alternatives=[],
+                    usage=None,
+                    model_version=str(i)
+                )
+
+                self.i += 1
+
+                time.sleep(1)
+
+    return [
+        (TextGenerationServicer(), add_TextGenerationServiceServicer_to_server),
+    ]
 
 
 @pytest.mark.heavy
@@ -39,3 +68,33 @@ async def test_multiple_requests(folder_id):
 
     for context in ctx:
         await context.__aexit__(None, None, None)
+
+
+@pytest.mark.asyncio
+async def test_stream_cancel_async(async_sdk, servicers):
+    """This tests shows, that after close, call is actually cancelled
+    and server handler is stopped its work correctly.
+    """
+    result = async_sdk.models.completions('foo').run_stream('foo')
+
+    await result.__anext__()  # pylint: disable=unnecessary-dunder-call
+    await result.__anext__()  # pylint: disable=unnecessary-dunder-call
+    await result.aclose()
+
+    await asyncio.sleep(3)
+    assert servicers[0][0].i == 2
+
+
+def test_stream_cancel_sync(sdk, servicers):
+    """This tests shows, that after close, call is actually cancelled
+    and server handler is stopped its work correctly.
+    """
+
+    result = sdk.models.completions('foo').run_stream('foo')
+
+    next(result)
+    next(result)
+    result.close()
+
+    time.sleep(3)
+    assert servicers[0][0].i == 2

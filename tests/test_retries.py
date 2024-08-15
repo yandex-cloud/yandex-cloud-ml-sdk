@@ -1,7 +1,6 @@
 # pylint: disable=no-name-in-module,invalid-overridden-method
 from __future__ import annotations
 
-import asyncio
 import time
 
 import grpc
@@ -29,16 +28,16 @@ def servicers():
         def __init__(self):
             self.i = 0
 
-        async def Completion(self, request, context):
+        def Completion(self, request, context):
             self.i += 1
-            await asyncio.sleep(0.1)
+            time.sleep(0.1)
             if self.i == 1:
-                await context.abort(
+                context.abort(
                     grpc.StatusCode.UNAVAILABLE, "foo"
                 )
 
             if self.i == 2:
-                await context.abort(
+                context.abort(
                     grpc.StatusCode.RESOURCE_EXHAUSTED, "bar"
                 )
 
@@ -49,7 +48,7 @@ def servicers():
                     model_version='111'
                 )
 
-            await context.abort(
+            context.abort(
                 grpc.StatusCode.CANCELLED, "special error"
             )
 
@@ -57,17 +56,17 @@ def servicers():
         def __init__(self):
             self.i = 0
 
-        async def TokenizeCompletion(self, request, context):
+        def TokenizeCompletion(self, request, context):
             self.i += 1
-            await asyncio.sleep(0.1)
+            time.sleep(0.1)
 
             if self.i == 1:
-                await context.abort(
+                context.abort(
                     grpc.StatusCode.UNAVAILABLE, "foo"
                 )
 
             if self.i == 2:
-                await context.abort(
+                context.abort(
                     grpc.StatusCode.RESOURCE_EXHAUSTED, "bar"
                 )
 
@@ -77,9 +76,11 @@ def servicers():
                     model_version="222"
                 )
 
-            await context.abort(
+            context.abort(
                 grpc.StatusCode.CANCELLED, "special error"
             )
+            # to please pylint, because abort will raise a error
+            return TokenizeResponse()
 
     return [
         (TextGenerationServicer(), add_TextGenerationServiceServicer_to_server),

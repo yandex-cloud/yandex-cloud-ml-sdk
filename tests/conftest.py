@@ -54,8 +54,11 @@ def fixture_servicers():
 @pytest_asyncio.fixture(name='test_server')
 async def fixture_test_server():
     thread_pool = futures.ThreadPoolExecutor(max_workers=10000)
-    server = grpc.aio.server(
-        migration_thread_pool=thread_pool,
+    # NB: server must be non-async, because it is breaks work of
+    # our grpc client
+    # https://github.com/grpc/grpc/issues/25364
+    server = grpc.server(
+        thread_pool=thread_pool,
         options=(
             ('grpc.max_concurrent_streams', -1),
         )
@@ -65,7 +68,7 @@ async def fixture_test_server():
 
     yield server
 
-    await server.stop(None)
+    server.stop(None)
 
 
 @pytest.fixture(name='retry_policy')
@@ -87,7 +90,7 @@ async def fixture_test_client(
     for servicer, add_servicer in servicers:
         add_servicer(servicer, test_server)
 
-    await test_server.start()
+    test_server.start()
 
     yield MockClient(port=test_server.port, auth=auth, retry_policy=retry_policy)
 

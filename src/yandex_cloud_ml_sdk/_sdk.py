@@ -95,6 +95,7 @@ class YCloudML(BaseSDK):
     # to properly work with get_annotations
     __event_loop: Optional[asyncio.AbstractEventLoop] = None
     __loop_thread: Optional[threading.Thread] = None
+    __number: int = 0
 
     def _start_event_loop(self):
         loop = self.__event_loop
@@ -108,8 +109,14 @@ class YCloudML(BaseSDK):
 
         with self._lock:
             if self.__event_loop is None:
+                thread_name = f'{self.__class__.__name__}-{self.__number}'
+                self.__number += 1
+
                 self.__event_loop = asyncio.new_event_loop()
-                self.__loop_thread = threading.Thread(target=self._start_event_loop, daemon=True)
+                self.__loop_thread = threading.Thread(
+                    target=self._start_event_loop,
+                    daemon=True,
+                    name=thread_name)
                 self.__loop_thread.start()
 
         return self.__event_loop

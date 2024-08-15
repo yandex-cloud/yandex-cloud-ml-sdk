@@ -79,6 +79,9 @@ def run_sync_generator(coro: Callable[..., AsyncIterator[T]]) -> Callable[..., I
                     yield runner(inner.__anext__())  # pylint: disable=unnecessary-dunder-call
                 except StopAsyncIteration:
                     break
+                except GeneratorExit:
+                    runner(inner.aclose())
+                    raise
 
         yield from run_from(_runner_map[key].run)
 

@@ -168,8 +168,14 @@ class AsyncCloudClient:
         service = cast(grpc.aio.UnaryStreamMultiCallable, service)
 
         metadata = await self._get_metadata(auth_required=auth, timeout=timeout, retry_kind=retry_kind)
-        async for response in service(request, metadata=metadata, timeout=timeout):
-            yield cast(_D, response)
+        call = service(request, metadata=metadata, timeout=timeout)
+
+        try:
+            async for response in call:
+                yield cast(_D, response)
+        except GeneratorExit:
+            call.cancel()
+            raise
 
     async def call_service(
         self,
