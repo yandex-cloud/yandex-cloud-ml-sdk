@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from __future__ import annotations
 
 import asyncio
@@ -33,7 +35,7 @@ async def run_chunked_tasks(function, data, chunk_size, tqdm_callback=None):
     return results
 
 
-async def main():
+async def main() -> None:
     """
     Example of running a lot of async requests to yandexgpt with using of our SDK
     and python asyncio.

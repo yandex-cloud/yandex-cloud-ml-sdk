@@ -1,7 +1,10 @@
+#!/usr/bin/env python3
 # pylint: disable=import-outside-toplevel
 from __future__ import annotations
 
-from yandex_cloud_ml_sdk import YCloudML
+import asyncio
+
+from yandex_cloud_ml_sdk import AsyncYCloudML
 
 doc_texts = [
     """Александр Сергеевич Пушкин (26 мая [6 июня] 1799, Москва — 29 января [10 февраля] 1837, Санкт-Петербург)
@@ -13,25 +16,26 @@ doc_texts = [
 ]
 
 
-def main():
+async def main() -> None:
     import numpy as np
     from scipy.spatial.distance import cdist
 
-    sdk = YCloudML(folder_id='b1ghsjum2v37c2un8h64')
+    sdk = AsyncYCloudML(folder_id='b1ghsjum2v37c2un8h64')
 
     query_model = sdk.models.text_embeddings('query')
-    query_embedding = query_model.run("когда день рождения Пушкина?")
+    query_embedding = await query_model.run("когда день рождения Пушкина?")
 
     doc_model = sdk.models.text_embeddings('doc')
-    doc_embeddings = [doc_model.run(text) for text in doc_texts]
+    coros = (doc_model.run(text) for text in doc_texts)
+    doc_embeddings = await asyncio.gather(*coros)
 
     query_embedding = np.array(query_embedding)
 
-    dist = cdist([query_embedding], doc_embeddings, metric='cosine')
+    dist = cdist([query_embedding], list(doc_embeddings), metric='cosine')
     sim = 1 - dist
     result = doc_texts[np.argmax(sim)]
     print(result)
 
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())

@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from __future__ import annotations
 
 from yandex_cloud_ml_sdk import YCloudML

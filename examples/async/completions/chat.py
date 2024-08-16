@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from __future__ import annotations
 
 import asyncio
@@ -5,13 +7,13 @@ import asyncio
 from yandex_cloud_ml_sdk import AsyncYCloudML
 
 
-async def main():
+async def main() -> None:
     sdk = AsyncYCloudML(folder_id='b1ghsjum2v37c2un8h64')
 
     model = sdk.models.completions('yandexgpt')
     model = model.configure(temperature=0.5)
 
-    messages = [{'role': 'system', 'text': 'Ты - Аркадий'}]
+    messages: list[dict[str, str] | str] = [{'role': 'system', 'text': 'Ты - Аркадий'}]
     while True:
         message = input()
         messages.append(message)

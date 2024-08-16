@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from __future__ import annotations
 
 import asyncio
@@ -5,14 +7,15 @@ import asyncio
 from yandex_cloud_ml_sdk import AsyncYCloudML
 
 
-async def main():
+async def main() -> None:
     sdk = AsyncYCloudML(folder_id='b1ghsjum2v37c2un8h64')
 
     model = sdk.models.completions('yandexgpt')
 
-    async for result in model.configure(temperature=0.5).run_stream("foo"):
-        for alternative in result:
-            print(alternative)
+    result = await model.tokenize("foo")
+
+    for token in result:
+        print(token)
 
 
 if __name__ == '__main__':
