@@ -47,11 +47,6 @@ class BaseSDK:
         :type service_map: Dict[str, str]
 
         """
-        # NB: it is only required in synchronous client
-        # but I placed it here to not to override __init__ method with
-        # a lot of arguments
-        self._lock = threading.Lock()
-
         endpoint = self._get_endpoint(endpoint)
         retry_policy = retry_policy if is_defined(retry_policy) else RetryPolicy()
 
@@ -96,27 +91,36 @@ class YCloudML(BaseSDK):
     __event_loop: Optional[asyncio.AbstractEventLoop] = None
     __loop_thread: Optional[threading.Thread] = None
     __number: int = 0
+    __lock = threading.Lock()
 
-    def _start_event_loop(self):
-        loop = self.__event_loop
+    @classmethod
+    def _start_event_loop(cls):
+        loop = cls.__event_loop
         asyncio.set_event_loop(loop)
         loop.run_forever()
 
-    @property
-    def _event_loop(self) -> asyncio.AbstractEventLoop:
-        if self.__event_loop is not None:
-            return self.__event_loop
+    @classmethod
+    def _get_event_loop(cls) -> asyncio.AbstractEventLoop:
+        """This event loop is used at yandex_cloud_ml_sdk._utils.sync.run_sync
+        for synchronized run of async functions.
 
-        with self._lock:
-            if self.__event_loop is None:
-                thread_name = f'{self.__class__.__name__}-{self.__number}'
-                self.__number += 1
+        NB that loop must be kinda a singleton, because grpc.aio.* things
+        are breaking when you try to use it at different event loops with different
+        threads.
+        """
+        if cls.__event_loop is not None:
+            return cls.__event_loop
 
-                self.__event_loop = asyncio.new_event_loop()
-                self.__loop_thread = threading.Thread(
-                    target=self._start_event_loop,
+        with cls.__lock:
+            if cls.__event_loop is None:
+                thread_name = f'{cls.__name__}-{cls.__number}'
+                cls.__number += 1
+
+                cls.__event_loop = asyncio.new_event_loop()
+                cls.__loop_thread = threading.Thread(
+                    target=cls._start_event_loop,
                     daemon=True,
                     name=thread_name)
-                self.__loop_thread.start()
+                cls.__loop_thread.start()
 
-        return self.__event_loop
+        return cls.__event_loop

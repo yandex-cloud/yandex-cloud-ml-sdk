@@ -1,15 +1,19 @@
+# pylint: disable=no-name-in-module
 from __future__ import annotations
 
 import asyncio
 import time
+from multiprocessing.pool import ThreadPool
 
 import pytest
-# pylint: disable-next=no-name-in-module
-from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import CompletionResponse
-from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2_grpc import (
-    TextGenerationServiceServicer, add_TextGenerationServiceServicer_to_server
+from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Token
+from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import (
+    CompletionResponse, TokenizeResponse
 )
-# pylint: disable-next=no-name-in-module
+from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2_grpc import (
+    TextGenerationServiceServicer, TokenizerServiceServicer, add_TextGenerationServiceServicer_to_server,
+    add_TokenizerServiceServicer_to_server
+)
 from yandex.cloud.endpoint.api_endpoint_service_pb2 import ListApiEndpointsRequest, ListApiEndpointsResponse
 from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServiceStub
 
@@ -34,8 +38,17 @@ def fixture_servicers():
 
                 time.sleep(1)
 
+    class TokenizerService(TokenizerServiceServicer):
+        def TokenizeCompletion(self, request, context):
+            time.sleep(1)
+            return TokenizeResponse(
+                tokens=[Token(id=1, text="abc")],
+                model_version='foo',
+            )
+
     return [
         (TextGenerationServicer(), add_TextGenerationServiceServicer_to_server),
+        (TokenizerService(), add_TokenizerServiceServicer_to_server),
     ]
 
 
@@ -98,3 +111,23 @@ def test_stream_cancel_sync(sdk, servicers):
 
     time.sleep(3)
     assert servicers[0][0].i == 2
+
+
+def test_multiple_threads(sdk_maker, caplog):
+    """
+    grpc.aio works strangely and stars to raise a lot of errors in loop.callbacks
+    if called from more then one thread.
+    But because therse errors raises in callbacks, it doesn't propagate to control plane
+    and just logs into asyncio error logger.
+    """
+
+    caplog.set_level('ERROR', logger='asyncio')
+    def main(i):
+        sdk = sdk_maker()
+        result = sdk.models.completions('foo').tokenize(str(i))
+        return result
+
+    thread_pool = ThreadPool(processes=10)
+    thread_pool.map(main, range(10))
+
+    assert not caplog.records

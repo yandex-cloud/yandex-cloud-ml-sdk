@@ -1,7 +1,6 @@
 # pylint: disable=too-many-instance-attributes
 from __future__ import annotations
 
-import asyncio
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from typing import Literal, Protocol, Sequence, TypeVar, cast
@@ -55,9 +54,6 @@ class AsyncCloudClient:
 
         self._auth_lock = LazyLock()
         self._channels_lock = LazyLock()
-
-        self._lock_inst: asyncio.Lock | None = None
-        self._channels_lock_inst: asyncio.Lock | None = None
 
     async def _init_service_map(self, timeout: float):
         credentials = grpc.ssl_channel_credentials()

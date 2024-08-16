@@ -52,7 +52,7 @@ def run_sync(coro: Callable[Concatenate[Any, P], Awaitable[T]]) -> Callable[Conc
         inner: Awaitable[T] = coro(self, *args, **kwargs)
         key = (name, self._sdk)
         if key not in _runner_map:
-            _runner_map[key] = _TaskRunner(self._sdk._event_loop)  # pylint: disable=protected-access
+            _runner_map[key] = _TaskRunner(self._sdk._get_event_loop())  # pylint: disable=protected-access
 
         result: T = _runner_map[key].run(inner)
         return result
@@ -71,7 +71,7 @@ def run_sync_generator(coro: Callable[..., AsyncIterator[T]]) -> Callable[..., I
         inner = coro(self, *args, **kwargs)
         key = (name, self._sdk)
         if key not in _runner_map:
-            _runner_map[key] = _TaskRunner(self._sdk._event_loop)  # pylint: disable=protected-access
+            _runner_map[key] = _TaskRunner(self._sdk._get_event_loop())  # pylint: disable=protected-access
 
         def run_from(runner: Callable[[Coroutine], Any]):
             while True:
