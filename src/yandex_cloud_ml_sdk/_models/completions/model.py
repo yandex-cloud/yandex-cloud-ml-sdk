@@ -125,7 +125,7 @@ class BaseGPTModel(
 
     @override
     # pylint: disable-next=arguments-differ
-    async def _run_async(
+    async def _run_deferred(
         self,
         messages: MessageType | Iterable[MessageType],
         *,
@@ -179,7 +179,7 @@ class BaseGPTModel(
 class AsyncGPTModel(BaseGPTModel):
     run = BaseGPTModel._run
     run_stream = BaseGPTModel._run_stream
-    run_async = BaseGPTModel._run_async
+    run_deferred = BaseGPTModel._run_deferred
     tokenize = BaseGPTModel._tokenize
     _operation_type = AsyncOperation
 
@@ -187,6 +187,6 @@ class AsyncGPTModel(BaseGPTModel):
 class GPTModel(BaseGPTModel):
     run = run_sync(BaseGPTModel._run)
     run_stream = run_sync_generator(BaseGPTModel._run_stream)
-    run_async = run_sync(BaseGPTModel._run_async)
+    run_deferred = run_sync(BaseGPTModel._run_deferred)
     tokenize = run_sync(BaseGPTModel._tokenize)
     _operation_type = Operation

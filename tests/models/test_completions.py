@@ -81,8 +81,8 @@ async def test_chat(model):
 
 
 @pytest.mark.allow_grpc
-async def test_async(model):
-    operation = await model.run_async('ping')
+async def test_run_deferred(model):
+    operation = await model.run_deferred('ping')
 
     result = await operation.wait(poll_interval=0.1)
 

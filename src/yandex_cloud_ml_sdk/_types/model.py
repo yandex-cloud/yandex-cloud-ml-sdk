@@ -74,7 +74,7 @@ class ModelAsyncMixin(
     _operation_type: type[OperationTypeT]
 
     @abc.abstractmethod
-    async def _run_async(self, *args, **kwargs) -> OperationTypeT:
+    async def _run_deferred(self, *args, **kwargs) -> OperationTypeT:
         pass
 
     @abc.abstractmethod

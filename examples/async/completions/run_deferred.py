@@ -12,7 +12,7 @@ async def main() -> None:
 
     model = sdk.models.completions('yandexgpt')
 
-    operation = await model.configure(temperature=0.5).run_async("foo")
+    operation = await model.configure(temperature=0.5).run_deferred("foo")
 
     status = await operation.get_status()
     while status.is_running:
@@ -22,7 +22,7 @@ async def main() -> None:
     result = await operation.get_result()
     print(result)
 
-    operation = await model.configure().run_async("bar")
+    operation = await model.configure().run_deferred("bar")
 
     result = await operation.wait()
     print(result)
