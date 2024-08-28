@@ -1,0 +1,13 @@
+data-science-types
+googleapis-common-protos-stubs
+grpc-stubs
+pylint-protobuf
+pytest
+pytest-asyncio
+pytest-flakes
+pytest-mypy
+pytest-pylint
+pytest-recording
+tqdm
+types-protobuf
+types-tqdm

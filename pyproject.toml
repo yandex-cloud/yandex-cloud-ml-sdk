@@ -43,6 +43,9 @@ test = [
     "pre-commit",
     "tox",
 ]
+langchain = [
+    "langchain-core>=0.2.29"
+]
 
 [project.urls]
 Documentation = "https://wiki.yandex-team.ru/cloud/ai/ml-platform/cloud-ml-sdk/"
@@ -251,5 +254,6 @@ overgeneral-exceptions= [
 module = [
     "get_annotations",
     "scipy.spatial.distance",
+    "langchain_core.messages",
 ]
 ignore_missing_imports = true

@@ -28,13 +28,12 @@ def fixture_servicers():
 
         def Completion(self, request, context):
             for i in range(10):
+                self.i = i
                 yield CompletionResponse(
                     alternatives=[],
                     usage=None,
                     model_version=str(i)
                 )
-
-                self.i += 1
 
                 time.sleep(1)
 
@@ -52,7 +51,7 @@ def fixture_servicers():
     ]
 
 
-@pytest.mark.heavy
+@pytest.mark.require_env('internet')
 @pytest.mark.asyncio
 async def test_multiple_requests(folder_id):
     async_sdk = AsyncYCloudML(folder_id=folder_id)
@@ -90,11 +89,12 @@ async def test_stream_cancel_async(async_sdk, servicers):
     """
     result = async_sdk.models.completions('foo').run_stream('foo')
 
-    await result.__anext__()  # pylint: disable=unnecessary-dunder-call
-    await result.__anext__()  # pylint: disable=unnecessary-dunder-call
+    assert (await result.__anext__()).model_version == "0"  # pylint: disable=unnecessary-dunder-call
+    assert (await result.__anext__()).model_version == "1"  # pylint: disable=unnecessary-dunder-call
+    await asyncio.sleep(0.5)
     await result.aclose()
+    await asyncio.sleep(2)
 
-    await asyncio.sleep(3)
     assert servicers[0][0].i == 2
 
 
@@ -105,11 +105,12 @@ def test_stream_cancel_sync(sdk, servicers):
 
     result = sdk.models.completions('foo').run_stream('foo')
 
-    next(result)
-    next(result)
+    assert next(result).model_version == "0"
+    assert next(result).model_version == "1"
+    time.sleep(0.5)
     result.close()
+    time.sleep(2)
 
-    time.sleep(3)
     assert servicers[0][0].i == 2
 
 

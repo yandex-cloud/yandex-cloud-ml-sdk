@@ -3,14 +3,14 @@ from __future__ import annotations
 import asyncio
 import inspect
 import threading
-from collections.abc import AsyncIterator, Coroutine, Iterator
+from collections.abc import AsyncIterator, Iterator
 from functools import wraps
 from typing import TYPE_CHECKING, Any, Awaitable, Callable, TypeVar
 
 from typing_extensions import Concatenate, ParamSpec
 
 if TYPE_CHECKING:
-    from yandex_cloud_ml_sdk._sdk import YCloudML
+    from yandex_cloud_ml_sdk._sdk import BaseSDK
 
 T = TypeVar("T")
 P = ParamSpec("P")
@@ -27,7 +27,17 @@ class _TaskRunner:
         return fut.result(None)
 
 
-_runner_map: dict[tuple[str, YCloudML], _TaskRunner] = {}
+_runner_map: dict[tuple[str, BaseSDK], _TaskRunner] = {}
+
+
+def run_sync_impl(coro: Awaitable[T], sdk: BaseSDK) -> T:
+    name = threading.current_thread().name
+    key = (name, sdk)
+    if key not in _runner_map:
+        _runner_map[key] = _TaskRunner(sdk._get_event_loop())  # pylint: disable=protected-access
+
+    result: T = _runner_map[key].run(coro)
+    return result
 
 
 def run_sync(coro: Callable[Concatenate[Any, P], Awaitable[T]]) -> Callable[Concatenate[Any, P], T]:
@@ -48,16 +58,31 @@ def run_sync(coro: Callable[Concatenate[Any, P], Awaitable[T]]) -> Callable[Conc
 
     @wraps(coro)
     def wrapped(self: Any, *args: P.args, **kwargs: P.kwargs) -> T:
-        name = threading.current_thread().name
         inner: Awaitable[T] = coro(self, *args, **kwargs)
-        key = (name, self._sdk)
-        if key not in _runner_map:
-            _runner_map[key] = _TaskRunner(self._sdk._get_event_loop())  # pylint: disable=protected-access
-
-        result: T = _runner_map[key].run(inner)
-        return result
+        return run_sync_impl(inner, self._sdk)
 
     return wrapped
+
+
+def run_sync_generator_impl(aiter: AsyncIterator[T], sdk: BaseSDK) -> Iterator[T]:
+    name = threading.current_thread().name
+    key = (name, sdk)
+    if key not in _runner_map:
+        _runner_map[key] = _TaskRunner(sdk._get_event_loop())  # pylint: disable=protected-access
+
+    def run_from(runner: Callable[[Awaitable[T]], Any]) -> Iterator[T]:
+        while True:
+            try:
+                # anext function exists only in 3.9+, so we are using __anext__
+                yield runner(aiter.__anext__())  # pylint: disable=unnecessary-dunder-call
+            except StopAsyncIteration:
+                break
+            except GeneratorExit:
+                # for some reason mypy thinks AsyncIterator[T] have no aclose method
+                runner(aiter.aclose())  # type: ignore[attr-defined]
+                raise
+
+    yield from run_from(_runner_map[key].run)
 
 
 def run_sync_generator(coro: Callable[..., AsyncIterator[T]]) -> Callable[..., Iterator[T]]:
@@ -66,24 +91,9 @@ def run_sync_generator(coro: Callable[..., AsyncIterator[T]]) -> Callable[..., I
     if not inspect.isasyncgenfunction(coro):
         raise AssertionError
 
+    @wraps(coro)
     def wrapped(self: Any, *args: Any, **kwargs: Any) -> Any:
-        name = threading.current_thread().name
-        inner = coro(self, *args, **kwargs)
-        key = (name, self._sdk)
-        if key not in _runner_map:
-            _runner_map[key] = _TaskRunner(self._sdk._get_event_loop())  # pylint: disable=protected-access
+        inner: AsyncIterator[T] = coro(self, *args, **kwargs)
+        return run_sync_generator_impl(inner, self._sdk)
 
-        def run_from(runner: Callable[[Coroutine], Any]):
-            while True:
-                try:
-                    yield runner(inner.__anext__())  # pylint: disable=unnecessary-dunder-call
-                except StopAsyncIteration:
-                    break
-                except GeneratorExit:
-                    runner(inner.aclose())
-                    raise
-
-        yield from run_from(_runner_map[key].run)
-
-    wrapped.__doc__ = coro.__doc__
     return wrapped

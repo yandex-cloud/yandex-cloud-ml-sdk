@@ -1,7 +1,7 @@
 # pylint: disable=arguments-renamed,no-name-in-module
 from __future__ import annotations
 
-from typing import Any, AsyncIterator, Iterable
+from typing import TYPE_CHECKING, Any, AsyncIterator, Iterable, Literal
 
 from typing_extensions import override
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import CompletionOptions
@@ -22,6 +22,9 @@ from .message import MessageType, messages_to_proto
 from .result import GPTModelResult
 from .token import Token
 
+if TYPE_CHECKING:
+    from yandex_cloud_ml_sdk._types.langchain import BaseYandexLanguageModel
+
 
 class BaseGPTModel(
     ModelSyncMixin[GPTModelConfig, GPTModelResult],
@@ -31,6 +34,15 @@ class BaseGPTModel(
     _config_type = GPTModelConfig
     _result_type = GPTModelResult
     _operation_type: type[OperationTypeT]
+
+    def langchain(self, model_type: Literal["chat"] = "chat", timeout: int = 60) -> BaseYandexLanguageModel:
+        from .langchain import ChatYandexGPT  # pylint: disable=import-outside-toplevel
+
+        if model_type == "chat":
+        # idk why but pylint thinks this class still abstract
+            return ChatYandexGPT(ycmlsdk_model=self, timeout=timeout)  # pylint: disable=abstract-class-instantiated
+
+        raise ValueError(f"unknown langchain model {type=}")
 
     def _make_request(
         self,

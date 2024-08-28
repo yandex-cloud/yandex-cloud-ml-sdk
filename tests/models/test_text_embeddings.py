@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import numpy
 import pytest
 
 from yandex_cloud_ml_sdk._models.text_embeddings.result import TextEmbeddingsModelResult
@@ -27,7 +26,10 @@ def test_configure(model):
         model.configure(foo=500)
 
 
+@pytest.mark.require_env('numpy')
 def test_numpy_integration():
+    import numpy  # pylint: disable=import-outside-toplevel
+
     array = (1.0, 2.0, 3.0)
 
     result = TextEmbeddingsModelResult(

@@ -78,29 +78,21 @@ class BaseSDK:
 
         return 'api.cloud.yandex.net:443'
 
-
-class AsyncYCloudML(BaseSDK):
-    models: AsyncModels
-
-
-class YCloudML(BaseSDK):
-    models: Models
-
     # NB: All typehints on these classes must be 3.8-compatible
     # to properly work with get_annotations
-    __event_loop: Optional[asyncio.AbstractEventLoop] = None
-    __loop_thread: Optional[threading.Thread] = None
-    __number: int = 0
-    __lock = threading.Lock()
+    _event_loop: Optional[asyncio.AbstractEventLoop] = None
+    _loop_thread: Optional[threading.Thread] = None
+    _number: int = 0
+    _lock = threading.Lock()
 
     @classmethod
     def _start_event_loop(cls):
-        loop = cls.__event_loop
+        loop = cls._event_loop
         asyncio.set_event_loop(loop)
         loop.run_forever()
 
-    @classmethod
-    def _get_event_loop(cls) -> asyncio.AbstractEventLoop:
+    @staticmethod
+    def _get_event_loop() -> asyncio.AbstractEventLoop:
         """This event loop is used at yandex_cloud_ml_sdk._utils.sync.run_sync
         for synchronized run of async functions.
 
@@ -108,19 +100,34 @@ class YCloudML(BaseSDK):
         are breaking when you try to use it at different event loops with different
         threads.
         """
-        if cls.__event_loop is not None:
-            return cls.__event_loop
+        # pylint: disable=protected-access
 
-        with cls.__lock:
-            if cls.__event_loop is None:
-                thread_name = f'{cls.__name__}-{cls.__number}'
-                cls.__number += 1
+        # it was a class method first, but it breaked when test with
+        # both AsyncSDK and SDK appeared
+        kls = BaseSDK
 
-                cls.__event_loop = asyncio.new_event_loop()
-                cls.__loop_thread = threading.Thread(
-                    target=cls._start_event_loop,
+        if kls._event_loop is not None:
+            return kls._event_loop
+
+        with kls._lock:
+            if kls._event_loop is None:
+                thread_name = f'{kls.__name__}-{kls._number}'
+                kls._number += 1
+
+                kls._event_loop = asyncio.new_event_loop()
+                kls._loop_thread = threading.Thread(
+                    target=kls._start_event_loop,
                     daemon=True,
-                    name=thread_name)
-                cls.__loop_thread.start()
+                    name=thread_name
+                )
+                kls._loop_thread.start()
 
-        return cls.__event_loop
+        return kls._event_loop
+
+
+class AsyncYCloudML(BaseSDK):
+    models: AsyncModels
+
+
+class YCloudML(BaseSDK):
+    models: Models
