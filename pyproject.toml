@@ -3,18 +3,19 @@ requires = ["flit"]
 build-backend = "flit.buildapi"
 
 [project]
-name =  "yandex-cloud-ml-sdk-preview"
+name =  "yandex-cloud-ml-sdk"
 authors = [
     {name = "Vladimir Lipkin", email = "lipkin@yandex-team.ru"},
 ]
-description = "Multimodal SDK for working with Yandex Cloud ML instruments"
+description = "Multimodal SDK for working with Yandex Cloud ML services"
 readme = "README.md"
+license = {file = "LICENSE"}
 classifiers = [
     "Typing :: Typed",
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
@@ -48,9 +49,9 @@ langchain = [
 ]
 
 [project.urls]
-Documentation = "https://wiki.yandex-team.ru/cloud/ai/ml-platform/cloud-ml-sdk/"
-Source = "https://bb.yandexcloud.net/projects/CLOUD/repos/yandex-cloud-ml-sdk"
-Tracker = "https://st.yandex-team.ru/FOMO"
+Documentation = "https://yandex.cloud/ru/docs/foundation-models/"
+Source = "https://github.com/yandex-cloud/yandex-cloud-ml-sdk"
+Tracker = "https://github.com/yandex-cloud/yandex-cloud-ml-sdk/issues"
 
 [tool.flit.module]
 name = "yandex_cloud_ml_sdk"
