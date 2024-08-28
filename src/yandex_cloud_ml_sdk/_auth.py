@@ -23,6 +23,18 @@ if TYPE_CHECKING:
     from ._client import AsyncCloudClient
 
 
+OAUTH_WARNING = """Sharing your personal OAuth token is not safe,
+and gives anyone access to your cloud infrastructure and data.
+
+Use YandexCloudCLIAuth for personal authentication,
+MetadataAuth when running your code inside Yandex Cloud infrastructure or
+APIKeyAuth for external-hosted automations.
+
+Please, follow our guide if your OAuth-token is leaked
+(https://yandex.cloud/en/docs/iam/operations/compromised-credentials)
+"""
+
+
 class BaseAuth(ABC):
     @abstractmethod
     async def get_auth_metadata(
@@ -132,6 +144,10 @@ class OAuthTokenAuth(RefresheableIAMTokenAuth):
     env_var = 'YC_OAUTH_TOKEN'
 
     def __init__(self, token):
+        warnings.warn(
+            OAUTH_WARNING,
+            UserWarning,
+        )
         self._oauth_token = token
         super().__init__(None)
 

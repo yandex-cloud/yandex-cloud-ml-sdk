@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import time
+import warnings
 
 import pytest
 from yandex.cloud.iam.v1.iam_token_service_pb2 import CreateIamTokenResponse  # pylint: disable=no-name-in-module
@@ -40,6 +41,7 @@ def servicers(oauth_token):
     return [(Servicer(), add_IamTokenServiceServicer_to_server)]
 
 
+@pytest.mark.filterwarnings("ignore:.*OAuth:UserWarning")
 async def test_auth(async_sdk, auth):
     metadata = await async_sdk._client._get_metadata(auth_required=True, timeout=1)
 
@@ -50,6 +52,7 @@ async def test_auth(async_sdk, auth):
     )
 
 
+@pytest.mark.filterwarnings(r"ignore:.*OAuth:UserWarning")
 async def test_reissue(async_sdk, auth, monkeypatch):
     assert auth._token is None
     assert auth._issue_time is None
@@ -76,9 +79,12 @@ async def test_reissue(async_sdk, auth, monkeypatch):
 
 async def test_applicable_from_env(oauth_token, monkeypatch):
     monkeypatch.delenv(OAuthTokenAuth.env_var, raising=False)
-    assert await OAuthTokenAuth.applicable_from_env() is None
+    with warnings.catch_warnings():
+        warnings.simplefilter("error")
+        assert await OAuthTokenAuth.applicable_from_env() is None
 
     monkeypatch.setenv(OAuthTokenAuth.env_var, oauth_token)
-    auth = await OAuthTokenAuth.applicable_from_env()
+    with pytest.warns(UserWarning, match=r'Sharing'):
+        auth = await OAuthTokenAuth.applicable_from_env()
     assert auth
     assert auth._oauth_token == oauth_token

@@ -45,6 +45,7 @@ async def test_input_data(monkeypatch):
     assert isinstance(auth, NoAuth)
 
 
+@pytest.mark.filterwarnings(r"ignore:.*OAuth:UserWarning")
 async def test_order(monkeypatch, mock_client, process_maker):
     with pytest.raises(RuntimeError):
         await get_auth_provider(auth=None, endpoint=None, yc_profile=None)
