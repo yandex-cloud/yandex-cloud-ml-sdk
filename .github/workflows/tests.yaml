@@ -11,6 +11,7 @@ jobs:
     strategy:
       matrix:
         python-version: [ '3.8', '3.9', '3.10', '3.11', '3.12' ]
+        env: [ '', '-extra-deps']
     timeout-minutes: 10
     steps:
       - name: "Checkout"
@@ -26,4 +27,4 @@ jobs:
             pip install tox tox-gh-actions
 
       - name: "Tests"
-        run: tox -- -vv
+        run: tox -e py${{ matrix.python-version }}${{ matrix.env}} -- -vv
