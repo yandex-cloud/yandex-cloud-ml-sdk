@@ -1,3 +1,4 @@
+# pylint: disable=abstract-method
 from __future__ import annotations
 
 from typing import Generic, TypeVar
