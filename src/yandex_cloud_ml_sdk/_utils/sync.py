@@ -64,7 +64,7 @@ def run_sync(coro: Callable[Concatenate[Any, P], Awaitable[T]]) -> Callable[Conc
     return wrapped
 
 
-def run_sync_generator_impl(aiter: AsyncIterator[T], sdk: BaseSDK) -> Iterator[T]:
+def run_sync_generator_impl(aiter_: AsyncIterator[T], sdk: BaseSDK) -> Iterator[T]:
     name = threading.current_thread().name
     key = (name, sdk)
     if key not in _runner_map:
@@ -74,12 +74,12 @@ def run_sync_generator_impl(aiter: AsyncIterator[T], sdk: BaseSDK) -> Iterator[T
         while True:
             try:
                 # anext function exists only in 3.9+, so we are using __anext__
-                yield runner(aiter.__anext__())  # pylint: disable=unnecessary-dunder-call
+                yield runner(aiter_.__anext__())  # pylint: disable=unnecessary-dunder-call
             except StopAsyncIteration:
                 break
             except GeneratorExit:
                 # for some reason mypy thinks AsyncIterator[T] have no aclose method
-                runner(aiter.aclose())  # type: ignore[attr-defined]
+                runner(aiter_.aclose())  # type: ignore[attr-defined]
                 raise
 
     yield from run_from(_runner_map[key].run)
