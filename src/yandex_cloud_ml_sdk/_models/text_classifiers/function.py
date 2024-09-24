@@ -2,12 +2,12 @@ from __future__ import annotations
 
 from typing_extensions import override
 
-from yandex_cloud_ml_sdk._types.function import BaseFunction, ModelTypeT
+from yandex_cloud_ml_sdk._types.function import BaseModelFunction, ModelTypeT
 
 from .model import AsyncTextClassifiersModel, TextClassifiersModel
 
 
-class BaseTextClassifiers(BaseFunction[ModelTypeT]):
+class BaseTextClassifiers(BaseModelFunction[ModelTypeT]):
     @override
     def __call__(
         self,

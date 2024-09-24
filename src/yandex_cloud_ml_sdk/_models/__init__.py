@@ -24,7 +24,7 @@ class BaseModels(BaseResource):
         members: dict[str, type] = get_annotations(self.__class__, eval_str=True)
         for member_name, member_class in members.items():
             if issubclass(member_class, BaseFunction):
-                function = member_class(name=member_name, sdk=self._sdk)
+                function = member_class(name=member_name, sdk=self._sdk, parent_resource=self)
                 setattr(self, member_name, function)
 
 
