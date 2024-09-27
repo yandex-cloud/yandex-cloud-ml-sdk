@@ -1,4 +1,4 @@
-# pylint: disable=protected-access
+# pylint: disable=protected-access,no-name-in-module
 from __future__ import annotations
 
 from typing import Generic, TypeVar
@@ -13,7 +13,7 @@ from yandex_cloud_ml_sdk._types.misc import UNDEFINED, PathLike, UndefinedOr, co
 from yandex_cloud_ml_sdk._types.resource import BaseResource
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
-from .function import AsyncFile, BaseFile, File
+from .file import AsyncFile, BaseFile, File
 
 FileTypeT = TypeVar('FileTypeT', bound=BaseFile)
 
@@ -31,17 +31,13 @@ class BaseFiles(BaseResource, Generic[FileTypeT]):
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         timeout: float = 60,
     ) -> FileTypeT:
-        name = get_defined_value(name, None)
-        description = get_defined_value(description, None)
-        mime_type = get_defined_value(mime_type, None)
-        labels = get_defined_value(labels, None)
-
+        # NB: protobuf typihints tells that fields non-nullable, but it is not True
         request = CreateFileRequest(
             folder_id=self._folder_id,
-            name=name,
-            description=description,
-            mime_type=mime_type,
-            labels=labels,
+            name=get_defined_value(name, None),  # type: ignore[arg-type]
+            description=get_defined_value(description, None),  # type: ignore[arg-type]
+            mime_type=get_defined_value(mime_type, None),  # type: ignore[arg-type]
+            labels=get_defined_value(labels, None),  # type: ignore[arg-type]
             content=data,
         )
 
@@ -53,7 +49,7 @@ class BaseFiles(BaseResource, Generic[FileTypeT]):
                 expected_type=ProtoFile,
             )
 
-        return self._file_impl.from_proto(proto=response, files=self, sdk=self._sdk)
+        return self._file_impl.from_proto(proto=response, sdk=self._sdk)
 
     async def _upload(
         self,
@@ -93,7 +89,7 @@ class BaseFiles(BaseResource, Generic[FileTypeT]):
                 expected_type=ProtoFile,
             )
 
-        return self._file_impl.from_proto(proto=response, files=self, sdk=self._sdk)
+        return self._file_impl.from_proto(proto=response, sdk=self._sdk)
 
     async def _list(
         self,
@@ -102,15 +98,15 @@ class BaseFiles(BaseResource, Generic[FileTypeT]):
         page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
     ):
-        page_token = get_defined_value(page_token, None)
-        page_size = get_defined_value(page_size, None)
+        page_token_ = get_defined_value(page_token, None)
+        page_size_ = get_defined_value(page_size, None)
 
         async with self._client.get_service_stub(FileServiceStub, timeout=timeout) as stub:
             while True:
                 request = ListFilesRequest(
                     folder_id=self._folder_id,
-                    page_size=page_size,
-                    page_token=page_token,
+                    page_size=page_size_,  # type: ignore[arg-type]
+                    page_token=page_token_,  # type: ignore[arg-type]
                 )
 
                 response = await self._client.call_service(
@@ -120,7 +116,7 @@ class BaseFiles(BaseResource, Generic[FileTypeT]):
                     expected_type=ListFilesResponse,
                 )
                 for file_proto in response.files:
-                    yield self._file_impl.from_proto(proto=file_proto, files=self, sdk=self._sdk)
+                    yield self._file_impl.from_proto(proto=file_proto, sdk=self._sdk)
 
                 if not response.files:
                     return

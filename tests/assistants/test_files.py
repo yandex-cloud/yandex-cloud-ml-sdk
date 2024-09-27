@@ -1,13 +1,6 @@
 from __future__ import annotations
 
-import pathlib
-
 import pytest
-
-from yandex_cloud_ml_sdk._models.completions.message import ProtoMessage, TextMessage, messages_to_proto
-from yandex_cloud_ml_sdk._models.completions.result import AlternativeStatus
-from yandex_cloud_ml_sdk._models.completions.token import Token
-from yandex_cloud_ml_sdk._types.misc import UNDEFINED
 
 pytestmark = pytest.mark.asyncio
 

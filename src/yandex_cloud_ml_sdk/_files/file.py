@@ -1,13 +1,14 @@
+# pylint: disable=no-name-in-module
 from __future__ import annotations
 
 import dataclasses
 import functools
 from asyncio import Lock
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, Callable, TypeVar
+from typing import TYPE_CHECKING, Any, Awaitable, Callable, TypeVar
 
 import httpx
-from typing_extensions import ParamSpec, Self
+from typing_extensions import Concatenate, ParamSpec, Self
 from yandex.cloud.ai.files.v1.file_pb2 import File as ProtoFile
 from yandex.cloud.ai.files.v1.file_service_pb2 import (
     DeleteFileRequest, DeleteFileResponse, GetFileUrlRequest, GetFileUrlResponse, UpdateFileRequest
@@ -20,7 +21,6 @@ from yandex_cloud_ml_sdk._utils.sync import run_sync
 
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._client import AsyncCloudClient
-    from yandex_cloud_ml_sdk._files.resource import BaseFiles
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
 
@@ -28,13 +28,13 @@ P = ParamSpec('P')
 T = TypeVar('T')
 
 
-def safe(method: Callable[P, T]) -> Callable[P, T]:
+def safe(method: Callable[Concatenate[BaseFile, P], Awaitable[T]]) -> Callable[Concatenate[BaseFile, P], Awaitable[T]]:
     @functools.wraps(method)
     async def inner(self: BaseFile, *args: P.args, **kwargs: P.kwargs) -> T:
-        async with self._lock:
+        async with self._lock:  # pylint: disable=protected-access
             action = method.__name__.lstrip('_')
-            if self._deleted:
-                raise ValueError("you can't perform an action '{action}' on file '{self.id}' because it is deleted")
+            if self._deleted:  # pylint: disable=protected-access
+                raise ValueError(f"you can't perform an action '{action}' on file '{self.id}' because it is deleted")
 
             return await method(self, *args, **kwargs)
 
@@ -44,7 +44,6 @@ def safe(method: Callable[P, T]) -> Callable[P, T]:
 @dataclasses.dataclass(frozen=True)
 class BaseFile:
     _sdk: BaseSDK = dataclasses.field(repr=False)
-    _files: BaseFiles = dataclasses.field(repr=False)
     _lock: Lock = dataclasses.field(repr=False)
     _deleted: bool = dataclasses.field(repr=False)
 
@@ -67,7 +66,7 @@ class BaseFile:
         request = GetFileUrlRequest(file_id=self.id)
 
         async with self._client.get_service_stub(FileServiceStub, timeout=timeout) as stub:
-             response = await self._client.call_service(
+            response = await self._client.call_service(
                  stub.GetUrl,
                  request,
                  timeout=timeout,
@@ -84,22 +83,22 @@ class BaseFile:
         description: UndefinedOr[str] = UNDEFINED,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         timeout: float = 60,
-    ) -> None:
-        name = get_defined_value(name, None)
-        description = get_defined_value(description, None)
-        labels = get_defined_value(labels, None)
+    ) -> Self:
+        name_ = get_defined_value(name, None)
+        description_ = get_defined_value(description, None)
+        labels_ = get_defined_value(labels, None)
 
         request = UpdateFileRequest(
             file_id=self.id,
-            name=name,
-            description=description,
-            labels=labels,
+            name=name_,  # type: ignore[arg-type]
+            description=description_,  # type: ignore[arg-type]
+            labels=labels_,
         )
 
         for key, value in (
-            ('name', name),
-            ('description', description),
-            ('labels', labels)
+            ('name', name_),
+            ('description', description_),
+            ('labels', labels_)
         ):
             if value is not None:
                 request.update_mask.paths.append(key)
@@ -124,13 +123,13 @@ class BaseFile:
         request = DeleteFileRequest(file_id=self.id)
 
         async with self._client.get_service_stub(FileServiceStub, timeout=timeout) as stub:
-             await self._client.call_service(
-                 stub.Delete,
-                 request,
-                 timeout=timeout,
-                 expected_type=DeleteFileResponse,
-             )
-             object.__setattr__(self, '_deleted', True)
+            await self._client.call_service(
+                stub.Delete,
+                request,
+                timeout=timeout,
+                expected_type=DeleteFileResponse,
+            )
+            object.__setattr__(self, '_deleted', True)
 
     @safe
     async def _download_as_bytes(
@@ -139,8 +138,8 @@ class BaseFile:
         chunk_size: int = 32768,
         timeout: float = 60
     ) -> bytes:
-        # to use this function without a @safe-lock
-        url = await self._get_url.__wrapped__(self, timeout=timeout)
+        # I didn't invent better way to use this function without a @safe-lock
+        url = await self._get_url.__wrapped__(self, timeout=timeout)  # type: ignore[attr-defined]
 
         async with httpx.AsyncClient() as client:
             async with client.stream("GET", url, timeout=timeout) as response:
@@ -167,10 +166,9 @@ class BaseFile:
         return kwargs
 
     @classmethod
-    def from_proto(cls, *, files: BaseFiles, sdk: BaseSDK, proto: ProtoFile) -> Self:
+    def from_proto(cls, *, sdk: BaseSDK, proto: ProtoFile) -> Self:
         return cls(
             _sdk=sdk,
-            _files=files,
             _lock=Lock(),
             _deleted=False,
             **cls._kwargs_from_message(proto),

@@ -32,7 +32,7 @@ def get_defined_value(obj: UndefinedOr[_T], default: _D) -> _T | _D:
     return cast(_D, default)
 
 
-PathLike = Union[str, bytes, os.PathLike]
+PathLike = Union[str, os.PathLike]
 
 
 def coerce_path(path: PathLike) -> pathlib.Path:

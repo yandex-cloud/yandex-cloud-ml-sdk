@@ -90,6 +90,10 @@ pythonpath = [
   "src"
 ]
 testpaths = "tests"
+asyncio_default_fixture_loop_scope = "function"
+filterwarnings = [
+    "ignore::DeprecationWarning:pytest_pylint"
+]
 
 [tool.pylint]
 ignore="CVS"
@@ -221,6 +225,7 @@ exclude-protected= [
     "_make",
     "_client",
     "_sdk",
+    "_folder_id",
     "_from_proto",
     "_result_type",
     "_proto_result_type",
@@ -230,7 +235,7 @@ valid-metaclass-classmethod-first-arg="cls"
 
 [tool.pylint.'DESIGN']
 max-args=10
-max-attributes=7
+max-attributes=15
 max-bool-expr=5
 max-branches=12
 max-locals=15
