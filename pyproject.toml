@@ -45,7 +45,7 @@ test = [
     "tox",
 ]
 langchain = [
-    "langchain-core>=0.2.29"
+    "langchain-core>=0.2.29,<=0.2.41"
 ]
 
 [project.urls]
@@ -244,6 +244,7 @@ max-public-methods=20
 max-returns=6
 max-statements=50
 min-public-methods=2
+max-positional-arguments=7
 
 [tool.pylint.'IMPORTS']
 allow-wildcard-with-all="no"
