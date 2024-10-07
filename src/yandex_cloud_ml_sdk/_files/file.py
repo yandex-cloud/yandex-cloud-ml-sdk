@@ -84,14 +84,14 @@ class BaseFile:
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         timeout: float = 60,
     ) -> Self:
-        name_ = get_defined_value(name, None)
-        description_ = get_defined_value(description, None)
-        labels_ = get_defined_value(labels, None)
+        name_ = get_defined_value(name, '')
+        description_ = get_defined_value(description, '')
+        labels_ = get_defined_value(labels, {})
 
         request = UpdateFileRequest(
             file_id=self.id,
-            name=name_,  # type: ignore[arg-type]
-            description=description_,  # type: ignore[arg-type]
+            name=name_,
+            description=description_,
             labels=labels_,
         )
 

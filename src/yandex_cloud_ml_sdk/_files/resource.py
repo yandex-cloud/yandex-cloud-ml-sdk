@@ -31,13 +31,12 @@ class BaseFiles(BaseResource, Generic[FileTypeT]):
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         timeout: float = 60,
     ) -> FileTypeT:
-        # NB: protobuf typihints tells that fields non-nullable, but it is not True
         request = CreateFileRequest(
             folder_id=self._folder_id,
-            name=get_defined_value(name, None),  # type: ignore[arg-type]
-            description=get_defined_value(description, None),  # type: ignore[arg-type]
-            mime_type=get_defined_value(mime_type, None),  # type: ignore[arg-type]
-            labels=get_defined_value(labels, None),  # type: ignore[arg-type]
+            name=get_defined_value(name, ''),
+            description=get_defined_value(description, ''),
+            mime_type=get_defined_value(mime_type, ''),
+            labels=get_defined_value(labels, {}),
             content=data,
         )
 
@@ -98,15 +97,15 @@ class BaseFiles(BaseResource, Generic[FileTypeT]):
         page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
     ):
-        page_token_ = get_defined_value(page_token, None)
-        page_size_ = get_defined_value(page_size, None)
+        page_token_ = get_defined_value(page_token, '')
+        page_size_ = get_defined_value(page_size, 0)
 
         async with self._client.get_service_stub(FileServiceStub, timeout=timeout) as stub:
             while True:
                 request = ListFilesRequest(
                     folder_id=self._folder_id,
-                    page_size=page_size_,  # type: ignore[arg-type]
-                    page_token=page_token_,  # type: ignore[arg-type]
+                    page_size=page_size_,
+                    page_token=page_token_,
                 )
 
                 response = await self._client.call_service(
