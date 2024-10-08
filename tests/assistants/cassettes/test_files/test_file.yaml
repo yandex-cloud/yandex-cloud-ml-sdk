@@ -1,0 +1,48 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - assistant-files.storage.yandexcloud.net
+      user-agent:
+      - python-httpx/0.27.0
+    method: GET
+    uri: https://assistant-files.storage.yandexcloud.net/fvt7ruv3ufdqbnaj7kri?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240927T174346Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20240927%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=74c8ee4e5497494337675b0f8ba18e9d4604bb141aca6b8f1b1db45b41e76361
+  response:
+    body:
+      string: test file
+    headers:
+      Accept-Ranges:
+      - bytes
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '9'
+      Content-Type:
+      - text/plain
+      Date:
+      - Fri, 27 Sep 2024 18:25:17 GMT
+      Etag:
+      - '"f20d9f2072bbeb6691c0f9c5099b01f3"'
+      Keep-Alive:
+      - timeout=60
+      Last-Modified:
+      - Fri, 27 Sep 2024 17:43:46 GMT
+      Server:
+      - nginx
+      X-Amz-Request-Id:
+      - 059cc4d4f5571074
+      X-Amz-Server-Side-Encryption:
+      - aws:kms
+      X-Amz-Server-Side-Encryption-Aws-Kms-Key-Id:
+      - abj06h6rner491sgu7hg
+    status:
+      code: 200
+      message: OK
+version: 1
