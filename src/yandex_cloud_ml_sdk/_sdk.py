@@ -11,11 +11,11 @@ from grpc import aio
 
 from ._auth import BaseAuth
 from ._client import AsyncCloudClient
-from ._files.resource import AsyncFiles, Files
+from ._files.domain import AsyncFiles, Files
 from ._models import AsyncModels, Models
 from ._retry import RetryPolicy
+from ._types.domain import BaseDomain
 from ._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
-from ._types.resource import BaseResource
 
 
 class BaseSDK:
@@ -61,12 +61,12 @@ class BaseSDK:
         )
         self._folder_id = folder_id
 
-        self._init_resources()
+        self._init_domains()
 
-    def _init_resources(self) -> None:
+    def _init_domains(self) -> None:
         members: dict[str, type] = get_annotations(self.__class__, eval_str=True)
         for member_name, member in members.items():
-            if inspect.isclass(member) and issubclass(member, BaseResource):
+            if inspect.isclass(member) and issubclass(member, BaseDomain):
                 resource = member(name=member_name, sdk=self)
                 setattr(self, member_name, resource)
 

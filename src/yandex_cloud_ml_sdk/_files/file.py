@@ -2,13 +2,10 @@
 from __future__ import annotations
 
 import dataclasses
-import functools
-from asyncio import Lock
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, Awaitable, Callable, TypeVar
 
 import httpx
-from typing_extensions import Concatenate, ParamSpec, Self
+from typing_extensions import Self
 from yandex.cloud.ai.files.v1.file_pb2 import File as ProtoFile
 from yandex.cloud.ai.files.v1.file_service_pb2 import (
     DeleteFileRequest, DeleteFileResponse, GetFileUrlRequest, GetFileUrlResponse, UpdateFileRequest
@@ -16,48 +13,13 @@ from yandex.cloud.ai.files.v1.file_service_pb2 import (
 from yandex.cloud.ai.files.v1.file_service_pb2_grpc import FileServiceStub
 
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
-from yandex_cloud_ml_sdk._utils.proto import proto_to_dict
+from yandex_cloud_ml_sdk._types.resource import BaseDeleteableResource, safe_on_delete
 from yandex_cloud_ml_sdk._utils.sync import run_sync
-
-if TYPE_CHECKING:
-    from yandex_cloud_ml_sdk._client import AsyncCloudClient
-    from yandex_cloud_ml_sdk._sdk import BaseSDK
-
-
-P = ParamSpec('P')
-T = TypeVar('T')
-
-
-def safe(method: Callable[Concatenate[BaseFile, P], Awaitable[T]]) -> Callable[Concatenate[BaseFile, P], Awaitable[T]]:
-    @functools.wraps(method)
-    async def inner(self: BaseFile, *args: P.args, **kwargs: P.kwargs) -> T:
-        async with self._lock:  # pylint: disable=protected-access
-            action = method.__name__.lstrip('_')
-            if self._deleted:  # pylint: disable=protected-access
-                raise ValueError(f"you can't perform an action '{action}' on file '{self.id}' because it is deleted")
-
-            return await method(self, *args, **kwargs)
-
-    return inner
 
 
 @dataclasses.dataclass(frozen=True)
-class BaseFile:
-    _sdk: BaseSDK = dataclasses.field(repr=False)
-    _lock: Lock = dataclasses.field(repr=False)
-    _deleted: bool = dataclasses.field(repr=False)
-
-    id: str
-
-    @property
-    def _client(self) -> AsyncCloudClient:
-        return self._sdk._client
-
-    def _assert_not_deleted(self, action: str) -> None:
-        if self._deleted:
-            raise ValueError(f"you can't perform action '{action}' on this file because it is deleted")
-
-    @safe
+class BaseFile(BaseDeleteableResource):
+    @safe_on_delete
     async def _get_url(
         self,
         *,
@@ -75,7 +37,7 @@ class BaseFile:
 
         return response.url
 
-    @safe
+    @safe_on_delete
     async def _update(
         self,
         *,
@@ -114,7 +76,7 @@ class BaseFile:
 
         return self
 
-    @safe
+    @safe_on_delete
     async def _delete(
         self,
         *,
@@ -131,14 +93,14 @@ class BaseFile:
             )
             object.__setattr__(self, '_deleted', True)
 
-    @safe
+    @safe_on_delete
     async def _download_as_bytes(
         self,
         *,
         chunk_size: int = 32768,
         timeout: float = 60
     ) -> bytes:
-        # I didn't invent better way to use this function without a @safe-lock
+        # I didn't invent better way to use this function without a @safe_on_delete-lock
         url = await self._get_url.__wrapped__(self, timeout=timeout)  # type: ignore[attr-defined]
 
         async with httpx.AsyncClient() as client:
@@ -150,37 +112,6 @@ class BaseFile:
                     file_bytes += chunk
 
                 return file_bytes
-
-    @classmethod
-    def _kwargs_from_message(cls, proto: ProtoFile) -> dict[str, Any]:
-        fields = dataclasses.fields(cls)
-        data = proto_to_dict(proto)
-        kwargs = {}
-        for field in fields:
-            name = field.name
-            if name.startswith('_'):
-                continue
-
-            kwargs[name] = data.get(name)
-
-        return kwargs
-
-    @classmethod
-    def from_proto(cls, *, sdk: BaseSDK, proto: ProtoFile) -> Self:
-        return cls(
-            _sdk=sdk,
-            _lock=Lock(),
-            _deleted=False,
-            **cls._kwargs_from_message(proto),
-        )
-
-    def _update_from_proto(self, proto: ProtoFile) -> Self:
-        # We want to File to be a immutable, but also we need
-        # to maintain a inner status after updating and such
-        kwargs = self._kwargs_from_message(proto)
-        for key, value in kwargs.items():
-            object.__setattr__(self, key, value)
-        return self
 
 
 @dataclasses.dataclass(frozen=True)
