@@ -11,6 +11,7 @@ from grpc import aio
 
 from ._auth import BaseAuth
 from ._client import AsyncCloudClient
+from ._files.resource import AsyncFiles, Files
 from ._models import AsyncModels, Models
 from ._retry import RetryPolicy
 from ._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
@@ -127,7 +128,9 @@ class BaseSDK:
 
 class AsyncYCloudML(BaseSDK):
     models: AsyncModels
+    files: AsyncFiles
 
 
 class YCloudML(BaseSDK):
     models: Models
+    files: Files
