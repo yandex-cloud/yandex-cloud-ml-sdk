@@ -136,7 +136,15 @@ def fixture_async_sdk(
     retry_policy: RetryPolicy,
     test_client: MockClient | None,
 ) -> AsyncYCloudML:
-    sdk = AsyncYCloudML(folder_id=folder_id, interceptors=interceptors, auth=auth, retry_policy=retry_policy)
+    sdk = AsyncYCloudML(
+        folder_id=folder_id,
+        interceptors=interceptors,
+        auth=auth,
+        retry_policy=retry_policy,
+        service_map={
+            'ai-files': 'assistant.api.cloud.yandex.net'
+        }
+    )
     if test_client:
         sdk._client = test_client
     return sdk
