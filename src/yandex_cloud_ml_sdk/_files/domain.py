@@ -1,7 +1,7 @@
 # pylint: disable=protected-access,no-name-in-module
 from __future__ import annotations
 
-from typing import Generic, TypeVar
+from typing import AsyncIterator, Generic, TypeVar
 
 from yandex.cloud.ai.files.v1.file_pb2 import File as ProtoFile
 from yandex.cloud.ai.files.v1.file_service_pb2 import (
@@ -9,8 +9,8 @@ from yandex.cloud.ai.files.v1.file_service_pb2 import (
 )
 from yandex.cloud.ai.files.v1.file_service_pb2_grpc import FileServiceStub
 
+from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, PathLike, UndefinedOr, coerce_path, get_defined_value
-from yandex_cloud_ml_sdk._types.resource import BaseResource
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .file import AsyncFile, BaseFile, File
@@ -18,7 +18,7 @@ from .file import AsyncFile, BaseFile, File
 FileTypeT = TypeVar('FileTypeT', bound=BaseFile)
 
 
-class BaseFiles(BaseResource, Generic[FileTypeT]):
+class BaseFiles(BaseDomain, Generic[FileTypeT]):
     _file_impl: type[FileTypeT]
 
     async def _upload_bytes(
@@ -48,7 +48,7 @@ class BaseFiles(BaseResource, Generic[FileTypeT]):
                 expected_type=ProtoFile,
             )
 
-        return self._file_impl.from_proto(proto=response, sdk=self._sdk)
+        return self._file_impl._from_proto(proto=response, sdk=self._sdk)
 
     async def _upload(
         self,
@@ -75,7 +75,7 @@ class BaseFiles(BaseResource, Generic[FileTypeT]):
         file_id: str,
         *,
         timeout: float = 60,
-    ):
+    ) -> FileTypeT:
         # TODO: we need a global per-sdk cache on file_ids to rule out
         # possibility we have two Files with same ids but different fields
         request = GetFileRequest(file_id=file_id)
@@ -88,7 +88,7 @@ class BaseFiles(BaseResource, Generic[FileTypeT]):
                 expected_type=ProtoFile,
             )
 
-        return self._file_impl.from_proto(proto=response, sdk=self._sdk)
+        return self._file_impl._from_proto(proto=response, sdk=self._sdk)
 
     async def _list(
         self,
@@ -96,7 +96,7 @@ class BaseFiles(BaseResource, Generic[FileTypeT]):
         page_size: UndefinedOr[int] = UNDEFINED,
         page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
-    ):
+    ) -> AsyncIterator[FileTypeT]:
         page_token_ = get_defined_value(page_token, '')
         page_size_ = get_defined_value(page_size, 0)
 
@@ -115,7 +115,7 @@ class BaseFiles(BaseResource, Generic[FileTypeT]):
                     expected_type=ListFilesResponse,
                 )
                 for file_proto in response.files:
-                    yield self._file_impl.from_proto(proto=file_proto, sdk=self._sdk)
+                    yield self._file_impl._from_proto(proto=file_proto, sdk=self._sdk)
 
                 if not response.files:
                     return
