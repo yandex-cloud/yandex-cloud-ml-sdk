@@ -7,14 +7,14 @@ from .model import BaseModel
 
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
-    from yandex_cloud_ml_sdk._types.resource import BaseResource
+    from yandex_cloud_ml_sdk._types.domain import BaseDomain
 
 
 ModelTypeT = TypeVar('ModelTypeT', bound=BaseModel)
 
 
 class BaseFunction(abc.ABC):
-    def __init__(self, name: str, sdk: BaseSDK, parent_resource: BaseResource):
+    def __init__(self, name: str, sdk: BaseSDK, parent_resource: BaseDomain):
         self._name = name
         self._sdk = sdk
         self._parent_resource = parent_resource
