@@ -23,9 +23,9 @@ class BaseMessages(BaseDomain):
 
     async def _create(
         self,
+        content: str,
         *,
         thread_id: str,
-        content: str,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         timeout: float = 60,
     ) -> Message:
