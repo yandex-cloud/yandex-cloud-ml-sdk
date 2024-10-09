@@ -68,7 +68,7 @@ async def test_thread_deleted(async_sdk):
         await thread.write('foo')
 
     with pytest.raises(ValueError):
-        async for message in thread.read():
+        async for _ in thread.read():
             pass
 
 

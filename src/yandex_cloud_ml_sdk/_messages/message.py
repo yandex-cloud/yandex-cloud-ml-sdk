@@ -1,12 +1,11 @@
+# pylint: disable=no-name-in-module
 from __future__ import annotations
 
 import dataclasses
 from datetime import datetime
 from typing import Any
 
-from yandex.cloud.ai.assistants.v1.threads.message_pb2 import (
-    Message as ProtoMessage  # pylint: disable=no-name-in-module
-)
+from yandex.cloud.ai.assistants.v1.threads.message_pb2 import Message as ProtoMessage
 
 from yandex_cloud_ml_sdk._types.resource import BaseResource
 
