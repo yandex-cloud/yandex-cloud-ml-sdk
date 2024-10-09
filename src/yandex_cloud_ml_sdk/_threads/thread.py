@@ -97,6 +97,14 @@ class BaseThread(BaseDeleteableResource):
         *,
         timeout: float = 60,
     ) -> AsyncIterator[Message]:
+        # NB: in other methods it is solved via @safe decorator, but it is doesn't work
+        # with iterators, so, temporary here will be small copypaste
+        # Also I'm not sure enough if we need to put whole thread reading under a lock
+        if self._deleted:
+            action = 'read'
+            klass = self.__class__.__name__
+            raise ValueError(f"you can't perform an action '{action}' on {klass}='{self.id}' because it is deleted")
+
         # pylint: disable-next=protected-access
         async for message in self._sdk._messages._list(thread_id=self.id, timeout=timeout):
             yield message
