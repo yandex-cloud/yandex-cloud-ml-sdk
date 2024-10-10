@@ -120,7 +120,7 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
                 if not response.files:
                     return
 
-                page_token = response.next_page_token
+                page_token_ = response.next_page_token
 
 
 class AsyncFiles(BaseFiles[AsyncFile]):
