@@ -22,6 +22,7 @@ async def main() -> None:
     await second.write("content2")
     async for message in thread:
         print(message)
+        print(message.text)
 
     async for thread in sdk.threads.list():
         await thread.delete()

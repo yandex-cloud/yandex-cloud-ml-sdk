@@ -11,12 +11,19 @@ from yandex_cloud_ml_sdk._types.resource import BaseResource
 
 
 @dataclasses.dataclass(frozen=True)
+class Author:
+    id: str
+    role: str
+
+
+@dataclasses.dataclass(frozen=True)
 class Message(BaseResource):
     thread_id: str
     created_by: str
     created_at: datetime
     labels: dict[str, str] | None
     parts: list[Any]
+    author: Author
 
     @classmethod
     def _kwargs_from_message(cls, proto: ProtoMessage) -> dict[str, Any]:  # type: ignore[override]
@@ -32,5 +39,16 @@ class Message(BaseResource):
                 )
 
         kwargs['parts'] = parts
+        kwargs['author'] = Author(
+            role=proto.author.role,
+            id=proto.author.id
+        )
 
         return kwargs
+
+    @property
+    def text(self):
+        return '\n'.join(
+            part for part in self.parts
+            if isinstance(part, str)
+        )

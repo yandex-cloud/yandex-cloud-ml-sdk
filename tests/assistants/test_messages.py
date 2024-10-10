@@ -20,6 +20,8 @@ async def test_message(async_sdk):
     assert message.parts == ['foo']
     assert message.labels == {'foo': 'bar'}
     assert message.thread_id == thread.id
+    assert message.text == 'foo'
+    assert message.author.role == 'USER'
 
     await thread.delete()
 
