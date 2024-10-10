@@ -142,7 +142,8 @@ def fixture_async_sdk(
         auth=auth,
         retry_policy=retry_policy,
         service_map={
-            'ai-files': 'assistant.api.cloud.yandex.net'
+            'ai-files': 'assistant.api.cloud.yandex.net',
+            'ai-assistants': 'assistant.api.cloud.yandex.net',
         }
     )
     if test_client:
