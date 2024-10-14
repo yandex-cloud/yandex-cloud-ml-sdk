@@ -13,7 +13,7 @@ from yandex.cloud.ai.files.v1.file_service_pb2 import (
 )
 from yandex.cloud.ai.files.v1.file_service_pb2_grpc import FileServiceStub
 
-from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyTypeT
+from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._types.resource import BaseDeleteableResource, safe_on_delete
 from yandex_cloud_ml_sdk._utils.sync import run_sync
@@ -58,7 +58,7 @@ class BaseFile(BaseDeleteableResource):
         description: UndefinedOr[str] = UNDEFINED,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         ttl_days: UndefinedOr[int] = UNDEFINED,
-        expiration_policy: UndefinedOr[ExpirationPolicyTypeT] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
         timeout: float = 60,
     ) -> Self:
         # pylint: disable=too-many-locals

@@ -15,7 +15,7 @@ class ExpirationPolicy(Enum):
     SINCE_LAST_ACTIVE = ExpirationConfigProto.SINCE_LAST_ACTIVE
 
     @classmethod
-    def coerce(cls, value: ExpirationPolicyTypeT) -> ExpirationPolicy:
+    def coerce(cls, value: ExpirationPolicyAlias) -> ExpirationPolicy:
         if isinstance(value, cls):
             return value
         if isinstance(value, int):
@@ -33,7 +33,7 @@ class ExpirationPolicy(Enum):
         }[self]  # type: ignore[index]
 
 
-ExpirationPolicyTypeT = Union[
+ExpirationPolicyAlias = Union[
     ExpirationPolicy,
     Literal[1, 2],
     Literal['STATIC', 'SINCE_LAST_ACTIVE'],
@@ -50,7 +50,7 @@ class ExpirationConfig:
     def coerce(
         cls,
         ttl_days: UndefinedOr[int],
-        expiration_policy: UndefinedOr[ExpirationPolicyTypeT]
+        expiration_policy: UndefinedOr[ExpirationPolicyAlias]
     ) -> ExpirationConfig:
         ttl_days_ = get_defined_value(ttl_days, None)
         expiration_policy_raw = get_defined_value(expiration_policy, None)
