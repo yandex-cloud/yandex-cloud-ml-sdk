@@ -10,7 +10,7 @@ from yandex.cloud.ai.files.v1.file_service_pb2 import (
 from yandex.cloud.ai.files.v1.file_service_pb2_grpc import FileServiceStub
 
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
-from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationConfigStrictT
+from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyT
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, PathLike, UndefinedOr, coerce_path, get_defined_value
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
@@ -30,16 +30,24 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
         description: UndefinedOr[str] = UNDEFINED,
         mime_type: UndefinedOr[str] = UNDEFINED,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
-        expiration_config: UndefinedOr[ExpirationConfigT] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyT] = UNDEFINED,
         timeout: float = 60,
     ) -> FileTypeT:
+        ttl_days_ = get_defined_value(ttl_days, None)
+        expiration_policy_ = get_defined_value(expiration_policy, None)
+        if (ttl_days_ is not None) != (expiration_policy_ is not None):
+            raise ValueError("ttl_days and expiration policy must be both defined either undefined")
+
+        expiration_config = ExpirationConfig.coerce({"ttl_days": ttl_days_, "expiration_policy": expiration_policy_})
+
         request = CreateFileRequest(
             folder_id=self._folder_id,
             name=get_defined_value(name, ''),
             description=get_defined_value(description, ''),
             mime_type=get_defined_value(mime_type, ''),
             labels=get_defined_value(labels, {}),
-            expiration_config=ExpirationConfig.coerce_strict(expiration_config).to_proto(),
+            expiration_config=expiration_config.to_proto(),
             content=data,
         )
 
@@ -61,7 +69,8 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
         description: UndefinedOr[str] = UNDEFINED,
         mime_type: UndefinedOr[str] = UNDEFINED,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
-        expiration_config: UndefinedOr[ExpirationConfigT] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyT] = UNDEFINED,
         timeout: float = 60,
     ) -> FileTypeT:
         path = coerce_path(path)
@@ -71,7 +80,8 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
             description=description,
             mime_type=mime_type,
             labels=labels,
-            expiration_config=expiration_config,
+            ttl_days=ttl_days,
+            expiration_policy=expiration_policy,
             timeout=timeout
         )
 

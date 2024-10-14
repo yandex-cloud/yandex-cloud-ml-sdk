@@ -12,7 +12,7 @@ from yandex.cloud.ai.files.v1.file_service_pb2 import (
 )
 from yandex.cloud.ai.files.v1.file_service_pb2_grpc import FileServiceStub
 
-from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationConfigT
+from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyT
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._types.resource import BaseDeleteableResource, safe_on_delete
 from yandex_cloud_ml_sdk._utils.sync import run_sync
@@ -53,27 +53,31 @@ class BaseFile(BaseDeleteableResource):
         name: UndefinedOr[str] = UNDEFINED,
         description: UndefinedOr[str] = UNDEFINED,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
-        expiration_config: UndefinedOr[ExpirationConfigT] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyT] = UNDEFINED,
         timeout: float = 60,
     ) -> Self:
         name_ = get_defined_value(name, '')
         description_ = get_defined_value(description, '')
         labels_ = get_defined_value(labels, {})
-        expiration_config_ = ExpirationConfig.coerce(expiration_config)
+        ttl_days_ = get_defined_value(ttl_days, None)
+        expiration_policy_ = get_defined_value(expiration_policy, None)
+
+        expiration_config = ExpirationConfig.coerce({"ttl_days": ttl_days_, "expiration_policy": expiration_policy_})
 
         request = UpdateFileRequest(
             file_id=self.id,
             name=name_,
             description=description_,
             labels=labels_,
-            expiration_config=expiration_config_.to_proto()
+            expiration_config=expiration_config.to_proto()
         )
         for key, value in (
             ('name', name_),
             ('description', description_),
             ('labels', labels_),
-            ('expiration_config.ttl_days', expiration_config_.ttl_days),
-            ('expiration_config.expiration_policy', expiration_config_.expiration_policy),
+            ('expiration_config.ttl_days', ttl_days_),
+            ('expiration_config.expiration_policy', expiration_policy_),
         ):
             if value is not None:
                 request.update_mask.paths.append(key)

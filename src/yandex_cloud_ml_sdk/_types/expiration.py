@@ -17,7 +17,7 @@ class ExpirationPolicy(Enum):
     SINCE_LAST_ACTIVE = ExpirationConfigProto.SINCE_LAST_ACTIVE
 
     @classmethod
-    def coerce(cls, value: ExpirationPolicyTypeT) -> ExpirationPolicy:
+    def coerce(cls, value: ExpirationPolicyT) -> ExpirationPolicy:
         if isinstance(value, cls):
             return value
         if isinstance(value, int):
@@ -35,9 +35,9 @@ class ExpirationPolicy(Enum):
         }[self]  # type: ignore[index]
 
 
-ExpirationPolicyTypeT = Union[
+ExpirationPolicyT = Union[
     ExpirationPolicy,
-    Literal[0, 1, 2],
+    Literal[1, 2],
     Literal['STATIC', 'SINCE_LAST_ACTIVE'],
     Literal['static', 'since_last_active'],
 ]
@@ -45,25 +45,13 @@ ExpirationPolicyTypeT = Union[
 
 class ExpirationConfigDict(TypedDict):
     ttl_days: NotRequired[int] | None
-    expiration_policy: NotRequired[ExpirationPolicyTypeT] | None
+    expiration_policy: NotRequired[ExpirationPolicyT] | None
 
 
 @dataclass(frozen=True)
 class ExpirationConfig:
     ttl_days: int | None = None
     expiration_policy: ExpirationPolicy | None = None
-
-    def is_defined(self) -> bool:
-        return bool(
-            self.ttl_days and
-            self.expiration_policy
-        )
-
-    def is_partially_defined(self) -> bool:
-        return bool(
-            self.ttl_days or
-            self.expiration_policy
-        )
 
     @classmethod
     def coerce(cls, value: ExpirationConfigT | None) -> ExpirationConfig:
@@ -78,7 +66,8 @@ class ExpirationConfig:
             policy = ExpirationPolicy.coerce(value)
         elif isinstance(value, dict):
             value = cast(ExpirationConfigDict, value)
-            ttl_days = value.get('ttl_days')
+            if ttl_days_str := value.get('ttl_days'):
+                ttl_days = int(ttl_days_str)
             if raw_policy := value.get('expiration_policy'):
                 policy = ExpirationPolicy.coerce(raw_policy)
         elif value is None or not is_defined(value):
@@ -91,22 +80,8 @@ class ExpirationConfig:
             expiration_policy=policy
         )
 
-    @classmethod
-    def coerce_strict(cls, value: ExpirationConfigT | None) -> ExpirationConfig:
-        config = cls.coerce(value)
-        if (
-            config is not None
-            and not config.is_defined()
-            and config.is_partially_defined()
-        ):
-            raise ValueError(
-                'At this place both exporation_config.ttl_days and expiration_config.policy must be defined '
-                'or neither'
-            )
-        return config
-
     def to_proto(self) -> ExpirationConfigProto | None:
-        if not self.is_partially_defined():
+        if not self.expiration_policy and not self.ttl_days:
             return None
 
         return ExpirationConfigProto(
@@ -115,5 +90,4 @@ class ExpirationConfig:
         )
 
 
-ExpirationConfigT = Union[ExpirationConfig, ExpirationConfigDict, int, ExpirationPolicyTypeT, Undefined]
-ExpirationConfigStrictT = Union[ExpirationConfig, ExpirationConfigDict, Undefined]
+ExpirationConfigT = Union[ExpirationConfig, ExpirationConfigDict, int, ExpirationPolicyT, Undefined]
