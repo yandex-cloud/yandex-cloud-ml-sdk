@@ -385,39 +385,37 @@
         },
         {
             "request": {
-                "cls": "CreateFileRequest",
-                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "cls": "CreateThreadRequest",
+                "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
                 "message": {
-                    "folderId": "b1ghsjum2v37c2un8h64",
-                    "content": "dGVzdCBmaWxl"
+                    "folderId": "b1ghsjum2v37c2un8h64"
                 }
             },
             "response": {
-                "cls": "File",
-                "module": "yandex.cloud.ai.files.v1.file_pb2",
+                "cls": "Thread",
+                "module": "yandex.cloud.ai.assistants.v1.threads.thread_pb2",
                 "message": {
-                    "id": "fvtccn26if22sl7kvedk",
+                    "id": "fvt86o5tu0uu31m7a8nv",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "mimeType": "text/plain",
+                    "defaultMessageAuthorId": "fvtjeg66tovh08ddiohu",
                     "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-14T17:46:01.742672Z",
+                    "createdAt": "2024-10-14T17:47:52.145136Z",
                     "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-14T17:46:01.742672Z",
+                    "updatedAt": "2024-10-14T17:47:52.145136Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-21T17:46:01.742672Z"
+                    "expiresAt": "2024-10-21T17:47:52.145136Z"
                 }
             }
         },
         {
             "request": {
-                "cls": "CreateFileRequest",
-                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "cls": "CreateThreadRequest",
+                "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "content": "dGVzdCBmaWxl",
                     "expirationConfig": {
                         "expirationPolicy": "STATIC",
                         "ttlDays": "5"
@@ -425,30 +423,30 @@
                 }
             },
             "response": {
-                "cls": "File",
-                "module": "yandex.cloud.ai.files.v1.file_pb2",
+                "cls": "Thread",
+                "module": "yandex.cloud.ai.assistants.v1.threads.thread_pb2",
                 "message": {
-                    "id": "fvtk8m8l3hib8tjtq32a",
+                    "id": "fvtkne8mfqndbmdrsglf",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "mimeType": "text/plain",
+                    "defaultMessageAuthorId": "fvtmf29ejb6hbm7dj54a",
                     "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-14T17:46:01.890912Z",
+                    "createdAt": "2024-10-14T17:47:52.324656Z",
                     "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-14T17:46:01.890912Z",
+                    "updatedAt": "2024-10-14T17:47:52.324656Z",
                     "expirationConfig": {
                         "expirationPolicy": "STATIC",
                         "ttlDays": "5"
                     },
-                    "expiresAt": "2024-10-19T17:46:01.890912Z"
+                    "expiresAt": "2024-10-19T17:47:52.324656Z"
                 }
             }
         },
         {
             "request": {
-                "cls": "UpdateFileRequest",
-                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "cls": "UpdateThreadRequest",
+                "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
                 "message": {
-                    "fileId": "fvtccn26if22sl7kvedk",
+                    "threadId": "fvt86o5tu0uu31m7a8nv",
                     "updateMask": "name,description,labels,expirationConfig.ttlDays",
                     "expirationConfig": {
                         "ttlDays": "3"
@@ -456,30 +454,30 @@
                 }
             },
             "response": {
-                "cls": "File",
-                "module": "yandex.cloud.ai.files.v1.file_pb2",
+                "cls": "Thread",
+                "module": "yandex.cloud.ai.assistants.v1.threads.thread_pb2",
                 "message": {
-                    "id": "fvtccn26if22sl7kvedk",
+                    "id": "fvt86o5tu0uu31m7a8nv",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "mimeType": "text/plain",
+                    "defaultMessageAuthorId": "fvtjeg66tovh08ddiohu",
                     "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-14T17:46:01.742672Z",
+                    "createdAt": "2024-10-14T17:47:52.145136Z",
                     "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-14T17:46:02.061415Z",
+                    "updatedAt": "2024-10-14T17:47:52.426485Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "3"
                     },
-                    "expiresAt": "2024-10-21T17:46:01.742672Z"
+                    "expiresAt": "2024-10-21T17:47:52.145136Z"
                 }
             }
         },
         {
             "request": {
-                "cls": "UpdateFileRequest",
-                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "cls": "UpdateThreadRequest",
+                "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
                 "message": {
-                    "fileId": "fvtccn26if22sl7kvedk",
+                    "threadId": "fvt86o5tu0uu31m7a8nv",
                     "updateMask": "name,description,labels,expirationConfig.expirationPolicy",
                     "expirationConfig": {
                         "expirationPolicy": "STATIC"
@@ -487,49 +485,49 @@
                 }
             },
             "response": {
-                "cls": "File",
-                "module": "yandex.cloud.ai.files.v1.file_pb2",
+                "cls": "Thread",
+                "module": "yandex.cloud.ai.assistants.v1.threads.thread_pb2",
                 "message": {
-                    "id": "fvtccn26if22sl7kvedk",
+                    "id": "fvt86o5tu0uu31m7a8nv",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "mimeType": "text/plain",
+                    "defaultMessageAuthorId": "fvtjeg66tovh08ddiohu",
                     "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-14T17:46:01.742672Z",
+                    "createdAt": "2024-10-14T17:47:52.145136Z",
                     "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-14T17:46:02.122500Z",
+                    "updatedAt": "2024-10-14T17:47:52.495294Z",
                     "expirationConfig": {
                         "expirationPolicy": "STATIC",
                         "ttlDays": "3"
                     },
-                    "expiresAt": "2024-10-21T17:46:01.742672Z"
+                    "expiresAt": "2024-10-21T17:47:52.145136Z"
                 }
             }
         },
         {
             "request": {
-                "cls": "DeleteFileRequest",
-                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "cls": "DeleteThreadRequest",
+                "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
                 "message": {
-                    "fileId": "fvtccn26if22sl7kvedk"
+                    "threadId": "fvt86o5tu0uu31m7a8nv"
                 }
             },
             "response": {
-                "cls": "DeleteFileResponse",
-                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "cls": "DeleteThreadResponse",
+                "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
                 "message": {}
             }
         },
         {
             "request": {
-                "cls": "DeleteFileRequest",
-                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "cls": "DeleteThreadRequest",
+                "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
                 "message": {
-                    "fileId": "fvtk8m8l3hib8tjtq32a"
+                    "threadId": "fvtkne8mfqndbmdrsglf"
                 }
             },
             "response": {
-                "cls": "DeleteFileResponse",
-                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "cls": "DeleteThreadResponse",
+                "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
                 "message": {}
             }
         }

@@ -117,3 +117,6 @@ async def test_file_expiration(async_sdk, test_file_path):
 
     await file.update(expiration_policy='static')
     assert file.expiration_config.expiration_policy.name == 'STATIC'
+
+    await file.delete()
+    await file2.delete()
