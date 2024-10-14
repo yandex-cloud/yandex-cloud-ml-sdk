@@ -10,7 +10,7 @@ from yandex.cloud.ai.files.v1.file_service_pb2 import (
 from yandex.cloud.ai.files.v1.file_service_pb2_grpc import FileServiceStub
 
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
-from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyT
+from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyTypeT
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, PathLike, UndefinedOr, coerce_path, get_defined_value, is_defined
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
@@ -31,7 +31,7 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
         mime_type: UndefinedOr[str] = UNDEFINED,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         ttl_days: UndefinedOr[int] = UNDEFINED,
-        expiration_policy: UndefinedOr[ExpirationPolicyT] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyTypeT] = UNDEFINED,
         timeout: float = 60,
     ) -> FileTypeT:
         if is_defined(ttl_days) != is_defined(expiration_policy):
@@ -68,7 +68,7 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
         mime_type: UndefinedOr[str] = UNDEFINED,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         ttl_days: UndefinedOr[int] = UNDEFINED,
-        expiration_policy: UndefinedOr[ExpirationPolicyT] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyTypeT] = UNDEFINED,
         timeout: float = 60,
     ) -> FileTypeT:
         path = coerce_path(path)
