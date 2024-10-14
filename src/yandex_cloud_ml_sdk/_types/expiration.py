@@ -4,9 +4,8 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Literal, Union
 
-from yandex.cloud.ai.common.common_pb2 import (
-    ExpirationConfig as ExpirationConfigProto  # pylint: disable=no-name-in-module
-)
+# pylint: disable-next=no-name-in-module
+from yandex.cloud.ai.common.common_pb2 import ExpirationConfig as ExpirationConfigProto
 
 from .misc import UndefinedOr, get_defined_value
 
