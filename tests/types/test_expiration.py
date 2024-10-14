@@ -10,13 +10,10 @@ from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationCo
 @pytest.mark.parametrize(
     "test_input,expected",
     [
-        ('unspecified', ExpirationConfigProto.EXPIRATION_POLICY_UNSPECIFIED),
         ('static', ExpirationConfigProto.STATIC),
         ('since_last_active', ExpirationConfigProto.SINCE_LAST_ACTIVE),
-        ('UNSPECIFIED', ExpirationConfigProto.EXPIRATION_POLICY_UNSPECIFIED),
         ('STATIC', ExpirationConfigProto.STATIC),
         ('SINCE_LAST_ACTIVE', ExpirationConfigProto.SINCE_LAST_ACTIVE),
-        (0, ExpirationConfigProto.EXPIRATION_POLICY_UNSPECIFIED),
         (1, ExpirationConfigProto.STATIC),
         (2, ExpirationConfigProto.SINCE_LAST_ACTIVE),
         (3, ValueError),
@@ -33,27 +30,36 @@ def test_expiration_policy(test_input, expected):
 
 
 @pytest.mark.parametrize(
-    "expected,test_input",
+    "expected,expected_strict,test_input",
     [
-        (ExpirationConfig(ttl_days=1, policy=None), 1),
-        (ExpirationConfig(ttl_days=None, policy=ExpirationPolicy.STATIC), 'static'),
-        (ExpirationConfig(ttl_days=None, policy=ExpirationPolicy.STATIC), 'STATIC'),
-        (ValueError, 'foo'),
-        (ExpirationConfig(ttl_days=123, policy=ExpirationPolicy.STATIC),
-         ExpirationConfig(ttl_days=123, policy=ExpirationPolicy.STATIC)),
-        (ExpirationConfig(ttl_days=None, policy=ExpirationPolicy.SINCE_LAST_ACTIVE), ExpirationPolicy.SINCE_LAST_ACTIVE),
-        (ExpirationConfig(ttl_days=2, policy=ExpirationPolicy.STATIC), {'ttl_days': 2, 'policy': 'static'}),
-        (ExpirationConfig(ttl_days=None, policy=ExpirationPolicy.STATIC), {'policy': 'static'}),
-        (ExpirationConfig(ttl_days=2, policy=None), {'ttl_days': 2}),
-        (ExpirationConfig(ttl_days=None, policy=None), {}),
-        (ExpirationConfig(ttl_days=None, policy=None), None),
-        (TypeError, int),
+        (ExpirationConfig(ttl_days=1), ValueError, 1),
+        (ExpirationConfig(expiration_policy=ExpirationPolicy.STATIC), ValueError, 'static'),
+        (ExpirationConfig(expiration_policy=ExpirationPolicy.STATIC), ValueError, 'STATIC'),
+        (ValueError, ValueError, 'foo'),
+        (ExpirationConfig(ttl_days=123, expiration_policy=ExpirationPolicy.STATIC),
+         ExpirationConfig(ttl_days=123, expiration_policy=ExpirationPolicy.STATIC),
+         ExpirationConfig(ttl_days=123, expiration_policy=ExpirationPolicy.STATIC)),
+        (ExpirationConfig(expiration_policy=ExpirationPolicy.SINCE_LAST_ACTIVE), ValueError, ExpirationPolicy.SINCE_LAST_ACTIVE),
+        (ExpirationConfig(ttl_days=2, expiration_policy=ExpirationPolicy.STATIC),
+         ExpirationConfig(ttl_days=2, expiration_policy=ExpirationPolicy.STATIC),
+         {'ttl_days': 2, 'expiration_policy': 'static'}),
+        (ExpirationConfig(expiration_policy=ExpirationPolicy.STATIC), ValueError, {'expiration_policy': 'static'}),
+        (ExpirationConfig(ttl_days=2), ValueError, {'ttl_days': 2}),
+        (ExpirationConfig(), ExpirationConfig(), {}),
+        (ExpirationConfig(), ExpirationConfig(), None),
+        (TypeError, TypeError, int),
 
-    ]
+    ],
 )
-def test_expiration_config(expected, test_input):
+def test_expiration_config(expected, expected_strict, test_input):
     if inspect.isclass(expected) and issubclass(expected, Exception):
         with pytest.raises(expected):
             ExpirationConfig.coerce(test_input)
     else:
         assert ExpirationConfig.coerce(test_input) == expected
+
+    if inspect.isclass(expected_strict) and issubclass(expected_strict, Exception):
+        with pytest.raises(expected_strict):
+            ExpirationConfig.coerce_strict(test_input)
+    else:
+        assert ExpirationConfig.coerce_strict(test_input) == expected_strict

@@ -12,6 +12,7 @@ from yandex.cloud.ai.files.v1.file_service_pb2 import (
 )
 from yandex.cloud.ai.files.v1.file_service_pb2_grpc import FileServiceStub
 
+from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationConfigT
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._types.resource import BaseDeleteableResource, safe_on_delete
 from yandex_cloud_ml_sdk._utils.sync import run_sync
@@ -19,6 +20,14 @@ from yandex_cloud_ml_sdk._utils.sync import run_sync
 
 @dataclasses.dataclass(frozen=True)
 class BaseFile(BaseDeleteableResource):
+    expiration_config: ExpirationConfig
+
+    @classmethod
+    def _kwargs_from_message(cls, proto: ProtoFile) -> dict[str, Any]:  # type: ignore[override]
+        kwargs = super()._kwargs_from_message(proto)
+        kwargs['expiration_config'] = ExpirationConfig.coerce(kwargs['expiration_config'])
+        return kwargs
+
     @safe_on_delete
     async def _get_url(
         self,
@@ -44,23 +53,27 @@ class BaseFile(BaseDeleteableResource):
         name: UndefinedOr[str] = UNDEFINED,
         description: UndefinedOr[str] = UNDEFINED,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        expiration_config: UndefinedOr[ExpirationConfigT] = UNDEFINED,
         timeout: float = 60,
     ) -> Self:
         name_ = get_defined_value(name, '')
         description_ = get_defined_value(description, '')
         labels_ = get_defined_value(labels, {})
+        expiration_config_ = ExpirationConfig.coerce(expiration_config)
 
         request = UpdateFileRequest(
             file_id=self.id,
             name=name_,
             description=description_,
             labels=labels_,
+            expiration_config=expiration_config_.to_proto()
         )
-
         for key, value in (
             ('name', name_),
             ('description', description_),
-            ('labels', labels_)
+            ('labels', labels_),
+            ('expiration_config.ttl_days', expiration_config_.ttl_days),
+            ('expiration_config.expiration_policy', expiration_config_.expiration_policy),
         ):
             if value is not None:
                 request.update_mask.paths.append(key)

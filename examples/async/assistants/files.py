@@ -17,12 +17,15 @@ async def main() -> None:
     )
 
     path = pathlib.Path(__file__).parent / 'example_file'
-    file = await sdk.files.upload(path)
+    file = await sdk.files.upload(path, expiration_config={'ttl_days': 5, 'expiration_policy': 'static'})
+
     print(file)
 
-    await file.update(name='foo')
+    await file.update(name='foo', expiration_config=9)
+    print(file)
 
     second = await sdk.files.get(file.id)
+    await second.update(name='foo', expiration_config='since_last_active')
 
     print(second)
 

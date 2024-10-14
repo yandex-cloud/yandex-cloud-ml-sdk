@@ -10,6 +10,7 @@ from yandex.cloud.ai.files.v1.file_service_pb2 import (
 from yandex.cloud.ai.files.v1.file_service_pb2_grpc import FileServiceStub
 
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
+from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationConfigStrictT
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, PathLike, UndefinedOr, coerce_path, get_defined_value
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
@@ -29,6 +30,7 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
         description: UndefinedOr[str] = UNDEFINED,
         mime_type: UndefinedOr[str] = UNDEFINED,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        expiration_config: UndefinedOr[ExpirationConfigT] = UNDEFINED,
         timeout: float = 60,
     ) -> FileTypeT:
         request = CreateFileRequest(
@@ -37,6 +39,7 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
             description=get_defined_value(description, ''),
             mime_type=get_defined_value(mime_type, ''),
             labels=get_defined_value(labels, {}),
+            expiration_config=ExpirationConfig.coerce_strict(expiration_config).to_proto(),
             content=data,
         )
 
@@ -58,6 +61,7 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
         description: UndefinedOr[str] = UNDEFINED,
         mime_type: UndefinedOr[str] = UNDEFINED,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        expiration_config: UndefinedOr[ExpirationConfigT] = UNDEFINED,
         timeout: float = 60,
     ) -> FileTypeT:
         path = coerce_path(path)
@@ -67,6 +71,7 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
             description=description,
             mime_type=mime_type,
             labels=labels,
+            expiration_config=expiration_config,
             timeout=timeout
         )
 
