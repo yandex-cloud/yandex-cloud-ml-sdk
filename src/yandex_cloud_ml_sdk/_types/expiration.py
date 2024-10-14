@@ -47,7 +47,11 @@ class ExpirationConfig:
     expiration_policy: ExpirationPolicy | None = None
 
     @classmethod
-    def coerce(cls, ttl_days: UndefinedOr[int], expiration_policy: UndefinedOr[ExpirationPolicyTypeT]) -> ExpirationConfig:
+    def coerce(
+        cls,
+        ttl_days: UndefinedOr[int],
+        expiration_policy: UndefinedOr[ExpirationPolicyTypeT]
+    ) -> ExpirationConfig:
         ttl_days_ = get_defined_value(ttl_days, None)
         expiration_policy_raw = get_defined_value(expiration_policy, None)
         expiration_policy_: ExpirationPolicy | None = None
