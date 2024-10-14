@@ -11,7 +11,7 @@ from yandex.cloud.ai.files.v1.file_service_pb2_grpc import FileServiceStub
 
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyT
-from yandex_cloud_ml_sdk._types.misc import UNDEFINED, PathLike, UndefinedOr, coerce_path, get_defined_value
+from yandex_cloud_ml_sdk._types.misc import UNDEFINED, PathLike, UndefinedOr, coerce_path, get_defined_value, is_defined
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .file import AsyncFile, BaseFile, File
@@ -34,12 +34,10 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
         expiration_policy: UndefinedOr[ExpirationPolicyT] = UNDEFINED,
         timeout: float = 60,
     ) -> FileTypeT:
-        ttl_days_ = get_defined_value(ttl_days, None)
-        expiration_policy_ = get_defined_value(expiration_policy, None)
-        if (ttl_days_ is not None) != (expiration_policy_ is not None):
+        if is_defined(ttl_days) != is_defined(expiration_policy):
             raise ValueError("ttl_days and expiration policy must be both defined either undefined")
 
-        expiration_config = ExpirationConfig.coerce({"ttl_days": ttl_days_, "expiration_policy": expiration_policy_})
+        expiration_config = ExpirationConfig.coerce(ttl_days=ttl_days, expiration_policy=expiration_policy)
 
         request = CreateFileRequest(
             folder_id=self._folder_id,

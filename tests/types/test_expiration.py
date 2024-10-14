@@ -5,6 +5,7 @@ import inspect
 import pytest
 
 from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationConfigProto, ExpirationPolicy
+from yandex_cloud_ml_sdk._types.misc import UNDEFINED
 
 
 @pytest.mark.parametrize(
@@ -30,36 +31,23 @@ def test_expiration_policy(test_input, expected):
 
 
 @pytest.mark.parametrize(
-    "expected,expected_strict,test_input",
+    "expected,ttl_days,expiration_policy",
     [
-        (ExpirationConfig(ttl_days=1), ValueError, 1),
-        (ExpirationConfig(expiration_policy=ExpirationPolicy.STATIC), ValueError, 'static'),
-        (ExpirationConfig(expiration_policy=ExpirationPolicy.STATIC), ValueError, 'STATIC'),
-        (ValueError, ValueError, 'foo'),
-        (ExpirationConfig(ttl_days=123, expiration_policy=ExpirationPolicy.STATIC),
-         ExpirationConfig(ttl_days=123, expiration_policy=ExpirationPolicy.STATIC),
-         ExpirationConfig(ttl_days=123, expiration_policy=ExpirationPolicy.STATIC)),
-        (ExpirationConfig(expiration_policy=ExpirationPolicy.SINCE_LAST_ACTIVE), ValueError, ExpirationPolicy.SINCE_LAST_ACTIVE),
-        (ExpirationConfig(ttl_days=2, expiration_policy=ExpirationPolicy.STATIC),
-         ExpirationConfig(ttl_days=2, expiration_policy=ExpirationPolicy.STATIC),
-         {'ttl_days': 2, 'expiration_policy': 'static'}),
-        (ExpirationConfig(expiration_policy=ExpirationPolicy.STATIC), ValueError, {'expiration_policy': 'static'}),
-        (ExpirationConfig(ttl_days=2), ValueError, {'ttl_days': 2}),
-        (ExpirationConfig(), ExpirationConfig(), {}),
-        (ExpirationConfig(), ExpirationConfig(), None),
-        (TypeError, TypeError, int),
+        (ExpirationConfig(ttl_days=1), 1, UNDEFINED),
+        (ExpirationConfig(expiration_policy=ExpirationPolicy.STATIC), UNDEFINED, 'static'),
+        (ExpirationConfig(expiration_policy=ExpirationPolicy.STATIC), UNDEFINED, 'STATIC'),
+        (ValueError, UNDEFINED, 'foo'),
+        (ExpirationConfig(expiration_policy=ExpirationPolicy.SINCE_LAST_ACTIVE),
+         UNDEFINED, ExpirationPolicy.SINCE_LAST_ACTIVE),
+        (ExpirationConfig(ttl_days=2, expiration_policy=ExpirationPolicy.STATIC), 2, 'static'),
+        (ExpirationConfig(), UNDEFINED, UNDEFINED),
+        (TypeError, str, int),
 
     ],
 )
-def test_expiration_config(expected, expected_strict, test_input):
+def test_expiration_config(expected, ttl_days, expiration_policy):
     if inspect.isclass(expected) and issubclass(expected, Exception):
         with pytest.raises(expected):
-            ExpirationConfig.coerce(test_input)
+            ExpirationConfig.coerce(ttl_days=ttl_days, expiration_policy=expiration_policy)
     else:
-        assert ExpirationConfig.coerce(test_input) == expected
-
-    if inspect.isclass(expected_strict) and issubclass(expected_strict, Exception):
-        with pytest.raises(expected_strict):
-            ExpirationConfig.coerce_strict(test_input)
-    else:
-        assert ExpirationConfig.coerce_strict(test_input) == expected_strict
+        assert ExpirationConfig.coerce(ttl_days=ttl_days, expiration_policy=expiration_policy) == expected

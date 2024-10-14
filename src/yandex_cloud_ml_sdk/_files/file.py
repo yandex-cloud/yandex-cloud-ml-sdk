@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import dataclasses
 from datetime import datetime
+from typing import Any
 
 import httpx
 from typing_extensions import Self
@@ -25,7 +26,10 @@ class BaseFile(BaseDeleteableResource):
     @classmethod
     def _kwargs_from_message(cls, proto: ProtoFile) -> dict[str, Any]:  # type: ignore[override]
         kwargs = super()._kwargs_from_message(proto)
-        kwargs['expiration_config'] = ExpirationConfig.coerce(kwargs['expiration_config'])
+        kwargs['expiration_config'] = ExpirationConfig.coerce(
+            ttl_days=proto.expiration_config.ttl_days,
+            expiration_policy=proto.expiration_config.expiration_policy,  # type: ignore[arg-type]
+        )
         return kwargs
 
     @safe_on_delete
@@ -57,13 +61,15 @@ class BaseFile(BaseDeleteableResource):
         expiration_policy: UndefinedOr[ExpirationPolicyT] = UNDEFINED,
         timeout: float = 60,
     ) -> Self:
+        # pylint: disable=too-many-locals
         name_ = get_defined_value(name, '')
         description_ = get_defined_value(description, '')
         labels_ = get_defined_value(labels, {})
-        ttl_days_ = get_defined_value(ttl_days, None)
-        expiration_policy_ = get_defined_value(expiration_policy, None)
 
-        expiration_config = ExpirationConfig.coerce({"ttl_days": ttl_days_, "expiration_policy": expiration_policy_})
+        expiration_config = ExpirationConfig.coerce(
+            ttl_days=ttl_days,
+            expiration_policy=expiration_policy
+        )
 
         request = UpdateFileRequest(
             file_id=self.id,
@@ -76,8 +82,8 @@ class BaseFile(BaseDeleteableResource):
             ('name', name_),
             ('description', description_),
             ('labels', labels_),
-            ('expiration_config.ttl_days', ttl_days_),
-            ('expiration_config.expiration_policy', expiration_policy_),
+            ('expiration_config.ttl_days', expiration_config.ttl_days),
+            ('expiration_config.expiration_policy', expiration_config.expiration_policy),
         ):
             if value is not None:
                 request.update_mask.paths.append(key)

@@ -2,14 +2,13 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Literal, TypedDict, Union, cast
+from typing import Literal, Union
 
-from typing_extensions import NotRequired
 from yandex.cloud.ai.common.common_pb2 import (
     ExpirationConfig as ExpirationConfigProto  # pylint: disable=no-name-in-module
 )
 
-from .misc import Undefined, is_defined
+from .misc import UndefinedOr, get_defined_value
 
 
 class ExpirationPolicy(Enum):
@@ -43,51 +42,33 @@ ExpirationPolicyT = Union[
 ]
 
 
-class ExpirationConfigDict(TypedDict):
-    ttl_days: NotRequired[int] | None
-    expiration_policy: NotRequired[ExpirationPolicyT] | None
-
-
 @dataclass(frozen=True)
 class ExpirationConfig:
     ttl_days: int | None = None
     expiration_policy: ExpirationPolicy | None = None
 
     @classmethod
-    def coerce(cls, value: ExpirationConfigT | None) -> ExpirationConfig:
-        if isinstance(value, ExpirationConfig):
-            return value
-
-        ttl_days: int | None = None
-        policy: ExpirationPolicy | None = None
-        if isinstance(value, int):
-            ttl_days = value
-        elif isinstance(value, (str, ExpirationPolicy)):
-            policy = ExpirationPolicy.coerce(value)
-        elif isinstance(value, dict):
-            value = cast(ExpirationConfigDict, value)
-            if ttl_days_str := value.get('ttl_days'):
-                ttl_days = int(ttl_days_str)
-            if raw_policy := value.get('expiration_policy'):
-                policy = ExpirationPolicy.coerce(raw_policy)
-        elif value is None or not is_defined(value):
-            pass
-        else:
-            raise TypeError(f"wrong type to use as alias for cls {cls}")
+    def coerce(cls, ttl_days: UndefinedOr[int], expiration_policy: UndefinedOr[ExpirationPolicyT]) -> ExpirationConfig:
+        ttl_days_ = get_defined_value(ttl_days, None)
+        expiration_policy_raw = get_defined_value(expiration_policy, None)
+        expiration_policy_: ExpirationPolicy | None = None
+        if expiration_policy_raw is not None:
+            expiration_policy_ = ExpirationPolicy.coerce(expiration_policy_raw)  # type: ignore[arg-type]
 
         return cls(
-            ttl_days=ttl_days,
-            expiration_policy=policy
+            ttl_days=ttl_days_,
+            expiration_policy=expiration_policy_
         )
 
     def to_proto(self) -> ExpirationConfigProto | None:
         if not self.expiration_policy and not self.ttl_days:
             return None
 
+        expiration_policy = 0
+        if self.expiration_policy:
+            expiration_policy = self.expiration_policy.to_proto()
+
         return ExpirationConfigProto(
-            expiration_policy=self.expiration_policy.to_proto() if self.expiration_policy else None,
-            ttl_days=self.ttl_days
+            expiration_policy=expiration_policy,  # type: ignore[arg-type]
+            ttl_days=self.ttl_days or 0
         )
-
-
-ExpirationConfigT = Union[ExpirationConfig, ExpirationConfigDict, int, ExpirationPolicyT, Undefined]
