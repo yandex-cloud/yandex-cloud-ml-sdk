@@ -15,8 +15,11 @@ async def main() -> None:
         }
     )
 
-    thread = await sdk.threads.create(name='foo')
+    thread = await sdk.threads.create(name='foo', ttl_days=5, expiration_policy="static")
+    print(thread)
     second = await sdk.threads.get(thread.id)
+    await second.update(ttl_days=9)
+    print(second)
 
     await thread.write("content")
     await second.write("content2")

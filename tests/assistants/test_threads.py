@@ -83,3 +83,29 @@ async def test_thread_read_write(async_sdk):
         assert message.parts[0] == str(9 - i)
 
     await thread.delete()
+
+
+@pytest.mark.allow_grpc
+async def test_thread_expiration(async_sdk):
+    with pytest.raises(ValueError):
+        await async_sdk.threads.create(ttl_days=5)
+
+    with pytest.raises(ValueError):
+        await async_sdk.threads.create(expiration_policy='static')
+
+    thread = await async_sdk.threads.create()
+    assert thread.expiration_config.ttl_days == 7
+    assert thread.expiration_config.expiration_policy.name == 'SINCE_LAST_ACTIVE'
+
+    thread2 = await async_sdk.threads.create(ttl_days=5, expiration_policy="static")
+    assert thread2.expiration_config.ttl_days == 5
+    assert thread2.expiration_config.expiration_policy.name == 'STATIC'
+
+    await thread.update(ttl_days=3)
+    assert thread.expiration_config.ttl_days == 3
+
+    await thread.update(expiration_policy='static')
+    assert thread.expiration_config.expiration_policy.name == 'STATIC'
+
+    await thread.delete()
+    await thread2.delete()
