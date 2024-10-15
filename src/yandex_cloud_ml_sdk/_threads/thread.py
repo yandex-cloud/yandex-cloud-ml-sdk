@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import dataclasses
 from datetime import datetime
-from typing import AsyncIterator
+from typing import Any, AsyncIterator
 
 from typing_extensions import Self
 from yandex.cloud.ai.assistants.v1.threads.thread_pb2 import Thread as ProtoThread
@@ -13,6 +13,7 @@ from yandex.cloud.ai.assistants.v1.threads.thread_service_pb2 import (
 from yandex.cloud.ai.assistants.v1.threads.thread_service_pb2_grpc import ThreadServiceStub
 
 from yandex_cloud_ml_sdk._messages.message import Message
+from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._types.resource import BaseDeleteableResource, safe_on_delete
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
@@ -20,6 +21,17 @@ from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 @dataclasses.dataclass(frozen=True)
 class BaseThread(BaseDeleteableResource):
+    expiration_config: ExpirationConfig
+
+    @classmethod
+    def _kwargs_from_message(cls, proto: ProtoThread) -> dict[str, Any]:  # type: ignore[override]
+        kwargs = super()._kwargs_from_message(proto)
+        kwargs['expiration_config'] = ExpirationConfig.coerce(
+            ttl_days=proto.expiration_config.ttl_days,
+            expiration_policy=proto.expiration_config.expiration_policy,  # type: ignore[arg-type]
+        )
+        return kwargs
+
     @safe_on_delete
     async def _update(
         self,
@@ -27,23 +39,33 @@ class BaseThread(BaseDeleteableResource):
         name: UndefinedOr[str] = UNDEFINED,
         description: UndefinedOr[str] = UNDEFINED,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
         timeout: float = 60,
     ) -> Self:
+        # pylint: disable=too-many-locals
         name_ = get_defined_value(name, '')
         description_ = get_defined_value(description, '')
         labels_ = get_defined_value(labels, {})
+        expiration_config = ExpirationConfig.coerce(
+            ttl_days=ttl_days,
+            expiration_policy=expiration_policy
+        )
 
         request = UpdateThreadRequest(
             thread_id=self.id,
             name=name_,
             description=description_,
             labels=labels_,
+            expiration_config=expiration_config.to_proto(),
         )
 
         for key, value in (
             ('name', name_),
             ('description', description_),
-            ('labels', labels_)
+            ('labels', labels_),
+            ('expiration_config.ttl_days', expiration_config.ttl_days),
+            ('expiration_config.expiration_policy', expiration_config.expiration_policy),
         ):
             if value is not None:
                 request.update_mask.paths.append(key)

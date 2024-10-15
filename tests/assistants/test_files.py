@@ -94,3 +94,29 @@ async def test_file_list(async_sdk, tmp_path):
 
     for file in files:
         await file.delete()
+
+
+@pytest.mark.allow_grpc
+async def test_file_expiration(async_sdk, test_file_path):
+    with pytest.raises(ValueError):
+        await async_sdk.files.upload(test_file_path, ttl_days=5)
+
+    with pytest.raises(ValueError):
+        await async_sdk.files.upload(test_file_path, expiration_policy='static')
+
+    file = await async_sdk.files.upload(test_file_path)
+    assert file.expiration_config.ttl_days == 7
+    assert file.expiration_config.expiration_policy.name == 'SINCE_LAST_ACTIVE'
+
+    file2 = await async_sdk.files.upload(test_file_path, ttl_days=5, expiration_policy="static")
+    assert file2.expiration_config.ttl_days == 5
+    assert file2.expiration_config.expiration_policy.name == 'STATIC'
+
+    await file.update(ttl_days=3)
+    assert file.expiration_config.ttl_days == 3
+
+    await file.update(expiration_policy='static')
+    assert file.expiration_config.expiration_policy.name == 'STATIC'
+
+    await file.delete()
+    await file2.delete()
