@@ -7,7 +7,7 @@ from get_annotations import get_annotations
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.function import BaseFunction
 
-from .completions.function import AsyncCompletions, Completions
+from .completions.function import AsyncCompletions, BaseCompletions, Completions
 from .text_classifiers.function import AsyncTextClassifiers, TextClassifiers
 from .text_embeddings.function import AsyncTextEmbeddings, TextEmbeddings
 
@@ -16,6 +16,8 @@ if TYPE_CHECKING:
 
 
 class BaseModels(BaseDomain):
+    completions: BaseCompletions
+
     def __init__(self, name: str, sdk: BaseSDK):
         super().__init__(name=name, sdk=sdk)
         self._init_functions()

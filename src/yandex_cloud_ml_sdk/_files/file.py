@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import dataclasses
 from datetime import datetime
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import httpx
 from typing_extensions import Self
@@ -18,14 +18,17 @@ from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_
 from yandex_cloud_ml_sdk._types.resource import BaseDeleteableResource, safe_on_delete
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
+if TYPE_CHECKING:
+    from yandex_cloud_ml_sdk._sdk import BaseSDK
+
 
 @dataclasses.dataclass(frozen=True)
 class BaseFile(BaseDeleteableResource):
     expiration_config: ExpirationConfig
 
     @classmethod
-    def _kwargs_from_message(cls, proto: ProtoFile) -> dict[str, Any]:  # type: ignore[override]
-        kwargs = super()._kwargs_from_message(proto)
+    def _kwargs_from_message(cls, proto: ProtoFile, sdk: BaseSDK) -> dict[str, Any]:  # type: ignore[override]
+        kwargs = super()._kwargs_from_message(proto, sdk=sdk)
         kwargs['expiration_config'] = ExpirationConfig.coerce(
             ttl_days=proto.expiration_config.ttl_days,
             expiration_policy=proto.expiration_config.expiration_policy,  # type: ignore[arg-type]
@@ -78,15 +81,16 @@ class BaseFile(BaseDeleteableResource):
             labels=labels_,
             expiration_config=expiration_config.to_proto()
         )
-        for key, value in (
-            ('name', name_),
-            ('description', description_),
-            ('labels', labels_),
-            ('expiration_config.ttl_days', expiration_config.ttl_days),
-            ('expiration_config.expiration_policy', expiration_config.expiration_policy),
-        ):
-            if value is not None:
-                request.update_mask.paths.append(key)
+        self._fill_update_mask(
+            request.update_mask,
+            {
+                'name': name,
+                'description': description,
+                'labels': labels,
+                'expiration_config.ttl_days': ttl_days,
+                'expiration_config.expiration_policy': expiration_policy
+            }
+        )
 
         async with self._client.get_service_stub(FileServiceStub, timeout=timeout) as stub:
             response = await self._client.call_service(
