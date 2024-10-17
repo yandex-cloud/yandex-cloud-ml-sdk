@@ -36,6 +36,14 @@ class BaseModel(Generic[ConfigTypeT, ResultTypeT], metaclass=abc.ABCMeta):
         self._config = config if config else self._config_type()
 
     @property
+    def uri(self) -> str:
+        return self._uri
+
+    @property
+    def config(self) -> ConfigTypeT:
+        return self._config
+
+    @property
     def _client(self):
         return self._sdk._client
 
@@ -50,6 +58,9 @@ class BaseModel(Generic[ConfigTypeT, ResultTypeT], metaclass=abc.ABCMeta):
             uri=self._uri,
             config=replace(self._config, **kwargs),
         )
+
+    def __repr__(self) -> str:
+        return f'{self.__class__.__name__}(uri={self._uri}, config={self._config})'
 
 
 class ModelSyncMixin(BaseModel[ConfigTypeT, ResultTypeT]):

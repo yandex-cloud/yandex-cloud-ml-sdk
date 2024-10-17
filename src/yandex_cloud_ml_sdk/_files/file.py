@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import dataclasses
 from datetime import datetime
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import httpx
 from typing_extensions import Self
@@ -18,14 +18,17 @@ from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_
 from yandex_cloud_ml_sdk._types.resource import BaseDeleteableResource, safe_on_delete
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
+if TYPE_CHECKING:
+    from yandex_cloud_ml_sdk._sdk import BaseSDK
+
 
 @dataclasses.dataclass(frozen=True)
 class BaseFile(BaseDeleteableResource):
     expiration_config: ExpirationConfig
 
     @classmethod
-    def _kwargs_from_message(cls, proto: ProtoFile) -> dict[str, Any]:  # type: ignore[override]
-        kwargs = super()._kwargs_from_message(proto)
+    def _kwargs_from_message(cls, proto: ProtoFile, sdk: BaseSDK) -> dict[str, Any]:  # type: ignore[override]
+        kwargs = super()._kwargs_from_message(proto, sdk=sdk)
         kwargs['expiration_config'] = ExpirationConfig.coerce(
             ttl_days=proto.expiration_config.ttl_days,
             expiration_policy=proto.expiration_config.expiration_policy,  # type: ignore[arg-type]
