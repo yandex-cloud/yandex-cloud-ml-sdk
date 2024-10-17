@@ -81,15 +81,16 @@ class BaseFile(BaseDeleteableResource):
             labels=labels_,
             expiration_config=expiration_config.to_proto()
         )
-        for key, value in (
-            ('name', name_),
-            ('description', description_),
-            ('labels', labels_),
-            ('expiration_config.ttl_days', expiration_config.ttl_days),
-            ('expiration_config.expiration_policy', expiration_config.expiration_policy),
-        ):
-            if value is not None:
-                request.update_mask.paths.append(key)
+        self._fill_update_mask(
+            request.update_mask,
+            {
+                'name': name,
+                'description': description,
+                'labels': labels,
+                'expiration_config.ttl_days': ttl_days,
+                'expiration_config.expiration_policy': expiration_policy
+            }
+        )
 
         async with self._client.get_service_stub(FileServiceStub, timeout=timeout) as stub:
             response = await self._client.call_service(

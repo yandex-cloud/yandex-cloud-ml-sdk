@@ -27,6 +27,9 @@ async def main() -> None:
     await assistant2.update(model='yandexgpt-lite', name='foo', max_completion_tokens=5)
     print(assistant2)
 
+    async for version in assistant.list_versions():
+        print(version)
+
     async for assistant in sdk.assistants.list():
         print(f"deliting assistant {assistant}")
 

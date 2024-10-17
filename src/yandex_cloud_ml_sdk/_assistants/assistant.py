@@ -3,12 +3,13 @@ from __future__ import annotations
 
 import dataclasses
 from datetime import datetime
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, AsyncIterator
 
 from typing_extensions import Self
 from yandex.cloud.ai.assistants.v1.assistant_pb2 import Assistant as ProtoAssistant
 from yandex.cloud.ai.assistants.v1.assistant_service_pb2 import (
-    DeleteAssistantRequest, DeleteAssistantResponse, UpdateAssistantRequest
+    DeleteAssistantRequest, DeleteAssistantResponse, ListAssistantVersionsRequest, ListAssistantVersionsResponse,
+    UpdateAssistantRequest
 )
 from yandex.cloud.ai.assistants.v1.assistant_service_pb2_grpc import AssistantServiceStub
 
@@ -16,7 +17,7 @@ from yandex_cloud_ml_sdk._models.completions.model import BaseGPTModel
 from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
 from yandex_cloud_ml_sdk._types.resource import BaseDeleteableResource, safe_on_delete
-from yandex_cloud_ml_sdk._utils.sync import run_sync
+from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .utils import get_completion_options, get_prompt_trunctation_options
 
@@ -67,6 +68,7 @@ class BaseAssistant(BaseDeleteableResource):
         expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
         timeout: float = 60,
     ) -> Self:
+        # pylint: disable=too-many-locals
         expiration_config = ExpirationConfig.coerce(
             ttl_days=ttl_days,
             expiration_policy=expiration_policy
@@ -121,8 +123,6 @@ class BaseAssistant(BaseDeleteableResource):
                 'prompt_truncation_options.max_prompt_tokens': max_prompt_tokens,
             }
         )
-        print(model_temperature, model_max_tokens)
-        print(request)
 
         async with self._client.get_service_stub(AssistantServiceStub, timeout=timeout) as stub:
             response = await self._client.call_service(
@@ -152,9 +152,47 @@ class BaseAssistant(BaseDeleteableResource):
             )
             object.__setattr__(self, '_deleted', True)
 
+    async def _list_versions(
+        self,
+        page_size: UndefinedOr[int] = UNDEFINED,
+        page_token: UndefinedOr[str] = UNDEFINED,
+        timeout: float = 60
+    ) -> AsyncIterator[AssistantTypeT]:
+        page_token_ = get_defined_value(page_token, '')
+        page_size_ = get_defined_value(page_size, 0)
+
+        async with self._client.get_service_stub(AssistantServiceStub, timeout=timeout) as stub:
+            while True:
+                request = ListAssistantVersionsRequest(
+                    assistant_id=self.id,
+                    page_size=page_size_,
+                    page_token=page_token_,
+                )
+
+                response = await self._client.call_service(
+                    stub.ListVersions,
+                    request,
+                    timeout=timeout,
+                    expected_type=ListAssistantVersionsResponse,
+                )
+                for version in response.versions:
+                    yield AssistantVersion(
+                        id=version.id,
+                        assistant=ReadOnlyAssistant._from_proto(
+                            sdk=self._sdk,
+                            proto=version.assistant
+                        ),
+                        update_mask=tuple(a for a in version.update_mask.paths)
+                    )
+
+                if not response.versions:
+                    return
+
+                page_token_ = response.next_page_token
+
 
 @dataclasses.dataclass(frozen=True)
-class RichAssistant(BaseAssistant):
+class ReadOnlyAssistant(BaseAssistant):
     name: str | None
     description: str | None
     created_by: str
@@ -165,12 +203,20 @@ class RichAssistant(BaseAssistant):
     labels: dict[str, str] | None
 
 
+@dataclasses.dataclass(frozen=True)
+class AssistantVersion:
+    id: str
+    assistant: ReadOnlyAssistant
+    update_mask: tuple[str, ...]
 
-class AsyncAssistant(RichAssistant):
-    update = RichAssistant._update
-    delete = RichAssistant._delete
+
+class AsyncAssistant(ReadOnlyAssistant):
+    update = ReadOnlyAssistant._update
+    delete = ReadOnlyAssistant._delete
+    list_versions = ReadOnlyAssistant._list_versions
 
 
-class Assistant(RichAssistant):
-    update = run_sync(RichAssistant._update)
-    delete = run_sync(RichAssistant._delete)
+class Assistant(ReadOnlyAssistant):
+    update = run_sync(ReadOnlyAssistant._update)
+    delete = run_sync(ReadOnlyAssistant._delete)
+    list_versions = run_sync_generator(ReadOnlyAssistant._list_versions)
