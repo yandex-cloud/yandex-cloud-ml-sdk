@@ -8,7 +8,6 @@ from yandex.cloud.ai.assistants.v1.assistant_service_pb2 import (
     CreateAssistantRequest, GetAssistantRequest, ListAssistantsRequest, ListAssistantsResponse
 )
 from yandex.cloud.ai.assistants.v1.assistant_service_pb2_grpc import AssistantServiceStub
-from yandex.cloud.ai.assistants.v1.common_pb2 import CompletionOptions, PromptTruncationOptions
 
 from yandex_cloud_ml_sdk._models.completions.model import BaseGPTModel
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
@@ -25,6 +24,7 @@ AssistantTypeT = TypeVar('AssistantTypeT', bound=BaseAssistant)
 class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
     _assistant_impl: type[AssistantTypeT]
 
+    # pylint: disable=too-many-arguments
     async def _create(
         self,
         model: str | BaseGPTModel,
@@ -40,6 +40,7 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
         expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
         timeout: float = 60,
     ) -> AssistantTypeT:
+        # pylint: disable=too-many-locals
         if is_defined(ttl_days) != is_defined(expiration_policy):
             raise ValueError("ttl_days and expiration policy must be both defined either undefined")
 

@@ -52,6 +52,7 @@ class BaseAssistant(BaseDeleteableResource):
         )
         return kwargs
 
+    # pylint: disable=too-many-arguments
     @safe_on_delete
     async def _update(
         self,
@@ -74,7 +75,7 @@ class BaseAssistant(BaseDeleteableResource):
             expiration_policy=expiration_policy
         )
 
-        model_uri: str = ''
+        model_uri: str | None = None
         model_temperature: float | None = self.model.config.temperature
         model_max_tokens: int | None = self.model.config.max_tokens
 
@@ -101,12 +102,13 @@ class BaseAssistant(BaseDeleteableResource):
             prompt_truncation_options=get_prompt_trunctation_options(
                 max_prompt_tokens=get_defined_value(max_prompt_tokens, None)
             ),
-            model_uri=model_uri,
             completion_options=get_completion_options(
                 temperature=model_temperature,
                 max_tokens=model_max_tokens
             )
         )
+        if model_uri:
+            request.model_uri = model_uri
 
         self._fill_update_mask(
             request.update_mask,
