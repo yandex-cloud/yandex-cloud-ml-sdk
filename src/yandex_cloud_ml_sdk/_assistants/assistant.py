@@ -74,7 +74,7 @@ class BaseAssistant(BaseDeleteableResource):
             expiration_policy=expiration_policy
         )
 
-        model_uri: str | None = None
+        model_uri: str = ''
         model_temperature: float | None = self.model.config.temperature
         model_max_tokens: int | None = self.model.config.max_tokens
 
@@ -157,7 +157,7 @@ class BaseAssistant(BaseDeleteableResource):
         page_size: UndefinedOr[int] = UNDEFINED,
         page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
-    ) -> AsyncIterator[AssistantTypeT]:
+    ) -> AsyncIterator[AssistantVersion]:
         page_token_ = get_defined_value(page_token, '')
         page_size_ = get_defined_value(page_size, 0)
 

@@ -10,6 +10,7 @@ from yandex.cloud.ai.assistants.v1.assistant_service_pb2 import (
 from yandex.cloud.ai.assistants.v1.assistant_service_pb2_grpc import AssistantServiceStub
 from yandex.cloud.ai.assistants.v1.common_pb2 import CompletionOptions, PromptTruncationOptions
 
+from yandex_cloud_ml_sdk._models.completions.model import BaseGPTModel
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
@@ -44,7 +45,7 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
 
         expiration_config = ExpirationConfig.coerce(ttl_days=ttl_days, expiration_policy=expiration_policy)
 
-        model_uri: str | None = None
+        model_uri: str = ''
         model_temperature: float | None = None
         model_max_tokens: int | None = None
         if isinstance(model, str):
