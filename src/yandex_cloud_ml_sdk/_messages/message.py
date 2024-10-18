@@ -3,11 +3,14 @@ from __future__ import annotations
 
 import dataclasses
 from datetime import datetime
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from yandex.cloud.ai.assistants.v1.threads.message_pb2 import Message as ProtoMessage
 
 from yandex_cloud_ml_sdk._types.resource import BaseResource
+
+if TYPE_CHECKING:
+    from yandex_cloud_ml_sdk._sdk import BaseSDK
 
 
 @dataclasses.dataclass(frozen=True)
@@ -26,8 +29,8 @@ class Message(BaseResource):
     author: Author
 
     @classmethod
-    def _kwargs_from_message(cls, proto: ProtoMessage) -> dict[str, Any]:  # type: ignore[override]
-        kwargs = super()._kwargs_from_message(proto)
+    def _kwargs_from_message(cls, proto: ProtoMessage, sdk: BaseSDK) -> dict[str, Any]:  # type: ignore[override]
+        kwargs = super()._kwargs_from_message(proto, sdk=sdk)
         parts: list[Any] = []
 
         for part in proto.content.content:

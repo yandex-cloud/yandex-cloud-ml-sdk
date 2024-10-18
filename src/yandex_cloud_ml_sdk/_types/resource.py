@@ -5,10 +5,13 @@ import dataclasses
 import functools
 from typing import TYPE_CHECKING, Any, Awaitable, Callable, TypeVar
 
+from google.protobuf.field_mask_pb2 import FieldMask  # pylint: disable=no-name-in-module
 from google.protobuf.message import Message
 from typing_extensions import Concatenate, ParamSpec, Self
 
 from yandex_cloud_ml_sdk._utils.proto import proto_to_dict
+
+from .misc import is_defined
 
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._client import AsyncCloudClient
@@ -26,7 +29,7 @@ class BaseResource:
         return self._sdk._client
 
     @classmethod
-    def _kwargs_from_message(cls, proto: Message) -> dict[str, Any]:
+    def _kwargs_from_message(cls, proto: Message, sdk: BaseSDK) -> dict[str, Any]:  # pylint: disable=unused-argument
         fields = dataclasses.fields(cls)
         data = proto_to_dict(proto)
         kwargs = {}
@@ -43,16 +46,21 @@ class BaseResource:
     def _from_proto(cls, *, sdk: BaseSDK, proto: Message) -> Self:
         return cls(
             _sdk=sdk,
-            **cls._kwargs_from_message(proto),
+            **cls._kwargs_from_message(proto, sdk=sdk),
         )
 
     def _update_from_proto(self, proto: Message) -> Self:
         # We want to Resource to be a immutable, but also we need
         # to maintain a inner status after updating and such
-        kwargs = self._kwargs_from_message(proto)
+        kwargs = self._kwargs_from_message(proto, sdk=self._sdk)
         for key, value in kwargs.items():
             object.__setattr__(self, key, value)
         return self
+
+    def _fill_update_mask(self, mask: FieldMask, fields: dict[str, Any]) -> None:
+        for key, value in fields.items():
+            if is_defined(value) and value is not None:
+                mask.paths.append(key)
 
 
 @dataclasses.dataclass(frozen=True)
@@ -66,7 +74,7 @@ class BaseDeleteableResource(BaseResource):
             _sdk=sdk,
             _lock=asyncio.Lock(),
             _deleted=False,
-            **cls._kwargs_from_message(proto),
+            **cls._kwargs_from_message(proto, sdk=sdk),
         )
 
 
