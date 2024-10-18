@@ -24,7 +24,7 @@ async def main() -> None:
     )
     assistant2 = await sdk.assistants.get(assistant.id)
     print(assistant2)
-    await assistant2.update(model='yandexgpt-lite', name='foo', max_completion_tokens=5)
+    await assistant2.update(model='yandexgpt-lite', name='foo', max_tokens=5)
     print(assistant2)
 
     async for version in assistant.list_versions():

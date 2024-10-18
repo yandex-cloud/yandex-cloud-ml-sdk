@@ -30,7 +30,7 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
         model: str | BaseGPTModel,
         *,
         temperature: UndefinedOr[float] = UNDEFINED,
-        max_completion_tokens: UndefinedOr[int] = UNDEFINED,
+        max_tokens: UndefinedOr[int] = UNDEFINED,
         instruction: UndefinedOr[str] = UNDEFINED,
         max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
         name: UndefinedOr[str] = UNDEFINED,
@@ -59,7 +59,7 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
             raise TypeError('model argument must be str, GPTModel object either undefined')
 
         model_temperature = get_defined_value(temperature, model_temperature)
-        model_max_tokens = get_defined_value(max_completion_tokens, model_max_tokens)
+        model_max_tokens = get_defined_value(max_tokens, model_max_tokens)
 
         request = CreateAssistantRequest(
             folder_id=self._folder_id,

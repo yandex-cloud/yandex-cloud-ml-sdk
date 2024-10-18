@@ -43,7 +43,7 @@ async def test_assistant(async_sdk):
     assert assistant.model.config.temperature == 0.5
     assert assistant.model.config.max_tokens is None
 
-    await assistant.update(max_completion_tokens=50)
+    await assistant.update(max_tokens=50)
     assert assistant.model.config.temperature == 0.5
     assert assistant.model.config.max_tokens == 50
 
@@ -59,7 +59,7 @@ async def test_assistant(async_sdk):
     assert assistant.model.config.temperature == 0.1
     assert assistant.model.config.max_tokens == 100
 
-    await assistant.update(model=model, max_completion_tokens=10)
+    await assistant.update(model=model, max_tokens=10)
     assert '/yandexgpt-lite/' in assistant.model.uri
     assert assistant.model.config.temperature == 1
     assert assistant.model.config.max_tokens == 10
