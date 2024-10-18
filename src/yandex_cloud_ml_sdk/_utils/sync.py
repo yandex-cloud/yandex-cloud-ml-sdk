@@ -88,8 +88,7 @@ def run_sync_generator_impl(aiter_: AsyncIterator[T], sdk: BaseSDK) -> Iterator[
 def run_sync_generator(coro: Callable[..., AsyncIterator[T]]) -> Callable[..., Iterator[T]]:
     """Wraps async iterator function into a usual iterator function that blocks on every cycle.
     """
-    if not inspect.isasyncgenfunction(coro):
-        raise AssertionError
+    assert inspect.isasyncgenfunction(coro)
 
     @wraps(coro)
     def wrapped(self: Any, *args: Any, **kwargs: Any) -> Any:
