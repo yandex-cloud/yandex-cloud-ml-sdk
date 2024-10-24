@@ -104,7 +104,7 @@ async def test_assistant_deleted(async_sdk):
             await getattr(assistant, method)()
 
     with pytest.raises(ValueError):
-        await assistant.delete('foo')
+        await assistant.delete()
 
 
 @pytest.mark.allow_grpc

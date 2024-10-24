@@ -26,7 +26,7 @@ def get_google_value(
     message: Message,
     field_name: str,
     default: _D,
-    expected_type: type[_T]
+    expected_type: type[_T],  # pylint: disable=unused-argument
 ) -> _T | _D:
     if message.HasField(field_name):
         return cast(_T, getattr(message, field_name).value)

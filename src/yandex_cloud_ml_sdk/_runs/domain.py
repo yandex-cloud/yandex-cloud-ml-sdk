@@ -1,24 +1,22 @@
 # pylint: disable=protected-access,no-name-in-module
 from __future__ import annotations
 
-from typing import AsyncIterator, Generic, TypeVar
+from typing import AsyncIterator, Generic
 
 from yandex.cloud.ai.assistants.v1.runs.run_pb2 import Run as ProtoRun
 from yandex.cloud.ai.assistants.v1.runs.run_service_pb2 import (
-    CreateRunRequest, GetRunRequest, ListRunsRequest, ListRunsResponse
+    CreateRunRequest, GetLastRunByThreadRequest, GetRunRequest, ListRunsRequest, ListRunsResponse
 )
 from yandex.cloud.ai.assistants.v1.runs.run_service_pb2_grpc import RunServiceStub
 
-from yandex_cloud_ml_sdk._assistants.domain import Assistant, AssistantTypeT, AsyncAssistant, BaseAssistant
+from yandex_cloud_ml_sdk._assistants.assistant import Assistant, AssistantTypeT, AsyncAssistant, BaseAssistant
 from yandex_cloud_ml_sdk._assistants.utils import get_completion_options, get_prompt_trunctation_options
-from yandex_cloud_ml_sdk._threads.domain import AsyncThread, BaseThread, Thread, ThreadTypeT
+from yandex_cloud_ml_sdk._threads.thread import AsyncThread, BaseThread, Thread, ThreadTypeT
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
-from .run import AsyncRun, BaseRun, Run
-
-RunTypeT = TypeVar('RunTypeT', bound=BaseRun)
+from .run import AsyncRun, Run, RunTypeT
 
 
 class BaseRuns(BaseDomain, Generic[RunTypeT, AssistantTypeT, ThreadTypeT]):
@@ -96,6 +94,32 @@ class BaseRuns(BaseDomain, Generic[RunTypeT, AssistantTypeT, ThreadTypeT]):
 
         return self._run_impl._from_proto(proto=response, sdk=self._sdk)
 
+    async def _get_last_by_thread(
+        self,
+        thread: str | ThreadTypeT,
+        *,
+        timeout: float = 60
+    ) -> RunTypeT:
+        thread_id: str
+        if isinstance(thread, str):
+            thread_id = thread
+        elif isinstance(thread, BaseThread):
+            thread_id = thread.id
+        else:
+            raise TypeError('thread parameter must be a str either Thread instance')
+
+        request = GetLastRunByThreadRequest(thread_id=thread_id)
+
+        async with self._client.get_service_stub(RunServiceStub, timeout=timeout) as stub:
+            response = await self._client.call_service(
+                stub.GetLastByThread,
+                request,
+                timeout=timeout,
+                expected_type=ProtoRun,
+            )
+
+        return self._run_impl._from_proto(proto=response, sdk=self._sdk)
+
     async def _list(
         self,
         *,
@@ -136,6 +160,7 @@ class AsyncRuns(BaseRuns[AsyncRun, AsyncAssistant, AsyncThread]):
 
     # NB: there is no public 'create'
     get = BaseRuns._get
+    get_last_by_thread = BaseRuns._get_last_by_thread
     list = BaseRuns._list
 
 
@@ -146,4 +171,5 @@ class Runs(BaseRuns[Run, Assistant, Thread]):
 
     # NB: there is no public 'create'
     get = run_sync(BaseRuns._get)
+    get_last_by_thread = run_sync(BaseRuns._get_last_by_thread)
     list = run_sync_generator(BaseRuns._list)

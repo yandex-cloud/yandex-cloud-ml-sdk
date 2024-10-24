@@ -3,18 +3,14 @@ from __future__ import annotations
 
 import dataclasses
 from datetime import datetime
-from enum import Enum
-from typing import TYPE_CHECKING, Any, AsyncIterator
+from typing import TYPE_CHECKING, Any, AsyncIterator, TypeVar
 
 from google.protobuf.wrappers_pb2 import Int64Value
-from typing_extensions import Self
 from yandex.cloud.ai.assistants.v1.runs.run_pb2 import Run as ProtoRun
-from yandex.cloud.ai.assistants.v1.runs.run_pb2 import RunState as ProtoRunState
 from yandex.cloud.ai.assistants.v1.runs.run_service_pb2 import GetRunRequest, ListenRunRequest
 from yandex.cloud.ai.assistants.v1.runs.run_service_pb2 import StreamEvent as ProtoStreamEvent
 from yandex.cloud.ai.assistants.v1.runs.run_service_pb2_grpc import RunServiceStub
 
-from yandex_cloud_ml_sdk._types.misc import UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._types.operation import OperationInterface
 from yandex_cloud_ml_sdk._types.resource import BaseResource
 from yandex_cloud_ml_sdk._utils.proto import get_google_value
@@ -35,7 +31,6 @@ class BaseRun(BaseResource, OperationInterface[RunResult]):
     created_by: str
     created_at: datetime
     labels: dict[str, str] | None
-    usage: Usage | None
     custom_temperature: float | None
     custom_max_tokens: int | None
     custom_max_prompt_tokens: int | None
@@ -47,7 +42,9 @@ class BaseRun(BaseResource, OperationInterface[RunResult]):
         kwargs.update({
             'custom_temperature': get_google_value(proto.custom_completion_options, 'temperature', None, float),
             'custom_max_tokens': get_google_value(proto.custom_completion_options, 'max_tokens', None, int),
-            'custom_max_prompt_tokens': get_google_value(proto.custom_prompt_truncation_options, 'max_prompt_tokens', None, int),
+            'custom_max_prompt_tokens': get_google_value(
+                proto.custom_prompt_truncation_options, 'max_prompt_tokens', None, int
+            ),
         })
 
         return kwargs
@@ -65,7 +62,7 @@ class BaseRun(BaseResource, OperationInterface[RunResult]):
 
         return response
 
-    async def _get_status(self, *, timeout=60) -> RunStatus:
+    async def _get_status(self, *, timeout=60) -> RunStatus:  # type: ignore[override]
         run = await self._get_run(timeout=timeout)
 
         return RunStatus._from_proto(proto=run.state.status)
@@ -91,7 +88,7 @@ class BaseRun(BaseResource, OperationInterface[RunResult]):
                 stub.Listen,
                 request,
                 timeout=timeout,
-                expected_type=RunStreamEvent,
+                expected_type=ProtoStreamEvent,
             ):
                 yield RunStreamEvent._from_proto(response, sdk=self._sdk)
 
@@ -115,3 +112,6 @@ class Run(BaseRun):
     wait = run_sync(BaseRun._wait)
     listen = run_sync_generator(BaseRun._listen)
     __iter__ = run_sync_generator(BaseRun._listen)
+
+
+RunTypeT = TypeVar('RunTypeT', bound=BaseRun)

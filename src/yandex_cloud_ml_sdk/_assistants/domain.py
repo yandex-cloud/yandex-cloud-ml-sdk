@@ -1,7 +1,7 @@
 # pylint: disable=protected-access,no-name-in-module
 from __future__ import annotations
 
-from typing import AsyncIterator, Generic, TypeVar
+from typing import AsyncIterator, Generic
 
 from yandex.cloud.ai.assistants.v1.assistant_pb2 import Assistant as ProtoAssistant
 from yandex.cloud.ai.assistants.v1.assistant_service_pb2 import (
@@ -15,10 +15,8 @@ from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPo
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
-from .assistant import Assistant, AsyncAssistant, BaseAssistant
+from .assistant import Assistant, AssistantTypeT, AsyncAssistant
 from .utils import get_completion_options, get_prompt_trunctation_options
-
-AssistantTypeT = TypeVar('AssistantTypeT', bound=BaseAssistant)
 
 
 class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):

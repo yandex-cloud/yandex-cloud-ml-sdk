@@ -5,11 +5,12 @@ import abc
 import dataclasses
 from typing import TYPE_CHECKING, Any
 
-from typing_extensions import Self
 from yandex.cloud.ai.assistants.v1.runs.run_pb2 import Run as ProtoRun
+from yandex.cloud.ai.assistants.v1.runs.run_service_pb2 import StreamEvent as ProtoStreamEvent
 
 from yandex_cloud_ml_sdk._messages.message import BaseMessage, Message, PartialMessage
 from yandex_cloud_ml_sdk._models.completions.result import Usage
+from yandex_cloud_ml_sdk._types.result import BaseResult, ProtoResultTypeT
 
 from .status import BaseRunStatus, RunStatus, StreamEvent
 
@@ -19,14 +20,14 @@ if TYPE_CHECKING:
 
 
 @dataclasses.dataclass(frozen=True)
-class BaseRunResult(BaseRunStatus, abc.ABC):
+class BaseRunResult(BaseRunStatus, BaseResult[ProtoResultTypeT]):
     status: BaseRunStatus
     error: str | None
     _message: BaseMessage | None
 
     @classmethod
     @abc.abstractmethod
-    def _from_proto(cls, proto: ProtoRun, sdk: BaseSDK) -> Self:
+    def _from_proto(cls, proto: Any, sdk: BaseSDK) -> BaseRunResult:  # pylint: disable=arguments-renamed
         pass
 
     @property
@@ -58,7 +59,10 @@ class BaseRunResult(BaseRunStatus, abc.ABC):
 
 
 @dataclasses.dataclass(frozen=True)
-class RunResult(BaseRunResult):
+class RunResult(BaseRunResult[ProtoRun]):
+    _proto_result_type = ProtoRun
+
+    _message: Message | None
     status: RunStatus
     usage: Usage | None
 
@@ -77,7 +81,7 @@ class RunResult(BaseRunResult):
 
         error: str | None = None
         if state.HasField('error'):
-            error = error.message
+            error = state.error.message
 
         completed_message: Message | None = None
         if state.HasField('completed_message'):
@@ -86,6 +90,7 @@ class RunResult(BaseRunResult):
                 proto=state.completed_message
             )
 
+        # pylint: disable=unexpected-keyword-arg
         return cls(
             status=RunStatus._from_proto(proto.state.status),
             error=error,
@@ -95,11 +100,12 @@ class RunResult(BaseRunResult):
 
 
 @dataclasses.dataclass(frozen=True)
-class RunStreamEvent(BaseRunResult):
+class RunStreamEvent(BaseRunResult[ProtoStreamEvent]):
+    _proto_result_type = ProtoStreamEvent
     status: StreamEvent
 
     @classmethod
-    def _from_proto(cls, proto: ProtoStreamEvent, sdk: BaseSDK) -> RunResult:
+    def _from_proto(cls, proto: ProtoStreamEvent, sdk: BaseSDK) -> RunStreamEvent:
         message: BaseMessage | None = None
         if proto.HasField('partial_message'):
             message = PartialMessage._from_proto(sdk=sdk, proto=proto.partial_message)
@@ -108,8 +114,9 @@ class RunStreamEvent(BaseRunResult):
 
         error: str | None = None
         if proto.HasField('error'):
-            error = error.message
+            error = proto.error.message
 
+        # pylint: disable=unexpected-keyword-arg
         return cls(
             status=StreamEvent._from_proto(proto.event_type),
             error=error,

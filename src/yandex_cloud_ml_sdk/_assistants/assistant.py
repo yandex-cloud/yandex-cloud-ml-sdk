@@ -1,9 +1,9 @@
-# pylint: disable=no-name-in-module
+# pylint: disable=no-name-in-module,protected-access
 from __future__ import annotations
 
 import dataclasses
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, AsyncIterator, Generic, TypeVar
+from typing import TYPE_CHECKING, Any, AsyncIterator, Generic, Iterator, TypeVar
 
 from typing_extensions import Self
 from yandex.cloud.ai.assistants.v1.assistant_pb2 import Assistant as ProtoAssistant
@@ -14,22 +14,17 @@ from yandex.cloud.ai.assistants.v1.assistant_service_pb2 import (
 from yandex.cloud.ai.assistants.v1.assistant_service_pb2_grpc import AssistantServiceStub
 
 from yandex_cloud_ml_sdk._models.completions.model import BaseGPTModel
-from yandex_cloud_ml_sdk._runs.run import AsyncRun, BaseRun, Run
-from yandex_cloud_ml_sdk._threads.domain import AsyncThread, BaseThread, Thread, ThreadTypeT
+from yandex_cloud_ml_sdk._runs.run import AsyncRun, Run, RunTypeT
+from yandex_cloud_ml_sdk._threads.thread import AsyncThread, Thread, ThreadTypeT
 from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
 from yandex_cloud_ml_sdk._types.resource import BaseDeleteableResource, safe_on_delete
-from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
+from yandex_cloud_ml_sdk._utils.sync import run_sync_generator_impl, run_sync_impl
 
 from .utils import get_completion_options, get_prompt_trunctation_options
 
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
-
-
-# To avoid circular import from yandex_cloud_ml_sdk._runs.domain we are redefine
-# RunTypeT here
-RunTypeT = TypeVar('RunTypeT', bound=BaseRun)
 
 
 @dataclasses.dataclass(frozen=True)
@@ -278,16 +273,175 @@ class AssistantVersion:
 
 
 class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
-    update = ReadOnlyAssistant._update
-    delete = ReadOnlyAssistant._delete
-    list_versions = ReadOnlyAssistant._list_versions
-    run = ReadOnlyAssistant._run
-    run_stream = ReadOnlyAssistant._run_stream
+    async def update(
+        self,
+        *,
+        model: UndefinedOr[str | BaseGPTModel] = UNDEFINED,
+        temperature: UndefinedOr[float] = UNDEFINED,
+        max_tokens: UndefinedOr[int] = UNDEFINED,
+        instruction: UndefinedOr[str] = UNDEFINED,
+        max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        name: UndefinedOr[str] = UNDEFINED,
+        description: UndefinedOr[str] = UNDEFINED,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
+        timeout: float = 60,
+    ) -> Self:
+        return await self._update(
+            model=model,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            instruction=instruction,
+            max_prompt_tokens=max_prompt_tokens,
+            name=name,
+            description=description,
+            labels=labels,
+            ttl_days=ttl_days,
+            expiration_policy=expiration_policy,
+            timeout=timeout
+        )
+
+    async def delete(
+        self,
+        *,
+        timeout: float = 60,
+    ) -> None:
+        await self._delete(timeout=timeout)
+
+    async def list_versions(
+        self,
+        page_size: UndefinedOr[int] = UNDEFINED,
+        page_token: UndefinedOr[str] = UNDEFINED,
+        timeout: float = 60
+    ) -> AsyncIterator[AssistantVersion]:
+        async for version in self._list_versions(
+            page_size=page_size,
+            page_token=page_token,
+            timeout=timeout,
+        ):
+            yield version
+
+    async def run(
+        self,
+        thread: str | AsyncThread,
+        *,
+        custom_temperature: UndefinedOr[float] = UNDEFINED,
+        custom_max_tokens: UndefinedOr[int] = UNDEFINED,
+        custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        timeout: float = 60,
+    ) -> AsyncRun:
+        return await self._run(
+            thread=thread,
+            custom_temperature=custom_temperature,
+            custom_max_tokens=custom_max_tokens,
+            custom_max_prompt_tokens=custom_max_prompt_tokens,
+            timeout=timeout
+        )
+
+    async def run_stream(
+        self,
+        thread: str | AsyncThread,
+        *,
+        custom_temperature: UndefinedOr[float] = UNDEFINED,
+        custom_max_tokens: UndefinedOr[int] = UNDEFINED,
+        custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        timeout: float = 60,
+    ) -> AsyncRun:
+        return await self._run_stream(
+            thread=thread,
+            custom_temperature=custom_temperature,
+            custom_max_tokens=custom_max_tokens,
+            custom_max_prompt_tokens=custom_max_prompt_tokens,
+            timeout=timeout
+        )
 
 
 class Assistant(ReadOnlyAssistant[Run, Thread]):
-    update = run_sync(ReadOnlyAssistant._update)
-    delete = run_sync(ReadOnlyAssistant._delete)
-    list_versions = run_sync_generator(ReadOnlyAssistant._list_versions)
-    run = run_sync(ReadOnlyAssistant._run)
-    run_stream = run_sync(ReadOnlyAssistant._run_stream)
+    def update(
+        self,
+        *,
+        model: UndefinedOr[str | BaseGPTModel] = UNDEFINED,
+        temperature: UndefinedOr[float] = UNDEFINED,
+        max_tokens: UndefinedOr[int] = UNDEFINED,
+        instruction: UndefinedOr[str] = UNDEFINED,
+        max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        name: UndefinedOr[str] = UNDEFINED,
+        description: UndefinedOr[str] = UNDEFINED,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
+        timeout: float = 60,
+    ) -> Self:
+        return run_sync_impl(self._update(
+            model=model,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            instruction=instruction,
+            max_prompt_tokens=max_prompt_tokens,
+            name=name,
+            description=description,
+            labels=labels,
+            ttl_days=ttl_days,
+            expiration_policy=expiration_policy,
+            timeout=timeout
+        ), self._sdk)
+
+    def delete(
+        self,
+        *,
+        timeout: float = 60,
+    ) -> None:
+        run_sync_impl(self._delete(timeout=timeout), self._sdk)
+
+    def list_versions(
+        self,
+        page_size: UndefinedOr[int] = UNDEFINED,
+        page_token: UndefinedOr[str] = UNDEFINED,
+        timeout: float = 60
+    ) -> Iterator[AssistantVersion]:
+        yield from run_sync_generator_impl(
+            self._list_versions(
+                page_size=page_size,
+                page_token=page_token,
+                timeout=timeout,
+            ),
+            self._sdk
+        )
+
+    def run(
+        self,
+        thread: str | Thread,
+        *,
+        custom_temperature: UndefinedOr[float] = UNDEFINED,
+        custom_max_tokens: UndefinedOr[int] = UNDEFINED,
+        custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        timeout: float = 60,
+    ) -> Run:
+        return run_sync_impl(self._run(
+            thread=thread,
+            custom_temperature=custom_temperature,
+            custom_max_tokens=custom_max_tokens,
+            custom_max_prompt_tokens=custom_max_prompt_tokens,
+            timeout=timeout
+        ), self._sdk)
+
+    def run_stream(
+        self,
+        thread: str | Thread,
+        *,
+        custom_temperature: UndefinedOr[float] = UNDEFINED,
+        custom_max_tokens: UndefinedOr[int] = UNDEFINED,
+        custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        timeout: float = 60,
+    ) -> Run:
+        return run_sync_impl(self._run_stream(
+            thread=thread,
+            custom_temperature=custom_temperature,
+            custom_max_tokens=custom_max_tokens,
+            custom_max_prompt_tokens=custom_max_prompt_tokens,
+            timeout=timeout
+        ), self._sdk)
+
+
+AssistantTypeT = TypeVar('AssistantTypeT', bound=BaseAssistant)

@@ -15,15 +15,20 @@ async def main() -> None:
         }
     )
 
-    expiration = {'ttl_days': 6, 'expiration_policy': 'static'}
     assistant = await sdk.assistants.create(
         'yandexgpt',
         temperature=0.5,
         max_prompt_tokens=50,
-        **expiration
+        ttl_days=6,
+        expiration_policy='static',
     )
     print('assistant: ', assistant)
-    thread = await sdk.threads.create(name='foo', **expiration)
+
+    thread = await sdk.threads.create(
+        name='foo',
+        ttl_days=6,
+        expiration_policy='static',
+    )
     print('thread: ', thread)
 
     await thread.write("hi! how are you")
@@ -35,6 +40,12 @@ async def main() -> None:
     run = await assistant.run(thread)
     result = await run
     print('run result:', result)
+
+    run = await sdk.runs.get_last_by_thread(thread)
+    print('last run:', run)
+
+    async for run in sdk.runs.list(page_size=10):
+        print('run:', run)
 
     async for assistant in sdk.assistants.list():
         await assistant.delete()
