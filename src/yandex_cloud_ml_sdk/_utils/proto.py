@@ -1,10 +1,13 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, TypeVar, cast
 
 from google.protobuf.json_format import MessageToDict
 from google.protobuf.message import Message
 from google.protobuf.timestamp_pb2 import Timestamp  # pylint: disable=no-name-in-module
+
+_T = TypeVar('_T')
+_D = TypeVar('_D')
 
 
 def proto_to_dict(message: Message) -> dict[str, Any]:
@@ -17,3 +20,15 @@ def proto_to_dict(message: Message) -> dict[str, Any]:
         if isinstance(value, Timestamp):
             dct[descriptor.name] = value.ToDatetime()
     return dct
+
+
+def get_google_value(
+    message: Message,
+    field_name: str,
+    default: _D,
+    expected_type: type[_T]
+) -> _T | _D:
+    if message.HasField(field_name):
+        return cast(_T, getattr(message, field_name).value)
+
+    return cast(_D, default)

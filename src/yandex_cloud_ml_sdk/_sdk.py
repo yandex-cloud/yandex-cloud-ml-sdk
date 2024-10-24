@@ -9,14 +9,15 @@ from typing import Optional, Sequence
 from get_annotations import get_annotations
 from grpc import aio
 
-from ._assistants.domain import Assistants, AsyncAssistants
+from ._assistants.domain import Assistants, AsyncAssistants, BaseAssistants
 from ._auth import BaseAuth
 from ._client import AsyncCloudClient
-from ._files.domain import AsyncFiles, Files
+from ._files.domain import AsyncFiles, BaseFiles, Files
 from ._messages.domain import AsyncMessages, BaseMessages, Messages
 from ._models import AsyncModels, BaseModels, Models
 from ._retry import RetryPolicy
-from ._threads.domain import AsyncThreads, Threads
+from ._runs.domain import AsyncRuns, BaseRuns, Runs
+from ._threads.domain import AsyncThreads, BaseThreads, Threads
 from ._types.domain import BaseDomain
 from ._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
 
@@ -24,6 +25,10 @@ from ._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
 class BaseSDK:
     _messages: BaseMessages
     models: BaseModels
+    threads: BaseThreads
+    files: BaseFiles
+    assistants: BaseAssistants
+    runs: BaseRuns
 
     def __init__(
         self,
@@ -137,6 +142,7 @@ class AsyncYCloudML(BaseSDK):
     files: AsyncFiles
     threads: AsyncThreads
     assistants: AsyncAssistants
+    runs: AsyncRuns
     _messages: AsyncMessages
 
 
@@ -145,4 +151,5 @@ class YCloudML(BaseSDK):
     files: Files
     threads: Threads
     assistants: Assistants
+    runs: Runs
     _messages: Messages

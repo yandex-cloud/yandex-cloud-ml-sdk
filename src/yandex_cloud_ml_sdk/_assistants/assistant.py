@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import dataclasses
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, AsyncIterator
+from typing import TYPE_CHECKING, Any, AsyncIterator, Generic, TypeVar
 
 from typing_extensions import Self
 from yandex.cloud.ai.assistants.v1.assistant_pb2 import Assistant as ProtoAssistant
@@ -14,6 +14,8 @@ from yandex.cloud.ai.assistants.v1.assistant_service_pb2 import (
 from yandex.cloud.ai.assistants.v1.assistant_service_pb2_grpc import AssistantServiceStub
 
 from yandex_cloud_ml_sdk._models.completions.model import BaseGPTModel
+from yandex_cloud_ml_sdk._runs.run import AsyncRun, BaseRun, Run
+from yandex_cloud_ml_sdk._threads.domain import AsyncThread, BaseThread, Thread, ThreadTypeT
 from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
 from yandex_cloud_ml_sdk._types.resource import BaseDeleteableResource, safe_on_delete
@@ -25,8 +27,13 @@ if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
 
+# To avoid circular import from yandex_cloud_ml_sdk._runs.domain we are redefine
+# RunTypeT here
+RunTypeT = TypeVar('RunTypeT', bound=BaseRun)
+
+
 @dataclasses.dataclass(frozen=True)
-class BaseAssistant(BaseDeleteableResource):
+class BaseAssistant(BaseDeleteableResource, Generic[RunTypeT, ThreadTypeT]):
     expiration_config: ExpirationConfig
     model: BaseGPTModel
     instruction: str | None
@@ -192,9 +199,67 @@ class BaseAssistant(BaseDeleteableResource):
 
                 page_token_ = response.next_page_token
 
+    @safe_on_delete
+    async def _run_impl(
+        self,
+        thread: str | ThreadTypeT,
+        *,
+        stream: bool,
+        custom_temperature: UndefinedOr[float] = UNDEFINED,
+        custom_max_tokens: UndefinedOr[int] = UNDEFINED,
+        custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        timeout: float = 60,
+    ) -> RunTypeT:
+        return await self._sdk.runs._create(
+            assistant=self,
+            thread=thread,
+            stream=stream,
+            custom_temperature=custom_temperature,
+            custom_max_tokens=custom_max_tokens,
+            custom_max_prompt_tokens=custom_max_prompt_tokens,
+            timeout=timeout,
+        )
+
+    async def _run(
+        self,
+        thread: str | ThreadTypeT,
+        *,
+        custom_temperature: UndefinedOr[float] = UNDEFINED,
+        custom_max_tokens: UndefinedOr[int] = UNDEFINED,
+        custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        timeout: float = 60,
+    ) -> RunTypeT:
+        return await self._run_impl(
+            thread=thread,
+            stream=False,
+            custom_temperature=custom_temperature,
+            custom_max_tokens=custom_max_tokens,
+            custom_max_prompt_tokens=custom_max_prompt_tokens,
+            timeout=timeout,
+        )
+
+    async def _run_stream(
+        self,
+        thread: str | ThreadTypeT,
+        *,
+        custom_temperature: UndefinedOr[float] = UNDEFINED,
+        custom_max_tokens: UndefinedOr[int] = UNDEFINED,
+        custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        timeout: float = 60,
+    ) -> RunTypeT:
+        return await self._run_impl(
+            thread=thread,
+            stream=True,
+            custom_temperature=custom_temperature,
+            custom_max_tokens=custom_max_tokens,
+            custom_max_prompt_tokens=custom_max_prompt_tokens,
+            timeout=timeout,
+        )
+
+
 
 @dataclasses.dataclass(frozen=True)
-class ReadOnlyAssistant(BaseAssistant):
+class ReadOnlyAssistant(BaseAssistant[RunTypeT, ThreadTypeT]):
     name: str | None
     description: str | None
     created_by: str
@@ -212,13 +277,17 @@ class AssistantVersion:
     update_mask: tuple[str, ...]
 
 
-class AsyncAssistant(ReadOnlyAssistant):
+class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
     update = ReadOnlyAssistant._update
     delete = ReadOnlyAssistant._delete
     list_versions = ReadOnlyAssistant._list_versions
+    run = ReadOnlyAssistant._run
+    run_stream = ReadOnlyAssistant._run_stream
 
 
-class Assistant(ReadOnlyAssistant):
+class Assistant(ReadOnlyAssistant[Run, Thread]):
     update = run_sync(ReadOnlyAssistant._update)
     delete = run_sync(ReadOnlyAssistant._delete)
     list_versions = run_sync_generator(ReadOnlyAssistant._list_versions)
+    run = run_sync(ReadOnlyAssistant._run)
+    run_stream = run_sync(ReadOnlyAssistant._run_stream)
