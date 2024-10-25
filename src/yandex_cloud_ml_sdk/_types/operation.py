@@ -44,7 +44,42 @@ class OperationStatus:
         return bool(self.done and self.error and self.error.code > 0)
 
 
-class BaseOperation(abc.ABC, Generic[ResultTypeT]):
+class OperationInterface(abc.ABC, Generic[ResultTypeT]):
+    id: str
+
+    @abc.abstractmethod
+    async def _get_status(self, *, timeout=60) -> OperationStatus:
+        pass
+
+    @abc.abstractmethod
+    async def _get_result(self, *, timeout=60) -> ResultTypeT:
+        pass
+
+    async def _wait_impl(self, timeout, poll_interval) -> OperationStatus:
+        status = await self._get_status(timeout=timeout)
+        while status.is_running:
+            await asyncio.sleep(poll_interval)
+            status = await self._get_status(timeout=timeout)
+
+        return status
+
+    async def _wait(
+        self,
+        *,
+        timeout: int = 60,
+        poll_timeout: int = 3600,
+        poll_interval: float = 10,
+    ) -> ResultTypeT:
+        coro = self._wait_impl(timeout=timeout, poll_interval=poll_interval)
+        if poll_timeout:
+            coro = asyncio.wait_for(coro, timeout=poll_timeout)
+
+        await coro
+
+        return await self._get_result(timeout=timeout)
+
+
+class BaseOperation(OperationInterface[ResultTypeT]):
     _last_known_status: OperationStatus | None
 
     def __init__(self, sdk: BaseSDK, id: str, result_type: type[ResultTypeT]):  # pylint: disable=redefined-builtin
@@ -89,7 +124,7 @@ class BaseOperation(abc.ABC, Generic[ResultTypeT]):
 
             # NB: mypy can't figure out that self._result_type._from_proto is
             # returning instance of self._result_type which is also is a ResultTypeT
-            return cast(ResultTypeT, self._result_type._from_proto(proto_result))
+            return cast(ResultTypeT, self._result_type._from_proto(proto_result, sdk=self._sdk))
 
         if status.is_failed:
             assert status.error is not None
@@ -103,29 +138,6 @@ class BaseOperation(abc.ABC, Generic[ResultTypeT]):
         raise WrongAsyncOperationStatusError(
             f"operation {self.id} is done but response have result neither error fields set"
         )
-
-    async def _wait_impl(self, timeout, poll_interval) -> OperationStatus:
-        status = await self._get_status(timeout=timeout)
-        while status.is_running:
-            await asyncio.sleep(poll_interval)
-            status = await self._get_status(timeout=timeout)
-
-        return status
-
-    async def _wait(
-        self,
-        *,
-        timeout: int = 60,
-        poll_timeout: int = 3600,
-        poll_interval: float = 10,
-    ) -> ResultTypeT:
-        coro = self._wait_impl(timeout=timeout, poll_interval=poll_interval)
-        if poll_timeout:
-            coro = asyncio.wait_for(coro, timeout=poll_timeout)
-
-        await coro
-
-        return await self._get_result(timeout=timeout)
 
     async def _cancel(self, *, timeout=60) -> OperationStatus:
         request = CancelOperationRequest(operation_id=self.id)

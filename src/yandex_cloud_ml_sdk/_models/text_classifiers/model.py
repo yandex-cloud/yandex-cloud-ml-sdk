@@ -58,7 +58,7 @@ class BaseTextClassifiersModel(
                 timeout=timeout,
                 expected_type=TextClassificationResponse,
             )
-            return TextClassifiersModelResult._from_proto(response)
+            return TextClassifiersModelResult._from_proto(response, sdk=self._sdk)
 
     async def _run_few_shot(
         self,
@@ -100,7 +100,7 @@ class BaseTextClassifiersModel(
                 timeout=timeout,
                 expected_type=FewShotTextClassificationResponse,
             )
-            return FewShotTextClassifiersModelResult._from_proto(response)
+            return FewShotTextClassifiersModelResult._from_proto(response, sdk=self._sdk)
 
 
 class AsyncTextClassifiersModel(BaseTextClassifiersModel):
