@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import dataclasses
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, AsyncIterator
+from typing import TYPE_CHECKING, Any, AsyncIterator, TypeVar
 
 from typing_extensions import Self
 from yandex.cloud.ai.assistants.v1.threads.thread_pb2 import Thread as ProtoThread
@@ -162,3 +162,6 @@ class Thread(RichThread):
     write = run_sync(RichThread._write)
     read = run_sync_generator(RichThread._read)
     __iter__ = run_sync_generator(RichThread._read)
+
+
+ThreadTypeT = TypeVar('ThreadTypeT', bound=BaseThread)

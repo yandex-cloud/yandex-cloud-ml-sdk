@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import TypeVar, overload
+from typing import TYPE_CHECKING, TypeVar, overload
 
 from typing_extensions import Self
 # pylint: disable-next=no-name-in-module
@@ -13,6 +13,10 @@ from yandex.cloud.ai.foundation_models.v1.text_classification.text_classificatio
 from yandex_cloud_ml_sdk._types.result import BaseResult
 
 from .types import TextClassificationLabel
+
+if TYPE_CHECKING:
+    from yandex_cloud_ml_sdk._sdk import BaseSDK
+
 
 TextClassificationResponseT = TypeVar(
     'TextClassificationResponseT',
@@ -27,7 +31,7 @@ class TextClassifiersModelResultBase(BaseResult[TextClassificationResponseT], Se
     model_version: str
 
     @classmethod
-    def _from_proto(cls, message: TextClassificationResponseT) -> Self:
+    def _from_proto(cls, message: TextClassificationResponseT, sdk: BaseSDK) -> Self:  # pylint: disable=unused-argument
         predictions = tuple(
             TextClassificationLabel(
                 label=p.label,

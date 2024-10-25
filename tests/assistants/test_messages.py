@@ -17,7 +17,7 @@ async def test_message(async_sdk):
         labels={'foo': 'bar'},
     )
 
-    assert message.parts == ['foo']
+    assert message.parts == ('foo', )
     assert message.labels == {'foo': 'bar'}
     assert message.thread_id == thread.id
     assert message.text == 'foo'
