@@ -1,7 +1,7 @@
 # pylint: disable=protected-access,no-name-in-module
 from __future__ import annotations
 
-from typing import AsyncIterator, Generic, TypeVar
+from typing import AsyncIterator, Generic
 
 from yandex.cloud.ai.assistants.v1.threads.thread_pb2 import Thread as ProtoThread
 from yandex.cloud.ai.assistants.v1.threads.thread_service_pb2 import (
@@ -14,9 +14,7 @@ from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPo
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
-from .thread import AsyncThread, BaseThread, Thread
-
-ThreadTypeT = TypeVar('ThreadTypeT', bound=BaseThread)
+from .thread import AsyncThread, Thread, ThreadTypeT
 
 
 class BaseThreads(BaseDomain, Generic[ThreadTypeT]):
