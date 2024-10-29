@@ -1,7 +1,7 @@
 # pylint: disable=protected-access,no-name-in-module
 from __future__ import annotations
 
-from typing import AsyncIterator, Generic, TypeVar
+from typing import AsyncIterator, Generic
 
 from yandex.cloud.ai.files.v1.file_pb2 import File as ProtoFile
 from yandex.cloud.ai.files.v1.file_service_pb2 import (
@@ -14,9 +14,7 @@ from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPo
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, PathLike, UndefinedOr, coerce_path, get_defined_value, is_defined
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
-from .file import AsyncFile, BaseFile, File
-
-FileTypeT = TypeVar('FileTypeT', bound=BaseFile)
+from .file import AsyncFile, BaseFile, File, FileTypeT
 
 
 class BaseFiles(BaseDomain, Generic[FileTypeT]):

@@ -124,7 +124,7 @@ class BaseOperation(OperationInterface[ResultTypeT]):
 
             # NB: mypy can't figure out that self._result_type._from_proto is
             # returning instance of self._result_type which is also is a ResultTypeT
-            return cast(ResultTypeT, self._result_type._from_proto(proto_result, sdk=self._sdk))
+            return cast(ResultTypeT, self._result_type._from_proto(proto=proto_result, sdk=self._sdk))
 
         if status.is_failed:
             assert status.error is not None
@@ -168,3 +168,6 @@ class Operation(BaseOperation):
     get_result = run_sync(BaseOperation._get_result)
     wait = run_sync(BaseOperation._wait)
     cancel = run_sync(BaseOperation._cancel)
+
+
+OperationTypeT = TypeVar('OperationTypeT', bound=BaseOperation)

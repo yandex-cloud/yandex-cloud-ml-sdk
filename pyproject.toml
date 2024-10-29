@@ -227,6 +227,8 @@ exclude-protected= [
     "_sdk",
     "_folder_id",
     "_from_proto",
+    "_from_upper_proto",
+    "_to_proto",
     "_result_type",
     "_proto_result_type",
 ]

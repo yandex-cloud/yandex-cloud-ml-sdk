@@ -18,7 +18,7 @@ from yandex_cloud_ml_sdk._runs.run import AsyncRun, Run, RunTypeT
 from yandex_cloud_ml_sdk._threads.thread import AsyncThread, Thread, ThreadTypeT
 from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
-from yandex_cloud_ml_sdk._types.resource import BaseDeleteableResource, safe_on_delete
+from yandex_cloud_ml_sdk._types.resource import ExpirableResource, safe_on_delete
 from yandex_cloud_ml_sdk._utils.sync import run_sync_generator_impl, run_sync_impl
 
 from .utils import get_completion_options, get_prompt_trunctation_options
@@ -28,7 +28,7 @@ if TYPE_CHECKING:
 
 
 @dataclasses.dataclass(frozen=True)
-class BaseAssistant(BaseDeleteableResource, Generic[RunTypeT, ThreadTypeT]):
+class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
     expiration_config: ExpirationConfig
     model: BaseGPTModel
     instruction: str | None
@@ -48,10 +48,6 @@ class BaseAssistant(BaseDeleteableResource, Generic[RunTypeT, ThreadTypeT]):
         if max_prompt_tokens := proto.prompt_truncation_options.max_prompt_tokens.value:
             kwargs['max_prompt_tokens'] = max_prompt_tokens
 
-        kwargs['expiration_config'] = ExpirationConfig.coerce(
-            ttl_days=proto.expiration_config.ttl_days,
-            expiration_policy=proto.expiration_config.expiration_policy,  # type: ignore[arg-type]
-        )
         return kwargs
 
     # pylint: disable=too-many-arguments

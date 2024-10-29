@@ -3,27 +3,37 @@ from __future__ import annotations
 
 import dataclasses
 from datetime import datetime
-from typing import TYPE_CHECKING, AsyncIterator, TypeVar
+from typing import TYPE_CHECKING, Any, AsyncIterator, TypeVar
 
 from typing_extensions import Self
-from yandex.cloud.ai.assistants.v1.threads.thread_pb2 import Thread as ProtoThread
-from yandex.cloud.ai.assistants.v1.threads.thread_service_pb2 import (
-    DeleteThreadRequest, DeleteThreadResponse, UpdateThreadRequest
+from yandex.cloud.ai.assistants.v1.searchindex.search_index_pb2 import SearchIndex as ProtoSearchIndex
+from yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2 import (
+    DeleteSearchIndexRequest, DeleteSearchIndexResponse, UpdateSearchIndexRequest
 )
-from yandex.cloud.ai.assistants.v1.threads.thread_service_pb2_grpc import ThreadServiceStub
+from yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2_grpc import SearchIndexServiceStub
 
-from yandex_cloud_ml_sdk._messages.message import Message
 from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._types.resource import ExpirableResource, safe_on_delete
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
+
+from .index_type import BaseSearchIndexType
 
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
 
 @dataclasses.dataclass(frozen=True)
-class BaseThread(ExpirableResource):
+class BaseSearchIndex(ExpirableResource):
+    _proto_result_type = ProtoSearchIndex
+
+    @classmethod
+    def _kwargs_from_message(cls, proto: ProtoSearchIndex, sdk: BaseSDK) -> dict[str, Any]:  # type: ignore[override]
+        kwargs = super()._kwargs_from_message(proto, sdk=sdk)
+        # pylint: disable=protected-access
+        kwargs['index_type'] = BaseSearchIndexType._from_upper_proto(proto=proto, sdk=sdk)
+        return kwargs
+
     @safe_on_delete
     async def _update(
         self,
@@ -44,8 +54,8 @@ class BaseThread(ExpirableResource):
             expiration_policy=expiration_policy
         )
 
-        request = UpdateThreadRequest(
-            thread_id=self.id,
+        request = UpdateSearchIndexRequest(
+            search_index_id=self.id,
             name=name_,
             description=description_,
             labels=labels_,
@@ -63,12 +73,12 @@ class BaseThread(ExpirableResource):
             }
         )
 
-        async with self._client.get_service_stub(ThreadServiceStub, timeout=timeout) as stub:
+        async with self._client.get_service_stub(SearchIndexServiceStub, timeout=timeout) as stub:
             response = await self._client.call_service(
                 stub.Update,
                 request,
                 timeout=timeout,
-                expected_type=ProtoThread,
+                expected_type=ProtoSearchIndex,
             )
         self._update_from_proto(response)
 
@@ -80,14 +90,14 @@ class BaseThread(ExpirableResource):
         *,
         timeout: float = 60,
     ) -> None:
-        request = DeleteThreadRequest(thread_id=self.id)
+        request = DeleteSearchIndexRequest(search_index_id=self.id)
 
-        async with self._client.get_service_stub(ThreadServiceStub, timeout=timeout) as stub:
+        async with self._client.get_service_stub(SearchIndexServiceStub, timeout=timeout) as stub:
             await self._client.call_service(
                 stub.Delete,
                 request,
                 timeout=timeout,
-                expected_type=DeleteThreadResponse,
+                expected_type=DeleteSearchIndexResponse,
             )
             object.__setattr__(self, '_deleted', True)
 
@@ -101,7 +111,7 @@ class BaseThread(ExpirableResource):
     ) -> Message:
         # pylint: disable-next=protected-access
         return await self._sdk._messages._create(
-            thread_id=self.id,
+            search_index_id=self.id,
             content=content,
             labels=labels,
             timeout=timeout
@@ -114,19 +124,20 @@ class BaseThread(ExpirableResource):
     ) -> AsyncIterator[Message]:
         # NB: in other methods it is solved via @safe decorator, but it is doesn't work
         # with iterators, so, temporary here will be small copypaste
-        # Also I'm not sure enough if we need to put whole thread reading under a lock
+        # Also I'm not sure enough if we need to put whole SearchIndex reading under a lock
         if self._deleted:
             action = 'read'
             klass = self.__class__.__name__
             raise ValueError(f"you can't perform an action '{action}' on {klass}='{self.id}' because it is deleted")
 
         # pylint: disable-next=protected-access
-        async for message in self._sdk._messages._list(thread_id=self.id, timeout=timeout):
+        async for message in self._sdk._messages._list(search_index_id=self.id, timeout=timeout):
             yield message
 
 
 @dataclasses.dataclass(frozen=True)
-class RichThread(BaseThread):
+class RichSearchIndex(BaseSearchIndex):
+    folder_id: str
     name: str | None
     description: str | None
     created_by: str
@@ -135,22 +146,23 @@ class RichThread(BaseThread):
     updated_at: datetime
     expires_at: datetime
     labels: dict[str, str] | None
+    index_type: BaseSearchIndexType
 
 
-class AsyncThread(RichThread):
-    update = RichThread._update
-    delete = RichThread._delete
-    write = RichThread._write
-    read = RichThread._read
-    __aiter__ = RichThread._read
+class AsyncSearchIndex(RichSearchIndex):
+    update = RichSearchIndex._update
+    delete = RichSearchIndex._delete
+    write = RichSearchIndex._write
+    read = RichSearchIndex._read
+    __aiter__ = RichSearchIndex._read
 
 
-class Thread(RichThread):
-    update = run_sync(RichThread._update)
-    delete = run_sync(RichThread._delete)
-    write = run_sync(RichThread._write)
-    read = run_sync_generator(RichThread._read)
-    __iter__ = run_sync_generator(RichThread._read)
+class SearchIndex(RichSearchIndex):
+    update = run_sync(RichSearchIndex._update)
+    delete = run_sync(RichSearchIndex._delete)
+    write = run_sync(RichSearchIndex._write)
+    read = run_sync_generator(RichSearchIndex._read)
+    __iter__ = run_sync_generator(RichSearchIndex._read)
 
 
-ThreadTypeT = TypeVar('ThreadTypeT', bound=BaseThread)
+SearchIndexTypeT = TypeVar('SearchIndexTypeT', bound=BaseSearchIndex)
