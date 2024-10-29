@@ -6,6 +6,11 @@ from datetime import datetime
 from typing import TYPE_CHECKING, Any, AsyncIterator, TypeVar
 
 from typing_extensions import Self
+from yandex.cloud.ai.assistants.v1.searchindex.search_index_file_pb2 import SearchIndexFile as ProtoSearchIndexFile
+from yandex.cloud.ai.assistants.v1.searchindex.search_index_file_service_pb2 import (
+    GetSearchIndexFileRequest, ListSearchIndexFilesRequest, ListSearchIndexFilesResponse
+)
+from yandex.cloud.ai.assistants.v1.searchindex.search_index_file_service_pb2_grpc import SearchIndexFileServiceStub
 from yandex.cloud.ai.assistants.v1.searchindex.search_index_pb2 import SearchIndex as ProtoSearchIndex
 from yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2 import (
     DeleteSearchIndexRequest, DeleteSearchIndexResponse, UpdateSearchIndexRequest
@@ -134,6 +139,60 @@ class BaseSearchIndex(ExpirableResource):
         async for message in self._sdk._messages._list(search_index_id=self.id, timeout=timeout):
             yield message
 
+    @safe_on_delete
+    async def _get_file(
+        self,
+        file_id: str,
+        *,
+        timeout: float = 60
+    ) -> SearchIndexFile:
+        request = GetSearchIndexFileRequest(
+            file_id=file_id,
+            search_index_id=self.id
+        )
+
+        async with self._client.get_service_stub(SearchIndexFileServiceStub, timeout=timeout) as stub:
+            response = await self._client.call_service(
+                stub.Get,
+                request,
+                timeout=timeout,
+                expected_type=ProtoSearchIndexFile,
+            )
+
+        return SearchIndexFile._from_proto(proto=response, sdk=self._sdk)
+
+    async def _list_files(
+        self,
+        *,
+        page_size: UndefinedOr[int] = UNDEFINED,
+        page_token: UndefinedOr[str] = UNDEFINED,
+        timeout: float = 60
+    ) -> AsyncIterator[SearchIndexFile]:
+        page_token_ = get_defined_value(page_token, '')
+        page_size_ = get_defined_value(page_size, 0)
+
+        async with self._client.get_service_stub(SearchIndexFileServiceStub, timeout=timeout) as stub:
+            while True:
+                request = ListSearchIndexFilesRequest(
+                    search_index_id=self.id,
+                    page_size=page_size_,
+                    page_token=page_token_,
+                )
+
+                response = await self._client.call_service(
+                    stub.List,
+                    request,
+                    timeout=timeout,
+                    expected_type=ListSearchIndexFilesResponse,
+                )
+                for search_index_proto in response.files:
+                    yield SearchIndexFile._from_proto(proto=search_index_proto, sdk=self._sdk)
+
+                if not response.indices:
+                    return
+
+                page_token_ = response.next_page_token
+
 
 @dataclasses.dataclass(frozen=True)
 class RichSearchIndex(BaseSearchIndex):
@@ -154,6 +213,8 @@ class AsyncSearchIndex(RichSearchIndex):
     delete = RichSearchIndex._delete
     write = RichSearchIndex._write
     read = RichSearchIndex._read
+    get_file = RichSearchIndex._get_file
+    list_files = RichSearchIndex._list_files
     __aiter__ = RichSearchIndex._read
 
 
@@ -162,6 +223,8 @@ class SearchIndex(RichSearchIndex):
     delete = run_sync(RichSearchIndex._delete)
     write = run_sync(RichSearchIndex._write)
     read = run_sync_generator(RichSearchIndex._read)
+    get_file = run_sync(RichSearchIndex._get_file)
+    list_files = run_sync_generator(RichSearchIndex._list_files)
     __iter__ = run_sync_generator(RichSearchIndex._read)
 
 

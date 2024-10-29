@@ -9,6 +9,10 @@ from yandex_cloud_ml_sdk import AsyncYCloudML
 from yandex_cloud_ml_sdk.search_indexes import StaticIndexChunkingStrategy, TextSearchIndexType
 
 
+def local_path(path: str) -> pathlib.Path:
+    return pathlib.Path(__file__).parent / path
+
+
 async def main() -> None:
     sdk = AsyncYCloudML(
         folder_id='b1ghsjum2v37c2un8h64',
@@ -21,7 +25,7 @@ async def main() -> None:
 
     file_coros = (
         sdk.files.upload(
-            pathlib.Path(__file__).parent / path,
+            local_path(path),
             ttl_days=5,
             expiration_policy="static",
         )
@@ -40,6 +44,11 @@ async def main() -> None:
     )
     search_index = await operation.wait()
     print(f"search index {search_index}")
+
+    # index_files = [file async for file in search_index.list_files()]
+    # print(f"search index files: {index_files}")
+    # index_file = await search_index.get_file(index_files[0].id)
+    # print(f"search index file: {index_file}")
 
     for file in files:
         print(f"delete file {file}")
