@@ -23,7 +23,11 @@ class SearchIndexFile(BaseResource):
     chunking_strategy: BaseIndexChunkingStrategy
 
     @classmethod
-    def _kwargs_from_message(cls, proto: ProtoSearchIndexFile, sdk: BaseSDK) -> dict[str, Any]:  # type: ignore[override]
+    def _kwargs_from_message(
+        cls,
+        proto: ProtoSearchIndexFile,  # type: ignore[override]
+        sdk: BaseSDK
+    ) -> dict[str, Any]:
         kwargs = super()._kwargs_from_message(proto, sdk=sdk)
         # pylint: disable=protected-access
         kwargs['chunking_strategy'] = BaseIndexChunkingStrategy._from_upper_proto(

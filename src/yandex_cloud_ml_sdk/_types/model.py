@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, AsyncIterator, Generic, TypeVar
 
 from .misc import Undefined
 from .model_config import BaseModelConfig
-from .operation import BaseOperation, OperationTypeT
+from .operation import OperationTypeT
 from .result import BaseResult
 
 if TYPE_CHECKING:

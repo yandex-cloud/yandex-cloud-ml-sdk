@@ -26,6 +26,7 @@ class BaseSearchIndexes(BaseDomain, Generic[SearchIndexTypeT, OperationTypeT]):
     _impl: type[SearchIndexTypeT]
     _operation_type: type[OperationTypeT]
 
+    # pylint: disable=too-many-locals
     async def _create_deferred(
         self,
         files: FileType,

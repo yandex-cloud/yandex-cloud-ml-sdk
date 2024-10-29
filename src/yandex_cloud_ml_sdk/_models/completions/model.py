@@ -1,4 +1,4 @@
-# pylint: disable=arguments-renamed,no-name-in-module
+# pylint: disable=arguments-renamed,no-name-in-module,protected-access
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, AsyncIterator, Iterable, Literal

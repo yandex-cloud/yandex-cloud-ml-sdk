@@ -14,7 +14,7 @@ from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPo
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, PathLike, UndefinedOr, coerce_path, get_defined_value, is_defined
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
-from .file import AsyncFile, BaseFile, File, FileTypeT
+from .file import AsyncFile, File, FileTypeT
 
 
 class BaseFiles(BaseDomain, Generic[FileTypeT]):

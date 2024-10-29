@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import dataclasses
 from datetime import datetime
-from typing import TYPE_CHECKING, TypeVar
+from typing import TypeVar
 
 import httpx
 from typing_extensions import Self
@@ -17,9 +17,6 @@ from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPo
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._types.resource import ExpirableResource, safe_on_delete
 from yandex_cloud_ml_sdk._utils.sync import run_sync
-
-if TYPE_CHECKING:
-    from yandex_cloud_ml_sdk._sdk import BaseSDK
 
 
 @dataclasses.dataclass(frozen=True)
