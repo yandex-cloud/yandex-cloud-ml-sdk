@@ -1,13 +1,19 @@
+# pylint: disable=no-name-in-module
 from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Literal, Union
+from typing import Literal, Protocol, Union
 
-# pylint: disable-next=no-name-in-module
+from yandex.cloud.ai.assistants.v1.assistant_pb2 import Assistant
+from yandex.cloud.ai.assistants.v1.searchindex.search_index_pb2 import SearchIndex
+from yandex.cloud.ai.assistants.v1.threads.thread_pb2 import Thread
 from yandex.cloud.ai.common.common_pb2 import ExpirationConfig as ExpirationConfigProto
+from yandex.cloud.ai.files.v1.file_pb2 import File
 
 from .misc import UndefinedOr, get_defined_value
+
+ExpirationProtoType = Union[Assistant, SearchIndex, Thread, File]
 
 
 class ExpirationPolicy(Enum):

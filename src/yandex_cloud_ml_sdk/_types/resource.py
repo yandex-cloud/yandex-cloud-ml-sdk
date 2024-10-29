@@ -11,7 +11,7 @@ from typing_extensions import Concatenate, ParamSpec, Self
 
 from yandex_cloud_ml_sdk._utils.proto import proto_to_dict
 
-from .expiration import ExpirationConfig
+from .expiration import ExpirationConfig, ExpirationProtoType
 from .misc import is_defined
 
 if TYPE_CHECKING:
@@ -84,8 +84,8 @@ class ExpirableResource(BaseDeleteableResource):
     expiration_config: ExpirationConfig
 
     @classmethod
-    def _kwargs_from_message(cls, proto: Message, sdk: BaseSDK) -> dict[str, Any]:  # type: ignore[override]
-        kwargs = super()._kwargs_from_message(proto, sdk=sdk)
+    def _kwargs_from_message(cls, proto: ExpirationProtoType, sdk: BaseSDK) -> dict[str, Any]:  # type: ignore[override]
+        kwargs = super()._kwargs_from_message(proto, sdk=sdk)  # type: ignore[arg-type]
         kwargs['expiration_config'] = ExpirationConfig.coerce(
             ttl_days=proto.expiration_config.ttl_days,
             expiration_policy=proto.expiration_config.expiration_policy,  # type: ignore[arg-type]

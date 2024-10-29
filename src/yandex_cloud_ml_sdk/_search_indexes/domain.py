@@ -37,7 +37,7 @@ class BaseSearchIndexes(BaseDomain, Generic[SearchIndexTypeT, OperationTypeT]):
         ttl_days: UndefinedOr[int] = UNDEFINED,
         expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
         timeout: float = 60,
-    ) -> SearchIndexTypeT:
+    ) -> OperationTypeT:
         if is_defined(ttl_days) != is_defined(expiration_policy):
             raise ValueError("ttl_days and expiration policy must be both defined either undefined")
 
@@ -121,7 +121,7 @@ class BaseSearchIndexes(BaseDomain, Generic[SearchIndexTypeT, OperationTypeT]):
                     stub.List,
                     request,
                     timeout=timeout,
-                    expected_type=ListSearchIndicesRequest,
+                    expected_type=ListSearchIndicesResponse,
                 )
                 for search_index_proto in response.indices:
                     yield self._impl._from_proto(proto=search_index_proto, sdk=self._sdk)
@@ -132,7 +132,7 @@ class BaseSearchIndexes(BaseDomain, Generic[SearchIndexTypeT, OperationTypeT]):
                 page_token_ = response.next_page_token
 
 
-class AsyncSearchIndexes(BaseSearchIndexes[AsyncSearchIndex, AsyncOperation]):
+class AsyncSearchIndexes(BaseSearchIndexes[AsyncSearchIndex, AsyncOperation[AsyncSearchIndex]]):
     _impl = AsyncSearchIndex
     _operation_type = AsyncOperation
 
@@ -141,7 +141,7 @@ class AsyncSearchIndexes(BaseSearchIndexes[AsyncSearchIndex, AsyncOperation]):
     list = BaseSearchIndexes._list
 
 
-class SearchIndexes(BaseSearchIndexes[SearchIndex, Operation]):
+class SearchIndexes(BaseSearchIndexes[SearchIndex, Operation[AsyncSearchIndex]]):
     _impl = SearchIndex
     _operation_type = Operation
 

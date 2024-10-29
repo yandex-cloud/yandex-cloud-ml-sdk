@@ -1,13 +1,13 @@
 from __future__ import annotations
 
-from typing import Iterable
+from typing import Iterable, Union
 
 from .file import BaseFile
 
-FileType = str | BaseFile | Iterable[BaseFile] | Iterable[str]
+FileType = Union[str, BaseFile, Iterable[BaseFile], Iterable[str]]
 
 
-def coerce_file_ids(files: FileType[BaseFile]) -> tuple[str]:
+def coerce_file_ids(files: FileType) -> tuple[str, ...]:
     if isinstance(files, str):
         return (files, )
 

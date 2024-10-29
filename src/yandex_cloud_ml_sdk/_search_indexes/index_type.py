@@ -19,11 +19,11 @@ ProtoSearchIndexType = Union[TextSearchIndex, VectorSearchIndex]
 
 @dataclass(frozen=True)
 class BaseSearchIndexType(abc.ABC):
-    chunking_strategy: BaseChunkingStrategy | None = None
+    chunking_strategy: BaseIndexChunkingStrategy | None = None
 
     @classmethod
     @abc.abstractmethod
-    def _from_proto(cls, proto: ProtoSearchIndexType, sdk: BaseSDK) -> BaseSearchIndexType:
+    def _from_proto(cls, proto, sdk: BaseSDK) -> BaseSearchIndexType:
         pass
 
     @abc.abstractmethod
@@ -58,13 +58,14 @@ class TextSearchIndexType(BaseSearchIndexType):
         )
 
     def _to_proto(self) -> TextSearchIndex:
+        chunking_strategy = self.chunking_strategy._to_proto() if self.chunking_strategy else None
         return TextSearchIndex(
-            chunking_strategy=self.chunking_strategy._to_proto()
+            chunking_strategy=chunking_strategy
         )
 
 
 @dataclass(frozen=True)
-class VectorSearchIndexType(TextSearchIndexType):
+class VectorSearchIndexType(BaseSearchIndexType):
     doc_embedder_uri: str | None = None
 
     query_embedder_uri: str | None = None
@@ -79,9 +80,11 @@ class VectorSearchIndexType(TextSearchIndexType):
                 sdk=sdk,
             )
         )
+
     def _to_proto(self) -> VectorSearchIndex:
+        chunking_strategy = self.chunking_strategy._to_proto() if self.chunking_strategy else None
         return VectorSearchIndex(
-            chunking_strategy=self.chunking_strategy._to_proto(),
-            doc_embedder_uri=self.doc_embedder_uri,
-            query_embedder_uri=self.query_embedder_uri,
+            chunking_strategy=chunking_strategy,
+            doc_embedder_uri=self.doc_embedder_uri or '',
+            query_embedder_uri=self.query_embedder_uri or '',
         )

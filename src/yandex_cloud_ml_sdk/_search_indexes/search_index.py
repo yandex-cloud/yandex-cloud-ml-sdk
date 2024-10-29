@@ -20,8 +20,10 @@ from yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2_grpc imp
 from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._types.resource import ExpirableResource, safe_on_delete
+from yandex_cloud_ml_sdk._types.result import BaseResult
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
+from .file import SearchIndexFile
 from .index_type import BaseSearchIndexType
 
 if TYPE_CHECKING:
@@ -29,7 +31,7 @@ if TYPE_CHECKING:
 
 
 @dataclasses.dataclass(frozen=True)
-class BaseSearchIndex(ExpirableResource):
+class BaseSearchIndex(ExpirableResource, BaseResult[ProtoSearchIndex]):  # type: ignore[misc]
     _proto_result_type = ProtoSearchIndex
 
     @classmethod
@@ -107,39 +109,6 @@ class BaseSearchIndex(ExpirableResource):
             object.__setattr__(self, '_deleted', True)
 
     @safe_on_delete
-    async def _write(
-        self,
-        content: str,
-        *,
-        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
-        timeout: float = 60,
-    ) -> Message:
-        # pylint: disable-next=protected-access
-        return await self._sdk._messages._create(
-            search_index_id=self.id,
-            content=content,
-            labels=labels,
-            timeout=timeout
-        )
-
-    async def _read(
-        self,
-        *,
-        timeout: float = 60,
-    ) -> AsyncIterator[Message]:
-        # NB: in other methods it is solved via @safe decorator, but it is doesn't work
-        # with iterators, so, temporary here will be small copypaste
-        # Also I'm not sure enough if we need to put whole SearchIndex reading under a lock
-        if self._deleted:
-            action = 'read'
-            klass = self.__class__.__name__
-            raise ValueError(f"you can't perform an action '{action}' on {klass}='{self.id}' because it is deleted")
-
-        # pylint: disable-next=protected-access
-        async for message in self._sdk._messages._list(search_index_id=self.id, timeout=timeout):
-            yield message
-
-    @safe_on_delete
     async def _get_file(
         self,
         file_id: str,
@@ -188,7 +157,7 @@ class BaseSearchIndex(ExpirableResource):
                 for search_index_proto in response.files:
                     yield SearchIndexFile._from_proto(proto=search_index_proto, sdk=self._sdk)
 
-                if not response.indices:
+                if not response.files:
                     return
 
                 page_token_ = response.next_page_token
@@ -211,21 +180,15 @@ class RichSearchIndex(BaseSearchIndex):
 class AsyncSearchIndex(RichSearchIndex):
     update = RichSearchIndex._update
     delete = RichSearchIndex._delete
-    write = RichSearchIndex._write
-    read = RichSearchIndex._read
     get_file = RichSearchIndex._get_file
     list_files = RichSearchIndex._list_files
-    __aiter__ = RichSearchIndex._read
 
 
 class SearchIndex(RichSearchIndex):
     update = run_sync(RichSearchIndex._update)
     delete = run_sync(RichSearchIndex._delete)
-    write = run_sync(RichSearchIndex._write)
-    read = run_sync_generator(RichSearchIndex._read)
     get_file = run_sync(RichSearchIndex._get_file)
     list_files = run_sync_generator(RichSearchIndex._list_files)
-    __iter__ = run_sync_generator(RichSearchIndex._read)
 
 
 SearchIndexTypeT = TypeVar('SearchIndexTypeT', bound=BaseSearchIndex)

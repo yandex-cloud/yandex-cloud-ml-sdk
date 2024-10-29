@@ -155,15 +155,30 @@ class BaseOperation(OperationInterface[ResultTypeT]):
             )
             return status
 
+    async def _wait(
+        self,
+        *,
+        timeout: int = 60,
+        poll_timeout: int = 3600,
+        poll_interval: float = 10,
+    ) -> ResultTypeT:
+        # NB: mypy doesn't resolve generic type ResultTypeT in case of inheritance,
+        # so, just recopy this method here
+        return await super()._wait(
+            timeout=timeout,
+            poll_interval=poll_interval,
+            poll_timeout=poll_timeout,
+        )
 
-class AsyncOperation(BaseOperation):
+
+class AsyncOperation(BaseOperation[ResultTypeT]):
     get_status = BaseOperation._get_status
     get_result = BaseOperation._get_result
     wait = BaseOperation._wait
     cancel = BaseOperation._cancel
 
 
-class Operation(BaseOperation):
+class Operation(BaseOperation[ResultTypeT]):
     get_status = run_sync(BaseOperation._get_status)
     get_result = run_sync(BaseOperation._get_result)
     wait = run_sync(BaseOperation._wait)

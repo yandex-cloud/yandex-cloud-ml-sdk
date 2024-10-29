@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 class BaseIndexChunkingStrategy(abc.ABC):
     @classmethod
     @abc.abstractmethod
-    def _from_proto(cls, proto: Any) -> BaseIndexChunkingStrategy:
+    def _from_proto(cls, proto: Any, sdk: BaseSDK) -> BaseIndexChunkingStrategy:
         pass
 
     @abc.abstractmethod
@@ -47,7 +47,7 @@ class StaticIndexChunkingStrategy(BaseIndexChunkingStrategy):
             chunk_overlap_tokens=proto.chunk_overlap_tokens
         )
 
-    def _to_proto(self) -> ChunkingStrategy:
+    def _to_proto(self) -> ProtoChunkingStrategy:
         return ProtoChunkingStrategy(
             static_strategy=ProtoStaticChunkingStrategy(
                 max_chunk_size_tokens=self.max_chunk_size_tokens,
