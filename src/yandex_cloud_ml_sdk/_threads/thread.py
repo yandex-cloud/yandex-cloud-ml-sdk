@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import dataclasses
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, AsyncIterator, TypeVar
+from typing import AsyncIterator, TypeVar
 
 from typing_extensions import Self
 from yandex.cloud.ai.assistants.v1.threads.thread_pb2 import Thread as ProtoThread
@@ -15,26 +15,12 @@ from yandex.cloud.ai.assistants.v1.threads.thread_service_pb2_grpc import Thread
 from yandex_cloud_ml_sdk._messages.message import Message
 from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
-from yandex_cloud_ml_sdk._types.resource import BaseDeleteableResource, safe_on_delete
+from yandex_cloud_ml_sdk._types.resource import ExpirableResource, safe_on_delete
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
-
-if TYPE_CHECKING:
-    from yandex_cloud_ml_sdk._sdk import BaseSDK
 
 
 @dataclasses.dataclass(frozen=True)
-class BaseThread(BaseDeleteableResource):
-    expiration_config: ExpirationConfig
-
-    @classmethod
-    def _kwargs_from_message(cls, proto: ProtoThread, sdk: BaseSDK) -> dict[str, Any]:  # type: ignore[override]
-        kwargs = super()._kwargs_from_message(proto, sdk=sdk)
-        kwargs['expiration_config'] = ExpirationConfig.coerce(
-            ttl_days=proto.expiration_config.ttl_days,
-            expiration_policy=proto.expiration_config.expiration_policy,  # type: ignore[arg-type]
-        )
-        return kwargs
-
+class BaseThread(ExpirableResource):
     @safe_on_delete
     async def _update(
         self,

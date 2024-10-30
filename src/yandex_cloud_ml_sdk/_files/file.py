@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import dataclasses
 from datetime import datetime
-from typing import TYPE_CHECKING, Any
+from typing import TypeVar
 
 import httpx
 from typing_extensions import Self
@@ -15,26 +15,12 @@ from yandex.cloud.ai.files.v1.file_service_pb2_grpc import FileServiceStub
 
 from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
-from yandex_cloud_ml_sdk._types.resource import BaseDeleteableResource, safe_on_delete
+from yandex_cloud_ml_sdk._types.resource import ExpirableResource, safe_on_delete
 from yandex_cloud_ml_sdk._utils.sync import run_sync
-
-if TYPE_CHECKING:
-    from yandex_cloud_ml_sdk._sdk import BaseSDK
 
 
 @dataclasses.dataclass(frozen=True)
-class BaseFile(BaseDeleteableResource):
-    expiration_config: ExpirationConfig
-
-    @classmethod
-    def _kwargs_from_message(cls, proto: ProtoFile, sdk: BaseSDK) -> dict[str, Any]:  # type: ignore[override]
-        kwargs = super()._kwargs_from_message(proto, sdk=sdk)
-        kwargs['expiration_config'] = ExpirationConfig.coerce(
-            ttl_days=proto.expiration_config.ttl_days,
-            expiration_policy=proto.expiration_config.expiration_policy,  # type: ignore[arg-type]
-        )
-        return kwargs
-
+class BaseFile(ExpirableResource):
     @safe_on_delete
     async def _get_url(
         self,
@@ -166,3 +152,6 @@ class File(RichFile):
     update = run_sync(RichFile._update)
     delete = run_sync(RichFile._delete)
     download_as_bytes = run_sync(RichFile._download_as_bytes)
+
+
+FileTypeT = TypeVar('FileTypeT', bound=BaseFile)

@@ -31,17 +31,17 @@ class TextClassifiersModelResultBase(BaseResult[TextClassificationResponseT], Se
     model_version: str
 
     @classmethod
-    def _from_proto(cls, message: TextClassificationResponseT, sdk: BaseSDK) -> Self:  # pylint: disable=unused-argument
+    def _from_proto(cls, proto: TextClassificationResponseT, sdk: BaseSDK) -> Self:  # pylint: disable=unused-argument
         predictions = tuple(
             TextClassificationLabel(
                 label=p.label,
                 confidence=p.confidence
-            ) for p in message.predictions
+            ) for p in proto.predictions
         )
 
         return cls(
             predictions=predictions,
-            model_version=message.model_version,
+            model_version=proto.model_version,
         )
 
     def __len__(self) -> int:
