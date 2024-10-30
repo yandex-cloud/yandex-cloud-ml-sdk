@@ -1,7 +1,7 @@
 # pylint: disable=protected-access,no-name-in-module
 from __future__ import annotations
 
-from typing import AsyncIterator, Generic
+from typing import AsyncIterator, Generic, Iterable
 
 from yandex.cloud.ai.assistants.v1.assistant_pb2 import Assistant as ProtoAssistant
 from yandex.cloud.ai.assistants.v1.assistant_service_pb2 import (
@@ -10,9 +10,11 @@ from yandex.cloud.ai.assistants.v1.assistant_service_pb2 import (
 from yandex.cloud.ai.assistants.v1.assistant_service_pb2_grpc import AssistantServiceStub
 
 from yandex_cloud_ml_sdk._models.completions.model import BaseGPTModel
+from yandex_cloud_ml_sdk._tools.tool import BaseTool
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
+from yandex_cloud_ml_sdk._utils.coerce import coerce_tuple
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .assistant import Assistant, AssistantTypeT, AsyncAssistant
@@ -35,6 +37,7 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
         description: UndefinedOr[str] = UNDEFINED,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         ttl_days: UndefinedOr[int] = UNDEFINED,
+        tools: UndefinedOr[Iterable[BaseTool]] = UNDEFINED,
         expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
         timeout: float = 60,
     ) -> AssistantTypeT:
@@ -59,6 +62,10 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
         model_temperature = get_defined_value(temperature, model_temperature)
         model_max_tokens = get_defined_value(max_tokens, model_max_tokens)
 
+        tools_: tuple[BaseTool, ...] = ()
+        if is_defined(tools):
+            tools_ = coerce_tuple(tools, BaseTool)
+
         request = CreateAssistantRequest(
             folder_id=self._folder_id,
             name=get_defined_value(name, ''),
@@ -73,7 +80,8 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
             completion_options=get_completion_options(
                 temperature=model_temperature,
                 max_tokens=model_max_tokens
-            )
+            ),
+            tools=[tool._to_proto() for tool in tools_]
         )
 
         async with self._client.get_service_stub(AssistantServiceStub, timeout=timeout) as stub:
