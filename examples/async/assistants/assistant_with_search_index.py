@@ -6,7 +6,6 @@ import asyncio
 import pathlib
 
 from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk.search_indexes import StaticIndexChunkingStrategy, TextSearchIndexType
 
 
 def local_path(path: str) -> pathlib.Path:
@@ -17,8 +16,8 @@ async def main() -> None:
     sdk = AsyncYCloudML(
         folder_id='b1ghsjum2v37c2un8h64',
         service_map={
-            'ai-files': 'assistant.api.cloud.yandex.net',
             'ai-assistants': 'assistant.api.cloud.yandex.net',
+            'ai-files': 'assistant.api.cloud.yandex.net',
             'operation': 'assistant.api.cloud.yandex.net',
         }
     )
@@ -31,8 +30,8 @@ async def main() -> None:
         )
         for path in ['turkey_example.txt', 'maldives_example.txt']
     )
-    files = await asyncio.gather(*file_coros)
 
+    files = await asyncio.gather(*file_coros)
     operation = await sdk.search_indexes.create_deferred(files)
     search_index = await operation.wait()
 

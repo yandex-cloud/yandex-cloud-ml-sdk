@@ -50,10 +50,10 @@ class SearchIndexTool(BaseTool):
             max_num_results=max_num_results,
         )
 
-    def _to_proto(self) -> SearchIndexTool:
+    def _to_proto(self) -> ProtoTool:
         max_num_results: None | Int64Value = None
         if self.max_num_results is not None:
-            max_num_results = Int64Value(value=tool.max_num_results)
+            max_num_results = Int64Value(value=self.max_num_results)
 
         return ProtoTool(
             search_index=ProtoSearchIndexTool(

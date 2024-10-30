@@ -64,7 +64,8 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
 
         tools_: tuple[BaseTool, ...] = ()
         if is_defined(tools):
-            tools_ = coerce_tuple(tools, BaseTool)
+            # NB: mypy doesn't love abstract class used as TypeVar substitution here
+            tools_ = coerce_tuple(tools, BaseTool)  # type: ignore[type-abstract]
 
         request = CreateAssistantRequest(
             folder_id=self._folder_id,
