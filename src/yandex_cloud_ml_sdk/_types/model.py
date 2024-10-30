@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, AsyncIterator, Generic, TypeVar
 
 from .misc import Undefined
 from .model_config import BaseModelConfig
-from .operation import BaseOperation
+from .operation import OperationTypeT
 from .result import BaseResult
 
 if TYPE_CHECKING:
@@ -17,7 +17,6 @@ if TYPE_CHECKING:
 
 ConfigTypeT = TypeVar('ConfigTypeT', bound=BaseModelConfig)
 ResultTypeT = TypeVar('ResultTypeT', bound=BaseResult)
-OperationTypeT = TypeVar('OperationTypeT', bound=BaseOperation)
 
 
 class BaseModel(Generic[ConfigTypeT, ResultTypeT], metaclass=abc.ABCMeta):

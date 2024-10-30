@@ -18,5 +18,5 @@ class BaseResult(abc.ABC, Generic[ProtoResultTypeT]):
 
     @classmethod
     @abc.abstractmethod
-    def _from_proto(cls: type[Self], message: ProtoResultTypeT, sdk: BaseSDK) -> Self:
+    def _from_proto(cls: type[Self], proto: ProtoResultTypeT, sdk: BaseSDK) -> Self:
         raise NotImplementedError()

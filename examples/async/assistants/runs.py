@@ -44,8 +44,8 @@ async def main() -> None:
     run = await sdk.runs.get_last_by_thread(thread)
     print('last run:', run)
 
-    async for run in sdk.runs.list(page_size=10):
-        print('run:', run)
+    # async for run in sdk.runs.list(page_size=10):
+    #     print('run:', run)
 
     async for assistant in sdk.assistants.list():
         await assistant.delete()

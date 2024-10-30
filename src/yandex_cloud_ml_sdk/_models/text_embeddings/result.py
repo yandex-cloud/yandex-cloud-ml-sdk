@@ -23,11 +23,11 @@ class TextEmbeddingsModelResult(BaseResult[TextEmbeddingResponse], Sequence):
     model_version: str
 
     @classmethod
-    def _from_proto(cls, message: TextEmbeddingResponse, sdk: BaseSDK) -> Self:  # pylint: disable=unused-argument
+    def _from_proto(cls, proto: TextEmbeddingResponse, sdk: BaseSDK) -> Self:  # pylint: disable=unused-argument
         return cls(
-            embedding=tuple(message.embedding),
-            num_tokens=message.num_tokens,
-            model_version=message.model_version,
+            embedding=tuple(proto.embedding),
+            num_tokens=proto.num_tokens,
+            model_version=proto.model_version,
         )
 
     def __len__(self) -> int:

@@ -1,4 +1,4 @@
-# pylint: disable=arguments-renamed,no-name-in-module
+# pylint: disable=arguments-renamed,no-name-in-module,protected-access
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, AsyncIterator, Iterable, Literal
@@ -176,7 +176,7 @@ class BaseGPTModel(
             return tuple(Token._from_proto(t) for t in response.tokens)
 
 
-class AsyncGPTModel(BaseGPTModel):
+class AsyncGPTModel(BaseGPTModel[AsyncOperation[GPTModelResult]]):
     run = BaseGPTModel._run
     run_stream = BaseGPTModel._run_stream
     run_deferred = BaseGPTModel._run_deferred
@@ -184,7 +184,7 @@ class AsyncGPTModel(BaseGPTModel):
     _operation_type = AsyncOperation
 
 
-class GPTModel(BaseGPTModel):
+class GPTModel(BaseGPTModel[Operation[GPTModelResult]]):
     run = run_sync(BaseGPTModel._run)
     run_stream = run_sync_generator(BaseGPTModel._run_stream)
     run_deferred = run_sync(BaseGPTModel._run_deferred)

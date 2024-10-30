@@ -17,18 +17,21 @@ from ._messages.domain import AsyncMessages, BaseMessages, Messages
 from ._models import AsyncModels, BaseModels, Models
 from ._retry import RetryPolicy
 from ._runs.domain import AsyncRuns, BaseRuns, Runs
+from ._search_indexes.domain import AsyncSearchIndexes, BaseSearchIndexes, SearchIndexes
 from ._threads.domain import AsyncThreads, BaseThreads, Threads
 from ._types.domain import BaseDomain
 from ._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
 
 
 class BaseSDK:
-    _messages: BaseMessages
     models: BaseModels
     threads: BaseThreads
     files: BaseFiles
     assistants: BaseAssistants
     runs: BaseRuns
+    search_indexes: BaseSearchIndexes
+
+    _messages: BaseMessages
 
     def __init__(
         self,
@@ -143,6 +146,7 @@ class AsyncYCloudML(BaseSDK):
     threads: AsyncThreads
     assistants: AsyncAssistants
     runs: AsyncRuns
+    search_indexes: AsyncSearchIndexes
     _messages: AsyncMessages
 
 
@@ -152,4 +156,5 @@ class YCloudML(BaseSDK):
     threads: Threads
     assistants: Assistants
     runs: Runs
+    search_indexes: SearchIndexes
     _messages: Messages
