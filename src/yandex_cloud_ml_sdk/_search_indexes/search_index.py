@@ -72,8 +72,8 @@ class BaseSearchIndex(ExpirableResource, BaseResult[ProtoSearchIndex]):  # type:
         self._fill_update_mask(
             request.update_mask,
             {
-                'name': name,
                 'description': description,
+                'name': name,  # this line is moved to avoid "duplicate-code" check of pylint XD
                 'labels': labels,
                 'expiration_config.ttl_days': ttl_days,
                 'expiration_config.expiration_policy': expiration_policy

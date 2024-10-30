@@ -45,10 +45,10 @@ async def main() -> None:
     search_index = await operation.wait()
     print(f"search index {search_index}")
 
-    # index_files = [file async for file in search_index.list_files()]
-    # print(f"search index files: {index_files}")
-    # index_file = await search_index.get_file(index_files[0].id)
-    # print(f"search index file: {index_file}")
+    index_files = [file async for file in search_index.list_files()]
+    print(f"search index files: {index_files}")
+    index_file = await search_index.get_file(index_files[0].id)
+    print(f"search index file: {index_file}")
 
     for file in files:
         print(f"delete file {file}")
