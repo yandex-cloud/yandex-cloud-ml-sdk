@@ -55,24 +55,24 @@ class GPTModelResult(BaseResult[CompletionResponse], Sequence):
     model_version: str
 
     @classmethod
-    def _from_proto(cls, message: CompletionResponse, sdk: BaseSDK) -> Self:  # pylint: disable=unused-argument
+    def _from_proto(cls, proto: CompletionResponse, sdk: BaseSDK) -> Self:  # pylint: disable=unused-argument
         alternatives = tuple(
             Alternative(
                 role=alternative.message.role,
                 text=alternative.message.text,
                 status=AlternativeStatus.from_proto_field(alternative.status),
-            ) for alternative in message.alternatives
+            ) for alternative in proto.alternatives
         )
         usage = Usage(
-            input_text_tokens=message.usage.input_text_tokens,
-            completion_tokens=message.usage.completion_tokens,
-            total_tokens=message.usage.total_tokens,
+            input_text_tokens=proto.usage.input_text_tokens,
+            completion_tokens=proto.usage.completion_tokens,
+            total_tokens=proto.usage.total_tokens,
         )
 
         return cls(
             alternatives=alternatives,
             usage=usage,
-            model_version=message.model_version,
+            model_version=proto.model_version,
         )
 
     def __len__(self):
