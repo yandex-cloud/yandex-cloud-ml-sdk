@@ -1,7 +1,7 @@
 # pylint: disable=protected-access,no-name-in-module
 from __future__ import annotations
 
-from typing import AsyncIterator, Generic
+from typing import AsyncIterator, Generic, Iterator
 
 from yandex.cloud.ai.assistants.v1.threads.thread_pb2 import Thread as ProtoThread
 from yandex.cloud.ai.assistants.v1.threads.thread_service_pb2 import (
@@ -109,14 +109,97 @@ class BaseThreads(BaseDomain, Generic[ThreadTypeT]):
 class AsyncThreads(BaseThreads[AsyncThread]):
     _thread_impl = AsyncThread
 
-    get = BaseThreads._get
-    create = BaseThreads._create
-    list = BaseThreads._list
+    async def create(
+        self,
+        *,
+        name: UndefinedOr[str] = UNDEFINED,
+        description: UndefinedOr[str] = UNDEFINED,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
+        timeout: float = 60,
+    ) -> AsyncThread:
+        return await self._create(
+            name=name,
+            description=description,
+            labels=labels,
+            ttl_days=ttl_days,
+            expiration_policy=expiration_policy,
+            timeout=timeout,
+        )
+
+    async def get(
+        self,
+        thread_id: str,
+        *,
+        timeout: float = 60,
+    ) -> AsyncThread:
+        return await self._get(
+            thread_id=thread_id,
+            timeout=timeout,
+        )
+
+    async def list(
+        self,
+        *,
+        page_size: UndefinedOr[int] = UNDEFINED,
+        page_token: UndefinedOr[str] = UNDEFINED,
+        timeout: float = 60
+    ) -> AsyncIterator[AsyncThread]:
+        async for thread in self._list(
+            page_size=page_size,
+            page_token=page_token,
+            timeout=timeout
+        ):
+            yield thread
 
 
 class Threads(BaseThreads[Thread]):
     _thread_impl = Thread
 
-    get = run_sync(BaseThreads._get)
-    create = run_sync(BaseThreads._create)
-    list = run_sync_generator(BaseThreads._list)
+    __get = run_sync(BaseThreads._get)
+    __create = run_sync(BaseThreads._create)
+    __list = run_sync_generator(BaseThreads._list)
+
+    def create(
+        self,
+        *,
+        name: UndefinedOr[str] = UNDEFINED,
+        description: UndefinedOr[str] = UNDEFINED,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
+        timeout: float = 60,
+    ) -> Thread:
+        return self.__create(
+            name=name,
+            description=description,
+            labels=labels,
+            ttl_days=ttl_days,
+            expiration_policy=expiration_policy,
+            timeout=timeout,
+        )
+
+    def get(
+        self,
+        thread_id: str,
+        *,
+        timeout: float = 60,
+    ) -> Thread:
+        return self.__get(
+            thread_id=thread_id,
+            timeout=timeout,
+        )
+
+    def list(
+        self,
+        *,
+        page_size: UndefinedOr[int] = UNDEFINED,
+        page_token: UndefinedOr[str] = UNDEFINED,
+        timeout: float = 60
+    ) -> Iterator[Thread]:
+        yield from self.__list(
+            page_size=page_size,
+            page_token=page_token,
+            timeout=timeout
+        )
