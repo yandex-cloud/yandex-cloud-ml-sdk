@@ -45,7 +45,7 @@ class BaseGPTModel(
 
         raise ValueError(f"unknown langchain model {type=}")
 
-    # pylint: disable=useless-parent-delegation
+    # pylint: disable=useless-parent-delegation,arguments-differ
     def configure(  # type: ignore[override]
         self,
         *,

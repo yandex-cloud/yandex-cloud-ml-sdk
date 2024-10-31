@@ -31,7 +31,7 @@ class BaseTextClassifiersModel(
     _config_type = TextClassifiersModelConfig
     _result_type = TextClassifiersModelResultBase
 
-    # pylint: disable=useless-parent-delegation
+    # pylint: disable=useless-parent-delegation,arguments-differ
     def configure(  # type: ignore[override]
         self,
         *,

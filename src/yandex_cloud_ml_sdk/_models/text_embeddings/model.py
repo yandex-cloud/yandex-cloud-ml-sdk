@@ -20,7 +20,7 @@ class BaseTextEmbeddingsModel(
     _config_type = TextEmbeddingsModelConfig
     _result_type = TextEmbeddingsModelResult
 
-    # pylint: disable=useless-parent-delegation
+    # pylint: disable=useless-parent-delegation,arguments-differ
     def configure(  # type: ignore[override]
         self,
     ) -> Self:
