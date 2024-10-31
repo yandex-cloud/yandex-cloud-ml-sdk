@@ -1,7 +1,7 @@
 # pylint: disable=protected-access,no-name-in-module
 from __future__ import annotations
 
-from typing import AsyncIterator, Generic
+from typing import AsyncIterator, Generic, Iterator
 
 from yandex.cloud.ai.assistants.v1.runs.run_pb2 import Run as ProtoRun
 from yandex.cloud.ai.assistants.v1.runs.run_service_pb2 import (
@@ -9,9 +9,9 @@ from yandex.cloud.ai.assistants.v1.runs.run_service_pb2 import (
 )
 from yandex.cloud.ai.assistants.v1.runs.run_service_pb2_grpc import RunServiceStub
 
-from yandex_cloud_ml_sdk._assistants.assistant import Assistant, AssistantTypeT, AsyncAssistant, BaseAssistant
+from yandex_cloud_ml_sdk._assistants.assistant import BaseAssistant
 from yandex_cloud_ml_sdk._assistants.utils import get_completion_options, get_prompt_trunctation_options
-from yandex_cloud_ml_sdk._threads.thread import AsyncThread, BaseThread, Thread, ThreadTypeT
+from yandex_cloud_ml_sdk._threads.thread import BaseThread
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
@@ -19,15 +19,13 @@ from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 from .run import AsyncRun, Run, RunTypeT
 
 
-class BaseRuns(BaseDomain, Generic[RunTypeT, AssistantTypeT, ThreadTypeT]):
+class BaseRuns(BaseDomain, Generic[RunTypeT]):
     _run_impl: type[RunTypeT]
-    _assistant_impl: type[AssistantTypeT]
-    _thread_impl: type[ThreadTypeT]
 
     async def _create(
         self,
-        assistant: str | AssistantTypeT,
-        thread: str | ThreadTypeT,
+        assistant: str | BaseAssistant,
+        thread: str | BaseThread,
         *,
         stream: bool,
         custom_temperature: UndefinedOr[float] = UNDEFINED,
@@ -96,7 +94,7 @@ class BaseRuns(BaseDomain, Generic[RunTypeT, AssistantTypeT, ThreadTypeT]):
 
     async def _get_last_by_thread(
         self,
-        thread: str | ThreadTypeT,
+        thread: str | BaseThread,
         *,
         timeout: float = 60
     ) -> RunTypeT:
@@ -153,23 +151,86 @@ class BaseRuns(BaseDomain, Generic[RunTypeT, AssistantTypeT, ThreadTypeT]):
                 page_token_ = response.next_page_token
 
 
-class AsyncRuns(BaseRuns[AsyncRun, AsyncAssistant, AsyncThread]):
+class AsyncRuns(BaseRuns[AsyncRun]):
+    # NB: there is no public 'create'
     _run_impl = AsyncRun
-    _assistant_impl = AsyncAssistant
-    _thread_impl = AsyncThread
 
-    # NB: there is no public 'create'
-    get = BaseRuns._get
-    get_last_by_thread = BaseRuns._get_last_by_thread
-    list = BaseRuns._list
+    async def get(
+        self,
+        run_id: str,
+        *,
+        timeout: float = 60,
+    ) -> AsyncRun:
+        return await self._get(
+            run_id=run_id,
+            timeout=timeout,
+        )
+
+    async def get_last_by_thread(
+        self,
+        thread: str | BaseThread,
+        *,
+        timeout: float = 60
+    ) -> AsyncRun:
+        return await self._get_last_by_thread(
+            thread=thread,
+            timeout=timeout,
+        )
+
+    async def list(
+        self,
+        *,
+        page_size: UndefinedOr[int] = UNDEFINED,
+        page_token: UndefinedOr[str] = UNDEFINED,
+        timeout: float = 60
+    ) -> AsyncIterator[AsyncRun]:
+        async for run in self._list(
+            page_size=page_size,
+            page_token=page_token,
+            timeout=timeout,
+        ):
+            yield run
 
 
-class Runs(BaseRuns[Run, Assistant, Thread]):
+class Runs(BaseRuns[Run]):
     _run_impl = Run
-    _assistant_impl = Assistant
-    _thread_impl = Thread
 
     # NB: there is no public 'create'
-    get = run_sync(BaseRuns._get)
-    get_last_by_thread = run_sync(BaseRuns._get_last_by_thread)
-    list = run_sync_generator(BaseRuns._list)
+    __get = run_sync(BaseRuns._get)
+    __get_last_by_thread = run_sync(BaseRuns._get_last_by_thread)
+    __list = run_sync_generator(BaseRuns._list)
+
+    def get(
+        self,
+        run_id: str,
+        *,
+        timeout: float = 60,
+    ) -> Run:
+        return self.__get(
+            run_id=run_id,
+            timeout=timeout,
+        )
+
+    def get_last_by_thread(
+        self,
+        thread: str | BaseThread,
+        *,
+        timeout: float = 60
+    ) -> Run:
+        return self.__get_last_by_thread(
+            thread=thread,
+            timeout=timeout,
+        )
+
+    def list(
+        self,
+        *,
+        page_size: UndefinedOr[int] = UNDEFINED,
+        page_token: UndefinedOr[str] = UNDEFINED,
+        timeout: float = 60
+    ) -> Iterator[Run]:
+        yield from self.__list(
+            page_size=page_size,
+            page_token=page_token,
+            timeout=timeout,
+        )

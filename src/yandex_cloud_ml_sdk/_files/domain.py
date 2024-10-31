@@ -1,7 +1,7 @@
 # pylint: disable=protected-access,no-name-in-module
 from __future__ import annotations
 
-from typing import AsyncIterator, Generic
+from typing import AsyncIterator, Generic, Iterator
 
 from yandex.cloud.ai.files.v1.file_pb2 import File as ProtoFile
 from yandex.cloud.ai.files.v1.file_service_pb2 import (
@@ -137,16 +137,152 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
 class AsyncFiles(BaseFiles[AsyncFile]):
     _file_impl = AsyncFile
 
-    upload = BaseFiles._upload
-    upload_bytes = BaseFiles._upload_bytes
-    get = BaseFiles._get
-    list = BaseFiles._list
+    async def upload_bytes(
+        self,
+        data: bytes,
+        *,
+        name: UndefinedOr[str] = UNDEFINED,
+        description: UndefinedOr[str] = UNDEFINED,
+        mime_type: UndefinedOr[str] = UNDEFINED,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
+        timeout: float = 60,
+    ) -> AsyncFile:
+        return await self._upload_bytes(
+            data=data,
+            name=name,
+            description=description,
+            mime_type=mime_type,
+            labels=labels,
+            ttl_days=ttl_days,
+            expiration_policy=expiration_policy,
+            timeout=timeout
+        )
+
+    async def upload(
+        self,
+        path: PathLike,
+        *,
+        name: UndefinedOr[str] = UNDEFINED,
+        description: UndefinedOr[str] = UNDEFINED,
+        mime_type: UndefinedOr[str] = UNDEFINED,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
+        timeout: float = 60,
+    ) -> AsyncFile:
+        return await self._upload(
+            path=path,
+            name=name,
+            description=description,
+            mime_type=mime_type,
+            labels=labels,
+            ttl_days=ttl_days,
+            expiration_policy=expiration_policy,
+            timeout=timeout
+        )
+
+    async def get(
+        self,
+        file_id: str,
+        *,
+        timeout: float = 60,
+    ) -> AsyncFile:
+        return await self._get(
+            file_id=file_id,
+            timeout=timeout
+        )
+
+    async def list(
+        self,
+        *,
+        page_size: UndefinedOr[int] = UNDEFINED,
+        page_token: UndefinedOr[str] = UNDEFINED,
+        timeout: float = 60
+    ) -> AsyncIterator[AsyncFile]:
+        async for file in self._list(
+            page_size=page_size,
+            page_token=page_token,
+            timeout=timeout
+        ):
+            yield file
 
 
 class Files(BaseFiles[File]):
     _file_impl = File
 
-    upload = run_sync(BaseFiles._upload)
-    upload_bytes = run_sync(BaseFiles._upload_bytes)
-    get = run_sync(BaseFiles._get)
-    list = run_sync_generator(BaseFiles._list)
+    __upload = run_sync(BaseFiles._upload)
+    __upload_bytes = run_sync(BaseFiles._upload_bytes)
+    __get = run_sync(BaseFiles._get)
+    __list = run_sync_generator(BaseFiles._list)
+
+    def upload_bytes(
+        self,
+        data: bytes,
+        *,
+        name: UndefinedOr[str] = UNDEFINED,
+        description: UndefinedOr[str] = UNDEFINED,
+        mime_type: UndefinedOr[str] = UNDEFINED,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
+        timeout: float = 60,
+    ) -> File:
+        return self.__upload_bytes(
+            data=data,
+            name=name,
+            description=description,
+            mime_type=mime_type,
+            labels=labels,
+            ttl_days=ttl_days,
+            expiration_policy=expiration_policy,
+            timeout=timeout
+        )
+
+    def upload(
+        self,
+        path: PathLike,
+        *,
+        name: UndefinedOr[str] = UNDEFINED,
+        description: UndefinedOr[str] = UNDEFINED,
+        mime_type: UndefinedOr[str] = UNDEFINED,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
+        timeout: float = 60,
+    ) -> File:
+        return self.__upload(
+            path=path,
+            name=name,
+            description=description,
+            mime_type=mime_type,
+            labels=labels,
+            ttl_days=ttl_days,
+            expiration_policy=expiration_policy,
+            timeout=timeout
+        )
+
+    def get(
+        self,
+        file_id: str,
+        *,
+        timeout: float = 60,
+    ) -> File:
+        return self.__get(
+            file_id=file_id,
+            timeout=timeout
+        )
+
+    def list(
+        self,
+        *,
+        page_size: UndefinedOr[int] = UNDEFINED,
+        page_token: UndefinedOr[str] = UNDEFINED,
+        timeout: float = 60
+    ) -> Iterator[File]:
+        yield from self.__list(
+            page_size=page_size,
+            page_token=page_token,
+            timeout=timeout
+        )

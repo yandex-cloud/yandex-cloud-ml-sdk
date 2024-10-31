@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import dataclasses
 from datetime import datetime
-from typing import AsyncIterator, TypeVar
+from typing import AsyncIterator, Iterator, TypeVar
 
 from typing_extensions import Self
 from yandex.cloud.ai.assistants.v1.threads.thread_pb2 import Thread as ProtoThread
@@ -135,19 +135,109 @@ class RichThread(BaseThread):
 
 
 class AsyncThread(RichThread):
-    update = RichThread._update
-    delete = RichThread._delete
-    write = RichThread._write
-    read = RichThread._read
-    __aiter__ = RichThread._read
+    async def update(
+        self,
+        *,
+        name: UndefinedOr[str] = UNDEFINED,
+        description: UndefinedOr[str] = UNDEFINED,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
+        timeout: float = 60,
+    ) -> Self:
+        return await self._update(
+            name=name,
+            description=description,
+            labels=labels,
+            ttl_days=ttl_days,
+            expiration_policy=expiration_policy,
+            timeout=timeout,
+        )
+
+    async def delete(
+        self,
+        *,
+        timeout: float = 60,
+    ) -> None:
+        await self._delete(timeout=timeout)
+
+    async def write(
+        self,
+        content: str,
+        *,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        timeout: float = 60,
+    ) -> Message:
+        return await self._write(
+            content=content,
+            labels=labels,
+            timeout=timeout
+        )
+
+    async def read(
+        self,
+        *,
+        timeout: float = 60,
+    ) -> AsyncIterator[Message]:
+        async for message in self._read(timeout=timeout):
+            yield message
+
+    __aiter__ = read
 
 
 class Thread(RichThread):
-    update = run_sync(RichThread._update)
-    delete = run_sync(RichThread._delete)
-    write = run_sync(RichThread._write)
-    read = run_sync_generator(RichThread._read)
-    __iter__ = run_sync_generator(RichThread._read)
+    __update = run_sync(RichThread._update)
+    __delete = run_sync(RichThread._delete)
+    __write = run_sync(RichThread._write)
+    __read = run_sync_generator(RichThread._read)
+
+    def update(
+        self,
+        *,
+        name: UndefinedOr[str] = UNDEFINED,
+        description: UndefinedOr[str] = UNDEFINED,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
+        timeout: float = 60,
+    ) -> Self:
+        return self.__update(
+            name=name,
+            description=description,
+            labels=labels,
+            ttl_days=ttl_days,
+            expiration_policy=expiration_policy,
+            timeout=timeout,
+        )
+
+    def delete(
+        self,
+        *,
+        timeout: float = 60,
+    ) -> None:
+        self.__delete(timeout=timeout)
+
+    def write(
+        self,
+        content: str,
+        *,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        timeout: float = 60,
+    ) -> Message:
+        return self.__write(
+            content=content,
+            labels=labels,
+            timeout=timeout
+        )
+
+    def read(
+        self,
+        *,
+        timeout: float = 60,
+    ) -> Iterator[Message]:
+        yield from self.__read(timeout=timeout)
+
+    __iter__ = read
 
 
 ThreadTypeT = TypeVar('ThreadTypeT', bound=BaseThread)

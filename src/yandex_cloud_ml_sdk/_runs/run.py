@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import dataclasses
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, AsyncIterator, TypeVar
+from typing import TYPE_CHECKING, Any, AsyncIterator, Iterator, TypeVar
 
 from google.protobuf.wrappers_pb2 import Int64Value
 from yandex.cloud.ai.assistants.v1.runs.run_pb2 import Run as ProtoRun
@@ -49,7 +49,7 @@ class BaseRun(BaseResource, OperationInterface[RunResult]):
 
         return kwargs
 
-    async def _get_run(self, *, timeout=60) -> ProtoRun:
+    async def _get_run(self, *, timeout: float = 60) -> ProtoRun:
         request = GetRunRequest(run_id=self.id)
 
         async with self._client.get_service_stub(RunServiceStub, timeout=timeout) as stub:
@@ -62,12 +62,12 @@ class BaseRun(BaseResource, OperationInterface[RunResult]):
 
         return response
 
-    async def _get_status(self, *, timeout=60) -> RunStatus:  # type: ignore[override]
+    async def _get_status(self, *, timeout: float = 60) -> RunStatus:  # type: ignore[override]
         run = await self._get_run(timeout=timeout)
 
         return RunStatus._from_proto(proto=run.state.status)
 
-    async def _get_result(self, *, timeout=60) -> RunResult:
+    async def _get_result(self, *, timeout: float = 60) -> RunResult:
         run = await self._get_run(timeout=timeout)
 
         return RunResult._from_proto(sdk=self._sdk, proto=run)
@@ -76,7 +76,7 @@ class BaseRun(BaseResource, OperationInterface[RunResult]):
         self,
         *,
         events_start_idx: int = 0,
-        timeout=60,
+        timeout: float = 60,
     ) -> AsyncIterator[RunStreamEvent]:
         request = ListenRunRequest(
             run_id=self.id,
@@ -96,22 +96,79 @@ class BaseRun(BaseResource, OperationInterface[RunResult]):
 
 
 class AsyncRun(BaseRun):
-    get_status = BaseRun._get_status
-    get_result = BaseRun._get_result
-    wait = BaseRun._wait
-    listen = BaseRun._listen
-    __aiter__ = BaseRun._listen
+    async def get_status(self, *, timeout: float = 60) -> RunStatus:
+        return await self._get_status(timeout=timeout)
+
+    async def get_result(self, *, timeout: float = 60) -> RunResult:
+        return await self._get_result(timeout=timeout)
+
+    async def listen(
+        self,
+        *,
+        events_start_idx: int = 0,
+        timeout: float = 60,
+    ) -> AsyncIterator[RunStreamEvent]:
+        async for event in self._listen(
+            events_start_idx=events_start_idx,
+            timeout=timeout,
+        ):
+            yield event
+
+    __aiter__ = listen
+
+    async def wait(
+        self,
+        *,
+        timeout: float = 60,
+        poll_timeout: int = 3600,
+        poll_interval: float = 10,
+    ) -> RunResult:
+        return await self._wait(
+            timeout=timeout,
+            poll_timeout=poll_timeout,
+            poll_interval=poll_interval,
+        )
 
     def __await__(self):
         return self.wait().__await__()
 
 
 class Run(BaseRun):
-    get_status = run_sync(BaseRun._get_status)
-    get_result = run_sync(BaseRun._get_result)
-    wait = run_sync(BaseRun._wait)
-    listen = run_sync_generator(BaseRun._listen)
-    __iter__ = run_sync_generator(BaseRun._listen)
+    __get_status = run_sync(BaseRun._get_status)
+    __get_result = run_sync(BaseRun._get_result)
+    __wait = run_sync(BaseRun._wait)
+    __listen = run_sync_generator(BaseRun._listen)
+    __iter__ = __listen
 
+    def get_status(self, *, timeout: float = 60) -> RunStatus:
+        return self.__get_status(timeout=timeout)
+
+    def get_result(self, *, timeout: float = 60) -> RunResult:
+        return self.__get_result(timeout=timeout)
+
+    def listen(
+        self,
+        *,
+        events_start_idx: int = 0,
+        timeout: float = 60,
+    ) -> Iterator[RunStreamEvent]:
+        yield from self.__listen(
+            events_start_idx=events_start_idx,
+            timeout=timeout,
+        )
+
+    def wait(
+        self,
+        *,
+        timeout: float = 60,
+        poll_timeout: int = 3600,
+        poll_interval: float = 10,
+    ) -> RunResult:
+        # NB: mypy can't unterstand normally __wait return type and thinks its ResultTypeT
+        return self.__wait(  # type: ignore[return-value]
+            timeout=timeout,
+            poll_timeout=poll_timeout,
+            poll_interval=poll_interval,
+        )
 
 RunTypeT = TypeVar('RunTypeT', bound=BaseRun)
