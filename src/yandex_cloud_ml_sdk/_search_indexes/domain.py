@@ -11,11 +11,12 @@ from yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2 import (
 from yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2_grpc import SearchIndexServiceStub
 from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 
-from yandex_cloud_ml_sdk._files.utils import FileType, coerce_file_ids
+from yandex_cloud_ml_sdk._files.file import BaseFile
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
 from yandex_cloud_ml_sdk._types.operation import AsyncOperation, Operation, OperationTypeT
+from yandex_cloud_ml_sdk._utils.coerce import ResourceType, coerce_resource_ids
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .index_type import BaseSearchIndexType, TextSearchIndexType, VectorSearchIndexType
@@ -29,7 +30,7 @@ class BaseSearchIndexes(BaseDomain, Generic[SearchIndexTypeT, OperationTypeT]):
     # pylint: disable=too-many-locals
     async def _create_deferred(
         self,
-        files: FileType,
+        files: ResourceType[BaseFile],
         *,
         index_type: UndefinedOr[BaseSearchIndexType] = UNDEFINED,
         name: UndefinedOr[str] = UNDEFINED,
@@ -42,7 +43,7 @@ class BaseSearchIndexes(BaseDomain, Generic[SearchIndexTypeT, OperationTypeT]):
         if is_defined(ttl_days) != is_defined(expiration_policy):
             raise ValueError("ttl_days and expiration policy must be both defined either undefined")
 
-        file_ids = coerce_file_ids(files)
+        file_ids = coerce_resource_ids(files, BaseFile)
 
         expiration_config = ExpirationConfig.coerce(ttl_days=ttl_days, expiration_policy=expiration_policy)
 
