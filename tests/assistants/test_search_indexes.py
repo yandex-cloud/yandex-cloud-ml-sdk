@@ -93,3 +93,28 @@ async def test_search_index_list(async_sdk, test_file_path):
         await search_index.delete()
 
     await file.delete()
+
+
+@pytest.mark.allow_grpc
+async def test_assistant_with_search_index(async_sdk, tmp_path):
+    raw_file = tmp_path / 'file'
+    raw_file.write_text('my secret number is 57')
+
+    file = await async_sdk.files.upload(raw_file)
+    operation = await async_sdk.search_indexes.create_deferred(file)
+    search_index = await operation.wait()
+    tool = async_sdk.tools.search_index(search_index)
+
+    assistant = await async_sdk.assistants.create('yandexgpt', tools=[tool])
+    thread = await async_sdk.threads.create()
+    await thread.write('what is your secret number')
+
+    run = await assistant.run(thread)
+    result = await run
+
+    assert result.text == '57'
+
+    await search_index.delete()
+    await thread.delete()
+    await assistant.delete()
+    await file.delete()

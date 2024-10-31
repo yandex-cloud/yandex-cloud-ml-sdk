@@ -16,6 +16,7 @@ from yandex.cloud.ai.assistants.v1.assistant_service_pb2_grpc import AssistantSe
 from yandex_cloud_ml_sdk._models.completions.model import BaseGPTModel
 from yandex_cloud_ml_sdk._runs.run import AsyncRun, Run, RunTypeT
 from yandex_cloud_ml_sdk._threads.thread import AsyncThread, Thread, ThreadTypeT
+from yandex_cloud_ml_sdk._tools.tool import BaseTool
 from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
 from yandex_cloud_ml_sdk._types.resource import ExpirableResource, safe_on_delete
@@ -33,6 +34,7 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
     model: BaseGPTModel
     instruction: str | None
     max_prompt_tokens: int | None
+    tools: tuple[BaseTool, ...]
 
     @classmethod
     def _kwargs_from_message(cls, proto: ProtoAssistant, sdk: BaseSDK) -> dict[str, Any]:  # type: ignore[override]
@@ -44,6 +46,11 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
         if temperature := proto.completion_options.temperature.value:
             model = model.configure(temperature=temperature)
         kwargs['model'] = model
+
+        kwargs['tools'] = tuple(
+            BaseTool._from_upper_proto(tool, sdk=sdk)
+            for tool in proto.tools
+        )
 
         if max_prompt_tokens := proto.prompt_truncation_options.max_prompt_tokens.value:
             kwargs['max_prompt_tokens'] = max_prompt_tokens
