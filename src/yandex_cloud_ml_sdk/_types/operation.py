@@ -49,11 +49,11 @@ class OperationInterface(abc.ABC, Generic[ResultTypeT]):
     id: str
 
     @abc.abstractmethod
-    async def _get_status(self, *, timeout=60) -> OperationStatus:
+    async def _get_status(self, *, timeout: float = 60) -> OperationStatus:
         pass
 
     @abc.abstractmethod
-    async def _get_result(self, *, timeout=60) -> ResultTypeT:
+    async def _get_result(self, *, timeout: float = 60) -> ResultTypeT:
         pass
 
     async def _wait_impl(self, timeout, poll_interval) -> OperationStatus:
@@ -67,7 +67,7 @@ class OperationInterface(abc.ABC, Generic[ResultTypeT]):
     async def _wait(
         self,
         *,
-        timeout: int = 60,
+        timeout: float = 60,
         poll_timeout: int = 3600,
         poll_interval: float = 10,
     ) -> ResultTypeT:
@@ -97,7 +97,7 @@ class BaseOperation(OperationInterface[ResultTypeT]):
     def _client(self):
         return self._sdk._client
 
-    async def _get_status(self, *, timeout=60) -> OperationStatus:
+    async def _get_status(self, *, timeout: float = 60) -> OperationStatus:
         request = GetOperationRequest(operation_id=self.id)
         async with self._client.get_service_stub(OperationServiceStub, timeout=timeout) as stub:
             response = await self._client.call_service(
@@ -113,7 +113,7 @@ class BaseOperation(OperationInterface[ResultTypeT]):
             )
             return status
 
-    async def _get_result(self, *, timeout=60) -> ResultTypeT:
+    async def _get_result(self, *, timeout: float = 60) -> ResultTypeT:
         status = self._last_known_status
         if status is None:
             status = await self._get_status(timeout=timeout)
@@ -140,7 +140,7 @@ class BaseOperation(OperationInterface[ResultTypeT]):
             f"operation {self.id} is done but response have result neither error fields set"
         )
 
-    async def _cancel(self, *, timeout=60) -> OperationStatus:
+    async def _cancel(self, *, timeout: float = 60) -> OperationStatus:
         request = CancelOperationRequest(operation_id=self.id)
         async with self._client.get_service_stub(OperationServiceStub, timeout=timeout) as stub:
             response = await self._client.call_service(
@@ -159,7 +159,7 @@ class BaseOperation(OperationInterface[ResultTypeT]):
     async def _wait(
         self,
         *,
-        timeout: int = 60,
+        timeout: float = 60,
         poll_timeout: int = 3600,
         poll_interval: float = 10,
     ) -> ResultTypeT:
@@ -173,17 +173,59 @@ class BaseOperation(OperationInterface[ResultTypeT]):
 
 
 class AsyncOperation(BaseOperation[ResultTypeT]):
-    get_status = BaseOperation._get_status
-    get_result = BaseOperation._get_result
-    wait = BaseOperation._wait
-    cancel = BaseOperation._cancel
+    async def get_status(self, *, timeout: float = 60) -> OperationStatus:
+        return await self._get_status(timeout=timeout)
+
+    async def get_result(self, *, timeout: float = 60) -> ResultTypeT:
+        return await self._get_result(timeout=timeout)
+
+    async def cancel(self, *, timeout: float = 60) -> None:
+        await self._cancel(timeout=timeout)
+
+    async def wait(
+        self,
+        *,
+        timeout: float = 60,
+        poll_timeout: int = 3600,
+        poll_interval: float = 10,
+    ) -> ResultTypeT:
+        return await self._wait(
+            timeout=timeout,
+            poll_timeout=poll_timeout,
+            poll_interval=poll_interval,
+        )
+
+    def __await__(self):
+        return self.wait().__await__()
 
 
 class Operation(BaseOperation[ResultTypeT]):
-    get_status = run_sync(BaseOperation._get_status)
-    get_result = run_sync(BaseOperation._get_result)
-    wait = run_sync(BaseOperation._wait)
-    cancel = run_sync(BaseOperation._cancel)
+    __get_status = run_sync(BaseOperation._get_status)
+    __get_result = run_sync(BaseOperation._get_result)
+    __wait = run_sync(BaseOperation._wait)
+    __cancel = run_sync(BaseOperation._cancel)
+
+    def get_status(self, *, timeout: float = 60) -> OperationStatus:
+        return self.__get_status(timeout=timeout)
+
+    def get_result(self, *, timeout: float = 60) -> ResultTypeT:
+        return self.__get_result(timeout=timeout)
+
+    def cancel(self, *, timeout: float = 60) -> None:
+        self.__cancel(timeout=timeout)
+
+    def wait(
+        self,
+        *,
+        timeout: float = 60,
+        poll_timeout: int = 3600,
+        poll_interval: float = 10,
+    ) -> ResultTypeT:
+        return self.__wait(
+            timeout=timeout,
+            poll_timeout=poll_timeout,
+            poll_interval=poll_interval,
+        )
 
 
 OperationTypeT = TypeVar('OperationTypeT', bound=BaseOperation)

@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import dataclasses
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, AsyncIterator, TypeVar
+from typing import TYPE_CHECKING, Any, AsyncIterator, Iterator, TypeVar
 
 from typing_extensions import Self
 from yandex.cloud.ai.assistants.v1.searchindex.search_index_file_pb2 import SearchIndexFile as ProtoSearchIndexFile
@@ -178,17 +178,113 @@ class RichSearchIndex(BaseSearchIndex):
 
 
 class AsyncSearchIndex(RichSearchIndex):
-    update = RichSearchIndex._update
-    delete = RichSearchIndex._delete
-    get_file = RichSearchIndex._get_file
-    list_files = RichSearchIndex._list_files
+    async def update(
+        self,
+        *,
+        name: UndefinedOr[str] = UNDEFINED,
+        description: UndefinedOr[str] = UNDEFINED,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
+        timeout: float = 60,
+    ) -> Self:
+        return await self._update(
+            name=name,
+            description=description,
+            labels=labels,
+            ttl_days=ttl_days,
+            expiration_policy=expiration_policy,
+            timeout=timeout
+        )
+
+    async def delete(
+        self,
+        *,
+        timeout: float = 60,
+    ) -> None:
+        await self._delete(timeout=timeout)
+
+    async def get_file(
+        self,
+        file_id: str,
+        *,
+        timeout: float = 60
+    ) -> SearchIndexFile:
+        return await self._get_file(
+            file_id=file_id,
+            timeout=timeout
+        )
+
+    async def list_files(
+        self,
+        *,
+        page_size: UndefinedOr[int] = UNDEFINED,
+        page_token: UndefinedOr[str] = UNDEFINED,
+        timeout: float = 60
+    ) -> AsyncIterator[SearchIndexFile]:
+        async for file in self._list_files(
+            page_size=page_size,
+            page_token=page_token,
+            timeout=timeout,
+        ):
+            yield file
 
 
 class SearchIndex(RichSearchIndex):
-    update = run_sync(RichSearchIndex._update)
-    delete = run_sync(RichSearchIndex._delete)
-    get_file = run_sync(RichSearchIndex._get_file)
-    list_files = run_sync_generator(RichSearchIndex._list_files)
+    __update = run_sync(RichSearchIndex._update)
+    __delete = run_sync(RichSearchIndex._delete)
+    __get_file = run_sync(RichSearchIndex._get_file)
+    __list_files = run_sync_generator(RichSearchIndex._list_files)
+
+    def update(
+        self,
+        *,
+        name: UndefinedOr[str] = UNDEFINED,
+        description: UndefinedOr[str] = UNDEFINED,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
+        timeout: float = 60,
+    ) -> Self:
+        return self.__update(
+            name=name,
+            description=description,
+            labels=labels,
+            ttl_days=ttl_days,
+            expiration_policy=expiration_policy,
+            timeout=timeout
+        )
+
+    def delete(
+        self,
+        *,
+        timeout: float = 60,
+    ) -> None:
+        self.__delete(timeout=timeout)
+
+    def get_file(
+        self,
+        file_id: str,
+        *,
+        timeout: float = 60
+    ) -> SearchIndexFile:
+        return self.__get_file(
+            file_id=file_id,
+            timeout=timeout
+        )
+
+    def list_files(
+        self,
+        *,
+        page_size: UndefinedOr[int] = UNDEFINED,
+        page_token: UndefinedOr[str] = UNDEFINED,
+        timeout: float = 60
+    ) -> Iterator[SearchIndexFile]:
+        yield from self.__list_files(
+            page_size=page_size,
+            page_token=page_token,
+            timeout=timeout,
+        )
 
 
 SearchIndexTypeT = TypeVar('SearchIndexTypeT', bound=BaseSearchIndex)

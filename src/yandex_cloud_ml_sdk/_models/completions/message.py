@@ -18,9 +18,10 @@ class TextMessageDict(TypedDict):
     text: str
 
 MessageType = Union[TextMessage, TextMessageDict, str]
+MessageInputType = Union[MessageType, Iterable[MessageType]]
 
 
-def messages_to_proto(messages: MessageType | Iterable[MessageType]) -> list[ProtoMessage]:
+def messages_to_proto(messages: MessageInputType) -> list[ProtoMessage]:
     msgs: Iterable[MessageType]
     if isinstance(messages, (dict, str, TextMessage)):
         # NB: dict is also Iterable, so techically messages could be a dict[MessageType, str]

@@ -1,7 +1,7 @@
 # pylint: disable=protected-access,no-name-in-module
 from __future__ import annotations
 
-from typing import AsyncIterator, Generic, Iterable
+from typing import AsyncIterator, Generic, Iterable, Iterator
 
 from yandex.cloud.ai.assistants.v1.assistant_pb2 import Assistant as ProtoAssistant
 from yandex.cloud.ai.assistants.v1.assistant_service_pb2 import (
@@ -151,14 +151,123 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
 class AsyncAssistants(BaseAssistants[AsyncAssistant]):
     _assistant_impl = AsyncAssistant
 
-    get = BaseAssistants._get
-    create = BaseAssistants._create
-    list = BaseAssistants._list
+    # pylint: disable=too-many-arguments
+    async def create(
+        self,
+        model: str | BaseGPTModel,
+        *,
+        temperature: UndefinedOr[float] = UNDEFINED,
+        max_tokens: UndefinedOr[int] = UNDEFINED,
+        instruction: UndefinedOr[str] = UNDEFINED,
+        max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        name: UndefinedOr[str] = UNDEFINED,
+        description: UndefinedOr[str] = UNDEFINED,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        tools: UndefinedOr[Iterable[BaseTool]] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
+        timeout: float = 60,
+    ) -> AsyncAssistant:
+        return await self._create(
+            model=model,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            instruction=instruction,
+            max_prompt_tokens=max_prompt_tokens,
+            name=name,
+            description=description,
+            labels=labels,
+            ttl_days=ttl_days,
+            tools=tools,
+            expiration_policy=expiration_policy,
+            timeout=timeout,
+        )
+
+    async def get(
+        self,
+        assistant_id: str,
+        *,
+        timeout: float = 60,
+    ) -> AsyncAssistant:
+        return await self._get(
+            assistant_id=assistant_id,
+            timeout=timeout
+        )
+
+    async def list(
+        self,
+        *,
+        page_size: UndefinedOr[int] = UNDEFINED,
+        page_token: UndefinedOr[str] = UNDEFINED,
+        timeout: float = 60
+    ) -> AsyncIterator[AsyncAssistant]:
+        async for assistant in self._list(
+            page_size=page_size,
+            page_token=page_token,
+            timeout=timeout
+        ):
+            yield assistant
 
 
 class Assistants(BaseAssistants[Assistant]):
     _assistant_impl = Assistant
 
-    get = run_sync(BaseAssistants._get)
-    create = run_sync(BaseAssistants._create)
-    list = run_sync_generator(BaseAssistants._list)
+    __get = run_sync(BaseAssistants._get)
+    __create = run_sync(BaseAssistants._create)
+    __list = run_sync_generator(BaseAssistants._list)
+
+    # pylint: disable=too-many-arguments
+    def create(
+        self,
+        model: str | BaseGPTModel,
+        *,
+        temperature: UndefinedOr[float] = UNDEFINED,
+        max_tokens: UndefinedOr[int] = UNDEFINED,
+        instruction: UndefinedOr[str] = UNDEFINED,
+        max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        name: UndefinedOr[str] = UNDEFINED,
+        description: UndefinedOr[str] = UNDEFINED,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        tools: UndefinedOr[Iterable[BaseTool]] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
+        timeout: float = 60,
+    ) -> Assistant:
+        return self.__create(
+            model=model,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            instruction=instruction,
+            max_prompt_tokens=max_prompt_tokens,
+            name=name,
+            description=description,
+            labels=labels,
+            ttl_days=ttl_days,
+            tools=tools,
+            expiration_policy=expiration_policy,
+            timeout=timeout,
+        )
+
+    def get(
+        self,
+        assistant_id: str,
+        *,
+        timeout: float = 60,
+    ) -> Assistant:
+        return self.__get(
+            assistant_id=assistant_id,
+            timeout=timeout
+        )
+
+    def list(
+        self,
+        *,
+        page_size: UndefinedOr[int] = UNDEFINED,
+        page_token: UndefinedOr[str] = UNDEFINED,
+        timeout: float = 60
+    ) -> Iterator[Assistant]:
+        yield from self.__list(
+            page_size=page_size,
+            page_token=page_token,
+            timeout=timeout
+        )
