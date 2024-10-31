@@ -1,7 +1,7 @@
 # pylint: disable=protected-access,no-name-in-module
 from __future__ import annotations
 
-from typing import AsyncIterator
+from typing import AsyncIterator, Iterator
 
 from yandex.cloud.ai.assistants.v1.threads.message_pb2 import ContentPart
 from yandex.cloud.ai.assistants.v1.threads.message_pb2 import Message as ProtoMessage
@@ -89,12 +89,87 @@ class BaseMessages(BaseDomain):
 
 
 class AsyncMessages(BaseMessages):
-    get = BaseMessages._get
-    create = BaseMessages._create
-    list = BaseMessages._list
+    async def create(
+        self,
+        content: str,
+        *,
+        thread_id: str,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        timeout: float = 60,
+    ) -> Message:
+        return await self._create(
+            content=content,
+            thread_id=thread_id,
+            labels=labels,
+            timeout=timeout
+        )
+
+    async def get(
+        self,
+        *,
+        thread_id: str,
+        message_id: str,
+        timeout: float = 60,
+    ) -> Message:
+        return await self._get(
+            thread_id=thread_id,
+            message_id=message_id,
+            timeout=timeout
+        )
+
+    async def list(
+        self,
+        *,
+        thread_id: str,
+        timeout: float = 60
+    ) -> AsyncIterator[Message]:
+        async for message in self._list(
+            thread_id=thread_id,
+            timeout=timeout
+        ):
+            yield message
 
 
 class Messages(BaseMessages):
-    get = run_sync(BaseMessages._get)
-    create = run_sync(BaseMessages._create)
-    list = run_sync_generator(BaseMessages._list)
+    __get = run_sync(BaseMessages._get)
+    __create = run_sync(BaseMessages._create)
+    __list = run_sync_generator(BaseMessages._list)
+
+    def create(
+        self,
+        content: str,
+        *,
+        thread_id: str,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        timeout: float = 60,
+    ) -> Message:
+        return self.__create(
+            content=content,
+            thread_id=thread_id,
+            labels=labels,
+            timeout=timeout
+        )
+
+    def get(
+        self,
+        *,
+        thread_id: str,
+        message_id: str,
+        timeout: float = 60,
+    ) -> Message:
+        return self.__get(
+            thread_id=thread_id,
+            message_id=message_id,
+            timeout=timeout
+        )
+
+    def list(
+        self,
+        *,
+        thread_id: str,
+        timeout: float = 60
+    ) -> Iterator[Message]:
+        yield from self.__list(
+            thread_id=thread_id,
+            timeout=timeout
+        )

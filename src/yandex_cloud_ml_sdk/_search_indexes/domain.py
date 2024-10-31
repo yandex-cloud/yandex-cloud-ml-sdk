@@ -1,7 +1,7 @@
 # pylint: disable=protected-access,no-name-in-module
 from __future__ import annotations
 
-from typing import AsyncIterator, Generic
+from typing import AsyncIterator, Generic, Iterator
 
 from yandex.cloud.ai.assistants.v1.searchindex.search_index_pb2 import SearchIndex as ProtoSearchIndex
 from yandex.cloud.ai.assistants.v1.searchindex.search_index_pb2 import TextSearchIndex, VectorSearchIndex
@@ -138,15 +138,106 @@ class AsyncSearchIndexes(BaseSearchIndexes[AsyncSearchIndex, AsyncOperation[Asyn
     _impl = AsyncSearchIndex
     _operation_type = AsyncOperation
 
-    get = BaseSearchIndexes._get
-    create_deferred = BaseSearchIndexes._create_deferred
-    list = BaseSearchIndexes._list
+    async def create_deferred(
+        self,
+        files: ResourceType[BaseFile],
+        *,
+        index_type: UndefinedOr[BaseSearchIndexType] = UNDEFINED,
+        name: UndefinedOr[str] = UNDEFINED,
+        description: UndefinedOr[str] = UNDEFINED,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
+        timeout: float = 60,
+    ) -> AsyncOperation[AsyncSearchIndex]:
+        return await self._create_deferred(
+            files=files,
+            index_type=index_type,
+            name=name,
+            description=description,
+            labels=labels,
+            ttl_days=ttl_days,
+            expiration_policy=expiration_policy,
+            timeout=timeout
+        )
+
+    async def get(
+        self,
+        search_index_id: str,
+        *,
+        timeout: float = 60,
+    ) -> AsyncSearchIndex:
+        return await self._get(
+            search_index_id=search_index_id,
+            timeout=timeout,
+        )
+
+    async def list(
+        self,
+        *,
+        page_size: UndefinedOr[int] = UNDEFINED,
+        page_token: UndefinedOr[str] = UNDEFINED,
+        timeout: float = 60
+    ) -> AsyncIterator[AsyncSearchIndex]:
+        async for search_index in self._list(
+            page_size=page_size,
+            page_token=page_token,
+            timeout=timeout,
+        ):
+            yield search_index
 
 
-class SearchIndexes(BaseSearchIndexes[SearchIndex, Operation[AsyncSearchIndex]]):
+class SearchIndexes(BaseSearchIndexes[SearchIndex, Operation[SearchIndex]]):
     _impl = SearchIndex
     _operation_type = Operation
 
-    get = run_sync(BaseSearchIndexes._get)
-    create_deferred = run_sync(BaseSearchIndexes._create_deferred)
-    list = run_sync_generator(BaseSearchIndexes._list)
+    __get = run_sync(BaseSearchIndexes._get)
+    __create_deferred = run_sync(BaseSearchIndexes._create_deferred)
+    __list = run_sync_generator(BaseSearchIndexes._list)
+
+    def create_deferred(
+        self,
+        files: ResourceType[BaseFile],
+        *,
+        index_type: UndefinedOr[BaseSearchIndexType] = UNDEFINED,
+        name: UndefinedOr[str] = UNDEFINED,
+        description: UndefinedOr[str] = UNDEFINED,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
+        timeout: float = 60,
+    ) -> Operation[SearchIndex]:
+        return self.__create_deferred(
+            files=files,
+            index_type=index_type,
+            name=name,
+            description=description,
+            labels=labels,
+            ttl_days=ttl_days,
+            expiration_policy=expiration_policy,
+            timeout=timeout
+        )
+
+    def get(
+        self,
+        search_index_id: str,
+        *,
+        timeout: float = 60,
+    ) -> SearchIndex:
+        return self.__get(
+            search_index_id=search_index_id,
+            timeout=timeout,
+        )
+
+    def list(
+        self,
+        *,
+        page_size: UndefinedOr[int] = UNDEFINED,
+        page_token: UndefinedOr[str] = UNDEFINED,
+        timeout: float = 60
+    ) -> Iterator[SearchIndex]:
+        yield from self.__list(
+            page_size=page_size,
+            page_token=page_token,
+            timeout=timeout,
+        )

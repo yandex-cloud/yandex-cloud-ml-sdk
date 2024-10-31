@@ -141,17 +141,107 @@ class RichFile(BaseFile):
 
 
 class AsyncFile(RichFile):
-    get_url = RichFile._get_url
-    update = RichFile._update
-    delete = RichFile._delete
-    download_as_bytes = RichFile._download_as_bytes
+    async def get_url(
+        self,
+        *,
+        timeout: float = 60
+    ) -> str:
+        return await self._get_url(
+            timeout=timeout
+        )
+
+    async def update(
+        self,
+        *,
+        name: UndefinedOr[str] = UNDEFINED,
+        description: UndefinedOr[str] = UNDEFINED,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
+        timeout: float = 60,
+    ) -> AsyncFile:
+        return await self._update(
+            name=name,
+            description=description,
+            labels=labels,
+            ttl_days=ttl_days,
+            expiration_policy=expiration_policy,
+            timeout=timeout,
+        )
+
+    async def delete(
+        self,
+        *,
+        timeout: float = 60,
+    ) -> None:
+        await self._delete(
+            timeout=timeout
+        )
+
+    async def download_as_bytes(
+        self,
+        *,
+        chunk_size: int = 32768,
+        timeout: float = 60
+    ) -> bytes:
+        return await self._download_as_bytes(
+            chunk_size=chunk_size,
+            timeout=timeout
+        )
 
 
 class File(RichFile):
-    get_url = run_sync(RichFile._get_url)
-    update = run_sync(RichFile._update)
-    delete = run_sync(RichFile._delete)
-    download_as_bytes = run_sync(RichFile._download_as_bytes)
+    __get_url = run_sync(RichFile._get_url)
+    __update = run_sync(RichFile._update)
+    __delete = run_sync(RichFile._delete)
+    __download_as_bytes = run_sync(RichFile._download_as_bytes)
 
+    def get_url(
+        self,
+        *,
+        timeout: float = 60
+    ) -> str:
+        return self.__get_url(
+            timeout=timeout
+        )
+
+    def update(
+        self,
+        *,
+        name: UndefinedOr[str] = UNDEFINED,
+        description: UndefinedOr[str] = UNDEFINED,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
+        timeout: float = 60,
+    ) -> File:
+        return self.__update(
+            name=name,
+            description=description,
+            labels=labels,
+            ttl_days=ttl_days,
+            expiration_policy=expiration_policy,
+            timeout=timeout,
+        )
+
+    def delete(
+        self,
+        *,
+        timeout: float = 60,
+    ) -> None:
+        self.__delete(
+            timeout=timeout
+        )
+
+    def download_as_bytes(
+        self,
+        *,
+        chunk_size: int = 32768,
+        timeout: float = 60
+    ) -> bytes:
+        return self.__download_as_bytes(
+            chunk_size=chunk_size,
+            timeout=timeout
+        )
 
 FileTypeT = TypeVar('FileTypeT', bound=BaseFile)
