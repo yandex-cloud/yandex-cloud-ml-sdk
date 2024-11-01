@@ -9,12 +9,7 @@ from yandex_cloud_ml_sdk import AsyncYCloudML
 
 
 async def main() -> None:
-    sdk = AsyncYCloudML(
-        folder_id='b1ghsjum2v37c2un8h64',
-        service_map={
-            'ai-files': 'assistant.api.cloud.yandex.net'
-        }
-    )
+    sdk = AsyncYCloudML(folder_id='b1ghsjum2v37c2un8h64')
 
     path = pathlib.Path(__file__).parent / 'example_file'
     file = await sdk.files.upload(path, ttl_days=5, expiration_policy="static")

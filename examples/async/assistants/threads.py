@@ -8,12 +8,7 @@ from yandex_cloud_ml_sdk import AsyncYCloudML
 
 
 async def main() -> None:
-    sdk = AsyncYCloudML(
-        folder_id='b1ghsjum2v37c2un8h64',
-        service_map={
-            'ai-assistants': 'assistant.api.cloud.yandex.net'
-        }
-    )
+    sdk = AsyncYCloudML(folder_id='b1ghsjum2v37c2un8h64')
 
     thread = await sdk.threads.create(name='foo', ttl_days=5, expiration_policy="static")
     print(f"new {thread=}")
