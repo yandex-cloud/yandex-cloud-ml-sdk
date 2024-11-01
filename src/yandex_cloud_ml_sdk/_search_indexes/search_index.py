@@ -134,10 +134,9 @@ class BaseSearchIndex(ExpirableResource, BaseResult[ProtoSearchIndex]):  # type:
         self,
         *,
         page_size: UndefinedOr[int] = UNDEFINED,
-        page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[SearchIndexFile]:
-        page_token_ = get_defined_value(page_token, '')
+        page_token_ = ''
         page_size_ = get_defined_value(page_size, 0)
 
         async with self._client.get_service_stub(SearchIndexFileServiceStub, timeout=timeout) as stub:
@@ -219,12 +218,10 @@ class AsyncSearchIndex(RichSearchIndex):
         self,
         *,
         page_size: UndefinedOr[int] = UNDEFINED,
-        page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[SearchIndexFile]:
         async for file in self._list_files(
             page_size=page_size,
-            page_token=page_token,
             timeout=timeout,
         ):
             yield file
@@ -277,12 +274,10 @@ class SearchIndex(RichSearchIndex):
         self,
         *,
         page_size: UndefinedOr[int] = UNDEFINED,
-        page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
     ) -> Iterator[SearchIndexFile]:
         yield from self.__list_files(
             page_size=page_size,
-            page_token=page_token,
             timeout=timeout,
         )
 
