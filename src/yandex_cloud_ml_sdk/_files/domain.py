@@ -105,10 +105,9 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
         self,
         *,
         page_size: UndefinedOr[int] = UNDEFINED,
-        page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[FileTypeT]:
-        page_token_ = get_defined_value(page_token, '')
+        page_token_ = ''
         page_size_ = get_defined_value(page_size, 0)
 
         async with self._client.get_service_stub(FileServiceStub, timeout=timeout) as stub:
@@ -198,12 +197,10 @@ class AsyncFiles(BaseFiles[AsyncFile]):
         self,
         *,
         page_size: UndefinedOr[int] = UNDEFINED,
-        page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[AsyncFile]:
         async for file in self._list(
             page_size=page_size,
-            page_token=page_token,
             timeout=timeout
         ):
             yield file
@@ -278,11 +275,9 @@ class Files(BaseFiles[File]):
         self,
         *,
         page_size: UndefinedOr[int] = UNDEFINED,
-        page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
     ) -> Iterator[File]:
         yield from self.__list(
             page_size=page_size,
-            page_token=page_token,
             timeout=timeout
         )

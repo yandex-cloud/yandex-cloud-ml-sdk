@@ -77,10 +77,9 @@ class BaseThreads(BaseDomain, Generic[ThreadTypeT]):
         self,
         *,
         page_size: UndefinedOr[int] = UNDEFINED,
-        page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[ThreadTypeT]:
-        page_token_ = get_defined_value(page_token, '')
+        page_token_ = ''
         page_size_ = get_defined_value(page_size, 0)
 
         async with self._client.get_service_stub(ThreadServiceStub, timeout=timeout) as stub:
@@ -143,12 +142,10 @@ class AsyncThreads(BaseThreads[AsyncThread]):
         self,
         *,
         page_size: UndefinedOr[int] = UNDEFINED,
-        page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[AsyncThread]:
         async for thread in self._list(
             page_size=page_size,
-            page_token=page_token,
             timeout=timeout
         ):
             yield thread
@@ -195,11 +192,9 @@ class Threads(BaseThreads[Thread]):
         self,
         *,
         page_size: UndefinedOr[int] = UNDEFINED,
-        page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
     ) -> Iterator[Thread]:
         yield from self.__list(
             page_size=page_size,
-            page_token=page_token,
             timeout=timeout
         )

@@ -105,10 +105,9 @@ class BaseSearchIndexes(BaseDomain, Generic[SearchIndexTypeT, OperationTypeT]):
         self,
         *,
         page_size: UndefinedOr[int] = UNDEFINED,
-        page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[SearchIndexTypeT]:
-        page_token_ = get_defined_value(page_token, '')
+        page_token_ = ''
         page_size_ = get_defined_value(page_size, 0)
 
         async with self._client.get_service_stub(SearchIndexServiceStub, timeout=timeout) as stub:
@@ -176,12 +175,10 @@ class AsyncSearchIndexes(BaseSearchIndexes[AsyncSearchIndex, AsyncOperation[Asyn
         self,
         *,
         page_size: UndefinedOr[int] = UNDEFINED,
-        page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[AsyncSearchIndex]:
         async for search_index in self._list(
             page_size=page_size,
-            page_token=page_token,
             timeout=timeout,
         ):
             yield search_index
@@ -233,11 +230,9 @@ class SearchIndexes(BaseSearchIndexes[SearchIndex, Operation[SearchIndex]]):
         self,
         *,
         page_size: UndefinedOr[int] = UNDEFINED,
-        page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
     ) -> Iterator[SearchIndex]:
         yield from self.__list(
             page_size=page_size,
-            page_token=page_token,
             timeout=timeout,
         )

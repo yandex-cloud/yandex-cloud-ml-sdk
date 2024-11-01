@@ -122,10 +122,9 @@ class BaseRuns(BaseDomain, Generic[RunTypeT]):
         self,
         *,
         page_size: UndefinedOr[int] = UNDEFINED,
-        page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[RunTypeT]:
-        page_token_ = get_defined_value(page_token, '')
+        page_token_ = ''
         page_size_ = get_defined_value(page_size, 0)
 
         async with self._client.get_service_stub(RunServiceStub, timeout=timeout) as stub:
@@ -181,12 +180,10 @@ class AsyncRuns(BaseRuns[AsyncRun]):
         self,
         *,
         page_size: UndefinedOr[int] = UNDEFINED,
-        page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[AsyncRun]:
         async for run in self._list(
             page_size=page_size,
-            page_token=page_token,
             timeout=timeout,
         ):
             yield run
@@ -226,11 +223,9 @@ class Runs(BaseRuns[Run]):
         self,
         *,
         page_size: UndefinedOr[int] = UNDEFINED,
-        page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
     ) -> Iterator[Run]:
         yield from self.__list(
             page_size=page_size,
-            page_token=page_token,
             timeout=timeout,
         )
