@@ -14,14 +14,7 @@ def local_path(path: str) -> pathlib.Path:
 
 
 async def main() -> None:
-    sdk = AsyncYCloudML(
-        folder_id='b1ghsjum2v37c2un8h64',
-        service_map={
-            'ai-files': 'assistant.api.cloud.yandex.net',
-            'ai-assistants': 'assistant.api.cloud.yandex.net',
-            'operation': 'assistant.api.cloud.yandex.net',
-        }
-    )
+    sdk = AsyncYCloudML(folder_id='b1ghsjum2v37c2un8h64')
 
     file_coros = (
         sdk.files.upload(

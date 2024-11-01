@@ -13,14 +13,7 @@ def local_path(path: str) -> pathlib.Path:
 
 
 def main() -> None:
-    sdk = YCloudML(
-        folder_id='b1ghsjum2v37c2un8h64',
-        service_map={
-            'ai-files': 'assistant.api.cloud.yandex.net',
-            'ai-assistants': 'assistant.api.cloud.yandex.net',
-            'operation': 'assistant.api.cloud.yandex.net',
-        }
-    )
+    sdk = YCloudML(folder_id='b1ghsjum2v37c2un8h64')
 
     files = []
     for path in ['turkey_example.txt', 'maldives_example.txt']:
