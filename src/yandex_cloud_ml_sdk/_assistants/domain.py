@@ -119,10 +119,9 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
         self,
         *,
         page_size: UndefinedOr[int] = UNDEFINED,
-        page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[AssistantTypeT]:
-        page_token_ = get_defined_value(page_token, '')
+        page_token_ = ''
         page_size_ = get_defined_value(page_size, 0)
 
         async with self._client.get_service_stub(AssistantServiceStub, timeout=timeout) as stub:
@@ -198,12 +197,10 @@ class AsyncAssistants(BaseAssistants[AsyncAssistant]):
         self,
         *,
         page_size: UndefinedOr[int] = UNDEFINED,
-        page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[AsyncAssistant]:
         async for assistant in self._list(
             page_size=page_size,
-            page_token=page_token,
             timeout=timeout
         ):
             yield assistant
@@ -263,11 +260,9 @@ class Assistants(BaseAssistants[Assistant]):
         self,
         *,
         page_size: UndefinedOr[int] = UNDEFINED,
-        page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
     ) -> Iterator[Assistant]:
         yield from self.__list(
             page_size=page_size,
-            page_token=page_token,
             timeout=timeout
         )
