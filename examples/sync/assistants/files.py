@@ -8,12 +8,7 @@ from yandex_cloud_ml_sdk import YCloudML
 
 
 def main() -> None:
-    sdk = YCloudML(
-        folder_id='b1ghsjum2v37c2un8h64',
-        service_map={
-            'ai-files': 'assistant.api.cloud.yandex.net'
-        }
-    )
+    sdk = YCloudML(folder_id='b1ghsjum2v37c2un8h64')
 
     path = pathlib.Path(__file__).parent / 'example_file'
     file = sdk.files.upload(path, ttl_days=5, expiration_policy="static")
