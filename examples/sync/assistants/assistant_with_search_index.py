@@ -2,18 +2,17 @@
 
 from __future__ import annotations
 
-import asyncio
 import pathlib
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
+from yandex_cloud_ml_sdk import YCloudML
 
 
 def local_path(path: str) -> pathlib.Path:
     return pathlib.Path(__file__).parent / path
 
 
-async def main() -> None:
-    sdk = AsyncYCloudML(
+def main() -> None:
+    sdk = YCloudML(
         folder_id='b1ghsjum2v37c2un8h64',
         service_map={
             'ai-assistants': 'assistant.api.cloud.yandex.net',
@@ -22,41 +21,40 @@ async def main() -> None:
         }
     )
 
-    file_coros = (
-        sdk.files.upload(
+    files = []
+    for path in ['turkey_example.txt', 'maldives_example.txt']:
+        file = sdk.files.upload(
             local_path(path),
             ttl_days=5,
             expiration_policy="static",
         )
-        for path in ['turkey_example.txt', 'maldives_example.txt']
-    )
+        files.append(file)
 
-    files = await asyncio.gather(*file_coros)
-    operation = await sdk.search_indexes.create_deferred(files)
-    search_index = await operation
+    operation = sdk.search_indexes.create_deferred(files)
+    search_index = operation.wait()
 
     tool = sdk.tools.search_index(search_index)
 
-    assistant = await sdk.assistants.create('yandexgpt', tools=[tool])
-    thread = await sdk.threads.create()
+    assistant = sdk.assistants.create('yandexgpt', tools=[tool])
+    thread = sdk.threads.create()
 
     for search_query in (
         local_path('search_query.txt').read_text().splitlines()[0],
         "Cколько пошлина в Анталье"
     ):
-        await thread.write(search_query)
-        run = await assistant.run(thread)
-        result = await run
+        thread.write(search_query)
+        run = assistant.run(thread)
+        result = run.wait()
         print('Question', search_query)
         print('Answer:', result.text)
 
-    await search_index.delete()
-    await thread.delete()
-    await assistant.delete()
+    search_index.delete()
+    thread.delete()
+    assistant.delete()
 
     for file in files:
-        await file.delete()
+        file.delete()
 
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    main()
