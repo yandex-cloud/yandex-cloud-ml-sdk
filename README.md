@@ -1,13 +1,13 @@
 # Yandex Cloud ML SDK
 
-This Python library provides a simple and efficient SDK for interacting with Yandex Cloud Machine Learning services. It abstracts the complexities of the raw GRPC calls, allowing developers to integrate cloud functionalities seamlessly into their applications.
+This Python library provides a simple and efficient software development kit (SDK) for interacting with Yandex Cloud Machine Learning services. The SDK abstracts away the complexities of raw gRPC calls, making it easier for developers to integrate cloud functionality into their applications seamlessly.
 
 ## Features
 
-- Easy-to-use interface for accessing the Yandex Cloud ML services
-- Automatic handling of authentication
-- Error handling and data validation for robust integration
-- Support for asynchronous operations
+- Easy-to-use interface for accessing the Yandex Cloud ML services.
+- Automatic  authentication handling.
+- Robust integration with error handling and data validation.
+- Asynchronous operations support.
 
 ## Installation
 
@@ -36,7 +36,7 @@ for alternative in result:
 
 For more usage examples look into `examples` folder.
 
-## Langchain integration
+## LangChain integration
 
 ```python
 from yandex_cloud_ml_sdk import YCloudML
@@ -53,4 +53,4 @@ langchain_result = model.invoke([
 ])
 ```
 
-For more langchain integration examples look into `examples/langchain` folder.
+For more LangChain integration examples look into `examples/langchain` folder.
