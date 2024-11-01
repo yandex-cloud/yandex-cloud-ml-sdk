@@ -2,20 +2,18 @@
 
 from __future__ import annotations
 
-import asyncio
-
-from yandex_cloud_ml_sdk import AsyncYCloudML
+from yandex_cloud_ml_sdk import YCloudML
 
 
-async def main() -> None:
-    sdk = AsyncYCloudML(
+def main() -> None:
+    sdk = YCloudML(
         folder_id='b1ghsjum2v37c2un8h64',
         service_map={
             'ai-assistants': 'assistant.api.cloud.yandex.net'
         }
     )
 
-    assistant = await sdk.assistants.create(
+    assistant = sdk.assistants.create(
         'yandexgpt',
         ttl_days=1,
         expiration_policy='static',
@@ -24,21 +22,21 @@ async def main() -> None:
     )
     print(f"{assistant=}")
 
-    assistant2 = await sdk.assistants.get(assistant.id)
+    assistant2 = sdk.assistants.get(assistant.id)
     print(f"same {assistant2=}")
 
-    await assistant2.update(model='yandexgpt-lite', name='foo', max_tokens=5)
+    assistant2.update(model='yandexgpt-lite', name='foo', max_tokens=5)
     print(f"updated {assistant2=}")
 
-    async for version in assistant.list_versions():
+    for version in assistant.list_versions():
         print(f"assistant {version=}")
 
-    async for assistant in sdk.assistants.list():
+    for assistant in sdk.assistants.list():
         print(f"deleting {assistant=}")
 
-        await assistant.delete()
+        assistant.delete()
 
 
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    main()

@@ -2,20 +2,18 @@
 
 from __future__ import annotations
 
-import asyncio
-
-from yandex_cloud_ml_sdk import AsyncYCloudML
+from yandex_cloud_ml_sdk import YCloudML
 
 
-async def main() -> None:
-    sdk = AsyncYCloudML(
+def main() -> None:
+    sdk = YCloudML(
         folder_id='b1ghsjum2v37c2un8h64',
         service_map={
             'ai-assistants': 'assistant.api.cloud.yandex.net'
         }
     )
 
-    assistant = await sdk.assistants.create(
+    assistant = sdk.assistants.create(
         'yandexgpt',
         temperature=0.5,
         max_prompt_tokens=50,
@@ -24,39 +22,39 @@ async def main() -> None:
     )
     print(f'new {assistant=}')
 
-    thread = await sdk.threads.create(
+    thread = sdk.threads.create(
         name='foo',
         ttl_days=6,
         expiration_policy='static',
     )
-    message = await thread.write("hi! how are you")
+    message = thread.write("hi! how are you")
     print(f'new {thread=} with {message=}')
 
-    run = await assistant.run_stream(thread)
+    run = assistant.run_stream(thread)
     print(f'new stream {run=} on this thread and assistant')
-    async for event in run:
+    for event in run:
         print(f'from stream {event=}')
 
-    message = await thread.write("how is your name?")
+    message = thread.write("how is your name?")
     print(f'second {message=}')
 
-    run = await assistant.run(thread)
+    run = assistant.run(thread)
     print(f'second {run=}')
-    result = await run
+    result = run.wait()
     print(f'run {result=}')
 
-    run = await sdk.runs.get_last_by_thread(thread)
+    run = sdk.runs.get_last_by_thread(thread)
     print(f'last run in thread, same as last one: {run}')
 
     # NB: it doesn't work at the moment at the backend
-    # async for run in sdk.runs.list(page_size=10):
+    # for run in sdk.runs.list(page_size=10):
     #     print('run:', run)
 
-    async for assistant in sdk.assistants.list():
-        await assistant.delete()
+    for assistant in sdk.assistants.list():
+        assistant.delete()
 
-    await thread.delete()
+    thread.delete()
 
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    main()
