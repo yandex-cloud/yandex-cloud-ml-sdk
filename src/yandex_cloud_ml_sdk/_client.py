@@ -58,6 +58,15 @@ class AsyncCloudClient:
     async def _init_service_map(self, timeout: float):
         credentials = grpc.ssl_channel_credentials()
         metadata = await self._get_metadata(auth_required=False, timeout=timeout, retry_kind=RetryKind.SINGLE)
+
+        # XXX: assistants is not at https://api.cloud.yandex.net/endpoints yet
+        # But when it will be, this dict keys will be just overridden
+        # TODO: delete
+        self._service_map = {
+            'ai-assistants': 'assistant.api.cloud.yandex.net',
+            'ai-files': 'assistant.api.cloud.yandex.net',
+        }
+
         async with grpc.aio.secure_channel(
             self._endpoint,
             credentials,
@@ -115,7 +124,9 @@ class AsyncCloudClient:
             interceptors=self._interceptors,
         )
 
-    async def _get_channel(self, stub_class: type[_T], timeout: float) -> grpc.aio.Channel:
+    async def _get_channel(
+        self, stub_class: type[_T], timeout: float, service_name: str | None = None
+    ) -> grpc.aio.Channel:
         if stub_class in self._channels:
             return self._channels[stub_class]
 
@@ -123,7 +134,8 @@ class AsyncCloudClient:
             if stub_class in self._channels:
                 return self._channels[stub_class]
 
-            service_name: str = _service_for_ctor(stub_class)
+            if service_name is None:
+                service_name = _service_for_ctor(stub_class)
 
             if not self._service_map:
                 await self._init_service_map(timeout=timeout)
@@ -135,11 +147,13 @@ class AsyncCloudClient:
             return channel
 
     @asynccontextmanager
-    async def get_service_stub(self, stub_class: type[_T], timeout: float) -> AsyncIterator[_T]:
+    async def get_service_stub(
+        self, stub_class: type[_T], timeout: float, service_name: str | None = None
+    ) -> AsyncIterator[_T]:
         # NB: right now get_service_stub is asynccontextmanager and it is unnecessary,
         # but in future if we will make some ChannelPool, it could be handy to know,
         # when "user" releases resource
-        channel = await self._get_channel(stub_class, timeout)
+        channel = await self._get_channel(stub_class, timeout, service_name=service_name)
         yield stub_class(channel)
 
     async def call_service_stream(
