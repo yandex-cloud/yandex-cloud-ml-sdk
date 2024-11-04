@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# pylint: disable=duplicate-code
 
 from __future__ import annotations
 
@@ -8,25 +9,37 @@ from yandex_cloud_ml_sdk import YCloudML
 def main() -> None:
     sdk = YCloudML(folder_id='b1ghsjum2v37c2un8h64')
 
-    model = sdk.models.text_classifiers('yandexgpt').configure(
-        task_description="",
-        labels=["foo", "bar"]
+    model = sdk.models.text_classifiers("yandexgpt").configure(
+        task_description="определи тип интента",
+        labels=[
+            "перевод",
+            "будильник",
+            "погода"
+        ],
     )
 
-    result = model.run("foo")
+    # result will be "погода": 1.0
+    result = model.run('переведи на английский "какая погода в лондоне?"')
 
     for prediction in result:
         print(prediction)
 
     model = model.configure(
-        task_description="",
-        labels=["foo", "bar"],
-        samples=[
-            {"text": "foo", "label": "bar"},
-            {"text": "bar", "label": "foo"},
+        task_description="определи тип интента",
+        labels=[
+            "перевод",
+            "будильник",
+            "погода"
         ],
+        samples=[
+            {"text": "поставь будильник", "label": "будильник"},
+            {"text": "погода на завтра", "label": "погода"},
+            {"text": 'переведи фразу "поставь будильник"', "label": "перевод"},
+        ]
     )
-    result = model.run("foo")
+
+    # But with the given samples result will change to a "перевод": 0.99
+    result = model.run('переведи на английский "какая погода в лондоне?"')
 
     for prediction in result:
         print(prediction)

@@ -12,7 +12,9 @@ async def main() -> None:
 
     model = sdk.models.text_classifiers('cls://b1ghsjum2v37c2un8h64/bt14f74au2ap3q0f9ou4')
 
-    result = await model.run("foo")
+    # result will contain predictions with a predefined classes
+    # and most powerful prediction will be "mathematics": 0.92
+    result = await model.run("Vieta's formulas")
 
     for prediction in result:
         print(prediction)
