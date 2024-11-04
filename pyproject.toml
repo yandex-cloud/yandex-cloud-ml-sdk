@@ -46,7 +46,7 @@ test = [
     "tox",
 ]
 langchain = [
-    "langchain-core>=0.3"
+    "langchain-core>=0.2"
 ]
 
 [project.urls]
