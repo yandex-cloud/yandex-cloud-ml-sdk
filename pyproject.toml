@@ -91,6 +91,9 @@ pythonpath = [
   "src"
 ]
 testpaths = "tests"
+addopts = [
+    "--import-mode=importlib",
+]
 
 [tool.pylint]
 ignore="CVS"
@@ -240,6 +243,7 @@ max-public-methods=20
 max-returns=6
 max-statements=50
 min-public-methods=2
+max-positional-arguments=7
 
 [tool.pylint.'IMPORTS']
 allow-wildcard-with-all="no"
@@ -257,5 +261,6 @@ module = [
     "get_annotations",
     "scipy.spatial.distance",
     "langchain_core.messages",
+    "pydantic",
 ]
 ignore_missing_imports = true

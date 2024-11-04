@@ -1,10 +1,14 @@
-# pylint: disable=abstract-method
+# pylint: disable=abstract-method,wrong-import-position
 from __future__ import annotations
+
+import sys
+
+if sys.version_info < (3, 9):
+    raise NotImplementedError("Langchain integration doesn't supported for python<3.9")
 
 from typing import Generic, TypeVar
 
 from langchain_core.language_models.base import BaseLanguageModel
-from langchain_core.load import Serializable
 from pydantic import BaseModel as PydanticModel
 from pydantic import ConfigDict
 
