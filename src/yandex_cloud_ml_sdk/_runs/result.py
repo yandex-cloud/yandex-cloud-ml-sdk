@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import abc
 import dataclasses
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
 from yandex.cloud.ai.assistants.v1.runs.run_pb2 import Run as ProtoRun
 from yandex.cloud.ai.assistants.v1.runs.run_service_pb2 import StreamEvent as ProtoStreamEvent
@@ -17,13 +17,19 @@ from .status import BaseRunStatus, RunStatus, StreamEvent
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
+StatusTypeT = TypeVar('StatusTypeT', bound=BaseRunStatus)
+MessageTypeT = TypeVar('MessageTypeT', bound=BaseMessage)
 
 
 @dataclasses.dataclass(frozen=True)
-class BaseRunResult(BaseRunStatus, BaseResult[ProtoResultTypeT]):
-    status: BaseRunStatus
+class BaseRunResult(
+    BaseRunStatus,
+    BaseResult[ProtoResultTypeT],
+    Generic[ProtoResultTypeT, StatusTypeT, MessageTypeT]
+):
+    status: StatusTypeT
     error: str | None
-    _message: BaseMessage | None
+    _message: MessageTypeT | None
 
     @classmethod
     @abc.abstractmethod
@@ -43,7 +49,7 @@ class BaseRunResult(BaseRunStatus, BaseResult[ProtoResultTypeT]):
         return self.status.is_failed
 
     @property
-    def message(self) -> BaseMessage:
+    def message(self) -> MessageTypeT:
         if self.is_failed:
             raise ValueError("run is failed and don't have a message result")
         assert self._message
@@ -59,11 +65,9 @@ class BaseRunResult(BaseRunStatus, BaseResult[ProtoResultTypeT]):
 
 
 @dataclasses.dataclass(frozen=True)
-class RunResult(BaseRunResult[ProtoRun]):
+class RunResult(BaseRunResult[ProtoRun, RunStatus, Message]):
     _proto_result_type = ProtoRun
 
-    _message: Message | None
-    status: RunStatus
     usage: Usage | None
 
     @classmethod
@@ -100,9 +104,8 @@ class RunResult(BaseRunResult[ProtoRun]):
 
 
 @dataclasses.dataclass(frozen=True)
-class RunStreamEvent(BaseRunResult[ProtoStreamEvent]):
+class RunStreamEvent(BaseRunResult[ProtoStreamEvent, StreamEvent, BaseMessage]):
     _proto_result_type = ProtoStreamEvent
-    status: StreamEvent
 
     @classmethod
     def _from_proto(cls, proto: ProtoStreamEvent, sdk: BaseSDK) -> RunStreamEvent:
