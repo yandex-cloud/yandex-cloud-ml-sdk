@@ -8,6 +8,7 @@ from typing import Literal, Protocol, Sequence, TypeVar, cast
 
 import grpc
 import grpc.aio
+import httpx
 from google.protobuf.message import Message
 from yandex.cloud.endpoint.api_endpoint_service_pb2 import ListApiEndpointsRequest  # pylint: disable=no-name-in-module
 from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServiceStub
@@ -27,7 +28,7 @@ _T = TypeVar('_T', bound=StubType)
 _D = TypeVar('_D', bound=Message)
 
 
-def _get_user_agent():
+def _get_user_agent() -> str:
     from . import __version__  # pylint: disable=import-outside-toplevel,cyclic-import
 
     # NB: grpc breaks in case of using \t instead of space
@@ -35,6 +36,13 @@ def _get_user_agent():
         f'yandex-cloud-ml-sdk={__version__} '
         f'python={sys.version_info.major}.{sys.version_info.minor}'
     )
+
+
+@asynccontextmanager
+async def httpx_client() -> AsyncIterator[httpx.AsyncClient]:
+    headers = {'user-agent': _get_user_agent()}
+    async with httpx.AsyncClient(headers=headers) as client:
+        yield client
 
 
 class AsyncCloudClient:

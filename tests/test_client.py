@@ -18,6 +18,7 @@ from yandex.cloud.endpoint.api_endpoint_service_pb2 import ListApiEndpointsReque
 from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServiceStub
 
 from yandex_cloud_ml_sdk import AsyncYCloudML
+from yandex_cloud_ml_sdk._client import _get_user_agent, httpx_client
 
 
 @pytest.fixture(name='servicers')
@@ -132,3 +133,9 @@ def test_multiple_threads(sdk_maker, caplog):
     thread_pool.map(main, range(10))
 
     assert not caplog.records
+
+
+@pytest.mark.asyncio
+async def test_httpx_client():
+    async with httpx_client() as client:
+        assert client.headers['User-Agent'] == _get_user_agent()
