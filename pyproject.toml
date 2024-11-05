@@ -261,6 +261,7 @@ module = [
     "get_annotations",
     "scipy.spatial.distance",
     "langchain_core",
+    "langchain_core.messages",
     "pydantic",
 ]
 ignore_missing_imports = true
