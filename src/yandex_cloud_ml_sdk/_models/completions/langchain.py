@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict
-from typing import TYPE_CHECKING, Any, AsyncIterator, Iterator, TypeVar
+from typing import Any, AsyncIterator, Iterator, TypeVar
 
 from langchain_core.callbacks import AsyncCallbackManagerForLLMRun, CallbackManagerForLLMRun
 from langchain_core.language_models.chat_models import BaseChatModel
@@ -14,11 +14,8 @@ from yandex_cloud_ml_sdk._utils.langchain import make_async_run_manager
 from yandex_cloud_ml_sdk._utils.sync import run_sync_generator_impl, run_sync_impl
 
 from .message import TextMessageDict
+from .model import BaseGPTModel  # pylint: disable=cyclic-import
 from .result import Alternative, AlternativeStatus, GPTModelResult
-
-if TYPE_CHECKING:
-    from .model import BaseGPTModel  # noqa
-
 
 GenerationClassT = TypeVar('GenerationClassT', bound=ChatGeneration)
 
@@ -53,7 +50,7 @@ def _transform_messages(history: list[BaseMessage]) -> list[TextMessageDict]:
     return chat_history
 
 
-class ChatYandexGPT(BaseYandexLanguageModel['BaseGPTModel'], BaseChatModel):
+class ChatYandexGPT(BaseYandexLanguageModel[BaseGPTModel], BaseChatModel):
     class Config:
         arbitrary_types_allowed = True
 
@@ -182,3 +179,6 @@ class ChatYandexGPT(BaseYandexLanguageModel['BaseGPTModel'], BaseChatModel):
                 text_override=delta,
             )
             yield generation
+
+
+ChatYandexGPT.model_rebuild()
