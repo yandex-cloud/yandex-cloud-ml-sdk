@@ -18,13 +18,14 @@ def fixture_auth(iam_token):
     return IAMTokenAuth(iam_token)
 
 
-async def test_auth(async_sdk, iam_token):
+async def test_auth(async_sdk, iam_token, user_agent_tuple):
     metadata = await async_sdk._client._get_metadata(
         auth_required=True,
         timeout=1
     )
     assert metadata == (
         ('yc-ml-sdk-retry', 'NONE'),
+        user_agent_tuple,
         ('authorization', f'Bearer {iam_token}'),
     )
 

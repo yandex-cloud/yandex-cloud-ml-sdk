@@ -1,6 +1,7 @@
 # pylint: disable=too-many-instance-attributes
 from __future__ import annotations
 
+import sys
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from typing import Literal, Protocol, Sequence, TypeVar, cast
@@ -24,6 +25,16 @@ class StubType(Protocol):
 
 _T = TypeVar('_T', bound=StubType)
 _D = TypeVar('_D', bound=Message)
+
+
+def _get_user_agent():
+    from . import __version__  # pylint: disable=import-outside-toplevel,cyclic-import
+
+    # NB: grpc breaks in case of using \t instead of space
+    return (
+        f'yandex-cloud-ml-sdk={__version__} '
+        f'python={sys.version_info.major}.{sys.version_info.minor}'
+    )
 
 
 class AsyncCloudClient:
@@ -54,6 +65,8 @@ class AsyncCloudClient:
 
         self._auth_lock = LazyLock()
         self._channels_lock = LazyLock()
+
+        self._user_agent = _get_user_agent()
 
     async def _init_service_map(self, timeout: float):
         credentials = grpc.ssl_channel_credentials()
@@ -93,6 +106,7 @@ class AsyncCloudClient:
     ) -> tuple[tuple[str, str], ...]:
         metadata = (
             (RETRY_KIND_METADATA_KEY, retry_kind.name),
+            ("grpc.primary_user_agent", self._user_agent),
         )
 
         if not auth_required:
