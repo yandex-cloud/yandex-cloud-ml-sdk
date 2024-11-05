@@ -18,12 +18,6 @@ from yandex_cloud_ml_sdk._testing.interceptor import (
 )
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED
 
-pytest_plugins = [
-    'pytest_asyncio',
-    'pytest_recording',
-    'yandex_cloud_ml_sdk._testing.plugin',
-]
-
 
 @pytest.fixture(name='auth')
 def fixture_auth(request):

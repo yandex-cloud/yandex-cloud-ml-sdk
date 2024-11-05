@@ -46,7 +46,7 @@ test = [
     "tox",
 ]
 langchain = [
-    "langchain-core>=0.2.29"
+    "langchain-core>=0.3"
 ]
 
 [project.urls]
@@ -91,6 +91,9 @@ pythonpath = [
   "src"
 ]
 testpaths = "tests"
+addopts = [
+    "--import-mode=importlib",
+]
 
 [tool.pylint]
 ignore="CVS"
@@ -240,6 +243,7 @@ max-public-methods=20
 max-returns=6
 max-statements=50
 min-public-methods=2
+max-positional-arguments=7
 
 [tool.pylint.'IMPORTS']
 allow-wildcard-with-all="no"
@@ -255,7 +259,15 @@ overgeneral-exceptions= [
 [[tool.mypy.overrides]]
 module = [
     "get_annotations",
-    "scipy.spatial.distance",
+    "langchain_core",
+    "langchain_core.callbacks",
+    "langchain_core.callbacks.manager",
+    "langchain_core.language_models.base",
+    "langchain_core.language_models.chat_models",
     "langchain_core.messages",
+    "langchain_core.messages.ai",
+    "langchain_core.outputs",
+    "pydantic",
+    "scipy.spatial.distance",
 ]
 ignore_missing_imports = true
