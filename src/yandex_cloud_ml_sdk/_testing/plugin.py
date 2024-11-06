@@ -31,7 +31,7 @@ def pytest_addoption(parser: Parser) -> None:
         "--heavy",
         action="store_true",
         default=False,
-        help="Regenerate cassettes with grpc requests",
+        help="Run tests with a mark 'heavy'",
     )
 
     group.addoption(

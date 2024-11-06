@@ -56,10 +56,14 @@ class OperationInterface(abc.ABC, Generic[ResultTypeT]):
     async def _get_result(self, *, timeout: float = 60) -> ResultTypeT:
         pass
 
-    async def _wait_impl(self, timeout, poll_interval) -> OperationStatus:
+    async def _sleep_impl(self, delay: float) -> None:
+        # method is created for patching it in a tests
+        await asyncio.sleep(delay)
+
+    async def _wait_impl(self, timeout: float, poll_interval: float) -> OperationStatus:
         status = await self._get_status(timeout=timeout)
         while status.is_running:
-            await asyncio.sleep(poll_interval)
+            await self._sleep_impl(poll_interval)
             status = await self._get_status(timeout=timeout)
 
         return status
