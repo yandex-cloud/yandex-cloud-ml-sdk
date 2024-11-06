@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections.abc import AsyncIterator
 from concurrent import futures
 from typing import Callable
+from unittest.mock import AsyncMock
 
 import grpc.aio
 import pytest
@@ -34,6 +35,23 @@ def fixture_interceptors(request):
         AsyncUnaryUnaryClientInterceptor(cassette_manager),
         AsyncUnaryStreamClientInterceptor(cassette_manager),
     ]
+
+
+@pytest.fixture(autouse=True)
+def patch_operation(request, monkeypatch):
+    allow_grpc_test = bool(list(request.node.iter_markers('allow_grpc')))
+    generate = request.config.getoption("--generate-grpc")
+    regenerate = request.config.getoption("--regenerate-grpc")
+    if not allow_grpc_test and not generate and not regenerate:
+        return
+
+    import yandex_cloud_ml_sdk._types.operation  # pylint: disable=import-outside-toplevel
+
+    monkeypatch.setattr(
+        yandex_cloud_ml_sdk._types.operation.OperationInterface,  # pylint: disable=protected-access
+        '_sleep_impl',
+        AsyncMock()
+    )
 
 
 @pytest.fixture(name='folder_id')
