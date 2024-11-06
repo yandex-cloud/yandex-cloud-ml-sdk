@@ -10,7 +10,7 @@ import pytest_asyncio
 
 from yandex_cloud_ml_sdk import AsyncYCloudML, YCloudML
 from yandex_cloud_ml_sdk._auth import BaseAuth, NoAuth
-from yandex_cloud_ml_sdk._client import AsyncCloudClient
+from yandex_cloud_ml_sdk._client import AsyncCloudClient, _get_user_agent
 from yandex_cloud_ml_sdk._retry import NoRetryPolicy, RetryPolicy
 from yandex_cloud_ml_sdk._testing.client import MockClient
 from yandex_cloud_ml_sdk._testing.interceptor import (
@@ -144,3 +144,8 @@ def fixture_async_sdk(
     if test_client:
         sdk._client = test_client
     return sdk
+
+
+@pytest.fixture(name='user_agent_tuple')
+def fixture_user_agent_tuple():
+    return ('grpc.primary_user_agent', _get_user_agent())
