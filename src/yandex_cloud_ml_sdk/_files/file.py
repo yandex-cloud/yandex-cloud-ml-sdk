@@ -5,7 +5,6 @@ import dataclasses
 from datetime import datetime
 from typing import TypeVar
 
-import httpx
 from typing_extensions import Self
 from yandex.cloud.ai.files.v1.file_pb2 import File as ProtoFile
 from yandex.cloud.ai.files.v1.file_service_pb2 import (
@@ -13,6 +12,7 @@ from yandex.cloud.ai.files.v1.file_service_pb2 import (
 )
 from yandex.cloud.ai.files.v1.file_service_pb2_grpc import FileServiceStub
 
+from yandex_cloud_ml_sdk._client import httpx_client
 from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._types.resource import ExpirableResource, safe_on_delete
@@ -116,7 +116,7 @@ class BaseFile(ExpirableResource):
         # I didn't invent better way to use this function without a @safe_on_delete-lock
         url = await self._get_url.__wrapped__(self, timeout=timeout)  # type: ignore[attr-defined]
 
-        async with httpx.AsyncClient() as client:
+        async with httpx_client() as client:
             async with client.stream("GET", url, timeout=timeout) as response:
                 response.raise_for_status()
 
