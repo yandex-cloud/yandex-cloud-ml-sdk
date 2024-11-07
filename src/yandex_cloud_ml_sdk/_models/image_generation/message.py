@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Iterable, NotRequired, Protocol, TypedDict, Union, cast, runtime_checkable
+from typing import Iterable, Protocol, TypedDict, Union, cast, runtime_checkable
 
+from typing_extensions import NotRequired
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.ai.foundation_models.v1.image_generation.image_generation_pb2 import Message as ProtoMessage
 
@@ -10,7 +11,7 @@ from yandex.cloud.ai.foundation_models.v1.image_generation.image_generation_pb2 
 @dataclass(frozen=True)
 class ImageMessage:
     text: str
-    weight: float | None
+    weight: float | None = None
 
 
 class ImageMessageDict(TypedDict):
