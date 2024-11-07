@@ -12,6 +12,9 @@ async def main() -> None:
 
     model = sdk.models.image_generation('yandex-art')
 
+    # configuring model for all of future runs
+    model = model.configure(width_ratio=1, height_ratio=2, seed=50)
+
     # simple run
     operation = await model.run_deferred('a red cat')
     result = await operation
