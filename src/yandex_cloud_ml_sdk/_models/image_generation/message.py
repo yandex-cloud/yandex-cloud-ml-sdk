@@ -53,7 +53,10 @@ def messages_to_proto(messages: ImageMessageInputType) -> list[ProtoMessage]:
         elif isinstance(message, dict) and 'text' in message:
             kwargs = cast(ImageMessageDict, message)
         else:
-            raise TypeError(f'{message=} should be str, {{["weight": float], "text": str}} dict or object with a `text: str` field')
+            raise TypeError(
+                f'{message=} should be str, {{["weight": float], "text": str}} dict '
+                'or object with a `text: str` field'
+            )
 
         result.append(
             ProtoMessage(**kwargs)
