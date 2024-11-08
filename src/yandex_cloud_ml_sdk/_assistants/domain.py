@@ -48,19 +48,16 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
         expiration_config = ExpirationConfig.coerce(ttl_days=ttl_days, expiration_policy=expiration_policy)
 
         model_uri: str = ''
-        model_temperature: float | None = None
-        model_max_tokens: int | None = None
         if isinstance(model, str):
             model_uri = self._sdk.models.completions(model).uri
         elif isinstance(model, BaseGPTModel):
             model_uri = model.uri
-            model_temperature = model.config.temperature
-            model_max_tokens = model.config.max_tokens
+            if not is_defined(temperature) and model.config.temperature is not None:
+                temperature = model.config.temperature
+            if not is_defined(max_tokens) and model.config.max_tokens is not None:
+                max_tokens = model.config.max_tokens
         else:
             raise TypeError('model argument must be str, GPTModel object either undefined')
-
-        model_temperature = get_defined_value(temperature, model_temperature)
-        model_max_tokens = get_defined_value(max_tokens, model_max_tokens)
 
         tools_: tuple[BaseTool, ...] = ()
         if is_defined(tools):
@@ -79,8 +76,8 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
             ),
             model_uri=model_uri,
             completion_options=get_completion_options(
-                temperature=model_temperature,
-                max_tokens=model_max_tokens
+                temperature=temperature,
+                max_tokens=max_tokens
             ),
             tools=[tool._to_proto() for tool in tools_]
         )
