@@ -161,14 +161,6 @@ class BaseGPTModel(
                 result_type=self._result_type,
             )
 
-    @override
-    def attach_async(self, operation_id: str) -> OperationTypeT:
-        return self._operation_type(
-            id=operation_id,
-            sdk=self._sdk,
-            result_type=self._result_type,
-        )
-
     async def _tokenize(
         self,
         messages: MessageInputType,
