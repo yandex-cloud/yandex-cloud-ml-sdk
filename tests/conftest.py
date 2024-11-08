@@ -42,7 +42,7 @@ def patch_operation(request, monkeypatch):
     allow_grpc_test = bool(list(request.node.iter_markers('allow_grpc')))
     generate = request.config.getoption("--generate-grpc")
     regenerate = request.config.getoption("--regenerate-grpc")
-    if not allow_grpc_test and not generate and not regenerate:
+    if not allow_grpc_test or generate or regenerate:
         return
 
     import yandex_cloud_ml_sdk._types.operation  # pylint: disable=import-outside-toplevel
@@ -156,7 +156,6 @@ def fixture_async_sdk(
         service_map={  # TMP
             'ai-files': 'assistant.api.cloud.yandex.net',
             'ai-assistants': 'assistant.api.cloud.yandex.net',
-            'operation': 'assistant.api.cloud.yandex.net',
         }
     )
     if test_client:
