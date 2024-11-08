@@ -7,7 +7,6 @@ pytestmark = pytest.mark.asyncio
 
 
 @pytest.mark.allow_grpc
-@pytest.mark.vcr
 async def test_assistant(async_sdk):
     assistant = await async_sdk.assistants.create('yandexgpt')
 
@@ -65,6 +64,38 @@ async def test_assistant(async_sdk):
     assert assistant.model.config.max_tokens == 10
 
     await assistant.delete()
+
+
+@pytest.mark.allow_grpc
+async def test_assistant_zeros(async_sdk):
+    assistant = await async_sdk.assistants.create('yandexgpt')
+    assert assistant.model.config.temperature is None
+
+    await assistant.update(temperature=0.5)
+    assert assistant.model.config.temperature == 0.5
+
+    await assistant.update(temperature=None)
+    # XXX this is a bug:
+    assert assistant.model.config.temperature == 0
+
+    await assistant.update(temperature=0)
+    assert assistant.model.config.temperature == 0
+
+    assistant2 = await async_sdk.assistants.create('yandexgpt', temperature=0)
+    assert assistant2.model.config.temperature == 0
+
+    await assistant2.update(temperature=None)
+    # XXX this is a bug:
+    assert assistant2.model.config.temperature == 0
+
+    assert assistant.model.config.max_tokens is None
+
+    await assistant.update(max_tokens=50)
+    assert assistant.model.config.max_tokens == 50
+
+    # XXX this is not working by because of the backend bug
+    # await assistant.update(max_tokens=None)
+    # assert assistant.model.config.max_tokens == 0
 
 
 @pytest.mark.allow_grpc

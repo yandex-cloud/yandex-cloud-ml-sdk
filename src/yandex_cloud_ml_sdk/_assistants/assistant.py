@@ -41,10 +41,11 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
         kwargs = super()._kwargs_from_message(proto, sdk=sdk)
 
         model = sdk.models.completions(proto.model_uri)
-        if max_tokens := proto.completion_options.max_tokens.value:
-            model = model.configure(max_tokens=max_tokens)
-        if temperature := proto.completion_options.temperature.value:
-            model = model.configure(temperature=temperature)
+        completion_options = proto.completion_options
+        if completion_options.HasField('max_tokens'):
+            model = model.configure(max_tokens=completion_options.max_tokens.value)
+        if completion_options.HasField('temperature'):
+            model = model.configure(temperature=completion_options.temperature.value)
         kwargs['model'] = model
 
         kwargs['tools'] = tuple(
@@ -80,22 +81,19 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
             expiration_policy=expiration_policy
         )
 
-        model_uri: str | None = None
-        model_temperature: float | None = self.model.config.temperature
-        model_max_tokens: int | None = self.model.config.max_tokens
+        model_uri: UndefinedOr[str] | None = UNDEFINED
 
         if is_defined(model):
             if isinstance(model, str):
                 model_uri = self._sdk.models.completions(model).uri
             elif isinstance(model, BaseGPTModel):
                 model_uri = model.uri
-                model_temperature = model.config.temperature
-                model_max_tokens = model.config.max_tokens
+                if not is_defined(temperature) and model.config.temperature is not None:
+                    temperature = model.config.temperature
+                if not is_defined(max_tokens) and model.config.max_tokens is not None:
+                    max_tokens = model.config.max_tokens
             else:
                 raise TypeError('model argument must be str, GPTModel object either undefined')
-
-        model_temperature = get_defined_value(temperature, model_temperature)
-        model_max_tokens = get_defined_value(max_tokens, model_max_tokens)
 
         request = UpdateAssistantRequest(
             assistant_id=self.id,
@@ -108,11 +106,11 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
                 max_prompt_tokens=get_defined_value(max_prompt_tokens, None)
             ),
             completion_options=get_completion_options(
-                temperature=model_temperature,
-                max_tokens=model_max_tokens
+                temperature=temperature,
+                max_tokens=max_tokens,
             )
         )
-        if model_uri:
+        if model_uri and is_defined(model_uri):
             request.model_uri = model_uri
 
         self._fill_update_mask(
@@ -125,8 +123,8 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
                 'expiration_config.expiration_policy': expiration_policy,
                 'instruction': instruction,
                 'model_uri': model_uri,
-                'completion_options.temperature': model_temperature,
-                'completion_options.max_tokens': model_max_tokens,
+                'completion_options.temperature': temperature,
+                'completion_options.max_tokens': max_tokens,
                 'prompt_truncation_options.max_prompt_tokens': max_prompt_tokens,
             }
         )

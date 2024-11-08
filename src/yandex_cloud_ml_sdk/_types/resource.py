@@ -60,7 +60,7 @@ class BaseResource:
 
     def _fill_update_mask(self, mask: FieldMask, fields: dict[str, Any]) -> None:
         for key, value in fields.items():
-            if is_defined(value) and value is not None:
+            if is_defined(value):
                 mask.paths.append(key)
 
 
