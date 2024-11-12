@@ -27,6 +27,7 @@ from ._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
 class BaseSDK:
     tools: Tools
     models: BaseModels
+    """The domain contains the Python API for working with models"""
     threads: BaseThreads
     files: BaseFiles
     assistants: BaseAssistants
@@ -51,14 +52,12 @@ class BaseSDK:
 
         :param folder_id: Yandex Cloud folder identifier which will be billed
            for models usage.
-        :type folder_id: str
         :param endpoint: domain:port pair for Yandex Cloud API or any other
             grpc compatible target.
-        :type endpoint: str
         :param auth: string with API Key, IAM token or one of yandex_cloud_ml_sdk.auth objects;
-            in case of default Undefined value, there will be a mechanism to get token
+            in case of default `Undefined` value, there will be a mechanism to get token
             from environment
-        :type api_key | BaseAuth: str
+        :type api_key: BaseAuth | str
         :param service_map: a way to redefine endpoints for one or more cloud subservices
             with a format of dict {service_name: service_address}.
         :type service_map: Dict[str, str]
@@ -143,6 +142,8 @@ class BaseSDK:
 
 
 class AsyncYCloudML(BaseSDK):
+    """SDK client intended to be used with asyncio"""
+
     tools: Tools
     models: AsyncModels
     files: AsyncFiles
@@ -154,6 +155,8 @@ class AsyncYCloudML(BaseSDK):
 
 
 class YCloudML(BaseSDK):
+    """SDK client intended to be used with an usual synchronous code"""
+
     tools: Tools
     models: Models
     files: Files
