@@ -18,14 +18,13 @@ def fixture_auth(api_key):
     return APIKeyAuth(api_key)
 
 
-async def test_auth(async_sdk, api_key, user_agent_tuple):
+async def test_auth(async_sdk, api_key):
     metadata = await async_sdk._client._get_metadata(
         auth_required=True,
         timeout=1
     )
     assert metadata == (
         ('yc-ml-sdk-retry', 'NONE'),
-        user_agent_tuple,
         ('authorization', f'Api-Key {api_key}'),
     )
 

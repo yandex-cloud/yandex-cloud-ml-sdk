@@ -33,8 +33,8 @@ def _get_user_agent() -> str:
 
     # NB: grpc breaks in case of using \t instead of space
     return (
-        f'yandex-cloud-ml-sdk={__version__} '
-        f'python={sys.version_info.major}.{sys.version_info.minor}'
+        f'yandex-cloud-ml-sdk/{__version__} '
+        f'python/{sys.version_info.major}.{sys.version_info.minor}'
     )
 
 
@@ -116,7 +116,6 @@ class AsyncCloudClient:
     ) -> tuple[tuple[str, str], ...]:
         metadata: tuple[tuple[str, str], ...] = (
             (RETRY_KIND_METADATA_KEY, retry_kind.name),
-            ("grpc.primary_user_agent", self._user_agent),
         )
 
         if self._enable_server_data_logging is not None:
@@ -146,12 +145,18 @@ class AsyncCloudClient:
 
         return metadata
 
+    def _get_options(self) -> tuple[tuple[str, str], ...]:
+        return (
+            ("grpc.primary_user_agent", self._user_agent),
+        )
+
     def _new_channel(self, endpoint: str) -> grpc.aio.Channel:
         credentials = grpc.ssl_channel_credentials()
         return grpc.aio.secure_channel(
             endpoint,
             credentials,
             interceptors=self._interceptors,
+            options=self._get_options(),
         )
 
     async def _get_channel(

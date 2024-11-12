@@ -22,7 +22,7 @@ def fixture_auth():
     return MetadataAuth()
 
 
-async def test_auth(async_sdk, iam_token, mock_client, user_agent_tuple):
+async def test_auth(async_sdk, iam_token, mock_client):
     response = httpx.Response(
         status_code=200,
         text=f'{{"access_token":"{iam_token}","expires_in":42055,"token_type":"Bearer"}}',
@@ -33,7 +33,6 @@ async def test_auth(async_sdk, iam_token, mock_client, user_agent_tuple):
     metadata = await async_sdk._client._get_metadata(auth_required=True, timeout=1)
     assert metadata == (
         ('yc-ml-sdk-retry', 'NONE'),
-        user_agent_tuple,
         ("authorization", f"Bearer {iam_token}"),
     )
 

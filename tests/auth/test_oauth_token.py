@@ -42,13 +42,12 @@ def servicers(oauth_token):
 
 
 @pytest.mark.filterwarnings("ignore:.*OAuth:UserWarning")
-async def test_auth(async_sdk, auth, user_agent_tuple):
+async def test_auth(async_sdk, auth):
     metadata = await async_sdk._client._get_metadata(auth_required=True, timeout=1)
 
     assert auth._issue_time is not None
     assert metadata == (
         ('yc-ml-sdk-retry', 'NONE'),
-        user_agent_tuple,
         ("authorization", "Bearer <iam-token-0>"),
     )
 
