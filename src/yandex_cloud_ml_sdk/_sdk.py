@@ -45,6 +45,7 @@ class BaseSDK:
         yc_profile: UndefinedOr[str] = UNDEFINED,
         service_map: UndefinedOr[dict[str, str]] = UNDEFINED,
         interceptors: UndefinedOr[Sequence[aio.ClientInterceptor]] = UNDEFINED,
+        enable_server_data_logging: UndefinedOr[bool] = UNDEFINED,
     ):
         """
         Construct a new asynchronous sdk instance.
@@ -62,6 +63,11 @@ class BaseSDK:
         :param service_map: a way to redefine endpoints for one or more cloud subservices
             with a format of dict {service_name: service_address}.
         :type service_map: Dict[str, str]
+        :param enable_server_data_logging: when passed bool, we will add
+            `x-data-logging-enabled: <value>` to all of requests, which will
+            enable or disable logging of user data on server side.
+            It will do something only on those parts of backends which supports
+            this option.
 
         """
         endpoint = self._get_endpoint(endpoint)
@@ -74,6 +80,7 @@ class BaseSDK:
             retry_policy=retry_policy,
             interceptors=get_defined_value(interceptors, None),
             yc_profile=get_defined_value(yc_profile, None),
+            enable_server_data_logging=get_defined_value(enable_server_data_logging, None),
         )
         self._folder_id = folder_id
 
