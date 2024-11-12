@@ -55,6 +55,7 @@ class AsyncCloudClient:
         interceptors: Sequence[grpc.aio.ClientInterceptor] | None,
         yc_profile: str | None,
         retry_policy: RetryPolicy,
+        enable_server_data_logging: bool | None,
     ):
         self._endpoint = endpoint
         self._auth = auth
@@ -75,6 +76,7 @@ class AsyncCloudClient:
         self._channels_lock = LazyLock()
 
         self._user_agent = _get_user_agent()
+        self._enable_server_data_logging = enable_server_data_logging
 
     async def _init_service_map(self, timeout: float):
         credentials = grpc.ssl_channel_credentials()
@@ -116,6 +118,11 @@ class AsyncCloudClient:
             (RETRY_KIND_METADATA_KEY, retry_kind.name),
             ("grpc.primary_user_agent", self._user_agent),
         )
+
+        if self._enable_server_data_logging is not None:
+            metadata += (
+                ("x-data-logging-enabled", self._enable_server_data_logging),
+            )
 
         if not auth_required:
             return metadata

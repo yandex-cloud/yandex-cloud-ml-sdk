@@ -18,7 +18,8 @@ from yandex.cloud.endpoint.api_endpoint_service_pb2 import ListApiEndpointsReque
 from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServiceStub
 
 from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk._client import _get_user_agent, httpx_client
+from yandex_cloud_ml_sdk._client import AsyncCloudClient, _get_user_agent, httpx_client
+from yandex_cloud_ml_sdk.auth import NoAuth
 
 
 @pytest.fixture(name='servicers')
@@ -139,3 +140,48 @@ def test_multiple_threads(sdk_maker, caplog):
 async def test_httpx_client():
     async with httpx_client() as client:
         assert client.headers['User-Agent'] == _get_user_agent()
+
+
+# pylint: disable=protected-access
+@pytest.mark.asyncio
+async def test_x_data_logging(interceptors, retry_policy, user_agent_tuple):
+    base_result = (('yc-ml-sdk-retry', 'NONE'), user_agent_tuple)
+    client = AsyncCloudClient(
+        endpoint="foo",
+        auth=NoAuth(),
+        service_map={},
+        yc_profile=None,
+        retry_policy=retry_policy,
+        interceptors=interceptors,
+        enable_server_data_logging=None,
+    )
+
+    assert await client._get_metadata(auth_required=False, timeout=0) == base_result
+
+    client = AsyncCloudClient(
+        endpoint="foo",
+        auth=NoAuth(),
+        service_map={},
+        yc_profile=None,
+        retry_policy=retry_policy,
+        interceptors=interceptors,
+        enable_server_data_logging=True,
+    )
+
+    assert await client._get_metadata(auth_required=False, timeout=0) == base_result + (
+        ('x-data-logging-enabled', True),
+    )
+
+    client = AsyncCloudClient(
+        endpoint="foo",
+        auth=NoAuth(),
+        service_map={},
+        yc_profile=None,
+        retry_policy=retry_policy,
+        interceptors=interceptors,
+        enable_server_data_logging=False,
+    )
+
+    assert await client._get_metadata(auth_required=False, timeout=0) == base_result + (
+        ('x-data-logging-enabled', False),
+    )
