@@ -38,7 +38,11 @@ class MockClient(AsyncCloudClient):
 
     @override
     def _new_channel(self, endpoint: str) -> grpc.aio.Channel:
-        return grpc.aio.insecure_channel(target=endpoint, interceptors=self._interceptors)
+        return grpc.aio.insecure_channel(
+            target=endpoint,
+            interceptors=self._interceptors,
+            options=self._get_options(),
+        )
 
     @override
     async def _init_service_map(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=unused-argument
