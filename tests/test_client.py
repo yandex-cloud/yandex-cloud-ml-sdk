@@ -169,7 +169,7 @@ async def test_x_data_logging(interceptors, retry_policy, user_agent_tuple):
     )
 
     assert await client._get_metadata(auth_required=False, timeout=0) == base_result + (
-        ('x-data-logging-enabled', "true")
+        ('x-data-logging-enabled', "true"),
     )
 
     client = AsyncCloudClient(
