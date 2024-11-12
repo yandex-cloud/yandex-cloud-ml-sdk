@@ -29,6 +29,11 @@ def fixture_servicers():
             self.i = 0
 
         def Completion(self, request, context):
+            for key, value in context.invocation_metadata():
+                if key == 'user-agent':
+                    assert _get_user_agent() in value
+                    assert 'grpc-python-asyncio' in value
+
             for i in range(10):
                 self.i = i
                 yield CompletionResponse(
@@ -144,8 +149,8 @@ async def test_httpx_client():
 
 # pylint: disable=protected-access
 @pytest.mark.asyncio
-async def test_x_data_logging(interceptors, retry_policy, user_agent_tuple):
-    base_result = (('yc-ml-sdk-retry', 'NONE'), user_agent_tuple)
+async def test_x_data_logging(interceptors, retry_policy):
+    base_result = (('yc-ml-sdk-retry', 'NONE'),)
     client = AsyncCloudClient(
         endpoint="foo",
         auth=NoAuth(),
