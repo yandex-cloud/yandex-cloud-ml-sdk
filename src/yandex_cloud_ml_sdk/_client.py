@@ -114,7 +114,7 @@ class AsyncCloudClient:
         timeout: float,
         retry_kind: RetryKind = RetryKind.NONE,
     ) -> tuple[tuple[str, str], ...]:
-        metadata = (
+        metadata: tuple[tuple[str, str], ...] = (
             (RETRY_KIND_METADATA_KEY, retry_kind.name),
             ("grpc.primary_user_agent", self._user_agent),
         )
