@@ -120,8 +120,9 @@ class AsyncCloudClient:
         )
 
         if self._enable_server_data_logging is not None:
+            enable_server_data_logging = "true" if self._enable_server_data_logging else "false"
             metadata += (
-                ("x-data-logging-enabled", self._enable_server_data_logging),
+                ("x-data-logging-enabled", enable_server_data_logging),
             )
 
         if not auth_required:
