@@ -159,12 +159,19 @@ class AsyncCloudClient:
                 return self._channels[stub_class]
 
             service_name: str = _service_for_ctor(stub_class)
-
             if not self._service_map:
                 await self._init_service_map(timeout=timeout)
 
             if not (endpoint := self._service_map.get(service_name)):
-                raise ValueError(f'failed to find endpoint for {service_name=} and {stub_class=}')
+                # NB: this fix will work if service_map will change ai-assistant to ai-assistants
+                # (and retrospectively if user will stuck with this version)
+                # and if _service_for_ctor will change ai-assistants to ai-assistant
+                if service_name in ('ai-assistant', 'ai-assistants'):
+                    service_name = 'ai-assistant' if service_name == 'ai-assistants' else 'ai-assistants'
+                    if not (endpoint := self._service_map.get(service_name)):
+                        raise ValueError(f'failed to find endpoint for {service_name=} and {stub_class=}')
+                else:
+                    raise ValueError(f'failed to find endpoint for {service_name=} and {stub_class=}')
 
             channel = self._channels[stub_class] = self._new_channel(endpoint)
             return channel
