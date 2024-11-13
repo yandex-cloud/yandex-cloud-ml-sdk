@@ -153,7 +153,10 @@ def fixture_async_sdk(
         interceptors=interceptors,
         auth=auth,
         retry_policy=retry_policy,
-        service_map={  # TMP
+        service_map={
+            # NOT SO TMP after all
+            # to remove this, we need to regenerate all of assistant tests cassetes
+            # and maybe change etalons in tests, so it needs some effort
             'ai-files': 'assistant.api.cloud.yandex.net',
             'ai-assistants': 'assistant.api.cloud.yandex.net',
         }

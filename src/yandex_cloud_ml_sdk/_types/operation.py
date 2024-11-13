@@ -87,14 +87,11 @@ class OperationInterface(abc.ABC, Generic[ResultTypeT]):
 class BaseOperation(OperationInterface[ResultTypeT]):
     _last_known_status: OperationStatus | None
 
-    def __init__(
-        self, sdk: BaseSDK, id: str, result_type: type[ResultTypeT], service_name: str | None = None
-    ):  # pylint: disable=redefined-builtin
+    def __init__(self, sdk: BaseSDK, id: str, result_type: type[ResultTypeT]):  # pylint: disable=redefined-builtin
         self._id = id
         self._sdk = sdk
         self._result_type: type[BaseResult] = result_type
         self._last_known_status = None
-        self._service_name = service_name
 
     @property
     def id(self):
@@ -106,11 +103,7 @@ class BaseOperation(OperationInterface[ResultTypeT]):
 
     async def _get_status(self, *, timeout: float = 60) -> OperationStatus:
         request = GetOperationRequest(operation_id=self.id)
-        async with self._client.get_service_stub(
-            OperationServiceStub,
-            timeout=timeout,
-            service_name=self._service_name,
-        ) as stub:
+        async with self._client.get_service_stub(OperationServiceStub, timeout=timeout) as stub:
             response = await self._client.call_service(
                 stub.Get,
                 request,
@@ -153,11 +146,7 @@ class BaseOperation(OperationInterface[ResultTypeT]):
 
     async def _cancel(self, *, timeout: float = 60) -> OperationStatus:
         request = CancelOperationRequest(operation_id=self.id)
-        async with self._client.get_service_stub(
-            OperationServiceStub,
-            timeout=timeout,
-            service_name=self._service_name,
-        ) as stub:
+        async with self._client.get_service_stub(OperationServiceStub, timeout=timeout) as stub:
             response = await self._client.call_service(
                 stub.Cancel,
                 request,

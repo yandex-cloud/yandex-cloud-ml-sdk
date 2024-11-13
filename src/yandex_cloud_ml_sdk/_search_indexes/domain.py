@@ -67,9 +67,7 @@ class BaseSearchIndexes(BaseDomain, Generic[SearchIndexTypeT, OperationTypeT]):
             text_search_index=text_search_index,
         )
 
-        async with self._client.get_service_stub(
-            SearchIndexServiceStub, timeout=timeout, service_name='ai-assistants'
-        ) as stub:
+        async with self._client.get_service_stub(SearchIndexServiceStub, timeout=timeout) as stub:
             response = await self._client.call_service(
                 stub.Create,
                 request,
@@ -80,8 +78,7 @@ class BaseSearchIndexes(BaseDomain, Generic[SearchIndexTypeT, OperationTypeT]):
         return self._operation_type(
             id=response.id,
             sdk=self._sdk,
-            result_type=self._impl,
-            service_name='ai-assistants',
+            result_type=self._impl
         )
 
     async def _get(
