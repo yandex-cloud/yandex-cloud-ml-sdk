@@ -5,6 +5,7 @@ import asyncio
 import time
 from multiprocessing.pool import ThreadPool
 
+import grpc
 import pytest
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Token
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import (
@@ -159,6 +160,7 @@ async def test_x_data_logging(interceptors, retry_policy):
         retry_policy=retry_policy,
         interceptors=interceptors,
         enable_server_data_logging=None,
+        credentials=None,
     )
 
     assert await client._get_metadata(auth_required=False, timeout=0) == base_result
@@ -171,6 +173,7 @@ async def test_x_data_logging(interceptors, retry_policy):
         retry_policy=retry_policy,
         interceptors=interceptors,
         enable_server_data_logging=True,
+        credentials=None,
     )
 
     assert await client._get_metadata(auth_required=False, timeout=0) == base_result + (
@@ -185,8 +188,27 @@ async def test_x_data_logging(interceptors, retry_policy):
         retry_policy=retry_policy,
         interceptors=interceptors,
         enable_server_data_logging=False,
+        credentials=None,
     )
 
     assert await client._get_metadata(auth_required=False, timeout=0) == base_result + (
         ('x-data-logging-enabled', "false"),
     )
+
+
+@pytest.mark.asyncio
+async def test_channel_credentials(folder_id):
+    sdk = AsyncYCloudML(folder_id=folder_id)
+    assert sdk._client._credentials is None
+    sdk._client._new_channel('foo')
+
+    creds = grpc.ssl_channel_credentials()
+    sdk = AsyncYCloudML(folder_id=folder_id, grpc_credentials=creds)
+    assert sdk._client._credentials is creds
+    sdk._client._new_channel('foo')
+
+    # this test checks if passed grpc_credentials is really used in
+    # channel creation
+    sdk = AsyncYCloudML(folder_id=folder_id, grpc_credentials=1)
+    with pytest.raises(AttributeError, match="'int' object has no attribute '_credentials'"):
+        sdk._client._new_channel('foo')

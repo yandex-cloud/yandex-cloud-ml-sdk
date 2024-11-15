@@ -7,7 +7,7 @@ import threading
 from typing import Optional, Sequence
 
 from get_annotations import get_annotations
-from grpc import aio
+from grpc import ChannelCredentials, aio
 
 from ._assistants.domain import Assistants, AsyncAssistants, BaseAssistants
 from ._auth import BaseAuth
@@ -46,6 +46,7 @@ class BaseSDK:
         service_map: UndefinedOr[dict[str, str]] = UNDEFINED,
         interceptors: UndefinedOr[Sequence[aio.ClientInterceptor]] = UNDEFINED,
         enable_server_data_logging: UndefinedOr[bool] = UNDEFINED,
+        grpc_credentials: UndefinedOr[ChannelCredentials] = UNDEFINED,
     ):
         """
         Construct a new asynchronous sdk instance.
@@ -81,6 +82,7 @@ class BaseSDK:
             interceptors=get_defined_value(interceptors, None),
             yc_profile=get_defined_value(yc_profile, None),
             enable_server_data_logging=get_defined_value(enable_server_data_logging, None),
+            credentials=get_defined_value(grpc_credentials, None),
         )
         self._folder_id = folder_id
 
