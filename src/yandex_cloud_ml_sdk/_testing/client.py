@@ -32,6 +32,7 @@ class MockClient(AsyncCloudClient):
             yc_profile=None,
             retry_policy=retry_policy,
             enable_server_data_logging=None,
+            credentials=None,
         )
         self.port = port
         self._sdk = sdk
