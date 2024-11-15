@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections.abc import AsyncIterator
 from concurrent import futures
 from typing import Callable
+from unittest.mock import AsyncMock
 
 import grpc.aio
 import pytest
@@ -10,19 +11,13 @@ import pytest_asyncio
 
 from yandex_cloud_ml_sdk import AsyncYCloudML, YCloudML
 from yandex_cloud_ml_sdk._auth import BaseAuth, NoAuth
-from yandex_cloud_ml_sdk._client import AsyncCloudClient
+from yandex_cloud_ml_sdk._client import AsyncCloudClient, _get_user_agent
 from yandex_cloud_ml_sdk._retry import NoRetryPolicy, RetryPolicy
 from yandex_cloud_ml_sdk._testing.client import MockClient
 from yandex_cloud_ml_sdk._testing.interceptor import (
     AsyncUnaryStreamClientInterceptor, AsyncUnaryUnaryClientInterceptor, CassetteManager
 )
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED
-
-pytest_plugins = [
-    'pytest_asyncio',
-    'pytest_recording',
-    'yandex_cloud_ml_sdk._testing.plugin',
-]
 
 
 @pytest.fixture(name='auth')
@@ -40,6 +35,23 @@ def fixture_interceptors(request):
         AsyncUnaryUnaryClientInterceptor(cassette_manager),
         AsyncUnaryStreamClientInterceptor(cassette_manager),
     ]
+
+
+@pytest.fixture(autouse=True)
+def patch_operation(request, monkeypatch):
+    allow_grpc_test = bool(list(request.node.iter_markers('allow_grpc')))
+    generate = request.config.getoption("--generate-grpc")
+    regenerate = request.config.getoption("--regenerate-grpc")
+    if not allow_grpc_test or generate or regenerate:
+        return
+
+    import yandex_cloud_ml_sdk._types.operation  # pylint: disable=import-outside-toplevel
+
+    monkeypatch.setattr(
+        yandex_cloud_ml_sdk._types.operation.OperationInterface,  # pylint: disable=protected-access
+        '_sleep_impl',
+        AsyncMock()
+    )
 
 
 @pytest.fixture(name='folder_id')
@@ -136,7 +148,24 @@ def fixture_async_sdk(
     retry_policy: RetryPolicy,
     test_client: MockClient | None,
 ) -> AsyncYCloudML:
-    sdk = AsyncYCloudML(folder_id=folder_id, interceptors=interceptors, auth=auth, retry_policy=retry_policy)
+    sdk = AsyncYCloudML(
+        folder_id=folder_id,
+        interceptors=interceptors,
+        auth=auth,
+        retry_policy=retry_policy,
+        service_map={
+            # NOT SO TMP after all
+            # to remove this, we need to regenerate all of assistant tests cassetes
+            # and maybe change etalons in tests, so it needs some effort
+            'ai-files': 'assistant.api.cloud.yandex.net',
+            'ai-assistants': 'assistant.api.cloud.yandex.net',
+        }
+    )
     if test_client:
         sdk._client = test_client
     return sdk
+
+
+@pytest.fixture(name='user_agent_tuple')
+def fixture_user_agent_tuple():
+    return ('grpc.primary_user_agent', _get_user_agent())

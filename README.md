@@ -38,6 +38,14 @@ For more usage examples look into `examples` folder.
 
 ## LangChain integration
 
+To use langchain integration, install `yandex-cloud-ml-sdk` package with a `langchain` extra:
+
+```sh
+pip install yandex-cloud-ml-sdk[langchain]
+```
+
+Usage example:
+
 ```python
 from yandex_cloud_ml_sdk import YCloudML
 from langchain_core.messages import AIMessage, HumanMessage

@@ -1,9 +1,9 @@
-# pylint: disable=arguments-renamed,no-name-in-module
+# pylint: disable=arguments-renamed,no-name-in-module,protected-access
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, AsyncIterator, Iterable, Literal
+from typing import TYPE_CHECKING, Any, AsyncIterator, Iterator, Literal
 
-from typing_extensions import override
+from typing_extensions import Self, override
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import CompletionOptions
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import (
     CompletionRequest, CompletionResponse, TokenizeResponse
@@ -13,12 +13,13 @@ from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_servic
 )
 from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 
+from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr
 from yandex_cloud_ml_sdk._types.model import ModelAsyncMixin, ModelSyncMixin, ModelSyncStreamMixin, OperationTypeT
 from yandex_cloud_ml_sdk._types.operation import AsyncOperation, Operation
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .config import GPTModelConfig
-from .message import MessageType, messages_to_proto
+from .message import MessageInputType, messages_to_proto
 from .result import GPTModelResult
 from .token import Token
 
@@ -44,10 +45,22 @@ class BaseGPTModel(
 
         raise ValueError(f"unknown langchain model {type=}")
 
+    # pylint: disable=useless-parent-delegation,arguments-differ
+    def configure(  # type: ignore[override]
+        self,
+        *,
+        temperature: UndefinedOr[float] = UNDEFINED,
+        max_tokens: UndefinedOr[int] = UNDEFINED
+    ) -> Self:
+        return super().configure(
+            temperature=temperature,
+            max_tokens=max_tokens
+        )
+
     def _make_request(
         self,
         *,
-        messages: MessageType | Iterable[MessageType],
+        messages: MessageInputType,
         stream: bool | None,
     ) -> CompletionRequest:
         completion_options_kwargs: dict[str, Any] = {}
@@ -69,7 +82,7 @@ class BaseGPTModel(
     async def _run_sync_impl(
         self,
         *,
-        messages: MessageType | Iterable[MessageType],
+        messages: MessageInputType,
         stream: bool,
         timeout: int,
     ) -> AsyncIterator[GPTModelResult]:
@@ -84,7 +97,7 @@ class BaseGPTModel(
                 timeout=timeout,
                 expected_type=CompletionResponse,
             ):
-                yield GPTModelResult._from_proto(response)
+                yield GPTModelResult._from_proto(response, sdk=self._sdk)
 
         # something like mypy or pylint asking me to put this return here
         return
@@ -93,7 +106,7 @@ class BaseGPTModel(
     # pylint: disable-next=arguments-differ
     async def _run(
         self,
-        messages: MessageType | Iterable[MessageType],
+        messages: MessageInputType,
         *,
         timeout=60,
     ) -> GPTModelResult:
@@ -110,7 +123,7 @@ class BaseGPTModel(
     # pylint: disable-next=arguments-differ
     async def _run_stream(
         self,
-        messages: MessageType | Iterable[MessageType],
+        messages: MessageInputType,
         *,
         timeout=60,
     ) -> AsyncIterator[GPTModelResult]:
@@ -127,7 +140,7 @@ class BaseGPTModel(
     # pylint: disable-next=arguments-differ
     async def _run_deferred(
         self,
-        messages: MessageType | Iterable[MessageType],
+        messages: MessageInputType,
         *,
         timeout=60
     ) -> OperationTypeT:
@@ -148,17 +161,9 @@ class BaseGPTModel(
                 result_type=self._result_type,
             )
 
-    @override
-    def attach_async(self, operation_id: str) -> OperationTypeT:
-        return self._operation_type(
-            id=operation_id,
-            sdk=self._sdk,
-            result_type=self._result_type,
-        )
-
     async def _tokenize(
         self,
-        messages: MessageType | Iterable[MessageType],
+        messages: MessageInputType,
         *,
         timeout=60
     ) -> tuple[Token, ...]:
@@ -176,17 +181,102 @@ class BaseGPTModel(
             return tuple(Token._from_proto(t) for t in response.tokens)
 
 
-class AsyncGPTModel(BaseGPTModel):
-    run = BaseGPTModel._run
-    run_stream = BaseGPTModel._run_stream
-    run_deferred = BaseGPTModel._run_deferred
-    tokenize = BaseGPTModel._tokenize
+class AsyncGPTModel(BaseGPTModel[AsyncOperation[GPTModelResult]]):
     _operation_type = AsyncOperation
 
+    async def run(
+        self,
+        messages: MessageInputType,
+        *,
+        timeout=60,
+    ) -> GPTModelResult:
+        return await self._run(
+            messages=messages,
+            timeout=timeout
+        )
 
-class GPTModel(BaseGPTModel):
-    run = run_sync(BaseGPTModel._run)
-    run_stream = run_sync_generator(BaseGPTModel._run_stream)
-    run_deferred = run_sync(BaseGPTModel._run_deferred)
-    tokenize = run_sync(BaseGPTModel._tokenize)
+    async def run_stream(
+        self,
+        messages: MessageInputType,
+        *,
+        timeout=60,
+    ) -> AsyncIterator[GPTModelResult]:
+        async for result in self._run_stream(
+            messages=messages,
+            timeout=timeout
+        ):
+            yield result
+
+    async def run_deferred(
+        self,
+        messages: MessageInputType,
+        *,
+        timeout=60
+    ) -> AsyncOperation[GPTModelResult]:
+        return await self._run_deferred(
+            messages=messages,
+            timeout=timeout,
+        )
+
+    async def tokenize(
+        self,
+        messages: MessageInputType,
+        *,
+        timeout=60
+    ) -> tuple[Token, ...]:
+        return await self._tokenize(
+            messages=messages,
+            timeout=timeout
+        )
+
+
+class GPTModel(BaseGPTModel[Operation[GPTModelResult]]):
     _operation_type = Operation
+    __run = run_sync(BaseGPTModel._run)
+    __run_stream = run_sync_generator(BaseGPTModel._run_stream)
+    __run_deferred = run_sync(BaseGPTModel._run_deferred)
+    __tokenize = run_sync(BaseGPTModel._tokenize)
+
+    def run(
+        self,
+        messages: MessageInputType,
+        *,
+        timeout=60,
+    ) -> GPTModelResult:
+        return self.__run(
+            messages=messages,
+            timeout=timeout
+        )
+
+    def run_stream(
+        self,
+        messages: MessageInputType,
+        *,
+        timeout=60,
+    ) -> Iterator[GPTModelResult]:
+        yield from self.__run_stream(
+            messages=messages,
+            timeout=timeout
+        )
+
+    def run_deferred(
+        self,
+        messages: MessageInputType,
+        *,
+        timeout=60
+    ) -> Operation[GPTModelResult]:
+        return self.__run_deferred(
+            messages=messages,
+            timeout=timeout,
+        )
+
+    def tokenize(
+        self,
+        messages: MessageInputType,
+        *,
+        timeout=60
+    ) -> tuple[Token, ...]:
+        return self.__tokenize(
+            messages=messages,
+            timeout=timeout
+        )

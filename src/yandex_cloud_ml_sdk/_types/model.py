@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, AsyncIterator, Generic, TypeVar
 
 from .misc import Undefined
 from .model_config import BaseModelConfig
-from .operation import BaseOperation
+from .operation import OperationTypeT
 from .result import BaseResult
 
 if TYPE_CHECKING:
@@ -17,7 +17,6 @@ if TYPE_CHECKING:
 
 ConfigTypeT = TypeVar('ConfigTypeT', bound=BaseModelConfig)
 ResultTypeT = TypeVar('ResultTypeT', bound=BaseResult)
-OperationTypeT = TypeVar('OperationTypeT', bound=BaseOperation)
 
 
 class BaseModel(Generic[ConfigTypeT, ResultTypeT], metaclass=abc.ABCMeta):
@@ -36,6 +35,14 @@ class BaseModel(Generic[ConfigTypeT, ResultTypeT], metaclass=abc.ABCMeta):
         self._config = config if config else self._config_type()
 
     @property
+    def uri(self) -> str:
+        return self._uri
+
+    @property
+    def config(self) -> ConfigTypeT:
+        return self._config
+
+    @property
     def _client(self):
         return self._sdk._client
 
@@ -50,6 +57,9 @@ class BaseModel(Generic[ConfigTypeT, ResultTypeT], metaclass=abc.ABCMeta):
             uri=self._uri,
             config=replace(self._config, **kwargs),
         )
+
+    def __repr__(self) -> str:
+        return f'{self.__class__.__name__}(uri={self._uri}, config={self._config})'
 
 
 class ModelSyncMixin(BaseModel[ConfigTypeT, ResultTypeT]):
@@ -77,6 +87,9 @@ class ModelAsyncMixin(
     async def _run_deferred(self, *args, **kwargs) -> OperationTypeT:
         pass
 
-    @abc.abstractmethod
     def attach_async(self, operation_id: str) -> OperationTypeT:
-        pass
+        return self._operation_type(
+            id=operation_id,
+            sdk=self._sdk,
+            result_type=self._result_type,
+        )

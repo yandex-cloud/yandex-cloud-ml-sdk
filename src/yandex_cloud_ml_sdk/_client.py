@@ -1,12 +1,14 @@
 # pylint: disable=too-many-instance-attributes
 from __future__ import annotations
 
+import sys
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from typing import Literal, Protocol, Sequence, TypeVar, cast
 
 import grpc
 import grpc.aio
+import httpx
 from google.protobuf.message import Message
 from yandex.cloud.endpoint.api_endpoint_service_pb2 import ListApiEndpointsRequest  # pylint: disable=no-name-in-module
 from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServiceStub
@@ -26,6 +28,23 @@ _T = TypeVar('_T', bound=StubType)
 _D = TypeVar('_D', bound=Message)
 
 
+def _get_user_agent() -> str:
+    from . import __version__  # pylint: disable=import-outside-toplevel,cyclic-import
+
+    # NB: grpc breaks in case of using \t instead of space
+    return (
+        f'yandex-cloud-ml-sdk/{__version__} '
+        f'python/{sys.version_info.major}.{sys.version_info.minor}'
+    )
+
+
+@asynccontextmanager
+async def httpx_client() -> AsyncIterator[httpx.AsyncClient]:
+    headers = {'user-agent': _get_user_agent()}
+    async with httpx.AsyncClient(headers=headers) as client:
+        yield client
+
+
 class AsyncCloudClient:
     def __init__(
         self,
@@ -36,6 +55,7 @@ class AsyncCloudClient:
         interceptors: Sequence[grpc.aio.ClientInterceptor] | None,
         yc_profile: str | None,
         retry_policy: RetryPolicy,
+        enable_server_data_logging: bool | None,
     ):
         self._endpoint = endpoint
         self._auth = auth
@@ -54,6 +74,9 @@ class AsyncCloudClient:
 
         self._auth_lock = LazyLock()
         self._channels_lock = LazyLock()
+
+        self._user_agent = _get_user_agent()
+        self._enable_server_data_logging = enable_server_data_logging
 
     async def _init_service_map(self, timeout: float):
         credentials = grpc.ssl_channel_credentials()
@@ -82,9 +105,15 @@ class AsyncCloudClient:
         timeout: float,
         retry_kind: RetryKind = RetryKind.NONE,
     ) -> tuple[tuple[str, str], ...]:
-        metadata = (
+        metadata: tuple[tuple[str, str], ...] = (
             (RETRY_KIND_METADATA_KEY, retry_kind.name),
         )
+
+        if self._enable_server_data_logging is not None:
+            enable_server_data_logging = "true" if self._enable_server_data_logging else "false"
+            metadata += (
+                ("x-data-logging-enabled", enable_server_data_logging),
+            )
 
         if not auth_required:
             return metadata
@@ -107,12 +136,18 @@ class AsyncCloudClient:
 
         return metadata
 
+    def _get_options(self) -> tuple[tuple[str, str], ...]:
+        return (
+            ("grpc.primary_user_agent", self._user_agent),
+        )
+
     def _new_channel(self, endpoint: str) -> grpc.aio.Channel:
         credentials = grpc.ssl_channel_credentials()
         return grpc.aio.secure_channel(
             endpoint,
             credentials,
             interceptors=self._interceptors,
+            options=self._get_options(),
         )
 
     async def _get_channel(self, stub_class: type[_T], timeout: float) -> grpc.aio.Channel:
@@ -124,12 +159,19 @@ class AsyncCloudClient:
                 return self._channels[stub_class]
 
             service_name: str = _service_for_ctor(stub_class)
-
             if not self._service_map:
                 await self._init_service_map(timeout=timeout)
 
             if not (endpoint := self._service_map.get(service_name)):
-                raise ValueError(f'failed to find endpoint for {service_name=} and {stub_class=}')
+                # NB: this fix will work if service_map will change ai-assistant to ai-assistants
+                # (and retrospectively if user will stuck with this version)
+                # and if _service_for_ctor will change ai-assistants to ai-assistant
+                if service_name in ('ai-assistant', 'ai-assistants'):
+                    service_name = 'ai-assistant' if service_name == 'ai-assistants' else 'ai-assistants'
+                    if not (endpoint := self._service_map.get(service_name)):
+                        raise ValueError(f'failed to find endpoint for {service_name=} and {stub_class=}')
+                else:
+                    raise ValueError(f'failed to find endpoint for {service_name=} and {stub_class=}')
 
             channel = self._channels[stub_class] = self._new_channel(endpoint)
             return channel

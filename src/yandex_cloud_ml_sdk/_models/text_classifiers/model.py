@@ -2,8 +2,9 @@
 from __future__ import annotations
 
 from dataclasses import astuple
+from typing import Sequence
 
-from typing_extensions import override
+from typing_extensions import Self, override
 from yandex.cloud.ai.foundation_models.v1.text_classification.text_classification_pb2 import (
     ClassificationSample as TextClassificationSampleProto
 )
@@ -15,11 +16,13 @@ from yandex.cloud.ai.foundation_models.v1.text_classification.text_classificatio
     TextClassificationServiceStub
 )
 
+from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr
 from yandex_cloud_ml_sdk._types.model import ModelSyncMixin
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
 from .config import TextClassifiersModelConfig
 from .result import FewShotTextClassifiersModelResult, TextClassifiersModelResult, TextClassifiersModelResultBase
+from .types import TextClassificationSample
 
 
 class BaseTextClassifiersModel(
@@ -27,6 +30,20 @@ class BaseTextClassifiersModel(
 ):
     _config_type = TextClassifiersModelConfig
     _result_type = TextClassifiersModelResultBase
+
+    # pylint: disable=useless-parent-delegation,arguments-differ
+    def configure(  # type: ignore[override]
+        self,
+        *,
+        task_description: UndefinedOr[str] = UNDEFINED,
+        labels: UndefinedOr[Sequence[str]] = UNDEFINED,
+        samples: UndefinedOr[Sequence[TextClassificationSample]] = UNDEFINED,
+    ) -> Self:
+        return super().configure(
+            task_description=task_description,
+            labels=labels,
+            samples=samples,
+        )
 
     @override
     # pylint: disable-next=arguments-differ
@@ -58,7 +75,7 @@ class BaseTextClassifiersModel(
                 timeout=timeout,
                 expected_type=TextClassificationResponse,
             )
-            return TextClassifiersModelResult._from_proto(response)
+            return TextClassifiersModelResult._from_proto(response, sdk=self._sdk)
 
     async def _run_few_shot(
         self,
@@ -100,12 +117,32 @@ class BaseTextClassifiersModel(
                 timeout=timeout,
                 expected_type=FewShotTextClassificationResponse,
             )
-            return FewShotTextClassifiersModelResult._from_proto(response)
+            return FewShotTextClassifiersModelResult._from_proto(response, sdk=self._sdk)
 
 
 class AsyncTextClassifiersModel(BaseTextClassifiersModel):
-    run = BaseTextClassifiersModel._run
+    async def run(
+        self,
+        text: str,
+        *,
+        timeout: float = 60,
+    ) -> TextClassifiersModelResultBase:
+        return await self._run(
+            text=text,
+            timeout=timeout
+        )
 
 
 class TextClassifiersModel(BaseTextClassifiersModel):
-    run = run_sync(BaseTextClassifiersModel._run)
+    __run = run_sync(BaseTextClassifiersModel._run)
+
+    def run(
+        self,
+        text: str,
+        *,
+        timeout: float = 60,
+    ) -> TextClassifiersModelResultBase:
+        return self.__run(
+            text=text,
+            timeout=timeout
+        )

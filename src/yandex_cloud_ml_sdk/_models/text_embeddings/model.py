@@ -1,7 +1,7 @@
 # pylint: disable=arguments-renamed,no-name-in-module
 from __future__ import annotations
 
-from typing_extensions import override
+from typing_extensions import Self, override
 from yandex.cloud.ai.foundation_models.v1.embedding.embedding_service_pb2 import (
     TextEmbeddingRequest, TextEmbeddingResponse
 )
@@ -19,6 +19,12 @@ class BaseTextEmbeddingsModel(
 ):
     _config_type = TextEmbeddingsModelConfig
     _result_type = TextEmbeddingsModelResult
+
+    # pylint: disable=useless-parent-delegation,arguments-differ
+    def configure(  # type: ignore[override]
+        self,
+    ) -> Self:
+        return super().configure()
 
     def _make_request(
         self,
@@ -48,12 +54,32 @@ class BaseTextEmbeddingsModel(
                 timeout=timeout,
                 expected_type=TextEmbeddingResponse,
             )
-            return TextEmbeddingsModelResult._from_proto(response)
+            return TextEmbeddingsModelResult._from_proto(response, sdk=self._sdk)
 
 
 class AsyncTextEmbeddingsModel(BaseTextEmbeddingsModel):
-    run = BaseTextEmbeddingsModel._run
+    async def run(
+        self,
+        text: str,
+        *,
+        timeout=60,
+    ) -> TextEmbeddingsModelResult:
+        return await self._run(
+            text=text,
+            timeout=timeout
+        )
 
 
 class TextEmbeddingsModel(BaseTextEmbeddingsModel):
-    run = run_sync(BaseTextEmbeddingsModel._run)
+    __run = run_sync(BaseTextEmbeddingsModel._run)
+
+    def run(
+        self,
+        text: str,
+        *,
+        timeout=60,
+    ) -> TextEmbeddingsModelResult:
+        return self.__run(
+            text=text,
+            timeout=timeout
+        )

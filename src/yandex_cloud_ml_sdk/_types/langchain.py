@@ -1,24 +1,29 @@
-# pylint: disable=abstract-method
+# pylint: disable=abstract-method,wrong-import-position
 from __future__ import annotations
+
+import sys
+
+if sys.version_info < (3, 9):
+    raise NotImplementedError("Langchain integration doesn't supported for python<3.9")
 
 from typing import Generic, TypeVar
 
 from langchain_core.language_models.base import BaseLanguageModel
-from langchain_core.load import Serializable
-from langchain_core.pydantic_v1 import BaseModel as LangchainModel
+from pydantic import BaseModel as PydanticModel
+from pydantic import ConfigDict
 
 from yandex_cloud_ml_sdk._types.model import BaseModel
 
 ModelTypeT = TypeVar('ModelTypeT', bound=BaseModel)
 
 
-class BaseYandexModel(LangchainModel, Generic[ModelTypeT]):
+class BaseYandexModel(PydanticModel, Generic[ModelTypeT]):
     ycmlsdk_model: ModelTypeT
     timeout: int = 60
 
-    class Config(Serializable.Config):
-        arbitrary_types_allowed = True
-
+    model_config = ConfigDict(
+        arbitrary_types_allowed=True
+    )
 
 
 class BaseYandexLanguageModel(BaseYandexModel[ModelTypeT], BaseLanguageModel):

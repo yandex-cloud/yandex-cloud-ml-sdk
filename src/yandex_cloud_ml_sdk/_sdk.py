@@ -9,15 +9,32 @@ from typing import Optional, Sequence
 from get_annotations import get_annotations
 from grpc import aio
 
+from ._assistants.domain import Assistants, AsyncAssistants, BaseAssistants
 from ._auth import BaseAuth
 from ._client import AsyncCloudClient
-from ._models import AsyncModels, Models
+from ._files.domain import AsyncFiles, BaseFiles, Files
+from ._messages.domain import AsyncMessages, BaseMessages, Messages
+from ._models import AsyncModels, BaseModels, Models
 from ._retry import RetryPolicy
+from ._runs.domain import AsyncRuns, BaseRuns, Runs
+from ._search_indexes.domain import AsyncSearchIndexes, BaseSearchIndexes, SearchIndexes
+from ._threads.domain import AsyncThreads, BaseThreads, Threads
+from ._tools.domain import Tools
+from ._types.domain import BaseDomain
 from ._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
-from ._types.resource import BaseResource
 
 
 class BaseSDK:
+    tools: Tools
+    models: BaseModels
+    threads: BaseThreads
+    files: BaseFiles
+    assistants: BaseAssistants
+    runs: BaseRuns
+    search_indexes: BaseSearchIndexes
+
+    _messages: BaseMessages
+
     def __init__(
         self,
         *,
@@ -28,6 +45,7 @@ class BaseSDK:
         yc_profile: UndefinedOr[str] = UNDEFINED,
         service_map: UndefinedOr[dict[str, str]] = UNDEFINED,
         interceptors: UndefinedOr[Sequence[aio.ClientInterceptor]] = UNDEFINED,
+        enable_server_data_logging: UndefinedOr[bool] = UNDEFINED,
     ):
         """
         Construct a new asynchronous sdk instance.
@@ -45,6 +63,11 @@ class BaseSDK:
         :param service_map: a way to redefine endpoints for one or more cloud subservices
             with a format of dict {service_name: service_address}.
         :type service_map: Dict[str, str]
+        :param enable_server_data_logging: when passed bool, we will add
+            `x-data-logging-enabled: <value>` to all of requests, which will
+            enable or disable logging of user data on server side.
+            It will do something only on those parts of backends which supports
+            this option.
 
         """
         endpoint = self._get_endpoint(endpoint)
@@ -57,15 +80,16 @@ class BaseSDK:
             retry_policy=retry_policy,
             interceptors=get_defined_value(interceptors, None),
             yc_profile=get_defined_value(yc_profile, None),
+            enable_server_data_logging=get_defined_value(enable_server_data_logging, None),
         )
         self._folder_id = folder_id
 
-        self._init_resources()
+        self._init_domains()
 
-    def _init_resources(self) -> None:
+    def _init_domains(self) -> None:
         members: dict[str, type] = get_annotations(self.__class__, eval_str=True)
         for member_name, member in members.items():
-            if inspect.isclass(member) and issubclass(member, BaseResource):
+            if inspect.isclass(member) and issubclass(member, BaseDomain):
                 resource = member(name=member_name, sdk=self)
                 setattr(self, member_name, resource)
 
@@ -126,8 +150,22 @@ class BaseSDK:
 
 
 class AsyncYCloudML(BaseSDK):
+    tools: Tools
     models: AsyncModels
+    files: AsyncFiles
+    threads: AsyncThreads
+    assistants: AsyncAssistants
+    runs: AsyncRuns
+    search_indexes: AsyncSearchIndexes
+    _messages: AsyncMessages
 
 
 class YCloudML(BaseSDK):
+    tools: Tools
     models: Models
+    files: Files
+    threads: Threads
+    assistants: Assistants
+    runs: Runs
+    search_indexes: SearchIndexes
+    _messages: Messages

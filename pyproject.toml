@@ -22,6 +22,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Operating System :: OS Independent",
     "Operating System :: POSIX",
     "Operating System :: MacOS",
@@ -33,10 +34,11 @@ classifiers = [
 requires-python = ">=3.8.1"
 dynamic = ["version"]
 dependencies = [
-    "yandexcloud>=0.292.0,!=0.293",
+    "yandexcloud>=0.319.0",
     "grpcio>=1.62.0",
     "get-annotations",
-    "httpx>=0.27,<1"
+    "httpx>=0.27,<1",
+    "typing-extensions>=4"
 ]
 
 [project.optional-dependencies]
@@ -45,7 +47,7 @@ test = [
     "tox",
 ]
 langchain = [
-    "langchain-core>=0.2.29"
+    "langchain-core>=0.3"
 ]
 
 [project.urls]
@@ -90,6 +92,13 @@ pythonpath = [
   "src"
 ]
 testpaths = "tests"
+asyncio_default_fixture_loop_scope = "function"
+filterwarnings = [
+    "ignore::DeprecationWarning:pytest_pylint"
+]
+addopts = [
+    "--import-mode=importlib",
+]
 
 [tool.pylint]
 ignore="CVS"
@@ -221,7 +230,10 @@ exclude-protected= [
     "_make",
     "_client",
     "_sdk",
+    "_folder_id",
     "_from_proto",
+    "_from_upper_proto",
+    "_to_proto",
     "_result_type",
     "_proto_result_type",
 ]
@@ -229,8 +241,8 @@ valid-classmethod-first-arg="cls"
 valid-metaclass-classmethod-first-arg="cls"
 
 [tool.pylint.'DESIGN']
-max-args=10
-max-attributes=7
+max-args=15
+max-attributes=15
 max-bool-expr=5
 max-branches=12
 max-locals=15
@@ -239,6 +251,7 @@ max-public-methods=20
 max-returns=6
 max-statements=50
 min-public-methods=2
+max-positional-arguments=7
 
 [tool.pylint.'IMPORTS']
 allow-wildcard-with-all="no"
@@ -254,7 +267,15 @@ overgeneral-exceptions= [
 [[tool.mypy.overrides]]
 module = [
     "get_annotations",
-    "scipy.spatial.distance",
+    "langchain_core",
+    "langchain_core.callbacks",
+    "langchain_core.callbacks.manager",
+    "langchain_core.language_models.base",
+    "langchain_core.language_models.chat_models",
     "langchain_core.messages",
+    "langchain_core.messages.ai",
+    "langchain_core.outputs",
+    "pydantic",
+    "scipy.spatial.distance",
 ]
 ignore_missing_imports = true
