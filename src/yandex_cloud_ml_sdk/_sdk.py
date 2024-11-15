@@ -12,6 +12,7 @@ from grpc import ChannelCredentials, aio
 from ._assistants.domain import Assistants, AsyncAssistants, BaseAssistants
 from ._auth import BaseAuth
 from ._client import AsyncCloudClient
+from ._datasets.domain import AsyncDatasets, BaseDatasets, Datasets
 from ._files.domain import AsyncFiles, BaseFiles, Files
 from ._messages.domain import AsyncMessages, BaseMessages, Messages
 from ._models import AsyncModels, BaseModels, Models
@@ -32,6 +33,7 @@ class BaseSDK:
     assistants: BaseAssistants
     runs: BaseRuns
     search_indexes: BaseSearchIndexes
+    datasets: BaseDatasets
 
     _messages: BaseMessages
 
@@ -159,6 +161,7 @@ class AsyncYCloudML(BaseSDK):
     assistants: AsyncAssistants
     runs: AsyncRuns
     search_indexes: AsyncSearchIndexes
+    datasets: AsyncDatasets
     _messages: AsyncMessages
 
 
@@ -170,4 +173,5 @@ class YCloudML(BaseSDK):
     assistants: Assistants
     runs: Runs
     search_indexes: SearchIndexes
+    datasets: Datasets
     _messages: Messages

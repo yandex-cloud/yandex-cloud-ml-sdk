@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import inspect
 from typing import Any, TypeVar, cast
 
 from google.protobuf.json_format import MessageToDict
@@ -32,3 +33,37 @@ def get_google_value(
         return cast(_T, getattr(message, field_name).value)
 
     return cast(_D, default)
+
+
+def service_for_ctor(stub_ctor: Any) -> str:
+    m = inspect.getmodule(stub_ctor)
+    if m is not None:
+        name = m.__name__
+
+        if not name.startswith("yandex.cloud."):
+            raise RuntimeError(f"Not a yandex.cloud service {stub_ctor}")
+
+        parts = name.split('.')
+        while parts:
+            prefix = '.'.join(parts)
+            if service_id := _supported_modules.get(prefix):
+                return service_id
+            parts.pop()
+
+    raise RuntimeError(f"Unknown service {stub_ctor}")
+
+
+_supported_modules = {
+    "yandex.cloud.ai.assistants": "ai-assistants",
+    "yandex.cloud.ai.dataset": "ai-foundation-models",
+    "yandex.cloud.ai.files": "ai-files",
+    "yandex.cloud.ai.foundation_models": "ai-foundation-models",
+    "yandex.cloud.ai.llm": "ai-llm",
+    "yandex.cloud.ai.ocr": "ai-vision-ocr",
+    "yandex.cloud.ai.stt": "ai-stt",
+    "yandex.cloud.ai.translate": "ai-translate",
+    "yandex.cloud.ai.tts": "ai-speechkit",
+    "yandex.cloud.ai.vision": "ai-vision",
+    "yandex.cloud.endpoint": "endpoint",
+    "yandex.cloud.operation": "operation",
+}

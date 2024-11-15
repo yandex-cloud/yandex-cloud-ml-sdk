@@ -12,11 +12,11 @@ import httpx
 from google.protobuf.message import Message
 from yandex.cloud.endpoint.api_endpoint_service_pb2 import ListApiEndpointsRequest  # pylint: disable=no-name-in-module
 from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServiceStub
-from yandexcloud._sdk import _service_for_ctor
 
 from ._auth import BaseAuth, get_auth_provider
 from ._retry import RETRY_KIND_METADATA_KEY, RetryKind, RetryPolicy
 from ._utils.lock import LazyLock
+from ._utils.proto import service_for_ctor
 
 
 class StubType(Protocol):
@@ -160,7 +160,7 @@ class AsyncCloudClient:
             if stub_class in self._channels:
                 return self._channels[stub_class]
 
-            service_name: str = _service_for_ctor(stub_class)
+            service_name: str = service_for_ctor(stub_class)
             if not self._service_map:
                 await self._init_service_map(timeout=timeout)
 
