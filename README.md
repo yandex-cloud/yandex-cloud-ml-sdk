@@ -1,13 +1,22 @@
 # Yandex Cloud ML SDK
 
-This Python library provides a simple and efficient SDK for interacting with Yandex Cloud Machine Learning services. It abstracts the complexities of the raw GRPC calls, allowing developers to integrate cloud functionalities seamlessly into their applications.
+This Python library provides a simple and efficient software development kit (SDK) for interacting with Yandex Cloud Machine Learning services. The SDK abstracts away the complexities of raw gRPC calls, making it easier for developers to integrate cloud functionality into their applications seamlessly.
 
 ## Features
 
-- Easy-to-use interface for accessing the Yandex Cloud ML services
-- Automatic handling of authentication
-- Error handling and data validation for robust integration
-- Support for asynchronous operations
+Yandex Cloud ML SDK provides an easy-to-use interface for accessing Yandex Cloud ML services. It currently supports:
+
+- Text generation using any [supported model](https://yandex.cloud/docs/foundation-models/concepts/yandexgpt/models)
+- Image generation using [YandexART](https://yandex.cloud/docs/foundation-models/concepts/yandexart/models)
+- AI Assistants and file management
+- Working with [embeddings](https://yandex.cloud/docs/foundation-models/concepts/embeddings)
+- Classifier [models](https://cloud.yandex/docs/foundation/concepts/classifiers/models) 
+
+Additionally, Yandex Cloud ML SDK offers:
+
+- Automatic authentication management
+- Robust error handling and data validation
+- Asynchronous operation support
 
 ## Installation
 
@@ -36,9 +45,9 @@ for alternative in result:
 
 For more usage examples look into `examples` folder.
 
-## Langchain integration
+## LangChain integration
 
-To use langchain integration, install `yandex-cloud-ml-sdk` package with a `langchain` extra:
+To use LangChain integration, install `yandex-cloud-ml-sdk` package with a `langchain` extra:
 
 ```sh
 pip install yandex-cloud-ml-sdk[langchain]
@@ -61,4 +70,4 @@ langchain_result = model.invoke([
 ])
 ```
 
-For more langchain integration examples look into `examples/langchain` folder.
+For more LangChain integration examples look into `examples/langchain` folder.
