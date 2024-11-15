@@ -47,7 +47,7 @@ For more usage examples look into `examples` folder.
 
 ## LangChain integration
 
-To use langchain integration, install `yandex-cloud-ml-sdk` package with a `langchain` extra:
+To use LangChain integration, install `yandex-cloud-ml-sdk` package with a `langchain` extra:
 
 ```sh
 pip install yandex-cloud-ml-sdk[langchain]
