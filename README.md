@@ -4,10 +4,19 @@ This Python library provides a simple and efficient software development kit (SD
 
 ## Features
 
-- Easy-to-use interface for accessing the Yandex Cloud ML services.
-- Automatic  authentication handling.
-- Robust integration with error handling and data validation.
-- Asynchronous operations support.
+Yandex Cloud ML SDK provides an easy-to-use interface for accessing Yandex Cloud ML services. It currently supports:
+
+- Text generation using any [supported model](https://yandex.cloud/docs/foundation-models/concepts/yandexgpt/models)
+- Image generation using [YandexART](https://yandex.cloud/docs/foundation-models/concepts/yandexart/models)
+- AI Assistants and file management
+- Working with [embeddings](https://yandex.cloud/docs/foundation-models/concepts/embeddings)
+- Classifier [models](https://cloud.yandex/docs/foundation/concepts/classifiers/models) 
+
+Additionally, Yandex Cloud ML SDK offers:
+
+- Automatic authentication management
+- Robust error handling and data validation
+- Asynchronous operation support
 
 ## Installation
 
