@@ -8,16 +8,22 @@ from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.function import BaseFunction
 
 from .completions.function import AsyncCompletions, BaseCompletions, Completions
-from .image_generation.function import AsyncImageGeneration, ImageGeneration
-from .text_classifiers.function import AsyncTextClassifiers, TextClassifiers
-from .text_embeddings.function import AsyncTextEmbeddings, TextEmbeddings
+from .image_generation.function import AsyncImageGeneration, BaseImageGeneration, ImageGeneration
+from .text_classifiers.function import AsyncTextClassifiers, BaseTextClassifiers, TextClassifiers
+from .text_embeddings.function import AsyncTextEmbeddings, BaseTextEmbeddings, TextEmbeddings
 
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
 
 class BaseModels(BaseDomain):
+    """@private"""
+
     completions: BaseCompletions
+    text_embeddings: BaseTextEmbeddings
+    text_classifiers: BaseTextClassifiers
+    image_generation: BaseImageGeneration
+    """API for image generation models"""
 
     def __init__(self, name: str, sdk: BaseSDK):
         super().__init__(name=name, sdk=sdk)
@@ -32,6 +38,8 @@ class BaseModels(BaseDomain):
 
 
 class AsyncModels(BaseModels):
+    """API for working with models at asynchronous code"""
+
     completions: AsyncCompletions
     text_embeddings: AsyncTextEmbeddings
     text_classifiers: AsyncTextClassifiers
@@ -39,6 +47,8 @@ class AsyncModels(BaseModels):
 
 
 class Models(BaseModels):
+    """API for working with models at synchronous code"""
+
     completions: Completions
     text_embeddings: TextEmbeddings
     text_classifiers: TextClassifiers

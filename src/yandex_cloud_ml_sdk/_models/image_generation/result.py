@@ -15,8 +15,11 @@ if TYPE_CHECKING:
 
 @dataclass(frozen=True, repr=False)
 class ImageGenerationModelResult(BaseResult[ImageGenerationResponse]):
+    """Result of a image generation run"""
     _proto_result_type = ImageGenerationResponse
     image_bytes: bytes
+    """Bytes which contains a resulting image"""
+
     model_version: str
 
     @classmethod

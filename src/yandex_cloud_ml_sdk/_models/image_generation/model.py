@@ -24,6 +24,10 @@ from .result import ImageGenerationModelResult
 class BaseImageGenerationModel(
     ModelAsyncMixin[ImageGenerationModelConfig, ImageGenerationModelResult, OperationTypeT],
 ):
+    """
+    Base class for sync and async ImageGeneration models.
+    """  # NB: we can't @private this because we need to pdoc configure method
+
     _config_type = ImageGenerationModelConfig
     _result_type = ImageGenerationModelResult
     _operation_type: type[OperationTypeT]
@@ -37,6 +41,16 @@ class BaseImageGenerationModel(
         height_ratio: UndefinedOr[int] = UNDEFINED,
         mime_type: UndefinedOr[str] = UNDEFINED,
     ) -> Self:
+        """
+        Returns a copy of the model with config fields changed.
+
+        :param seed: Seed of a run
+        :param width_ratio: Width ratio
+        :param height_ratio: Height_ratio
+        :param mime_type: Mime type
+        :type mime_type: str  # NB: pydoc ignores this
+        """
+
         return super().configure(
             seed=seed,
             width_ratio=width_ratio,
@@ -79,6 +93,9 @@ class BaseImageGenerationModel(
 
 
 class AsyncImageGenerationModel(BaseImageGenerationModel[AsyncOperation[ImageGenerationModelResult]]):
+    """
+    Async class for working with a image generation model
+    """
     _operation_type = AsyncOperation[ImageGenerationModelResult]
 
     async def run_deferred(
@@ -87,6 +104,16 @@ class AsyncImageGenerationModel(BaseImageGenerationModel[AsyncOperation[ImageGen
         *,
         timeout: float = 60,
     ) -> AsyncOperation[ImageGenerationModelResult]:
+        """
+        Run a model and return an `Operation`.
+
+        >>> import yandex_cloud_ml_sdk
+        >>> sdk = yandex_cloud_ml_sdk.AsyncYCloudML(folder_id='...')
+        >>> model = sdk.models.image_generation('yandex-art')
+        >>> operation = await model.run_deferred('kitten')
+        >>> resullt: ImageGenerationModelResult = await operation
+        """
+
         return await self._run_deferred(
             messages=messages,
             timeout=timeout
@@ -94,6 +121,10 @@ class AsyncImageGenerationModel(BaseImageGenerationModel[AsyncOperation[ImageGen
 
 
 class ImageGenerationModel(BaseImageGenerationModel[Operation[ImageGenerationModelResult]]):
+    """
+    Sync class for working with a image generation model
+    """
+
     _operation_type = Operation[ImageGenerationModelResult]
     __run_deferred = run_sync(BaseImageGenerationModel[Operation[ImageGenerationModelResult]]._run_deferred)
 
@@ -103,6 +134,16 @@ class ImageGenerationModel(BaseImageGenerationModel[Operation[ImageGenerationMod
         *,
         timeout: float = 60,
     ) -> Operation[ImageGenerationModelResult]:
+        """
+        Run a model and return an `Operation`.
+
+        >>> import yandex_cloud_ml_sdk
+        >>> sdk = yandex_cloud_ml_sdk.YCloudML(folder_id='...')
+        >>> model = sdk.models.image_generation('yandex-art')
+        >>> operation = model.run_deferred('kitten')
+        >>> resullt: ImageGenerationModelResult = operation.wait()
+        """
+
         # Mypy thinks that self.__run_deferred returns OperationTypeT instead of Operation
         return self.__run_deferred(  # type: ignore[return-value]
             messages=messages,
