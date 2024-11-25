@@ -5,6 +5,8 @@ import dataclasses
 from datetime import datetime
 from typing import TYPE_CHECKING, TypeVar
 
+import aiofiles
+from aiofiles.threadpool.binary import AsyncBufferedIOBase
 from typing_extensions import Self
 from yandex.cloud.ai.dataset.v1.dataset_pb2 import DatasetInfo as ProtoDatasetInfo
 from yandex.cloud.ai.dataset.v1.dataset_service_pb2 import (
@@ -12,7 +14,7 @@ from yandex.cloud.ai.dataset.v1.dataset_service_pb2 import (
 )
 from yandex.cloud.ai.dataset.v1.dataset_service_pb2_grpc import DatasetServiceStub
 
-from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
+from yandex_cloud_ml_sdk._types.misc import UNDEFINED, PathLike, UndefinedOr, coerce_path, get_defined_value
 from yandex_cloud_ml_sdk._types.resource import BaseDeleteableResource, safe_on_delete
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
@@ -89,7 +91,7 @@ class BaseDataset(BaseDeleteableResource, DatasetInfo):
         *,
         timeout: float = 60,
     ) -> None:
-        request = DeleteDatasetRequest(assistant_id=self.id)
+        request = DeleteDatasetRequest(dataset_id=self.id)
 
         async with self._client.get_service_stub(DatasetServiceStub, timeout=timeout) as stub:
             await self._client.call_service(
@@ -99,6 +101,27 @@ class BaseDataset(BaseDeleteableResource, DatasetInfo):
                 expected_type=DeleteDatasetResponse,
             )
             object.__setattr__(self, '_deleted', True)
+
+    @safe_on_delete
+    async def _upload_data(
+        self,
+        *,
+        data: AsyncBufferedIOBase,
+        size_bytes: int,
+    ):
+        if self.status != DatasetStatus.DRAFT:
+            raise RuntimeError("data could be uploaded only while dataset in DRAFT status")
+
+        print(await data.read(size_bytes))
+
+    async def _upload_path(
+        self,
+        path: PathLike,
+    ):
+        path = coerce_path(path)
+        size = path.stat().st_size
+        async with aiofiles.open(path, 'br') as file_:
+            await self._upload_data(data=file_, size_bytes=size)
 
     async def _list_upload_formats(
         self,

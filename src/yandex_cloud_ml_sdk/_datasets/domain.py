@@ -23,27 +23,28 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT]):
 
     completions = TaskTypeProxy(KnownTaskType.TextToTextGeneration)
     text_classifiers_multilabel = TaskTypeProxy(KnownTaskType.TextClassificationMultilabel)
-    speech_to_text = TaskTypeProxy(KnownTaskType.SpeechToTextGeneration)
+    text_classifiers_multiclass = TaskTypeProxy(KnownTaskType.TextClassificationMulticlass)
 
     async def _create(
         self,
         *,
         task_type: str,
         upload_format: str,
-        name: UndefinedOr[str] = UNDEFINED,
+        name: str,
         description: UndefinedOr[str] = UNDEFINED,
         metadata: UndefinedOr[str] = UNDEFINED,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         timeout: float = 60,
     ) -> DatasetTypeT:
+        print(name)
         request = CreateDatasetRequest(
             folder_id=self._folder_id,
-            name=get_defined_value(name, ''),
+            name=name,
+            task_type=task_type,
+            upload_format=upload_format,
             description=get_defined_value(description, ''),
             labels=get_defined_value(labels, {}),
             metadata=get_defined_value(metadata, ''),
-            task_type=task_type,
-            upload_format=upload_format,
         )
 
         async with self._client.get_service_stub(DatasetServiceStub, timeout=timeout) as stub:
@@ -130,8 +131,8 @@ class AsyncDatasets(BaseDatasets[AsyncDataset]):
         self,
         *,
         task_type: str,
-        upload_format: UndefinedOr[str] = UNDEFINED,
-        name: UndefinedOr[str] = UNDEFINED,
+        upload_format: str,
+        name: str,
         description: UndefinedOr[str] = UNDEFINED,
         metadata: UndefinedOr[str] = UNDEFINED,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
@@ -193,8 +194,8 @@ class Datasets(BaseDatasets[Dataset]):
         self,
         *,
         task_type: str,
-        upload_format: UndefinedOr[str] = UNDEFINED,
-        name: UndefinedOr[str] = UNDEFINED,
+        upload_format: str,
+        name: str,
         description: UndefinedOr[str] = UNDEFINED,
         metadata: UndefinedOr[str] = UNDEFINED,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
