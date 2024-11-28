@@ -78,7 +78,8 @@ class BaseSearchIndexes(BaseDomain, Generic[SearchIndexTypeT, OperationTypeT]):
         return self._operation_type(
             id=response.id,
             sdk=self._sdk,
-            result_type=self._impl
+            result_type=self._impl,
+            proto_result_type=ProtoSearchIndex,
         )
 
     async def _get(

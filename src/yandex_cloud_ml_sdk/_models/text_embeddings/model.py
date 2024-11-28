@@ -54,7 +54,7 @@ class BaseTextEmbeddingsModel(
                 timeout=timeout,
                 expected_type=TextEmbeddingResponse,
             )
-            return TextEmbeddingsModelResult._from_proto(response, sdk=self._sdk)
+            return TextEmbeddingsModelResult._from_proto(proto=response, sdk=self._sdk)
 
 
 class AsyncTextEmbeddingsModel(BaseTextEmbeddingsModel):

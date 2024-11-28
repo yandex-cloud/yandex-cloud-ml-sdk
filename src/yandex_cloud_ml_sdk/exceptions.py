@@ -10,22 +10,25 @@ class YCloudMLError(Exception):
 
 
 class RunError(YCloudMLError):
-    def __init__(self, code: int, message: str, details: list[_Any] | None):
+    def __init__(self, code: int, message: str, details: list[_Any] | None, operation_id: str):
         self.code = code
         self.message = message
         self.details = details or []
+        self.operation_id = operation_id
 
     def __str__(self):
-        message = f'{self.message} (code {self.code})'
+        message = self.message or "<Empty message>"
+        message = f'Operation {self.operation_id} failed with message: {message} (code {self.code})'
         message += '\n' + '\n'.join(repr(d) for d in self.details)
         return message
 
     @classmethod
-    def from_proro_status(cls, status: _ProtoStatus):
+    def from_proro_status(cls, status: _ProtoStatus, operation_id: str):
         return cls(
             code=status.code,
             message=status.message,
-            details=list(status.details) if status.details else None
+            details=list(status.details) if status.details else None,
+            operation_id=operation_id,
         )
 
 

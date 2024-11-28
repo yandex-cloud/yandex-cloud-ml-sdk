@@ -3,18 +3,17 @@ from __future__ import annotations
 
 import dataclasses
 from datetime import datetime
-from typing import TYPE_CHECKING, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar
 
-import aiofiles
-from aiofiles.threadpool.binary import AsyncBufferedIOBase
 from typing_extensions import Self
 from yandex.cloud.ai.dataset.v1.dataset_pb2 import DatasetInfo as ProtoDatasetInfo
 from yandex.cloud.ai.dataset.v1.dataset_service_pb2 import (
-    DeleteDatasetRequest, DeleteDatasetResponse, UpdateDatasetRequest, UpdateDatasetResponse
+    DeleteDatasetRequest, DeleteDatasetResponse, GetUploadDraftUrlRequest, GetUploadDraftUrlResponse,
+    UpdateDatasetRequest, UpdateDatasetResponse
 )
 from yandex.cloud.ai.dataset.v1.dataset_service_pb2_grpc import DatasetServiceStub
 
-from yandex_cloud_ml_sdk._types.misc import UNDEFINED, PathLike, UndefinedOr, coerce_path, get_defined_value
+from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._types.resource import BaseDeleteableResource, safe_on_delete
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
@@ -22,6 +21,9 @@ from .status import DatasetStatus
 
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
+
+
+DEFAULT_CHUNK_SIZE = 100 * 1024 ** 2
 
 
 @dataclasses.dataclass(frozen=True)
@@ -42,7 +44,7 @@ class DatasetInfo:
 
 
 @dataclasses.dataclass(frozen=True)
-class BaseDataset(BaseDeleteableResource, DatasetInfo):
+class BaseDataset(DatasetInfo, BaseDeleteableResource):
     @classmethod
     def _kwargs_from_message(cls, proto: ProtoDatasetInfo, sdk: BaseSDK) -> dict[str, Any]:  # type: ignore[override]
         kwargs = super()._kwargs_from_message(proto, sdk=sdk)
@@ -85,6 +87,8 @@ class BaseDataset(BaseDeleteableResource, DatasetInfo):
             )
         self._update_from_proto(response.dataset)
 
+        return self
+
     @safe_on_delete
     async def _delete(
         self,
@@ -102,27 +106,6 @@ class BaseDataset(BaseDeleteableResource, DatasetInfo):
             )
             object.__setattr__(self, '_deleted', True)
 
-    @safe_on_delete
-    async def _upload_data(
-        self,
-        *,
-        data: AsyncBufferedIOBase,
-        size_bytes: int,
-    ):
-        if self.status != DatasetStatus.DRAFT:
-            raise RuntimeError("data could be uploaded only while dataset in DRAFT status")
-
-        print(await data.read(size_bytes))
-
-    async def _upload_path(
-        self,
-        path: PathLike,
-    ):
-        path = coerce_path(path)
-        size = path.stat().st_size
-        async with aiofiles.open(path, 'br') as file_:
-            await self._upload_data(data=file_, size_bytes=size)
-
     async def _list_upload_formats(
         self,
         *,
@@ -133,6 +116,26 @@ class BaseDataset(BaseDeleteableResource, DatasetInfo):
             task_type=self.task_type,
             timeout=timeout
         )
+
+    async def _get_upload_url(
+        self,
+        *,
+        size: int,
+        timeout: float = 60,
+    ) -> str:
+        request = GetUploadDraftUrlRequest(
+            dataset_id=self.id,
+            size_bytes=size
+        )
+        async with self._client.get_service_stub(DatasetServiceStub, timeout=timeout) as stub:
+            result = await self._client.call_service(
+                stub.GetUploadDraftUrl,
+                request,
+                timeout=timeout,
+                expected_type=GetUploadDraftUrlResponse,
+            )
+
+        return result.upload_url
 
 
 class AsyncDataset(BaseDataset):

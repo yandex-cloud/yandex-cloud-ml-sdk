@@ -9,5 +9,6 @@ pytest-mypy
 pytest-pylint
 pytest-recording
 tqdm
+types-aiofiles
 types-protobuf
 types-tqdm

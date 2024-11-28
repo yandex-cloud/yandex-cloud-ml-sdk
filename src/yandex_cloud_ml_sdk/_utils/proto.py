@@ -3,6 +3,7 @@ from __future__ import annotations
 import inspect
 from typing import Any, TypeVar, cast
 
+from google.protobuf.descriptor import FieldDescriptor
 from google.protobuf.json_format import MessageToDict
 from google.protobuf.message import Message
 from google.protobuf.timestamp_pb2 import Timestamp  # pylint: disable=no-name-in-module
@@ -10,6 +11,13 @@ from google.protobuf.timestamp_pb2 import Timestamp  # pylint: disable=no-name-i
 _T = TypeVar('_T')
 _D = TypeVar('_D')
 
+_LONG_TYPES = frozenset([
+    FieldDescriptor.TYPE_INT64,
+    FieldDescriptor.TYPE_SINT64,
+    FieldDescriptor.TYPE_UINT64,
+    FieldDescriptor.TYPE_FIXED64,
+    FieldDescriptor.TYPE_SFIXED64,
+])
 
 def proto_to_dict(message: Message) -> dict[str, Any]:
     dct = MessageToDict(
@@ -20,6 +28,9 @@ def proto_to_dict(message: Message) -> dict[str, Any]:
         value = getattr(message, descriptor.name)
         if isinstance(value, Timestamp):
             dct[descriptor.name] = value.ToDatetime()
+        elif descriptor.type in _LONG_TYPES:
+            dct[descriptor.name] = int(value)
+
     return dct
 
 
@@ -66,4 +77,5 @@ _supported_modules = {
     "yandex.cloud.ai.vision": "ai-vision",
     "yandex.cloud.endpoint": "endpoint",
     "yandex.cloud.operation": "operation",
+    "yandex.cloud.iam": "iam",
 }

@@ -2,28 +2,27 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, overload
+from typing import TYPE_CHECKING, cast, overload
 
 from typing_extensions import Self
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.ai.foundation_models.v1.embedding.embedding_service_pb2 import TextEmbeddingResponse
 
-from yandex_cloud_ml_sdk._types.result import BaseResult
+from yandex_cloud_ml_sdk._types.result import BaseResult, ProtoMessage
 
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
 
 @dataclass(frozen=True)
-class TextEmbeddingsModelResult(BaseResult[TextEmbeddingResponse], Sequence):
-    _proto_result_type = TextEmbeddingResponse
-
+class TextEmbeddingsModelResult(BaseResult, Sequence):
     embedding: tuple[float, ...]
     num_tokens: int
     model_version: str
 
     @classmethod
-    def _from_proto(cls, proto: TextEmbeddingResponse, sdk: BaseSDK) -> Self:  # pylint: disable=unused-argument
+    def _from_proto(cls, *, proto: ProtoMessage, sdk: BaseSDK) -> Self:  # pylint: disable=unused-argument
+        proto = cast(TextEmbeddingResponse, proto)
         return cls(
             embedding=tuple(proto.embedding),
             num_tokens=proto.num_tokens,
