@@ -1,15 +1,15 @@
 # pylint: disable=invalid-name
 from __future__ import annotations
 
-from enum import StrEnum
+from enum import Enum
 from functools import partial
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, Dict, Optional, cast
 
 if TYPE_CHECKING:
     from .domain import AsyncDatasets, Datasets
 
 
-class KnownTaskType(StrEnum):
+class KnownTaskType(str, Enum):
     TextToTextGeneration = 'TextToTextGeneration'
     TextEmbeddings = 'TextEmbeddings'
     TextClassificationMultilabel = 'TextClassificationMultilabel'
@@ -25,7 +25,7 @@ class TaskTypeProxy:
 
     def _get_cache(self, obj: Datasets | AsyncDatasets) -> dict[str, DatasetsWrapper]:
         cache: dict[str, DatasetsWrapper] | None = cast(
-            dict[str, DatasetsWrapper] | None, getattr(obj, '_task_proxy_cache', None)
+            Optional[Dict[str, DatasetsWrapper]], getattr(obj, '_task_proxy_cache', None)
         )
         if cache is None:
             cache = {}
@@ -58,8 +58,8 @@ class DatasetsWrapper:
         return self._task_type
 
     @property
-    def from_path(self):
-        return partial(self._domain.from_path, task_type=self._task_type)
+    def from_path_deferred(self):
+        return partial(self._domain.from_path_deferred, task_type=self._task_type)
 
     @property
     def list_upload_formats(self):

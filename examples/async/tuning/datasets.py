@@ -6,6 +6,7 @@ import asyncio
 import pathlib
 
 from yandex_cloud_ml_sdk import AsyncYCloudML
+from yandex_cloud_ml_sdk.exceptions import DatasetValidationError
 
 
 def local_path(path: str) -> pathlib.Path:
@@ -17,7 +18,7 @@ async def main() -> None:
         folder_id='b1ghsjum2v37c2un8h64',
     )
 
-    dataset_draft = sdk.datasets.from_path(
+    dataset_draft = sdk.datasets.from_path_deferred(
         task_type='TextToTextGeneration',
         path=local_path('example_dataset'),
         upload_format='jsonlines',
@@ -28,7 +29,7 @@ async def main() -> None:
     dataset = await operation
     print(f'new {dataset=}')
 
-    dataset_draft = sdk.datasets.completions.from_path(
+    dataset_draft = sdk.datasets.completions.from_path_deferred(
         local_path('example_bad_dataset')
     )
     dataset_draft.upload_format = 'jsonlines'
@@ -37,8 +38,11 @@ async def main() -> None:
     operation = await dataset_draft.upload()
     try:
         dataset = await operation
-    except RuntimeError as error:
+    except DatasetValidationError as error:
         print(f"dataset creation was failed with an {error=}")
+        bad_dataset = await sdk.datasets.get(error.dataset_id)
+        print(f"going to delete {bad_dataset=}")
+        await bad_dataset.delete()
 
     async for dataset in sdk.datasets.list():
         await dataset.delete()

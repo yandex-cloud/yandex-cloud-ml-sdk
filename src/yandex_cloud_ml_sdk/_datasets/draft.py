@@ -79,6 +79,10 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
         dataset: DatasetTypeT,
         timeout: float = 60
     ) -> OperationTypeT:
+        # validate_deferred should be a BaseDataset method by all means,
+        # but I don't want to make Dataset operation-depentant generic,
+        # because it is already too complicated.
+        # And it is possible due to validate_deferred is not a part of SDK public API.
         request = ValidateDatasetRequest(
             dataset_id=dataset.id,
         )
@@ -126,6 +130,8 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
             uploader = SingleUploader(dataset)
             await uploader.upload(self.path, timeout=upload_timeout)
         except Exception:
+            # in case of HTTP error while uploading we want to remove dataset draft,
+            # because user don't have any access to this draft
             await dataset._delete(timeout=timeout)
             raise
 

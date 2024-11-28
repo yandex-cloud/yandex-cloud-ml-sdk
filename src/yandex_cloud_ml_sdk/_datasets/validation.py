@@ -1,13 +1,14 @@
 # pylint: disable=no-name-in-module
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, cast
 
 from yandex.cloud.ai.dataset.v1.dataset_pb2 import ValidationError as ProtoValidationError
 from yandex.cloud.ai.dataset.v1.dataset_service_pb2 import ValidateDatasetResponse
 
 from yandex_cloud_ml_sdk._types.result import BaseResult, ProtoMessage
+from yandex_cloud_ml_sdk.exceptions import DatasetValidationError
 
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
@@ -30,18 +31,9 @@ class ValidationErrorInfo:
         )
 
 
-class ValidationError(RuntimeError):
-    def __init__(self, dataset_id: str, errors: tuple[ValidationErrorInfo, ...]):
-        self._dataset_id = dataset_id
-        self._errors = errors
-
-    def __str__(self) -> str:
-        errors_str = '\n'.join(str(error) for error in self._errors)
-        return f"Dataset validation for dataset_id={self._dataset_id} failed with next errors:\n{errors_str}"
-
-
 @dataclass(frozen=True)
 class DatasetValidationResult(BaseResult):
+    _sdk: BaseSDK = field(repr=False)
     dataset_id: str
     is_valid: bool
     errors: tuple[ValidationErrorInfo, ...]
@@ -56,9 +48,10 @@ class DatasetValidationResult(BaseResult):
             errors=tuple(
                 ValidationErrorInfo._from_proto(proto=error, sdk=sdk)
                 for error in proto.errors
-            )
+            ),
+            _sdk=sdk,
         )
 
     def raise_for_status(self) -> None:
         if not self.is_valid:
-            raise ValidationError(self.dataset_id, self.errors)
+            raise DatasetValidationError(self)

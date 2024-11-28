@@ -27,7 +27,7 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
     text_classifiers_multilabel = TaskTypeProxy(KnownTaskType.TextClassificationMultilabel)
     text_classifiers_multiclass = TaskTypeProxy(KnownTaskType.TextClassificationMulticlass)
 
-    def from_path(
+    def from_path_deferred(
         self,
         path: PathLike,
         *,
