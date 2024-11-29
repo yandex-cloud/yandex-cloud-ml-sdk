@@ -48,7 +48,8 @@ test = [
     "tox",
 ]
 langchain = [
-    "langchain-core>=0.3"
+    "langchain-core>=0.3",
+    "pydantic<2.10"
 ]
 
 [project.urls]

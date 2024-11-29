@@ -1,6 +1,7 @@
 data-science-types
 googleapis-common-protos-stubs
 grpc-stubs
+pydantic<2.10
 pylint-protobuf
 pytest
 pytest-asyncio
