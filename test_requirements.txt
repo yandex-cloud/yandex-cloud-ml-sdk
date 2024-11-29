@@ -1,6 +1,7 @@
 data-science-types
 googleapis-common-protos-stubs
 grpc-stubs
+pydantic<2.10
 pylint-protobuf
 pytest
 pytest-asyncio
@@ -9,5 +10,6 @@ pytest-mypy
 pytest-pylint
 pytest-recording
 tqdm
+types-aiofiles
 types-protobuf
 types-tqdm

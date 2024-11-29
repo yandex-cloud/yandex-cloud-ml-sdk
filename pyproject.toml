@@ -34,11 +34,12 @@ classifiers = [
 requires-python = ">=3.8.1"
 dynamic = ["version"]
 dependencies = [
-    "yandexcloud>=0.319.0",
+    "yandexcloud>=0.322.0",
     "grpcio>=1.62.0",
     "get-annotations",
     "httpx>=0.27,<1",
-    "typing-extensions>=4"
+    "typing-extensions>=4",
+    "aiofiles>=24.1.0",
 ]
 
 [project.optional-dependencies]
@@ -47,7 +48,8 @@ test = [
     "tox",
 ]
 langchain = [
-    "langchain-core>=0.3"
+    "langchain-core>=0.3",
+    "pydantic<2.10"
 ]
 
 [project.urls]
@@ -246,7 +248,7 @@ max-attributes=15
 max-bool-expr=5
 max-branches=12
 max-locals=15
-max-parents=7
+max-parents=8
 max-public-methods=20
 max-returns=6
 max-statements=50

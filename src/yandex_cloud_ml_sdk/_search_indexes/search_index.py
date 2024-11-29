@@ -31,9 +31,7 @@ if TYPE_CHECKING:
 
 
 @dataclasses.dataclass(frozen=True)
-class BaseSearchIndex(ExpirableResource, BaseResult[ProtoSearchIndex]):  # type: ignore[misc]
-    _proto_result_type = ProtoSearchIndex
-
+class BaseSearchIndex(ExpirableResource, BaseResult):
     @classmethod
     def _kwargs_from_message(cls, proto: ProtoSearchIndex, sdk: BaseSDK) -> dict[str, Any]:  # type: ignore[override]
         kwargs = super()._kwargs_from_message(proto, sdk=sdk)

@@ -6,13 +6,13 @@ import functools
 from typing import TYPE_CHECKING, Any, Awaitable, Callable, TypeVar
 
 from google.protobuf.field_mask_pb2 import FieldMask  # pylint: disable=no-name-in-module
-from google.protobuf.message import Message
 from typing_extensions import Concatenate, ParamSpec, Self
 
 from yandex_cloud_ml_sdk._utils.proto import proto_to_dict
 
 from .expiration import ExpirationConfig, ExpirationProtoType
 from .misc import is_defined
+from .result import BaseResult, ProtoMessage
 
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._client import AsyncCloudClient
@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 
 
 @dataclasses.dataclass(frozen=True)
-class BaseResource:
+class BaseResource(BaseResult):
     id: str
 
     _sdk: BaseSDK = dataclasses.field(repr=False)
@@ -30,7 +30,7 @@ class BaseResource:
         return self._sdk._client
 
     @classmethod
-    def _kwargs_from_message(cls, proto: Message, sdk: BaseSDK) -> dict[str, Any]:  # pylint: disable=unused-argument
+    def _kwargs_from_message(cls, proto: ProtoMessage, sdk: BaseSDK) -> dict[str, Any]:  # pylint: disable=unused-argument
         fields = dataclasses.fields(cls)
         data = proto_to_dict(proto)
         kwargs = {}
@@ -44,13 +44,13 @@ class BaseResource:
         return kwargs
 
     @classmethod
-    def _from_proto(cls, *, sdk: BaseSDK, proto: Message) -> Self:
+    def _from_proto(cls, *, proto: ProtoMessage, sdk: BaseSDK) -> Self:
         return cls(
             _sdk=sdk,
             **cls._kwargs_from_message(proto, sdk=sdk),
         )
 
-    def _update_from_proto(self, proto: Message) -> Self:
+    def _update_from_proto(self, proto: ProtoMessage) -> Self:
         # We want to Resource to be a immutable, but also we need
         # to maintain a inner status after updating and such
         kwargs = self._kwargs_from_message(proto, sdk=self._sdk)
@@ -70,7 +70,7 @@ class BaseDeleteableResource(BaseResource):
     _deleted: bool = dataclasses.field(repr=False)
 
     @classmethod
-    def _from_proto(cls, *, sdk: BaseSDK, proto: Message) -> Self:
+    def _from_proto(cls, *, sdk: BaseSDK, proto: ProtoMessage) -> Self:
         return cls(
             _sdk=sdk,
             _lock=asyncio.Lock(),

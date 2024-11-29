@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, AsyncIterator, Generic, TypeVar
 from .misc import Undefined
 from .model_config import BaseModelConfig
 from .operation import OperationTypeT
-from .result import BaseResult
+from .result import BaseResult, ProtoMessage
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -82,6 +82,7 @@ class ModelAsyncMixin(
     Generic[ConfigTypeT, ResultTypeT, OperationTypeT]
 ):
     _operation_type: type[OperationTypeT]
+    _proto_result_type: type[ProtoMessage]
 
     @abc.abstractmethod
     async def _run_deferred(self, *args, **kwargs) -> OperationTypeT:
@@ -92,4 +93,5 @@ class ModelAsyncMixin(
             id=operation_id,
             sdk=self._sdk,
             result_type=self._result_type,
+            proto_result_type=self._proto_result_type,
         )

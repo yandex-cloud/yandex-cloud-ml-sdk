@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, TypeVar, overload
+from typing import TYPE_CHECKING, Generic, TypeVar, cast, overload
 
 from typing_extensions import Self
 # pylint: disable-next=no-name-in-module
@@ -10,7 +10,7 @@ from yandex.cloud.ai.foundation_models.v1.text_classification.text_classificatio
     FewShotTextClassificationResponse, TextClassificationResponse
 )
 
-from yandex_cloud_ml_sdk._types.result import BaseResult
+from yandex_cloud_ml_sdk._types.result import BaseResult, ProtoMessage
 
 from .types import TextClassificationLabel
 
@@ -26,12 +26,13 @@ TextClassificationResponseT = TypeVar(
 
 
 @dataclass(frozen=True)
-class TextClassifiersModelResultBase(BaseResult[TextClassificationResponseT], Sequence):
+class TextClassifiersModelResultBase(BaseResult, Sequence, Generic[TextClassificationResponseT]):
     predictions: tuple[TextClassificationLabel, ...]
     model_version: str
 
     @classmethod
-    def _from_proto(cls, proto: TextClassificationResponseT, sdk: BaseSDK) -> Self:  # pylint: disable=unused-argument
+    def _from_proto(cls, *, proto: ProtoMessage, sdk: BaseSDK) -> Self:  # pylint: disable=unused-argument
+        proto = cast(TextClassificationResponseT, proto)
         predictions = tuple(
             TextClassificationLabel(
                 label=p.label,
@@ -61,9 +62,9 @@ class TextClassifiersModelResultBase(BaseResult[TextClassificationResponseT], Se
 
 @dataclass(frozen=True)
 class TextClassifiersModelResult(TextClassifiersModelResultBase[TextClassificationResponse]):
-    _proto_result_type = TextClassificationResponse
+    pass
 
 
 @dataclass(frozen=True)
 class FewShotTextClassifiersModelResult(TextClassifiersModelResultBase[FewShotTextClassificationResponse]):
-    _proto_result_type = FewShotTextClassificationResponse
+    pass
