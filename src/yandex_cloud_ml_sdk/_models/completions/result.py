@@ -3,13 +3,13 @@ from __future__ import annotations
 from collections.abc import Sequence
 from dataclasses import dataclass
 from enum import Enum
-from typing import TYPE_CHECKING, overload
+from typing import TYPE_CHECKING, cast, overload
 
 from typing_extensions import Self
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import CompletionResponse
 
-from yandex_cloud_ml_sdk._types.result import BaseResult
+from yandex_cloud_ml_sdk._types.result import BaseResult, ProtoMessage
 
 from .message import TextMessage
 
@@ -47,15 +47,14 @@ class Alternative(TextMessage):
 
 
 @dataclass(frozen=True)
-class GPTModelResult(BaseResult[CompletionResponse], Sequence):
-    _proto_result_type = CompletionResponse
-
+class GPTModelResult(BaseResult, Sequence):
     alternatives: tuple[Alternative, ...]
     usage: Usage
     model_version: str
 
     @classmethod
-    def _from_proto(cls, proto: CompletionResponse, sdk: BaseSDK) -> Self:  # pylint: disable=unused-argument
+    def _from_proto(cls, *, proto: ProtoMessage, sdk: BaseSDK) -> Self:  # pylint: disable=unused-argument
+        proto = cast(CompletionResponse, proto)
         alternatives = tuple(
             Alternative(
                 role=alternative.message.role,

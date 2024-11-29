@@ -5,7 +5,9 @@ from typing_extensions import Self, override
 from yandex.cloud.ai.foundation_models.v1.image_generation.image_generation_pb2 import (
     AspectRatio, ImageGenerationOptions
 )
-from yandex.cloud.ai.foundation_models.v1.image_generation.image_generation_service_pb2 import ImageGenerationRequest
+from yandex.cloud.ai.foundation_models.v1.image_generation.image_generation_service_pb2 import (
+    ImageGenerationRequest, ImageGenerationResponse
+)
 from yandex.cloud.ai.foundation_models.v1.image_generation.image_generation_service_pb2_grpc import (
     ImageGenerationAsyncServiceStub
 )
@@ -74,7 +76,8 @@ class BaseImageGenerationModel(
             return self._operation_type(
                 id=response.id,
                 sdk=self._sdk,
-                result_type=self._result_type
+                result_type=self._result_type,
+                proto_result_type=ImageGenerationResponse
             )
 
 

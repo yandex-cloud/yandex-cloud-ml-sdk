@@ -12,11 +12,11 @@ import httpx
 from google.protobuf.message import Message
 from yandex.cloud.endpoint.api_endpoint_service_pb2 import ListApiEndpointsRequest  # pylint: disable=no-name-in-module
 from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServiceStub
-from yandexcloud._sdk import _service_for_ctor
 
 from ._auth import BaseAuth, get_auth_provider
 from ._retry import RETRY_KIND_METADATA_KEY, RetryKind, RetryPolicy
 from ._utils.lock import LazyLock
+from ._utils.proto import service_for_ctor
 
 
 class StubType(Protocol):
@@ -152,7 +152,12 @@ class AsyncCloudClient:
             options=self._get_options(),
         )
 
-    async def _get_channel(self, stub_class: type[_T], timeout: float) -> grpc.aio.Channel:
+    async def _get_channel(
+        self,
+        stub_class: type[_T],
+        timeout: float,
+        service_name: str | None = None,
+    ) -> grpc.aio.Channel:
         if stub_class in self._channels:
             return self._channels[stub_class]
 
@@ -160,7 +165,7 @@ class AsyncCloudClient:
             if stub_class in self._channels:
                 return self._channels[stub_class]
 
-            service_name: str = _service_for_ctor(stub_class)
+            service_name = service_name if service_name else service_for_ctor(stub_class)
             if not self._service_map:
                 await self._init_service_map(timeout=timeout)
 
@@ -179,11 +184,16 @@ class AsyncCloudClient:
             return channel
 
     @asynccontextmanager
-    async def get_service_stub(self, stub_class: type[_T], timeout: float) -> AsyncIterator[_T]:
+    async def get_service_stub(
+        self,
+        stub_class: type[_T],
+        timeout: float,
+        service_name: str | None = None
+    ) -> AsyncIterator[_T]:
         # NB: right now get_service_stub is asynccontextmanager and it is unnecessary,
         # but in future if we will make some ChannelPool, it could be handy to know,
         # when "user" releases resource
-        channel = await self._get_channel(stub_class, timeout)
+        channel = await self._get_channel(stub_class, timeout, service_name=service_name)
         yield stub_class(channel)
 
     async def call_service_stream(

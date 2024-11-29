@@ -4,7 +4,7 @@ from __future__ import annotations
 import abc
 import asyncio
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, Generic, TypeVar, cast
+from typing import TYPE_CHECKING, Any, Awaitable, Callable, Generic, TypeVar, cast
 
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
@@ -21,7 +21,7 @@ if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
 
-ResultTypeT = TypeVar('ResultTypeT', bound=BaseResult)
+ResultTypeT_co = TypeVar('ResultTypeT_co', bound=BaseResult, covariant=True)
 
 
 @dataclass(frozen=True)
@@ -45,7 +45,7 @@ class OperationStatus:
         return bool(self.done and self.error and self.error.code > 0)
 
 
-class OperationInterface(abc.ABC, Generic[ResultTypeT]):
+class OperationInterface(abc.ABC, Generic[ResultTypeT_co]):
     id: str
 
     @abc.abstractmethod
@@ -53,7 +53,7 @@ class OperationInterface(abc.ABC, Generic[ResultTypeT]):
         pass
 
     @abc.abstractmethod
-    async def _get_result(self, *, timeout: float = 60) -> ResultTypeT:
+    async def _get_result(self, *, timeout: float = 60) -> ResultTypeT_co:
         pass
 
     async def _sleep_impl(self, delay: float) -> None:
@@ -74,7 +74,7 @@ class OperationInterface(abc.ABC, Generic[ResultTypeT]):
         timeout: float = 60,
         poll_timeout: int = 3600,
         poll_interval: float = 10,
-    ) -> ResultTypeT:
+    ) -> ResultTypeT_co:
         coro = self._wait_impl(timeout=timeout, poll_interval=poll_interval)
         if poll_timeout:
             coro = asyncio.wait_for(coro, timeout=poll_timeout)
@@ -84,14 +84,34 @@ class OperationInterface(abc.ABC, Generic[ResultTypeT]):
         return await self._get_result(timeout=timeout)
 
 
-class BaseOperation(OperationInterface[ResultTypeT]):
+class BaseOperation(Generic[ResultTypeT_co], OperationInterface[ResultTypeT_co]):
     _last_known_status: OperationStatus | None
 
-    def __init__(self, sdk: BaseSDK, id: str, result_type: type[ResultTypeT]):  # pylint: disable=redefined-builtin
+    def __init__(
+        self,
+        sdk: BaseSDK,
+        id: str,
+        result_type: type[ResultTypeT_co],
+        proto_result_type: Any,
+        service_name: str | None = None,
+        transformer: None | Callable[[Any, float], Awaitable[ResultTypeT_co]] = None,
+    ):  # pylint: disable=redefined-builtin
         self._id = id
         self._sdk = sdk
-        self._result_type: type[BaseResult] = result_type
+        self._result_type = result_type
+        self._proto_result_type = proto_result_type
         self._last_known_status = None
+        self._service_name = service_name
+        self._transformer = transformer or self._default_result_transofrmer
+
+    # pylint: disable=unused-argument
+    async def _default_result_transofrmer(self, proto: Any, timeout: float) -> ResultTypeT_co:
+        # NB: mypy can't figure out that self._result_type._from_proto is
+        # returning instance of self._result_type which is also is a ResultTypeT_co
+        return cast(
+            ResultTypeT_co,
+            self._result_type._from_proto(proto=proto, sdk=self._sdk)
+        )
 
     @property
     def id(self):
@@ -103,7 +123,11 @@ class BaseOperation(OperationInterface[ResultTypeT]):
 
     async def _get_status(self, *, timeout: float = 60) -> OperationStatus:
         request = GetOperationRequest(operation_id=self.id)
-        async with self._client.get_service_stub(OperationServiceStub, timeout=timeout) as stub:
+        async with self._client.get_service_stub(
+            OperationServiceStub,
+            timeout=timeout,
+            service_name=self._service_name,
+        ) as stub:
             response = await self._client.call_service(
                 stub.Get,
                 request,
@@ -117,23 +141,21 @@ class BaseOperation(OperationInterface[ResultTypeT]):
             )
             return status
 
-    async def _get_result(self, *, timeout: float = 60) -> ResultTypeT:
+    async def _get_result(self, *, timeout: float = 60) -> ResultTypeT_co:
         status = self._last_known_status
         if status is None:
             status = await self._get_status(timeout=timeout)
 
         if status.is_succeeded:
             assert status.response is not None
-            proto_result = self._result_type._proto_result_type()
+            proto_result = self._proto_result_type()
             status.response.Unpack(proto_result)
 
-            # NB: mypy can't figure out that self._result_type._from_proto is
-            # returning instance of self._result_type which is also is a ResultTypeT
-            return cast(ResultTypeT, self._result_type._from_proto(proto=proto_result, sdk=self._sdk))
+            return await self._transformer(proto_result, timeout)
 
         if status.is_failed:
             assert status.error is not None
-            raise RunError.from_proro_status(status.error)
+            raise RunError.from_proro_status(status.error, operation_id=self.id)
 
         if status.is_running:
             raise WrongAsyncOperationStatusError(
@@ -146,7 +168,11 @@ class BaseOperation(OperationInterface[ResultTypeT]):
 
     async def _cancel(self, *, timeout: float = 60) -> OperationStatus:
         request = CancelOperationRequest(operation_id=self.id)
-        async with self._client.get_service_stub(OperationServiceStub, timeout=timeout) as stub:
+        async with self._client.get_service_stub(
+            OperationServiceStub,
+            timeout=timeout,
+            service_name=self._service_name,
+        ) as stub:
             response = await self._client.call_service(
                 stub.Cancel,
                 request,
@@ -166,8 +192,8 @@ class BaseOperation(OperationInterface[ResultTypeT]):
         timeout: float = 60,
         poll_timeout: int = 3600,
         poll_interval: float = 10,
-    ) -> ResultTypeT:
-        # NB: mypy doesn't resolve generic type ResultTypeT in case of inheritance,
+    ) -> ResultTypeT_co:
+        # NB: mypy doesn't resolve generic type ResultTypeT_co in case of inheritance,
         # so, just recopy this method here
         return await super()._wait(
             timeout=timeout,
@@ -176,11 +202,11 @@ class BaseOperation(OperationInterface[ResultTypeT]):
         )
 
 
-class AsyncOperation(BaseOperation[ResultTypeT]):
+class AsyncOperation(BaseOperation[ResultTypeT_co]):
     async def get_status(self, *, timeout: float = 60) -> OperationStatus:
         return await self._get_status(timeout=timeout)
 
-    async def get_result(self, *, timeout: float = 60) -> ResultTypeT:
+    async def get_result(self, *, timeout: float = 60) -> ResultTypeT_co:
         return await self._get_result(timeout=timeout)
 
     async def cancel(self, *, timeout: float = 60) -> None:
@@ -192,7 +218,7 @@ class AsyncOperation(BaseOperation[ResultTypeT]):
         timeout: float = 60,
         poll_timeout: int = 3600,
         poll_interval: float = 10,
-    ) -> ResultTypeT:
+    ) -> ResultTypeT_co:
         return await self._wait(
             timeout=timeout,
             poll_timeout=poll_timeout,
@@ -203,7 +229,7 @@ class AsyncOperation(BaseOperation[ResultTypeT]):
         return self.wait().__await__()
 
 
-class Operation(BaseOperation[ResultTypeT]):
+class Operation(BaseOperation[ResultTypeT_co]):
     __get_status = run_sync(BaseOperation._get_status)
     __get_result = run_sync(BaseOperation._get_result)
     __wait = run_sync(BaseOperation._wait)
@@ -212,7 +238,7 @@ class Operation(BaseOperation[ResultTypeT]):
     def get_status(self, *, timeout: float = 60) -> OperationStatus:
         return self.__get_status(timeout=timeout)
 
-    def get_result(self, *, timeout: float = 60) -> ResultTypeT:
+    def get_result(self, *, timeout: float = 60) -> ResultTypeT_co:
         return self.__get_result(timeout=timeout)
 
     def cancel(self, *, timeout: float = 60) -> None:
@@ -224,7 +250,7 @@ class Operation(BaseOperation[ResultTypeT]):
         timeout: float = 60,
         poll_timeout: int = 3600,
         poll_interval: float = 10,
-    ) -> ResultTypeT:
+    ) -> ResultTypeT_co:
         return self.__wait(
             timeout=timeout,
             poll_timeout=poll_timeout,
@@ -233,3 +259,7 @@ class Operation(BaseOperation[ResultTypeT]):
 
 
 OperationTypeT = TypeVar('OperationTypeT', bound=BaseOperation)
+
+# this is needed to be able to declare Generic[OperationTypeT] in a dataclasses
+class ReturnsOperationMixin(Generic[OperationTypeT]):
+    _operation_impl: type[OperationTypeT]

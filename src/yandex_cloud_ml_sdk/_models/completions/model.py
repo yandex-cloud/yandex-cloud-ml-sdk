@@ -35,6 +35,7 @@ class BaseGPTModel(
     _config_type = GPTModelConfig
     _result_type = GPTModelResult
     _operation_type: type[OperationTypeT]
+    _proto_result_type = CompletionResponse
 
     def langchain(self, model_type: Literal["chat"] = "chat", timeout: int = 60) -> BaseYandexLanguageModel:
         from .langchain import ChatYandexGPT  # pylint: disable=import-outside-toplevel
@@ -97,7 +98,7 @@ class BaseGPTModel(
                 timeout=timeout,
                 expected_type=CompletionResponse,
             ):
-                yield GPTModelResult._from_proto(response, sdk=self._sdk)
+                yield GPTModelResult._from_proto(proto=response, sdk=self._sdk)
 
         # something like mypy or pylint asking me to put this return here
         return
@@ -159,6 +160,7 @@ class BaseGPTModel(
                 id=response.id,
                 sdk=self._sdk,
                 result_type=self._result_type,
+                proto_result_type=self._proto_result_type,
             )
 
     async def _tokenize(

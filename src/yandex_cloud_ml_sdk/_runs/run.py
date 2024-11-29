@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import dataclasses
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, AsyncIterator, Iterator, TypeVar
+from typing import TYPE_CHECKING, Any, AsyncIterator, Iterator, TypeVar, cast
 
 from google.protobuf.wrappers_pb2 import Int64Value
 from yandex.cloud.ai.assistants.v1.runs.run_pb2 import Run as ProtoRun
@@ -13,6 +13,7 @@ from yandex.cloud.ai.assistants.v1.runs.run_service_pb2_grpc import RunServiceSt
 
 from yandex_cloud_ml_sdk._types.operation import OperationInterface
 from yandex_cloud_ml_sdk._types.resource import BaseResource
+from yandex_cloud_ml_sdk._types.result import ProtoMessage
 from yandex_cloud_ml_sdk._utils.proto import get_google_value
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
@@ -36,7 +37,8 @@ class BaseRun(BaseResource, OperationInterface[RunResult]):
     custom_max_prompt_tokens: int | None
 
     @classmethod
-    def _kwargs_from_message(cls, proto: ProtoRun, sdk: BaseSDK) -> dict[str, Any]:  # type: ignore[override]
+    def _kwargs_from_message(cls, proto: ProtoMessage, sdk: BaseSDK) -> dict[str, Any]:
+        proto = cast(ProtoRun, proto)
         kwargs = super()._kwargs_from_message(proto, sdk=sdk)
 
         kwargs.update({
@@ -90,7 +92,7 @@ class BaseRun(BaseResource, OperationInterface[RunResult]):
                 timeout=timeout,
                 expected_type=ProtoStreamEvent,
             ):
-                yield RunStreamEvent._from_proto(response, sdk=self._sdk)
+                yield RunStreamEvent._from_proto(proto=response, sdk=self._sdk)
 
         return
 
