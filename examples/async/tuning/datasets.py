@@ -44,6 +44,11 @@ async def main() -> None:
         print(f"going to delete {bad_dataset=}")
         await bad_dataset.delete()
 
+    operation = await dataset_draft.upload(raise_on_validation_failure=False)
+    bad_dataset = await operation
+    print(f"New {bad_dataset=} have a bad status {dataset.status=}")
+    await dataset.delete()
+
     async for dataset in sdk.datasets.list():
         await dataset.delete()
 

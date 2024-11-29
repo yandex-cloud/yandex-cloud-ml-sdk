@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field, replace
+from functools import partial
 from typing import TYPE_CHECKING, Any, Generic, TypeVar, cast
 
 from typing_extensions import Self
@@ -62,11 +63,13 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
     async def _transform_operation_result(
         self,
         proto: Any,
-        timeout: float
+        timeout: float,
+        raise_on_validation_failure: bool,
     ) -> DatasetTypeT:
         proto = cast(ValidateDatasetResponse, proto)
         validation_result = DatasetValidationResult._from_proto(proto=proto, sdk=self._sdk)
-        validation_result.raise_for_status()
+        if raise_on_validation_failure:
+            validation_result.raise_for_status()
 
         return await self._domain._get(
             dataset_id=validation_result.dataset_id,
@@ -77,7 +80,8 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
         self,
         *,
         dataset: DatasetTypeT,
-        timeout: float = 60
+        timeout: float,
+        raise_on_validation_failure: bool,
     ) -> OperationTypeT:
         # validate_deferred should be a BaseDataset method by all means,
         # but I don't want to make Dataset operation-depentant generic,
@@ -102,7 +106,10 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
             result_type=self._dataset_impl,
             proto_result_type=ValidateDatasetResponse,
             service_name='ai-foundation-models',
-            transformer=self._transform_operation_result
+            transformer=partial(
+                self._transform_operation_result,
+                raise_on_validation_failure=raise_on_validation_failure,
+            )
         )
 
     async def _upload(
@@ -110,6 +117,7 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
         *,
         timeout: float = 60,
         upload_timeout: float = 360,
+        raise_on_validation_failure: bool = True,
     ) -> OperationTypeT:
         self.validate()
         assert self.task_type
@@ -135,7 +143,11 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
             await dataset._delete(timeout=timeout)
             raise
 
-        operation = await self._validate_deferred(dataset=dataset, timeout=timeout)
+        operation = await self._validate_deferred(
+            dataset=dataset,
+            timeout=timeout,
+            raise_on_validation_failure=raise_on_validation_failure,
+        )
         return operation
 
 
@@ -148,10 +160,12 @@ class AsyncDatasetDraft(BaseDatasetDraft[AsyncDataset, AsyncOperation[AsyncDatas
         *,
         timeout: float = 60,
         upload_timeout: float = 360,
+        raise_on_validation_failure: bool = True,
     ) -> AsyncOperation[AsyncDataset]:
         return await self._upload(
             timeout=timeout,
             upload_timeout=upload_timeout,
+            raise_on_validation_failure=raise_on_validation_failure,
         )
 
 
@@ -165,10 +179,12 @@ class DatasetDraft(BaseDatasetDraft[Dataset, Operation[Dataset]]):
         *,
         timeout: float = 60,
         upload_timeout: float = 360,
+        raise_on_validation_failure: bool = True,
     ) -> Operation[Dataset]:
         return self.__upload(
             timeout=timeout,
             upload_timeout=upload_timeout,
+            raise_on_validation_failure=raise_on_validation_failure,
         )
 
 
