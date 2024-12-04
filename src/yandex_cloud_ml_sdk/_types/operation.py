@@ -20,7 +20,7 @@ from .result import BaseResult
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
-
+AnyResultTypeT_co = TypeVar('AnyResultTypeT_co', covariant=True)
 ResultTypeT_co = TypeVar('ResultTypeT_co', bound=BaseResult, covariant=True)
 
 
@@ -45,7 +45,7 @@ class OperationStatus:
         return bool(self.done and self.error and self.error.code > 0)
 
 
-class OperationInterface(abc.ABC, Generic[ResultTypeT_co]):
+class OperationInterface(abc.ABC, Generic[AnyResultTypeT_co]):
     id: str
 
     @abc.abstractmethod
@@ -53,7 +53,7 @@ class OperationInterface(abc.ABC, Generic[ResultTypeT_co]):
         pass
 
     @abc.abstractmethod
-    async def _get_result(self, *, timeout: float = 60) -> ResultTypeT_co:
+    async def _get_result(self, *, timeout: float = 60) -> AnyResultTypeT_co:
         pass
 
     async def _sleep_impl(self, delay: float) -> None:
@@ -74,7 +74,7 @@ class OperationInterface(abc.ABC, Generic[ResultTypeT_co]):
         timeout: float = 60,
         poll_timeout: int = 3600,
         poll_interval: float = 10,
-    ) -> ResultTypeT_co:
+    ) -> AnyResultTypeT_co:
         coro = self._wait_impl(timeout=timeout, poll_interval=poll_interval)
         if poll_timeout:
             coro = asyncio.wait_for(coro, timeout=poll_timeout)
@@ -209,8 +209,8 @@ class AsyncOperation(BaseOperation[ResultTypeT_co]):
     async def get_result(self, *, timeout: float = 60) -> ResultTypeT_co:
         return await self._get_result(timeout=timeout)
 
-    async def cancel(self, *, timeout: float = 60) -> None:
-        await self._cancel(timeout=timeout)
+    async def cancel(self, *, timeout: float = 60) -> OperationStatus:
+        return await self._cancel(timeout=timeout)
 
     async def wait(
         self,
@@ -241,8 +241,8 @@ class Operation(BaseOperation[ResultTypeT_co]):
     def get_result(self, *, timeout: float = 60) -> ResultTypeT_co:
         return self.__get_result(timeout=timeout)
 
-    def cancel(self, *, timeout: float = 60) -> None:
-        self.__cancel(timeout=timeout)
+    def cancel(self, *, timeout: float = 60) -> OperationStatus:
+        return self.__cancel(timeout=timeout)
 
     def wait(
         self,

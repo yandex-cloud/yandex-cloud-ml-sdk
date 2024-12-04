@@ -4,10 +4,14 @@ import abc
 from dataclasses import replace
 from typing import TYPE_CHECKING, AsyncIterator, Generic, TypeVar
 
-from .misc import Undefined
+from yandex_cloud_ml_sdk._tuning.tuning_task import TuningTaskTypeT
+
+from .misc import Undefined, UndefinedOr, get_defined_value
 from .model_config import BaseModelConfig
 from .operation import OperationTypeT
 from .result import BaseResult, ProtoMessage
+from .tuning.datasets import TuningDatasetsType
+from .tuning.params import BaseTuningParams
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -17,6 +21,7 @@ if TYPE_CHECKING:
 
 ConfigTypeT = TypeVar('ConfigTypeT', bound=BaseModelConfig)
 ResultTypeT = TypeVar('ResultTypeT', bound=BaseResult)
+TuningParamsTypeT = TypeVar('TuningParamsTypeT', bound=BaseTuningParams)
 
 
 class BaseModel(Generic[ConfigTypeT, ResultTypeT], metaclass=abc.ABCMeta):
@@ -88,10 +93,70 @@ class ModelAsyncMixin(
     async def _run_deferred(self, *args, **kwargs) -> OperationTypeT:
         pass
 
-    def attach_async(self, operation_id: str) -> OperationTypeT:
+    # pylint: disable=unused-argument
+    async def attach_deferred(self, operation_id: str, timeout: float = 60) -> OperationTypeT:
         return self._operation_type(
             id=operation_id,
             sdk=self._sdk,
             result_type=self._result_type,
             proto_result_type=self._proto_result_type,
         )
+
+
+class ModelTuneMixin(
+    BaseModel[ConfigTypeT, ResultTypeT],
+    Generic[ConfigTypeT, ResultTypeT, TuningParamsTypeT, TuningTaskTypeT]
+):
+    _tuning_params_type: type[TuningParamsTypeT]
+    _tune_operation_type: type[TuningTaskTypeT]
+
+    async def _tune(
+        self,
+        timeout: float = 60,
+        poll_timeout: int = 72 * 60 * 60,
+        poll_inteval: float = 60,
+        **kwargs,
+    ) -> Self:
+        operation = await self._tune_deferred(
+            **kwargs,
+            timeout=timeout,
+        )
+        # pylint: disable=protected-access
+        result = await operation._wait(
+            timeout=timeout,
+            poll_timeout=poll_timeout,
+            poll_inteval=poll_inteval,
+        )
+        return result
+
+    async def _tune_deferred(
+        self,
+        train_datasets: TuningDatasetsType,
+        validation_datasets: UndefinedOr[TuningDatasetsType],
+        name: UndefinedOr[str],
+        description: UndefinedOr[str],
+        labels: UndefinedOr[dict[str, str]],
+        timeout: float = 60,
+        **kwargs,
+    ) -> TuningTaskTypeT:
+        clean_kwargs = {
+            key: get_defined_value(value, None)
+            for key, value in kwargs.items()
+        }
+        params = self._tuning_params_type(**clean_kwargs)
+
+        # pylint: disable=protected-access
+        return await self._sdk.tuning._create_deferred(
+            model_uri=self._uri,
+            train_datasets=train_datasets,
+            validation_datasets=validation_datasets,
+            tuning_params=params,
+            name=name,
+            description=description,
+            labels=labels,
+            timeout=timeout
+        )
+
+    async def attach_tune_deferred(self, task_id: str, *, timeout: float = 60) -> TuningTaskTypeT:
+        # pylint: disable=protected-access
+        return await self._sdk.tuning._get(task_id, timeout=timeout)
