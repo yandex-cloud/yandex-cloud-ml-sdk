@@ -9,7 +9,7 @@ from yandex_cloud_ml_sdk._datasets.dataset import BaseDataset
 DatasetType = Union[str, BaseDataset]
 WeightedDatasetType = Tuple[DatasetType, float]
 TuningDatasetType = Union[DatasetType, WeightedDatasetType]
-TuningDatasetsType = TuningDatasetType | Iterable[TuningDatasetType] | Dict[DatasetType, float]
+TuningDatasetsType = TuningDatasetType, Iterable[TuningDatasetType], Dict[DatasetType, float]
 
 ERROR_TEXT = ' '.join("""datasets must contain
 string with dataset ID,
