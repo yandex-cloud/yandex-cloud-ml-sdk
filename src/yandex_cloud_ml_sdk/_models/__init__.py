@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 from get_annotations import get_annotations
 
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
-from yandex_cloud_ml_sdk._types.function import BaseFunction
+from yandex_cloud_ml_sdk._types.function import BaseModelFunction
 from yandex_cloud_ml_sdk._types.model import ModelTuneMixin
 
 from .completions.function import AsyncCompletions, BaseCompletions, Completions
@@ -23,13 +23,13 @@ class BaseModels(BaseDomain):
 
     def __init__(self, name: str, sdk: BaseSDK):
         super().__init__(name=name, sdk=sdk)
-        self._tuning_map = {}
+        self._tuning_map: dict[str, type[ModelTuneMixin]] = {}
         self._init_functions()
 
     def _init_functions(self) -> None:
         members: dict[str, type] = get_annotations(self.__class__, eval_str=True)
         for member_name, member_class in members.items():
-            if not issubclass(member_class, BaseFunction):
+            if not issubclass(member_class, BaseModelFunction):
                 continue
             function = member_class(name=member_name, sdk=self._sdk, parent_resource=self)
             setattr(self, member_name, function)

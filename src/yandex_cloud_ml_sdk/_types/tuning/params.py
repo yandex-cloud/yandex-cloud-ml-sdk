@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
-from typing import Generic, TypeVar, Union
+from typing import ClassVar, Generic, TypeVar, Union, cast
 
 from yandex.cloud.ai.tuning.v1.tuning_service_pb2 import (
     TextClassificationMulticlassParams, TextClassificationMultilabelParams, TextToTextCompletionTuningParams
@@ -25,7 +25,7 @@ ProtoTuningParamsTypeT = TypeVar(
 class BaseTuningParamProtoGeneric(Generic[ProtoTuningParamsTypeT]):
     # to avoid turning this field to dataclass field
     _proto_tuning_params_type: type[ProtoTuningParamsTypeT]
-    _proto_tuning_argument_name: str
+    _proto_tuning_argument_name: ClassVar[str]
 
 
 @dataclass(frozen=True)
@@ -40,8 +40,9 @@ class BaseTuningParams(BaseTuningParamProtoGeneric[ProtoTuningParamsTypeT]):
             del kwargs[field]
 
         if self.tuning_type:
+            # NB: somewhy mypy expecting type[Never] as an argument here
             kwargs[self.tuning_type.field_name] = self.tuning_type.to_proto(
-                self.tuning_type.proto_type
+                self.tuning_type.proto_type  # type: ignore[arg-type]
             )
 
         if self.scheduler:
@@ -54,4 +55,4 @@ class BaseTuningParams(BaseTuningParamProtoGeneric[ProtoTuningParamsTypeT]):
                 self._proto_tuning_params_type.Optimizer
             )
 
-        return self._proto_tuning_params_type(**kwargs)
+        return cast(ProtoTuningParamsTypeT, self._proto_tuning_params_type(**kwargs))

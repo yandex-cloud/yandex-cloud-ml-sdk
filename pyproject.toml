@@ -116,6 +116,7 @@ disable = [
     'fixme',
     'missing-class-docstring',  # TMP
     'missing-function-docstring',  # TMP
+    'duplicate-code',  # TMP
 ]
 load-plugins = [
     'pylint_protobuf'
@@ -243,7 +244,7 @@ valid-classmethod-first-arg="cls"
 valid-metaclass-classmethod-first-arg="cls"
 
 [tool.pylint.'DESIGN']
-max-args=15
+max-args=16
 max-attributes=15
 max-bool-expr=5
 max-branches=12

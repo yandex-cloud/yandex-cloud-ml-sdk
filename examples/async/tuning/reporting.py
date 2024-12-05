@@ -13,11 +13,7 @@ def local_path(path: str) -> pathlib.Path:
     return pathlib.Path(__file__).parent / path
 
 
-async def main() -> None:
-    sdk = AsyncYCloudML(
-        folder_id='b1ghsjum2v37c2un8h64',
-    )
-
+async def get_datasets(sdk):
     async for dataset in sdk.datasets.list(status="READY"):
         print(f'using old dataset {dataset=}')
         break
@@ -33,11 +29,17 @@ async def main() -> None:
         dataset = await operation
         print(f'created new dataset {dataset=}')
 
+    return dataset, dataset
+
+
+async def main() -> None:
+    sdk = AsyncYCloudML(folder_id='b1ghsjum2v37c2un8h64')
+    train_dataset, validation_dataset = await get_datasets(sdk)
     base_model = sdk.models.completions('yandexgpt-lite')
 
     tuning_task = await base_model.tune_deferred(
-        dataset,
-        validation_datasets=dataset,
+        train_dataset,
+        validation_datasets=validation_dataset,
         name=str(uuid.uuid4())
     )
     print(f'new {tuning_task=}')
@@ -48,6 +50,7 @@ async def main() -> None:
             print(f'{await tuning_task.get_status()=}')
             print(f'{await tuning_task.get_task_info()=}')
             print(f'{await tuning_task.get_metrics_url()=}')
+            print()
             await asyncio.sleep(5)
 
     report_task = asyncio.create_task(report_status())

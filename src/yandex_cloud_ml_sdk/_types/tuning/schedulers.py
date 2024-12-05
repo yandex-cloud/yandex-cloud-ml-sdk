@@ -5,13 +5,13 @@ import abc
 from dataclasses import asdict, dataclass
 from typing import ClassVar, Union
 
-from yandex.cloud.ai.tuning.v1.tuning_schedulers_pb2 import SchedulerConstant as ProtoSchedulercConstant
+from yandex.cloud.ai.tuning.v1.tuning_schedulers_pb2 import SchedulerConstant as ProtoSchedulerConstant
 from yandex.cloud.ai.tuning.v1.tuning_schedulers_pb2 import SchedulerCosine as ProtoSchedulerCosine
 from yandex.cloud.ai.tuning.v1.tuning_schedulers_pb2 import SchedulerLinear as ProtoSchedulerLinear
 
 from .parameter import BaseTuningParameter, ProtoMessageTypeT
 
-ProtoSchedulers = Union[ProtoSchedulerCosine, ProtoSchedulerLinear, ProtoSchedulercConstant]
+ProtoSchedulers = Union[ProtoSchedulerCosine, ProtoSchedulerLinear, ProtoSchedulerConstant]
 
 
 @dataclass(frozen=True)
@@ -21,7 +21,7 @@ class BaseScheduler(BaseTuningParameter):
 
     @property
     @abc.abstractmethod
-    def proto_type(self) -> ProtoSchedulers:
+    def proto_type(self) -> type[ProtoSchedulers]:
         pass
 
     @property
@@ -48,7 +48,7 @@ class SchedulerLinear(BaseScheduler):
 
 @dataclass(frozen=True)
 class SchedulerConstant(BaseScheduler):
-    proto_type: ClassVar = ProtoSchedulercConstant
+    proto_type: ClassVar = ProtoSchedulerConstant
     underlying_field_name: ClassVar[str] = 'constant'
 
 

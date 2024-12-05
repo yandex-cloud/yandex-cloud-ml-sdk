@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import abc
 import asyncio
-from collections.abc import Iterable as _Iterable
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any, Awaitable, Callable, Generic, TypeVar, cast
 
@@ -61,7 +61,7 @@ class OperationStatus:
             error = OperationErrorInfo(
                 code=proto.error.code,
                 message=proto.error.message,
-                details=proto.error.details
+                details=[str(d) for d in proto.error.details],
             )
 
         return cls(

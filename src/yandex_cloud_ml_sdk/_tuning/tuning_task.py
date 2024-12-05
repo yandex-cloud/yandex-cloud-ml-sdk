@@ -4,7 +4,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import TYPE_CHECKING, TypeVar, cast
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from grpc import StatusCode
 from grpc.aio import AioRpcError
@@ -71,7 +71,7 @@ class TuningTaskStatus(OperationStatus):
         error = None
         if info.status == TuningTaskStatusEnum.COMPLETED:
             done = True
-        elif proto.status == TuningTaskStatusEnum.FAILED:
+        elif info.status == TuningTaskStatusEnum.FAILED:
             done = True
             error = OperationErrorInfo(
                 code=-1,
@@ -82,7 +82,7 @@ class TuningTaskStatus(OperationStatus):
         return cls(
             done=done,
             error=error,
-            response=proto,
+            response=info,
             metadata=None,
         )
 
@@ -102,7 +102,7 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co]):
         self._operation_id = operation_id
         self._task_id = task_id
 
-        if not operation_id and not task:
+        if not operation_id and not task_id:
             raise TypeError('tuning task must be created with operation_id either with task_id')
 
     @property
@@ -119,6 +119,9 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co]):
     async def _get_operation_id(self, *, timeout: float = 60) -> str | None:
         if not self._operation_id:
             task_info = await self._get_task_info(timeout=timeout)
+            if not task_info:
+                return None
+
             self._operation_id = task_info.operation_id
 
         return self._operation_id
@@ -199,7 +202,7 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co]):
         status = await self._get_status(timeout=timeout)
         if status.is_succeeded:
             info = await self._get_task_info(timeout=timeout)
-            if not info.target_model_uri:
+            if not info or not info.target_model_uri:
                 raise WrongAsyncOperationStatusError(
                     f"tuning task {self._task_id} have COMPLETED status but empty target_model_uri"
                 )
@@ -228,6 +231,11 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co]):
         # 2) after operation expire
 
         operation_id = await self._get_operation_id(timeout=timeout)
+        if not operation_id:
+            raise WrongAsyncOperationStatusError(
+                f"failed to cancel tuning task {self.id} because "
+                "it already gone from operations storage (few weeks)"
+            )
 
         request = CancelOperationRequest(operation_id=operation_id)
         async with self._client.get_service_stub(
@@ -268,7 +276,7 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co]):
 
 
 class AsyncTuningTask(BaseTuningTask[TuningResultTypeT_co]):
-    async def get_task_info(self, *, timeout: float = 60) -> TuningTaskInfo:
+    async def get_task_info(self, *, timeout: float = 60) -> TuningTaskInfo | None:
         return await self._get_task_info(timeout=timeout)
 
     async def get_status(self, *, timeout: float = 60) -> TuningTaskStatus:
@@ -293,7 +301,7 @@ class AsyncTuningTask(BaseTuningTask[TuningResultTypeT_co]):
             poll_interval=poll_interval,
         )
 
-    async def get_metrics_url(self, *, timeout: float = 60) -> str:
+    async def get_metrics_url(self, *, timeout: float = 60) -> str | None:
         return await self._get_metrics_url(timeout=timeout)
 
     def __await__(self):
@@ -308,7 +316,7 @@ class TuningTask(BaseTuningTask[TuningResultTypeT_co]):
     __get_metrics_url = run_sync(BaseTuningTask._get_metrics_url)
     __get_task_info = run_sync(BaseTuningTask._get_task_info)
 
-    def get_task_info(self, *, timeout: float = 60) -> TuningTaskInfo:
+    def get_task_info(self, *, timeout: float = 60) -> TuningTaskInfo | None:
         return self.__get_task_info(timeout=timeout)
 
     def get_status(self, *, timeout: float = 60) -> TuningTaskStatus:
@@ -334,7 +342,7 @@ class TuningTask(BaseTuningTask[TuningResultTypeT_co]):
         )
         return cast(TuningResultTypeT_co, result)
 
-    def get_metrics_url(self, *, timeout: float = 60) -> str:
+    def get_metrics_url(self, *, timeout: float = 60) -> str | None:
         return self.__get_metrics_url(timeout=timeout)
 
 

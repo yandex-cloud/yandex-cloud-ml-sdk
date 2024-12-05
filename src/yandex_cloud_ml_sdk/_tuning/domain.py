@@ -1,16 +1,14 @@
 # pylint: disable=protected-access,no-name-in-module
 from __future__ import annotations
 
-from typing import Generic, TypeVar, cast
+from typing import AsyncIterator, Generic, Iterator
 
-from yandex.cloud.ai.tuning.v1.tuning_service_pb2 import (
-    DescribeTuningRequest, DescribeTuningResponse, GetOptionsRequest, GetOptionsResponse, TuningRequest
-)
+from yandex.cloud.ai.tuning.v1.tuning_service_pb2 import GetOptionsRequest, GetOptionsResponse, TuningRequest
 from yandex.cloud.ai.tuning.v1.tuning_service_pb2_grpc import TuningServiceStub
 from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
-from yandex_cloud_ml_sdk._types.misc import UNDEFINED, PathLike, UndefinedOr, coerce_path, get_defined_value, is_defined
+from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._types.model import ModelTuneMixin
 from yandex_cloud_ml_sdk._types.tuning.datasets import TuningDatasetsType, coerce_datasets
 from yandex_cloud_ml_sdk._types.tuning.params import BaseTuningParams
@@ -30,7 +28,8 @@ class BaseTuning(BaseDomain, Generic[TuningTaskTypeT]):
         if not defined:
             return ()
 
-        coerced = coerce_datasets(defined)
+        # mypy breaks here, it thinks `defined` have a type "object"
+        coerced = coerce_datasets(defined)  # type: ignore[arg-type]
 
         return tuple(
             TuningRequest.WeightedDataset(
@@ -135,7 +134,7 @@ class BaseTuning(BaseDomain, Generic[TuningTaskTypeT]):
         page_size: UndefinedOr[int] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[TuningTaskTypeT]:
-        pass
+        yield 1
 
 
 class AsyncTuning(BaseTuning[AsyncTuningTask]):
@@ -149,6 +148,39 @@ class AsyncTuning(BaseTuning[AsyncTuningTask]):
     ) -> AsyncTuningTask:
         return await self._get(task_id=task_id, timeout=timeout)
 
+    async def list(
+        self,
+        *,
+        page_size: UndefinedOr[int] = UNDEFINED,
+        timeout: float = 60
+    ) -> AsyncIterator[AsyncTuningTask]:
+        async for task in self._list(
+            page_size=page_size,
+            timeout=timeout
+        ):
+            yield task
+
 
 class Tuning(BaseTuning[TuningTask]):
     _tuning_impl = TuningTask
+    __get = run_sync(BaseTuning._get)
+    __list = run_sync_generator(BaseTuning._list)
+
+    def get(
+        self,
+        task_id: str,
+        *,
+        timeout: float = 60,
+    ) -> TuningTask:
+        return self.__get(task_id=task_id, timeout=timeout)
+
+    def list(
+        self,
+        *,
+        page_size: UndefinedOr[int] = UNDEFINED,
+        timeout: float = 60
+    ) -> Iterator[TuningTask]:
+        yield from self.__list(
+            page_size=page_size,
+            timeout=timeout
+        )

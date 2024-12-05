@@ -18,7 +18,7 @@ class BaseOptimizer(BaseTuningParameter):
 
     @property
     @abc.abstractmethod
-    def proto_type(self) -> ProtoOptimizerAdamw:
+    def proto_type(self) -> type[ProtoOptimizerAdamw]:
         pass
 
     @property

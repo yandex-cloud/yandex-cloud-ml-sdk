@@ -114,7 +114,7 @@ class ModelTuneMixin(
         self,
         timeout: float = 60,
         poll_timeout: int = 72 * 60 * 60,
-        poll_inteval: float = 60,
+        poll_interval: float = 60,
         **kwargs,
     ) -> Self:
         operation = await self._tune_deferred(
@@ -125,7 +125,7 @@ class ModelTuneMixin(
         result = await operation._wait(
             timeout=timeout,
             poll_timeout=poll_timeout,
-            poll_inteval=poll_inteval,
+            poll_interval=poll_interval,
         )
         return result
 
