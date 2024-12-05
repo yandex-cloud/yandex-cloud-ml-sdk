@@ -3,9 +3,11 @@ from __future__ import annotations
 
 import abc
 import asyncio
-from dataclasses import dataclass
+from collections.abc import Iterable as _Iterable
+from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any, Awaitable, Callable, Generic, TypeVar, cast
 
+from typing_extensions import Self
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 # pylint: disable-next=no-name-in-module
@@ -25,10 +27,18 @@ ResultTypeT_co = TypeVar('ResultTypeT_co', bound=BaseResult, covariant=True)
 
 
 @dataclass(frozen=True)
+class OperationErrorInfo:
+    code: int
+    message: str
+    details: Iterable[str] | None
+
+
+@dataclass(frozen=True)
 class OperationStatus:
     done: bool
-    error: Any | None  # TBD: google.rpc.Status
-    response: Any | None
+    error: OperationErrorInfo | None  # TBD: google.rpc.Status
+    response: Any | None = field(repr=False)
+    metadata: Any | None = field(repr=False)
 
     @property
     def is_running(self) -> bool:
@@ -43,6 +53,23 @@ class OperationStatus:
     def is_failed(self) -> bool:
         # NB: when succeeded, there non-None error, but with code==0
         return bool(self.done and self.error and self.error.code > 0)
+
+    @classmethod
+    def _from_proto(cls, *, proto: ProtoOperation) -> Self:
+        error: OperationErrorInfo | None = None
+        if proto.error and proto.error.code:
+            error = OperationErrorInfo(
+                code=proto.error.code,
+                message=proto.error.message,
+                details=proto.error.details
+            )
+
+        return cls(
+            done=proto.done,
+            error=error,
+            response=proto.response,
+            metadata=proto.metadata
+        )
 
 
 class OperationInterface(abc.ABC, Generic[AnyResultTypeT_co]):
@@ -134,11 +161,7 @@ class BaseOperation(Generic[ResultTypeT_co], OperationInterface[ResultTypeT_co])
                 timeout=timeout,
                 expected_type=ProtoOperation,
             )
-            self._last_known_status = status = OperationStatus(
-                done=response.done,
-                error=response.error,
-                response=response.response
-            )
+            self._last_known_status = status = OperationStatus._from_proto(proto=response)
             return status
 
     async def _get_result(self, *, timeout: float = 60) -> ResultTypeT_co:
@@ -179,11 +202,7 @@ class BaseOperation(Generic[ResultTypeT_co], OperationInterface[ResultTypeT_co])
                 timeout=timeout,
                 expected_type=ProtoOperation,
             )
-            self._last_known_status = status = OperationStatus(
-                done=response.done,
-                error=response.error,
-                response=response.response
-            )
+            self._last_known_status = status = OperationStatus._from_proto(proto=response)
             return status
 
     async def _wait(

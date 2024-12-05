@@ -1,23 +1,16 @@
 from __future__ import annotations
 
-from collections.abc import Iterable as _Iterable
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 from typing import Any as _Any
-from typing import Protocol as _Protocol
 
 if _TYPE_CHECKING:
     # pylint: disable=cyclic-import
     from yandex_cloud_ml_sdk._datasets.validation import DatasetValidationResult as _DatasetValidationResult
+    from yandex_cloud_ml_sdk._types.operation import OperationErrorInfo as _OperationErrorInfo
 
 
 class YCloudMLError(Exception):
     pass
-
-
-class _Status(_Protocol):
-    code: int
-    message: str
-    details: Iterable[str] | None
 
 
 class RunError(YCloudMLError):
@@ -34,7 +27,7 @@ class RunError(YCloudMLError):
         return message
 
     @classmethod
-    def from_proro_status(cls, status: _Status, operation_id: str):
+    def from_proro_status(cls, status: _OperationErrorInfo, operation_id: str):
         return cls(
             code=status.code,
             message=status.message,

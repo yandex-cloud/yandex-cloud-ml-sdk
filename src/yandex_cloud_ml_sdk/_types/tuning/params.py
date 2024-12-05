@@ -25,6 +25,7 @@ ProtoTuningParamsTypeT = TypeVar(
 class BaseTuningParamProtoGeneric(Generic[ProtoTuningParamsTypeT]):
     # to avoid turning this field to dataclass field
     _proto_tuning_params_type: type[ProtoTuningParamsTypeT]
+    _proto_tuning_argument_name: str
 
 
 @dataclass(frozen=True)

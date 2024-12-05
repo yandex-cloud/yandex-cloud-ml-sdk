@@ -1,0 +1,66 @@
+#!/usr/bin/env python3
+
+from __future__ import annotations
+
+import asyncio
+import pathlib
+import uuid
+
+from yandex_cloud_ml_sdk import AsyncYCloudML
+
+
+def local_path(path: str) -> pathlib.Path:
+    return pathlib.Path(__file__).parent / path
+
+
+async def main() -> None:
+    sdk = AsyncYCloudML(
+        folder_id='b1ghsjum2v37c2un8h64',
+    )
+
+    async for dataset in sdk.datasets.list(status="READY"):
+        print(f'using old dataset {dataset=}')
+        break
+    else:
+        print('no old datasets found, creating new one')
+        dataset_draft = sdk.datasets.completions.from_path_deferred(
+            path=local_path('example_dataset'),
+            upload_format='jsonlines',
+            name='foo',
+        )
+
+        operation = await dataset_draft.upload()
+        dataset = await operation
+        print(f'created new dataset {dataset=}')
+
+    base_model = sdk.models.completions('yandexgpt-lite')
+
+    tuning_task = await base_model.tune_deferred(
+        dataset,
+        validation_datasets=dataset,
+        name=str(uuid.uuid4())
+    )
+    print(f'new {tuning_task=}')
+
+    try:
+        for _ in range(3):
+            status = await tuning_task.get_status()
+            print(f'{status=}')
+
+            task_info = await tuning_task.get_task_info()
+            print(f'{task_info=}')
+
+            await asyncio.sleep(5)
+
+    finally:
+        await tuning_task.cancel()
+
+    status = await tuning_task.get_status()
+    print(f'{status=} after cancel')
+
+    task_info = await tuning_task.get_task_info()
+    print(f'{task_info=} after cancel')
+
+
+if __name__ == '__main__':
+    asyncio.run(main())

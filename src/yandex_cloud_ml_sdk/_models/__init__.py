@@ -1,3 +1,4 @@
+# pylint: disable=protected-access
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -6,6 +7,7 @@ from get_annotations import get_annotations
 
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.function import BaseFunction
+from yandex_cloud_ml_sdk._types.model import ModelTuneMixin
 
 from .completions.function import AsyncCompletions, BaseCompletions, Completions
 from .image_generation.function import AsyncImageGeneration, ImageGeneration
@@ -21,14 +23,22 @@ class BaseModels(BaseDomain):
 
     def __init__(self, name: str, sdk: BaseSDK):
         super().__init__(name=name, sdk=sdk)
+        self._tuning_map = {}
         self._init_functions()
 
     def _init_functions(self) -> None:
         members: dict[str, type] = get_annotations(self.__class__, eval_str=True)
         for member_name, member_class in members.items():
-            if issubclass(member_class, BaseFunction):
-                function = member_class(name=member_name, sdk=self._sdk, parent_resource=self)
-                setattr(self, member_name, function)
+            if not issubclass(member_class, BaseFunction):
+                continue
+            function = member_class(name=member_name, sdk=self._sdk, parent_resource=self)
+            setattr(self, member_name, function)
+
+            model_type = function._model_type
+            if not issubclass(model_type, ModelTuneMixin):
+                continue
+            tune_name = model_type._tuning_params_type._proto_tuning_argument_name
+            self._tuning_map[tune_name] = model_type
 
 
 class AsyncModels(BaseModels):

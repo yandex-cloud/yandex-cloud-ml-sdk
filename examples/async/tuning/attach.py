@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import asyncio
 import pathlib
+import uuid
 
 from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk.exceptions import DatasetValidationError
 
 
 def local_path(path: str) -> pathlib.Path:
@@ -22,7 +22,7 @@ async def main() -> None:
         print(f'using old dataset {dataset=}')
         break
     else:
-        print(f'no old datasets found, creating new one')
+        print('no old datasets found, creating new one')
         dataset_draft = sdk.datasets.completions.from_path_deferred(
             path=local_path('example_dataset'),
             upload_format='jsonlines',
@@ -31,14 +31,25 @@ async def main() -> None:
 
         operation = await dataset_draft.upload()
         dataset = await operation
-        print(f'creating new dataset {dataset=}')
+        print(f'created new dataset {dataset=}')
 
-    base_model = sdk.models.completions('yandexgpt')
-    tuning_task = await base_model.tune_deferred(dataset)
-    print(f'{tuning_task=}')
-    new_model = await tuning_task
+    base_model = sdk.models.completions('yandexgpt-lite')
 
+    tuning_task = await base_model.tune_deferred(
+        dataset,
+        validation_datasets=dataset,
+        name=str(uuid.uuid4())
+    )
+    print(f'new {tuning_task=}')
 
+    try:
+        same_task = await base_model.attach_tune_deferred(tuning_task.id)
+        print(f'new {same_task=}')
+
+        same_task2 = await sdk.tuning.get(tuning_task.id)
+        print(f'new {same_task2=}')
+    finally:
+        await tuning_task.cancel()
 
 
 if __name__ == '__main__':

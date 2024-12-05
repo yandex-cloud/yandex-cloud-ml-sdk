@@ -148,6 +148,7 @@ class ModelTuneMixin(
         # pylint: disable=protected-access
         return await self._sdk.tuning._create_deferred(
             model_uri=self._uri,
+            result_type=type(self),
             train_datasets=train_datasets,
             validation_datasets=validation_datasets,
             tuning_params=params,
