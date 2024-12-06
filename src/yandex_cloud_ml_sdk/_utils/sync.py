@@ -3,9 +3,8 @@ from __future__ import annotations
 import asyncio
 import inspect
 import threading
-from collections.abc import AsyncIterator, Iterator
 from functools import wraps
-from typing import TYPE_CHECKING, Any, Awaitable, Callable, TypeVar
+from typing import TYPE_CHECKING, Any, AsyncIterator, Awaitable, Callable, Iterator, TypeVar
 
 from typing_extensions import Concatenate, ParamSpec
 

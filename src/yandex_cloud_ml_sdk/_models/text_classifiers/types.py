@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from collections.abc import Mapping
 from dataclasses import asdict, dataclass
-from typing import TypedDict
+from typing import Mapping, TypedDict
 
 
 @dataclass(frozen=True)
