@@ -95,10 +95,14 @@ class AsyncImageGenerationModel(BaseImageGenerationModel[AsyncOperation[ImageGen
             timeout=timeout
         )
 
+    async def attach_deferred(self, operation_id: str, timeout: float = 60) -> AsyncOperation[ImageGenerationModelResult]:
+        return await self._attach_deferred(operation_id=operation_id, timeout=timeout)
+
 
 class ImageGenerationModel(BaseImageGenerationModel[Operation[ImageGenerationModelResult]]):
     _operation_type = Operation[ImageGenerationModelResult]
     __run_deferred = run_sync(BaseImageGenerationModel[Operation[ImageGenerationModelResult]]._run_deferred)
+    __attach_deferred = run_sync(BaseImageGenerationModel[Operation[ImageGenerationModelResult]]._attach_deferred)
 
     def run_deferred(
         self,
@@ -111,3 +115,6 @@ class ImageGenerationModel(BaseImageGenerationModel[Operation[ImageGenerationMod
             messages=messages,
             timeout=timeout
         )
+
+    def attach_deferred(self, operation_id: str, timeout: float = 60) -> Operation[ImageGenerationModelResult]:
+        return self.__attach_deferred(operation_id=operation_id, timeout=timeout)

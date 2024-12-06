@@ -61,12 +61,18 @@ async def main() -> None:
         description="cool tuning",
         labels={'good': 'yes'},
         seed=500,
-        lr=0.0005,
+        lr=1e-4,
         n_samples=100,
-        tuning_type=tt.TuningTypePromptTune(virtual_tokens=50),
-        scheduler=ts.SchedulerConstant(warmup_ratio=0.1),
+        tuning_type=tt.TuningTypePromptTune(virtual_tokens=20),
+        scheduler=ts.SchedulerLinear(
+            warmup_ratio=10,
+            min_lr=0
+        ),
         optimizer=to.OptimizerAdamw(
-            beta1=0.5
+            beta1=0.9,
+            beta2=0.999,
+            eps=1e-8,
+            weight_decay=0.1,
         )
     )
 

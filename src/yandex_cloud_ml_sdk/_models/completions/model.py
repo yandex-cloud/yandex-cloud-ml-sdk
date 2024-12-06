@@ -234,6 +234,9 @@ class AsyncGPTModel(BaseGPTModel[AsyncOperation[GPTModelResult], AsyncTuningTask
             timeout=timeout,
         )
 
+    async def attach_deferred(self, operation_id: str, timeout: float = 60) -> AsyncOperation[GPTModelResult]:
+        return await self._attach_deferred(operation_id=operation_id, timeout=timeout)
+
     async def tokenize(
         self,
         messages: MessageInputType,
@@ -327,6 +330,7 @@ class GPTModel(BaseGPTModel[Operation[GPTModelResult], TuningTask['GPTModel']]):
     __run = run_sync(BaseGPTModel._run)
     __run_stream = run_sync_generator(BaseGPTModel._run_stream)
     __run_deferred = run_sync(BaseGPTModel._run_deferred)
+    __attach_deferred = run_sync(BaseGPTModel._attach_deferred)
     __tokenize = run_sync(BaseGPTModel._tokenize)
     __tune_deferred = run_sync(BaseGPTModel._tune_deferred)
     __tune = run_sync(BaseGPTModel._tune)
@@ -364,6 +368,9 @@ class GPTModel(BaseGPTModel[Operation[GPTModelResult], TuningTask['GPTModel']]):
             messages=messages,
             timeout=timeout,
         )
+
+    def attach_deferred(self, operation_id: str, timeout: float = 60) -> Operation[GPTModelResult]:
+        return self.__attach_deferred(operation_id=operation_id, timeout=timeout)
 
     def tokenize(
         self,

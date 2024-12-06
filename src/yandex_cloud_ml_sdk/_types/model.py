@@ -94,7 +94,7 @@ class ModelAsyncMixin(
         pass
 
     # pylint: disable=unused-argument
-    async def attach_deferred(self, operation_id: str, timeout: float = 60) -> OperationTypeT:
+    async def _attach_deferred(self, operation_id: str, timeout: float = 60) -> OperationTypeT:
         return self._operation_type(
             id=operation_id,
             sdk=self._sdk,
