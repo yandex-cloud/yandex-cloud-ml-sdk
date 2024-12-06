@@ -3,9 +3,10 @@ from __future__ import annotations
 
 import abc
 import asyncio
-from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, Awaitable, Callable, Generic, TypeVar, cast
+from dataclasses import dataclass, field
+from typing import TYPE_CHECKING, Any, Awaitable, Callable, Generic, Iterable, TypeVar, cast
 
+from typing_extensions import Self
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 # pylint: disable-next=no-name-in-module
@@ -20,15 +21,23 @@ from .result import BaseResult
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
-
+AnyResultTypeT_co = TypeVar('AnyResultTypeT_co', covariant=True)
 ResultTypeT_co = TypeVar('ResultTypeT_co', bound=BaseResult, covariant=True)
+
+
+@dataclass(frozen=True)
+class OperationErrorInfo:
+    code: int
+    message: str
+    details: Iterable[str] | None
 
 
 @dataclass(frozen=True)
 class OperationStatus:
     done: bool
-    error: Any | None  # TBD: google.rpc.Status
-    response: Any | None
+    error: OperationErrorInfo | None  # TBD: google.rpc.Status
+    response: Any | None = field(repr=False)
+    metadata: Any | None = field(repr=False)
 
     @property
     def is_running(self) -> bool:
@@ -44,8 +53,25 @@ class OperationStatus:
         # NB: when succeeded, there non-None error, but with code==0
         return bool(self.done and self.error and self.error.code > 0)
 
+    @classmethod
+    def _from_proto(cls, *, proto: ProtoOperation) -> Self:
+        error: OperationErrorInfo | None = None
+        if proto.error and proto.error.code:
+            error = OperationErrorInfo(
+                code=proto.error.code,
+                message=proto.error.message,
+                details=[str(d) for d in proto.error.details],
+            )
 
-class OperationInterface(abc.ABC, Generic[ResultTypeT_co]):
+        return cls(
+            done=proto.done,
+            error=error,
+            response=proto.response,
+            metadata=proto.metadata
+        )
+
+
+class OperationInterface(abc.ABC, Generic[AnyResultTypeT_co]):
     id: str
 
     @abc.abstractmethod
@@ -53,7 +79,7 @@ class OperationInterface(abc.ABC, Generic[ResultTypeT_co]):
         pass
 
     @abc.abstractmethod
-    async def _get_result(self, *, timeout: float = 60) -> ResultTypeT_co:
+    async def _get_result(self, *, timeout: float = 60) -> AnyResultTypeT_co:
         pass
 
     async def _sleep_impl(self, delay: float) -> None:
@@ -74,7 +100,7 @@ class OperationInterface(abc.ABC, Generic[ResultTypeT_co]):
         timeout: float = 60,
         poll_timeout: int = 3600,
         poll_interval: float = 10,
-    ) -> ResultTypeT_co:
+    ) -> AnyResultTypeT_co:
         coro = self._wait_impl(timeout=timeout, poll_interval=poll_interval)
         if poll_timeout:
             coro = asyncio.wait_for(coro, timeout=poll_timeout)
@@ -151,11 +177,7 @@ class BaseOperation(Generic[ResultTypeT_co], OperationInterface[ResultTypeT_co])
                 timeout=timeout,
                 expected_type=ProtoOperation,
             )
-            self._last_known_status = status = OperationStatus(
-                done=response.done,
-                error=response.error,
-                response=response.response
-            )
+            self._last_known_status = status = OperationStatus._from_proto(proto=response)
             return status
 
     async def _get_result(self, *, timeout: float = 60) -> ResultTypeT_co:
@@ -196,11 +218,7 @@ class BaseOperation(Generic[ResultTypeT_co], OperationInterface[ResultTypeT_co])
                 timeout=timeout,
                 expected_type=ProtoOperation,
             )
-            self._last_known_status = status = OperationStatus(
-                done=response.done,
-                error=response.error,
-                response=response.response
-            )
+            self._last_known_status = status = OperationStatus._from_proto(proto=response)
             return status
 
     async def _wait(
@@ -225,8 +243,8 @@ class AsyncOperation(BaseOperation[ResultTypeT_co]):
     async def get_result(self, *, timeout: float = 60) -> ResultTypeT_co:
         return await self._get_result(timeout=timeout)
 
-    async def cancel(self, *, timeout: float = 60) -> None:
-        await self._cancel(timeout=timeout)
+    async def cancel(self, *, timeout: float = 60) -> OperationStatus:
+        return await self._cancel(timeout=timeout)
 
     async def wait(
         self,
@@ -257,8 +275,8 @@ class Operation(BaseOperation[ResultTypeT_co]):
     def get_result(self, *, timeout: float = 60) -> ResultTypeT_co:
         return self.__get_result(timeout=timeout)
 
-    def cancel(self, *, timeout: float = 60) -> None:
-        self.__cancel(timeout=timeout)
+    def cancel(self, *, timeout: float = 60) -> OperationStatus:
+        return self.__cancel(timeout=timeout)
 
     def wait(
         self,

@@ -1,4 +1,3 @@
-# pylint: disable=no-name-in-module
 from __future__ import annotations
 
 from dataclasses import dataclass
