@@ -18,7 +18,7 @@ class SingleUploader:
     def __init__(self, dataset: BaseDataset):
         self._dataset = dataset
 
-    async def upload(self, path: PathLike, timeout: float) -> None:
+    async def upload(self, path: PathLike, timeout: float, upload_timeout: float) -> None:
         path = coerce_path(path)
         size = path.stat().st_size
 
@@ -37,7 +37,8 @@ class SingleUploader:
         async with httpx_client() as client:
             response = await client.put(
                 url=presigned_url,
-                content=data
+                content=data,
+                timeout=upload_timeout,
             )
 
         response.raise_for_status()

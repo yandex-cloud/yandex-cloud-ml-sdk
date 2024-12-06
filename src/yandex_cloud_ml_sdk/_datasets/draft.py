@@ -140,7 +140,7 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
 
         try:
             uploader = SingleUploader(dataset)
-            await uploader.upload(self.path, timeout=upload_timeout)
+            await uploader.upload(self.path, timeout=timeout, upload_timeout=upload_timeout)
         except Exception:
             # in case of HTTP error while uploading we want to remove dataset draft,
             # because user don't have any access to this draft
