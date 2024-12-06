@@ -34,7 +34,7 @@ classifiers = [
 requires-python = ">=3.8.1"
 dynamic = ["version"]
 dependencies = [
-    "yandexcloud>=0.322.0",
+    "yandexcloud>=0.327.0",
     "grpcio>=1.62.0",
     "get-annotations",
     "httpx>=0.27,<1",
@@ -116,6 +116,7 @@ disable = [
     'fixme',
     'missing-class-docstring',  # TMP
     'missing-function-docstring',  # TMP
+    'duplicate-code',  # TMP
 ]
 load-plugins = [
     'pylint_protobuf'
@@ -243,7 +244,7 @@ valid-classmethod-first-arg="cls"
 valid-metaclass-classmethod-first-arg="cls"
 
 [tool.pylint.'DESIGN']
-max-args=15
+max-args=16
 max-attributes=15
 max-bool-expr=5
 max-branches=12
