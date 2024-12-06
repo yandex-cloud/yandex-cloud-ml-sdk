@@ -26,7 +26,7 @@ def proto_to_dict(message: Message) -> dict[str, Any]:
     )
     for descriptor in message.DESCRIPTOR.fields:
         value = getattr(message, descriptor.name)
-        if isinstance(value, Timestamp):
+        if isinstance(value, Timestamp) and descriptor.name in dct:
             dct[descriptor.name] = value.ToDatetime()
         elif descriptor.type in _LONG_TYPES:
             dct[descriptor.name] = int(value)
@@ -74,8 +74,9 @@ _supported_modules = {
     "yandex.cloud.ai.stt": "ai-stt",
     "yandex.cloud.ai.translate": "ai-translate",
     "yandex.cloud.ai.tts": "ai-speechkit",
+    "yandex.cloud.ai.tuning": "ai-foundation-models",
     "yandex.cloud.ai.vision": "ai-vision",
     "yandex.cloud.endpoint": "endpoint",
-    "yandex.cloud.operation": "operation",
     "yandex.cloud.iam": "iam",
+    "yandex.cloud.operation": "operation",
 }

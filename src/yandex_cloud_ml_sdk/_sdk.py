@@ -21,6 +21,7 @@ from ._runs.domain import AsyncRuns, BaseRuns, Runs
 from ._search_indexes.domain import AsyncSearchIndexes, BaseSearchIndexes, SearchIndexes
 from ._threads.domain import AsyncThreads, BaseThreads, Threads
 from ._tools.domain import Tools
+from ._tuning.domain import AsyncTuning, BaseTuning, Tuning
 from ._types.domain import BaseDomain
 from ._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
 
@@ -34,6 +35,7 @@ class BaseSDK:
     runs: BaseRuns
     search_indexes: BaseSearchIndexes
     datasets: BaseDatasets
+    tuning: BaseTuning
 
     _messages: BaseMessages
 
@@ -162,6 +164,7 @@ class AsyncYCloudML(BaseSDK):
     runs: AsyncRuns
     search_indexes: AsyncSearchIndexes
     datasets: AsyncDatasets
+    tuning: AsyncTuning
     _messages: AsyncMessages
 
 
@@ -174,4 +177,5 @@ class YCloudML(BaseSDK):
     runs: Runs
     search_indexes: SearchIndexes
     datasets: Datasets
+    tuning: Tuning
     _messages: Messages
