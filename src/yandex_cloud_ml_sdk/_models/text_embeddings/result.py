@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, cast, overload
+from typing import TYPE_CHECKING, Sequence, cast, overload
 
 from typing_extensions import Self
 # pylint: disable-next=no-name-in-module
