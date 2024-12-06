@@ -3,9 +3,8 @@ from __future__ import annotations
 
 import abc
 import asyncio
-from collections.abc import Iterable
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Any, Awaitable, Callable, Generic, TypeVar, cast
+from typing import TYPE_CHECKING, Any, Awaitable, Callable, Generic, Iterable, TypeVar, cast
 
 from typing_extensions import Self
 # pylint: disable-next=no-name-in-module
