@@ -7,6 +7,9 @@ import pathlib
 import uuid
 
 from yandex_cloud_ml_sdk import AsyncYCloudML
+from yandex_cloud_ml_sdk.tuning import optimizers as to
+from yandex_cloud_ml_sdk.tuning import schedulers as ts
+from yandex_cloud_ml_sdk.tuning import types as tt
 
 
 def local_path(path: str) -> pathlib.Path:
@@ -54,28 +57,26 @@ async def main() -> None:
     tuning_task = await base_model.tune_deferred(
         train_dataset,
         validation_datasets=validation_dataset,
-        name=str(uuid.uuid4())
+        name=str(uuid.uuid4()),
+        description="cool tuning",
+        labels={'good': 'yes'},
+        seed=500,
+        lr=0.0005,
+        n_samples=100,
+        tuning_type=tt.TuningTypePromptTune(virtual_tokens=50),
+        scheduler=ts.SchedulerConstant(warmup_ratio=0.1),
+        optimizer=to.OptimizerAdamw(
+            beta1=0.5
+        )
     )
-    print(f'new {tuning_task=}')
 
     try:
-        for _ in range(3):
-            status = await tuning_task.get_status()
-            print(f'{status=}')
-
-            task_info = await tuning_task.get_task_info()
-            print(f'{task_info=}')
-
-            await asyncio.sleep(5)
-
-    finally:
+        new_model = await tuning_task
+        print(f'tuning result: {new_model}')
+        print(f'new model url: {new_model.uri}')
+    except BaseException:
         await tuning_task.cancel()
-
-    status = await tuning_task.get_status()
-    print(f'{status=} after cancel')
-
-    task_info = await tuning_task.get_task_info()
-    print(f'{task_info=} after cancel')
+        raise
 
 
 if __name__ == '__main__':

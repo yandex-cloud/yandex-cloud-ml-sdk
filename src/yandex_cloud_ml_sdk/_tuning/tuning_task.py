@@ -110,7 +110,7 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co]):
         return self._operation_id or self._task_id
 
     def __repr__(self):
-        return f'{self.__class__.__name__}(operation_id={self._operation_id}, task_id={self._task_id})'
+        return f'{self.__class__.__name__}<id={self.id!r}, result_type={self._result_type.__name__}(...)>'
 
     @property
     def _client(self):
@@ -292,7 +292,7 @@ class AsyncTuningTask(BaseTuningTask[TuningResultTypeT_co]):
         self,
         *,
         timeout: float = 60,
-        poll_timeout: int = 3600,
+        poll_timeout: int = 72 * 60 * 60,
         poll_interval: float = 10,
     ) -> TuningResultTypeT_co:
         return await self._wait(
@@ -332,7 +332,7 @@ class TuningTask(BaseTuningTask[TuningResultTypeT_co]):
         self,
         *,
         timeout: float = 60,
-        poll_timeout: int = 3600,
+        poll_timeout: int = 72 * 60 * 60,
         poll_interval: float = 10,
     ) -> TuningResultTypeT_co:
         result = self.__wait(

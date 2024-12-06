@@ -297,7 +297,7 @@ class AsyncGPTModel(BaseGPTModel[AsyncOperation[GPTModelResult], AsyncTuningTask
         optimizer: UndefinedOr[BaseOptimizer] = UNDEFINED,
         timeout: float = 60,
         poll_timeout: int = 72 * 60 * 60,
-        poll_inteval: float = 60,
+        poll_interval: float = 60,
     ) -> Self:
         return await self._tune(
             train_datasets=train_datasets,
@@ -314,8 +314,11 @@ class AsyncGPTModel(BaseGPTModel[AsyncOperation[GPTModelResult], AsyncTuningTask
             scheduler=scheduler,
             optimizer=optimizer,
             poll_timeout=poll_timeout,
-            poll_inteval=poll_inteval,
+            poll_interval=poll_interval,
         )
+
+    async def attach_tune_deferred(self, task_id: str, *, timeout: float = 60) -> AsyncTuningTask['AsyncGPTModel']:
+        return await self._attach_tune_deferred(task_id=task_id, timeout=timeout)
 
 
 class GPTModel(BaseGPTModel[Operation[GPTModelResult], TuningTask['GPTModel']]):
@@ -327,6 +330,7 @@ class GPTModel(BaseGPTModel[Operation[GPTModelResult], TuningTask['GPTModel']]):
     __tokenize = run_sync(BaseGPTModel._tokenize)
     __tune_deferred = run_sync(BaseGPTModel._tune_deferred)
     __tune = run_sync(BaseGPTModel._tune)
+    __attach_tune_deferred = run_sync(BaseGPTModel._attach_tune_deferred)
 
     def run(
         self,
@@ -425,7 +429,7 @@ class GPTModel(BaseGPTModel[Operation[GPTModelResult], TuningTask['GPTModel']]):
         optimizer: UndefinedOr[BaseOptimizer] = UNDEFINED,
         timeout: float = 60,
         poll_timeout: int = 72 * 60 * 60,
-        poll_inteval: float = 60,
+        poll_interval: float = 60,
     ) -> Self:
         return self.__tune(
             train_datasets=train_datasets,
@@ -442,5 +446,8 @@ class GPTModel(BaseGPTModel[Operation[GPTModelResult], TuningTask['GPTModel']]):
             scheduler=scheduler,
             optimizer=optimizer,
             poll_timeout=poll_timeout,
-            poll_inteval=poll_inteval,
+            poll_interval=poll_interval,
         )
+
+    def attach_tune_deferred(self, task_id: str, *, timeout: float = 60) -> TuningTask[GPTModel]:
+        return self.__attach_tune_deferred(task_id=task_id, timeout=timeout)

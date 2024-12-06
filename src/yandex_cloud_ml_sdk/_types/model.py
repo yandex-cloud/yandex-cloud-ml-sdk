@@ -158,6 +158,13 @@ class ModelTuneMixin(
             timeout=timeout
         )
 
-    async def attach_tune_deferred(self, task_id: str, *, timeout: float = 60) -> TuningTaskTypeT:
-        # pylint: disable=protected-access
-        return await self._sdk.tuning._get(task_id, timeout=timeout)
+    # pylint: disable=unused-argument
+    async def _attach_tune_deferred(self, task_id: str, *, timeout: float = 60) -> TuningTaskTypeT:
+        # TODO: it will break after operation will go out from cache (two weeks?)
+        # we need to check, if it exists first, and create via task_id otherwise
+        return self._tune_operation_type(
+            operation_id=task_id,
+            task_id=None,
+            sdk=self._sdk,
+            result_type=type(self)
+        )

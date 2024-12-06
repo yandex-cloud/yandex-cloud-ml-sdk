@@ -51,31 +51,27 @@ async def main() -> None:
     train_dataset, validation_dataset = await get_datasets(sdk)
     base_model = sdk.models.completions('yandexgpt-lite')
 
-    tuning_task = await base_model.tune_deferred(
+    # `.tune(...)` is a shortcut for:
+    # tuning_task = await base_model.tune_deferred(...)
+    # new_model = await tuning_task.wait(...)
+    # But it gives you less control on tune canceling and
+    # reporting.
+    new_model = await base_model.tune(
         train_dataset,
         validation_datasets=validation_dataset,
         name=str(uuid.uuid4())
     )
-    print(f'new {tuning_task=}')
+    print(f'resulting {new_model}')
 
-    try:
-        for _ in range(3):
-            status = await tuning_task.get_status()
-            print(f'{status=}')
+    completion_result = await new_model.run("hey!")
+    print(f'{completion_result=}')
 
-            task_info = await tuning_task.get_task_info()
-            print(f'{task_info=}')
+    # or save model.uri somewhere and reuse it later
+    tuned_uri = new_model.uri
+    model = sdk.models.completions(tuned_uri)
 
-            await asyncio.sleep(5)
-
-    finally:
-        await tuning_task.cancel()
-
-    status = await tuning_task.get_status()
-    print(f'{status=} after cancel')
-
-    task_info = await tuning_task.get_task_info()
-    print(f'{task_info=} after cancel')
+    completion_result = await model.run("hey!")
+    print(f'{completion_result=}')
 
 
 if __name__ == '__main__':

@@ -14,6 +14,20 @@ def local_path(path: str) -> pathlib.Path:
 
 
 async def get_datasets(sdk):
+    """
+    This function represents getting or creating datasets object.
+
+    In real life you could use just a datasets ids, for example:
+
+    ```
+    dataset = await sdk.datasets.get("some_id")
+    tuning_task = await base_model.tune_deferred(
+        "dataset_id",
+        validation_datasets=dataset
+    )
+    ```
+    """
+
     async for dataset in sdk.datasets.list(status="READY"):
         print(f'using old dataset {dataset=}')
         break
@@ -46,10 +60,15 @@ async def main() -> None:
 
     try:
         same_task = await base_model.attach_tune_deferred(tuning_task.id)
-        print(f'new {same_task=}')
+        print(f'{same_task=}')
+
+        # IMPORTANT
+        # .get will raise NOT_FOUND first few seconds, before Yandex Cloud "Operation"
+        # will create a "TuningTask" at the backend.
+        await asyncio.sleep(5)
 
         same_task2 = await sdk.tuning.get(tuning_task.id)
-        print(f'new {same_task2=}')
+        print(f'{same_task2=}')
     finally:
         await tuning_task.cancel()
 

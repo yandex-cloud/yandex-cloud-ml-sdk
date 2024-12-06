@@ -14,6 +14,20 @@ def local_path(path: str) -> pathlib.Path:
 
 
 async def get_datasets(sdk):
+    """
+    This function represents getting or creating datasets object.
+
+    In real life you could use just a datasets ids, for example:
+
+    ```
+    dataset = await sdk.datasets.get("some_id")
+    tuning_task = await base_model.tune_deferred(
+        "dataset_id",
+        validation_datasets=dataset
+    )
+    ```
+    """
+
     async for dataset in sdk.datasets.list(status="READY"):
         print(f'using old dataset {dataset=}')
         break
@@ -66,6 +80,7 @@ async def main() -> None:
     finally:
         report_task.cancel()
         try:
+            # we need to fetch exceptions from report_task
             await report_task
         except asyncio.CancelledError:
             pass
