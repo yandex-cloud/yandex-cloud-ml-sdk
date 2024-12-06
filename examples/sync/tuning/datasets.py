@@ -44,7 +44,7 @@ def main() -> None:
         bad_dataset.delete()
 
     operation = dataset_draft.upload(raise_on_validation_failure=False)
-    bad_dataset = operation
+    bad_dataset = operation.wait()
     print(f"New {bad_dataset=} have a bad status {dataset.status=}")
     dataset.delete()
 
