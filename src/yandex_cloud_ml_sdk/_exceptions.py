@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-from google.rpc.status_pb2 import Status as ProtoStatus  # pylint: disable=no-name-in-module
 from grpc import StatusCode
 from grpc.aio import AioRpcError as BaseAioRpcError
 from grpc.aio import Metadata
@@ -12,6 +11,7 @@ from ._auth import BaseAuth
 if TYPE_CHECKING:
     # pylint: disable=cyclic-import
     from ._client import StubType
+    from ._types.operation import OperationErrorInfo
     from ._datasets.validation import DatasetValidationResult
 
 
@@ -33,7 +33,7 @@ class RunError(YCloudMLError):
         return message
 
     @classmethod
-    def from_proro_status(cls, status: ProtoStatus, operation_id: str):
+    def from_proro_status(cls, status: OperationErrorInfo, operation_id: str):
         return cls(
             code=status.code,
             message=status.message,
@@ -141,3 +141,8 @@ class AioRpcError(BaseAioRpcError):
         body = '\n'.join(f'\t{part}' for part in parts)
 
         return f"<{self.__class__.__name__} of RPC that terminated with:\n{body}\n>"
+
+
+class TuningError(RunError):
+    def __str__(self):
+        return f'Tuning task {self.operation_id} failed'

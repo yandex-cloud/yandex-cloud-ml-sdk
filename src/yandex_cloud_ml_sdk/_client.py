@@ -3,9 +3,8 @@ from __future__ import annotations
 
 import sys
 import uuid
-from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
-from typing import Literal, Protocol, Sequence, TypeVar, cast
+from typing import AsyncIterator, Literal, Protocol, Sequence, TypeVar, cast
 
 import grpc
 import grpc.aio
