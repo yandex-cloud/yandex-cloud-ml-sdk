@@ -65,7 +65,7 @@ async def main() -> None:
         n_samples=100,
         tuning_type=tt.TuningTypePromptTune(virtual_tokens=20),
         scheduler=ts.SchedulerLinear(
-            warmup_ratio=10,
+            warmup_ratio=0.1,
             min_lr=0
         ),
         optimizer=to.OptimizerAdamw(
@@ -75,6 +75,7 @@ async def main() -> None:
             weight_decay=0.1,
         )
     )
+    print(f'new {tuning_task=}')
 
     try:
         new_model = await tuning_task
