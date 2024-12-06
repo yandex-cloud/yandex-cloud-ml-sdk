@@ -1,6 +1,8 @@
 # pylint: disable=arguments-renamed,no-name-in-module
 from __future__ import annotations
 
+from typing import cast
+
 from typing_extensions import Self, override
 from yandex.cloud.ai.foundation_models.v1.image_generation.image_generation_pb2 import (
     AspectRatio, ImageGenerationOptions
@@ -95,7 +97,11 @@ class AsyncImageGenerationModel(BaseImageGenerationModel[AsyncOperation[ImageGen
             timeout=timeout
         )
 
-    async def attach_deferred(self, operation_id: str, timeout: float = 60) -> AsyncOperation[ImageGenerationModelResult]:
+    async def attach_deferred(
+        self,
+        operation_id: str,
+        timeout: float = 60,
+    ) -> AsyncOperation[ImageGenerationModelResult]:
         return await self._attach_deferred(operation_id=operation_id, timeout=timeout)
 
 
@@ -117,4 +123,7 @@ class ImageGenerationModel(BaseImageGenerationModel[Operation[ImageGenerationMod
         )
 
     def attach_deferred(self, operation_id: str, timeout: float = 60) -> Operation[ImageGenerationModelResult]:
-        return self.__attach_deferred(operation_id=operation_id, timeout=timeout)
+        return cast(
+            Operation[ImageGenerationModelResult],
+            self.__attach_deferred(operation_id=operation_id, timeout=timeout)
+        )

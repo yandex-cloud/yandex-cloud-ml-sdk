@@ -3,7 +3,9 @@ from __future__ import annotations
 
 from typing import AsyncIterator, Generic, Iterator
 
-from yandex.cloud.ai.tuning.v1.tuning_service_pb2 import GetOptionsRequest, GetOptionsResponse, TuningRequest
+from yandex.cloud.ai.tuning.v1.tuning_service_pb2 import (
+    GetOptionsRequest, GetOptionsResponse, ListTuningsRequest, ListTuningsResponse, TuningRequest
+)
 from yandex.cloud.ai.tuning.v1.tuning_service_pb2_grpc import TuningServiceStub
 from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 
@@ -134,7 +136,43 @@ class BaseTuning(BaseDomain, Generic[TuningTaskTypeT]):
         page_size: UndefinedOr[int] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[TuningTaskTypeT]:
-        yield 1
+        page_token_ = ''
+        page_size_ = get_defined_value(page_size, 0)
+
+        async with self._client.get_service_stub(
+            TuningServiceStub,
+            timeout=timeout,
+        ) as stub:
+            while True:
+                request = ListTuningsRequest(
+                    folder_id=self._folder_id,
+                    page_size=page_size_,
+                    page_token=page_token_
+                )
+
+                response = await self._client.call_service(
+                    stub.List,
+                    request,
+                    timeout=timeout,
+                    expected_type=ListTuningsResponse,
+                )
+                for task_proto in response.tuning_tasks:
+                    result_type = await self._get_task_result_type(
+                        task_id=task_proto.task_id,
+                        timeout=timeout
+                    )
+
+                    yield self._tuning_impl(
+                        operation_id=None,
+                        task_id=task_proto.task_id,
+                        sdk=self._sdk,
+                        result_type=result_type,
+                    )
+
+                if not response.tuning_tasks:
+                    return
+
+                page_token_ = response.next_page_token
 
 
 class AsyncTuning(BaseTuning[AsyncTuningTask]):

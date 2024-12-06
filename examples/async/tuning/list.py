@@ -51,30 +51,23 @@ async def main() -> None:
     train_dataset, validation_dataset = await get_datasets(sdk)
     base_model = sdk.models.completions('yandexgpt-lite')
 
-    tuning_task = await base_model.tune_deferred(
-        train_dataset,
-        validation_datasets=validation_dataset,
-        name=str(uuid.uuid4())
-    )
-    print(f'new {tuning_task=}')
+    task_ids = set()
+    for _ in range(1):
+        tuning_task = await base_model.tune_deferred(
+            train_dataset,
+            validation_datasets=validation_dataset,
+            name=str(uuid.uuid4())
+        )
+        task_ids.add(tuning_task.id)
 
-    try:
-        for _ in range(3):
-            status = await tuning_task.get_status()
-            print(f'{status=}')
+    # NB: tuning tasks have a time gap, before they will
+    # be available at the backend as a `TuningTasks`
+    await asyncio.sleep(5)
 
-            task_info = await tuning_task.get_task_info()
-            print(f'{task_info=}')
-
-            await asyncio.sleep(5)
-    finally:
+    async for tuning_task in sdk.tuning.list():
+        # or you could wait for tasks, instead of canceling
+        print(f'found task {tuning_task=}, canceling')
         await tuning_task.cancel()
-
-    status = await tuning_task.get_status()
-    print(f'{status=} after cancel')
-
-    task_info = await tuning_task.get_task_info()
-    print(f'{task_info=} after cancel')
 
 
 if __name__ == '__main__':

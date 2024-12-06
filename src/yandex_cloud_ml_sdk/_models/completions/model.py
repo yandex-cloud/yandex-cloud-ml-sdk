@@ -370,7 +370,10 @@ class GPTModel(BaseGPTModel[Operation[GPTModelResult], TuningTask['GPTModel']]):
         )
 
     def attach_deferred(self, operation_id: str, timeout: float = 60) -> Operation[GPTModelResult]:
-        return self.__attach_deferred(operation_id=operation_id, timeout=timeout)
+        return cast(
+            Operation[GPTModelResult],
+            self.__attach_deferred(operation_id=operation_id, timeout=timeout)
+        )
 
     def tokenize(
         self,
@@ -457,4 +460,7 @@ class GPTModel(BaseGPTModel[Operation[GPTModelResult], TuningTask['GPTModel']]):
         )
 
     def attach_tune_deferred(self, task_id: str, *, timeout: float = 60) -> TuningTask[GPTModel]:
-        return self.__attach_tune_deferred(task_id=task_id, timeout=timeout)
+        return cast(
+            TuningTask[GPTModel],
+            self.__attach_tune_deferred(task_id=task_id, timeout=timeout)
+        )
