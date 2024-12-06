@@ -52,22 +52,25 @@ def main() -> None:
     base_model = sdk.models.completions('yandexgpt-lite')
 
     task_ids = set()
-    for _ in range(1):
+    for _ in range(3):
         tuning_task = base_model.tune_deferred(
             train_dataset,
             validation_datasets=validation_dataset,
             name=str(uuid.uuid4())
         )
+        print(f'created task {tuning_task.id=}')
         task_ids.add(tuning_task.id)
 
     # NB: tuning tasks have a time gap, before they will
     # be available at the backend as a `TuningTasks`
     time.sleep(5)
 
+    print('And now - cancel all created tasks:')
     for tuning_task in sdk.tuning.list():
-        # or you could wait for tasks, instead of canceling
-        print(f'found task {tuning_task=}, canceling')
-        tuning_task.cancel()
+        if tuning_task.id in task_ids:
+            # or you could wait for tasks, instead of canceling
+            print(f'found task {tuning_task=}, canceling')
+            tuning_task.cancel()
 
 
 if __name__ == '__main__':
