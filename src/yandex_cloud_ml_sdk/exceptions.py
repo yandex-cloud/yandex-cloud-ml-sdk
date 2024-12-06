@@ -3,11 +3,10 @@ from __future__ import annotations
 from typing import TYPE_CHECKING as _TYPE_CHECKING
 from typing import Any as _Any
 
-from google.rpc.status_pb2 import Status as _ProtoStatus  # pylint: disable=no-name-in-module
-
 if _TYPE_CHECKING:
     # pylint: disable=cyclic-import
     from yandex_cloud_ml_sdk._datasets.validation import DatasetValidationResult as _DatasetValidationResult
+    from yandex_cloud_ml_sdk._types.operation import OperationErrorInfo as _OperationErrorInfo
 
 
 class YCloudMLError(Exception):
@@ -28,13 +27,18 @@ class RunError(YCloudMLError):
         return message
 
     @classmethod
-    def from_proro_status(cls, status: _ProtoStatus, operation_id: str):
+    def from_proro_status(cls, status: _OperationErrorInfo, operation_id: str):
         return cls(
             code=status.code,
             message=status.message,
             details=list(status.details) if status.details else None,
             operation_id=operation_id,
         )
+
+
+class TuningError(RunError):
+    def __str__(self):
+        return f'Tuning task {self.operation_id} failed'
 
 
 class AsyncOperationError(YCloudMLError):
