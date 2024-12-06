@@ -13,9 +13,10 @@ TuningDatasetsType = Union[TuningDatasetType, Iterable[TuningDatasetType], Dict[
 ERROR_TEXT = ' '.join("""datasets must contain
 string with dataset ID,
 BaseDataset object,
-'tuple ("id", float)),
-'tuple (BaseDataset, float),
-'either any Iterable containing any value of above types'
+tuple ("id", float)),
+tuple (BaseDataset, float),
+either any Iterable containing any value of above types,
+got {}
 """.split('\n'))
 
 def coerce_datasets(datasets: TuningDatasetsType) -> tuple[tuple[str, float], ...]:
@@ -27,7 +28,7 @@ def coerce_datasets(datasets: TuningDatasetsType) -> tuple[tuple[str, float], ..
     elif isinstance(datasets, dict):
         datasets = tuple(datasets.items())
     elif not isinstance(datasets, Iterable):
-        raise TypeError(ERROR_TEXT)
+        raise TypeError(ERROR_TEXT.format(datasets))
 
     coerced = []
 
@@ -42,10 +43,10 @@ def coerce_datasets(datasets: TuningDatasetsType) -> tuple[tuple[str, float], ..
                 id_ = id_.id
 
             if not isinstance(id_, str) or not isinstance(weight, Number):
-                raise TypeError(ERROR_TEXT)
+                raise TypeError(ERROR_TEXT.format(dataset))
 
             coerced.append((id_, float(weight)))
         else:
-            raise TypeError(ERROR_TEXT)
+            raise TypeError(ERROR_TEXT.format(dataset))
 
     return tuple(coerced)
