@@ -1,8 +1,9 @@
 # pylint: disable=no-name-in-module
 from __future__ import annotations
 
+import abc
 from dataclasses import asdict, dataclass
-from typing import ClassVar, Generic, TypeVar, Union, cast
+from typing import Union, cast
 
 from yandex.cloud.ai.tuning.v1.tuning_service_pb2 import (
     TextClassificationMulticlassParams, TextClassificationMultilabelParams, TextToTextCompletionTuningParams
@@ -12,31 +13,36 @@ from .optimizers import BaseOptimizer
 from .schedulers import BaseScheduler
 from .tuning_types import BaseTuningType
 
-ProtoTuningParamsTypeT = TypeVar(
-    'ProtoTuningParamsTypeT',
-    bound=Union[
-        TextToTextCompletionTuningParams,
-        TextClassificationMulticlassParams,
-        TextClassificationMultilabelParams
-    ],
-)
-
-
-class BaseTuningParamProtoGeneric(Generic[ProtoTuningParamsTypeT]):
-    # to avoid turning this field to dataclass field
-    _proto_tuning_params_type: type[ProtoTuningParamsTypeT]
-    _proto_tuning_argument_name: ClassVar[str]
+ProtoTuningParamsType = Union[
+    TextToTextCompletionTuningParams,
+    TextClassificationMulticlassParams,
+    TextClassificationMultilabelParams
+]
 
 
 @dataclass(frozen=True)
-class BaseTuningParams(BaseTuningParamProtoGeneric[ProtoTuningParamsTypeT]):
+class BaseTuningParams(abc.ABC):
     tuning_type: BaseTuningType | None = None
     scheduler: BaseScheduler | None = None
     optimizer: BaseOptimizer | None = None
 
-    def to_proto(self) -> ProtoTuningParamsTypeT:
+    @property
+    @abc.abstractmethod
+    def _proto_tuning_params_type(self) -> type[ProtoTuningParamsType]:
+        pass
+
+    @property
+    @abc.abstractmethod
+    def _proto_tuning_argument_name(self) -> str:
+        pass
+
+    @property
+    def _ignored_fields(self) -> tuple[str, ...]:
+        return ('tuning_type', 'scheduler', 'optimizer')
+
+    def to_proto(self) -> ProtoTuningParamsType:
         kwargs = asdict(self)
-        for field in ('tuning_type', 'scheduler', 'optimizer'):
+        for field in self._ignored_fields:
             del kwargs[field]
 
         if self.tuning_type:
@@ -55,4 +61,4 @@ class BaseTuningParams(BaseTuningParamProtoGeneric[ProtoTuningParamsTypeT]):
                 self._proto_tuning_params_type.Optimizer
             )
 
-        return cast(ProtoTuningParamsTypeT, self._proto_tuning_params_type(**kwargs))
+        return cast(ProtoTuningParamsType, self._proto_tuning_params_type(**kwargs))
