@@ -7,7 +7,6 @@ from get_annotations import get_annotations
 
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.function import BaseModelFunction
-from yandex_cloud_ml_sdk._types.model import ModelTuneMixin
 
 from .completions.function import AsyncCompletions, BaseCompletions, Completions
 from .image_generation.function import AsyncImageGeneration, ImageGeneration
