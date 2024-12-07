@@ -28,15 +28,15 @@ async def get_datasets(sdk):
     ```
     """
 
-    async for dataset in sdk.datasets.list(status="READY"):
+    async for dataset in sdk.datasets.list(status='READY', name_pattern='completions'):
         print(f'using old dataset {dataset=}')
         break
     else:
         print('no old datasets found, creating new one')
         dataset_draft = sdk.datasets.completions.from_path_deferred(
-            path=local_path('example_dataset'),
+            path=local_path('completions.jsonlines'),
             upload_format='jsonlines',
-            name='foo',
+            name='completions',
         )
 
         operation = await dataset_draft.upload()
