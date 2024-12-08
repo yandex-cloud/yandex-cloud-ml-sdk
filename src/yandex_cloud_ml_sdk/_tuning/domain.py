@@ -62,7 +62,7 @@ class BaseTuning(BaseDomain, Generic[TuningTaskTypeT]):
             name=get_defined_value(name, ''),
             description=get_defined_value(description, ''),
             labels=get_defined_value(labels, {}),
-            **{tuning_argument_name: tuning_params.to_proto()}
+            **{tuning_argument_name: tuning_params.to_proto()}  # type: ignore[arg-type]
         )
         async with self._client.get_service_stub(
             TuningServiceStub,
@@ -101,14 +101,19 @@ class BaseTuning(BaseDomain, Generic[TuningTaskTypeT]):
                 expected_type=GetOptionsResponse,
             )
 
-        class_map = self._sdk.models._tuning_map
+        models_domain = self._sdk.models
+        class_map = {
+            'text_classification_multilabel': models_domain.completions._model_type,
+            'text_classification_multiclass': models_domain.text_classifiers._model_type,
+            'text_to_text_completion': models_domain.text_classifiers._model_type,
+        }
         for tuning_params_name, model_class in class_map.items():
             options = getattr(response, tuning_params_name)
             if options:
                 return model_class
 
         raise RuntimeError(
-            "task have a task params, different from supported types: {list(maps.keys())}; "
+            "task have a unknown task params, different from supported types: {list(class_map.keys())}; "
             "please, update SDK"
         )
 
