@@ -246,7 +246,7 @@ valid-classmethod-first-arg="cls"
 valid-metaclass-classmethod-first-arg="cls"
 
 [tool.pylint.'DESIGN']
-max-args=16
+max-args=17
 max-attributes=15
 max-bool-expr=5
 max-branches=12

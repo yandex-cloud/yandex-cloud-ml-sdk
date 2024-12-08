@@ -7,11 +7,10 @@ from get_annotations import get_annotations
 
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.function import BaseModelFunction
-from yandex_cloud_ml_sdk._types.model import ModelTuneMixin
 
 from .completions.function import AsyncCompletions, BaseCompletions, Completions
 from .image_generation.function import AsyncImageGeneration, ImageGeneration
-from .text_classifiers.function import AsyncTextClassifiers, TextClassifiers
+from .text_classifiers.function import AsyncTextClassifiers, BaseTextClassifiers, TextClassifiers
 from .text_embeddings.function import AsyncTextEmbeddings, TextEmbeddings
 
 if TYPE_CHECKING:
@@ -20,10 +19,10 @@ if TYPE_CHECKING:
 
 class BaseModels(BaseDomain):
     completions: BaseCompletions
+    text_classifiers: BaseTextClassifiers
 
     def __init__(self, name: str, sdk: BaseSDK):
         super().__init__(name=name, sdk=sdk)
-        self._tuning_map: dict[str, type[ModelTuneMixin]] = {}
         self._init_functions()
 
     def _init_functions(self) -> None:
@@ -33,12 +32,6 @@ class BaseModels(BaseDomain):
                 continue
             function = member_class(name=member_name, sdk=self._sdk, parent_resource=self)
             setattr(self, member_name, function)
-
-            model_type = function._model_type
-            if not issubclass(model_type, ModelTuneMixin):
-                continue
-            tune_name = model_type._tuning_params_type._proto_tuning_argument_name
-            self._tuning_map[tune_name] = model_type
 
 
 class AsyncModels(BaseModels):
