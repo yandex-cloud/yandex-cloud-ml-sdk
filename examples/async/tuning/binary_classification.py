@@ -20,27 +20,28 @@ async def get_datasets(sdk):
     In real life you could use just a datasets ids, for example:
 
     ```
-    dataset = await sdk.datasets.get("some_id")
-    tuning_task = await base_model.tune_deferred(
+    dataset = sdk.datasets.get("some_id")
+    tuning_task = base_model.tune_deferred(
         "dataset_id",
         validation_datasets=dataset
     )
     ```
     """
 
-    async for dataset in sdk.datasets.list(status='READY', name_pattern='completions'):
+    async for dataset in sdk.datasets.list(status='READY', name_pattern='binary'):
         print(f'using old dataset {dataset=}')
         break
     else:
         print('no old datasets found, creating new one')
-        dataset_draft = sdk.datasets.completions.from_path_deferred(
-            path=local_path('completions.jsonlines'),
+        # NB: yeah, dataset type is still text_classifiers_multiclass
+        dataset_draft = sdk.datasets.text_classifiers_multiclass.from_path_deferred(
+            path=local_path('binary_classification.jsonlines'),
             upload_format='jsonlines',
-            name='completions',
+            name='binary',
         )
 
         operation = await dataset_draft.upload()
-        dataset = await operation
+        dataset = await operation.wait()
         print(f'created new dataset {dataset=}')
 
     return dataset, dataset
@@ -49,7 +50,7 @@ async def get_datasets(sdk):
 async def main() -> None:
     sdk = AsyncYCloudML(folder_id='b1ghsjum2v37c2un8h64')
     train_dataset, validation_dataset = await get_datasets(sdk)
-    base_model = sdk.models.completions('yandexgpt-lite')
+    base_model = sdk.models.text_classifiers('yandexgpt-lite')
 
     # `.tune(...)` is a shortcut for:
     # tuning_task = await base_model.tune_deferred(...)
@@ -59,19 +60,20 @@ async def main() -> None:
     new_model = await base_model.tune(
         train_dataset,
         validation_datasets=validation_dataset,
+        classification_type='binary',
         name=str(uuid.uuid4())
     )
     print(f'resulting {new_model}')
 
-    completion_result = await new_model.run("hey!")
-    print(f'{completion_result=}')
+    classification_result = await new_model.run("i'm fine")
+    print(f'{classification_result=}')
 
     # or save model.uri somewhere and reuse it later
     tuned_uri = new_model.uri
-    model = sdk.models.completions(tuned_uri)
+    model = sdk.models.text_classifiers(tuned_uri)
 
-    completion_result = await model.run("hey!")
-    print(f'{completion_result=}')
+    classification_result = await model.run("i'm cool")
+    print(f'{classification_result=}')
 
 
 if __name__ == '__main__':
