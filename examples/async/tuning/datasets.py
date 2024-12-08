@@ -20,9 +20,9 @@ async def main() -> None:
 
     dataset_draft = sdk.datasets.from_path_deferred(
         task_type='TextToTextGeneration',
-        path=local_path('example_dataset'),
+        path=local_path('completions.jsonlines'),
         upload_format='jsonlines',
-        name='foo',
+        name='completions',
     )
 
     operation = await dataset_draft.upload()
