@@ -1,12 +1,13 @@
 from __future__ import annotations
 
-from ._auth import APIKeyAuth, IAMTokenAuth, MetadataAuth, NoAuth, OAuthTokenAuth, YandexCloudCLIAuth
+from ._auth import APIKeyAuth, EnvIAMTokenAuth, IAMTokenAuth, MetadataAuth, NoAuth, OAuthTokenAuth, YandexCloudCLIAuth
 
 __all__ = [
-    'NoAuth',
     'APIKeyAuth',
+    'EnvIAMTokenAuth',
     'IAMTokenAuth',
-    'OAuthTokenAuth',
     'MetadataAuth',
+    'NoAuth',
+    'OAuthTokenAuth',
     'YandexCloudCLIAuth',
 ]
