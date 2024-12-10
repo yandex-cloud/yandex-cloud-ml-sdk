@@ -81,13 +81,9 @@ class AsyncCloudClient:
         self._credentials = credentials
 
     async def _init_service_map(self, timeout: float):
-        credentials = grpc.ssl_channel_credentials()
         metadata = await self._get_metadata(auth_required=False, timeout=timeout, retry_kind=RetryKind.SINGLE)
-        async with grpc.aio.secure_channel(
-            self._endpoint,
-            credentials,
-            interceptors=self._interceptors,
-        ) as channel:
+        channel = self._new_channel(self._endpoint)
+        async with channel:
             stub = ApiEndpointServiceStub(channel)
             response = await stub.List(
                 ListApiEndpointsRequest(),
