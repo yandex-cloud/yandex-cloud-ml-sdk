@@ -335,6 +335,7 @@ async def get_auth_provider(
 ) -> BaseAuth:
     simple_iam_regexp = re.compile(r'^t\d\.')
     iam_regexp = re.compile(r't1\.[A-Z0-9a-z_-]+[=]{0,2}\.[A-Z0-9a-z_-]{86}[=]{0,2}')
+    simple_oauth_regexp = re.compile(r'y[0123]_[-\w]')
 
     result: BaseAuth | None = None
     if isinstance(auth, str):
@@ -347,6 +348,8 @@ async def get_auth_provider(
                     UserWarning,
                     stacklevel=2,
                 )
+        elif simple_oauth_regexp.match(auth):
+            result = OAuthTokenAuth(auth)
         else:
             result = APIKeyAuth(auth)
     elif isinstance(auth, BaseAuth):
