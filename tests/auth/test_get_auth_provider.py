@@ -46,6 +46,14 @@ async def test_input_data(monkeypatch):
     auth = await get_auth_provider(auth=NoAuth(), endpoint=None, yc_profile=None)
     assert isinstance(auth, NoAuth)
 
+    with pytest.warns(UserWarning, match=r"Sharing your personal OAuth token is not safe"):
+        auth = await get_auth_provider(
+            auth="y3_ABC-_-abc123",
+            endpoint=None,
+            yc_profile=None
+        )
+    assert isinstance(auth, OAuthTokenAuth)
+
 
 @pytest.mark.filterwarnings(r"ignore:.*OAuth:UserWarning")
 async def test_order(monkeypatch, mock_client, process_maker):
