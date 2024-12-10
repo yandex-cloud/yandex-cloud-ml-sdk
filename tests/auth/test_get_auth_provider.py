@@ -8,7 +8,9 @@ import httpx
 import pytest
 
 from yandex_cloud_ml_sdk._auth import get_auth_provider
-from yandex_cloud_ml_sdk.auth import APIKeyAuth, IAMTokenAuth, MetadataAuth, NoAuth, OAuthTokenAuth, YandexCloudCLIAuth
+from yandex_cloud_ml_sdk.auth import (
+    APIKeyAuth, EnvIAMTokenAuth, IAMTokenAuth, MetadataAuth, NoAuth, OAuthTokenAuth, YandexCloudCLIAuth
+)
 
 pytestmark = pytest.mark.asyncio
 
@@ -59,6 +61,10 @@ async def test_order(monkeypatch, mock_client, process_maker):
     monkeypatch.setattr("asyncio.create_subprocess_exec", mock_create_subprocess_exec)
     auth = await get_auth_provider(auth=None, endpoint=None, yc_profile=None)
     assert isinstance(auth, YandexCloudCLIAuth)
+
+    monkeypatch.setenv(EnvIAMTokenAuth.default_env_var, iam_token)
+    auth = await get_auth_provider(auth=None, endpoint=None, yc_profile=None)
+    assert isinstance(auth, EnvIAMTokenAuth)
 
     response = httpx.Response(
         status_code=200,
