@@ -67,7 +67,7 @@ class NoAuth(BaseAuth):
 class APIKeyAuth(BaseAuth):
     env_var = 'YC_API_KEY'
 
-    def __init__(self, api_key):
+    def __init__(self, api_key: str):
         self._api_key = api_key
 
     @override
@@ -109,6 +109,40 @@ class IAMTokenAuth(BaseIAMTokenAuth):
         return None
 
 
+class EnvIAMTokenAuth(BaseIAMTokenAuth):
+    """
+    Auth method, which takes IAM token from environment variable for every request.
+
+    It is assumed that the token will be refreshed in the environment before it expires.
+
+    However, by default, the YC_TOKEN environment variable is
+    used when auto-selecting the auth method,
+    in order to be compatible with a Yandex DataSphere environment.
+    Therefore, it is not recommended to use this environment variable
+    when setting up a personal work environment.
+
+    """
+    default_env_var = 'YC_TOKEN'
+
+    def __init__(self, env_var_name: str | None = None):
+        self._env_var = env_var_name or self.default_env_var
+        super().__init__(token=None)
+
+    @override
+    async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> tuple[str, str]:
+        self._token = os.environ[self._env_var]
+        return await super().get_auth_metadata(client=client, timeout=timeout, lock=lock)
+
+    @override
+    @classmethod
+    async def applicable_from_env(cls, **kwargs) -> Self | None:
+        token = os.getenv(cls.default_env_var)
+        if token:
+            return cls()
+
+        return None
+
+
 class RefresheableIAMTokenAuth(BaseIAMTokenAuth):
     _token_refresh_period = 60 * 60
 
@@ -143,7 +177,7 @@ class RefresheableIAMTokenAuth(BaseIAMTokenAuth):
 class OAuthTokenAuth(RefresheableIAMTokenAuth):
     env_var = 'YC_OAUTH_TOKEN'
 
-    def __init__(self, token):
+    def __init__(self, token: str):
         warnings.warn(
             OAUTH_WARNING,
             UserWarning,
@@ -327,6 +361,7 @@ async def get_auth_provider(
             IAMTokenAuth,
             OAuthTokenAuth,
             MetadataAuth,
+            EnvIAMTokenAuth,
             YandexCloudCLIAuth,
         ):
             result = await cls.applicable_from_env(  # type: ignore[attr-defined]
