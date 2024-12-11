@@ -18,15 +18,12 @@ def fixture_auth(api_key):
     return APIKeyAuth(api_key)
 
 
-async def test_auth(async_sdk, api_key):
+async def test_auth(async_sdk, api_key, get_auth_meta):
     metadata = await async_sdk._client._get_metadata(
         auth_required=True,
         timeout=1
     )
-    assert metadata == (
-        ('yc-ml-sdk-retry', 'NONE'),
-        ('authorization', f'Api-Key {api_key}'),
-    )
+    assert get_auth_meta(metadata) == f'Api-Key {api_key}'
 
 
 async def test_applicable_from_env(api_key, monkeypatch):

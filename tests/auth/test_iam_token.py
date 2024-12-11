@@ -18,15 +18,12 @@ def fixture_auth(iam_token):
     return IAMTokenAuth(iam_token)
 
 
-async def test_auth(async_sdk, iam_token):
+async def test_auth(async_sdk, iam_token, get_auth_meta):
     metadata = await async_sdk._client._get_metadata(
         auth_required=True,
         timeout=1
     )
-    assert metadata == (
-        ('yc-ml-sdk-retry', 'NONE'),
-        ('authorization', f'Bearer {iam_token}'),
-    )
+    assert get_auth_meta(metadata) == f'Bearer {iam_token}'
 
 
 async def test_applicable_from_env(iam_token, monkeypatch):

@@ -19,25 +19,19 @@ def fixture_auth(iam_token, monkeypatch):
     return EnvIAMTokenAuth()
 
 
-async def test_auth(async_sdk, iam_token, monkeypatch):
+async def test_auth(async_sdk, iam_token, monkeypatch, get_auth_meta):
     metadata = await async_sdk._client._get_metadata(
         auth_required=True,
         timeout=1
     )
-    assert metadata == (
-        ('yc-ml-sdk-retry', 'NONE'),
-        ('authorization', f'Bearer {iam_token}'),
-    )
+    assert get_auth_meta(metadata) == f'Bearer {iam_token}'
 
     monkeypatch.setenv(EnvIAMTokenAuth.default_env_var, 'foo')
     metadata = await async_sdk._client._get_metadata(
         auth_required=True,
         timeout=1
     )
-    assert metadata == (
-        ('yc-ml-sdk-retry', 'NONE'),
-        ('authorization', 'Bearer foo'),
-    )
+    assert get_auth_meta(metadata) == 'Bearer foo'
 
 
 async def test_applicable_from_env(iam_token, monkeypatch):

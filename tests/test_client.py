@@ -6,6 +6,7 @@ import time
 from multiprocessing.pool import ThreadPool
 
 import grpc
+import grpc.aio
 import pytest
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Token
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import (
@@ -18,9 +19,11 @@ from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_servic
 from yandex.cloud.endpoint.api_endpoint_service_pb2 import ListApiEndpointsRequest, ListApiEndpointsResponse
 from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServiceStub
 
+import yandex_cloud_ml_sdk._client
 from yandex_cloud_ml_sdk import AsyncYCloudML
 from yandex_cloud_ml_sdk._client import AsyncCloudClient, _get_user_agent, httpx_client
 from yandex_cloud_ml_sdk.auth import NoAuth
+from yandex_cloud_ml_sdk.exceptions import AioRpcError
 
 
 @pytest.fixture(name='servicers')
@@ -151,7 +154,18 @@ async def test_httpx_client():
 # pylint: disable=protected-access
 @pytest.mark.asyncio
 async def test_x_data_logging(interceptors, retry_policy):
-    base_result = (('yc-ml-sdk-retry', 'NONE'),)
+    def check_result(metadata, extra=None):
+        retry = ('yc-ml-sdk-retry', 'NONE')
+        for key, value in metadata:
+            if retry == (key, value):
+                continue
+            if key == 'x-client-request-id':
+                continue
+            if (key, value) == extra:
+                continue
+
+            assert not (key, value)
+
     client = AsyncCloudClient(
         endpoint="foo",
         auth=NoAuth(),
@@ -163,7 +177,7 @@ async def test_x_data_logging(interceptors, retry_policy):
         credentials=None,
     )
 
-    assert await client._get_metadata(auth_required=False, timeout=0) == base_result
+    check_result(await client._get_metadata(auth_required=False, timeout=0))
 
     client = AsyncCloudClient(
         endpoint="foo",
@@ -176,7 +190,8 @@ async def test_x_data_logging(interceptors, retry_policy):
         credentials=None,
     )
 
-    assert await client._get_metadata(auth_required=False, timeout=0) == base_result + (
+    check_result(
+        await client._get_metadata(auth_required=False, timeout=0),
         ('x-data-logging-enabled', "true"),
     )
 
@@ -191,7 +206,8 @@ async def test_x_data_logging(interceptors, retry_policy):
         credentials=None,
     )
 
-    assert await client._get_metadata(auth_required=False, timeout=0) == base_result + (
+    check_result(
+        await client._get_metadata(auth_required=False, timeout=0),
         ('x-data-logging-enabled', "false"),
     )
 
@@ -212,3 +228,123 @@ async def test_channel_credentials(folder_id):
     sdk = AsyncYCloudML(folder_id=folder_id, grpc_credentials=1)
     with pytest.raises(AttributeError, match="'int' object has no attribute '_credentials'"):
         sdk._client._new_channel('foo')
+
+
+@pytest.mark.asyncio
+async def test_grpc_base_exception(async_sdk, monkeypatch, test_server):
+    result = await async_sdk.models.completions('foo').tokenize("bar")
+    assert result
+
+    def raise_call_service(*args, **kwargs):
+        raise grpc.aio.AioRpcError(
+            code=grpc.StatusCode.INTERNAL,
+            initial_metadata=grpc.aio.Metadata(),
+            trailing_metadata=grpc.aio.Metadata(),
+            details="some details",
+            debug_error_string="some debug"
+        )
+
+    monkeypatch.setattr(yandex_cloud_ml_sdk._client.AsyncCloudClient, 'call_service', raise_call_service)
+
+    with pytest.raises(AioRpcError) as exc_info:
+        await async_sdk.models.completions('foo').tokenize("bar")
+    exc = exc_info.value
+    exc_repr = str(exc)
+
+    assert '"some details"' in exc_repr
+    assert '"some debug"' in exc_repr
+    assert f'\tendpoint = "localhost:{test_server.port}"\n' in exc_repr
+    assert '\tstub_class = TokenizerServiceStub\n' in exc_repr
+    assert '\tauth_provider' not in exc_repr
+    assert '\tx-client-request-id' not in exc_repr
+
+
+@pytest.mark.asyncio
+async def test_grpc_unauth_exception(async_sdk, monkeypatch, auth):
+    result = await async_sdk.models.completions('foo').tokenize("bar")
+    assert result
+
+    def raise_call_service_unauth(*args, **kwargs):
+        raise grpc.aio.AioRpcError(
+            code=grpc.StatusCode.UNAUTHENTICATED,
+            initial_metadata=grpc.aio.Metadata(),
+            trailing_metadata=grpc.aio.Metadata(),
+            details="some details",
+            debug_error_string="some debug"
+        )
+
+    monkeypatch.setattr(yandex_cloud_ml_sdk._client.AsyncCloudClient, 'call_service', raise_call_service_unauth)
+
+    with pytest.raises(AioRpcError) as exc_info:
+        await async_sdk.models.completions('foo').tokenize("bar")
+    exc = exc_info.value
+    exc_repr = str(exc)
+
+    assert f'\tauth_provider = {auth.__class__.__name__}\n' in exc_repr
+    assert '\tx-client-request-id' not in exc_repr
+
+
+@pytest.mark.asyncio
+async def test_grpc_request_id_in_initial_metadata_exception(async_sdk, monkeypatch):
+    def raise_call_service_initial(*args, **kwargs):
+        raise grpc.aio.AioRpcError(
+            code=grpc.StatusCode.INTERNAL,
+            initial_metadata=grpc.aio.Metadata(('x-client-request-id', 'INITIAL')),
+            trailing_metadata=grpc.aio.Metadata(),
+            details="some details",
+            debug_error_string="some debug"
+        )
+
+    monkeypatch.setattr(yandex_cloud_ml_sdk._client.AsyncCloudClient, 'call_service', raise_call_service_initial)
+
+    with pytest.raises(AioRpcError) as exc_info:
+        await async_sdk.models.completions('foo').tokenize("bar")
+    exc = exc_info.value
+    exc_repr = str(exc)
+
+    assert '\tauth_provider' not in exc_repr
+    assert '\tx-client-request-id = "INITIAL"\n' in exc_repr
+
+
+@pytest.mark.asyncio
+async def test_grpc_request_id_in_trailing_metadata_exception(async_sdk, monkeypatch):
+    def raise_call_service_trailing(*args, **kwargs):
+        raise grpc.aio.AioRpcError(
+            code=grpc.StatusCode.INTERNAL,
+            initial_metadata=grpc.aio.Metadata(),
+            trailing_metadata=grpc.aio.Metadata(('x-client-request-id', 'TRAILING')),
+            details="some details",
+            debug_error_string="some debug"
+        )
+
+    monkeypatch.setattr(yandex_cloud_ml_sdk._client.AsyncCloudClient, 'call_service', raise_call_service_trailing)
+
+    with pytest.raises(AioRpcError) as exc_info:
+        await async_sdk.models.completions('foo').tokenize("bar")
+    exc = exc_info.value
+    exc_repr = str(exc)
+
+    assert '\tauth_provider' not in exc_repr
+    assert '\tx-client-request-id = "TRAILING"\n' in exc_repr
+
+
+@pytest.mark.asyncio
+async def test_grpc_request_id_wrong_metadata_exception(async_sdk, monkeypatch):
+    def raise_call_service_wrong(*args, **kwargs):
+        raise grpc.aio.AioRpcError(
+            code=grpc.StatusCode.INTERNAL,
+            initial_metadata=grpc.aio.Metadata(),
+            trailing_metadata=(),
+            details="some details",
+            debug_error_string="some debug"
+        )
+
+    monkeypatch.setattr(yandex_cloud_ml_sdk._client.AsyncCloudClient, 'call_service', raise_call_service_wrong)
+
+    with pytest.raises(AioRpcError) as exc_info:
+        await async_sdk.models.completions('foo').tokenize("bar")
+    exc = exc_info.value
+    exc_repr = str(exc)
+
+    assert '\tauth_provider' not in exc_repr
+    assert '\tx-client-request-id = "grpc metadata was replaced with non-Metadata object"\n' in exc_repr
