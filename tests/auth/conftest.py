@@ -40,3 +40,12 @@ def fixture_process_maker():
             pass
 
     return MockProcess
+
+@pytest.fixture(name="get_auth_meta")
+def fixture_get_auth_meta():
+    def getter(metadata):
+        for key, value in metadata:
+            if key == 'authorization':
+                return value
+        return None
+    return getter

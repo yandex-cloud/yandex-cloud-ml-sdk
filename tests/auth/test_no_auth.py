@@ -13,12 +13,12 @@ def fixture_auth():
     return NoAuth()
 
 
-async def test_auth(async_sdk):
+async def test_auth(async_sdk, get_auth_meta):
     metadata = await async_sdk._client._get_metadata(
         auth_required=True,
         timeout=1
     )
-    assert metadata == (('yc-ml-sdk-retry', 'NONE'),)
+    assert get_auth_meta(metadata) is None
 
 
 async def test_applicable_from_env():

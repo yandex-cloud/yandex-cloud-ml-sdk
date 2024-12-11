@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import sys
+import uuid
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from typing import Literal, Protocol, Sequence, TypeVar, cast
@@ -14,6 +15,7 @@ from yandex.cloud.endpoint.api_endpoint_service_pb2 import ListApiEndpointsReque
 from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServiceStub
 
 from ._auth import BaseAuth, get_auth_provider
+from ._exceptions import AioRpcError
 from ._retry import RETRY_KIND_METADATA_KEY, RetryKind, RetryPolicy
 from ._utils.lock import LazyLock
 from ._utils.proto import service_for_ctor
@@ -72,6 +74,7 @@ class AsyncCloudClient:
         )
 
         self._channels: dict[type[StubType], grpc.aio.Channel] = {}
+        self._endpoints: dict[type[StubType], str] = {}
 
         self._auth_lock = LazyLock()
         self._channels_lock = LazyLock()
@@ -105,6 +108,7 @@ class AsyncCloudClient:
     ) -> tuple[tuple[str, str], ...]:
         metadata: tuple[tuple[str, str], ...] = (
             (RETRY_KIND_METADATA_KEY, retry_kind.name),
+            ('x-client-request-id', str(uuid.uuid4())),
         )
 
         if self._enable_server_data_logging is not None:
@@ -176,6 +180,7 @@ class AsyncCloudClient:
                 else:
                     raise ValueError(f'failed to find endpoint for {service_name=} and {stub_class=}')
 
+            self._endpoints[stub_class] = endpoint
             channel = self._channels[stub_class] = self._new_channel(endpoint)
             return channel
 
@@ -190,7 +195,20 @@ class AsyncCloudClient:
         # but in future if we will make some ChannelPool, it could be handy to know,
         # when "user" releases resource
         channel = await self._get_channel(stub_class, timeout, service_name=service_name)
-        yield stub_class(channel)
+        try:
+            yield stub_class(channel)
+        except grpc.aio.AioRpcError as original:
+            # .with_traceback(...) from None allows to mimic
+            # original exception without increasing traceback with an
+            # extra info, like
+            # "During handling of the above exception, another exception occurred"
+            # or # "The above exception was the direct cause of the following exception"
+            raise AioRpcError.from_base_rpc_error(
+                original,
+                endpoint=self._endpoints[stub_class],
+                auth=self._auth_provider,
+                stub_class=stub_class,
+            ).with_traceback(original.__traceback__) from None
 
     async def call_service_stream(
         self,
