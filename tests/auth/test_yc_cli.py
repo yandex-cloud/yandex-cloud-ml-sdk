@@ -21,16 +21,13 @@ def fixture_auth():
     return YandexCloudCLIAuth()
 
 
-async def test_auth(async_sdk, iam_token, monkeypatch, process_maker):
+async def test_auth(async_sdk, iam_token, monkeypatch, process_maker, get_auth_meta):
     process = process_maker(stdout=b"Hello\n" + iam_token.encode("utf-8"), stderr=b"")
     mock_create_subprocess_exec = AsyncMock(return_value=process)
     monkeypatch.setattr("asyncio.create_subprocess_exec", mock_create_subprocess_exec)
 
     metadata = await async_sdk._client._get_metadata(auth_required=True, timeout=1)
-    assert metadata == (
-        ('yc-ml-sdk-retry', 'NONE'),
-        ("authorization", f"Bearer {iam_token}"),
-    )
+    assert get_auth_meta(metadata) == f"Bearer {iam_token}"
 
 
 async def test_reissue(async_sdk, auth, monkeypatch, process_maker):
