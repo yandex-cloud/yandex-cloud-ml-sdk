@@ -122,8 +122,8 @@ class AsyncRun(BaseRun):
         self,
         *,
         timeout: float = 60,
-        poll_timeout: int = 3600,
-        poll_interval: float = 10,
+        poll_timeout: int = 300,
+        poll_interval: float = 0.5,
     ) -> RunResult:
         return await self._wait(
             timeout=timeout,
@@ -163,8 +163,8 @@ class Run(BaseRun):
         self,
         *,
         timeout: float = 60,
-        poll_timeout: int = 3600,
-        poll_interval: float = 10,
+        poll_timeout: int = 300,
+        poll_interval: float = 0.5,
     ) -> RunResult:
         # NB: mypy can't unterstand normally __wait return type and thinks its ResultTypeT
         return self.__wait(  # type: ignore[return-value]
