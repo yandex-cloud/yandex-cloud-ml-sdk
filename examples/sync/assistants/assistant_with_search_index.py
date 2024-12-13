@@ -31,15 +31,26 @@ def main() -> None:
     assistant = sdk.assistants.create('yandexgpt', tools=[tool])
     thread = sdk.threads.create()
 
-    for search_query in (
-        local_path('search_query.txt').read_text().splitlines()[0],
-        "Cколько пошлина в Анталье"
-    ):
-        thread.write(search_query)
-        run = assistant.run(thread)
-        result = run.wait()
-        print('Question', search_query)
-        print('Answer:', result.text)
+    search_query = local_path('search_query.txt').read_text().splitlines()[0]
+    thread.write(search_query)
+    run = assistant.run(thread)
+
+    # poll_inteval is 0.5s by default, but you could lower it to optimize
+    # wait time
+    result = run.wait(poll_interval=0.05)
+    print('Question:', search_query)
+    print('Answer:', result.text)
+
+    search_query = "Cколько пошлина в Анталье"
+    thread.write(search_query)
+
+    # You could also use run_stream method to start gettig response parts
+    # as soon it will be generated
+    run = assistant.run_stream(thread)
+    print('Question:', search_query)
+    for event in run:
+        print("Answer part:", event.text)
+        print("Answer status:", event.status)
 
     search_index.delete()
     thread.delete()
