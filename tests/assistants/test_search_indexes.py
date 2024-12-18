@@ -2,7 +2,11 @@ from __future__ import annotations
 
 import pytest
 
-from yandex_cloud_ml_sdk.search_indexes import StaticIndexChunkingStrategy, TextSearchIndexType, VectorSearchIndexType
+from yandex_cloud_ml_sdk import AsyncYCloudML
+from yandex_cloud_ml_sdk.search_indexes import (
+    HybridSearchIndexType, IndexNormalizationStrategy, ReciprocalRankFusionIndexCombinationStrategy,
+    StaticIndexChunkingStrategy, TextSearchIndexType, VectorSearchIndexType
+)
 
 pytestmark = pytest.mark.asyncio
 
@@ -118,3 +122,29 @@ async def test_assistant_with_search_index(async_sdk, tmp_path):
     await thread.delete()
     await assistant.delete()
     await file.delete()
+
+
+@pytest.mark.allow_grpc
+async def test_hybrid_search_index(async_sdk: AsyncYCloudML, test_file_path):
+    file = await async_sdk.files.upload(test_file_path)
+    operation = await async_sdk.search_indexes.create_deferred(
+        file,
+        index_type=HybridSearchIndexType(
+            chunking_strategy=StaticIndexChunkingStrategy(
+                max_chunk_size_tokens=700,
+                chunk_overlap_tokens=300
+            ),
+            normalization_strategy='L2',
+            combination_strategy=ReciprocalRankFusionIndexCombinationStrategy(k=51)
+        )
+    )
+    search_index = await operation.wait()
+
+    assert isinstance(search_index.index_type, HybridSearchIndexType)
+    assert isinstance(search_index.index_type.text_search_index, TextSearchIndexType)
+    assert isinstance(search_index.index_type.vector_search_index, VectorSearchIndexType)
+    assert isinstance(search_index.index_type.vector_search_index.chunking_strategy, StaticIndexChunkingStrategy)
+    assert search_index.index_type.vector_search_index.chunking_strategy.max_chunk_size_tokens == 700
+    assert search_index.index_type.normalization_strategy == IndexNormalizationStrategy.L2
+    assert isinstance(search_index.index_type.combination_strategy, ReciprocalRankFusionIndexCombinationStrategy)
+    assert search_index.index_type.combination_strategy.k == 51

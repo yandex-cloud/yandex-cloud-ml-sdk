@@ -4,7 +4,6 @@ from __future__ import annotations
 from typing import AsyncIterator, Generic, Iterator
 
 from yandex.cloud.ai.assistants.v1.searchindex.search_index_pb2 import SearchIndex as ProtoSearchIndex
-from yandex.cloud.ai.assistants.v1.searchindex.search_index_pb2 import TextSearchIndex, VectorSearchIndex
 from yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2 import (
     CreateSearchIndexRequest, GetSearchIndexRequest, ListSearchIndicesRequest, ListSearchIndicesResponse
 )
@@ -19,7 +18,7 @@ from yandex_cloud_ml_sdk._types.operation import AsyncOperation, Operation, Oper
 from yandex_cloud_ml_sdk._utils.coerce import ResourceType, coerce_resource_ids
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
-from .index_type import BaseSearchIndexType, TextSearchIndexType, VectorSearchIndexType
+from .index_type import BaseSearchIndexType
 from .search_index import AsyncSearchIndex, SearchIndex, SearchIndexTypeT
 
 
@@ -47,14 +46,11 @@ class BaseSearchIndexes(BaseDomain, Generic[SearchIndexTypeT, OperationTypeT]):
 
         expiration_config = ExpirationConfig.coerce(ttl_days=ttl_days, expiration_policy=expiration_policy)
 
-        vector_search_index: VectorSearchIndex | None = None
-        text_search_index: TextSearchIndex | None = None
-        if isinstance(index_type, VectorSearchIndexType):
-            vector_search_index = index_type._to_proto()
-        elif isinstance(index_type, TextSearchIndexType):
-            text_search_index = index_type._to_proto()
-        elif is_defined(index_type):
-            raise TypeError('index type must be instance of SearchIndexType')
+        kwargs = {}
+        if is_defined(index_type):
+            if not isinstance(index_type, BaseSearchIndexType):
+                raise TypeError('index type must be instance of BaseSearchIndexType')
+            kwargs[index_type._proto_field_name] = index_type._to_proto()
 
         request = CreateSearchIndexRequest(
             folder_id=self._folder_id,
@@ -63,8 +59,7 @@ class BaseSearchIndexes(BaseDomain, Generic[SearchIndexTypeT, OperationTypeT]):
             description=get_defined_value(description, ''),
             labels=get_defined_value(labels, {}),
             expiration_config=expiration_config.to_proto(),
-            vector_search_index=vector_search_index,
-            text_search_index=text_search_index,
+            **kwargs,  # type: ignore[arg-type]
         )
 
         async with self._client.get_service_stub(SearchIndexServiceStub, timeout=timeout) as stub:
