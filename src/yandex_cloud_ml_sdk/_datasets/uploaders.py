@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from .dataset import BaseDataset
 
 
-MAX_FILE_SIZE = 300 * 1024 * 1024
+MAX_FILE_SIZE = 5 * 1024 ** 3  # 5 GB
 
 
 class SingleUploader:
@@ -25,7 +25,7 @@ class SingleUploader:
         if size > MAX_FILE_SIZE:
             raise RuntimeError(
                 f'file {path} is too big; in this version of SDK it must be less '
-                'than 300MB'
+                'than 5GB'
             )
 
         # pylint: disable=protected-access
