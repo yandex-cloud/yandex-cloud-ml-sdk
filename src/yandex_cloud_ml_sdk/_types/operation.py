@@ -89,12 +89,14 @@ class BaseOperation(Generic[ResultTypeT_co], OperationInterface[ResultTypeT_co])
 
     def __init__(
         self,
+        *,
         sdk: BaseSDK,
         id: str,
         result_type: type[ResultTypeT_co],
         proto_result_type: Any,
         service_name: str | None = None,
         transformer: None | Callable[[Any, float], Awaitable[ResultTypeT_co]] = None,
+        default_poll_timeout: int = 3600,
     ):  # pylint: disable=redefined-builtin
         self._id = id
         self._sdk = sdk
@@ -103,6 +105,7 @@ class BaseOperation(Generic[ResultTypeT_co], OperationInterface[ResultTypeT_co])
         self._last_known_status = None
         self._service_name = service_name
         self._transformer = transformer or self._default_result_transofrmer
+        self._default_poll_timeout = default_poll_timeout
 
     # pylint: disable=unused-argument
     async def _default_result_transofrmer(self, proto: Any, timeout: float) -> ResultTypeT_co:
@@ -190,11 +193,10 @@ class BaseOperation(Generic[ResultTypeT_co], OperationInterface[ResultTypeT_co])
         self,
         *,
         timeout: float = 60,
-        poll_timeout: int = 3600,
+        poll_timeout: int | None = None,
         poll_interval: float = 10,
     ) -> ResultTypeT_co:
-        # NB: mypy doesn't resolve generic type ResultTypeT_co in case of inheritance,
-        # so, just recopy this method here
+        poll_timeout = poll_timeout or self._default_poll_timeout
         return await super()._wait(
             timeout=timeout,
             poll_interval=poll_interval,
@@ -216,7 +218,7 @@ class AsyncOperation(BaseOperation[ResultTypeT_co]):
         self,
         *,
         timeout: float = 60,
-        poll_timeout: int = 3600,
+        poll_timeout: int | None = None,
         poll_interval: float = 10,
     ) -> ResultTypeT_co:
         return await self._wait(
@@ -248,7 +250,7 @@ class Operation(BaseOperation[ResultTypeT_co]):
         self,
         *,
         timeout: float = 60,
-        poll_timeout: int = 3600,
+        poll_timeout: int | None = None,
         poll_interval: float = 10,
     ) -> ResultTypeT_co:
         return self.__wait(
