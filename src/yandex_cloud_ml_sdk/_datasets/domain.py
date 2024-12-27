@@ -26,6 +26,7 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
     completions = TaskTypeProxy(KnownTaskType.TextToTextGeneration)
     text_classifiers_multilabel = TaskTypeProxy(KnownTaskType.TextClassificationMultilabel)
     text_classifiers_multiclass = TaskTypeProxy(KnownTaskType.TextClassificationMulticlass)
+    text_classifiers_binary = TaskTypeProxy(KnownTaskType.TextClassificationMultilabel)
 
     def from_path_deferred(
         self,
