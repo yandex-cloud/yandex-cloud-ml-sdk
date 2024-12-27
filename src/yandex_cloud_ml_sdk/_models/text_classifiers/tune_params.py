@@ -19,19 +19,19 @@ class TextClassifiersModelTuneParams(BaseTuningParams):
     def _proto_tuning_params_type(
         self
     ) -> type[TextClassificationMulticlassParams] | type[TextClassificationMultilabelParams]:
-        if self.classification_type == 'multilabel':
-            return TextClassificationMultilabelParams
+        if self.classification_type == 'multiclass':
+            return TextClassificationMulticlassParams
 
-        return TextClassificationMulticlassParams
+        return TextClassificationMultilabelParams
 
     @property
     def _proto_tuning_argument_name(
         self
     ) -> Literal['text_classification_multilabel', 'text_classification_multiclass']:
-        if self.classification_type == 'multilabel':
-            return 'text_classification_multilabel'
+        if self.classification_type == 'multiclass':
+            return 'text_classification_multiclass'
 
-        return 'text_classification_multiclass'
+        return 'text_classification_multilabel'
 
     @property
     def _ignored_fields(self):
