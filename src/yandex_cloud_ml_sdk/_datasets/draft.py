@@ -24,6 +24,9 @@ if TYPE_CHECKING:
     from .domain import BaseDatasets
 
 
+DEFAULT_OPERATION_POLL_TIMEOUT = 6 * 60 * 60  # 6 hours
+
+
 @dataclass
 class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMixin[OperationTypeT]):
     _domain: BaseDatasets
@@ -109,7 +112,8 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
             transformer=partial(
                 self._transform_operation_result,
                 raise_on_validation_failure=raise_on_validation_failure,
-            )
+            ),
+            default_poll_timeout=DEFAULT_OPERATION_POLL_TIMEOUT,
         )
 
     async def _upload(
