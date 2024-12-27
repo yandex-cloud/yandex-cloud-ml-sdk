@@ -83,6 +83,9 @@ class OperationInterface(abc.ABC, Generic[ResultTypeT_co]):
 
         return await self._get_result(timeout=timeout)
 
+    def __repr__(self) -> str:
+        return f'{self.__class__.__name__}<id="{self.id}">'
+
 
 class BaseOperation(Generic[ResultTypeT_co], OperationInterface[ResultTypeT_co]):
     _last_known_status: OperationStatus | None
@@ -106,6 +109,17 @@ class BaseOperation(Generic[ResultTypeT_co], OperationInterface[ResultTypeT_co])
         self._service_name = service_name
         self._transformer = transformer or self._default_result_transofrmer
         self._default_poll_timeout = default_poll_timeout
+
+    def __repr__(self) -> str:
+        arg_list = [
+            ('id', repr(self.id)),
+            ('result_type', self._result_type.__name__)
+        ]
+        if self._service_name:
+            arg_list.append(('endpoint_name', self._service_name))
+
+        args = ', '.join('='.join((k, v)) for k, v in arg_list)
+        return f'{self.__class__.__name__}<{args}>'
 
     # pylint: disable=unused-argument
     async def _default_result_transofrmer(self, proto: Any, timeout: float) -> ResultTypeT_co:
