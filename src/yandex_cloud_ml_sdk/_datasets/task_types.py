@@ -58,8 +58,8 @@ class DatasetsWrapper:
         return self._task_type
 
     @property
-    def from_path_deferred(self):
-        return partial(self._domain.from_path_deferred, task_type=self._task_type)
+    def draft_from_path(self):
+        return partial(self._domain.draft_from_path, task_type=self._task_type)
 
     @property
     def list_upload_formats(self):

@@ -116,7 +116,7 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
             default_poll_timeout=DEFAULT_OPERATION_POLL_TIMEOUT,
         )
 
-    async def _upload(
+    async def _upload_deferred(
         self,
         *,
         timeout: float = 60,
@@ -154,10 +154,44 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
         )
         return operation
 
+    async def _upload(
+        self,
+        *,
+        timeout: float = 60,
+        poll_timeout: int = DEFAULT_OPERATION_POLL_TIMEOUT,
+        poll_interval: float = 60,
+        **kwargs,
+    ) -> DatasetTypeT:
+        operation = await self._upload_deferred(
+            **kwargs,
+            timeout=timeout,
+        )
+        # pylint: disable=protected-access
+        result = await operation._wait(
+            timeout=timeout,
+            poll_timeout=poll_timeout,
+            poll_interval=poll_interval,
+        )
+        return result
+
+
 
 class AsyncDatasetDraft(BaseDatasetDraft[AsyncDataset, AsyncOperation[AsyncDataset]]):
     _dataset_impl = AsyncDataset
     _operation_impl = AsyncOperation[AsyncDataset]
+
+    async def upload_deferred(
+        self,
+        *,
+        timeout: float = 60,
+        upload_timeout: float = 360,
+        raise_on_validation_failure: bool = True,
+    ) -> AsyncOperation[AsyncDataset]:
+        return await self._upload_deferred(
+            timeout=timeout,
+            upload_timeout=upload_timeout,
+            raise_on_validation_failure=raise_on_validation_failure,
+        )
 
     async def upload(
         self,
@@ -165,18 +199,36 @@ class AsyncDatasetDraft(BaseDatasetDraft[AsyncDataset, AsyncOperation[AsyncDatas
         timeout: float = 60,
         upload_timeout: float = 360,
         raise_on_validation_failure: bool = True,
-    ) -> AsyncOperation[AsyncDataset]:
+        poll_timeout: int = DEFAULT_OPERATION_POLL_TIMEOUT,
+        poll_interval: float = 60,
+    ):
         return await self._upload(
             timeout=timeout,
             upload_timeout=upload_timeout,
             raise_on_validation_failure=raise_on_validation_failure,
+            poll_timeout=poll_timeout,
+            poll_interval=poll_interval
         )
 
 
 class DatasetDraft(BaseDatasetDraft[Dataset, Operation[Dataset]]):
     _dataset_impl = Dataset
     _operation_impl = Operation[Dataset]
+    __upload_deferred = run_sync(BaseDatasetDraft._upload_deferred)
     __upload = run_sync(BaseDatasetDraft._upload)
+
+    def upload_deferred(
+        self,
+        *,
+        timeout: float = 60,
+        upload_timeout: float = 360,
+        raise_on_validation_failure: bool = True,
+    ) -> Operation[Dataset]:
+        return self.__upload_deferred(
+            timeout=timeout,
+            upload_timeout=upload_timeout,
+            raise_on_validation_failure=raise_on_validation_failure,
+        )
 
     def upload(
         self,
@@ -184,11 +236,15 @@ class DatasetDraft(BaseDatasetDraft[Dataset, Operation[Dataset]]):
         timeout: float = 60,
         upload_timeout: float = 360,
         raise_on_validation_failure: bool = True,
-    ) -> Operation[Dataset]:
+        poll_timeout: int = DEFAULT_OPERATION_POLL_TIMEOUT,
+        poll_interval: float = 60,
+    ):
         return self.__upload(
             timeout=timeout,
             upload_timeout=upload_timeout,
             raise_on_validation_failure=raise_on_validation_failure,
+            poll_timeout=poll_timeout,
+            poll_interval=poll_interval
         )
 
 
