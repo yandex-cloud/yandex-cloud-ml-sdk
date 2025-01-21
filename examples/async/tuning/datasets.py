@@ -18,24 +18,23 @@ async def main() -> None:
         folder_id='b1ghsjum2v37c2un8h64',
     )
 
-    dataset_draft = sdk.datasets.from_path_deferred(
+    dataset_draft = sdk.datasets.draft_from_path(
         task_type='TextToTextGeneration',
         path=local_path('example_dataset'),
         upload_format='jsonlines',
         name='foo',
     )
 
-    operation = await dataset_draft.upload()
-    dataset = await operation
+    dataset = await dataset_draft.upload()
     print(f'new {dataset=}')
 
-    dataset_draft = sdk.datasets.completions.from_path_deferred(
+    dataset_draft = sdk.datasets.completions.draft_from_path(
         local_path('example_bad_dataset')
     )
     dataset_draft.upload_format = 'jsonlines'
     dataset_draft.name = 'foo'
 
-    operation = await dataset_draft.upload()
+    operation = await dataset_draft.upload_deferred()
     try:
         dataset = await operation
     except DatasetValidationError as error:
