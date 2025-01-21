@@ -35,14 +35,13 @@ def get_datasets(sdk):
         break
     else:
         print('no old datasets found, creating new one')
-        dataset_draft = sdk.datasets.completions.from_path_deferred(
+        dataset_draft = sdk.datasets.completions.draft_from_path(
             path=local_path('completions.jsonlines'),
             upload_format='jsonlines',
             name='completions',
         )
 
-        operation = dataset_draft.upload()
-        dataset = operation.wait()
+        dataset = dataset_draft.upload()
         print(f'created new dataset {dataset=}')
 
     return dataset, dataset
