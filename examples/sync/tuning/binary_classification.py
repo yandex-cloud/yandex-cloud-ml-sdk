@@ -33,14 +33,13 @@ def get_datasets(sdk):
     else:
         print('no old datasets found, creating new one')
         # NB: yeah, dataset type is still text_classifiers_multiclass
-        dataset_draft = sdk.datasets.text_classifiers_binary.from_path_deferred(
+        dataset_draft = sdk.datasets.text_classifiers_binary.draft_from_path(
             path=local_path('binary_classification.jsonlines'),
             upload_format='jsonlines',
             name='binary',
         )
 
-        operation = dataset_draft.upload()
-        dataset = operation.wait()
+        dataset = dataset_draft.upload()
         print(f'created new dataset {dataset=}')
 
     return dataset, dataset
