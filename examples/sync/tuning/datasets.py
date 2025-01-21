@@ -17,24 +17,23 @@ def main() -> None:
         folder_id='b1ghsjum2v37c2un8h64',
     )
 
-    dataset_draft = sdk.datasets.from_path_deferred(
+    dataset_draft = sdk.datasets.draft_from_path(
         task_type='TextToTextGeneration',
         path=local_path('completions.jsonlines'),
         upload_format='jsonlines',
         name='completions',
     )
 
-    operation = dataset_draft.upload()
-    dataset = operation.wait()
+    dataset = dataset_draft.upload()
     print(f'new {dataset=}')
 
-    dataset_draft = sdk.datasets.completions.from_path_deferred(
+    dataset_draft = sdk.datasets.completions.draft_from_path(
         local_path('example_bad_dataset')
     )
     dataset_draft.upload_format = 'jsonlines'
     dataset_draft.name = 'foo'
 
-    operation = dataset_draft.upload()
+    operation = dataset_draft.upload_deferred()
     try:
         dataset = operation.wait()
     except DatasetValidationError as error:
@@ -43,7 +42,7 @@ def main() -> None:
         print(f"going to delete {bad_dataset=}")
         bad_dataset.delete()
 
-    operation = dataset_draft.upload(raise_on_validation_failure=False)
+    operation = dataset_draft.upload_deferred(raise_on_validation_failure=False)
     bad_dataset = operation.wait()
     print(f"New {bad_dataset=} have a bad status {dataset.status=}")
     dataset.delete()
