@@ -15,7 +15,7 @@ from yandex_cloud_ml_sdk._types.operation import AsyncOperation, Operation, Oper
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
 from .dataset import AsyncDataset, Dataset, DatasetTypeT
-from .uploaders import SingleUploader
+from .uploaders import DEFAULT_CHUNK_SIZE, create_uploader
 from .validation import DatasetValidationResult
 
 if TYPE_CHECKING:
@@ -122,11 +122,19 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
         timeout: float = 60,
         upload_timeout: float = 360,
         raise_on_validation_failure: bool = True,
+        chunk_size: int = DEFAULT_CHUNK_SIZE,
+        parallelism: int | None = None,
     ) -> OperationTypeT:
         self.validate()
         assert self.task_type
         assert self.upload_format
         assert self.path
+
+        uploader = create_uploader(
+            path_or_iterator=self.path,
+            chunk_size=chunk_size,
+            parallelism=parallelism
+        )
 
         dataset = await self._domain._create_impl(
             task_type=self.task_type,
@@ -139,8 +147,12 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
         )
 
         try:
-            uploader = SingleUploader(dataset)
-            await uploader.upload(self.path, timeout=timeout, upload_timeout=upload_timeout)
+            await uploader.upload(
+                self.path,
+                dataset=dataset,
+                timeout=timeout,
+                upload_timeout=upload_timeout
+            )
         except Exception:
             # in case of HTTP error while uploading we want to remove dataset draft,
             # because user don't have any access to this draft
@@ -175,7 +187,6 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
         return result
 
 
-
 class AsyncDatasetDraft(BaseDatasetDraft[AsyncDataset, AsyncOperation[AsyncDataset]]):
     _dataset_impl = AsyncDataset
     _operation_impl = AsyncOperation[AsyncDataset]
@@ -186,11 +197,15 @@ class AsyncDatasetDraft(BaseDatasetDraft[AsyncDataset, AsyncOperation[AsyncDatas
         timeout: float = 60,
         upload_timeout: float = 360,
         raise_on_validation_failure: bool = True,
+        chunk_size: int = DEFAULT_CHUNK_SIZE,
+        parallelism: int | None = None,
     ) -> AsyncOperation[AsyncDataset]:
         return await self._upload_deferred(
             timeout=timeout,
             upload_timeout=upload_timeout,
             raise_on_validation_failure=raise_on_validation_failure,
+            chunk_size=chunk_size,
+            parallelism=parallelism,
         )
 
     async def upload(
@@ -201,13 +216,17 @@ class AsyncDatasetDraft(BaseDatasetDraft[AsyncDataset, AsyncOperation[AsyncDatas
         raise_on_validation_failure: bool = True,
         poll_timeout: int = DEFAULT_OPERATION_POLL_TIMEOUT,
         poll_interval: float = 60,
+        chunk_size: int = DEFAULT_CHUNK_SIZE,
+        parallelism: int | None = None,
     ):
         return await self._upload(
             timeout=timeout,
             upload_timeout=upload_timeout,
             raise_on_validation_failure=raise_on_validation_failure,
             poll_timeout=poll_timeout,
-            poll_interval=poll_interval
+            poll_interval=poll_interval,
+            chunk_size=chunk_size,
+            parallelism=parallelism,
         )
 
 
@@ -223,11 +242,15 @@ class DatasetDraft(BaseDatasetDraft[Dataset, Operation[Dataset]]):
         timeout: float = 60,
         upload_timeout: float = 360,
         raise_on_validation_failure: bool = True,
+        chunk_size: int = DEFAULT_CHUNK_SIZE,
+        parallelism: int | None = None,
     ) -> Operation[Dataset]:
         return self.__upload_deferred(
             timeout=timeout,
             upload_timeout=upload_timeout,
             raise_on_validation_failure=raise_on_validation_failure,
+            chunk_size=chunk_size,
+            parallelism=parallelism,
         )
 
     def upload(
@@ -238,13 +261,17 @@ class DatasetDraft(BaseDatasetDraft[Dataset, Operation[Dataset]]):
         raise_on_validation_failure: bool = True,
         poll_timeout: int = DEFAULT_OPERATION_POLL_TIMEOUT,
         poll_interval: float = 60,
+        chunk_size: int = DEFAULT_CHUNK_SIZE,
+        parallelism: int | None = None,
     ):
         return self.__upload(
             timeout=timeout,
             upload_timeout=upload_timeout,
             raise_on_validation_failure=raise_on_validation_failure,
             poll_timeout=poll_timeout,
-            poll_interval=poll_interval
+            poll_interval=poll_interval,
+            chunk_size=chunk_size,
+            parallelism=parallelism,
         )
 
 
