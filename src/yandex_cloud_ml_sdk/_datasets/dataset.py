@@ -3,13 +3,14 @@ from __future__ import annotations
 
 import dataclasses
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING, Any, Iterable, TypeVar
 
 from typing_extensions import Self
 from yandex.cloud.ai.dataset.v1.dataset_pb2 import DatasetInfo as ProtoDatasetInfo
 from yandex.cloud.ai.dataset.v1.dataset_service_pb2 import (
-    DeleteDatasetRequest, DeleteDatasetResponse, GetUploadDraftUrlRequest, GetUploadDraftUrlResponse,
-    UpdateDatasetRequest, UpdateDatasetResponse
+    DeleteDatasetRequest, DeleteDatasetResponse, FinishMultipartUploadDraftRequest, FinishMultipartUploadDraftResponse,
+    GetUploadDraftUrlRequest, GetUploadDraftUrlResponse, StartMultipartUploadDraftRequest,
+    StartMultipartUploadDraftResponse, UpdateDatasetRequest, UpdateDatasetResponse, UploadedPartInfo
 )
 from yandex.cloud.ai.dataset.v1.dataset_service_pb2_grpc import DatasetServiceStub
 
@@ -136,6 +137,51 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
             )
 
         return result.upload_url
+
+    async def _start_multipart_upload(
+        self,
+        *,
+        size_bytes: int,
+        parts: int,
+        timeout: float,
+    ) -> tuple[str, ...]:
+        request = StartMultipartUploadDraftRequest(
+            dataset_id=self.id,
+            size_bytes=size_bytes,
+            parts=parts,
+        )
+        async with self._client.get_service_stub(DatasetServiceStub, timeout=timeout) as stub:
+            result = await self._client.call_service(
+                stub.StartMultipartUploadDraft,
+                request,
+                timeout=timeout,
+                expected_type=StartMultipartUploadDraftResponse,
+            )
+
+        return tuple(result.multipart_upload_urls)
+
+    async def _finish_multipart_upload(
+        self,
+        parts: Iterable[tuple[int, str]],
+        timeout: float,
+    ) -> None:
+        parts_proto = [
+            UploadedPartInfo(
+                part_num=part_num,
+                etag=etag
+            ) for part_num, etag in parts
+        ]
+        request = FinishMultipartUploadDraftRequest(
+            dataset_id=self.id,
+            uploaded_parts=parts_proto
+        )
+        async with self._client.get_service_stub(DatasetServiceStub, timeout=timeout) as stub:
+            await self._client.call_service(
+                stub.FinishMultipartUploadDraft,
+                request,
+                timeout=timeout,
+                expected_type=FinishMultipartUploadDraftResponse,
+            )
 
 
 class AsyncDataset(BaseDataset):
