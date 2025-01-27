@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import os
 import pathlib
-from typing import TypeVar, Union, cast
+from typing import Any, TypeVar, Union, cast
 
 from typing_extensions import TypeGuard
 
@@ -33,6 +33,10 @@ def get_defined_value(obj: UndefinedOr[_T], default: _D) -> _T | _D:
 
 
 PathLike = Union[str, os.PathLike]
+
+
+def is_path_like(path: Any) -> TypeGuard[PathLike]:
+    return isinstance(path, (str, os.PathLike))
 
 
 def coerce_path(path: PathLike) -> pathlib.Path:
