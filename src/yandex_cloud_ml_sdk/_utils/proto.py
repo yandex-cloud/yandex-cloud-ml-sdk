@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import inspect
-from typing import Any, TypeVar, cast
+from enum import Enum
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from google.protobuf.descriptor import FieldDescriptor
 from google.protobuf.json_format import MessageToDict
 from google.protobuf.message import Message
 from google.protobuf.timestamp_pb2 import Timestamp  # pylint: disable=no-name-in-module
+from typing_extensions import Self
 
 _T = TypeVar('_T')
 _D = TypeVar('_D')
@@ -80,3 +82,27 @@ _supported_modules = {
     "yandex.cloud.iam": "iam",
     "yandex.cloud.operation": "operation",
 }
+
+
+if TYPE_CHECKING:
+    base = Enum
+else:
+    base = object
+
+
+class ProtoEnumBase(base):
+    @classmethod
+    def _coerce(cls, value: str | int | ProtoEnumBase) -> Self:
+        if isinstance(value, cls):
+            return value
+        if isinstance(value, int):
+            return cls(value)
+        if isinstance(value, str):
+            if member := cls.__members__.get(value.upper()):
+                return member
+            raise ValueError(f'wrong value "{value}" for use as an alisas for {cls}')
+        raise TypeError(f'wrong type "{type(value)}" for use as an alias for {cls}')
+
+    def _to_proto(self) -> int:
+        assert hasattr(self, 'value')
+        return self.value
