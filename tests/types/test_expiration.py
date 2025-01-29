@@ -25,9 +25,9 @@ from yandex_cloud_ml_sdk._types.misc import UNDEFINED
 def test_expiration_policy(test_input, expected):
     if inspect.isclass(expected) and issubclass(expected, Exception):
         with pytest.raises(expected):
-            ExpirationPolicy.coerce(test_input)
+            ExpirationPolicy._coerce(test_input)
     else:
-        assert ExpirationPolicy.coerce(test_input).to_proto() == expected
+        assert ExpirationPolicy._coerce(test_input)._to_proto() == expected
 
 
 @pytest.mark.parametrize(

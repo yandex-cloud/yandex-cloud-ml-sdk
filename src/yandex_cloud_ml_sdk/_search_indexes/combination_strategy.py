@@ -13,6 +13,8 @@ from yandex.cloud.ai.assistants.v1.searchindex.common_pb2 import (
     ReciprocalRankFusionCombinationStrategy as ProtoReciprocalRankFusionCombinationStrategy
 )
 
+from yandex_cloud_ml_sdk._utils.proto import ProtoEnumBase
+
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
@@ -46,17 +48,11 @@ class BaseIndexCombinationStrategy(abc.ABC):
 
 _orig = ProtoMeanCombinationStrategy.MeanEvaluationTechnique
 
-class MeanIndexEvaluationTechnique(enum.IntEnum):
+class MeanIndexEvaluationTechnique(ProtoEnumBase, enum.IntEnum):
     MEAN_EVALUATION_TECHNIQUE_UNSPECIFIED = _orig.MEAN_EVALUATION_TECHNIQUE_UNSPECIFIED
     ARITHMETIC = _orig.ARITHMETIC
     GEOMETRIC = _orig.GEOMETRIC
     HARMONIC = _orig.HARMONIC
-
-    @classmethod
-    def _coerce(cls, technique: str | int ) -> MeanIndexEvaluationTechnique:
-        if isinstance(technique, str):
-            technique = _orig.Value(technique.upper())
-        return cls(technique)
 
 
 @dataclass(frozen=True)

@@ -11,6 +11,8 @@ from yandex.cloud.ai.assistants.v1.threads.thread_pb2 import Thread
 from yandex.cloud.ai.common.common_pb2 import ExpirationConfig as ExpirationConfigProto
 from yandex.cloud.ai.files.v1.file_pb2 import File
 
+from yandex_cloud_ml_sdk._utils.proto import ProtoEnumBase
+
 from .misc import UndefinedOr, get_defined_value
 
 # NB: I wanted to make it a Protocol, with expiration_config field,
@@ -18,27 +20,9 @@ from .misc import UndefinedOr, get_defined_value
 ExpirationProtoType = Union[Assistant, SearchIndex, Thread, File]
 
 
-class ExpirationPolicy(Enum):
+class ExpirationPolicy(ProtoEnumBase, Enum):
     STATIC = ExpirationConfigProto.STATIC
     SINCE_LAST_ACTIVE = ExpirationConfigProto.SINCE_LAST_ACTIVE
-
-    @classmethod
-    def coerce(cls, value: ExpirationPolicyAlias) -> ExpirationPolicy:
-        if isinstance(value, cls):
-            return value
-        if isinstance(value, int):
-            return cls(value)
-        if isinstance(value, str):
-            if member := cls.__members__.get(value.upper()):
-                return member
-            raise ValueError(f'wrong value {value} for use as an alisas for {cls}')
-        raise TypeError(f'wrong type for use as an alias for {cls}')
-
-    def to_proto(self) -> int:
-        return {
-            self.STATIC: ExpirationConfigProto.STATIC,
-            self.SINCE_LAST_ACTIVE: ExpirationConfigProto.SINCE_LAST_ACTIVE
-        }[self]  # type: ignore[index]
 
 
 ExpirationPolicyAlias = Union[
@@ -64,7 +48,7 @@ class ExpirationConfig:
         expiration_policy_raw = get_defined_value(expiration_policy, None)
         expiration_policy_: ExpirationPolicy | None = None
         if expiration_policy_raw is not None:
-            expiration_policy_ = ExpirationPolicy.coerce(expiration_policy_raw)  # type: ignore[arg-type]
+            expiration_policy_ = ExpirationPolicy._coerce(expiration_policy_raw)  # type: ignore[arg-type]
 
         return cls(
             ttl_days=ttl_days_,
@@ -77,7 +61,7 @@ class ExpirationConfig:
 
         expiration_policy = 0
         if self.expiration_policy:
-            expiration_policy = self.expiration_policy.to_proto()
+            expiration_policy = self.expiration_policy._to_proto()
 
         return ExpirationConfigProto(
             expiration_policy=expiration_policy,  # type: ignore[arg-type]
