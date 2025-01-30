@@ -39,6 +39,7 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
     description: str | None = None
     metadata: str | None = None
     labels: dict[str, str] | None = None
+    allow_data_logging: bool | None = None
 
     @property
     def _sdk(self) -> BaseSDK:
@@ -143,6 +144,7 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
             description=self.description,
             metadata=self.metadata,
             labels=self.labels,
+            allow_data_logging=self.allow_data_logging,
             timeout=timeout,
         )
 
