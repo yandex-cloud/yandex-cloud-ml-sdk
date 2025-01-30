@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, AsyncIterator, Generic, Iterator, Literal, cast
 
 from typing_extensions import Self, override
-from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import CompletionOptions
+from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import CompletionOptions, ReasoningOptions
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import (
     CompletionRequest, CompletionResponse, TokenizeResponse
 )
@@ -25,7 +25,7 @@ from yandex_cloud_ml_sdk._types.tuning.schedulers import BaseScheduler
 from yandex_cloud_ml_sdk._types.tuning.tuning_types import BaseTuningType
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
-from .config import GPTModelConfig
+from .config import GPTModelConfig, ReasoningMode, ReasoningModeType
 from .message import MessageInputType, messages_to_proto
 from .result import GPTModelResult
 from .token import Token
@@ -64,11 +64,13 @@ class BaseGPTModel(
         self,
         *,
         temperature: UndefinedOr[float] = UNDEFINED,
-        max_tokens: UndefinedOr[int] = UNDEFINED
+        max_tokens: UndefinedOr[int] = UNDEFINED,
+        reasoning_mode: UndefinedOr[ReasoningModeType] = UNDEFINED,
     ) -> Self:
         return super().configure(
             temperature=temperature,
-            max_tokens=max_tokens
+            max_tokens=max_tokens,
+            reasoning_mode=reasoning_mode,
         )
 
     def _make_request(
@@ -86,6 +88,10 @@ class BaseGPTModel(
             completion_options_kwargs['max_tokens'] = {'value': self._config.max_tokens}
         if self._config.temperature is not None:
             completion_options_kwargs['temperature'] = {'value': self._config.temperature}
+        if self._config.reasoning_mode is not None:
+            reasoning_mode = ReasoningMode._coerce(self._config.reasoning_mode)._to_proto()
+            reasoning_options = ReasoningOptions(mode=reasoning_mode)  # type: ignore[arg-type]
+            completion_options_kwargs['reasoning_options'] = reasoning_options
 
         return CompletionRequest(
             model_uri=self._uri,
