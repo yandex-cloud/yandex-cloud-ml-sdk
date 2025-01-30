@@ -38,6 +38,7 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
         description: UndefinedOr[str] = UNDEFINED,
         metadata: UndefinedOr[str] = UNDEFINED,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        allow_data_logging: UndefinedOr[bool] = UNDEFINED,
     ) -> DatasetDraftT:
         return self._dataset_draft_impl(
             _domain=self,
@@ -47,7 +48,8 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
             name=get_defined_value(name, None),
             description=get_defined_value(description, None),
             metadata=get_defined_value(metadata, None),
-            labels=get_defined_value(labels, None)
+            labels=get_defined_value(labels, None),
+            allow_data_logging=get_defined_value(allow_data_logging, None),
         )
 
     async def _create_impl(
@@ -59,6 +61,7 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
         description: str | None,
         metadata: str | None,
         labels: dict[str, str] | None,
+        allow_data_logging: bool | None,
         timeout: float,
     ) -> DatasetTypeT:
         request = CreateDatasetRequest(
@@ -69,6 +72,7 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
             description=description or '',
             metadata=metadata or '',
             labels=labels or {},
+            allow_data_log=allow_data_logging or False,
         )
 
         async with self._client.get_service_stub(DatasetServiceStub, timeout=timeout) as stub:

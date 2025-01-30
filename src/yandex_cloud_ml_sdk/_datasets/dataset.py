@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING, Any, Iterable, TypeVar
 
 from typing_extensions import Self
 from yandex.cloud.ai.dataset.v1.dataset_pb2 import DatasetInfo as ProtoDatasetInfo
+from yandex.cloud.ai.dataset.v1.dataset_pb2 import ValidationError as ProtoValidationError
 from yandex.cloud.ai.dataset.v1.dataset_service_pb2 import (
     DeleteDatasetRequest, DeleteDatasetResponse, FinishMultipartUploadDraftRequest, FinishMultipartUploadDraftResponse,
     GetUploadDraftUrlRequest, GetUploadDraftUrlResponse, StartMultipartUploadDraftRequest,
@@ -28,6 +29,21 @@ DEFAULT_CHUNK_SIZE = 100 * 1024 ** 2
 
 
 @dataclasses.dataclass(frozen=True)
+class ValidationErrorInfo:
+    error: str
+    description: str
+    rows: tuple[int, ...]
+
+    @classmethod
+    def _from_proto(cls, proto: ProtoValidationError) -> ValidationErrorInfo:
+        return cls(
+            error=proto.error,
+            description=proto.error_description,
+            rows=tuple(proto.row_numbers)
+        )
+
+
+@dataclasses.dataclass(frozen=True)
 class DatasetInfo:
     folder_id: str
     name: str | None
@@ -37,11 +53,13 @@ class DatasetInfo:
     created_at: datetime
     updated_at: datetime
     labels: dict[str, str] | None
+    allow_data_logging: bool
 
     status: DatasetStatus
     task_type: str
     rows: int
     size_bytes: int
+    validation_errors: tuple[ValidationErrorInfo, ...]
 
 
 @dataclasses.dataclass(frozen=True)
@@ -52,6 +70,10 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
         kwargs['id'] = proto.dataset_id
         kwargs['created_by'] = proto.created_by_id
         kwargs['status'] = DatasetStatus._from_proto(proto.status)
+        kwargs['validation_errors'] = tuple(
+            ValidationErrorInfo._from_proto(p) for p in proto.validation_error
+        )
+        kwargs['allow_data_logging'] = proto.allow_data_log
         return kwargs
 
     @safe_on_delete
