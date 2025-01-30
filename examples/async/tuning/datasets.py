@@ -33,6 +33,7 @@ async def main() -> None:
     )
     dataset_draft.upload_format = 'jsonlines'
     dataset_draft.name = 'foo'
+    dataset_draft.allow_data_logging = True
 
     operation = await dataset_draft.upload_deferred()
     try:
