@@ -128,6 +128,17 @@ async def test_configure(model):
     with pytest.raises(TypeError):
         model.configure(foo=500)
 
+    assert model._config.reasoning_mode is None
+    assert model._make_request(messages="foo", stream=None).completion_options.reasoning_options.mode == 0
+
+    model = model.configure(reasoning_mode='disabled')
+    assert model._config.reasoning_mode == 'disabled'
+    assert model._make_request(messages="foo", stream=None).completion_options.reasoning_options.mode == 1
+
+    model = model.configure(reasoning_mode='ENABLED_HIDDEN')
+    assert model._make_request(messages="foo", stream=None).completion_options.reasoning_options.mode == 2
+
+
 
 async def test_messages():
     text_message = 'foo'
