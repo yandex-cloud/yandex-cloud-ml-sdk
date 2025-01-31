@@ -4,7 +4,7 @@ import asyncio
 import inspect
 import os
 import threading
-from typing import Optional, Sequence
+from typing import Sequence
 
 from get_annotations import get_annotations
 from grpc import ChannelCredentials, aio
@@ -110,8 +110,8 @@ class BaseSDK:
 
     # NB: All typehints on these classes must be 3.8-compatible
     # to properly work with get_annotations
-    _event_loop: Optional[asyncio.AbstractEventLoop] = None
-    _loop_thread: Optional[threading.Thread] = None
+    _event_loop: asyncio.AbstractEventLoop | None = None
+    _loop_thread: threading.Thread | None = None
     _number: int = 0
     _lock = threading.Lock()
 
