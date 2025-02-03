@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from enum import Enum
 from functools import partial
-from typing import TYPE_CHECKING, Dict, Optional, cast
+from typing import TYPE_CHECKING, Optional, cast
 
 if TYPE_CHECKING:
     from .domain import AsyncDatasets, Datasets
@@ -11,12 +11,13 @@ if TYPE_CHECKING:
 
 class KnownTaskType(str, Enum):
     TextToTextGeneration = 'TextToTextGeneration'
-    TextEmbeddings = 'TextEmbeddings'
     TextClassificationMultilabel = 'TextClassificationMultilabel'
     TextClassificationMulticlass = 'TextClassificationMulticlass'
     SpeechToTextGeneration = 'SpeechToTextGeneration'
     TextToSpeechGeneration = 'TextToSpeechGeneration'
     TextToImageGeneration = 'TextToImageGeneration'
+    TextEmbeddingsPair = 'TextEmbeddingsPair'
+    TextEmbeddingsTriplet = 'TextEmbeddingsTriplet'
 
 
 class TaskTypeProxy:
@@ -25,7 +26,7 @@ class TaskTypeProxy:
 
     def _get_cache(self, obj: Datasets | AsyncDatasets) -> dict[str, DatasetsWrapper]:
         cache: dict[str, DatasetsWrapper] | None = cast(
-            Optional[Dict[str, DatasetsWrapper]], getattr(obj, '_task_proxy_cache', None)
+            Optional[dict[str, DatasetsWrapper]], getattr(obj, '_task_proxy_cache', None)
         )
         if cache is None:
             cache = {}

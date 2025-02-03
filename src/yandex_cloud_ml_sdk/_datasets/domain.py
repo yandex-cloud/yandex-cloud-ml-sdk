@@ -27,6 +27,8 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
     text_classifiers_multilabel = TaskTypeProxy(KnownTaskType.TextClassificationMultilabel)
     text_classifiers_multiclass = TaskTypeProxy(KnownTaskType.TextClassificationMulticlass)
     text_classifiers_binary = TaskTypeProxy(KnownTaskType.TextClassificationMultilabel)
+    text_embeddings_pair = TaskTypeProxy(KnownTaskType.TextEmbeddingsPair)
+    text_embeddings_triplet = TaskTypeProxy(KnownTaskType.TextEmbeddingsTriplet)
 
     def draft_from_path(
         self,
