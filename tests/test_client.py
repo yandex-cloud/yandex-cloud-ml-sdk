@@ -5,8 +5,10 @@ import asyncio
 import time
 from multiprocessing.pool import ThreadPool
 
+import certifi
 import grpc
 import grpc.aio
+import httpx._transports.default
 import pytest
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Token
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import (
@@ -21,7 +23,7 @@ from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServi
 
 import yandex_cloud_ml_sdk._client
 from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk._client import AsyncCloudClient, _get_user_agent, httpx_client
+from yandex_cloud_ml_sdk._client import AsyncCloudClient, _get_user_agent
 from yandex_cloud_ml_sdk.auth import NoAuth
 from yandex_cloud_ml_sdk.exceptions import AioRpcError
 
@@ -146,8 +148,8 @@ def test_multiple_threads(sdk_maker, caplog):
 
 
 @pytest.mark.asyncio
-async def test_httpx_client():
-    async with httpx_client() as client:
+async def test_httpx_client(sdk):
+    async with sdk._client.httpx() as client:
         assert client.headers['User-Agent'] == _get_user_agent()
 
 
@@ -174,7 +176,7 @@ async def test_x_data_logging(interceptors, retry_policy):
         retry_policy=retry_policy,
         interceptors=interceptors,
         enable_server_data_logging=None,
-        credentials=None,
+        verify=False,
     )
 
     check_result(await client._get_metadata(auth_required=False, timeout=0))
@@ -187,7 +189,7 @@ async def test_x_data_logging(interceptors, retry_policy):
         retry_policy=retry_policy,
         interceptors=interceptors,
         enable_server_data_logging=True,
-        credentials=None,
+        verify=False,
     )
 
     check_result(
@@ -203,7 +205,7 @@ async def test_x_data_logging(interceptors, retry_policy):
         retry_policy=retry_policy,
         interceptors=interceptors,
         enable_server_data_logging=False,
-        credentials=None,
+        verify=False,
     )
 
     check_result(
@@ -215,19 +217,40 @@ async def test_x_data_logging(interceptors, retry_policy):
 @pytest.mark.asyncio
 async def test_channel_credentials(folder_id):
     sdk = AsyncYCloudML(folder_id=folder_id)
-    assert sdk._client._credentials is None
+    assert sdk._client._verify is True
     sdk._client._new_channel('foo')
 
-    creds = grpc.ssl_channel_credentials()
-    sdk = AsyncYCloudML(folder_id=folder_id, grpc_credentials=creds)
-    assert sdk._client._credentials is creds
+    path = certifi.where()
+    sdk = AsyncYCloudML(folder_id=folder_id, verify=path)
+    assert sdk._client._verify is path
     sdk._client._new_channel('foo')
 
     # this test checks if passed grpc_credentials is really used in
     # channel creation
-    sdk = AsyncYCloudML(folder_id=folder_id, grpc_credentials=1)
-    with pytest.raises(AttributeError, match="'int' object has no attribute '_credentials'"):
+    sdk = AsyncYCloudML(folder_id=folder_id, verify=1)
+    with pytest.raises(TypeError):
         sdk._client._new_channel('foo')
+
+
+@pytest.mark.asyncio
+async def test_httpx_credentials(folder_id, monkeypatch):
+    path = certifi.where()
+    called = False
+
+    old = httpx._transports.default.create_ssl_context
+
+    def create_ssl_context(cert=None, verify=None, *args, **kwargs):
+        assert verify == path
+        nonlocal called
+        called = True
+
+        return old(cert=cert, verify=verify, *args, **kwargs)
+
+    monkeypatch.setattr(httpx._transports.default, 'create_ssl_context', create_ssl_context)
+    sdk = AsyncYCloudML(folder_id=folder_id, verify=path)
+    async with sdk._client.httpx() as client:
+        assert client
+        assert called
 
 
 @pytest.mark.asyncio

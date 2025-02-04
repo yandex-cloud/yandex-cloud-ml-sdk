@@ -8,7 +8,6 @@ from typing import TYPE_CHECKING
 
 import aiofiles
 
-from yandex_cloud_ml_sdk._client import httpx_client
 from yandex_cloud_ml_sdk._types.misc import PathLike, coerce_path, is_path_like
 
 if TYPE_CHECKING:
@@ -74,7 +73,7 @@ class SingleUploader(BaseUploader):
             data = await file_.read()
 
         # NB: here will be retries at sometime
-        async with httpx_client() as client:
+        async with dataset._client.httpx() as client:
             response = await client.put(
                 url=presigned_url,
                 content=data,
@@ -89,13 +88,21 @@ class MultipartUploader(BaseUploader):
         super().__init__(chunk_size=chunk_size, parallelism=parallelism)
         self._semaphore = asyncio.Semaphore(parallelism)
 
-    async def _upload_part(self, path: pathlib.Path, chunk_number: int, chunk_size: int, url: str, timeout: float) -> str:
+    async def _upload_part(
+        self,
+        dataset: BaseDataset,
+        path: pathlib.Path,
+        chunk_number: int,
+        chunk_size: int,
+        url: str,
+        timeout: float
+    ) -> str:
         async with self._semaphore:
             async with aiofiles.open(path, 'rb') as f:
                 await f.seek(chunk_number * chunk_size)
                 data = await f.read(chunk_size)
 
-            async with httpx_client() as client:
+            async with dataset._client.httpx() as client:
                 response = await client.put(
                     url=url,
                     content=data,
@@ -127,6 +134,7 @@ class MultipartUploader(BaseUploader):
         upload_coros = []
         for i, url in enumerate(urls):
             upload_coro = self._upload_part(
+                dataset,
                 path,
                 chunk_number=i,
                 chunk_size=real_chunk_size,

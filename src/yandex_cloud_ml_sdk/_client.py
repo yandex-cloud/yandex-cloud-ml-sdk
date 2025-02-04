@@ -16,6 +16,7 @@ from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServi
 from ._auth import BaseAuth, get_auth_provider
 from ._exceptions import AioRpcError
 from ._retry import RETRY_KIND_METADATA_KEY, RetryKind, RetryPolicy
+from ._types.misc import PathLike, coerce_path
 from ._utils.lock import LazyLock
 from ._utils.proto import service_for_ctor
 
@@ -39,13 +40,6 @@ def _get_user_agent() -> str:
     )
 
 
-@asynccontextmanager
-async def httpx_client() -> AsyncIterator[httpx.AsyncClient]:
-    headers = {'user-agent': _get_user_agent()}
-    async with httpx.AsyncClient(headers=headers) as client:
-        yield client
-
-
 class AsyncCloudClient:
     def __init__(
         self,
@@ -57,7 +51,7 @@ class AsyncCloudClient:
         yc_profile: str | None,
         retry_policy: RetryPolicy,
         enable_server_data_logging: bool | None,
-        credentials: grpc.ChannelCredentials | None,
+        verify: PathLike | bool | None,
     ):
         self._endpoint = endpoint
         self._auth = auth
@@ -80,7 +74,7 @@ class AsyncCloudClient:
 
         self._user_agent = _get_user_agent()
         self._enable_server_data_logging = enable_server_data_logging
-        self._credentials = credentials
+        self._verify = verify if verify is not None else True
 
     async def _init_service_map(self, timeout: float):
         metadata = await self._get_metadata(auth_required=False, timeout=timeout, retry_kind=RetryKind.SINGLE)
@@ -143,7 +137,20 @@ class AsyncCloudClient:
         )
 
     def _new_channel(self, endpoint: str) -> grpc.aio.Channel:
-        credentials = self._credentials or grpc.ssl_channel_credentials()
+        if self._verify is False:
+            return grpc.aio.insecure_channel(
+                endpoint,
+                interceptors=self._interceptors,
+                options=self._get_options(),
+            )
+
+        if self._verify is True:
+            credentials = grpc.ssl_channel_credentials()
+        else:
+            path = coerce_path(self._verify)
+            cert = path.read_bytes()
+            credentials = grpc.ssl_channel_credentials(cert)
+
         return grpc.aio.secure_channel(
             endpoint,
             credentials,
@@ -259,3 +266,15 @@ class AsyncCloudClient:
             wait_for_ready=True,
         )
         return cast(_D, result)
+
+    @asynccontextmanager
+    async def httpx(self) -> AsyncIterator[httpx.AsyncClient]:
+        headers = {'user-agent': self._user_agent}
+        verify: str | bool
+        if isinstance(self._verify, bool):
+            verify = self._verify
+        else:
+            verify = str(coerce_path(self._verify))
+
+        async with httpx.AsyncClient(headers=headers, verify=verify) as client:
+            yield client

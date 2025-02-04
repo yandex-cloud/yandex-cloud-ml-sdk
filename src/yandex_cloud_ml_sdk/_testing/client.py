@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 from unittest.mock import MagicMock
 
-import grpc.aio
 from typing_extensions import override
 
 from yandex_cloud_ml_sdk._auth import BaseAuth
@@ -32,18 +31,10 @@ class MockClient(AsyncCloudClient):
             yc_profile=None,
             retry_policy=retry_policy,
             enable_server_data_logging=None,
-            credentials=None,
+            verify=False,
         )
         self.port = port
         self._sdk = sdk
-
-    @override
-    def _new_channel(self, endpoint: str) -> grpc.aio.Channel:
-        return grpc.aio.insecure_channel(
-            target=endpoint,
-            interceptors=self._interceptors,
-            options=self._get_options(),
-        )
 
     @override
     async def _init_service_map(self, *args: Any, **kwargs: Any) -> None:  # pylint: disable=unused-argument

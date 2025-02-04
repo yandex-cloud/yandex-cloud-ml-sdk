@@ -7,7 +7,7 @@ import threading
 from typing import Sequence
 
 from get_annotations import get_annotations
-from grpc import ChannelCredentials, aio
+from grpc import aio
 
 from ._assistants.domain import Assistants, AsyncAssistants, BaseAssistants
 from ._auth import BaseAuth
@@ -23,7 +23,7 @@ from ._threads.domain import AsyncThreads, BaseThreads, Threads
 from ._tools.domain import Tools
 from ._tuning.domain import AsyncTuning, BaseTuning, Tuning
 from ._types.domain import BaseDomain
-from ._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
+from ._types.misc import UNDEFINED, PathLike, UndefinedOr, get_defined_value, is_defined
 
 
 class BaseSDK:
@@ -50,7 +50,7 @@ class BaseSDK:
         service_map: UndefinedOr[dict[str, str]] = UNDEFINED,
         interceptors: UndefinedOr[Sequence[aio.ClientInterceptor]] = UNDEFINED,
         enable_server_data_logging: UndefinedOr[bool] = UNDEFINED,
-        grpc_credentials: UndefinedOr[ChannelCredentials] = UNDEFINED,
+        verify: UndefinedOr[bool | PathLike] = UNDEFINED,
     ):
         """
         Construct a new asynchronous sdk instance.
@@ -73,6 +73,10 @@ class BaseSDK:
             enable or disable logging of user data on server side.
             It will do something only on those parts of backends which supports
             this option.
+        :param verify: SSL certificates (a.k.a CA bundle) used to verify the identity
+            of requested hosts. Either `True` (default CA bundle), a path to an SSL certificate file, or `False`
+            (which will disable verification).
+        :type verify: bool | pathlib.Path | str | os.PathLike
 
         """
         endpoint = self._get_endpoint(endpoint)
@@ -86,7 +90,7 @@ class BaseSDK:
             interceptors=get_defined_value(interceptors, None),
             yc_profile=get_defined_value(yc_profile, None),
             enable_server_data_logging=get_defined_value(enable_server_data_logging, None),
-            credentials=get_defined_value(grpc_credentials, None),
+            verify=get_defined_value(verify, None),
         )
         self._folder_id = folder_id
 
