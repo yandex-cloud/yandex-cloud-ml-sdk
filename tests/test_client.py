@@ -239,13 +239,15 @@ async def test_httpx_credentials(folder_id, monkeypatch):
 
     old = httpx._transports.default.create_ssl_context
 
-    def create_ssl_context(cert=None, verify=None, *args, **kwargs):
-        assert verify == path
+    def create_ssl_context(**kwargs):
+        assert kwargs['verify'] == path
         nonlocal called
         called = True
 
-        return old(cert=cert, verify=verify, *args, **kwargs)
+        return old(**kwargs)
 
+    # I coulnd't improvise any other easy way to make sure our cert is actually passing to
+    # httpx at the moment
     monkeypatch.setattr(httpx._transports.default, 'create_ssl_context', create_ssl_context)
     sdk = AsyncYCloudML(folder_id=folder_id, verify=path)
     async with sdk._client.httpx() as client:
