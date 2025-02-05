@@ -103,13 +103,14 @@ class BaseTuning(BaseDomain, Generic[TuningTaskTypeT]):
 
         models_domain = self._sdk.models
         class_map = {
-            'text_classification_multilabel': models_domain.completions._model_type,
+            'text_classification_multilabel': models_domain.text_classifiers._model_type,
             'text_classification_multiclass': models_domain.text_classifiers._model_type,
-            'text_to_text_completion': models_domain.text_classifiers._model_type,
+            'text_to_text_completion': models_domain.completions._model_type,
         }
         for tuning_params_name, model_class in class_map.items():
-            options = getattr(response, tuning_params_name)
-            if options:
+            # NB: mypy expects here Literal['text_classification_multiclass', ...],
+            # but infers tuning_task: str.
+            if response.HasField(tuning_params_name):  # type: ignore[arg-type]
                 return model_class
 
         raise RuntimeError(
