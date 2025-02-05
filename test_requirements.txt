@@ -1,3 +1,4 @@
+certifi
 data-science-types
 googleapis-common-protos-stubs
 grpc-stubs

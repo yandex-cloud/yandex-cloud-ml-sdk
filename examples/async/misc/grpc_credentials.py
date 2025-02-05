@@ -3,9 +3,6 @@
 from __future__ import annotations
 
 import asyncio
-import pathlib
-
-import grpc
 
 from yandex_cloud_ml_sdk import AsyncYCloudML
 
@@ -13,14 +10,12 @@ from yandex_cloud_ml_sdk import AsyncYCloudML
 async def main() -> None:
     # for example
     endpoint = 'api.cloud.yandex.net'
-    path = pathlib.Path('<some-local-path>')
-    cert = path.read_bytes()
-    creds = grpc.ssl_channel_credentials(cert)
+    path = 'ca/bundle/path.pem'
 
     sdk = AsyncYCloudML(
         folder_id='b1ghsjum2v37c2un8h64',
         endpoint=endpoint,
-        grpc_credentials=creds,
+        verify=path,
     )
 
     model = sdk.models.completions('yandexgpt')
