@@ -9,6 +9,7 @@ from yandex_cloud_ml_sdk import YCloudML
 
 def main() -> None:
     sdk = YCloudML(folder_id='b1ghsjum2v37c2un8h64')
+    sdk.setup_default_logging()
 
     model = sdk.models.completions('yandexgpt').langchain(model_type="chat", timeout=60)
 

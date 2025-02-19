@@ -16,9 +16,8 @@ def local_path(path: str) -> pathlib.Path:
     return pathlib.Path(__file__).parent / path
 
 async def main() -> None:
-    sdk = AsyncYCloudML(
-        folder_id='b1ghsjum2v37c2un8h64',
-    )
+    sdk = AsyncYCloudML(folder_id='b1ghsjum2v37c2un8h64')
+    sdk.setup_default_logging()
 
     # We will create a "large" temporary file for illustrative purposes only.
     small_dataset = local_path('completions.jsonlines').read_bytes()

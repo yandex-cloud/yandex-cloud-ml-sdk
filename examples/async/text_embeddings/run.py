@@ -21,6 +21,7 @@ async def main() -> None:
     from scipy.spatial.distance import cdist
 
     sdk = AsyncYCloudML(folder_id='b1ghsjum2v37c2un8h64')
+    sdk.setup_default_logging()
 
     query_model = sdk.models.text_embeddings('query')
     query_embedding = await query_model.run("когда день рождения Пушкина?")

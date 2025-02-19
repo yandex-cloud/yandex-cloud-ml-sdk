@@ -16,9 +16,8 @@ def local_path(path: str) -> pathlib.Path:
 
 
 def main() -> None:
-    sdk = YCloudML(
-        folder_id='b1ghsjum2v37c2un8h64',
-    )
+    sdk = YCloudML(folder_id='b1ghsjum2v37c2un8h64')
+    sdk.setup_default_logging()
 
     # We will create a "large" temporary file for illustrative purposes only.
     small_dataset = local_path('completions.jsonlines').read_bytes()
