@@ -17,6 +17,7 @@ from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 from yandex.cloud.operation.operation_service_pb2 import CancelOperationRequest, GetOperationRequest
 from yandex.cloud.operation.operation_service_pb2_grpc import OperationServiceStub
 
+from yandex_cloud_ml_sdk._logging import TRACE, get_logger
 from yandex_cloud_ml_sdk._types.operation import OperationErrorInfo, OperationInterface, OperationStatus
 from yandex_cloud_ml_sdk._types.resource import BaseResource
 from yandex_cloud_ml_sdk._types.result import ProtoMessage
@@ -28,6 +29,7 @@ if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._types.model import ModelTuneMixin
 
 
+logger = get_logger(__name__)
 TuningResultTypeT_co = TypeVar('TuningResultTypeT_co', covariant=True, bound='ModelTuneMixin')
 
 
@@ -118,31 +120,39 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co]):
 
     async def _get_operation_id(self, *, timeout: float = 60) -> str | None:
         if not self._operation_id:
+            logger.debug('Trying to find operation_id for %s', self)
             task_info = await self._get_task_info(timeout=timeout)
             if not task_info:
+                logger.debug('Failed to find operation_id for %s', self)
                 return None
 
             self._operation_id = task_info.operation_id
+            logger.debug('%s have operation_id=%s', self, self._operation_id)
 
         return self._operation_id
 
     async def _get_task_id(self, *, timeout: float = 60) -> str | None:
         if not self._task_id:
+            logger.debug('Trying to find tuning_task_id for %s', self)
             status = await self._get_status(timeout=timeout)
             if not status.metadata:
+                logger.debug('Failed to find tuning_task_id for %s', self)
                 return None
 
             metadata = TuningMetadata()
             status.metadata.Unpack(metadata)
             self._task_id = metadata.tuning_task_id
+            logger.debug('%s have tuning_task_id=%s', self, self._task_id)
 
         return self._task_id
 
     async def _get_task_info(self, *, timeout: float = 60) -> TuningTaskInfo | None:
         task_id = await self._get_task_id(timeout=timeout)
         if not task_id:
+            logger.debug('Failed to fetch task info for %s due to absence of task', self)
             return None
 
+        logger.debug('Fetching task info for %s', self)
         request = DescribeTuningRequest(tuning_task_id=task_id)
         async with self._client.get_service_stub(
             TuningServiceStub,
@@ -155,7 +165,14 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co]):
                 expected_type=DescribeTuningResponse
             )
 
-        return TuningTaskInfo._from_proto(proto=proto.tuning_task, sdk=self._sdk)
+        task_info = TuningTaskInfo._from_proto(proto=proto.tuning_task, sdk=self._sdk)
+        logger.debug('Task info successfully fetched for %s', self)
+        logger.log(
+            TRACE,
+            'Task info task_info %s (%s) successfully fetched for %s',
+            task_info, proto.tuning_task, self
+        )
+        return task_info
 
     async def _get_operation_status(self, *, timeout: float = 60) -> TuningTaskStatus | None:
         # TODO
@@ -163,8 +180,13 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co]):
         # we need to properly process this
         operation_id = await self._get_operation_id(timeout=timeout)
         if not operation_id:
+            logger.debug(
+                'Failed to fetch operation status for %s due to absence of operation',
+                self,
+            )
             return None
 
+        logger.debug('Fetching operation status for %s', self)
         request = GetOperationRequest(operation_id=operation_id)
         async with self._client.get_service_stub(
             OperationServiceStub,
@@ -178,7 +200,10 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co]):
                 expected_type=ProtoOperation,
             )
 
-        return TuningTaskStatus._from_proto(proto=proto)
+        status = TuningTaskStatus._from_proto(proto=proto)
+        logger.debug('Operation status %s successfully fetched for %s', status, self)
+        logger.log(TRACE, 'Operation status %s (%s) successfully fetched for %s', status, proto, self)
+        return status
 
     async def _get_task_status(self, *, timeout: float = 60) -> TuningTaskStatus | None:
         info = await self._get_task_info(timeout=timeout)
@@ -188,6 +213,8 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co]):
         return TuningTaskStatus._from_tuning_info(info=info)
 
     async def _get_status(self, *, timeout: float = 60) -> TuningTaskStatus:
+        logger.debug('Fetching status for %s', self)
+
         status = await self._get_operation_status()
         if not status:
             status = await self._get_task_status()
@@ -196,9 +223,11 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co]):
             raise WrongAsyncOperationStatusError(
                 f'failed to get status for tuning task with {self._task_id=} and {self._operation_id=}'
             )
+        logger.debug('%s have status %s', self, status)
         return status
 
     async def _get_result(self, *, timeout: float = 60) -> TuningResultTypeT_co:
+        logger.debug('Getting result for %s', self)
         status = await self._get_status(timeout=timeout)
         if status.is_succeeded:
             info = await self._get_task_info(timeout=timeout)
@@ -230,6 +259,7 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co]):
         # 1) after operation done
         # 2) after operation expire
 
+        logger.debug('Cancelling %s', self)
         operation_id = await self._get_operation_id(timeout=timeout)
         if not operation_id:
             raise WrongAsyncOperationStatusError(
@@ -249,30 +279,35 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co]):
                 timeout=timeout,
                 expected_type=ProtoOperation,
             )
+        logger.info('%s successfully cancelled', self)
 
     async def _get_metrics_url(self, *, timeout: float = 60) -> str | None:
+        logger.debug('Fetching metrics url for %s', self)
         task_id = await self._get_task_id(timeout=timeout)
-        if not task_id:
-            return None
+        response: GetMetricsUrlResponse | None = None
+        if task_id:
+            request = GetMetricsUrlRequest(task_id=task_id)
+            async with self._client.get_service_stub(
+                TuningServiceStub,
+                timeout=timeout,
+            ) as stub:
+                try:
+                    response = await self._client.call_service(
+                        stub.GetMetricsUrl,
+                        request=request,
+                        timeout=timeout,
+                        expected_type=GetMetricsUrlResponse,
+                    )
+                except AioRpcError as e:
+                    if e.code() != StatusCode.NOT_FOUND:
+                        raise
 
-        request = GetMetricsUrlRequest(task_id=task_id)
-        async with self._client.get_service_stub(
-            TuningServiceStub,
-            timeout=timeout,
-        ) as stub:
-            try:
-                response = await self._client.call_service(
-                    stub.GetMetricsUrl,
-                    request=request,
-                    timeout=timeout,
-                    expected_type=GetMetricsUrlResponse,
-                )
-            except AioRpcError as e:
-                if e.code() == StatusCode.NOT_FOUND:
-                    return None
-                raise
+        if task_id and response and response.load_url:
+            logger.debug('Metrics url for %s successfully fetched', self)
+            return response.load_url
 
-        return response.load_url
+        logger.debug('Metrics url for %s is not available', self)
+        return None
 
 
 class AsyncTuningTask(BaseTuningTask[TuningResultTypeT_co]):

@@ -17,6 +17,7 @@ async def main() -> None:
     sdk = AsyncYCloudML(
         folder_id='b1ghsjum2v37c2un8h64',
     )
+    sdk.setup_default_logging()
 
     dataset_draft = sdk.datasets.draft_from_path(
         task_type='TextToTextGeneration',
@@ -46,7 +47,7 @@ async def main() -> None:
 
     operation = await dataset_draft.upload_deferred(raise_on_validation_failure=False)
     bad_dataset = await operation
-    print(f"New {bad_dataset=} have a bad status {dataset.status=}")
+    print(f"New {bad_dataset=} have a bad status {bad_dataset.status=}")
     await dataset.delete()
 
     async for dataset in sdk.datasets.list():
