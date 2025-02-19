@@ -13,9 +13,8 @@ def local_path(path: str) -> pathlib.Path:
 
 
 def main() -> None:
-    sdk = YCloudML(
-        folder_id='b1ghsjum2v37c2un8h64',
-    )
+    sdk = YCloudML(folder_id='b1ghsjum2v37c2un8h64')
+    sdk.setup_default_logging()
 
     dataset_draft = sdk.datasets.draft_from_path(
         task_type='TextToTextGeneration',

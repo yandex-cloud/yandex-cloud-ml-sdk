@@ -8,6 +8,7 @@ from typing import Sequence
 
 from get_annotations import get_annotations
 from grpc import aio
+from typing_extensions import Self
 
 from ._assistants.domain import Assistants, AsyncAssistants, BaseAssistants
 from ._auth import BaseAuth
@@ -97,17 +98,18 @@ class BaseSDK:
 
         self._init_domains()
 
-    @staticmethod
     def setup_default_logging(
+        self,
         log_level: LogLevel = DEFAULT_LOG_LEVEL,
         log_format: str = DEFAULT_LOG_FORMAT,
         date_format: str = DEFAULT_DATE_FORMAT,
-    ) -> None:
+    ) -> Self:
         setup_default_logging(
             log_level=log_level,
             log_format=log_format,
             date_format=date_format,
         )
+        return self
 
     def _init_domains(self) -> None:
         members: dict[str, type] = get_annotations(self.__class__, eval_str=True)

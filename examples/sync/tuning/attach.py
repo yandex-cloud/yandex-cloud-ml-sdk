@@ -47,6 +47,7 @@ def get_datasets(sdk):
 
 def main() -> None:
     sdk = YCloudML(folder_id='b1ghsjum2v37c2un8h64')
+    sdk.setup_default_logging()
     train_dataset, validation_dataset = get_datasets(sdk)
     base_model = sdk.models.completions('yandexgpt-lite')
 
