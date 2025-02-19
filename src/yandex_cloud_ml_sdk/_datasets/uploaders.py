@@ -8,11 +8,13 @@ from typing import TYPE_CHECKING
 
 import aiofiles
 
+from yandex_cloud_ml_sdk._logging import get_logger
 from yandex_cloud_ml_sdk._types.misc import PathLike, coerce_path, is_path_like
 
 if TYPE_CHECKING:
     from .dataset import BaseDataset
 
+logger = get_logger(__name__)
 
 DEFAULT_CHUNK_SIZE = 500 * 1024 ** 2
 
@@ -69,6 +71,7 @@ class SingleUploader(BaseUploader):
 
         # pylint: disable=protected-access
         presigned_url = await dataset._get_upload_url(size=size, timeout=timeout)
+        logger.debug('Uploading data from %s to presigned url', path)
         async with aiofiles.open(path, mode='rb') as file_:
             data = await file_.read()
 
@@ -79,6 +82,8 @@ class SingleUploader(BaseUploader):
                 content=data,
                 timeout=upload_timeout,
             )
+
+        logger.debug("Data upload from %s to presigned url finished with a status %d", path, response.status_code)
 
         response.raise_for_status()
 
@@ -98,6 +103,7 @@ class MultipartUploader(BaseUploader):
         timeout: float
     ) -> str:
         async with self._semaphore:
+            logger.debug("Uploading %d chunk from %s to presigned url", chunk_number, path)
             async with aiofiles.open(path, 'rb') as f:
                 await f.seek(chunk_number * chunk_size)
                 data = await f.read(chunk_size)
@@ -114,8 +120,12 @@ class MultipartUploader(BaseUploader):
             if 'etag' not in response.headers:
                 raise RuntimeError('missing etag header in s3 response')
 
-            return response.headers['etag']
+            logger.debug(
+                "%d chunk from %s upload to presigned url returned status code %d",
+                chunk_number, path, response.status_code
+            )
 
+            return response.headers['etag']
 
     async def upload(self, path: PathLike, /, dataset: BaseDataset, timeout: float, upload_timeout: float) -> None:
         path = coerce_path(path)

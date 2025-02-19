@@ -9,6 +9,7 @@ from yandex.cloud.ai.tuning.v1.tuning_service_pb2 import (
 from yandex.cloud.ai.tuning.v1.tuning_service_pb2_grpc import TuningServiceStub
 from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 
+from yandex_cloud_ml_sdk._logging import get_logger
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._types.model import ModelTuneMixin
@@ -18,28 +19,35 @@ from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .tuning_task import AsyncTuningTask, TuningTask, TuningTaskTypeT
 
+logger = get_logger(__name__)
+
 
 class BaseTuning(BaseDomain, Generic[TuningTaskTypeT]):
     _tuning_impl: type[TuningTaskTypeT]
 
-    def _to_weighted_datasets(
+    def _coerce_datasets(
         self,
         datasets: UndefinedOr[TuningDatasetsType]
-    ) -> tuple[TuningRequest.WeightedDataset, ...]:
+    ) -> tuple[tuple[str, float], ...]:
         defined = get_defined_value(datasets, None)
         if not defined:
             return ()
 
         # mypy breaks here, it thinks `defined` have a type "object"
-        coerced = coerce_datasets(defined)  # type: ignore[arg-type]
+        return coerce_datasets(defined)  # type: ignore[arg-type]
 
+    def _to_weighted_datasets(
+        self,
+        datasets: tuple[tuple[str, float], ...],
+    ) -> tuple[TuningRequest.WeightedDataset, ...]:
         return tuple(
             TuningRequest.WeightedDataset(
                 dataset_id=dataset_id,
                 weight=weight
-            ) for dataset_id, weight in coerced
+            ) for dataset_id, weight in datasets
         )
 
+    # pylint: disable=too-many-locals
     async def _create_deferred(
         self,
         *,
@@ -53,12 +61,19 @@ class BaseTuning(BaseDomain, Generic[TuningTaskTypeT]):
         labels: UndefinedOr[dict[str, str]],
         timeout: float,
     ) -> TuningTaskTypeT:
+        train_datasets_coerced = self._coerce_datasets(train_datasets)
+        validation_datasets_coerced = self._coerce_datasets(validation_datasets)
+        logger.debug(
+            'Creating new tuning operation for model %s '
+            'with train datasets %r and validation datasets %r',
+            model_uri, train_datasets_coerced, validation_datasets_coerced
+        )
         tuning_argument_name = tuning_params._proto_tuning_argument_name
 
         request = TuningRequest(
             base_model_uri=model_uri,
-            train_datasets=self._to_weighted_datasets(train_datasets),
-            validation_datasets=self._to_weighted_datasets(validation_datasets),
+            train_datasets=self._to_weighted_datasets(train_datasets_coerced),
+            validation_datasets=self._to_weighted_datasets(validation_datasets_coerced),
             name=get_defined_value(name, ''),
             description=get_defined_value(description, ''),
             labels=get_defined_value(labels, {}),
@@ -75,6 +90,12 @@ class BaseTuning(BaseDomain, Generic[TuningTaskTypeT]):
                 expected_type=ProtoOperation,
             )
 
+        logger.info(
+            'Tuning operation %r created for model %s '
+            'with train datasets %r and validation datasets %r',
+            response.id, model_uri, train_datasets_coerced, validation_datasets_coerced
+        )
+
         return self._tuning_impl(
             operation_id=response.id,
             task_id=None,
@@ -88,6 +109,7 @@ class BaseTuning(BaseDomain, Generic[TuningTaskTypeT]):
         *,
         timeout: float = 60,
     ) -> type[ModelTuneMixin]:
+        logger.debug('Fetching tuning options for tuning task %s', task_id)
         request = GetOptionsRequest(task_id=task_id)
 
         async with self._client.get_service_stub(
@@ -111,6 +133,7 @@ class BaseTuning(BaseDomain, Generic[TuningTaskTypeT]):
             # NB: mypy expects here Literal['text_classification_multiclass', ...],
             # but infers tuning_task: str.
             if response.HasField(tuning_params_name):  # type: ignore[arg-type]
+                logger.debug('%s model type inferred for tuning task %s', model_class, task_id)
                 return model_class
 
         raise RuntimeError(
@@ -124,11 +147,13 @@ class BaseTuning(BaseDomain, Generic[TuningTaskTypeT]):
         *,
         timeout: float = 60,
     ) -> TuningTaskTypeT:
+        logger.debug('Fetching tuning task %s from server', task_id)
         result_type = await self._get_task_result_type(
             task_id=task_id,
             timeout=timeout
         )
 
+        logger.info('Tuning task %s successfully fetched', task_id)
         return self._tuning_impl(
             operation_id=None,
             task_id=task_id,
@@ -142,6 +167,8 @@ class BaseTuning(BaseDomain, Generic[TuningTaskTypeT]):
         page_size: UndefinedOr[int] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[TuningTaskTypeT]:
+        logger.debug('Fetching tuning task list')
+
         page_token_ = ''
         page_size_ = get_defined_value(page_size, 0)
 
@@ -150,6 +177,11 @@ class BaseTuning(BaseDomain, Generic[TuningTaskTypeT]):
             timeout=timeout,
         ) as stub:
             while True:
+                logger.debug(
+                    'Fetching tuning task list page of size %s with token %s',
+                    page_size_, page_token_
+                )
+
                 request = ListTuningsRequest(
                     folder_id=self._folder_id,
                     page_size=page_size_,
@@ -161,6 +193,11 @@ class BaseTuning(BaseDomain, Generic[TuningTaskTypeT]):
                     request,
                     timeout=timeout,
                     expected_type=ListTuningsResponse,
+                )
+
+                logger.debug(
+                    '%d tuning tasks fetched for page with token %s',
+                    len(response.tuning_tasks), page_token_
                 )
                 for task_proto in response.tuning_tasks:
                     result_type = await self._get_task_result_type(

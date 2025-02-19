@@ -13,6 +13,7 @@ from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 from yandex.cloud.operation.operation_service_pb2 import CancelOperationRequest, GetOperationRequest
 from yandex.cloud.operation.operation_service_pb2_grpc import OperationServiceStub
 
+from yandex_cloud_ml_sdk._logging import TRACE, get_logger
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 from yandex_cloud_ml_sdk.exceptions import RunError, WrongAsyncOperationStatusError
 
@@ -20,6 +21,8 @@ from .result import BaseResult
 
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
+
+logger = get_logger(__name__)
 
 AnyResultTypeT_co = TypeVar('AnyResultTypeT_co', covariant=True)
 ResultTypeT_co = TypeVar('ResultTypeT_co', bound=BaseResult, covariant=True)
@@ -70,6 +73,21 @@ class OperationStatus:
             metadata=proto.metadata
         )
 
+    @property
+    def name(self) -> str:
+        if self.is_succeeded:
+            return 'success'
+        if self.is_failed:
+            return 'failed'
+        return 'runnning'
+
+    def __repr__(self) -> str:
+        error_text = ''
+        if self.is_failed:
+            error_text = f', error={self.error}'
+
+        return f'{self.__class__.__name__}<{self.name}{error_text}>'
+
 
 class OperationInterface(abc.ABC, Generic[AnyResultTypeT_co]):
     id: str
@@ -89,8 +107,17 @@ class OperationInterface(abc.ABC, Generic[AnyResultTypeT_co]):
     async def _wait_impl(self, timeout: float, poll_interval: float) -> OperationStatus:
         status = await self._get_status(timeout=timeout)
         while status.is_running:
+            logger.debug(
+                "Operation %s have non-terminal status %s, sleep for %fs",
+                self.id, status.name, poll_interval
+            )
             await self._sleep_impl(poll_interval)
             status = await self._get_status(timeout=timeout)
+
+        if status.is_succeeded:
+            logger.info('Operation %s successfully finished', self.id)
+        else:
+            logger.warning('Operation %s failed with status %s', self.id, status)
 
         return status
 
@@ -101,11 +128,18 @@ class OperationInterface(abc.ABC, Generic[AnyResultTypeT_co]):
         poll_timeout: int = 3600,
         poll_interval: float = 10,
     ) -> AnyResultTypeT_co:
+        logger.info(
+            "Starting operation %s polling with a poll interval %fs and poll timeout %fs",
+            self.id, poll_interval, poll_timeout,
+        )
+
         coro = self._wait_impl(timeout=timeout, poll_interval=poll_interval)
         if poll_timeout:
             coro = asyncio.wait_for(coro, timeout=poll_timeout)
 
         await coro
+
+        logger.info("Operation %s polling finished", self.id)
 
         return await self._get_result(timeout=timeout)
 
@@ -165,6 +199,7 @@ class BaseOperation(Generic[ResultTypeT_co], OperationInterface[ResultTypeT_co])
         return self._sdk._client
 
     async def _get_status(self, *, timeout: float = 60) -> OperationStatus:
+        logger.debug('Fetching operation %s status', self.id)
         request = GetOperationRequest(operation_id=self.id)
         async with self._client.get_service_stub(
             OperationServiceStub,
@@ -178,9 +213,12 @@ class BaseOperation(Generic[ResultTypeT_co], OperationInterface[ResultTypeT_co])
                 expected_type=ProtoOperation,
             )
             self._last_known_status = status = OperationStatus._from_proto(proto=response)
+            logger.debug('Operation %s have status %s', self.id, status)
+            logger.log(TRACE, 'Operation %s have status %s (%s)', self.id, status, response)
             return status
 
     async def _get_result(self, *, timeout: float = 60) -> ResultTypeT_co:
+        logger.debug("Getting operation result for operation %s", self.id)
         status = self._last_known_status
         if status is None:
             status = await self._get_status(timeout=timeout)
@@ -206,6 +244,7 @@ class BaseOperation(Generic[ResultTypeT_co], OperationInterface[ResultTypeT_co])
         )
 
     async def _cancel(self, *, timeout: float = 60) -> OperationStatus:
+        logger.debug('Cancelling operation %s', self.id)
         request = CancelOperationRequest(operation_id=self.id)
         async with self._client.get_service_stub(
             OperationServiceStub,
@@ -219,6 +258,7 @@ class BaseOperation(Generic[ResultTypeT_co], OperationInterface[ResultTypeT_co])
                 expected_type=ProtoOperation,
             )
             self._last_known_status = status = OperationStatus._from_proto(proto=response)
+            logger.info('Operation %s successfully canceled', self.id)
             return status
 
     async def _wait(

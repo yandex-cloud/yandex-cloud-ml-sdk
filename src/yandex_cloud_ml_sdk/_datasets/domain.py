@@ -9,6 +9,7 @@ from yandex.cloud.ai.dataset.v1.dataset_service_pb2 import (
 )
 from yandex.cloud.ai.dataset.v1.dataset_service_pb2_grpc import DatasetServiceStub
 
+from yandex_cloud_ml_sdk._logging import get_logger
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, PathLike, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
@@ -17,6 +18,8 @@ from .dataset import AsyncDataset, Dataset, DatasetTypeT
 from .draft import AsyncDatasetDraft, DatasetDraft, DatasetDraftT
 from .status import DatasetStatus
 from .task_types import KnownTaskType, TaskTypeProxy
+
+logger = get_logger(__name__)
 
 
 class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
@@ -42,6 +45,7 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         allow_data_logging: UndefinedOr[bool] = UNDEFINED,
     ) -> DatasetDraftT:
+        logger.debug('Creating a new (local) dataset draft of type %s', task_type)
         return self._dataset_draft_impl(
             _domain=self,
             path=path,
@@ -66,6 +70,8 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
         allow_data_logging: bool | None,
         timeout: float,
     ) -> DatasetTypeT:
+        logger.debug('Creating a new (empty) dataset of type %s', task_type)
+
         request = CreateDatasetRequest(
             folder_id=self._folder_id,
             task_type=task_type,
@@ -85,7 +91,9 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
                 expected_type=CreateDatasetResponse,
             )
 
-        return self._dataset_impl._from_proto(proto=response.dataset, sdk=self._sdk)
+        dataset = self._dataset_impl._from_proto(proto=response.dataset, sdk=self._sdk)
+        logger.info('New (empty) dataset %s of type %s successfully created', dataset.id, task_type)
+        return dataset
 
     async def _get(
         self,
@@ -93,6 +101,8 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
         *,
         timeout: float = 60,
     ) -> DatasetTypeT:
+        logger.debug('Fetching dataset %s from server', dataset_id)
+
         request = DescribeDatasetRequest(
             dataset_id=dataset_id,
         )
@@ -104,6 +114,7 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
                 expected_type=DescribeDatasetResponse
             )
 
+        logger.info('Dataset %s successfully fetched', dataset_id)
         return self._dataset_impl._from_proto(proto=response.dataset, sdk=self._sdk)
 
     async def _list(
@@ -113,6 +124,8 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
         name_pattern: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[DatasetTypeT]:
+        logger.debug('Fetching datasets list with status=%s and name_pattern=%s', status, name_pattern)
+
         status_: str | DatasetStatus = get_defined_value(status, DatasetStatus.STATUS_UNSPECIFIED)
         if isinstance(status_, str):
             status_ = DatasetStatus._from_str(status_)
@@ -131,6 +144,7 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
                 expected_type=ListDatasetsResponse,
             )
 
+        logger.info('%d datasets successfully fetched', len(response.datasets))
         for dataset_info in response.datasets:
             yield self._dataset_impl._from_proto(proto=dataset_info, sdk=self._sdk)
 
@@ -140,6 +154,7 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
         *,
         timeout: float = 60,
     ) -> tuple[str, ...]:
+        logger.debug('Fetching available dataset upload formats for task_type=%s', task_type)
         request = ListUploadFormatsRequest(
             task_type=task_type
         )
@@ -152,6 +167,10 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
                 expected_type=ListUploadFormatsResponse,
             )
 
+        logger.info(
+            '%d dataset upload formats successfully fetched for a task_type=%s',
+            len(response.formats), task_type,
+        )
         return tuple(response.formats)
 
 

@@ -14,6 +14,7 @@ from ._auth import BaseAuth
 from ._client import AsyncCloudClient
 from ._datasets.domain import AsyncDatasets, BaseDatasets, Datasets
 from ._files.domain import AsyncFiles, BaseFiles, Files
+from ._logging import DEFAULT_DATE_FORMAT, DEFAULT_LOG_FORMAT, DEFAULT_LOG_LEVEL, LogLevel, setup_default_logging
 from ._messages.domain import AsyncMessages, BaseMessages, Messages
 from ._models import AsyncModels, BaseModels, Models
 from ._retry import RetryPolicy
@@ -95,6 +96,18 @@ class BaseSDK:
         self._folder_id = folder_id
 
         self._init_domains()
+
+    @staticmethod
+    def setup_default_logging(
+        log_level: LogLevel = DEFAULT_LOG_LEVEL,
+        log_format: str = DEFAULT_LOG_FORMAT,
+        date_format: str = DEFAULT_DATE_FORMAT,
+    ) -> None:
+        setup_default_logging(
+            log_level=log_level,
+            log_format=log_format,
+            date_format=date_format,
+        )
 
     def _init_domains(self) -> None:
         members: dict[str, type] = get_annotations(self.__class__, eval_str=True)
