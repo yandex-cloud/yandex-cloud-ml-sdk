@@ -15,6 +15,7 @@ from yandex.cloud.ai.dataset.v1.dataset_service_pb2 import (
 )
 from yandex.cloud.ai.dataset.v1.dataset_service_pb2_grpc import DatasetServiceStub
 
+from yandex_cloud_ml_sdk._logging import get_logger
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._types.resource import BaseDeleteableResource, safe_on_delete
 from yandex_cloud_ml_sdk._utils.sync import run_sync
@@ -24,6 +25,7 @@ from .status import DatasetStatus
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
+logger = get_logger(__name__)
 
 DEFAULT_CHUNK_SIZE = 100 * 1024 ** 2
 
@@ -85,6 +87,7 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         timeout: float = 60,
     ) -> Self:
+        logger.debug("Updating dataset %s", self.id)
         request = UpdateDatasetRequest(
             dataset_id=self.id,
             name=get_defined_value(name, ''),
@@ -110,6 +113,7 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
             )
         self._update_from_proto(response.dataset)
 
+        logger.info("Dataset %s successfully updated", self.id)
         return self
 
     @safe_on_delete
@@ -118,6 +122,7 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
         *,
         timeout: float = 60,
     ) -> None:
+        logger.debug("Deleting dataset %s", self.id)
         request = DeleteDatasetRequest(dataset_id=self.id)
 
         async with self._client.get_service_stub(DatasetServiceStub, timeout=timeout) as stub:
@@ -128,6 +133,8 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
                 expected_type=DeleteDatasetResponse,
             )
             object.__setattr__(self, '_deleted', True)
+
+        logger.info("Dataset %s successfully deleted", self.id)
 
     async def _list_upload_formats(
         self,
@@ -146,6 +153,7 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
         size: int,
         timeout: float = 60,
     ) -> str:
+        logger.debug("Fetching upload url for dataset %s", self.id)
         request = GetUploadDraftUrlRequest(
             dataset_id=self.id,
             size_bytes=size
@@ -158,6 +166,7 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
                 expected_type=GetUploadDraftUrlResponse,
             )
 
+        logger.info("Dataset %s upload url successfully fetched", self.id)
         return result.upload_url
 
     async def _start_multipart_upload(
@@ -167,6 +176,10 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
         parts: int,
         timeout: float,
     ) -> tuple[str, ...]:
+        logger.debug(
+            "Starting multipart upload for dataset %s with size of %d bytes and %d parts",
+            self.id, size_bytes, parts,
+        )
         request = StartMultipartUploadDraftRequest(
             dataset_id=self.id,
             size_bytes=size_bytes,
@@ -180,6 +193,10 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
                 expected_type=StartMultipartUploadDraftResponse,
             )
 
+        logger.info(
+            "Multipart upload for dataset %s started and returned %d upload urls",
+            self.id, len(result.multipart_upload_urls)
+        )
         return tuple(result.multipart_upload_urls)
 
     async def _finish_multipart_upload(
@@ -193,6 +210,8 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
                 etag=etag
             ) for part_num, etag in parts
         ]
+        logger.debug("Finishing multipart upload of dataset %s with %d parts", self.id, len(parts_proto))
+
         request = FinishMultipartUploadDraftRequest(
             dataset_id=self.id,
             uploaded_parts=parts_proto
@@ -204,6 +223,7 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
                 timeout=timeout,
                 expected_type=FinishMultipartUploadDraftResponse,
             )
+        logger.debug("Multipart upload of dataset %s with %d parts finished", self.id, len(parts_proto))
 
 
 class AsyncDataset(BaseDataset):

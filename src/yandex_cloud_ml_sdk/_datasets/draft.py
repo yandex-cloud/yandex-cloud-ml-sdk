@@ -10,6 +10,7 @@ from yandex.cloud.ai.dataset.v1.dataset_service_pb2 import ValidateDatasetReques
 from yandex.cloud.ai.dataset.v1.dataset_service_pb2_grpc import DatasetServiceStub
 from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 
+from yandex_cloud_ml_sdk._logging import get_logger
 from yandex_cloud_ml_sdk._types.misc import PathLike, coerce_path
 from yandex_cloud_ml_sdk._types.operation import AsyncOperation, Operation, OperationTypeT, ReturnsOperationMixin
 from yandex_cloud_ml_sdk._utils.sync import run_sync
@@ -25,6 +26,8 @@ if TYPE_CHECKING:
 
 
 DEFAULT_OPERATION_POLL_TIMEOUT = 6 * 60 * 60  # 6 hours
+
+logger = get_logger(__name__)
 
 
 @dataclass
@@ -87,6 +90,7 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
         timeout: float,
         raise_on_validation_failure: bool,
     ) -> OperationTypeT:
+        logger.debug('Starting dataset %s validation operation', dataset.id)
         # validate_deferred should be a BaseDataset method by all means,
         # but I don't want to make Dataset operation-depentant generic,
         # because it is already too complicated.
@@ -104,6 +108,7 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
                 expected_type=ProtoOperation,
             )
 
+        logger.info('Dataset %s validation operation %s started', dataset.id, result.id)
         return self._operation_impl(
             id=result.id,
             sdk=self._sdk,
@@ -148,6 +153,7 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
             timeout=timeout,
         )
 
+        logger.debug("Uploading data from path %s to dataset %s with %s uploader", self.path, dataset.id, uploader)
         try:
             await uploader.upload(
                 self.path,
@@ -156,10 +162,13 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
                 upload_timeout=upload_timeout
             )
         except Exception:
+            logger.warning("Deleting dataset %s because of incompleted uploading", dataset.id)
             # in case of HTTP error while uploading we want to remove dataset draft,
             # because user don't have any access to this draft
             await dataset._delete(timeout=timeout)
             raise
+
+        logger.info("Data from path %s to dataset %s successfully uploaded", self.path, dataset.id)
 
         operation = await self._validate_deferred(
             dataset=dataset,
