@@ -10,6 +10,7 @@ from yandex_cloud_ml_sdk import AsyncYCloudML
 
 async def main() -> None:
     sdk = AsyncYCloudML(folder_id='b1ghsjum2v37c2un8h64')
+    sdk.setup_default_logging()
 
     model = sdk.models.text_classifiers("yandexgpt").configure(
         task_description="определи тип интента",

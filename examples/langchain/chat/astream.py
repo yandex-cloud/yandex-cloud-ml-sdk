@@ -11,6 +11,7 @@ from yandex_cloud_ml_sdk import AsyncYCloudML
 
 async def main() -> None:
     sdk = AsyncYCloudML(folder_id='b1ghsjum2v37c2un8h64')
+    sdk.setup_default_logging()
 
     model = sdk.models.completions('yandexgpt').langchain(model_type="chat", timeout=60)
 

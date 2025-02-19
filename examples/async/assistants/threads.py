@@ -9,6 +9,7 @@ from yandex_cloud_ml_sdk import AsyncYCloudML
 
 async def main() -> None:
     sdk = AsyncYCloudML(folder_id='b1ghsjum2v37c2un8h64')
+    sdk.setup_default_logging()
 
     thread = await sdk.threads.create(name='foo', ttl_days=5, expiration_policy="static")
     print(f"new {thread=}")

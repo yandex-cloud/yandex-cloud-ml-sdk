@@ -50,6 +50,7 @@ async def get_datasets(sdk):
 
 async def main() -> None:
     sdk = AsyncYCloudML(folder_id='b1ghsjum2v37c2un8h64')
+    sdk.setup_default_logging()
     train_dataset, validation_dataset = await get_datasets(sdk)
     base_model = sdk.models.completions('yandexgpt-lite')
 

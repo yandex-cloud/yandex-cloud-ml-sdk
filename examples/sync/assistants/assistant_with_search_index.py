@@ -13,6 +13,7 @@ def local_path(path: str) -> pathlib.Path:
 
 def main() -> None:
     sdk = YCloudML(folder_id='b1ghsjum2v37c2un8h64')
+    sdk.setup_default_logging()
 
     files = []
     for path in ['turkey_example.txt', 'maldives_example.txt']:
