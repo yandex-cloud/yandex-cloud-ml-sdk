@@ -27,9 +27,9 @@ class BaseCompletions(BaseModelFunction[ModelTypeT]):
         )
 
 
-class Completions(BaseCompletions):
+class Completions(BaseCompletions[GPTModel]):
     _model_type = GPTModel
 
 
-class AsyncCompletions(BaseCompletions):
+class AsyncCompletions(BaseCompletions[AsyncGPTModel]):
     _model_type = AsyncGPTModel
