@@ -68,7 +68,11 @@ class APIKeyAuth(BaseAuth):
     env_var = 'YC_API_KEY'
 
     def __init__(self, api_key: str):
-        self._api_key = api_key
+        # NB: here and below:
+        # if credential with an \n will get into the grpc metadata,
+        # user will get very interesting GRPC_CALL_ERROR_INVALID_METADATA error
+        # which very funny to debug
+        self._api_key = api_key.strip()
 
     @override
     async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> tuple[str, str]:
@@ -86,7 +90,7 @@ class APIKeyAuth(BaseAuth):
 
 class BaseIAMTokenAuth(BaseAuth):
     def __init__(self, token: str | None):
-        self._token = token
+        self._token = token.strip() if token else token
 
     @override
     async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> tuple[str, str]:
@@ -130,7 +134,7 @@ class EnvIAMTokenAuth(BaseIAMTokenAuth):
 
     @override
     async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> tuple[str, str]:
-        self._token = os.environ[self._env_var]
+        self._token = os.environ[self._env_var].strip()
         return await super().get_auth_metadata(client=client, timeout=timeout, lock=lock)
 
     @override
@@ -182,7 +186,7 @@ class OAuthTokenAuth(RefresheableIAMTokenAuth):
             OAUTH_WARNING,
             UserWarning,
         )
-        self._oauth_token = token
+        self._oauth_token = token.strip()
         super().__init__(None)
 
     @override
