@@ -50,6 +50,9 @@ langchain = [
     "langchain-core>=0.3",
     "pydantic<2.10"
 ]
+pydantic = [
+    "pydantic>2",
+]
 
 [project.urls]
 Documentation = "https://yandex.cloud/ru/docs/foundation-models/"
