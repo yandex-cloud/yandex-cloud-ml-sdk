@@ -28,4 +28,4 @@ class GPTModelConfig(BaseModelConfig):
     temperature: float | None = None
     max_tokens: int | None = None
     reasoning_mode: ReasoningModeType | None = None
-    response_type: ResponseType | None = None
+    response_format: ResponseType | None = None

@@ -19,7 +19,7 @@ from yandex_cloud_ml_sdk._types.model import (
     ModelAsyncMixin, ModelSyncMixin, ModelSyncStreamMixin, ModelTuneMixin, OperationTypeT
 )
 from yandex_cloud_ml_sdk._types.operation import AsyncOperation, Operation
-from yandex_cloud_ml_sdk._types.structured_output import ResponseType, schema_from_response_type
+from yandex_cloud_ml_sdk._types.structured_output import ResponseType, schema_from_response_format
 from yandex_cloud_ml_sdk._types.tuning.datasets import TuningDatasetsType
 from yandex_cloud_ml_sdk._types.tuning.optimizers import BaseOptimizer
 from yandex_cloud_ml_sdk._types.tuning.schedulers import BaseScheduler
@@ -67,13 +67,13 @@ class BaseGPTModel(
         temperature: UndefinedOr[float] = UNDEFINED,
         max_tokens: UndefinedOr[int] = UNDEFINED,
         reasoning_mode: UndefinedOr[ReasoningModeType] = UNDEFINED,
-        response_type: UndefinedOr[ResponseType] = UNDEFINED,
+        response_format: UndefinedOr[ResponseType] = UNDEFINED,
     ) -> Self:
         return super().configure(
             temperature=temperature,
             max_tokens=max_tokens,
             reasoning_mode=reasoning_mode,
-            response_type=response_type,
+            response_format=response_format,
         )
 
     def _make_request(
@@ -83,7 +83,7 @@ class BaseGPTModel(
         stream: bool | None,
     ) -> CompletionRequest:
         completion_options_kwargs: dict[str, Any] = {}
-        response_type_kwargs: dict[str, Any] = {}
+        response_format_kwargs: dict[str, Any] = {}
 
         if stream is not None:
             completion_options_kwargs['stream'] = stream
@@ -96,19 +96,19 @@ class BaseGPTModel(
             reasoning_mode = ReasoningMode._coerce(self._config.reasoning_mode)._to_proto()
             reasoning_options = ReasoningOptions(mode=reasoning_mode)  # type: ignore[arg-type]
             completion_options_kwargs['reasoning_options'] = reasoning_options
-        if self._config.response_type is not None:
-            schema = schema_from_response_type(self._config.response_type)
+        if self._config.response_format is not None:
+            schema = schema_from_response_format(self._config.response_format)
             if isinstance(schema, str):
-                response_type_kwargs['json_object'] = True
+                response_format_kwargs['json_object'] = True
             else:
                 assert isinstance(schema, dict)
-                response_type_kwargs['json_schema'] = {'schema': schema}
+                response_format_kwargs['json_schema'] = {'schema': schema}
 
         return CompletionRequest(
             model_uri=self._uri,
             completion_options=CompletionOptions(**completion_options_kwargs),
             messages=messages_to_proto(messages),
-            **response_type_kwargs,
+            **response_format_kwargs,
         )
 
     async def _run_sync_impl(

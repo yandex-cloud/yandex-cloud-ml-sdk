@@ -166,13 +166,13 @@ async def test_messages():
 @pytest.mark.allow_grpc
 async def test_structured_output_simple_json(async_sdk):
     model = async_sdk.models.completions('yandexgpt', model_version='rc')
-    model = model.configure(response_type='json')
+    model = model.configure(response_format='json')
 
     result = await model.run('collect all numbers from: 5, 4, a, 1')
 
     assert json.loads(result.text) == {"output": "5, 4, 1"}
 
-    model = model.configure(response_type=True)
+    model = model.configure(response_format=True)
     with pytest.raises(TypeError):
         await model.run('collect all numbers from: 5, 4, a, 1')
 
@@ -186,7 +186,7 @@ async def test_structured_output_pydantic_model(async_sdk) -> None:
         numbers: list[int]
 
     model = async_sdk.models.completions('yandexgpt', model_version='rc')
-    model = model.configure(response_type=Numbers)
+    model = model.configure(response_format=Numbers)
 
     result = await model.run('collect all numbers from: 5, 4, a, 1')
 
@@ -203,7 +203,7 @@ async def test_structured_output_pydantic_dataclass(async_sdk) -> None:
         numbers: list[int]
 
     model = async_sdk.models.completions('yandexgpt', model_version='rc')
-    model = model.configure(response_type=Numbers)
+    model = model.configure(response_format=Numbers)
 
     result = await model.run('collect all numbers from: 5, 4, a, 1')
 
@@ -224,7 +224,7 @@ async def test_structured_output_json_schema(async_sdk):
     }
 
     model = async_sdk.models.completions('yandexgpt', model_version='rc')
-    model = model.configure(response_type={'json_schema': schema})
+    model = model.configure(response_format={'json_schema': schema})
 
     result = await model.run('collect all numbers from: 5, 4, a, 1')
 

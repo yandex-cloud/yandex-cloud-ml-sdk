@@ -8,19 +8,19 @@ import typing
 import pytest
 
 import yandex_cloud_ml_sdk._types.structured_output
-from yandex_cloud_ml_sdk._types.structured_output import schema_from_response_type
+from yandex_cloud_ml_sdk._types.structured_output import schema_from_response_format
 
 
 def test_string_type() -> None:
-    assert schema_from_response_type('json') == 'json'
+    assert schema_from_response_format('json') == 'json'
     with pytest.raises(ValueError):
-        schema_from_response_type('yaml')  # type: ignore[arg-type]
+        schema_from_response_format('yaml')  # type: ignore[arg-type]
 
 
 def test_dict_type() -> None:
-    assert schema_from_response_type({"json_schema": {"foo": "bar"}}) == {"foo": "bar"}
+    assert schema_from_response_format({"json_schema": {"foo": "bar"}}) == {"foo": "bar"}
     with pytest.raises(ValueError):
-        schema_from_response_type({"foo": "bar"})  # type: ignore[arg-type]
+        schema_from_response_format({"foo": "bar"})  # type: ignore[arg-type]
 
 
 @pytest.mark.require_env('pydantic')
@@ -36,7 +36,7 @@ def test_pydantic_model() -> None:
         b: float
         c: list[TestInternal]
 
-    assert schema_from_response_type(Test) == {
+    assert schema_from_response_format(Test) == {
         '$defs': {
             'TestInternal': {
                 'properties': {'a': {'title': 'A', 'type': 'integer'}},
@@ -73,7 +73,7 @@ def test_pydantic_dataclass() -> None:
 
     pydantic.dataclasses.rebuild_dataclass(Test)  # type: ignore[arg-type]
 
-    assert schema_from_response_type(Test) == {
+    assert schema_from_response_format(Test) == {
         '$defs': {
             'TestInternal': {
                 'properties': {'a': {'title': 'A', 'type': 'integer'}},
@@ -104,13 +104,13 @@ def test_wrong_type() -> None:
         a: int
 
     with pytest.raises(TypeError):
-        schema_from_response_type(1)  # type: ignore[arg-type]
+        schema_from_response_format(1)  # type: ignore[arg-type]
 
     with pytest.raises(TypeError):
-        schema_from_response_type(A)
+        schema_from_response_format(A)
 
     with pytest.raises(TypeError):
-        schema_from_response_type(B)
+        schema_from_response_format(B)
 
 
 @pytest.fixture(name='no_pydantic')
@@ -140,4 +140,4 @@ def test_no_pydantic(no_pydantic) -> None:
         a: int
 
     with pytest.raises(TypeError):
-        schema_from_response_type(A)
+        schema_from_response_format(A)
