@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import asyncio
 import json
 
 import pydantic
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
+from yandex_cloud_ml_sdk import YCloudML
 
 
 class Venue(pydantic.BaseModel):
@@ -22,8 +21,8 @@ class VenueDataclass:
     name: str
 
 
-async def main() -> None:
-    sdk = AsyncYCloudML(folder_id='b1ghsjum2v37c2un8h64')
+def main() -> None:
+    sdk = YCloudML(folder_id='b1ghsjum2v37c2un8h64')
     sdk.setup_default_logging()
 
     # NB: for now (24.02.2025) structured output is supported only at release candidate model version.
@@ -36,7 +35,7 @@ async def main() -> None:
     # We could as model to return data just with json format, model will
     # figure out format by itself:
     model = model.configure(response_type='json')
-    result = await model.run([
+    result = model.run([
         {'role': 'system', 'text': 'Extract the date and venue information'},
         {'role': 'user', 'text': text},
     ])
@@ -56,7 +55,7 @@ async def main() -> None:
 
     # You could use not only .run, but .run_stream as well as other methods too:
     print('Any JSON in streaming:')
-    async for partial_result in model.run_stream([
+    for partial_result in model.run_stream([
         {'role': 'system', 'text': 'Extract the date and venue information'},
         {'role': 'user', 'text': text},
     ]):
@@ -81,7 +80,7 @@ async def main() -> None:
             "type": "object"
         }
     })
-    result = await model.run([
+    result = model.run([
         {'role': 'system', 'text': 'Extract the date and venue information'},
         {'role': 'user', 'text': text},
     ])
@@ -90,7 +89,7 @@ async def main() -> None:
     # Also we could use pydantic.BaseModel descendant to describe JSONSchema for
     # structured output:
     model = model.configure(response_type=Venue)
-    result = await model.run([
+    result = model.run([
         {'role': 'system', 'text': 'Extract the date and venue information'},
         {'role': 'user', 'text': text},
     ])
@@ -99,7 +98,7 @@ async def main() -> None:
     # Lastly we could pass pydantic-dataclass:
     assert pydantic.__version__ > "2"
     model = model.configure(response_type=VenueDataclass)
-    result = await model.run([
+    result = model.run([
         {'role': 'system', 'text': 'Extract the date and venue information'},
         {'role': 'user', 'text': text},
     ])
@@ -107,4 +106,4 @@ async def main() -> None:
 
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    main()

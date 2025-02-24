@@ -8,6 +8,7 @@ from typing import Union
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import ReasoningOptions as ProtoReasoningOptions
 
 from yandex_cloud_ml_sdk._types.model_config import BaseModelConfig
+from yandex_cloud_ml_sdk._types.structured_output import ResponseType
 from yandex_cloud_ml_sdk._utils.proto import ProtoEnumBase
 
 _m = ProtoReasoningOptions.ReasoningMode
@@ -27,3 +28,4 @@ class GPTModelConfig(BaseModelConfig):
     temperature: float | None = None
     max_tokens: int | None = None
     reasoning_mode: ReasoningModeType | None = None
+    response_type: ResponseType | None = None

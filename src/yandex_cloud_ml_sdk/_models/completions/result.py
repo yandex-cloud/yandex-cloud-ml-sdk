@@ -86,3 +86,15 @@ class GPTModelResult(BaseResult, Sequence):
 
     def __getitem__(self, index, /):
         return self.alternatives[index]
+
+    @property
+    def role(self) -> str:
+        return self[0].role
+
+    @property
+    def text(self) -> str:
+        return self[0].text
+
+    @property
+    def status(self) -> AlternativeStatus:
+        return self[0].status
