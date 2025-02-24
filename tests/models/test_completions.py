@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+
 import pytest
 
 from yandex_cloud_ml_sdk._models.completions.message import ProtoMessage, TextMessage, messages_to_proto
@@ -159,3 +161,71 @@ async def test_messages():
 
     with pytest.raises(TypeError):
         messages_to_proto([{}])
+
+
+@pytest.mark.allow_grpc
+async def test_structured_output_simple_json(async_sdk):
+    model = async_sdk.models.completions('yandexgpt', model_version='rc')
+    model = model.configure(response_format='json')
+
+    result = await model.run('collect all numbers from: 5, 4, a, 1')
+
+    assert json.loads(result.text) == {"output": "5, 4, 1"}
+
+    model = model.configure(response_format=True)
+    with pytest.raises(TypeError):
+        await model.run('collect all numbers from: 5, 4, a, 1')
+
+
+@pytest.mark.require_env('pydantic')
+@pytest.mark.allow_grpc
+async def test_structured_output_pydantic_model(async_sdk) -> None:
+    import pydantic  # pylint: disable=import-outside-toplevel
+
+    class Numbers(pydantic.BaseModel):
+        numbers: list[int]
+
+    model = async_sdk.models.completions('yandexgpt', model_version='rc')
+    model = model.configure(response_format=Numbers)
+
+    result = await model.run('collect all numbers from: 5, 4, a, 1')
+
+    assert json.loads(result.text) == {'numbers': [5, 4, 1]}
+
+
+@pytest.mark.require_env('pydantic')
+@pytest.mark.allow_grpc
+async def test_structured_output_pydantic_dataclass(async_sdk) -> None:
+    import pydantic  # pylint: disable=import-outside-toplevel
+
+    @pydantic.dataclasses.dataclass
+    class Numbers:
+        numbers: list[int]
+
+    model = async_sdk.models.completions('yandexgpt', model_version='rc')
+    model = model.configure(response_format=Numbers)
+
+    result = await model.run('collect all numbers from: 5, 4, a, 1')
+
+    assert json.loads(result.text) == {'numbers': [5, 4, 1]}
+
+
+@pytest.mark.allow_grpc
+async def test_structured_output_json_schema(async_sdk):
+    schema = {
+        "properties": {
+            "numbers": {
+                "items": {"type": "integer"},
+                "title": "Numbers", "type": "array"
+            }
+        },
+        "required": ["numbers"],
+        "title": "Numbers", "type": "object"
+    }
+
+    model = async_sdk.models.completions('yandexgpt', model_version='rc')
+    model = model.configure(response_format={'json_schema': schema})
+
+    result = await model.run('collect all numbers from: 5, 4, a, 1')
+
+    assert json.loads(result.text) == {'numbers': [5, 4, 1]}

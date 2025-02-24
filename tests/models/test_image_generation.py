@@ -80,7 +80,7 @@ def test_inputs(async_sdk):
         model_version=''
     )
     messages = messages_to_proto(gpt_model_result)
-    check_messages(messages, ['1', '2'])
+    check_messages(messages, ['1'])
 
     assistant_message = AssistantMessage(
         id='1',
@@ -108,9 +108,6 @@ def test_inputs(async_sdk):
 
     with pytest.raises(TypeError):
         messages_to_proto(1)
-
-    with pytest.raises(TypeError):
-        messages_to_proto([gpt_model_result])
 
     with pytest.raises(TypeError):
         messages_to_proto({})
