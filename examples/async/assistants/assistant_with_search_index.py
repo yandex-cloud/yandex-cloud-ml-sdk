@@ -44,6 +44,19 @@ async def main() -> None:
     print('Question:', search_query)
     print('Answer:', result.text)
 
+    # You could access .citations attribute for debug purposes
+    for citation in result.citations:
+        for source in citation.sources:
+            # In future there will be more source types
+            if source.type != 'filechunk':
+                continue
+            print('Example source:', source)
+            # One source will be enough for example, it takes too much screen space to print
+            break
+        else:
+            continue
+        break
+
     search_query = "Cколько пошлина в Анталье"
     await thread.write(search_query)
 
