@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING, Any, Generic, TypeVar, cast
 from yandex.cloud.ai.assistants.v1.runs.run_pb2 import Run as ProtoRun
 from yandex.cloud.ai.assistants.v1.runs.run_service_pb2 import StreamEvent as ProtoStreamEvent
 
+from yandex_cloud_ml_sdk._messages.citations import Citation
 from yandex_cloud_ml_sdk._messages.message import BaseMessage, Message, PartialMessage
 from yandex_cloud_ml_sdk._models.completions.result import Usage
 from yandex_cloud_ml_sdk._types.result import BaseResult, ProtoMessage
@@ -60,7 +61,7 @@ class BaseRunResult(
         return self.message.text
 
     @property
-    def parts(self) -> tuple[Any]:
+    def parts(self) -> tuple[Any, ...]:
         return self.message.parts
 
 
@@ -100,6 +101,10 @@ class RunResult(BaseRunResult[RunStatus, Message]):
             _message=completed_message,
             usage=usage,
         )
+
+    @property
+    def citations(self) -> tuple[Citation, ...]:
+        return self.message.citations
 
 
 @dataclasses.dataclass(frozen=True)

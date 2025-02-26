@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from dataclasses import fields
+
 import pytest
 
 from yandex_cloud_ml_sdk import AsyncYCloudML
@@ -101,6 +103,7 @@ async def test_search_index_list(async_sdk, test_file_path):
 
 @pytest.mark.allow_grpc
 async def test_assistant_with_search_index(async_sdk, tmp_path):
+    # pylint: disable=too-many-locals
     raw_file = tmp_path / 'file'
     raw_file.write_text('my secret number is 57')
 
@@ -117,6 +120,32 @@ async def test_assistant_with_search_index(async_sdk, tmp_path):
     result = await run
 
     assert result.text == '57'
+    citations = result.citations
+    assert citations is result.message.citations
+    assert len(citations) == 1
+    assert len(citations[0].sources) == 1
+    source = citations[0].sources[0]
+    assert source.text == 'my secret number is 57'
+
+    assert type(source.search_index) is type(search_index)
+    for field in fields(source.search_index):
+        name = field.name
+        value = getattr(source.search_index, name)
+        value2 = getattr(search_index, name)
+        if name in ('_lock', 'updated_at'):
+            assert value != value2
+        else:
+            assert value == value2
+
+    assert type(source.file) is type(file)
+    for field in fields(source.file):
+        name = field.name
+        value = getattr(source.file, name)
+        value2 = getattr(file, name)
+        if name in ('_lock', 'expires_at'):
+            assert value != value2, name
+        else:
+            assert value == value2, name
 
     await search_index.delete()
     await thread.delete()
