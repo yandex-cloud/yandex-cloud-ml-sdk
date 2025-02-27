@@ -13,12 +13,15 @@ async def test_run(async_sdk):
     thread = await async_sdk.threads.create()
     await thread.write('hey!')
     run = await assistant.run(thread, custom_temperature=0)
+    assert run.custom_temperature == 0.0
+    assert run.custom_max_tokens is None
+    assert run.custom_max_prompt_tokens is None
     result = await run
 
     assert result.is_succeeded
     assert result.status.name == 'COMPLETED'
-    assert result.text == 'Hello! How are you?'
-    assert result.parts == ('Hello! How are you?', )
+    assert result.text == 'Hello! How can I help you?'
+    assert result.parts == ('Hello! How can I help you?', )
     assert result.error is None
     assert result.usage.completion_tokens > 0
 
@@ -73,7 +76,7 @@ async def test_run_methods(async_sdk):
     thread1 = await async_sdk.threads.create()
     await thread1.write('foo')
     thread2 = await async_sdk.threads.create()
-    await thread1.write('bar')
+    await thread2.write('bar')
 
     run1 = await assistant.run(thread1)
     await run1
@@ -95,3 +98,22 @@ async def test_run_methods(async_sdk):
     await assistant.delete()
     await thread1.delete()
     await thread2.delete()
+
+
+@pytest.mark.allow_grpc
+@pytest.mark.vcr
+async def test_run_fail(async_sdk):
+    assistant = await async_sdk.assistants.create('yandexgpt', max_prompt_tokens=1)
+    thread = await async_sdk.threads.create()
+    await thread.write('hey!')
+    run = await assistant.run(thread, custom_temperature=0)
+    assert run.custom_temperature == 0.0
+    assert run.custom_max_tokens is None
+    assert run.custom_max_prompt_tokens is None
+    result = await run
+
+    assert result.is_failed
+    assert '1 token' in result.error
+
+    await assistant.delete()
+    await thread.delete()

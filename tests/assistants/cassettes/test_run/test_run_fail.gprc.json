@@ -429,26 +429,31 @@
                 "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest"
+                    "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
+                    "promptTruncationOptions": {
+                        "maxPromptTokens": "1"
+                    }
                 }
             },
             "response": {
                 "cls": "Assistant",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
                 "message": {
-                    "id": "fvt01he2d1ktnsq400v1",
+                    "id": "fvtheipibugpa4logqno",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "createdBy": "aje6euqn63oa635coh28",
-                    "createdAt": "2025-02-26T18:32:01.742716Z",
+                    "createdAt": "2025-02-27T15:22:13.353120Z",
                     "updatedBy": "aje6euqn63oa635coh28",
-                    "updatedAt": "2025-02-26T18:32:01.742716Z",
+                    "updatedAt": "2025-02-27T15:22:13.353120Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2025-03-05T18:32:01.742716Z",
+                    "expiresAt": "2025-03-06T15:22:13.353120Z",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
-                    "promptTruncationOptions": {},
+                    "promptTruncationOptions": {
+                        "maxPromptTokens": "1"
+                    },
                     "completionOptions": {}
                 }
             }
@@ -465,18 +470,18 @@
                 "cls": "Thread",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_pb2",
                 "message": {
-                    "id": "fvtcg4130coh1l4cd06r",
+                    "id": "fvtgp0crethjq84vennt",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "defaultMessageAuthorId": "fvt38fdt9jns4sb60b8a",
+                    "defaultMessageAuthorId": "fvt1mi08o7i7rq6uohm1",
                     "createdBy": "aje6euqn63oa635coh28",
-                    "createdAt": "2025-02-26T18:32:01.861418Z",
+                    "createdAt": "2025-02-27T15:22:13.470146Z",
                     "updatedBy": "aje6euqn63oa635coh28",
-                    "updatedAt": "2025-02-26T18:32:01.861418Z",
+                    "updatedAt": "2025-02-27T15:22:13.470146Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2025-03-05T18:32:01.861418Z"
+                    "expiresAt": "2025-03-06T15:22:13.470146Z"
                 }
             }
         },
@@ -485,7 +490,7 @@
                 "cls": "CreateMessageRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_service_pb2",
                 "message": {
-                    "threadId": "fvtcg4130coh1l4cd06r",
+                    "threadId": "fvtgp0crethjq84vennt",
                     "content": {
                         "content": [
                             {
@@ -501,12 +506,12 @@
                 "cls": "Message",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
                 "message": {
-                    "id": "fvtvjj61lhtlk7d2ncod",
-                    "threadId": "fvtcg4130coh1l4cd06r",
+                    "id": "fvtuif50oq1og8bue57v",
+                    "threadId": "fvtgp0crethjq84vennt",
                     "createdBy": "aje6euqn63oa635coh28",
-                    "createdAt": "2025-02-26T18:32:02.008066Z",
+                    "createdAt": "2025-02-27T15:22:13.669546Z",
                     "author": {
-                        "id": "fvt38fdt9jns4sb60b8a",
+                        "id": "fvt1mi08o7i7rq6uohm1",
                         "role": "USER"
                     },
                     "content": {
@@ -527,8 +532,8 @@
                 "cls": "CreateRunRequest",
                 "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
                 "message": {
-                    "assistantId": "fvt01he2d1ktnsq400v1",
-                    "threadId": "fvtcg4130coh1l4cd06r",
+                    "assistantId": "fvtheipibugpa4logqno",
+                    "threadId": "fvtgp0crethjq84vennt",
                     "customCompletionOptions": {
                         "temperature": 0.0
                     }
@@ -538,11 +543,11 @@
                 "cls": "Run",
                 "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
                 "message": {
-                    "id": "fvtbmh84qcd6udecn8k3",
-                    "assistantId": "fvt01he2d1ktnsq400v1",
-                    "threadId": "fvtcg4130coh1l4cd06r",
+                    "id": "fvtpvh3obg0svul22cng",
+                    "assistantId": "fvtheipibugpa4logqno",
+                    "threadId": "fvtgp0crethjq84vennt",
                     "createdBy": "aje6euqn63oa635coh28",
-                    "createdAt": "2025-02-26T18:32:02.159923372Z",
+                    "createdAt": "2025-02-27T15:22:13.787096623Z",
                     "state": {
                         "status": "PENDING"
                     },
@@ -557,20 +562,20 @@
                 "cls": "GetRunRequest",
                 "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
                 "message": {
-                    "runId": "fvtbmh84qcd6udecn8k3"
+                    "runId": "fvtpvh3obg0svul22cng"
                 }
             },
             "response": {
                 "cls": "Run",
                 "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
                 "message": {
-                    "id": "fvtbmh84qcd6udecn8k3",
-                    "assistantId": "fvt01he2d1ktnsq400v1",
-                    "threadId": "fvtcg4130coh1l4cd06r",
+                    "id": "fvtpvh3obg0svul22cng",
+                    "assistantId": "fvtheipibugpa4logqno",
+                    "threadId": "fvtgp0crethjq84vennt",
                     "createdBy": "aje6euqn63oa635coh28",
-                    "createdAt": "2025-02-26T18:32:02.159923372Z",
+                    "createdAt": "2025-02-27T15:22:13.787096623Z",
                     "state": {
-                        "status": "IN_PROGRESS"
+                        "status": "PENDING"
                     },
                     "customCompletionOptions": {
                         "temperature": 0.0
@@ -583,45 +588,23 @@
                 "cls": "GetRunRequest",
                 "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
                 "message": {
-                    "runId": "fvtbmh84qcd6udecn8k3"
+                    "runId": "fvtpvh3obg0svul22cng"
                 }
             },
             "response": {
                 "cls": "Run",
                 "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
                 "message": {
-                    "id": "fvtbmh84qcd6udecn8k3",
-                    "assistantId": "fvt01he2d1ktnsq400v1",
-                    "threadId": "fvtcg4130coh1l4cd06r",
+                    "id": "fvtpvh3obg0svul22cng",
+                    "assistantId": "fvtheipibugpa4logqno",
+                    "threadId": "fvtgp0crethjq84vennt",
                     "createdBy": "aje6euqn63oa635coh28",
-                    "createdAt": "2025-02-26T18:32:02.159923372Z",
+                    "createdAt": "2025-02-27T15:22:13.787096623Z",
                     "state": {
-                        "status": "COMPLETED",
-                        "completedMessage": {
-                            "id": "fvtpu9ehn84m0pk6ek1o",
-                            "threadId": "fvtcg4130coh1l4cd06r",
-                            "createdBy": "aje6euqn63oa635coh28",
-                            "createdAt": "2025-02-26T18:32:02.602579906Z",
-                            "author": {
-                                "id": "fvt01he2d1ktnsq400v1",
-                                "role": "ASSISTANT"
-                            },
-                            "content": {
-                                "content": [
-                                    {
-                                        "text": {
-                                            "content": "Hello! How can I help you?"
-                                        }
-                                    }
-                                ]
-                            },
-                            "status": "COMPLETED"
+                        "status": "FAILED",
+                        "error": {
+                            "message": "java.lang.IllegalArgumentException: failed to fit messages within the maximum prompt tokens limit of 1 tokens"
                         }
-                    },
-                    "usage": {
-                        "promptTokens": "12",
-                        "completionTokens": "8",
-                        "totalTokens": "20"
                     },
                     "customCompletionOptions": {
                         "temperature": 0.0
@@ -634,117 +617,36 @@
                 "cls": "GetRunRequest",
                 "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
                 "message": {
-                    "runId": "fvtbmh84qcd6udecn8k3"
+                    "runId": "fvtpvh3obg0svul22cng"
                 }
             },
             "response": {
                 "cls": "Run",
                 "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
                 "message": {
-                    "id": "fvtbmh84qcd6udecn8k3",
-                    "assistantId": "fvt01he2d1ktnsq400v1",
-                    "threadId": "fvtcg4130coh1l4cd06r",
+                    "id": "fvtpvh3obg0svul22cng",
+                    "assistantId": "fvtheipibugpa4logqno",
+                    "threadId": "fvtgp0crethjq84vennt",
                     "createdBy": "aje6euqn63oa635coh28",
-                    "createdAt": "2025-02-26T18:32:02.159923372Z",
+                    "createdAt": "2025-02-27T15:22:13.787096623Z",
                     "state": {
-                        "status": "COMPLETED",
-                        "completedMessage": {
-                            "id": "fvtpu9ehn84m0pk6ek1o",
-                            "threadId": "fvtcg4130coh1l4cd06r",
-                            "createdBy": "aje6euqn63oa635coh28",
-                            "createdAt": "2025-02-26T18:32:02.602579906Z",
-                            "author": {
-                                "id": "fvt01he2d1ktnsq400v1",
-                                "role": "ASSISTANT"
-                            },
-                            "content": {
-                                "content": [
-                                    {
-                                        "text": {
-                                            "content": "Hello! How can I help you?"
-                                        }
-                                    }
-                                ]
-                            },
-                            "status": "COMPLETED"
+                        "status": "FAILED",
+                        "error": {
+                            "message": "java.lang.IllegalArgumentException: failed to fit messages within the maximum prompt tokens limit of 1 tokens"
                         }
-                    },
-                    "usage": {
-                        "promptTokens": "12",
-                        "completionTokens": "8",
-                        "totalTokens": "20"
                     },
                     "customCompletionOptions": {
                         "temperature": 0.0
                     }
                 }
             }
-        },
-        {
-            "request": {
-                "cls": "ListenRunRequest",
-                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
-                "message": {
-                    "runId": "fvtbmh84qcd6udecn8k3",
-                    "eventsStartIdx": "0"
-                }
-            },
-            "response_stream": [
-                {
-                    "cls": "StreamEvent",
-                    "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
-                    "message": {
-                        "eventType": "PARTIAL_MESSAGE",
-                        "streamCursor": {},
-                        "partialMessage": {
-                            "content": [
-                                {
-                                    "text": {
-                                        "content": "Hello! How can I help you?"
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                },
-                {
-                    "cls": "StreamEvent",
-                    "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
-                    "message": {
-                        "eventType": "DONE",
-                        "streamCursor": {
-                            "currentEventIdx": "1"
-                        },
-                        "completedMessage": {
-                            "id": "fvtpu9ehn84m0pk6ek1o",
-                            "threadId": "fvtcg4130coh1l4cd06r",
-                            "createdBy": "aje6euqn63oa635coh28",
-                            "createdAt": "2025-02-26T18:32:02.602579906Z",
-                            "author": {
-                                "id": "fvt01he2d1ktnsq400v1",
-                                "role": "ASSISTANT"
-                            },
-                            "content": {
-                                "content": [
-                                    {
-                                        "text": {
-                                            "content": "Hello! How can I help you?"
-                                        }
-                                    }
-                                ]
-                            },
-                            "status": "COMPLETED"
-                        }
-                    }
-                }
-            ]
         },
         {
             "request": {
                 "cls": "DeleteAssistantRequest",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
                 "message": {
-                    "assistantId": "fvt01he2d1ktnsq400v1"
+                    "assistantId": "fvtheipibugpa4logqno"
                 }
             },
             "response": {
@@ -758,7 +660,7 @@
                 "cls": "DeleteThreadRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
                 "message": {
-                    "threadId": "fvtcg4130coh1l4cd06r"
+                    "threadId": "fvtgp0crethjq84vennt"
                 }
             },
             "response": {

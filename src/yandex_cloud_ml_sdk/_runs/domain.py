@@ -49,16 +49,19 @@ class BaseRuns(BaseDomain, Generic[RunTypeT]):
         else:
             raise TypeError('thread parameter must be a str either Thread instance')
 
+        custom_completion_options = get_completion_options(
+                temperature=get_defined_value(custom_temperature, None),
+                max_tokens=get_defined_value(custom_max_tokens, None),
+        )
+        custom_prompt_truncation_options = get_prompt_trunctation_options(
+            max_prompt_tokens=get_defined_value(custom_max_prompt_tokens, None),
+        )
+
         request = CreateRunRequest(
             assistant_id=assistant_id,
             thread_id=thread_id,
-            custom_completion_options=get_completion_options(
-                temperature=get_defined_value(custom_temperature, None),
-                max_tokens=get_defined_value(custom_max_tokens, None),
-            ),
-            custom_prompt_truncation_options=get_prompt_trunctation_options(
-                max_prompt_tokens=get_defined_value(custom_max_prompt_tokens, None),
-            ),
+            custom_completion_options=custom_completion_options,
+            custom_prompt_truncation_options=custom_prompt_truncation_options,
             stream=stream,
         )
 

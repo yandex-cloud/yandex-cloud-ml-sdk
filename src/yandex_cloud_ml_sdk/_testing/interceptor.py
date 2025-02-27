@@ -120,7 +120,7 @@ class CassetteManager:
         try:
             item = next(self._iter)
         except StopIteration:
-            pytest.fail(msg=f"there is not enough requests in the {self.cassette_file=}")
+            pytest.fail(f"there is not enough requests in the {self.cassette_file=}")
 
         if response_type == 'unary':
             response = item['response']
