@@ -66,5 +66,9 @@ class DatasetsWrapper:
     def list_upload_formats(self):
         return partial(self._domain.list_upload_formats, task_type=self._task_type)
 
+    @property
+    def list(self):
+        return partial(self._domain.list, task_type=self._task_type)
+
     def __repr__(self) -> str:
         return f'{self.__class__.__name__}(task_type={self._task_type})'

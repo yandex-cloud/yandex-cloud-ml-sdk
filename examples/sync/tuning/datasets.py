@@ -47,6 +47,11 @@ def main() -> None:
     print(f"New {bad_dataset=} have a bad status {dataset.status=}")
     dataset.delete()
 
+    # You could call .list not only on .datasets,
+    # but on .completions helper as well, it will substitute corresponding task_type as a filter
+    for dataset in sdk.datasets.completions.list():
+        dataset.delete()
+
     for dataset in sdk.datasets.list():
         dataset.delete()
 
