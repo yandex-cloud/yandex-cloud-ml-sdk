@@ -1,8 +1,9 @@
 # pylint: disable=protected-access,no-name-in-module
 from __future__ import annotations
 
-from typing import AsyncIterator, Generic, Iterator
+from typing import AsyncIterator, Generic, Iterable, Iterator, Union
 
+from typing_extensions import TypeAlias
 from yandex.cloud.ai.dataset.v1.dataset_service_pb2 import (
     CreateDatasetRequest, CreateDatasetResponse, DescribeDatasetRequest, DescribeDatasetResponse, ListDatasetsRequest,
     ListDatasetsResponse, ListUploadFormatsRequest, ListUploadFormatsResponse
@@ -20,6 +21,10 @@ from .status import DatasetStatus
 from .task_types import KnownTaskType, TaskTypeProxy
 
 logger = get_logger(__name__)
+
+
+SingleDatasetStatus: TypeAlias = Union[str, DatasetStatus]
+DatasetStatusInput: TypeAlias = Union[SingleDatasetStatus, Iterable[SingleDatasetStatus]]
 
 
 class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
@@ -120,20 +125,33 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
     async def _list(
         self,
         *,
-        status: UndefinedOr[str] | DatasetStatus = UNDEFINED,
+        status: UndefinedOr[DatasetStatusInput] = UNDEFINED,
         name_pattern: UndefinedOr[str] = UNDEFINED,
+        task_type: UndefinedOr[str] | Iterable[str] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[DatasetTypeT]:
-        logger.debug('Fetching datasets list with status=%s and name_pattern=%s', status, name_pattern)
+        status_: DatasetStatusInput = get_defined_value(status, [])
+        status_list: list[SingleDatasetStatus] = [status_] if isinstance(status_, (str, DatasetStatus)) else list(status_)
+        coerced_status_list: list[DatasetStatus] = [
+            DatasetStatus._from_str(s) if isinstance(s, str) else s
+            for s in status_list
+        ]
 
-        status_: str | DatasetStatus = get_defined_value(status, DatasetStatus.STATUS_UNSPECIFIED)
-        if isinstance(status_, str):
-            status_ = DatasetStatus._from_str(status_)
+        task_type_: str | Iterable[str] = get_defined_value(task_type, [])
+        task_type_list: list[str] = [task_type_] if isinstance(task_type_, str) else list(task_type_)
+
+        name_pattern_: str = get_defined_value(name_pattern, '')
 
         request = ListDatasetsRequest(
             folder_id=self._folder_id,
-            status=status_,  # type: ignore[arg-type]
-            dataset_name_pattern=get_defined_value(name_pattern, ''),
+            status=coerced_status_list,  # type: ignore[arg-type]
+            dataset_name_pattern=name_pattern_,
+            task_type_filter=task_type_list,
+        )
+
+        logger.debug(
+            'Fetching datasets list with status=%r, name_pattern=%r and task_type_filter=%r',
+            coerced_status_list, name_pattern, task_type_list,
         )
 
         async with self._client.get_service_stub(DatasetServiceStub, timeout=timeout) as stub:
@@ -192,14 +210,16 @@ class AsyncDatasets(BaseDatasets[AsyncDataset, AsyncDatasetDraft]):
     async def list(
         self,
         *,
-        status: UndefinedOr[str] | DatasetStatus = UNDEFINED,
+        status: UndefinedOr[str] | DatasetStatus | Iterable[str | DatasetStatus] = UNDEFINED,
         name_pattern: UndefinedOr[str] = UNDEFINED,
+        task_type: UndefinedOr[str] | Iterable[str] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[AsyncDataset]:
         async for dataset in self._list(
             status=status,
             name_pattern=name_pattern,
-            timeout=timeout
+            task_type=task_type,
+            timeout=timeout,
         ):
             yield dataset
 
@@ -234,13 +254,15 @@ class Datasets(BaseDatasets[Dataset, DatasetDraft]):
     def list(
         self,
         *,
-        status: UndefinedOr[str] | DatasetStatus = UNDEFINED,
+        status: UndefinedOr[str] | DatasetStatus | Iterable[str | DatasetStatus] = UNDEFINED,
         name_pattern: UndefinedOr[str] = UNDEFINED,
+        task_type: UndefinedOr[str] | Iterable[str] = UNDEFINED,
         timeout: float = 60
     ) -> Iterator[Dataset]:
         yield from self.__list(
             status=status,
             name_pattern=name_pattern,
+            task_type=task_type,
             timeout=timeout
         )
 
