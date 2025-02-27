@@ -48,6 +48,11 @@ async def main() -> None:
     print(f"New {bad_dataset=} have a bad status {bad_dataset.status=}")
     await dataset.delete()
 
+    # You could call .list not only on .datasets,
+    # but on .completions helper as well, it will substitute corresponding task_type as a filter
+    async for dataset in sdk.datasets.completions.list():
+        await dataset.delete()
+
     async for dataset in sdk.datasets.list():
         await dataset.delete()
 
