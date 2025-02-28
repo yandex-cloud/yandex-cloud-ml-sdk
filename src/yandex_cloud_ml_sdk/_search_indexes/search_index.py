@@ -3,12 +3,13 @@ from __future__ import annotations
 
 import dataclasses
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, AsyncIterator, Iterator, TypeVar
+from typing import TYPE_CHECKING, Any, AsyncIterator, Iterator, TypeVar, cast
 
-from typing_extensions import Self
+from typing_extensions import Self, TypeAlias
 from yandex.cloud.ai.assistants.v1.searchindex.search_index_file_pb2 import SearchIndexFile as ProtoSearchIndexFile
 from yandex.cloud.ai.assistants.v1.searchindex.search_index_file_service_pb2 import (
-    GetSearchIndexFileRequest, ListSearchIndexFilesRequest, ListSearchIndexFilesResponse
+    BatchCreateSearchIndexFileRequest, BatchCreateSearchIndexFileResponse, GetSearchIndexFileRequest,
+    ListSearchIndexFilesRequest, ListSearchIndexFilesResponse
 )
 from yandex.cloud.ai.assistants.v1.searchindex.search_index_file_service_pb2_grpc import SearchIndexFileServiceStub
 from yandex.cloud.ai.assistants.v1.searchindex.search_index_pb2 import SearchIndex as ProtoSearchIndex
@@ -16,11 +17,15 @@ from yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2 import (
     DeleteSearchIndexRequest, DeleteSearchIndexResponse, UpdateSearchIndexRequest
 )
 from yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2_grpc import SearchIndexServiceStub
+from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 
+from yandex_cloud_ml_sdk._files.file import BaseFile
 from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
+from yandex_cloud_ml_sdk._types.operation import AsyncOperation, Operation, OperationTypeT, ReturnsOperationMixin
 from yandex_cloud_ml_sdk._types.resource import ExpirableResource, safe_on_delete
 from yandex_cloud_ml_sdk._types.result import BaseResult
+from yandex_cloud_ml_sdk._utils.coerce import ResourceType, coerce_resource_ids
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .file import SearchIndexFile
@@ -30,8 +35,11 @@ if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
 
+SearchIndexFileTuple: TypeAlias = tuple[SearchIndexFile, ...]
+
+
 @dataclasses.dataclass(frozen=True)
-class BaseSearchIndex(ExpirableResource, BaseResult):
+class BaseSearchIndex(ExpirableResource, BaseResult, ReturnsOperationMixin[OperationTypeT]):
     @classmethod
     def _kwargs_from_message(cls, proto: ProtoSearchIndex, sdk: BaseSDK) -> dict[str, Any]:  # type: ignore[override]
         kwargs = super()._kwargs_from_message(proto, sdk=sdk)
@@ -128,6 +136,42 @@ class BaseSearchIndex(ExpirableResource, BaseResult):
 
         return SearchIndexFile._from_proto(proto=response, sdk=self._sdk)
 
+    # pylint: disable=unused-argument
+    async def _transform_add_files(self, proto: BatchCreateSearchIndexFileResponse, timeout: float) -> SearchIndexFileTuple:
+        return tuple(
+            SearchIndexFile._from_proto(proto=f, sdk=self._sdk)
+            for f in proto.files
+        )
+
+    @safe_on_delete
+    async def _add_files_deferred(
+        self,
+        files: ResourceType[BaseFile],
+        *,
+        timeout: float = 60,
+    ) -> OperationTypeT:
+        file_ids = coerce_resource_ids(files, BaseFile)
+        request = BatchCreateSearchIndexFileRequest(
+            file_ids=file_ids,
+            search_index_id=self.id
+        )
+
+        async with self._client.get_service_stub(SearchIndexFileServiceStub, timeout=timeout) as stub:
+            response = await self._client.call_service(
+                stub.BatchCreate,
+                request,
+                timeout=timeout,
+                expected_type=ProtoOperation
+            )
+
+        return self._operation_impl(
+            id=response.id,
+            sdk=self._sdk,
+            proto_result_type=BatchCreateSearchIndexFileResponse,
+            result_type=SearchIndexFileTuple,
+            transformer=self._transform_add_files
+        )
+
     async def _list_files(
         self,
         *,
@@ -161,7 +205,7 @@ class BaseSearchIndex(ExpirableResource, BaseResult):
 
 
 @dataclasses.dataclass(frozen=True)
-class RichSearchIndex(BaseSearchIndex):
+class RichSearchIndex(BaseSearchIndex[OperationTypeT]):
     folder_id: str
     name: str | None
     description: str | None
@@ -174,7 +218,9 @@ class RichSearchIndex(BaseSearchIndex):
     index_type: BaseSearchIndexType
 
 
-class AsyncSearchIndex(RichSearchIndex):
+class AsyncSearchIndex(RichSearchIndex[AsyncOperation[SearchIndexFileTuple]]):
+    _operation_impl = AsyncOperation[SearchIndexFileTuple]
+
     async def update(
         self,
         *,
@@ -224,12 +270,26 @@ class AsyncSearchIndex(RichSearchIndex):
         ):
             yield file
 
+    async def add_files_deferred(
+        self,
+        files: ResourceType[BaseFile],
+        *,
+        timeout: float = 60,
+    ) -> AsyncOperation[SearchIndexFileTuple]:
+        return await self._add_files_deferred(
+            files=files,
+            timeout=timeout
+        )
 
-class SearchIndex(RichSearchIndex):
+
+# pylint: disable=protected-access
+class SearchIndex(RichSearchIndex[Operation[SearchIndexFileTuple]]):
+    _operation_impl = Operation[SearchIndexFileTuple]
     __update = run_sync(RichSearchIndex._update)
     __delete = run_sync(RichSearchIndex._delete)
     __get_file = run_sync(RichSearchIndex._get_file)
     __list_files = run_sync_generator(RichSearchIndex._list_files)
+    __add_files_deferred = run_sync(RichSearchIndex._add_files_deferred)
 
     def update(
         self,
@@ -277,6 +337,18 @@ class SearchIndex(RichSearchIndex):
         yield from self.__list_files(
             page_size=page_size,
             timeout=timeout,
+        )
+
+    def add_files_deferred(
+        self,
+        files: ResourceType[BaseFile],
+        *,
+        timeout: float = 60,
+    ) -> Operation[SearchIndexFileTuple]:
+        # mypy is going crazy as always, with run_sync over generic
+        return cast(
+            Operation[SearchIndexFileTuple],
+            self.__add_files_deferred(files=files, timeout=timeout)
         )
 
 

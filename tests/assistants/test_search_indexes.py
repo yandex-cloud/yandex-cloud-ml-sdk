@@ -177,3 +177,22 @@ async def test_hybrid_search_index(async_sdk: AsyncYCloudML, test_file_path):
     assert search_index.index_type.normalization_strategy == IndexNormalizationStrategy.L2
     assert isinstance(search_index.index_type.combination_strategy, ReciprocalRankFusionIndexCombinationStrategy)
     assert search_index.index_type.combination_strategy.k == 51
+
+
+@pytest.mark.allow_grpc
+@pytest.mark.vcr
+async def test_add_to_search_index(async_sdk, test_file_path):
+    file = await async_sdk.files.upload(test_file_path)
+    operation = await async_sdk.search_indexes.create_deferred(file)
+    search_index = await operation.wait()
+
+    search_index_files = [file async for file in search_index.list_files()]
+    assert len(search_index_files) == 1
+
+    file2 = await async_sdk.files.upload(test_file_path)
+    operation = await search_index.add_files_deferred(file2)
+    new_index_files = await operation
+    assert len(new_index_files) == 1
+
+    search_index_files = [file async for file in search_index.list_files()]
+    assert len(search_index_files) == 2
