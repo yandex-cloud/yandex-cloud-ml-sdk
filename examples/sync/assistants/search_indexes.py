@@ -26,7 +26,7 @@ def main() -> None:
         files.append(file)
 
     operation = sdk.search_indexes.create_deferred(
-        files,
+        files[0],
         index_type=TextSearchIndexType(
             chunking_strategy=StaticIndexChunkingStrategy(
                 max_chunk_size_tokens=700,
@@ -48,6 +48,11 @@ def main() -> None:
     # print(f"search index files: {index_files}")
     # index_file = search_index.get_file(index_files[0].id)
     # print(f"search index file: {index_file}")
+
+    # We could also add files to index later:
+    add_operation = search_index.add_files_deferred(files[1])
+    new_index_files = add_operation.wait()
+    print(f"{new_index_files=}")
 
     for file in files:
         file.delete()

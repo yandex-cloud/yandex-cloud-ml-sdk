@@ -25,7 +25,7 @@ if TYPE_CHECKING:
 logger = get_logger(__name__)
 
 AnyResultTypeT_co = TypeVar('AnyResultTypeT_co', covariant=True)
-ResultTypeT_co = TypeVar('ResultTypeT_co', bound=BaseResult, covariant=True)
+ResultTypeT_co = TypeVar('ResultTypeT_co', covariant=True)
 
 
 @dataclass(frozen=True)
@@ -183,6 +183,11 @@ class BaseOperation(Generic[ResultTypeT_co], OperationInterface[ResultTypeT_co])
 
     # pylint: disable=unused-argument
     async def _default_result_transofrmer(self, proto: Any, timeout: float) -> ResultTypeT_co:
+        # NB: default_result_transformer should be used only with _result_type
+        # which are BaseResult-compatible, but I don't know how to express it with typing,
+        # maybe we need special operation class, which support transforming (probably a base one)
+        assert isinstance(self._result_type, BaseResult)
+
         # NB: mypy can't figure out that self._result_type._from_proto is
         # returning instance of self._result_type which is also is a ResultTypeT_co
         return cast(
