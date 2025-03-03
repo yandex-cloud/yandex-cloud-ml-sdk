@@ -28,7 +28,7 @@ async def main() -> None:
     files = await asyncio.gather(*file_coros)
 
     operation = await sdk.search_indexes.create_deferred(
-        files,
+        [files[0]],
         index_type=TextSearchIndexType(
             chunking_strategy=StaticIndexChunkingStrategy(
                 max_chunk_size_tokens=700,
@@ -45,11 +45,16 @@ async def main() -> None:
     await search_index.update(name="foo")
     print(f"now with a name {search_index=}")
 
-    # NB: it doesn't work at the moment
-    # index_files = [file async for file in search_index.list_files()]
-    # print(f"search index files: {index_files}")
-    # index_file = await search_index.get_file(index_files[0].id)
-    # print(f"search index file: {index_file}")
+    # We could also add files to index later:
+    add_operation = await search_index.add_files_deferred(files[1])
+    new_index_files = await add_operation.wait()
+    print(f"{new_index_files=}")
+
+    index_files = [file async for file in search_index.list_files()]
+    print(f"search index files: {index_files}")
+
+    index_file = await search_index.get_file(index_files[0].id)
+    print(f"search index file: {index_file}")
 
     for file in files:
         await file.delete()
