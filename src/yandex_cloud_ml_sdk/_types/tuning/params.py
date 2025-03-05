@@ -6,7 +6,8 @@ from dataclasses import asdict, dataclass
 from typing import Union, cast
 
 from yandex.cloud.ai.tuning.v1.tuning_service_pb2 import (
-    TextClassificationMulticlassParams, TextClassificationMultilabelParams, TextToTextCompletionTuningParams
+    TextClassificationMulticlassParams, TextClassificationMultilabelParams, TextEmbeddingPairParams,
+    TextEmbeddingTripletParams, TextToTextCompletionTuningParams
 )
 
 from .optimizers import BaseOptimizer
@@ -16,7 +17,9 @@ from .tuning_types import BaseTuningType
 ProtoTuningParamsType = Union[
     TextToTextCompletionTuningParams,
     TextClassificationMulticlassParams,
-    TextClassificationMultilabelParams
+    TextClassificationMultilabelParams,
+    TextEmbeddingPairParams,
+    TextEmbeddingTripletParams,
 ]
 
 
@@ -40,10 +43,14 @@ class BaseTuningParams(abc.ABC):
     def _ignored_fields(self) -> tuple[str, ...]:
         return ('tuning_type', 'scheduler', 'optimizer')
 
-    def to_proto(self) -> ProtoTuningParamsType:
+    def _asdict(self) -> dict:
         kwargs = asdict(self)
         for field in self._ignored_fields:
             del kwargs[field]
+        return kwargs
+
+    def to_proto(self) -> ProtoTuningParamsType:
+        kwargs = self._asdict()
 
         if self.tuning_type:
             # NB: somewhy mypy expecting type[Never] as an argument here
