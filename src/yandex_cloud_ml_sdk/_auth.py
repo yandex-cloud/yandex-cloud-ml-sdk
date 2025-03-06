@@ -10,7 +10,7 @@ import sys
 import time
 import warnings
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import httpx
 from typing_extensions import Self, override
@@ -49,7 +49,7 @@ class BaseAuth(ABC):
 
     @classmethod
     @abstractmethod
-    async def applicable_from_env(cls, **kwargs) -> Self | None:
+    async def applicable_from_env(cls, **_: Any) -> Self | None:
         pass
 
 
@@ -60,7 +60,7 @@ class NoAuth(BaseAuth):
 
     @override
     @classmethod
-    async def applicable_from_env(cls, **kwargs) -> None:
+    async def applicable_from_env(cls, **_: Any) -> None:
         return None
 
 
@@ -80,7 +80,7 @@ class APIKeyAuth(BaseAuth):
 
     @override
     @classmethod
-    async def applicable_from_env(cls, **kwargs) -> Self | None:
+    async def applicable_from_env(cls, **_: Any) -> Self | None:
         api_key = os.getenv(cls.env_var)
         if api_key:
             return cls(api_key)
@@ -105,7 +105,7 @@ class IAMTokenAuth(BaseIAMTokenAuth):
 
     @override
     @classmethod
-    async def applicable_from_env(cls, **kwargs) -> Self | None:
+    async def applicable_from_env(cls, **_: Any) -> Self | None:
         token = os.getenv(cls.env_var)
         if token:
             return cls(token)
@@ -139,7 +139,7 @@ class EnvIAMTokenAuth(BaseIAMTokenAuth):
 
     @override
     @classmethod
-    async def applicable_from_env(cls, **kwargs) -> Self | None:
+    async def applicable_from_env(cls, **_: Any) -> Self | None:
         token = os.getenv(cls.default_env_var)
         if token:
             return cls()
@@ -150,7 +150,7 @@ class EnvIAMTokenAuth(BaseIAMTokenAuth):
 class RefresheableIAMTokenAuth(BaseIAMTokenAuth):
     _token_refresh_period = 60 * 60
 
-    def __init__(self, token) -> None:
+    def __init__(self, token: str | None) -> None:
         super().__init__(token)
         self._issue_time: float | None = None
         if self._token is not None:
@@ -191,7 +191,7 @@ class OAuthTokenAuth(RefresheableIAMTokenAuth):
 
     @override
     @classmethod
-    async def applicable_from_env(cls, **kwargs) -> Self | None:
+    async def applicable_from_env(cls, **_: Any) -> Self | None:
         token = os.getenv(cls.env_var)
         if token:
             return cls(token)
@@ -249,9 +249,9 @@ class YandexCloudCLIAuth(RefresheableIAMTokenAuth):
         return result[-1].decode('utf-8')
 
     @classmethod
-    async def applicable_from_env(cls, **kwargs) -> Self | None:
-        yc_profile: str | None = kwargs.get('yc_profile') or os.getenv(cls.env_var)
-        endpoint: str | None = kwargs.get('endpoint')
+    async def applicable_from_env(cls, yc_profile: str | None = None, endpoint: str | None = None, **_: Any) -> Self | None:
+        if yc_profile is None:
+            yc_profile = os.getenv(cls.env_var)
 
         if not sys.stdin.isatty():
             return None
@@ -299,7 +299,7 @@ class MetadataAuth(RefresheableIAMTokenAuth):
 
     @override
     @classmethod
-    async def applicable_from_env(cls, **kwargs) -> Self | None:
+    async def applicable_from_env(cls, **_: Any) -> Self | None:
         addr = os.getenv(cls.env_var, cls._default_addr)
         url = f'http://{addr}/computeMetadata/v1/instance/service-accounts/default/token'
         # In case we found env var, we 99% would use this Auth, so timeout became
