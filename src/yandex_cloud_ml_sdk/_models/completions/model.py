@@ -1,10 +1,12 @@
 # pylint: disable=arguments-renamed,no-name-in-module,protected-access
 from __future__ import annotations
 
+from collections.abc import Sequence
 from typing import TYPE_CHECKING, Any, AsyncIterator, Generic, Iterator, Literal, cast
 
 from typing_extensions import Self, override
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import CompletionOptions, ReasoningOptions
+from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Tool as ProtoCompletionsTool
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import (
     CompletionRequest, CompletionResponse, TokenizeResponse
 )
@@ -13,20 +15,22 @@ from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_servic
 )
 from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 
+from yandex_cloud_ml_sdk._tools.tool import BaseTool
 from yandex_cloud_ml_sdk._tuning.tuning_task import AsyncTuningTask, TuningTask, TuningTaskTypeT
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr
 from yandex_cloud_ml_sdk._types.model import (
     ModelAsyncMixin, ModelSyncMixin, ModelSyncStreamMixin, ModelTuneMixin, OperationTypeT
 )
 from yandex_cloud_ml_sdk._types.operation import AsyncOperation, Operation
-from yandex_cloud_ml_sdk._types.structured_output import ResponseType, schema_from_response_format
+from yandex_cloud_ml_sdk._types.schemas import ResponseType, schema_from_response_format
 from yandex_cloud_ml_sdk._types.tuning.datasets import TuningDatasetsType
 from yandex_cloud_ml_sdk._types.tuning.optimizers import BaseOptimizer
 from yandex_cloud_ml_sdk._types.tuning.schedulers import BaseScheduler
 from yandex_cloud_ml_sdk._types.tuning.tuning_types import BaseTuningType
+from yandex_cloud_ml_sdk._utils.coerce import coerce_tuple
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
-from .config import GPTModelConfig, ReasoningMode, ReasoningModeType
+from .config import CompletionTool, GPTModelConfig, ReasoningMode, ReasoningModeType
 from .message import MessageInputType, messages_to_proto
 from .result import GPTModelResult
 from .token import Token
@@ -68,12 +72,14 @@ class BaseGPTModel(
         max_tokens: UndefinedOr[int] = UNDEFINED,
         reasoning_mode: UndefinedOr[ReasoningModeType] = UNDEFINED,
         response_format: UndefinedOr[ResponseType] = UNDEFINED,
+        tools: UndefinedOr[Sequence[CompletionTool] | CompletionTool] = UNDEFINED,
     ) -> Self:
         return super().configure(
             temperature=temperature,
             max_tokens=max_tokens,
             reasoning_mode=reasoning_mode,
             response_format=response_format,
+            tools=tools,
         )
 
     def _make_request(
@@ -88,26 +94,33 @@ class BaseGPTModel(
         if stream is not None:
             completion_options_kwargs['stream'] = stream
 
-        if self._config.max_tokens is not None:
-            completion_options_kwargs['max_tokens'] = {'value': self._config.max_tokens}
-        if self._config.temperature is not None:
-            completion_options_kwargs['temperature'] = {'value': self._config.temperature}
-        if self._config.reasoning_mode is not None:
-            reasoning_mode = ReasoningMode._coerce(self._config.reasoning_mode)._to_proto()
+        c = self._config
+
+        if c.max_tokens is not None:
+            completion_options_kwargs['max_tokens'] = {'value': c.max_tokens}
+        if c.temperature is not None:
+            completion_options_kwargs['temperature'] = {'value': c.temperature}
+        if c.reasoning_mode is not None:
+            reasoning_mode = ReasoningMode._coerce(c.reasoning_mode)._to_proto()
             reasoning_options = ReasoningOptions(mode=reasoning_mode)  # type: ignore[arg-type]
             completion_options_kwargs['reasoning_options'] = reasoning_options
-        if self._config.response_format is not None:
-            schema = schema_from_response_format(self._config.response_format)
+        if c.response_format is not None:
+            schema = schema_from_response_format(c.response_format)
             if isinstance(schema, str):
                 response_format_kwargs['json_object'] = True
             else:
                 assert isinstance(schema, dict)
                 response_format_kwargs['json_schema'] = {'schema': schema}
 
+        tools: tuple[BaseTool, ...] = ()
+        if c.tools is not None:
+            tools = coerce_tuple(c.tools, BaseTool)  # type: ignore[type-abstract]
+
         return CompletionRequest(
             model_uri=self._uri,
             completion_options=CompletionOptions(**completion_options_kwargs),
             messages=messages_to_proto(messages),
+            tools=[tool._to_proto(ProtoCompletionsTool) for tool in tools],
             **response_format_kwargs,
         )
 
