@@ -10,7 +10,7 @@ from yandex.cloud.ai.tuning.v1.tuning_service_pb2 import TextEmbeddingPairParams
 from yandex_cloud_ml_sdk._types.tuning.params import BaseTuningParams
 
 EmbeddingsTuneType = Literal['pair', 'triplet']
-ProtoParamsName = Literal['text_embedding_pair_params', 'text_embeddings_triplet_params']
+ProtoParamsName = Literal['text_embedding_pair_params', 'text_embedding_triplet_params']
 
 
 @dataclass(frozen=True)
@@ -30,7 +30,7 @@ class TextEmbeddingsModelTuneParams(BaseTuningParams):
         assert self.embeddings_tune_type
         result = {
             'pair': 'text_embedding_pair_params',
-            'triplet': 'text_embeddings_triplet_params',
+            'triplet': 'text_embedding_triplet_params',
         }[self.embeddings_tune_type]
         return cast(ProtoParamsName, result)
 
