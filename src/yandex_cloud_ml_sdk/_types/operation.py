@@ -17,7 +17,7 @@ from yandex_cloud_ml_sdk._logging import TRACE, get_logger
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 from yandex_cloud_ml_sdk.exceptions import RunError, WrongAsyncOperationStatusError
 
-from .result import BaseResult
+from .proto import ProtoBasedType
 
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
@@ -186,7 +186,7 @@ class BaseOperation(Generic[ResultTypeT_co], OperationInterface[ResultTypeT_co])
         # NB: default_result_transformer should be used only with _result_type
         # which are BaseResult-compatible, but I don't know how to express it with typing,
         # maybe we need special operation class, which support transforming (probably a base one)
-        assert isinstance(self._result_type, BaseResult)
+        assert isinstance(self._result_type, ProtoBasedType)
 
         # NB: mypy can't figure out that self._result_type._from_proto is
         # returning instance of self._result_type which is also is a ResultTypeT_co

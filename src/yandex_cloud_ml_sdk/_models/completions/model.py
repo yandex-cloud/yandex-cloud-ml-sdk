@@ -142,7 +142,7 @@ class BaseGPTModel(
                 timeout=timeout,
                 expected_type=CompletionResponse,
             ):
-                yield GPTModelResult._from_proto(proto=response, sdk=self._sdk)
+                yield self._result_type._from_proto(proto=response, sdk=self._sdk)
 
         # something like mypy or pylint asking me to put this return here
         return

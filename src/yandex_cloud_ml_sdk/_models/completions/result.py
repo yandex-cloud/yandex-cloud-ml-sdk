@@ -1,19 +1,18 @@
+# pylint: disable=no-name-in-module
 from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import TYPE_CHECKING, Sequence, cast, overload
+from typing import Sequence, overload
 
-from typing_extensions import Self
-# pylint: disable-next=no-name-in-module
+from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Alternative as ProtoAlternative
+from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import ContentUsage as ProtoUsage
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import CompletionResponse
 
-from yandex_cloud_ml_sdk._types.result import BaseResult, ProtoMessage
+from yandex_cloud_ml_sdk._types.proto import ProtoBased
+from yandex_cloud_ml_sdk._types.result import BaseResult
 
 from .message import TextMessage
-
-if TYPE_CHECKING:
-    from yandex_cloud_ml_sdk._sdk import BaseSDK
 
 
 @dataclass(frozen=True)
@@ -23,17 +22,34 @@ class Usage:
     total_tokens: int
 
 
-class AlternativeStatus(Enum):
-    UNSPECIFIED = 0
-    PARTIAL = 1
-    TRUNCATED_FINAL = 2
-    FINAL = 3
-    CONTENT_FILTER = 4
+@dataclass(frozen=True)
+class CompletionUsage(Usage, ProtoBased[ProtoUsage]):
+    reasoning_tokens: int
+
+    @classmethod
+    def _from_proto(cls, *, proto: ProtoUsage, **_) -> CompletionUsage:
+        return cls(
+            input_text_tokens=proto.input_text_tokens,
+            completion_tokens=proto.completion_tokens,
+            total_tokens=proto.total_tokens,
+            reasoning_tokens=proto.completion_tokens_details.reasoning_tokens
+        )
+
+
+_s = ProtoAlternative
+
+class AlternativeStatus(int, Enum):
+    UNSPECIFIED = _s.ALTERNATIVE_STATUS_UNSPECIFIED
+    PARTIAL = _s.ALTERNATIVE_STATUS_PARTIAL
+    TRUNCATED_FINAL = _s.ALTERNATIVE_STATUS_TRUNCATED_FINAL
+    FINAL = _s.ALTERNATIVE_STATUS_FINAL
+    CONTENT_FILTER = _s.ALTERNATIVE_STATUS_CONTENT_FILTER
+    TOOL_CALLS = _s.ALTERNATIVE_STATUS_TOOL_CALLS
 
     UNKNOWN = -1
 
     @classmethod
-    def from_proto_field(cls, status: int):
+    def _from_proto(cls, status: int):
         try:
             return cls(status)
         except ValueError:
@@ -41,31 +57,29 @@ class AlternativeStatus(Enum):
 
 
 @dataclass(frozen=True)
-class Alternative(TextMessage):
+class Alternative(TextMessage, ProtoBased[ProtoAlternative]):
     status: AlternativeStatus
+
+    @classmethod
+    def _from_proto(cls, *, proto: ProtoAlternative, **_) -> Alternative:
+        message = proto.message
+        return cls(
+            role=message.role,
+            text=message.text,
+            status=AlternativeStatus._from_proto(proto.status),
+        )
 
 
 @dataclass(frozen=True)
-class GPTModelResult(BaseResult, Sequence):
+class GPTModelResult(BaseResult[CompletionResponse], Sequence):
     alternatives: tuple[Alternative, ...]
-    usage: Usage
+    usage: CompletionUsage
     model_version: str
 
     @classmethod
-    def _from_proto(cls, *, proto: ProtoMessage, sdk: BaseSDK) -> Self:  # pylint: disable=unused-argument
-        proto = cast(CompletionResponse, proto)
-        alternatives = tuple(
-            Alternative(
-                role=alternative.message.role,
-                text=alternative.message.text,
-                status=AlternativeStatus.from_proto_field(alternative.status),
-            ) for alternative in proto.alternatives
-        )
-        usage = Usage(
-            input_text_tokens=proto.usage.input_text_tokens,
-            completion_tokens=proto.usage.completion_tokens,
-            total_tokens=proto.usage.total_tokens,
-        )
+    def _from_proto(cls, *, proto: CompletionResponse, sdk) -> GPTModelResult:
+        alternatives = tuple(Alternative._from_proto(proto=alternative, sdk=sdk) for alternative in proto.alternatives)
+        usage = CompletionUsage._from_proto(proto=proto.usage, sdk=sdk)
 
         return cls(
             alternatives=alternatives,
