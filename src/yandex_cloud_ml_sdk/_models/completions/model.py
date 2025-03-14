@@ -16,6 +16,7 @@ from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_servic
 from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 
 from yandex_cloud_ml_sdk._tools.tool import BaseTool
+from yandex_cloud_ml_sdk._tools.tool_call import AsyncToolCall, ToolCall, ToolCallTypeT
 from yandex_cloud_ml_sdk._tuning.tuning_task import AsyncTuningTask, TuningTask, TuningTaskTypeT
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr
 from yandex_cloud_ml_sdk._types.model import (
@@ -41,14 +42,14 @@ if TYPE_CHECKING:
 
 
 class BaseGPTModel(
-    Generic[OperationTypeT, TuningTaskTypeT],
-    ModelSyncMixin[GPTModelConfig, GPTModelResult],
-    ModelSyncStreamMixin[GPTModelConfig, GPTModelResult],
-    ModelAsyncMixin[GPTModelConfig, GPTModelResult, OperationTypeT],
-    ModelTuneMixin[GPTModelConfig, GPTModelResult, GPTModelTuneParams, TuningTaskTypeT],
+    Generic[OperationTypeT, TuningTaskTypeT, ToolCallTypeT],
+    ModelSyncMixin[GPTModelConfig, GPTModelResult[ToolCallTypeT]],
+    ModelSyncStreamMixin[GPTModelConfig, GPTModelResult[ToolCallTypeT]],
+    ModelAsyncMixin[GPTModelConfig, GPTModelResult[ToolCallTypeT], OperationTypeT],
+    ModelTuneMixin[GPTModelConfig, GPTModelResult[ToolCallTypeT], GPTModelTuneParams, TuningTaskTypeT],
 ):
     _config_type = GPTModelConfig
-    _result_type = GPTModelResult
+    _result_type: type[GPTModelResult[ToolCallTypeT]]
     _operation_type: type[OperationTypeT]
     _proto_result_type = CompletionResponse
 
@@ -130,7 +131,7 @@ class BaseGPTModel(
         messages: MessageInputType,
         stream: bool,
         timeout: int,
-    ) -> AsyncIterator[GPTModelResult]:
+    ) -> AsyncIterator[GPTModelResult[ToolCallTypeT]]:
         request = self._make_request(
             messages=messages,
             stream=stream,
@@ -154,7 +155,7 @@ class BaseGPTModel(
         messages: MessageInputType,
         *,
         timeout=60,
-    ) -> GPTModelResult:
+    ) -> GPTModelResult[ToolCallTypeT]:
         async for result in self._run_sync_impl(
             messages=messages,
             timeout=timeout,
@@ -171,7 +172,7 @@ class BaseGPTModel(
         messages: MessageInputType,
         *,
         timeout=60,
-    ) -> AsyncIterator[GPTModelResult]:
+    ) -> AsyncIterator[GPTModelResult[ToolCallTypeT]]:
         async for result in self._run_sync_impl(
             messages=messages,
             timeout=timeout,
@@ -227,16 +228,23 @@ class BaseGPTModel(
             return tuple(Token._from_proto(t) for t in response.tokens)
 
 
-class AsyncGPTModel(BaseGPTModel[AsyncOperation[GPTModelResult], AsyncTuningTask['AsyncGPTModel']]):
+class AsyncGPTModel(
+    BaseGPTModel[
+        AsyncOperation[GPTModelResult[AsyncToolCall]],
+        AsyncTuningTask['AsyncGPTModel'],
+        AsyncToolCall
+    ]
+):
     _operation_type = AsyncOperation
     _tune_operation_type = AsyncTuningTask
+    _result_type = GPTModelResult[AsyncToolCall]
 
     async def run(
         self,
         messages: MessageInputType,
         *,
         timeout=60,
-    ) -> GPTModelResult:
+    ) -> GPTModelResult[AsyncToolCall]:
         return await self._run(
             messages=messages,
             timeout=timeout
@@ -247,7 +255,7 @@ class AsyncGPTModel(BaseGPTModel[AsyncOperation[GPTModelResult], AsyncTuningTask
         messages: MessageInputType,
         *,
         timeout=60,
-    ) -> AsyncIterator[GPTModelResult]:
+    ) -> AsyncIterator[GPTModelResult[AsyncToolCall]]:
         async for result in self._run_stream(
             messages=messages,
             timeout=timeout
@@ -259,13 +267,13 @@ class AsyncGPTModel(BaseGPTModel[AsyncOperation[GPTModelResult], AsyncTuningTask
         messages: MessageInputType,
         *,
         timeout=60
-    ) -> AsyncOperation[GPTModelResult]:
+    ) -> AsyncOperation[GPTModelResult[AsyncToolCall]]:
         return await self._run_deferred(
             messages=messages,
             timeout=timeout,
         )
 
-    async def attach_deferred(self, operation_id: str, timeout: float = 60) -> AsyncOperation[GPTModelResult]:
+    async def attach_deferred(self, operation_id: str, timeout: float = 60) -> AsyncOperation[GPTModelResult[AsyncToolCall]]:
         return await self._attach_deferred(operation_id=operation_id, timeout=timeout)
 
     async def tokenize(
@@ -355,9 +363,16 @@ class AsyncGPTModel(BaseGPTModel[AsyncOperation[GPTModelResult], AsyncTuningTask
         return await self._attach_tune_deferred(task_id=task_id, timeout=timeout)
 
 
-class GPTModel(BaseGPTModel[Operation[GPTModelResult], TuningTask['GPTModel']]):
+class GPTModel(
+    BaseGPTModel[
+        Operation[GPTModelResult[ToolCall]],
+        TuningTask['GPTModel'],
+        ToolCall,
+    ]
+):
     _operation_type = Operation
     _tune_operation_type = TuningTask
+    _result_type = GPTModelResult[ToolCall]
     __run = run_sync(BaseGPTModel._run)
     __run_stream = run_sync_generator(BaseGPTModel._run_stream)
     __run_deferred = run_sync(BaseGPTModel._run_deferred)
@@ -372,7 +387,7 @@ class GPTModel(BaseGPTModel[Operation[GPTModelResult], TuningTask['GPTModel']]):
         messages: MessageInputType,
         *,
         timeout=60,
-    ) -> GPTModelResult:
+    ) -> GPTModelResult[ToolCall]:
         return self.__run(
             messages=messages,
             timeout=timeout
@@ -383,7 +398,7 @@ class GPTModel(BaseGPTModel[Operation[GPTModelResult], TuningTask['GPTModel']]):
         messages: MessageInputType,
         *,
         timeout=60,
-    ) -> Iterator[GPTModelResult]:
+    ) -> Iterator[GPTModelResult[ToolCall]]:
         yield from self.__run_stream(
             messages=messages,
             timeout=timeout
@@ -394,15 +409,15 @@ class GPTModel(BaseGPTModel[Operation[GPTModelResult], TuningTask['GPTModel']]):
         messages: MessageInputType,
         *,
         timeout=60
-    ) -> Operation[GPTModelResult]:
+    ) -> Operation[GPTModelResult[ToolCall]]:
         return self.__run_deferred(
             messages=messages,
             timeout=timeout,
         )
 
-    def attach_deferred(self, operation_id: str, timeout: float = 60) -> Operation[GPTModelResult]:
+    def attach_deferred(self, operation_id: str, timeout: float = 60) -> Operation[GPTModelResult[ToolCall]]:
         return cast(
-            Operation[GPTModelResult],
+            Operation[GPTModelResult[ToolCall]],
             self.__attach_deferred(operation_id=operation_id, timeout=timeout)
         )
 

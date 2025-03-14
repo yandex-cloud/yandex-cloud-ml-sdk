@@ -3,16 +3,20 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Sequence, overload
+from typing import TYPE_CHECKING, Sequence, overload
 
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Alternative as ProtoAlternative
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import ContentUsage as ProtoUsage
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import CompletionResponse
 
+from yandex_cloud_ml_sdk._tools.tool_call import HaveToolCalls, ToolCallTypeT
 from yandex_cloud_ml_sdk._types.proto import ProtoBased
 from yandex_cloud_ml_sdk._types.result import BaseResult
 
 from .message import TextMessage
+
+if TYPE_CHECKING:
+    from yandex_cloud_ml_sdk._sdk import BaseSDK
 
 
 @dataclass(frozen=True)
@@ -57,22 +61,26 @@ class AlternativeStatus(int, Enum):
 
 
 @dataclass(frozen=True)
-class Alternative(TextMessage, ProtoBased[ProtoAlternative]):
+class Alternative(TextMessage, ProtoBased[ProtoAlternative], HaveToolCalls[ToolCallTypeT]):
     status: AlternativeStatus
+    tool_calls: tuple[ToolCallTypeT, ...]
 
     @classmethod
-    def _from_proto(cls, *, proto: ProtoAlternative, **_) -> Alternative:
+    def _from_proto(cls, *, proto: ProtoAlternative, sdk: BaseSDK) -> Alternative:
         message = proto.message
+        #
         return cls(
             role=message.role,
             text=message.text,
             status=AlternativeStatus._from_proto(proto.status),
+            # pylint: disable=protected-access
+            tool_calls=sdk.tools.function._tool_calls_from_proto(message.tool_call_list.tool_calls),
         )
 
 
 @dataclass(frozen=True)
-class GPTModelResult(BaseResult[CompletionResponse], Sequence):
-    alternatives: tuple[Alternative, ...]
+class GPTModelResult(BaseResult[CompletionResponse], Sequence, HaveToolCalls[ToolCallTypeT]):
+    alternatives: tuple[Alternative[ToolCallTypeT], ...]
     usage: CompletionUsage
     model_version: str
 
@@ -112,3 +120,7 @@ class GPTModelResult(BaseResult[CompletionResponse], Sequence):
     @property
     def status(self) -> AlternativeStatus:
         return self[0].status
+
+    @property
+    def tool_calls(self) -> tuple[ToolCallTypeT, ...]:
+        return self[0].tool_calls

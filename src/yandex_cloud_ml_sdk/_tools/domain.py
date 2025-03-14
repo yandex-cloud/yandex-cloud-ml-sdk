@@ -1,21 +1,24 @@
-# pylint: disable=protected-access,no-name-in-module
+# pylint: disable=protected-access
 from __future__ import annotations
 
 from functools import cached_property
+from typing import Generic
 
 from yandex_cloud_ml_sdk._search_indexes.search_index import BaseSearchIndex
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
-from yandex_cloud_ml_sdk._types.schemas import ParametersType, schema_from_parameters
 from yandex_cloud_ml_sdk._utils.coerce import ResourceType, coerce_resource_ids
 
-from .tool import FunctionTool, SearchIndexTool
+from .function import AsyncFunctionTools, FunctionTools, FunctionToolsTypeT
+from .tool import SearchIndexTool
 
 
-class Tools(BaseDomain):
+class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
+    _functions_impl: type[FunctionToolsTypeT]
+
     @cached_property
-    def function(self) -> FunctionTools:
-        return FunctionTools(
+    def function(self) -> FunctionToolsTypeT:
+        return self._functions_impl(
             name='tools.function',
             sdk=self._sdk
         )
@@ -34,17 +37,9 @@ class Tools(BaseDomain):
         )
 
 
-class FunctionTools(BaseDomain):
-    def __call__(
-        self,
-        *,
-        name: str,
-        description: UndefinedOr[str] = UNDEFINED,
-        parameters: ParametersType,
-    ) -> FunctionTool:
-        schema = schema_from_parameters(parameters)
-        return FunctionTool(
-            parameters=schema,
-            name=name,
-            description=get_defined_value(description, None)
-        )
+class AsyncTools(BaseTools[AsyncFunctionTools]):
+    _functions_impl = AsyncFunctionTools
+
+
+class Tools(BaseTools[FunctionTools]):
+    _functions_impl = FunctionTools

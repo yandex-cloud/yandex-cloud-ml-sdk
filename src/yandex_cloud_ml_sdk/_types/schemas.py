@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Literal, TypedDict, Union
+from typing import Literal, TypedDict, Union
 
 from typing_extensions import TypeAlias, TypeGuard
 
@@ -11,7 +11,11 @@ logger = get_logger(__name__)
 LITERAL_RESPONSE_FORMATS = ('json', )
 
 StrResponseType = Literal['json']
-JsonSchemaType = dict[str, Any]
+
+JsonVal = Union[None, bool, str, float, int, 'JsonArray', 'JsonObject']
+JsonArray = list[JsonVal]
+JsonObject = dict[str, JsonVal]
+JsonSchemaType: TypeAlias = JsonObject
 
 class JsonSchemaResponseType(TypedDict):
     json_schema: JsonSchemaType
