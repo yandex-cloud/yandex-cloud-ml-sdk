@@ -1,14 +1,13 @@
 from __future__ import annotations
 
-from collections.abc import Iterable
-from typing import TypeVar, cast
+from typing import TypeVar
 
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._types.schemas import ParametersType, schema_from_parameters
 
 from .tool import FunctionTool
-from .tool_call import AsyncToolCall, HaveToolCalls, ProtoToolCall, ToolCall, ToolCallTypeT
+from .tool_call import AsyncToolCall, HaveToolCalls, ToolCall, ToolCallTypeT
 
 
 class BaseFunctionTools(BaseDomain, HaveToolCalls[ToolCallTypeT]):
@@ -27,12 +26,6 @@ class BaseFunctionTools(BaseDomain, HaveToolCalls[ToolCallTypeT]):
             parameters=schema,
             name=name,
             description=get_defined_value(description, None)
-        )
-
-    def _tool_calls_from_proto(self, proto_list: Iterable[ProtoToolCall]) -> tuple[ToolCallTypeT, ...]:
-        return tuple(
-            cast(ToolCallTypeT, self._call_impl._from_proto(proto=proto, sdk=self._sdk))
-            for proto in proto_list
         )
 
 

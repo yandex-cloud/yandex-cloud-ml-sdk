@@ -1,7 +1,7 @@
 # pylint: disable=no-name-in-module
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import TypeVar, Union
 
 from google.protobuf.json_format import MessageToDict
@@ -19,6 +19,7 @@ ProtoFunctionCall = Union[ProtoAssistantFunctionCall, ProtoCompletionsFunctionCa
 class BaseFunctionCall(ProtoBased[ProtoFunctionCall]):
     name: str
     arguments: JsonObject
+    _proto_origin: ProtoFunctionCall = field(repr=False)
 
     @classmethod
     def _from_proto(
@@ -29,7 +30,8 @@ class BaseFunctionCall(ProtoBased[ProtoFunctionCall]):
     ) -> Self:
         return cls(
             name=proto.name,
-            arguments=MessageToDict(proto.arguments)
+            arguments=MessageToDict(proto.arguments),
+            _proto_origin=proto,
         )
 
 

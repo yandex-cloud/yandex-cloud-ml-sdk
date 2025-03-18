@@ -7,6 +7,36 @@ import asyncio
 from yandex_cloud_ml_sdk import AsyncYCloudML
 
 
+def calculator(expression: str) -> str:
+    print(f'calculator got {expression=}')
+    return "-5"
+
+
+def weather(location: str, date: str) -> str:
+    print(f"weather func got {location=} and {date=}")
+    return "-300"
+
+
+def process_tool_calls(tool_calls) -> list[dict]:
+    function_map = {
+        'calculator': calculator,
+        'weather': weather
+    }
+
+    result = []
+    for tool_call in tool_calls:
+        # only functions are available at the moment
+        assert tool_call.function
+
+        function = function_map[tool_call.function.name]
+
+        answer = function(**tool_call.function.arguments)
+
+        result.append({'name': tool_call.function.name, 'content': answer})
+
+    return {'tool_results': result}
+
+
 async def main() -> None:
     # pylint: disable=import-outside-toplevel
     from pydantic import BaseModel, Field
@@ -25,7 +55,7 @@ async def main() -> None:
         description="A simple calculator that performs basic arithmetic operations.",
         parameters={
             "name": "calculator",
-            "description": "A simple calculator that performs basic arithmetic operations.",
+            "description": "A simple calculator that performs basic arithmetic and @ operations.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -45,14 +75,26 @@ async def main() -> None:
     )
 
     model = sdk.models.completions('yandexgpt')
-    model = model.configure(tools=[calculator_tool, weather_tool])
+    model = model.configure(tools=[calculator_tool, weather_tool], temperature=0)
 
-    calculator_result = await model.run("How much it would be 7*8?")
-    print(calculator_result.tool_calls)
+    for question in ["How much it would be 7@8?", "What is the weather like in Paris at 12 of March?"]:
+        messages = [question]
+        result = await model.run(messages)
 
-    weather_result = await model.run("What is the weather like in Paris at 12 of March?")
-    print(weather_result.tool_calls)
+        # if there are tool calls in result, we need to add it to message history
+        # for a context support anyway
+        messages.append(result)
 
+        if result.tool_calls:
+            tool_results = process_tool_calls(result.tool_calls)
+            # we adding a special tool results message to a history
+            messages.append(tool_results)
+            # and running model second time
+            result = await model.run(messages)
+        else:
+            raise RuntimeError('in this example model should return tool calls every time')
+
+        print(f"Model answer for {question=}:", result.text)
 
 if __name__ == '__main__':
     asyncio.run(main())

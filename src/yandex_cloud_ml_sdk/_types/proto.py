@@ -1,13 +1,17 @@
 from __future__ import annotations
 
 import abc
-from typing import TYPE_CHECKING, Protocol, TypeVar, runtime_checkable
+from typing import TYPE_CHECKING, Any, Protocol, TypeVar, runtime_checkable
 
 from google.protobuf.message import Message as ProtoMessage
-from typing_extensions import Self
+from typing_extensions import Self, TypeAlias
 
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
+
+    SDKType: TypeAlias = BaseSDK
+else:
+    SDKType: TypeAlias = Any
 
 
 ProtoMessageTypeT_contra = TypeVar('ProtoMessageTypeT_contra', bound=ProtoMessage, contravariant=True)

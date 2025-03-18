@@ -1,7 +1,8 @@
 # pylint: disable=no-name-in-module
 from __future__ import annotations
 
-from dataclasses import dataclass
+from collections.abc import Iterable
+from dataclasses import dataclass, field
 from typing import Generic, TypeVar, Union
 
 from typing_extensions import Self
@@ -23,6 +24,7 @@ class FunctionCallMixin(Generic[FunctionCallTypeT]):
 @dataclass(frozen=True)
 class BaseToolCall(ProtoBased[ProtoToolCall], FunctionCallMixin[FunctionCallTypeT]):
     function: FunctionCallTypeT | None
+    _proto_origin: ProtoToolCall = field(repr=False)
 
     @classmethod
     def _from_proto(
@@ -35,7 +37,8 @@ class BaseToolCall(ProtoBased[ProtoToolCall], FunctionCallMixin[FunctionCallType
         if proto.HasField('function_call'):
             function = cls._function_call_impl._from_proto(proto=proto.function_call, sdk=sdk)
         return cls(
-            function=function
+            function=function,
+            _proto_origin=proto,
         )
 
 

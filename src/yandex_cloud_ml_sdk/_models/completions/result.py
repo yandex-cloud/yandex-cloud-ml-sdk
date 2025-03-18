@@ -3,20 +3,18 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import TYPE_CHECKING, Sequence, overload
+from typing import Sequence, overload
 
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Alternative as ProtoAlternative
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import ContentUsage as ProtoUsage
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import CompletionResponse
 
 from yandex_cloud_ml_sdk._tools.tool_call import HaveToolCalls, ToolCallTypeT
-from yandex_cloud_ml_sdk._types.proto import ProtoBased
+from yandex_cloud_ml_sdk._tools.tool_call_list import ProtoCompletionsToolCallList, ToolCallList
+from yandex_cloud_ml_sdk._types.proto import ProtoBased, SDKType
 from yandex_cloud_ml_sdk._types.result import BaseResult
 
 from .message import TextMessage
-
-if TYPE_CHECKING:
-    from yandex_cloud_ml_sdk._sdk import BaseSDK
 
 
 @dataclass(frozen=True)
@@ -63,18 +61,24 @@ class AlternativeStatus(int, Enum):
 @dataclass(frozen=True)
 class Alternative(TextMessage, ProtoBased[ProtoAlternative], HaveToolCalls[ToolCallTypeT]):
     status: AlternativeStatus
-    tool_calls: tuple[ToolCallTypeT, ...]
+    tool_calls: ToolCallList[ProtoCompletionsToolCallList, ToolCallTypeT]
 
     @classmethod
-    def _from_proto(cls, *, proto: ProtoAlternative, sdk: BaseSDK) -> Alternative:
+    def _from_proto(cls, *, proto: ProtoAlternative, sdk: SDKType) -> Alternative:
         message = proto.message
-        #
+
+        # pylint: disable=protected-access
+        tool_call_impl: type[ToolCallTypeT] = sdk.tools.function._call_impl
+
         return cls(
             role=message.role,
             text=message.text,
             status=AlternativeStatus._from_proto(proto.status),
-            # pylint: disable=protected-access
-            tool_calls=sdk.tools.function._tool_calls_from_proto(message.tool_call_list.tool_calls),
+            tool_calls=ToolCallList._from_proto(
+                proto=message.tool_call_list,
+                sdk=sdk,
+                tool_call_impl=tool_call_impl
+            )
         )
 
 
@@ -85,7 +89,7 @@ class GPTModelResult(BaseResult[CompletionResponse], Sequence, HaveToolCalls[Too
     model_version: str
 
     @classmethod
-    def _from_proto(cls, *, proto: CompletionResponse, sdk) -> GPTModelResult:
+    def _from_proto(cls, *, proto: CompletionResponse, sdk: SDKType) -> GPTModelResult:
         alternatives = tuple(Alternative._from_proto(proto=alternative, sdk=sdk) for alternative in proto.alternatives)
         usage = CompletionUsage._from_proto(proto=proto.usage, sdk=sdk)
 
@@ -122,5 +126,5 @@ class GPTModelResult(BaseResult[CompletionResponse], Sequence, HaveToolCalls[Too
         return self[0].status
 
     @property
-    def tool_calls(self) -> tuple[ToolCallTypeT, ...]:
+    def tool_calls(self) -> ToolCallList[ProtoCompletionsToolCallList, ToolCallTypeT]:
         return self[0].tool_calls
