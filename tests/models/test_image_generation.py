@@ -63,7 +63,7 @@ def test_inputs(async_sdk):
     assert messages[0].weight == 2
     assert messages[1].weight == 1
 
-    messages = messages_to_proto(Alternative(role='foo', text='bar', status=None))
+    messages = messages_to_proto(Alternative(role='foo', text='bar', status=None, tool_calls=None))
     check_messages(messages, ['bar'])
     assert messages[0].weight == 0
 
@@ -73,8 +73,8 @@ def test_inputs(async_sdk):
 
     gpt_model_result = GPTModelResult(
         alternatives=[
-            Alternative(role='1', text='1', status=None),
-            Alternative(role='2', text='2', status=None),
+            Alternative(role='1', text='1', status=None, tool_calls=None),
+            Alternative(role='2', text='2', status=None, tool_calls=None),
         ],
         usage=None,
         model_version=''

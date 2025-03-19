@@ -17,7 +17,7 @@ def weather(location: str, date: str) -> str:
     return "-10 celsius"
 
 
-def process_tool_calls(tool_calls) -> list[dict]:
+def process_tool_calls(tool_calls) -> dict[str, list[dict]]:
     """
     This function is an example how you could organize
     dispatching of function calls in general case
@@ -35,7 +35,7 @@ def process_tool_calls(tool_calls) -> list[dict]:
 
         function = function_map[tool_call.function.name]
 
-        answer = function(**tool_call.function.arguments)
+        answer = function(**tool_call.function.arguments)  # type: ignore[operator]
 
         result.append({'name': tool_call.function.name, 'content': answer})
 
@@ -86,7 +86,7 @@ async def main() -> None:
 
     for question in ["How much it would be 7@8?", "What is the weather like in Paris at 12 of March?"]:
         # it is required to carefully maintain context for passing tool_results back to the model after function call
-        messages = [
+        messages: list = [
             {"role": "system", "text": "Please use English language for answer"},
             question
         ]

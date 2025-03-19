@@ -4,7 +4,7 @@ from __future__ import annotations
 import abc
 import asyncio
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Any, Awaitable, Callable, Generic, Iterable, TypeVar, cast
+from typing import TYPE_CHECKING, Any, Awaitable, Callable, Generic, Iterable, TypeVar, cast, get_origin
 
 from typing_extensions import Self
 # pylint: disable-next=no-name-in-module
@@ -186,13 +186,17 @@ class BaseOperation(Generic[ResultTypeT_co], OperationInterface[ResultTypeT_co])
         # NB: default_result_transformer should be used only with _result_type
         # which are BaseResult-compatible, but I don't know how to express it with typing,
         # maybe we need special operation class, which support transforming (probably a base one)
-        assert isinstance(self._result_type, ProtoBasedType)
+        # NB: issubclass don't like if instead of SomeClass object pass SomeClass[T];
+        # because we use _result_type also for a generic typing reasons, sometimes it requires
+        # unwrapping for issubclass check
+        result_type = get_origin(self._result_type) or self._result_type
+        assert issubclass(result_type, ProtoBasedType), f'{self._result_type} is not ProtoBasedType'
 
         # NB: mypy can't figure out that self._result_type._from_proto is
         # returning instance of self._result_type which is also is a ResultTypeT_co
         return cast(
             ResultTypeT_co,
-            self._result_type._from_proto(proto=proto, sdk=self._sdk)
+            self._result_type._from_proto(proto=proto, sdk=self._sdk)  # type: ignore[attr-defined]
         )
 
     @property

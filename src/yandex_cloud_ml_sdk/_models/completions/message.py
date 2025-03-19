@@ -74,7 +74,7 @@ def messages_to_proto(messages: MessageInputType) -> list[ProtoMessage]:
             kwargs = {'role': 'user', 'text': message}
         elif isinstance(message, TextMessageProtocol):
             if isinstance(message, TextMessageWithToolCallsProtocol) and message.tool_calls:
-                # pylint: disable[protected-access]
+                # pylint: disable=protected-access
                 kwargs = {'role': message.role, 'tool_call_list': message.tool_calls._proto_origin}
             else:
                 kwargs = {'role': message.role, 'text': message.text}
@@ -91,7 +91,7 @@ def messages_to_proto(messages: MessageInputType) -> list[ProtoMessage]:
                     'tool_result_list': tool_results,
                 }
             else:
-                raise ValueError(f'{message=!r} should have a "text" or "tool_results" key')
+                raise TypeError(f'{message=!r} should have a "text" or "tool_results" key')
         else:
             raise TypeError(f'{message=!r} should be str, dict with "text" or "tool_results" key or TextMessage instance')
 

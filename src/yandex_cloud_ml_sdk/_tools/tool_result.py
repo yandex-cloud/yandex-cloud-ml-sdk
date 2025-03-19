@@ -78,7 +78,7 @@ def tool_results_to_proto(
         ProtoCompletionsToolResultList: ProtoCompletionsToolResult,
     }[proto_type])
 
-    tool_results = coerce_tuple(tool_results, (dict, ))
+    tool_results = coerce_tuple(tool_results, cast(type[FunctionResultDict], dict))
 
     proto_tool_results: list[object] = []
     for tool_result in tool_results:
