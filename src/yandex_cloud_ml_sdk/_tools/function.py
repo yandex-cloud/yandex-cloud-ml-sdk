@@ -15,17 +15,25 @@ class BaseFunctionTools(BaseDomain, HaveToolCalls[ToolCallTypeT]):
 
     def __call__(
         self,
-        *,
-        name: str,
-        description: UndefinedOr[str] = UNDEFINED,
         parameters: ParametersType,
+        *,
+        name: UndefinedOr[str] = UNDEFINED,
+        description: UndefinedOr[str] = UNDEFINED,
     ) -> FunctionTool:
         schema = schema_from_parameters(parameters)
+        description_ = get_defined_value(description, None) or schema.get('description')
+        name_ = get_defined_value(name, None) or schema.get('title')
+
+        if not name_:
+            raise TypeError(
+                f"sdk.{self._name}() missing keyword-only argument 'name' "
+                "and failed to infer its value 'from parameters' argument"
+            )
 
         return FunctionTool(
             parameters=schema,
-            name=name,
-            description=get_defined_value(description, None)
+            name=name_,
+            description=description_
         )
 
 
