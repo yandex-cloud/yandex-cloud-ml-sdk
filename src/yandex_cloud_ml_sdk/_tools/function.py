@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TypeVar, cast
+from typing import Optional, TypeVar, cast
 
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
@@ -23,11 +23,11 @@ class BaseFunctionTools(BaseDomain, HaveToolCalls[ToolCallTypeT]):
         schema = schema_from_parameters(parameters)
         description_ = (
             get_defined_value(description, None) or
-            cast(str | None, schema.get('description'))
+            cast(Optional[str], schema.get('description'))
         )
         name_ = (
             get_defined_value(name, None) or
-            cast(str | None, schema.get('title'))
+            cast(Optional[str], schema.get('title'))
         )
 
         if not name_:
