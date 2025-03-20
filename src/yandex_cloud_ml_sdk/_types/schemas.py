@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Literal, TypedDict, Union
+from typing import Literal, TypedDict, Union
 
 from typing_extensions import TypeAlias, TypeGuard
 
@@ -11,12 +11,17 @@ logger = get_logger(__name__)
 LITERAL_RESPONSE_FORMATS = ('json', )
 
 StrResponseType = Literal['json']
-JsonSchemaType = dict[str, Any]
+
+JsonVal = Union[None, bool, str, float, int, 'JsonArray', 'JsonObject']
+JsonArray = list[JsonVal]
+JsonObject = dict[str, JsonVal]
+JsonSchemaType: TypeAlias = JsonObject
 
 class JsonSchemaResponseType(TypedDict):
     json_schema: JsonSchemaType
 
 ResponseType: TypeAlias = Union[StrResponseType, JsonSchemaResponseType, type]
+ParametersType: TypeAlias = Union[JsonSchemaType, type]
 
 try:
     import pydantic
@@ -65,7 +70,7 @@ def schema_from_response_format(response_format: ResponseType) -> StrResponseTyp
         not pydantic.dataclasses.is_pydantic_dataclass(response_format)
     ):
         raise TypeError(
-            "Response type could be only str, jsonschema dict or pydantic model class"
+            "Response type could be only str, jsonschema dict, pydantic model class or pydantic dataclass"
         )
 
     elif is_pydantic_model_class(response_format):
@@ -75,4 +80,20 @@ def schema_from_response_format(response_format: ResponseType) -> StrResponseTyp
         result = pydantic.TypeAdapter(response_format).json_schema()
 
     logger.debug('transform input response_format=%r to json_schema=%r', response_format, result)
+    return result
+
+
+def schema_from_parameters(parameters: ParametersType) -> JsonSchemaType:
+    if isinstance(parameters, dict):
+        result = dict(parameters)
+    elif is_pydantic_model_class(parameters):
+        result = parameters.model_json_schema()
+    elif PYDANTIC and pydantic.dataclasses.is_pydantic_dataclass(parameters):
+        result = pydantic.TypeAdapter(parameters).json_schema()
+    else:
+        raise TypeError(
+            "Function call parameters could be only jsonschema dict, pydantuc model class or pydantic dataclass"
+        )
+
+    logger.debug('trasform input parameters=%r to json_schema=%r', parameters, result)
     return result

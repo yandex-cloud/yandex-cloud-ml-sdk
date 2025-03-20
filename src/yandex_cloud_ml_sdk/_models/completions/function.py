@@ -14,7 +14,7 @@ class BaseCompletions(BaseModelFunction[ModelTypeT]):
         model_name: str,
         *,
         model_version: str = 'latest',
-    ):
+    ) -> ModelTypeT:
         if '://' in model_name:
             uri = model_name
         else:

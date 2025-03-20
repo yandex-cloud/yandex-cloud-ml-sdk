@@ -14,7 +14,7 @@ async def main() -> None:
     model = sdk.models.completions('yandexgpt')
     model = model.configure(temperature=0.5)
 
-    messages: list[dict[str, str] | str] = [{'role': 'system', 'text': 'Ты - Аркадий'}]
+    messages: list = [{'role': 'system', 'text': 'Ты - Аркадий'}]
     while True:
         message = input()
         messages.append(message)

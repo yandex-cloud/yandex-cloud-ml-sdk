@@ -7,8 +7,8 @@ import typing
 
 import pytest
 
-import yandex_cloud_ml_sdk._types.structured_output
-from yandex_cloud_ml_sdk._types.structured_output import schema_from_response_format
+import yandex_cloud_ml_sdk._types.schemas
+from yandex_cloud_ml_sdk._types.schemas import schema_from_response_format
 
 
 def test_string_type() -> None:
@@ -25,7 +25,7 @@ def test_dict_type() -> None:
 
 @pytest.mark.require_env('pydantic')
 def test_pydantic_model() -> None:
-    assert yandex_cloud_ml_sdk._types.structured_output.PYDANTIC is True
+    assert yandex_cloud_ml_sdk._types.schemas.PYDANTIC is True
 
     import pydantic
 
@@ -116,16 +116,16 @@ def test_wrong_type() -> None:
 @pytest.fixture(name='no_pydantic')
 def fixture_no_pydantic(monkeypatch) -> typing.Iterator[bool]:
     # pylint: disable=reimported
-    sys.modules.pop(yandex_cloud_ml_sdk._types.structured_output.__name__, None)
+    sys.modules.pop(yandex_cloud_ml_sdk._types.schemas.__name__, None)
 
     with monkeypatch.context() as m:
         m.setitem(sys.modules, 'pydantic', None)
-        import yandex_cloud_ml_sdk._types.structured_output as _m
+        import yandex_cloud_ml_sdk._types.schemas as _m
 
         yield True
 
-    sys.modules.pop(yandex_cloud_ml_sdk._types.structured_output.__name__, None)
-    import yandex_cloud_ml_sdk._types.structured_output as _m2
+    sys.modules.pop(yandex_cloud_ml_sdk._types.schemas.__name__, None)
+    import yandex_cloud_ml_sdk._types.schemas as _m2
 
     assert _m
     assert _m2
@@ -133,8 +133,8 @@ def fixture_no_pydantic(monkeypatch) -> typing.Iterator[bool]:
 
 def test_no_pydantic(no_pydantic) -> None:
     assert no_pydantic
-    assert yandex_cloud_ml_sdk._types.structured_output.PYDANTIC is False
-    assert yandex_cloud_ml_sdk._types.structured_output.PYDANTIC_V2 is False
+    assert yandex_cloud_ml_sdk._types.schemas.PYDANTIC is False
+    assert yandex_cloud_ml_sdk._types.schemas.PYDANTIC_V2 is False
 
     class A:
         a: int
