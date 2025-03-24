@@ -263,14 +263,14 @@ async def test_function_call(async_sdk: AsyncYCloudML) -> None:
     }
 
     tool = async_sdk.tools.function(
-        schema,
+        schema,  # type: ignore[arg-type]
         name='something',
         description="Tool which have to collect all the numbers from user message and do a SOMETHING with it",
     )
     model = async_sdk.models.completions('yandexgpt', model_version='rc')
     model = model.configure(tools=tool)
 
-    messages = [
+    messages: list = [
         'do a SOMETHING with all the numbers from: 5, 4, a, 1'
     ]
 
@@ -280,6 +280,7 @@ async def test_function_call(async_sdk: AsyncYCloudML) -> None:
     assert result.tool_calls is result[0].tool_calls is result.alternatives[0].tool_calls
     assert len(result.tool_calls) == 1
     function = result.tool_calls[0].function
+    assert function
     assert function.name == 'something'
     numbers = function.arguments['numbers']
     assert numbers == [5.0, 4.0, 1.0]
