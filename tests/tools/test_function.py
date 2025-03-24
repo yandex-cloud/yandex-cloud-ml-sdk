@@ -32,7 +32,9 @@ def test_pydantic_model_function_tool(async_sdk: AsyncYCloudML) -> None:
         }
     )
 
-    description: str = etalon.parameters['properties']['field']['description']  # type: ignore[index,call-overload,assignment]
+    description: str = (
+        etalon.parameters['properties']['field']['description']  # type: ignore[index,call-overload,assignment]
+    )
 
     class Function(pydantic.BaseModel):
         field: str = pydantic.Field(description=description)
@@ -70,7 +72,9 @@ def test_pydantic_dataclass_function_tool(async_sdk: AsyncYCloudML) -> None:
         }
     )
 
-    description: str = etalon.parameters['properties']['field']['description']  # type: ignore[index,call-overload,assignment]
+    description: str = (
+        etalon.parameters['properties']['field']['description']  # type: ignore[index,call-overload,assignment]
+    )
 
     @pydantic.dataclasses.dataclass
     class Function:
