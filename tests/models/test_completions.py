@@ -4,6 +4,7 @@ import json
 
 import pytest
 
+from yandex_cloud_ml_sdk import AsyncYCloudML
 from yandex_cloud_ml_sdk._models.completions.message import ProtoMessage, TextMessage, messages_to_proto
 from yandex_cloud_ml_sdk._models.completions.result import AlternativeStatus
 from yandex_cloud_ml_sdk._models.completions.token import Token
@@ -141,7 +142,6 @@ async def test_configure(model):
     assert model._make_request(messages="foo", stream=None).completion_options.reasoning_options.mode == 2
 
 
-
 async def test_messages():
     text_message = 'foo'
     dict_message = {'role': 'somebody', 'text': 'something'}
@@ -161,6 +161,24 @@ async def test_messages():
 
     with pytest.raises(TypeError):
         messages_to_proto([{}])
+
+    call_result_message = {'tool_results': [{'name': 'something', 'content': '+20.0'}]}
+    call_result_message2 = {'tool_results': [{'type': 'function', 'name': 'something', 'content': '+20.0'}]}
+    proto_messages = messages_to_proto(call_result_message)
+    assert proto_messages == messages_to_proto([call_result_message]) == messages_to_proto(call_result_message2)
+    assert proto_messages[0].tool_result_list.tool_results[0].function_result.name == 'something'
+
+    with pytest.raises(TypeError):
+        messages_to_proto({'tool_results': [{'type': 'something', 'name': 'something', 'content': '+20.0'}]})
+
+    with pytest.raises(TypeError):
+        messages_to_proto({'tool_results': [{'name': 'something'}]})
+
+    with pytest.raises(TypeError):
+        messages_to_proto({'tool_results': [{'content': 'something'}]})
+
+    with pytest.raises(TypeError):
+        messages_to_proto({'tool_results': {}})
 
 
 @pytest.mark.allow_grpc
@@ -229,3 +247,49 @@ async def test_structured_output_json_schema(async_sdk):
     result = await model.run('collect all numbers from: 5, 4, a, 1')
 
     assert json.loads(result.text) == {'numbers': [5, 4, 1]}
+
+
+@pytest.mark.allow_grpc
+async def test_function_call(async_sdk: AsyncYCloudML) -> None:
+    schema = {
+        "properties": {
+            "numbers": {
+                "items": {"type": "integer"},
+                "title": "Numbers", "type": "array"
+            }
+        },
+        "required": ["numbers"],
+        "title": "Numbers", "type": "object"
+    }
+
+    tool = async_sdk.tools.function(
+        schema,  # type: ignore[arg-type]
+        name='something',
+        description="Tool which have to collect all the numbers from user message and do a SOMETHING with it",
+    )
+    model = async_sdk.models.completions('yandexgpt', model_version='rc')
+    model = model.configure(tools=tool)
+
+    messages: list = [
+        'do a SOMETHING with all the numbers from: 5, 4, a, 1'
+    ]
+
+    result = await model.run(messages)
+    messages.append(result)
+    assert result.tool_calls
+    assert result.tool_calls is result[0].tool_calls is result.alternatives[0].tool_calls
+    assert len(result.tool_calls) == 1
+    function = result.tool_calls[0].function
+    assert function
+    assert function.name == 'something'
+    numbers = function.arguments['numbers']
+    assert numbers == [5.0, 4.0, 1.0]
+    assert all(isinstance(number, float) for number in numbers)
+
+    call_result = {'tool_results': [{'name': 'something', 'content': '+20.0'}]}
+    messages.append(call_result)
+
+    result = await model.run(messages)
+    assert result.text
+    assert '+20' in result.text
+    assert result.tool_calls is None

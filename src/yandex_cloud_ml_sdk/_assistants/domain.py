@@ -8,6 +8,7 @@ from yandex.cloud.ai.assistants.v1.assistant_service_pb2 import (
     CreateAssistantRequest, GetAssistantRequest, ListAssistantsRequest, ListAssistantsResponse
 )
 from yandex.cloud.ai.assistants.v1.assistant_service_pb2_grpc import AssistantServiceStub
+from yandex.cloud.ai.assistants.v1.common_pb2 import Tool as ProtoAssistantsTool
 
 from yandex_cloud_ml_sdk._models.completions.model import BaseGPTModel
 from yandex_cloud_ml_sdk._tools.tool import BaseTool
@@ -79,7 +80,7 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
                 temperature=temperature,
                 max_tokens=max_tokens
             ),
-            tools=[tool._to_proto() for tool in tools_]
+            tools=[tool._to_proto(ProtoAssistantsTool) for tool in tools_]
         )
 
         async with self._client.get_service_stub(AssistantServiceStub, timeout=timeout) as stub:

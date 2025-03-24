@@ -1,16 +1,10 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Protocol, runtime_checkable
+from .proto import ProtoBased, ProtoMessage, ProtoMessageTypeT_contra
 
-from typing_extensions import Self
+# it is left here until further refactoring
+__all__ = ['ProtoMessage', 'BaseResult']
 
-from .proto import ProtoMessage
 
-if TYPE_CHECKING:
-    from yandex_cloud_ml_sdk._sdk import BaseSDK
-
-@runtime_checkable
-class BaseResult(Protocol):
-    @classmethod
-    def _from_proto(cls, *, proto: ProtoMessage, sdk: BaseSDK) -> Self:
-        raise NotImplementedError()
+class BaseResult(ProtoBased[ProtoMessageTypeT_contra]):
+    pass
