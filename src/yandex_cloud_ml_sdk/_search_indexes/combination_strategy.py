@@ -73,7 +73,7 @@ class MeanIndexCombinationStrategy(BaseIndexCombinationStrategy):
         if self.mean_evaluation_technique:
             kwargs['mean_evaluation_technique'] = int(self.mean_evaluation_technique)
         if self.weights is not None:
-            kwargs['weghts'] = tuple(self.weights)
+            kwargs['weights'] = tuple(self.weights)
 
         return ProtoCombinationStrategy(
             mean_combination=ProtoMeanCombinationStrategy(**kwargs)

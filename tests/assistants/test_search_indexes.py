@@ -6,8 +6,9 @@ import pytest
 
 from yandex_cloud_ml_sdk import AsyncYCloudML
 from yandex_cloud_ml_sdk.search_indexes import (
-    HybridSearchIndexType, IndexNormalizationStrategy, ReciprocalRankFusionIndexCombinationStrategy,
-    StaticIndexChunkingStrategy, TextSearchIndexType, VectorSearchIndexType
+    HybridSearchIndexType, IndexNormalizationStrategy, MeanIndexCombinationStrategy, MeanIndexEvaluationTechnique,
+    ReciprocalRankFusionIndexCombinationStrategy, StaticIndexChunkingStrategy, TextSearchIndexType,
+    VectorSearchIndexType
 )
 
 pytestmark = pytest.mark.asyncio
@@ -177,6 +178,37 @@ async def test_hybrid_search_index(async_sdk: AsyncYCloudML, test_file_path):
     assert search_index.index_type.normalization_strategy == IndexNormalizationStrategy.L2
     assert isinstance(search_index.index_type.combination_strategy, ReciprocalRankFusionIndexCombinationStrategy)
     assert search_index.index_type.combination_strategy.k == 51
+
+
+@pytest.mark.allow_grpc
+async def test_hybrid_search_index_mean(async_sdk: AsyncYCloudML, test_file_path):
+    file = await async_sdk.files.upload(test_file_path)
+    operation = await async_sdk.search_indexes.create_deferred(
+        file,
+        index_type=HybridSearchIndexType(
+            chunking_strategy=StaticIndexChunkingStrategy(
+                max_chunk_size_tokens=700,
+                chunk_overlap_tokens=300
+            ),
+            normalization_strategy='L2',
+            combination_strategy=MeanIndexCombinationStrategy(
+                mean_evaluation_technique=MeanIndexEvaluationTechnique.HARMONIC,
+                weights=[0.4, 0.6],
+            )
+        )
+    )
+    search_index = await operation.wait()
+
+    assert isinstance(search_index.index_type, HybridSearchIndexType)
+    assert isinstance(search_index.index_type.text_search_index, TextSearchIndexType)
+    assert search_index.index_type.normalization_strategy == IndexNormalizationStrategy.L2
+    assert isinstance(search_index.index_type.combination_strategy, MeanIndexCombinationStrategy)
+    assert (
+        search_index.index_type.combination_strategy.mean_evaluation_technique ==
+        MeanIndexEvaluationTechnique.HARMONIC
+    )
+    assert search_index.index_type.combination_strategy.weights == (0.4, 0.6)
+
 
 
 @pytest.mark.allow_grpc
