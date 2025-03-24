@@ -55,6 +55,9 @@ def tool_result_to_proto(
         result_type_str = tool_result.get('type', 'function')
 
         if result_type_str == 'function':
+            if 'name' not in tool_result or 'content' not in tool_result:
+                raise TypeError("tool result for function call need to have 'name' and 'content' fields")
+
             proto_function_result = proto_function_result_type(
                 name=tool_result['name'],
                 content=tool_result['content']

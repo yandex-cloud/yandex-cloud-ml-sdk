@@ -61,7 +61,7 @@ class AlternativeStatus(int, Enum):
 @dataclass(frozen=True)
 class Alternative(TextMessage, ProtoBased[ProtoAlternative], HaveToolCalls[ToolCallTypeT]):
     status: AlternativeStatus
-    tool_calls: ToolCallList[ProtoCompletionsToolCallList, ToolCallTypeT]
+    tool_calls: ToolCallList[ProtoCompletionsToolCallList, ToolCallTypeT] | None
 
     @classmethod
     def _from_proto(cls, *, proto: ProtoAlternative, sdk: SDKType) -> Alternative:
@@ -70,15 +70,19 @@ class Alternative(TextMessage, ProtoBased[ProtoAlternative], HaveToolCalls[ToolC
         # pylint: disable=protected-access
         tool_call_impl: type[ToolCallTypeT] = sdk.tools.function._call_impl
 
-        return cls(
-            role=message.role,
-            text=message.text,
-            status=AlternativeStatus._from_proto(proto.status),
-            tool_calls=ToolCallList._from_proto(
+        tool_call_list: ToolCallList | None = None
+        if message.tool_call_list.tool_calls:
+            tool_call_list = ToolCallList._from_proto(
                 proto=message.tool_call_list,
                 sdk=sdk,
                 tool_call_impl=tool_call_impl
             )
+
+        return cls(
+            role=message.role,
+            text=message.text,
+            status=AlternativeStatus._from_proto(proto.status),
+            tool_calls=tool_call_list,
         )
 
 
@@ -126,5 +130,5 @@ class GPTModelResult(BaseResult[CompletionResponse], Sequence, HaveToolCalls[Too
         return self[0].status
 
     @property
-    def tool_calls(self) -> ToolCallList[ProtoCompletionsToolCallList, ToolCallTypeT]:
+    def tool_calls(self) -> ToolCallList[ProtoCompletionsToolCallList, ToolCallTypeT] | None:
         return self[0].tool_calls
