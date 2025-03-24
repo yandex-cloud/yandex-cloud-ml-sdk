@@ -57,7 +57,7 @@ async def main() -> None:
 
     with tqdm.tqdm(total=len(input_data), desc='creatig tasks') as t:
         operations = await run_chunked_tasks(
-            function=model.run_async,
+            function=model.run_deferred,
             data=input_data,
             chunk_size=100,
             tqdm_callback=t.update,

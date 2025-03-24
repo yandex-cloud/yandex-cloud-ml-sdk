@@ -1,10 +1,12 @@
 # pylint: disable=arguments-renamed,no-name-in-module,protected-access
 from __future__ import annotations
 
+from collections.abc import Sequence
 from typing import TYPE_CHECKING, Any, AsyncIterator, Generic, Iterator, Literal, cast
 
 from typing_extensions import Self, override
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import CompletionOptions, ReasoningOptions
+from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Tool as ProtoCompletionsTool
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import (
     CompletionRequest, CompletionResponse, TokenizeResponse
 )
@@ -13,20 +15,23 @@ from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_servic
 )
 from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 
+from yandex_cloud_ml_sdk._tools.tool import BaseTool
+from yandex_cloud_ml_sdk._tools.tool_call import AsyncToolCall, ToolCall, ToolCallTypeT
 from yandex_cloud_ml_sdk._tuning.tuning_task import AsyncTuningTask, TuningTask, TuningTaskTypeT
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr
 from yandex_cloud_ml_sdk._types.model import (
     ModelAsyncMixin, ModelSyncMixin, ModelSyncStreamMixin, ModelTuneMixin, OperationTypeT
 )
 from yandex_cloud_ml_sdk._types.operation import AsyncOperation, Operation
-from yandex_cloud_ml_sdk._types.structured_output import ResponseType, schema_from_response_format
+from yandex_cloud_ml_sdk._types.schemas import ResponseType, schema_from_response_format
 from yandex_cloud_ml_sdk._types.tuning.datasets import TuningDatasetsType
 from yandex_cloud_ml_sdk._types.tuning.optimizers import BaseOptimizer
 from yandex_cloud_ml_sdk._types.tuning.schedulers import BaseScheduler
 from yandex_cloud_ml_sdk._types.tuning.tuning_types import BaseTuningType
+from yandex_cloud_ml_sdk._utils.coerce import coerce_tuple
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
-from .config import GPTModelConfig, ReasoningMode, ReasoningModeType
+from .config import CompletionTool, GPTModelConfig, ReasoningMode, ReasoningModeType
 from .message import MessageInputType, messages_to_proto
 from .result import GPTModelResult
 from .token import Token
@@ -37,14 +42,14 @@ if TYPE_CHECKING:
 
 
 class BaseGPTModel(
-    Generic[OperationTypeT, TuningTaskTypeT],
-    ModelSyncMixin[GPTModelConfig, GPTModelResult],
-    ModelSyncStreamMixin[GPTModelConfig, GPTModelResult],
-    ModelAsyncMixin[GPTModelConfig, GPTModelResult, OperationTypeT],
-    ModelTuneMixin[GPTModelConfig, GPTModelResult, GPTModelTuneParams, TuningTaskTypeT],
+    Generic[OperationTypeT, TuningTaskTypeT, ToolCallTypeT],
+    ModelSyncMixin[GPTModelConfig, GPTModelResult[ToolCallTypeT]],
+    ModelSyncStreamMixin[GPTModelConfig, GPTModelResult[ToolCallTypeT]],
+    ModelAsyncMixin[GPTModelConfig, GPTModelResult[ToolCallTypeT], OperationTypeT],
+    ModelTuneMixin[GPTModelConfig, GPTModelResult[ToolCallTypeT], GPTModelTuneParams, TuningTaskTypeT],
 ):
     _config_type = GPTModelConfig
-    _result_type = GPTModelResult
+    _result_type: type[GPTModelResult[ToolCallTypeT]]
     _operation_type: type[OperationTypeT]
     _proto_result_type = CompletionResponse
 
@@ -68,12 +73,14 @@ class BaseGPTModel(
         max_tokens: UndefinedOr[int] = UNDEFINED,
         reasoning_mode: UndefinedOr[ReasoningModeType] = UNDEFINED,
         response_format: UndefinedOr[ResponseType] = UNDEFINED,
+        tools: UndefinedOr[Sequence[CompletionTool] | CompletionTool] = UNDEFINED,
     ) -> Self:
         return super().configure(
             temperature=temperature,
             max_tokens=max_tokens,
             reasoning_mode=reasoning_mode,
             response_format=response_format,
+            tools=tools,
         )
 
     def _make_request(
@@ -88,26 +95,33 @@ class BaseGPTModel(
         if stream is not None:
             completion_options_kwargs['stream'] = stream
 
-        if self._config.max_tokens is not None:
-            completion_options_kwargs['max_tokens'] = {'value': self._config.max_tokens}
-        if self._config.temperature is not None:
-            completion_options_kwargs['temperature'] = {'value': self._config.temperature}
-        if self._config.reasoning_mode is not None:
-            reasoning_mode = ReasoningMode._coerce(self._config.reasoning_mode)._to_proto()
+        c = self._config
+
+        if c.max_tokens is not None:
+            completion_options_kwargs['max_tokens'] = {'value': c.max_tokens}
+        if c.temperature is not None:
+            completion_options_kwargs['temperature'] = {'value': c.temperature}
+        if c.reasoning_mode is not None:
+            reasoning_mode = ReasoningMode._coerce(c.reasoning_mode)._to_proto()
             reasoning_options = ReasoningOptions(mode=reasoning_mode)  # type: ignore[arg-type]
             completion_options_kwargs['reasoning_options'] = reasoning_options
-        if self._config.response_format is not None:
-            schema = schema_from_response_format(self._config.response_format)
+        if c.response_format is not None:
+            schema = schema_from_response_format(c.response_format)
             if isinstance(schema, str):
                 response_format_kwargs['json_object'] = True
             else:
                 assert isinstance(schema, dict)
                 response_format_kwargs['json_schema'] = {'schema': schema}
 
+        tools: tuple[BaseTool, ...] = ()
+        if c.tools is not None:
+            tools = coerce_tuple(c.tools, BaseTool)  # type: ignore[type-abstract]
+
         return CompletionRequest(
             model_uri=self._uri,
             completion_options=CompletionOptions(**completion_options_kwargs),
             messages=messages_to_proto(messages),
+            tools=[tool._to_proto(ProtoCompletionsTool) for tool in tools],
             **response_format_kwargs,
         )
 
@@ -117,7 +131,7 @@ class BaseGPTModel(
         messages: MessageInputType,
         stream: bool,
         timeout: int,
-    ) -> AsyncIterator[GPTModelResult]:
+    ) -> AsyncIterator[GPTModelResult[ToolCallTypeT]]:
         request = self._make_request(
             messages=messages,
             stream=stream,
@@ -129,7 +143,7 @@ class BaseGPTModel(
                 timeout=timeout,
                 expected_type=CompletionResponse,
             ):
-                yield GPTModelResult._from_proto(proto=response, sdk=self._sdk)
+                yield self._result_type._from_proto(proto=response, sdk=self._sdk)
 
         # something like mypy or pylint asking me to put this return here
         return
@@ -141,7 +155,7 @@ class BaseGPTModel(
         messages: MessageInputType,
         *,
         timeout=60,
-    ) -> GPTModelResult:
+    ) -> GPTModelResult[ToolCallTypeT]:
         async for result in self._run_sync_impl(
             messages=messages,
             timeout=timeout,
@@ -158,7 +172,7 @@ class BaseGPTModel(
         messages: MessageInputType,
         *,
         timeout=60,
-    ) -> AsyncIterator[GPTModelResult]:
+    ) -> AsyncIterator[GPTModelResult[ToolCallTypeT]]:
         async for result in self._run_sync_impl(
             messages=messages,
             timeout=timeout,
@@ -214,16 +228,23 @@ class BaseGPTModel(
             return tuple(Token._from_proto(t) for t in response.tokens)
 
 
-class AsyncGPTModel(BaseGPTModel[AsyncOperation[GPTModelResult], AsyncTuningTask['AsyncGPTModel']]):
+class AsyncGPTModel(
+    BaseGPTModel[
+        AsyncOperation[GPTModelResult[AsyncToolCall]],
+        AsyncTuningTask['AsyncGPTModel'],
+        AsyncToolCall
+    ]
+):
     _operation_type = AsyncOperation
     _tune_operation_type = AsyncTuningTask
+    _result_type = GPTModelResult[AsyncToolCall]
 
     async def run(
         self,
         messages: MessageInputType,
         *,
         timeout=60,
-    ) -> GPTModelResult:
+    ) -> GPTModelResult[AsyncToolCall]:
         return await self._run(
             messages=messages,
             timeout=timeout
@@ -234,7 +255,7 @@ class AsyncGPTModel(BaseGPTModel[AsyncOperation[GPTModelResult], AsyncTuningTask
         messages: MessageInputType,
         *,
         timeout=60,
-    ) -> AsyncIterator[GPTModelResult]:
+    ) -> AsyncIterator[GPTModelResult[AsyncToolCall]]:
         async for result in self._run_stream(
             messages=messages,
             timeout=timeout
@@ -246,13 +267,13 @@ class AsyncGPTModel(BaseGPTModel[AsyncOperation[GPTModelResult], AsyncTuningTask
         messages: MessageInputType,
         *,
         timeout=60
-    ) -> AsyncOperation[GPTModelResult]:
+    ) -> AsyncOperation[GPTModelResult[AsyncToolCall]]:
         return await self._run_deferred(
             messages=messages,
             timeout=timeout,
         )
 
-    async def attach_deferred(self, operation_id: str, timeout: float = 60) -> AsyncOperation[GPTModelResult]:
+    async def attach_deferred(self, operation_id: str, timeout: float = 60) -> AsyncOperation[GPTModelResult[AsyncToolCall]]:
         return await self._attach_deferred(operation_id=operation_id, timeout=timeout)
 
     async def tokenize(
@@ -342,9 +363,16 @@ class AsyncGPTModel(BaseGPTModel[AsyncOperation[GPTModelResult], AsyncTuningTask
         return await self._attach_tune_deferred(task_id=task_id, timeout=timeout)
 
 
-class GPTModel(BaseGPTModel[Operation[GPTModelResult], TuningTask['GPTModel']]):
+class GPTModel(
+    BaseGPTModel[
+        Operation[GPTModelResult[ToolCall]],
+        TuningTask['GPTModel'],
+        ToolCall,
+    ]
+):
     _operation_type = Operation
     _tune_operation_type = TuningTask
+    _result_type = GPTModelResult[ToolCall]
     __run = run_sync(BaseGPTModel._run)
     __run_stream = run_sync_generator(BaseGPTModel._run_stream)
     __run_deferred = run_sync(BaseGPTModel._run_deferred)
@@ -359,7 +387,7 @@ class GPTModel(BaseGPTModel[Operation[GPTModelResult], TuningTask['GPTModel']]):
         messages: MessageInputType,
         *,
         timeout=60,
-    ) -> GPTModelResult:
+    ) -> GPTModelResult[ToolCall]:
         return self.__run(
             messages=messages,
             timeout=timeout
@@ -370,7 +398,7 @@ class GPTModel(BaseGPTModel[Operation[GPTModelResult], TuningTask['GPTModel']]):
         messages: MessageInputType,
         *,
         timeout=60,
-    ) -> Iterator[GPTModelResult]:
+    ) -> Iterator[GPTModelResult[ToolCall]]:
         yield from self.__run_stream(
             messages=messages,
             timeout=timeout
@@ -381,15 +409,15 @@ class GPTModel(BaseGPTModel[Operation[GPTModelResult], TuningTask['GPTModel']]):
         messages: MessageInputType,
         *,
         timeout=60
-    ) -> Operation[GPTModelResult]:
+    ) -> Operation[GPTModelResult[ToolCall]]:
         return self.__run_deferred(
             messages=messages,
             timeout=timeout,
         )
 
-    def attach_deferred(self, operation_id: str, timeout: float = 60) -> Operation[GPTModelResult]:
+    def attach_deferred(self, operation_id: str, timeout: float = 60) -> Operation[GPTModelResult[ToolCall]]:
         return cast(
-            Operation[GPTModelResult],
+            Operation[GPTModelResult[ToolCall]],
             self.__attach_deferred(operation_id=operation_id, timeout=timeout)
         )
 

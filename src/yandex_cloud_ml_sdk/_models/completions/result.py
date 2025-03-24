@@ -1,19 +1,20 @@
+# pylint: disable=no-name-in-module
 from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import TYPE_CHECKING, Sequence, cast, overload
+from typing import Sequence, overload
 
-from typing_extensions import Self
-# pylint: disable-next=no-name-in-module
+from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Alternative as ProtoAlternative
+from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import ContentUsage as ProtoUsage
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import CompletionResponse
 
-from yandex_cloud_ml_sdk._types.result import BaseResult, ProtoMessage
+from yandex_cloud_ml_sdk._tools.tool_call import HaveToolCalls, ToolCallTypeT
+from yandex_cloud_ml_sdk._tools.tool_call_list import ProtoCompletionsToolCallList, ToolCallList
+from yandex_cloud_ml_sdk._types.proto import ProtoBased, SDKType
+from yandex_cloud_ml_sdk._types.result import BaseResult
 
 from .message import TextMessage
-
-if TYPE_CHECKING:
-    from yandex_cloud_ml_sdk._sdk import BaseSDK
 
 
 @dataclass(frozen=True)
@@ -23,17 +24,34 @@ class Usage:
     total_tokens: int
 
 
-class AlternativeStatus(Enum):
-    UNSPECIFIED = 0
-    PARTIAL = 1
-    TRUNCATED_FINAL = 2
-    FINAL = 3
-    CONTENT_FILTER = 4
+@dataclass(frozen=True)
+class CompletionUsage(Usage, ProtoBased[ProtoUsage]):
+    reasoning_tokens: int
+
+    @classmethod
+    def _from_proto(cls, *, proto: ProtoUsage, **_) -> CompletionUsage:
+        return cls(
+            input_text_tokens=proto.input_text_tokens,
+            completion_tokens=proto.completion_tokens,
+            total_tokens=proto.total_tokens,
+            reasoning_tokens=proto.completion_tokens_details.reasoning_tokens
+        )
+
+
+_s = ProtoAlternative
+
+class AlternativeStatus(int, Enum):
+    UNSPECIFIED = _s.ALTERNATIVE_STATUS_UNSPECIFIED
+    PARTIAL = _s.ALTERNATIVE_STATUS_PARTIAL
+    TRUNCATED_FINAL = _s.ALTERNATIVE_STATUS_TRUNCATED_FINAL
+    FINAL = _s.ALTERNATIVE_STATUS_FINAL
+    CONTENT_FILTER = _s.ALTERNATIVE_STATUS_CONTENT_FILTER
+    TOOL_CALLS = _s.ALTERNATIVE_STATUS_TOOL_CALLS
 
     UNKNOWN = -1
 
     @classmethod
-    def from_proto_field(cls, status: int):
+    def _from_proto(cls, status: int):
         try:
             return cls(status)
         except ValueError:
@@ -41,31 +59,43 @@ class AlternativeStatus(Enum):
 
 
 @dataclass(frozen=True)
-class Alternative(TextMessage):
+class Alternative(TextMessage, ProtoBased[ProtoAlternative], HaveToolCalls[ToolCallTypeT]):
     status: AlternativeStatus
+    tool_calls: ToolCallList[ProtoCompletionsToolCallList, ToolCallTypeT] | None
+
+    @classmethod
+    def _from_proto(cls, *, proto: ProtoAlternative, sdk: SDKType) -> Alternative:
+        message = proto.message
+
+        # pylint: disable=protected-access
+        tool_call_impl: type[ToolCallTypeT] = sdk.tools.function._call_impl
+
+        tool_call_list: ToolCallList | None = None
+        if message.tool_call_list.tool_calls:
+            tool_call_list = ToolCallList._from_proto(
+                proto=message.tool_call_list,
+                sdk=sdk,
+                tool_call_impl=tool_call_impl
+            )
+
+        return cls(
+            role=message.role,
+            text=message.text,
+            status=AlternativeStatus._from_proto(proto.status),
+            tool_calls=tool_call_list,
+        )
 
 
 @dataclass(frozen=True)
-class GPTModelResult(BaseResult, Sequence):
-    alternatives: tuple[Alternative, ...]
-    usage: Usage
+class GPTModelResult(BaseResult[CompletionResponse], Sequence, HaveToolCalls[ToolCallTypeT]):
+    alternatives: tuple[Alternative[ToolCallTypeT], ...]
+    usage: CompletionUsage
     model_version: str
 
     @classmethod
-    def _from_proto(cls, *, proto: ProtoMessage, sdk: BaseSDK) -> Self:  # pylint: disable=unused-argument
-        proto = cast(CompletionResponse, proto)
-        alternatives = tuple(
-            Alternative(
-                role=alternative.message.role,
-                text=alternative.message.text,
-                status=AlternativeStatus.from_proto_field(alternative.status),
-            ) for alternative in proto.alternatives
-        )
-        usage = Usage(
-            input_text_tokens=proto.usage.input_text_tokens,
-            completion_tokens=proto.usage.completion_tokens,
-            total_tokens=proto.usage.total_tokens,
-        )
+    def _from_proto(cls, *, proto: CompletionResponse, sdk: SDKType) -> GPTModelResult:
+        alternatives = tuple(Alternative._from_proto(proto=alternative, sdk=sdk) for alternative in proto.alternatives)
+        usage = CompletionUsage._from_proto(proto=proto.usage, sdk=sdk)
 
         return cls(
             alternatives=alternatives,
@@ -98,3 +128,7 @@ class GPTModelResult(BaseResult, Sequence):
     @property
     def status(self) -> AlternativeStatus:
         return self[0].status
+
+    @property
+    def tool_calls(self) -> ToolCallList[ProtoCompletionsToolCallList, ToolCallTypeT] | None:
+        return self[0].tool_calls
