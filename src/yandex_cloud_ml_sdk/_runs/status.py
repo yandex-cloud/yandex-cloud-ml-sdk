@@ -28,6 +28,7 @@ class RunStatus(BaseRunStatus, int, enum.Enum):
     IN_PROGRESS = ProtoRunState.IN_PROGRESS
     FAILED = ProtoRunState.FAILED
     COMPLETED = ProtoRunState.COMPLETED
+    TOOL_CALLS = ProtoRunState.TOOL_CALLS
 
     @property
     def is_running(self) -> bool:
@@ -35,7 +36,7 @@ class RunStatus(BaseRunStatus, int, enum.Enum):
 
     @property
     def is_succeeded(self) -> bool:
-        return self is self.COMPLETED
+        return self in (self.COMPLETED, self.TOOL_CALLS)
 
     @property
     def is_failed(self) -> bool:
@@ -55,6 +56,7 @@ class StreamEvent(BaseRunStatus, int, enum.Enum):
     PARTIAL_MESSAGE = ProtoStreamEvent.PARTIAL_MESSAGE
     ERROR = ProtoStreamEvent.ERROR
     DONE = ProtoStreamEvent.DONE
+    TOOL_CALLS = ProtoStreamEvent.TOOL_CALLS
 
     @property
     def is_running(self) -> bool:
@@ -62,7 +64,7 @@ class StreamEvent(BaseRunStatus, int, enum.Enum):
 
     @property
     def is_succeeded(self) -> bool:
-        return self is self.DONE
+        return self in (self.DONE, self.TOOL_CALLS)
 
     @property
     def is_failed(self) -> bool:

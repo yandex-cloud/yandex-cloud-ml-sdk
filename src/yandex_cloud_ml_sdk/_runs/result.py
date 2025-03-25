@@ -11,6 +11,8 @@ from yandex.cloud.ai.assistants.v1.runs.run_service_pb2 import StreamEvent as Pr
 from yandex_cloud_ml_sdk._messages.citations import Citation
 from yandex_cloud_ml_sdk._messages.message import BaseMessage, Message, PartialMessage
 from yandex_cloud_ml_sdk._models.completions.result import Usage
+from yandex_cloud_ml_sdk._tools.tool_call import HaveToolCalls, ToolCallTypeT
+from yandex_cloud_ml_sdk._tools.tool_call_list import ProtoAssistantToolCallList, ToolCallList
 from yandex_cloud_ml_sdk._types.result import BaseResult, ProtoMessage
 
 from .status import BaseRunStatus, RunStatus, StreamEvent
@@ -26,10 +28,12 @@ MessageTypeT = TypeVar('MessageTypeT', bound=BaseMessage)
 class BaseRunResult(
     BaseRunStatus,
     BaseResult,
-    Generic[StatusTypeT, MessageTypeT]
+    HaveToolCalls[ToolCallTypeT],
+    Generic[StatusTypeT, MessageTypeT, ToolCallTypeT],
 ):
     status: StatusTypeT
     error: str | None
+    tool_calls: ToolCallList[ProtoAssistantToolCallList, ToolCallTypeT] | None
     _message: MessageTypeT | None
 
     @classmethod
@@ -50,23 +54,26 @@ class BaseRunResult(
         return self.status.is_failed
 
     @property
-    def message(self) -> MessageTypeT:
+    def message(self) -> MessageTypeT | None:
         if self.is_failed:
             raise ValueError("run is failed and don't have a message result")
-        assert self._message
         return self._message
 
     @property
-    def text(self) -> str:
+    def text(self) -> str | None:
+        if not self.message:
+            return None
         return self.message.text
 
     @property
-    def parts(self) -> tuple[Any, ...]:
+    def parts(self) -> tuple[Any, ...] | None:
+        if not self.message:
+            return None
         return self.message.parts
 
 
 @dataclasses.dataclass(frozen=True)
-class RunResult(BaseRunResult[RunStatus, Message]):
+class RunResult(BaseRunResult[RunStatus, Message, ToolCallTypeT]):
     usage: Usage | None
 
     @classmethod
@@ -94,21 +101,34 @@ class RunResult(BaseRunResult[RunStatus, Message]):
                 proto=state.completed_message
             )
 
+        # pylint: disable=protected-access
+        tool_call_impl: type[ToolCallTypeT] = sdk.tools.function._call_impl
+        tool_call_list: ToolCallList[ProtoAssistantToolCallList, ToolCallTypeT] | None = None
+        if state.tool_call_list.tool_calls:
+            tool_call_list = ToolCallList._from_proto(
+                proto=state.tool_call_list,
+                sdk=sdk,
+                tool_call_impl=tool_call_impl
+            )
+
         # pylint: disable=unexpected-keyword-arg
         return cls(
             status=RunStatus._from_proto(proto.state.status),
             error=error,
+            tool_calls=tool_call_list,
             _message=completed_message,
             usage=usage,
         )
 
     @property
-    def citations(self) -> tuple[Citation, ...]:
+    def citations(self) -> tuple[Citation, ...] | None:
+        if not self.message:
+            return None
         return self.message.citations
 
 
 @dataclasses.dataclass(frozen=True)
-class RunStreamEvent(BaseRunResult[StreamEvent, BaseMessage]):
+class RunStreamEvent(BaseRunResult[StreamEvent, BaseMessage, ToolCallTypeT]):
     @classmethod
     def _from_proto(cls, *, proto: ProtoMessage, sdk: BaseSDK) -> RunStreamEvent:
         proto = cast(ProtoStreamEvent, proto)
@@ -122,9 +142,20 @@ class RunStreamEvent(BaseRunResult[StreamEvent, BaseMessage]):
         if proto.HasField('error'):
             error = proto.error.message
 
+        # pylint: disable=protected-access
+        tool_call_impl: type[ToolCallTypeT] = sdk.tools.function._call_impl
+        tool_call_list: ToolCallList[ProtoAssistantToolCallList, ToolCallTypeT] | None = None
+        if proto.tool_call_list.tool_calls:
+            tool_call_list = ToolCallList._from_proto(
+                proto=proto.tool_call_list,
+                sdk=sdk,
+                tool_call_impl=tool_call_impl
+            )
+
         # pylint: disable=unexpected-keyword-arg
         return cls(
             status=StreamEvent._from_proto(proto.event_type),
             error=error,
+            tool_calls=tool_call_list,
             _message=message,
         )
