@@ -117,7 +117,7 @@ def fixture_test_client(test_client_maker) -> AsyncCloudClient | None:
     return None
 
 
-@pytest_asyncio.fixture(name='sdk_maker')
+@pytest.fixture(name='sdk_maker')
 def fixture_sdk_maker(
     folder_id,
     interceptors,
@@ -134,12 +134,12 @@ def fixture_sdk_maker(
     return maker
 
 
-@pytest_asyncio.fixture(name='sdk')
+@pytest.fixture(name='sdk')
 def fixture_sdk(sdk_maker) -> YCloudML:
     return sdk_maker()
 
 
-@pytest_asyncio.fixture(name='async_sdk')
+@pytest.fixture(name='async_sdk')
 def fixture_async_sdk(
     folder_id,
     interceptors,
