@@ -12,6 +12,14 @@
                 "message": {
                     "endpoints": [
                         {
+                            "id": "ai-assistants",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-files",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "ai-foundation-models",
                             "address": "llm.api.cloud.yandex.net:443"
                         },
@@ -92,8 +100,20 @@
                             "address": "data.certificate-manager.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "certificate-manager-private-ca",
+                            "address": "private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager-private-ca-data",
+                            "address": "data.private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "cic",
-                            "address": "cic-api.api.cloud.yandex.net:443"
+                            "address": "cic.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloud-registry",
+                            "address": "registry.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "cloudapps",
@@ -109,7 +129,7 @@
                         },
                         {
                             "id": "cloudrouter",
-                            "address": "cic-api.api.cloud.yandex.net:443"
+                            "address": "cloudrouter.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "cloudvideo",
@@ -146,6 +166,14 @@
                         {
                             "id": "endpoint",
                             "address": "api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "fomo-dataset",
+                            "address": "fomo-dataset.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "fomo-tuning",
+                            "address": "fomo-tuning.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "iam",
@@ -232,6 +260,10 @@
                             "address": "mks.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-metastore",
+                            "address": "metastore.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "managed-mongodb",
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
@@ -252,11 +284,19 @@
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-spark",
+                            "address": "spark.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "managed-sqlserver",
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "marketplace",
+                            "address": "marketplace.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "marketplace-pim",
                             "address": "marketplace.api.cloud.yandex.net:443"
                         },
                         {
@@ -302,6 +342,14 @@
                         {
                             "id": "organizationmanager",
                             "address": "organization-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quota-manager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quotamanager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "resource-manager",
@@ -389,28 +437,28 @@
                 "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
-                    "promptTruncationOptions": {},
-                    "completionOptions": {}
+                    "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest"
                 }
             },
             "response": {
                 "cls": "Assistant",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
                 "message": {
-                    "id": "fvt5rn7cnuctlm0u01o6",
+                    "id": "fvtkdelbl0g0fuuuk4bs",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-17T17:38:36.088251Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-17T17:38:36.088251Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-03-26T15:18:23.403660Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-03-26T15:18:23.403660Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-24T17:38:36.088251Z",
+                    "expiresAt": "2025-04-02T15:18:23.403660Z",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
-                    "promptTruncationOptions": {},
+                    "promptTruncationOptions": {
+                        "autoStrategy": {}
+                    },
                     "completionOptions": {}
                 }
             }
@@ -420,31 +468,31 @@
                 "cls": "UpdateAssistantRequest",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
                 "message": {
-                    "assistantId": "fvt5rn7cnuctlm0u01o6",
+                    "assistantId": "fvtkdelbl0g0fuuuk4bs",
                     "updateMask": "name",
-                    "name": "name",
-                    "promptTruncationOptions": {},
-                    "completionOptions": {}
+                    "name": "name"
                 }
             },
             "response": {
                 "cls": "Assistant",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
                 "message": {
-                    "id": "fvt5rn7cnuctlm0u01o6",
+                    "id": "fvtkdelbl0g0fuuuk4bs",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "name",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-17T17:38:36.088251Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-17T17:38:36.157631Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-03-26T15:18:23.403660Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-03-26T15:18:23.490668Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-24T17:38:36.088251Z",
+                    "expiresAt": "2025-04-02T15:18:23.403660Z",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
-                    "promptTruncationOptions": {},
+                    "promptTruncationOptions": {
+                        "autoStrategy": {}
+                    },
                     "completionOptions": {}
                 }
             }
@@ -454,32 +502,32 @@
                 "cls": "UpdateAssistantRequest",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
                 "message": {
-                    "assistantId": "fvt5rn7cnuctlm0u01o6",
+                    "assistantId": "fvtkdelbl0g0fuuuk4bs",
                     "updateMask": "description",
-                    "description": "description",
-                    "promptTruncationOptions": {},
-                    "completionOptions": {}
+                    "description": "description"
                 }
             },
             "response": {
                 "cls": "Assistant",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
                 "message": {
-                    "id": "fvt5rn7cnuctlm0u01o6",
+                    "id": "fvtkdelbl0g0fuuuk4bs",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "name",
                     "description": "description",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-17T17:38:36.088251Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-17T17:38:36.211072Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-03-26T15:18:23.403660Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-03-26T15:18:23.558534Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-24T17:38:36.088251Z",
+                    "expiresAt": "2025-04-02T15:18:23.403660Z",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
-                    "promptTruncationOptions": {},
+                    "promptTruncationOptions": {
+                        "autoStrategy": {}
+                    },
                     "completionOptions": {}
                 }
             }
@@ -489,37 +537,37 @@
                 "cls": "UpdateAssistantRequest",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
                 "message": {
-                    "assistantId": "fvt5rn7cnuctlm0u01o6",
+                    "assistantId": "fvtkdelbl0g0fuuuk4bs",
                     "updateMask": "labels",
                     "labels": {
                         "foo": "bar"
-                    },
-                    "promptTruncationOptions": {},
-                    "completionOptions": {}
+                    }
                 }
             },
             "response": {
                 "cls": "Assistant",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
                 "message": {
-                    "id": "fvt5rn7cnuctlm0u01o6",
+                    "id": "fvtkdelbl0g0fuuuk4bs",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "name",
                     "description": "description",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-17T17:38:36.088251Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-17T17:38:36.254723Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-03-26T15:18:23.403660Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-03-26T15:18:23.637066Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-24T17:38:36.088251Z",
+                    "expiresAt": "2025-04-02T15:18:23.403660Z",
                     "labels": {
                         "foo": "bar"
                     },
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
-                    "promptTruncationOptions": {},
+                    "promptTruncationOptions": {
+                        "autoStrategy": {}
+                    },
                     "completionOptions": {}
                 }
             }
@@ -529,36 +577,36 @@
                 "cls": "UpdateAssistantRequest",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
                 "message": {
-                    "assistantId": "fvt5rn7cnuctlm0u01o6",
+                    "assistantId": "fvtkdelbl0g0fuuuk4bs",
                     "updateMask": "instruction",
-                    "instruction": "instruction",
-                    "promptTruncationOptions": {},
-                    "completionOptions": {}
+                    "instruction": "instruction"
                 }
             },
             "response": {
                 "cls": "Assistant",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
                 "message": {
-                    "id": "fvt5rn7cnuctlm0u01o6",
+                    "id": "fvtkdelbl0g0fuuuk4bs",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "name",
                     "description": "description",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-17T17:38:36.088251Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-17T17:38:36.311873Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-03-26T15:18:23.403660Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-03-26T15:18:23.712420Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-24T17:38:36.088251Z",
+                    "expiresAt": "2025-04-02T15:18:23.403660Z",
                     "labels": {
                         "foo": "bar"
                     },
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
                     "instruction": "instruction",
-                    "promptTruncationOptions": {},
+                    "promptTruncationOptions": {
+                        "autoStrategy": {}
+                    },
                     "completionOptions": {}
                 }
             }
@@ -568,38 +616,38 @@
                 "cls": "UpdateAssistantRequest",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
                 "message": {
-                    "assistantId": "fvt5rn7cnuctlm0u01o6",
+                    "assistantId": "fvtkdelbl0g0fuuuk4bs",
                     "updateMask": "promptTruncationOptions.maxPromptTokens",
                     "promptTruncationOptions": {
                         "maxPromptTokens": "50"
-                    },
-                    "completionOptions": {}
+                    }
                 }
             },
             "response": {
                 "cls": "Assistant",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
                 "message": {
-                    "id": "fvt5rn7cnuctlm0u01o6",
+                    "id": "fvtkdelbl0g0fuuuk4bs",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "name",
                     "description": "description",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-17T17:38:36.088251Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-17T17:38:36.344166Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-03-26T15:18:23.403660Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-03-26T15:18:23.765899Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-24T17:38:36.088251Z",
+                    "expiresAt": "2025-04-02T15:18:23.403660Z",
                     "labels": {
                         "foo": "bar"
                     },
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
                     "instruction": "instruction",
                     "promptTruncationOptions": {
-                        "maxPromptTokens": "50"
+                        "maxPromptTokens": "50",
+                        "autoStrategy": {}
                     },
                     "completionOptions": {}
                 }
@@ -611,28 +659,28 @@
                 "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
-                    "promptTruncationOptions": {},
-                    "completionOptions": {}
+                    "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest"
                 }
             },
             "response": {
                 "cls": "Assistant",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
                 "message": {
-                    "id": "fvtfe055nlui23ld5e98",
+                    "id": "fvta7haepith1vvqqfan",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-17T17:38:36.409661Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-17T17:38:36.409661Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-03-26T15:18:23.820144Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-03-26T15:18:23.820144Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-24T17:38:36.409661Z",
+                    "expiresAt": "2025-04-02T15:18:23.820144Z",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
-                    "promptTruncationOptions": {},
+                    "promptTruncationOptions": {
+                        "autoStrategy": {}
+                    },
                     "completionOptions": {}
                 }
             }
@@ -642,31 +690,135 @@
                 "cls": "UpdateAssistantRequest",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
                 "message": {
-                    "assistantId": "fvtfe055nlui23ld5e98",
+                    "assistantId": "fvta7haepith1vvqqfan",
+                    "updateMask": "tools",
+                    "tools": [
+                        {
+                            "function": {
+                                "name": "something",
+                                "description": "Tool which have to collect all the numbers from user message and do a SOMETHING with it",
+                                "parameters": {
+                                    "title": "Numbers",
+                                    "type": "object",
+                                    "properties": {
+                                        "numbers": {
+                                            "title": "Numbers",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "numbers"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "response": {
+                "cls": "Assistant",
+                "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
+                "message": {
+                    "id": "fvta7haepith1vvqqfan",
+                    "folderId": "b1ghsjum2v37c2un8h64",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-03-26T15:18:23.820144Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-03-26T15:18:23.908258Z",
+                    "expirationConfig": {
+                        "expirationPolicy": "SINCE_LAST_ACTIVE",
+                        "ttlDays": "7"
+                    },
+                    "expiresAt": "2025-04-02T15:18:23.820144Z",
+                    "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
+                    "promptTruncationOptions": {
+                        "autoStrategy": {}
+                    },
+                    "completionOptions": {},
+                    "tools": [
+                        {
+                            "function": {
+                                "name": "something",
+                                "description": "Tool which have to collect all the numbers from user message and do a SOMETHING with it",
+                                "parameters": {
+                                    "title": "Numbers",
+                                    "type": "object",
+                                    "properties": {
+                                        "numbers": {
+                                            "title": "Numbers",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "numbers"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "UpdateAssistantRequest",
+                "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
+                "message": {
+                    "assistantId": "fvta7haepith1vvqqfan",
                     "updateMask": "modelUri",
-                    "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt-lite/latest",
-                    "promptTruncationOptions": {},
-                    "completionOptions": {}
+                    "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt-lite/latest"
                 }
             },
             "response": {
                 "cls": "Assistant",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
                 "message": {
-                    "id": "fvtfe055nlui23ld5e98",
+                    "id": "fvta7haepith1vvqqfan",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-17T17:38:36.409661Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-17T17:38:36.487720Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-03-26T15:18:23.820144Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-03-26T15:18:23.969628Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-24T17:38:36.409661Z",
+                    "expiresAt": "2025-04-02T15:18:23.820144Z",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt-lite/latest",
-                    "promptTruncationOptions": {},
-                    "completionOptions": {}
+                    "promptTruncationOptions": {
+                        "autoStrategy": {}
+                    },
+                    "completionOptions": {},
+                    "tools": [
+                        {
+                            "function": {
+                                "name": "something",
+                                "description": "Tool which have to collect all the numbers from user message and do a SOMETHING with it",
+                                "parameters": {
+                                    "title": "Numbers",
+                                    "type": "object",
+                                    "properties": {
+                                        "numbers": {
+                                            "title": "Numbers",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "numbers"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
                 }
             }
         },
@@ -675,31 +827,55 @@
                 "cls": "UpdateAssistantRequest",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
                 "message": {
-                    "assistantId": "fvtfe055nlui23ld5e98",
+                    "assistantId": "fvta7haepith1vvqqfan",
                     "updateMask": "modelUri",
-                    "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
-                    "promptTruncationOptions": {},
-                    "completionOptions": {}
+                    "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest"
                 }
             },
             "response": {
                 "cls": "Assistant",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
                 "message": {
-                    "id": "fvtfe055nlui23ld5e98",
+                    "id": "fvta7haepith1vvqqfan",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-17T17:38:36.409661Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-17T17:38:36.529484Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-03-26T15:18:23.820144Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-03-26T15:18:24.038438Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-24T17:38:36.409661Z",
+                    "expiresAt": "2025-04-02T15:18:23.820144Z",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
-                    "promptTruncationOptions": {},
-                    "completionOptions": {}
+                    "promptTruncationOptions": {
+                        "autoStrategy": {}
+                    },
+                    "completionOptions": {},
+                    "tools": [
+                        {
+                            "function": {
+                                "name": "something",
+                                "description": "Tool which have to collect all the numbers from user message and do a SOMETHING with it",
+                                "parameters": {
+                                    "title": "Numbers",
+                                    "type": "object",
+                                    "properties": {
+                                        "numbers": {
+                                            "title": "Numbers",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "numbers"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
                 }
             }
         },
@@ -708,9 +884,8 @@
                 "cls": "UpdateAssistantRequest",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
                 "message": {
-                    "assistantId": "fvtfe055nlui23ld5e98",
+                    "assistantId": "fvta7haepith1vvqqfan",
                     "updateMask": "completionOptions.temperature",
-                    "promptTruncationOptions": {},
                     "completionOptions": {
                         "temperature": 0.5
                     }
@@ -720,22 +895,48 @@
                 "cls": "Assistant",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
                 "message": {
-                    "id": "fvtfe055nlui23ld5e98",
+                    "id": "fvta7haepith1vvqqfan",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-17T17:38:36.409661Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-17T17:38:36.580629Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-03-26T15:18:23.820144Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-03-26T15:18:24.095354Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-24T17:38:36.409661Z",
+                    "expiresAt": "2025-04-02T15:18:23.820144Z",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
-                    "promptTruncationOptions": {},
+                    "promptTruncationOptions": {
+                        "autoStrategy": {}
+                    },
                     "completionOptions": {
                         "temperature": 0.5
-                    }
+                    },
+                    "tools": [
+                        {
+                            "function": {
+                                "name": "something",
+                                "description": "Tool which have to collect all the numbers from user message and do a SOMETHING with it",
+                                "parameters": {
+                                    "title": "Numbers",
+                                    "type": "object",
+                                    "properties": {
+                                        "numbers": {
+                                            "title": "Numbers",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "numbers"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
                 }
             }
         },
@@ -744,12 +945,10 @@
                 "cls": "UpdateAssistantRequest",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
                 "message": {
-                    "assistantId": "fvtfe055nlui23ld5e98",
-                    "updateMask": "completionOptions.temperature,completionOptions.maxTokens",
-                    "promptTruncationOptions": {},
+                    "assistantId": "fvta7haepith1vvqqfan",
+                    "updateMask": "completionOptions.maxTokens",
                     "completionOptions": {
-                        "maxTokens": "50",
-                        "temperature": 0.5
+                        "maxTokens": "50"
                     }
                 }
             },
@@ -757,23 +956,49 @@
                 "cls": "Assistant",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
                 "message": {
-                    "id": "fvtfe055nlui23ld5e98",
+                    "id": "fvta7haepith1vvqqfan",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-17T17:38:36.409661Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-17T17:38:36.611221Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-03-26T15:18:23.820144Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-03-26T15:18:24.150515Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-24T17:38:36.409661Z",
+                    "expiresAt": "2025-04-02T15:18:23.820144Z",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
-                    "promptTruncationOptions": {},
+                    "promptTruncationOptions": {
+                        "autoStrategy": {}
+                    },
                     "completionOptions": {
                         "maxTokens": "50",
                         "temperature": 0.5
-                    }
+                    },
+                    "tools": [
+                        {
+                            "function": {
+                                "name": "something",
+                                "description": "Tool which have to collect all the numbers from user message and do a SOMETHING with it",
+                                "parameters": {
+                                    "title": "Numbers",
+                                    "type": "object",
+                                    "properties": {
+                                        "numbers": {
+                                            "title": "Numbers",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "numbers"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
                 }
             }
         },
@@ -782,10 +1007,9 @@
                 "cls": "UpdateAssistantRequest",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
                 "message": {
-                    "assistantId": "fvtfe055nlui23ld5e98",
+                    "assistantId": "fvta7haepith1vvqqfan",
                     "updateMask": "modelUri,completionOptions.temperature,completionOptions.maxTokens",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt-lite/latest",
-                    "promptTruncationOptions": {},
                     "completionOptions": {
                         "maxTokens": "100",
                         "temperature": 1.0
@@ -796,23 +1020,49 @@
                 "cls": "Assistant",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
                 "message": {
-                    "id": "fvtfe055nlui23ld5e98",
+                    "id": "fvta7haepith1vvqqfan",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-17T17:38:36.409661Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-17T17:38:36.688336Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-03-26T15:18:23.820144Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-03-26T15:18:24.219112Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-24T17:38:36.409661Z",
+                    "expiresAt": "2025-04-02T15:18:23.820144Z",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt-lite/latest",
-                    "promptTruncationOptions": {},
+                    "promptTruncationOptions": {
+                        "autoStrategy": {}
+                    },
                     "completionOptions": {
                         "maxTokens": "100",
                         "temperature": 1.0
-                    }
+                    },
+                    "tools": [
+                        {
+                            "function": {
+                                "name": "something",
+                                "description": "Tool which have to collect all the numbers from user message and do a SOMETHING with it",
+                                "parameters": {
+                                    "title": "Numbers",
+                                    "type": "object",
+                                    "properties": {
+                                        "numbers": {
+                                            "title": "Numbers",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "numbers"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
                 }
             }
         },
@@ -821,10 +1071,9 @@
                 "cls": "UpdateAssistantRequest",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
                 "message": {
-                    "assistantId": "fvtfe055nlui23ld5e98",
+                    "assistantId": "fvta7haepith1vvqqfan",
                     "updateMask": "modelUri,completionOptions.temperature,completionOptions.maxTokens",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt-lite/latest",
-                    "promptTruncationOptions": {},
                     "completionOptions": {
                         "maxTokens": "100",
                         "temperature": 0.1
@@ -835,23 +1084,49 @@
                 "cls": "Assistant",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
                 "message": {
-                    "id": "fvtfe055nlui23ld5e98",
+                    "id": "fvta7haepith1vvqqfan",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-17T17:38:36.409661Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-17T17:38:36.759069Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-03-26T15:18:23.820144Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-03-26T15:18:24.278418Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-24T17:38:36.409661Z",
+                    "expiresAt": "2025-04-02T15:18:23.820144Z",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt-lite/latest",
-                    "promptTruncationOptions": {},
+                    "promptTruncationOptions": {
+                        "autoStrategy": {}
+                    },
                     "completionOptions": {
                         "maxTokens": "100",
                         "temperature": 0.1
-                    }
+                    },
+                    "tools": [
+                        {
+                            "function": {
+                                "name": "something",
+                                "description": "Tool which have to collect all the numbers from user message and do a SOMETHING with it",
+                                "parameters": {
+                                    "title": "Numbers",
+                                    "type": "object",
+                                    "properties": {
+                                        "numbers": {
+                                            "title": "Numbers",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "numbers"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
                 }
             }
         },
@@ -860,10 +1135,9 @@
                 "cls": "UpdateAssistantRequest",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
                 "message": {
-                    "assistantId": "fvtfe055nlui23ld5e98",
+                    "assistantId": "fvta7haepith1vvqqfan",
                     "updateMask": "modelUri,completionOptions.temperature,completionOptions.maxTokens",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt-lite/latest",
-                    "promptTruncationOptions": {},
                     "completionOptions": {
                         "maxTokens": "10",
                         "temperature": 1.0
@@ -874,23 +1148,49 @@
                 "cls": "Assistant",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
                 "message": {
-                    "id": "fvtfe055nlui23ld5e98",
+                    "id": "fvta7haepith1vvqqfan",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-17T17:38:36.409661Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-17T17:38:36.803370Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-03-26T15:18:23.820144Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-03-26T15:18:24.342496Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-24T17:38:36.409661Z",
+                    "expiresAt": "2025-04-02T15:18:23.820144Z",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt-lite/latest",
-                    "promptTruncationOptions": {},
+                    "promptTruncationOptions": {
+                        "autoStrategy": {}
+                    },
                     "completionOptions": {
                         "maxTokens": "10",
                         "temperature": 1.0
-                    }
+                    },
+                    "tools": [
+                        {
+                            "function": {
+                                "name": "something",
+                                "description": "Tool which have to collect all the numbers from user message and do a SOMETHING with it",
+                                "parameters": {
+                                    "title": "Numbers",
+                                    "type": "object",
+                                    "properties": {
+                                        "numbers": {
+                                            "title": "Numbers",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "numbers"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
                 }
             }
         },
@@ -899,7 +1199,7 @@
                 "cls": "DeleteAssistantRequest",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
                 "message": {
-                    "assistantId": "fvtfe055nlui23ld5e98"
+                    "assistantId": "fvta7haepith1vvqqfan"
                 }
             },
             "response": {
