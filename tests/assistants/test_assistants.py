@@ -5,9 +5,28 @@ import pytest
 
 pytestmark = pytest.mark.asyncio
 
+@pytest.fixture(name='tool')
+def tool_fixture(async_sdk):
+    schema = {
+        "properties": {
+            "numbers": {
+                "items": {"type": "integer"},
+                "title": "Numbers", "type": "array"
+            }
+        },
+        "required": ["numbers"],
+        "title": "Numbers", "type": "object"
+    }
+
+    return async_sdk.tools.function(
+        schema,  # type: ignore[arg-type]
+        name='something',
+        description="Tool which have to collect all the numbers from user message and do a SOMETHING with it",
+    )
+
 
 @pytest.mark.allow_grpc
-async def test_assistant(async_sdk):
+async def test_assistant(async_sdk, tool):
     assistant = await async_sdk.assistants.create('yandexgpt')
 
     for field, value in (
@@ -28,6 +47,9 @@ async def test_assistant(async_sdk):
 
     assistant = await async_sdk.assistants.create('yandexgpt')
     model = async_sdk.models.completions('yandexgpt-lite')
+
+    await assistant.update(tools=tool)
+    assert assistant.tools == (tool,)
 
     await assistant.update(model=model)
     assert '/yandexgpt-lite/' in assistant.model.uri
@@ -62,6 +84,8 @@ async def test_assistant(async_sdk):
     assert '/yandexgpt-lite/' in assistant.model.uri
     assert assistant.model.config.temperature == 1
     assert assistant.model.config.max_tokens == 10
+
+    assert assistant.tools == (tool,)
 
     await assistant.delete()
 

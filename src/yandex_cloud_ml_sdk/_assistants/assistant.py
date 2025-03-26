@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import dataclasses
+from collections.abc import Iterable
 from datetime import datetime
 from typing import TYPE_CHECKING, Any, AsyncIterator, Generic, Iterator, TypeVar
 
@@ -12,6 +13,7 @@ from yandex.cloud.ai.assistants.v1.assistant_service_pb2 import (
     UpdateAssistantRequest
 )
 from yandex.cloud.ai.assistants.v1.assistant_service_pb2_grpc import AssistantServiceStub
+from yandex.cloud.ai.assistants.v1.common_pb2 import Tool as ProtoAssistantsTool
 
 from yandex_cloud_ml_sdk._models.completions.model import BaseGPTModel
 from yandex_cloud_ml_sdk._runs.run import AsyncRun, Run, RunTypeT
@@ -20,6 +22,7 @@ from yandex_cloud_ml_sdk._tools.tool import BaseTool
 from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
 from yandex_cloud_ml_sdk._types.resource import ExpirableResource, safe_on_delete
+from yandex_cloud_ml_sdk._utils.coerce import coerce_tuple
 from yandex_cloud_ml_sdk._utils.sync import run_sync_generator_impl, run_sync_impl
 
 from .utils import get_completion_options, get_prompt_trunctation_options
@@ -72,6 +75,7 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
         description: UndefinedOr[str] = UNDEFINED,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         ttl_days: UndefinedOr[int] = UNDEFINED,
+        tools: UndefinedOr[Iterable[BaseTool]] = UNDEFINED,
         expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
         timeout: float = 60,
     ) -> Self:
@@ -82,6 +86,11 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
         )
 
         model_uri: UndefinedOr[str] | None = UNDEFINED
+
+        tools_: tuple[BaseTool, ...] = ()
+        if is_defined(tools):
+            # NB: mypy doesn't love abstract class used as TypeVar substitution here
+            tools_ = coerce_tuple(tools, BaseTool)  # type: ignore[type-abstract]
 
         if is_defined(model):
             if isinstance(model, str):
@@ -108,7 +117,8 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
             completion_options=get_completion_options(
                 temperature=temperature,
                 max_tokens=max_tokens,
-            )
+            ),
+            tools=[tool._to_proto(ProtoAssistantsTool) for tool in tools_]
         )
         if model_uri and is_defined(model_uri):
             request.model_uri = model_uri
@@ -126,6 +136,7 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
                 'completion_options.temperature': temperature,
                 'completion_options.max_tokens': max_tokens,
                 'prompt_truncation_options.max_prompt_tokens': max_prompt_tokens,
+                'tools': tools,
             }
         )
 
@@ -286,6 +297,7 @@ class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
         description: UndefinedOr[str] = UNDEFINED,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         ttl_days: UndefinedOr[int] = UNDEFINED,
+        tools: UndefinedOr[Iterable[BaseTool]] = UNDEFINED,
         expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
         timeout: float = 60,
     ) -> Self:
@@ -299,6 +311,7 @@ class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
             description=description,
             labels=labels,
             ttl_days=ttl_days,
+            tools=tools,
             expiration_policy=expiration_policy,
             timeout=timeout
         )
@@ -371,6 +384,7 @@ class Assistant(ReadOnlyAssistant[Run, Thread]):
         description: UndefinedOr[str] = UNDEFINED,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         ttl_days: UndefinedOr[int] = UNDEFINED,
+        tools: UndefinedOr[Iterable[BaseTool]] = UNDEFINED,
         expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
         timeout: float = 60,
     ) -> Self:
@@ -384,6 +398,7 @@ class Assistant(ReadOnlyAssistant[Run, Thread]):
             description=description,
             labels=labels,
             ttl_days=ttl_days,
+            tools=tools,
             expiration_policy=expiration_policy,
             timeout=timeout
         ), self._sdk)
