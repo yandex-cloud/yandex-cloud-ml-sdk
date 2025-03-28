@@ -115,7 +115,7 @@ def main() -> None:
             print(f'Assistant response on question "{question}": {result.text}')
 
         print('All of the thread messages:')
-        messages = reversed([message for message in thread])
+        messages = reversed(list(thread))
         for message in messages:
             print(f'    {message.author.role}: {message.text}')
     finally:

@@ -66,9 +66,9 @@ class BaseRunResult(
         return self.message.text
 
     @property
-    def parts(self) -> tuple[Any, ...] | None:
+    def parts(self) -> tuple[Any, ...]:
         if not self.message:
-            return None
+            return ()
         return self.message.parts
 
 
@@ -121,9 +121,9 @@ class RunResult(BaseRunResult[RunStatus, Message, ToolCallTypeT]):
         )
 
     @property
-    def citations(self) -> tuple[Citation, ...] | None:
+    def citations(self) -> tuple[Citation, ...]:
         if not self.message:
-            return None
+            return ()
         return self.message.citations
 
 
