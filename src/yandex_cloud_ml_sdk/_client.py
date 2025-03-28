@@ -267,6 +267,21 @@ class AsyncCloudClient:
         )
         return cast(_D, result)
 
+    async def stream_service_stream(
+        self,
+        service: grpc.aio.StreamStreamMultiCallable | grpc.StreamStreamMultiCallable,
+        requests: AsyncIterator[Message],
+        timeout: float,
+        expected_type: type[_D],  # pylint: disable=unused-argument
+        auth: bool = True,
+    ) -> AsyncIterator[_D]:
+        service = cast(grpc.aio.StreamStreamMultiCallable, service)
+        metadata = await self._get_metadata(auth_required=auth, timeout=timeout)
+        call = service(requests, metadata=metadata, timeout=timeout)
+
+        async for response in call:
+            yield cast(_D, response)
+
     @asynccontextmanager
     async def httpx(self) -> AsyncIterator[httpx.AsyncClient]:
         headers = {'user-agent': self._user_agent}
