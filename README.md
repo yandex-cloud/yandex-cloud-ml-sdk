@@ -10,7 +10,7 @@ Yandex Cloud ML SDK provides an easy-to-use interface for accessing Yandex Cloud
 - Image generation using [YandexART](https://yandex.cloud/docs/foundation-models/concepts/yandexart/models)
 - AI Assistants and file management
 - Working with [embeddings](https://yandex.cloud/docs/foundation-models/concepts/embeddings)
-- Classifier [models](https://cloud.yandex/docs/foundation/concepts/classifiers/models) 
+- Classifier [models](https://yandex.cloud/ru/docs/foundation-models/concepts/classifier/models)
 
 Additionally, Yandex Cloud ML SDK offers:
 
