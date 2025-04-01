@@ -132,8 +132,17 @@ class BaseRun(BaseResource, OperationInterface[RunResult[ToolCallTypeT]]):
         async def requests() -> AsyncIterator[AttachRunRequest]:
             yield request
 
+        i = 0
         async for _ in self._attach_run_impl(requests(), timeout=timeout):
-            return
+            i += 1
+            # NB First event - is a history TOOL_CALS event.
+            # But we need to be sure that Run on server side had enough time to change it status
+            # from TOOL_CALLS to make Run object reliably usable by user, so we wait "next event".
+            # TODO: Don't use Attach, use SubmitToRun handle.
+            if i == 2:
+                return
+
+        return
 
 
 class AsyncRun(BaseRun[AsyncToolCall]):

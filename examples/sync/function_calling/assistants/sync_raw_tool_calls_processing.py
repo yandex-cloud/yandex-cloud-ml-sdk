@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import time
-
 from yandex_cloud_ml_sdk import YCloudML
 
 
@@ -82,9 +80,6 @@ def run_on_thread(assistant, thread):
     if result.tool_calls:
         tool_results = process_tool_calls(result.tool_calls)
         run.submit_tool_results(tool_results)
-
-        # TODO: remove after a backend fix
-        time.sleep(5)
 
         # run starting to work again after submitting tool results
         # and we need to wait it's results again

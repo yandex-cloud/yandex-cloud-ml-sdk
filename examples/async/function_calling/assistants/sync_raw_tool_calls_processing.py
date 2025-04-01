@@ -83,9 +83,6 @@ async def run_on_thread(assistant, thread):
         tool_results = process_tool_calls(result.tool_calls)
         await run.submit_tool_results(tool_results)
 
-        # TODO: remove after a backend fix
-        await asyncio.sleep(5)
-
         # run starting to work again after submitting tool results
         # and we need to wait it's results again
         result = await run
