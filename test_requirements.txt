@@ -2,6 +2,7 @@ certifi
 data-science-types
 googleapis-common-protos-stubs
 grpc-stubs
+pyarrow-stubs
 pydantic<2.10
 pylint-protobuf
 pytest
