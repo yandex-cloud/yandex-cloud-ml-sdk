@@ -1,4 +1,3 @@
-import tempfile
 from pathlib import Path
 
 import httpx
@@ -22,16 +21,11 @@ def mock_dataset(mocker, tmp_path: Path) -> AsyncDataset:
         )
     )
 
-    mocker.patch(
-        "tempfile.gettempdir",
-        return_value=str(tmp_path),
-    )
-
     return dataset
 
 
 @pytest.mark.asyncio
-async def test_download_to_temp_dir(mock_dataset, httpx_mock: HTTPXMock, mocker):
+async def test_download_to_temp_dir(mock_dataset, httpx_mock: HTTPXMock, mocker, tmp_path: Path) -> None:
     """Test downloading dataset to a temporary directory."""
     mocker.patch.object(
         mock_dataset, "_get_download_urls",
@@ -44,36 +38,9 @@ async def test_download_to_temp_dir(mock_dataset, httpx_mock: HTTPXMock, mocker)
         content=b"test file content"
     )
 
-    paths = await mock_dataset.download(timeout=30)
+    paths = await mock_dataset.download(timeout=30, download_path=tmp_path)
 
-    temp_dir = Path(tempfile.gettempdir()) / "ycml" / "datasets" / mock_dataset.id
-    assert temp_dir.exists()
-
-    assert paths == [temp_dir / "file1.txt"]
-    assert paths[0].read_bytes() == b"test file content"
-
-
-@pytest.mark.asyncio
-async def test_download_to_custom_dir(mock_dataset, tmp_path, httpx_mock: HTTPXMock, mocker):
-    """Test downloading dataset to a custom directory."""
-    # Create empty directory
-    empty_dir = tmp_path / "empty"
-    empty_dir.mkdir()
-
-    mocker.patch.object(
-        mock_dataset, "_get_download_urls",
-        return_value=[("file1.txt", "https://example.com/file1.txt")]
-    )
-
-    # Mock the HTTP response
-    httpx_mock.add_response(
-        url="https://example.com/file1.txt",
-        content=b"test file content"
-    )
-    
-    # Call download method with custom path
-    paths = await mock_dataset.download(download_path=empty_dir, timeout=30)
-    assert paths == [empty_dir / "file1.txt"]
+    assert paths == (tmp_path / "file1.txt", )
     assert paths[0].read_bytes() == b"test file content"
 
 
@@ -170,9 +137,6 @@ async def test_download_to_non_empty_dir(mock_dataset, tmp_path, mocker):
 @pytest.mark.asyncio
 async def test_download_http_error(httpx_mock: HTTPXMock, mock_dataset, tmp_path, mocker):
     """Test handling HTTP errors during download."""
-    # Create empty directory
-    empty_dir = tmp_path / "empty"
-    empty_dir.mkdir()
     
     # Mock the _get_download_urls method
     mocker.patch.object(
@@ -188,4 +152,4 @@ async def test_download_http_error(httpx_mock: HTTPXMock, mock_dataset, tmp_path
     
     # Call download method
     with pytest.raises(httpx.HTTPStatusError):
-        await mock_dataset.download(download_path=empty_dir, timeout=30)
+        await mock_dataset.download(download_path=tmp_path, timeout=30)

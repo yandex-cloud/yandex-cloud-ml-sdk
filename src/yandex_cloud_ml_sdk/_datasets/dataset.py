@@ -4,11 +4,9 @@ from __future__ import annotations
 import asyncio
 import dataclasses
 import os
-import shutil
-import tempfile
 from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Iterable, TypeVar
+from typing import TYPE_CHECKING, Any, Iterable, TypeVar, AsyncIterator
 
 import aiofiles
 import httpx
@@ -24,7 +22,7 @@ from yandex.cloud.ai.dataset.v1.dataset_service_pb2 import (
 from yandex.cloud.ai.dataset.v1.dataset_service_pb2_grpc import DatasetServiceStub
 
 from yandex_cloud_ml_sdk._logging import get_logger
-from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, PathLike, is_defined, coerce_path
+from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, PathLike, coerce_path
 from yandex_cloud_ml_sdk._types.resource import BaseDeleteableResource, safe_on_delete
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
@@ -148,40 +146,30 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
     async def _download(
         self,
         *,
-        download_path: UndefinedOr[PathLike] = UNDEFINED,
+        download_path: PathLike,
         timeout: float = 60,
-    ) -> list[Path]:
+    ) -> tuple[Path, ...]:
         logger.debug("Downloading dataset %s", self.id)
 
+        base_path = coerce_path(download_path)
+        if not base_path.exists():
+            raise ValueError(f"{base_path} does not exist")
+
+        if not base_path.is_dir():
+            raise ValueError(f"{base_path} is not a directory")
+
+        if os.listdir(base_path):
+            raise ValueError(f"{base_path} is not empty")
+
         return await asyncio.wait_for(self.__download_impl(
-            download_path=download_path
+            base_path=base_path,
         ), timeout)
 
     async def __download_impl(
         self,
         *,
-        download_path: UndefinedOr[PathLike] = UNDEFINED
-    ) -> list[Path]:
-        if not is_defined(download_path):
-            # Now using tmp dir. Maybe must be changed to global sdk param
-            base_path = Path(tempfile.gettempdir()) / "ycml" / "datasets" / self.id
-            if base_path.exists():
-                # If using temp dir, and it is not empty, removing it
-                logger.warning("Dataset %s already downloaded, removing dir %s", self.id, base_path)
-                shutil.rmtree(base_path)
-
-            os.makedirs(base_path, exist_ok=True)
-        else:
-            base_path = coerce_path(download_path)
-            if not base_path.exists():
-                raise ValueError(f"{base_path} does not exist")
-
-            if not base_path.is_dir():
-                raise ValueError(f"{base_path} is not a directory")
-
-            if os.listdir(base_path):
-                raise ValueError(f"{base_path} is not empty")
-
+        base_path: Path
+    ) -> tuple[Path, ...]:
         urls = await self._get_download_urls()
         async with self._client.httpx() as client:
             coroutines = [
@@ -190,19 +178,31 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
 
             await asyncio.gather(*coroutines)
 
-        return [base_path / key for key, _ in urls]
+        return tuple(base_path / key for key, _ in urls)
 
-    async def __download_file(self, path: Path, url: str, client: httpx.AsyncClient) -> None:
-        # For now, assuming that dataset is relatively small and fits RAM
-        # In the future, downloading by parts must be added
-
+    async def __download_file(
+        self,
+        path: Path,
+        url: str,
+        client: httpx.AsyncClient,
+    ) -> None:
         async with aiofiles.open(path, "wb") as file:
-            resp = await client.get(url)
-            resp.raise_for_status()
-            await file.write(resp.read())
+            async for chunk in self.__read_from_url(url, client):
+                await file.write(chunk)
             await file.flush()
 
-
+    async def __read_from_url(
+        self,
+        url: str,
+        client: httpx.AsyncClient,
+        chunk_size: int = 1024 * 1024 * 8,  # 8Mb
+    ) -> AsyncIterator[bytes]:
+        # For now, assuming that dataset is relatively small and fits RAM
+        # In the future, downloading by parts must be added
+        resp = await client.get(url)
+        resp.raise_for_status()
+        async for chunk in resp.aiter_bytes(chunk_size=chunk_size):
+            yield chunk
 
     async def _list_upload_formats(
         self,
@@ -350,9 +350,9 @@ class AsyncDataset(BaseDataset):
     async def download(
         self,
         *,
-        download_path: UndefinedOr[PathLike] = UNDEFINED,
+        download_path: PathLike,
         timeout: float = 60,
-    ) -> list[Path]:
+    ) -> tuple[Path, ...]:
         return await self._download(
             download_path=download_path,
             timeout=timeout,
@@ -397,9 +397,9 @@ class Dataset(BaseDataset):
     def download(
         self,
         *,
-        download_path: UndefinedOr[PathLike] = UNDEFINED,
+        download_path: PathLike,
         timeout: float = 60,
-    ) -> list[Path]:
+    ) -> tuple[Path, ...]:
         return self.__download(
             download_path=download_path,
             timeout=timeout,
