@@ -10,6 +10,8 @@ pytest-flakes
 pytest-mypy
 pytest-pylint
 pytest-recording
+pytest-httpx
+pytest-mock
 tqdm
 types-aiofiles
 types-protobuf

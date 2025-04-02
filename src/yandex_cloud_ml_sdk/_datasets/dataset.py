@@ -1,22 +1,30 @@
 # pylint: disable=no-name-in-module
 from __future__ import annotations
 
+import asyncio
 import dataclasses
+import os
+import shutil
+import tempfile
 from datetime import datetime
+from pathlib import Path
 from typing import TYPE_CHECKING, Any, Iterable, TypeVar
 
+import aiofiles
+import httpx
 from typing_extensions import Self
 from yandex.cloud.ai.dataset.v1.dataset_pb2 import DatasetInfo as ProtoDatasetInfo
 from yandex.cloud.ai.dataset.v1.dataset_pb2 import ValidationError as ProtoValidationError
 from yandex.cloud.ai.dataset.v1.dataset_service_pb2 import (
     DeleteDatasetRequest, DeleteDatasetResponse, FinishMultipartUploadDraftRequest, FinishMultipartUploadDraftResponse,
     GetUploadDraftUrlRequest, GetUploadDraftUrlResponse, StartMultipartUploadDraftRequest,
-    StartMultipartUploadDraftResponse, UpdateDatasetRequest, UpdateDatasetResponse, UploadedPartInfo
+    StartMultipartUploadDraftResponse, UpdateDatasetRequest, UpdateDatasetResponse, UploadedPartInfo,
+    GetDownloadUrlsRequest, GetDownloadUrlsResponse
 )
 from yandex.cloud.ai.dataset.v1.dataset_service_pb2_grpc import DatasetServiceStub
 
 from yandex_cloud_ml_sdk._logging import get_logger
-from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
+from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, PathLike, is_defined, coerce_path
 from yandex_cloud_ml_sdk._types.resource import BaseDeleteableResource, safe_on_delete
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
@@ -136,6 +144,66 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
 
         logger.info("Dataset %s successfully deleted", self.id)
 
+    @safe_on_delete
+    async def _download(
+        self,
+        *,
+        download_path: UndefinedOr[PathLike] = UNDEFINED,
+        timeout: float = 60,
+    ) -> list[Path]:
+        logger.debug("Downloading dataset %s", self.id)
+
+        return await asyncio.wait_for(self.__download_impl(
+            download_path=download_path
+        ), timeout)
+
+    async def __download_impl(
+        self,
+        *,
+        download_path: UndefinedOr[PathLike] = UNDEFINED
+    ) -> list[Path]:
+        if not is_defined(download_path):
+            # Now using tmp dir. Maybe must be changed to global sdk param
+            base_path = Path(tempfile.gettempdir()) / "ycml" / "datasets" / self.id
+            if base_path.exists():
+                # If using temp dir, and it is not empty, removing it
+                logger.warning("Dataset %s already downloaded, removing dir %s", self.id, base_path)
+                shutil.rmtree(base_path)
+
+            os.makedirs(base_path, exist_ok=True)
+        else:
+            base_path = coerce_path(download_path)
+            if not base_path.exists():
+                raise ValueError(f"{base_path} does not exist")
+
+            if not base_path.is_dir():
+                raise ValueError(f"{base_path} is not a directory")
+
+            if os.listdir(base_path):
+                raise ValueError(f"{base_path} is not empty")
+
+        urls = await self._get_download_urls()
+        async with self._client.httpx() as client:
+            coroutines = [
+                self.__download_file(base_path / key, url, client) for key, url in urls
+            ]
+
+            await asyncio.gather(*coroutines)
+
+        return [base_path / key for key, _ in urls]
+
+    async def __download_file(self, path: Path, url: str, client: httpx.AsyncClient) -> None:
+        # For now, assuming that dataset is relatively small and fits RAM
+        # In the future, downloading by parts must be added
+
+        async with aiofiles.open(path, "wb") as file:
+            resp = await client.get(url)
+            resp.raise_for_status()
+            await file.write(resp.read())
+            await file.flush()
+
+
+
     async def _list_upload_formats(
         self,
         *,
@@ -168,6 +236,29 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
 
         logger.info("Dataset %s upload url successfully fetched", self.id)
         return result.upload_url
+
+    async def _get_download_urls(
+        self,
+        *,
+        timeout: float = 60,
+    ) -> Iterable[tuple[str, str]]:
+        logger.debug("Fetching download urls for dataset %s", self.id)
+
+        request = GetDownloadUrlsRequest(
+            dataset_id=self.id,
+        )
+
+        async with self._client.get_service_stub(DatasetServiceStub, timeout=timeout) as stub:
+            result = await self._client.call_service(
+                stub.GetDownloadUrls,
+                request,
+                timeout=timeout,
+                expected_type=GetDownloadUrlsResponse,
+            )
+
+        return [
+            (r.key, r.url) for r in result.download_urls
+        ]
 
     async def _start_multipart_upload(
         self,
@@ -256,11 +347,23 @@ class AsyncDataset(BaseDataset):
     ) -> tuple[str, ...]:
         return await self._list_upload_formats(timeout=timeout)
 
+    async def download(
+        self,
+        *,
+        download_path: UndefinedOr[PathLike] = UNDEFINED,
+        timeout: float = 60,
+    ) -> list[Path]:
+        return await self._download(
+            download_path=download_path,
+            timeout=timeout,
+        )
+
 
 class Dataset(BaseDataset):
     __update = run_sync(BaseDataset._update)
     __delete = run_sync(BaseDataset._delete)
     __list_upload_formats = run_sync(BaseDataset._list_upload_formats)
+    __download = run_sync(BaseDataset._download)
 
     def update(
         self,
@@ -290,6 +393,17 @@ class Dataset(BaseDataset):
         timeout: float = 60,
     ) -> tuple[str, ...]:
         return self.__list_upload_formats(timeout=timeout)
+
+    def download(
+        self,
+        *,
+        download_path: UndefinedOr[PathLike] = UNDEFINED,
+        timeout: float = 60,
+    ) -> list[Path]:
+        return self.__download(
+            download_path=download_path,
+            timeout=timeout,
+        )
 
 
 DatasetTypeT = TypeVar('DatasetTypeT', bound=BaseDataset)
