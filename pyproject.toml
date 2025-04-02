@@ -284,5 +284,6 @@ module = [
     "langchain_core.outputs",
     "pydantic",
     "scipy.spatial.distance",
+    "traitlets.utils.warnings",
 ]
 ignore_missing_imports = true
