@@ -12,6 +12,22 @@ from yandex_cloud_ml_sdk.exceptions import DatasetValidationError
 def local_path(path: str) -> pathlib.Path:
     return pathlib.Path(__file__).parent / path
 
+def read_dataset(paths: tuple[pathlib.Path, ...]):
+    # Reading dataset files with parquet
+
+    try:
+        import pyarrow.parquet as pq
+
+    except ImportError:
+        print('skipping example of parsing because of lack of pyarrow package')
+        return
+
+    dataset_tables = [
+        pq.read_table(path) for path in paths
+    ]
+
+    for table in dataset_tables:
+        print(table)
 
 async def main() -> None:
     sdk = AsyncYCloudML(folder_id='b1ghsjum2v37c2un8h64')
@@ -26,6 +42,10 @@ async def main() -> None:
 
     dataset = await dataset_draft.upload()
     print(f'new {dataset=}')
+
+    # Downloading content of dataset
+    paths = await dataset.download(download_path="/tmp")
+    read_dataset(paths)
 
     dataset_draft = sdk.datasets.completions.draft_from_path(
         local_path('example_bad_dataset')
