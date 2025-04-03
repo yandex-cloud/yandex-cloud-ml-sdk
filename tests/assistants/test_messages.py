@@ -22,6 +22,7 @@ async def test_message(async_sdk):
     assert message.thread_id == thread.id
     assert message.text == 'foo'
     assert message.author.role == 'USER'
+    assert message.status.name == 'COMPLETED'
 
     await thread.delete()
 
