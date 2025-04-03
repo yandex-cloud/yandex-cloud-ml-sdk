@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import asyncio
 import dataclasses
-import os
 from datetime import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Iterable, TypeVar, AsyncIterator
@@ -148,6 +147,7 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
         *,
         download_path: PathLike,
         timeout: float = 60,
+        exist_ok: bool = False,
     ) -> tuple[Path, ...]:
         logger.debug("Downloading dataset %s", self.id)
 
@@ -158,23 +158,27 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
         if not base_path.is_dir():
             raise ValueError(f"{base_path} is not a directory")
 
-        if os.listdir(base_path):
-            raise ValueError(f"{base_path} is not empty")
-
         return await asyncio.wait_for(self.__download_impl(
             base_path=base_path,
+            exist_ok=exist_ok,
         ), timeout)
 
     async def __download_impl(
         self,
-        *,
-        base_path: Path
+        base_path: Path,
+        exist_ok: bool,
     ) -> tuple[Path, ...]:
         urls = await self._get_download_urls()
         async with self._client.httpx() as client:
-            coroutines = [
-                self.__download_file(base_path / key, url, client) for key, url in urls
-            ]
+            coroutines = []
+            for key, url in urls:
+                file_path = base_path / key
+                if file_path.exists() and not exist_ok:
+                    raise ValueError(f"{file_path} already exists")
+
+                coroutines.append(
+                    self.__download_file(file_path, url, client),
+                )
 
             await asyncio.gather(*coroutines)
 
@@ -189,7 +193,6 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
         async with aiofiles.open(path, "wb") as file:
             async for chunk in self.__read_from_url(url, client):
                 await file.write(chunk)
-            await file.flush()
 
     async def __read_from_url(
         self,
@@ -197,8 +200,6 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
         client: httpx.AsyncClient,
         chunk_size: int = 1024 * 1024 * 8,  # 8Mb
     ) -> AsyncIterator[bytes]:
-        # For now, assuming that dataset is relatively small and fits RAM
-        # In the future, downloading by parts must be added
         resp = await client.get(url)
         resp.raise_for_status()
         async for chunk in resp.aiter_bytes(chunk_size=chunk_size):
@@ -352,10 +353,12 @@ class AsyncDataset(BaseDataset):
         *,
         download_path: PathLike,
         timeout: float = 60,
+        exist_ok: bool = False,
     ) -> tuple[Path, ...]:
         return await self._download(
             download_path=download_path,
             timeout=timeout,
+            exist_ok=exist_ok,
         )
 
 
@@ -399,10 +402,12 @@ class Dataset(BaseDataset):
         *,
         download_path: PathLike,
         timeout: float = 60,
+        exist_ok: bool = False,
     ) -> tuple[Path, ...]:
         return self.__download(
             download_path=download_path,
             timeout=timeout,
+            exist_ok=exist_ok,
         )
 
 
