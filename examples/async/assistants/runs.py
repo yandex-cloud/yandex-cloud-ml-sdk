@@ -39,10 +39,15 @@ async def main() -> None:
     run = await assistant.run(thread)
     print(f'second {run=}')
     result = await run
-    print(f'run {result=}')
+    print(f'run {result=} with a run status {result.status.name}')
 
-    run = await sdk.runs.get_last_by_thread(thread)
-    print(f'last run in thread, same as last one: {run}')
+    # you could get access to message status, which is different from run status!
+    assert result.message
+    print(f'resulting message have status {result.message.status}')
+    # and check if message was not censored
+    assert result.message.status.name != 'FILTERED_CONTENT'
+    # or truncated because of token limits
+    assert result.message.status.name != 'TRUNCATED'
 
     # NB: it doesn't work at the moment at the backend
     # async for run in sdk.runs.list(page_size=10):
