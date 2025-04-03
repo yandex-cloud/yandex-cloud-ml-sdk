@@ -92,6 +92,7 @@ def test_inputs(async_sdk):
         author=None,
         thread_id='2',
         citations=(),
+        status=0,
     )
     messages = messages_to_proto(assistant_message)
     check_messages(messages, ['a\nb'])

@@ -26,7 +26,9 @@ async def main() -> None:
     print("and now we could read it:")
     async for message in thread:
         print(f"    {message=}")
-        print(f"    {message.text=}\n")
+        print(f"    {message.text=}")
+        # Also every message could have TRUNCATED or FILTERED_CONTENT status
+        print(f"    {message.status.name=}\n")
 
     async for thread in sdk.threads.list():
         print(f"deleting thread {thread=}")
