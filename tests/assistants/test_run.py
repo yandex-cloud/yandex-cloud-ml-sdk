@@ -139,6 +139,7 @@ async def test_custom_run_options(async_sdk: AsyncYCloudML):
     assert run.custom_temperature == 0.0
     assert run.custom_max_tokens == 100
     assert run.custom_max_prompt_tokens == 200
+    assert run.custom_prompt_truncation_options
     assert run.custom_prompt_truncation_options.strategy == AutoPromptTruncationStrategy()
 
     result = await run
@@ -152,6 +153,7 @@ async def test_custom_run_options(async_sdk: AsyncYCloudML):
     assert run.custom_temperature == 0.0
     assert run.custom_max_tokens is None
     assert run.custom_max_prompt_tokens is None
+    assert run.custom_prompt_truncation_options
     assert run.custom_prompt_truncation_options.strategy == LastMessagesPromptTruncationStrategy(num_messages=10)
 
     result = await run

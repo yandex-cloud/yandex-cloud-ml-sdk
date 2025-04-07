@@ -1,6 +1,8 @@
 # pylint: disable=protected-access
 from __future__ import annotations
 
+from typing import Any
+
 import pytest
 
 from yandex_cloud_ml_sdk import AsyncYCloudML
@@ -34,6 +36,8 @@ async def test_assistant_common(async_sdk: AsyncYCloudML, tool):
     assistant = await async_sdk.assistants.create('yandexgpt')
     assistants = [assistant]
 
+    value: Any
+
     for field, value in (
         ('name', 'name'),
         ('description', 'description'),
@@ -44,7 +48,7 @@ async def test_assistant_common(async_sdk: AsyncYCloudML, tool):
         assert getattr(assistant, field) is None
 
         new_assistant = await assistant.update(
-            **{field: value}
+            **{field: value}  # type: ignore[arg-type]
         )
         assert new_assistant is assistant
 
@@ -93,7 +97,7 @@ async def test_assistant_common(async_sdk: AsyncYCloudML, tool):
     assert assistant.model.config.max_tokens is None
 
     await assistant.update(max_tokens=50)
-    assert assistant.model.config.temperature == 0.5
+    assert assistant.model.config.temperature == 1.5
     assert assistant.model.config.max_tokens == 50
 
     model = model.configure(max_tokens=100, temperature=1)
