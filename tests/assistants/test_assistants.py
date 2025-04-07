@@ -97,7 +97,7 @@ async def test_assistant_common(async_sdk: AsyncYCloudML, tool):
     assert assistant.model.config.max_tokens is None
 
     await assistant.update(max_tokens=50)
-    assert assistant.model.config.temperature == 1.5
+    assert assistant.model.config.temperature == 0.5
     assert assistant.model.config.max_tokens == 50
 
     model = model.configure(max_tokens=100, temperature=1)
