@@ -27,6 +27,18 @@ class PromptTruncationOptions(ProtoBased[ProtoPromptTruncationOptions]):
     max_prompt_tokens: int | None = None
     strategy: BasePromptTruncationStrategy | None = None
 
+    @property
+    def _auto_strategy(self) -> AutoPromptTruncationStrategy | None:
+        if isinstance(self.strategy, AutoPromptTruncationStrategy):
+            return self.strategy
+        return None
+
+    @property
+    def _last_messages_strategy(self) -> LastMessagesPromptTruncationStrategy | None:
+        if isinstance(self.strategy, LastMessagesPromptTruncationStrategy):
+            return self.strategy
+        return None
+
     @classmethod
     def _from_proto(cls, proto: ProtoPromptTruncationOptions, sdk: SDKType) -> PromptTruncationOptions:
         kwargs = {}
@@ -41,16 +53,8 @@ class PromptTruncationOptions(ProtoBased[ProtoPromptTruncationOptions]):
         max_prompt_tokens = None if self.max_prompt_tokens is None else Int64Value(value=self.max_prompt_tokens)
         return ProtoPromptTruncationOptions(
             max_prompt_tokens=max_prompt_tokens,
-            last_messages_strategy=(
-                self.strategy._to_proto()
-                if isinstance(self.strategy, LastMessagesPromptTruncationStrategy)
-                else None
-            ),
-            auto_strategy=(
-                self.strategy._to_proto()
-                if isinstance(self.strategy, AutoPromptTruncationStrategy)
-                else None
-            )
+            last_messages_strategy=self._last_messages_strategy._to_proto() if self._last_messages_strategy else None,
+            auto_strategy=self._auto_strategy._to_proto() if self._auto_strategy else None,
         )
 
     @classmethod
@@ -69,6 +73,18 @@ class PromptTruncationOptions(ProtoBased[ProtoPromptTruncationOptions]):
                 else None
             )
         )
+
+    def _get_update_paths(self) -> dict[str, bool]:
+        update_paths: dict[str, bool] = {}
+        for path, value in (
+            ('max_prompt_tokens', self.max_prompt_tokens),
+            ('auto_strategy', self._auto_strategy),
+            ('last_messages_strategy', self._last_messages_strategy),
+        ):
+            if value is not None:
+                full_path = f'prompt_truncation_options.{path}'
+                update_paths[full_path] = True
+        return update_paths
 
 
 class BasePromptTruncationStrategy(ProtoBased[ProtoPromptTruncationOptions]):

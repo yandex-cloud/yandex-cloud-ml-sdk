@@ -146,15 +146,8 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
                 'model_uri': model_uri,
                 'completion_options.temperature': temperature,
                 'completion_options.max_tokens': max_tokens,
-                'prompt_truncation_options.max_prompt_tokens': max_prompt_tokens,
-                'prompt_truncation_options.last_messages_strategy': (
-                    proto_prompt_trunction_options.last_messages_strategy
-                ),
-                'prompt_truncation_options.auto_strategy': (
-                    proto_prompt_trunction_options.auto_strategy
-                ),
                 'tools': tools,
-            }
+            } | prompt_truncation_options._get_update_paths()
         )
 
         async with self._client.get_service_stub(AssistantServiceStub, timeout=timeout) as stub:

@@ -3,7 +3,11 @@ from __future__ import annotations
 
 import pytest
 
+from yandex_cloud_ml_sdk import AsyncYCloudML
+from yandex_cloud_ml_sdk.assistants import AutoPromptTruncationStrategy, LastMessagesPromptTruncationStrategy
+
 pytestmark = pytest.mark.asyncio
+
 
 @pytest.fixture(name='tool')
 def tool_fixture(async_sdk):
@@ -26,8 +30,9 @@ def tool_fixture(async_sdk):
 
 
 @pytest.mark.allow_grpc
-async def test_assistant(async_sdk, tool):
+async def test_assistant_common(async_sdk: AsyncYCloudML, tool):
     assistant = await async_sdk.assistants.create('yandexgpt')
+    assistants = [assistant]
 
     for field, value in (
         ('name', 'name'),
@@ -44,6 +49,29 @@ async def test_assistant(async_sdk, tool):
         assert new_assistant is assistant
 
         assert getattr(assistant, field) == value
+
+    assert assistant.prompt_truncation_options.max_prompt_tokens == 50
+    assert assistant.prompt_truncation_options.strategy == AutoPromptTruncationStrategy()
+
+    for value, etalon in (
+        (5, LastMessagesPromptTruncationStrategy(num_messages=5)),
+        ('auto', AutoPromptTruncationStrategy()),
+        (LastMessagesPromptTruncationStrategy(num_messages=10),
+         LastMessagesPromptTruncationStrategy(num_messages=10)),
+        (AutoPromptTruncationStrategy(), AutoPromptTruncationStrategy()),
+    ):
+        new_assistant = await assistant.update(
+            prompt_truncation_strategy=value
+        )
+        assert new_assistant is assistant
+        assert assistant.prompt_truncation_options.strategy == etalon
+
+        another_assistant = await async_sdk.assistants.create(
+            'yandexgpt',
+            prompt_truncation_strategy=value
+        )
+        assert another_assistant.prompt_truncation_options.strategy == etalon
+        assistants.append(another_assistant)
 
     assistant = await async_sdk.assistants.create('yandexgpt')
     model = async_sdk.models.completions('yandexgpt-lite')
@@ -87,7 +115,8 @@ async def test_assistant(async_sdk, tool):
 
     assert assistant.tools == (tool,)
 
-    await assistant.delete()
+    for assistant in assistants:
+        await assistant.delete()
 
 
 @pytest.mark.allow_grpc
