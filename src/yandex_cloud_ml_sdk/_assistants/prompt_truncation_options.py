@@ -148,11 +148,6 @@ class LastMessagesPromptTruncationStrategy(BasePromptTruncationStrategy):
     #: If these messages exceed `max_prompt_tokens`, older messages will be further truncated to fit the limit.
     num_messages: int
 
-    #: The maximum number of tokens allowed in the prompt.
-    #: If the prompt exceeds this limit, the thread messages will be truncated.
-    #: Default max_prompt_tokens: 7000
-    max_prompt_tokens: int | None = None
-
     @classmethod
     def _from_proto(cls, proto: ProtoPromptTruncationOptions, sdk: SDKType) -> LastMessagesPromptTruncationStrategy:
         return LastMessagesPromptTruncationStrategy(

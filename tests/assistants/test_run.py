@@ -122,3 +122,40 @@ async def test_run_fail(async_sdk):
 
     await assistant.delete()
     await thread.delete()
+
+
+@pytest.mark.allow_grpc
+@pytest.mark.vcr
+async def test_custom_run_options(async_sdk: AsyncYCloudML):
+    assistant = await async_sdk.assistants.create('yandexgpt')
+    thread = await async_sdk.threads.create()
+    await thread.write('hey!')
+    run = await assistant.run(
+        thread,
+        custom_temperature=0,
+        custom_max_tokens=100,
+        custom_max_prompt_tokens=200
+    )
+    assert run.custom_temperature == 0.0
+    assert run.custom_max_tokens == 100
+    assert run.custom_max_prompt_tokens == 200
+    assert run.custom_prompt_truncation_options.strategy == AutoPromptTruncationStrategy()
+
+    result = await run
+    assert result
+
+    run = await assistant.run(
+        thread,
+        custom_temperature=0,
+        custom_prompt_truncation_strategy=LastMessagesPromptTruncationStrategy(num_messages=10),
+    )
+    assert run.custom_temperature == 0.0
+    assert run.custom_max_tokens is None
+    assert run.custom_max_prompt_tokens is None
+    assert run.custom_prompt_truncation_options.strategy == LastMessagesPromptTruncationStrategy(num_messages=10)
+
+    result = await run
+    assert result
+
+    await assistant.delete()
+    await thread.delete()
