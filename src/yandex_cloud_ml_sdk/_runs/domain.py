@@ -62,12 +62,16 @@ class BaseRuns(BaseDomain, Generic[RunTypeT]):
             max_prompt_tokens=custom_max_prompt_tokens,
             strategy=custom_prompt_truncation_strategy,
         )
+        if custom_prompt_truncation_options._get_update_paths():
+            proto_custom_prompt_truncation_options = custom_prompt_truncation_options._to_proto()
+        else:
+            proto_custom_prompt_truncation_options = None
 
         request = CreateRunRequest(
             assistant_id=assistant_id,
             thread_id=thread_id,
             custom_completion_options=custom_completion_options,
-            custom_prompt_truncation_options=custom_prompt_truncation_options._to_proto(),
+            custom_prompt_truncation_options=proto_custom_prompt_truncation_options,
             stream=stream,
         )
 
