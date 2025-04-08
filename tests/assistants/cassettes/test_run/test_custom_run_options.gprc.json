@@ -438,29 +438,26 @@
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
-                    "promptTruncationOptions": {
-                        "maxPromptTokens": "1"
-                    }
+                    "promptTruncationOptions": {}
                 }
             },
             "response": {
                 "cls": "Assistant",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
                 "message": {
-                    "id": "fvt9tffl8e882kj0j8vf",
+                    "id": "fvtr7g6tquue8i318grr",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "createdBy": "aje6euqn63oa635coh28",
-                    "createdAt": "2025-04-07T14:43:04.461636Z",
+                    "createdAt": "2025-04-07T14:49:04.846192Z",
                     "updatedBy": "aje6euqn63oa635coh28",
-                    "updatedAt": "2025-04-07T14:43:04.461636Z",
+                    "updatedAt": "2025-04-07T14:49:04.846192Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2025-04-14T14:43:04.461636Z",
+                    "expiresAt": "2025-04-14T14:49:04.846192Z",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
                     "promptTruncationOptions": {
-                        "maxPromptTokens": "1",
                         "autoStrategy": {}
                     },
                     "completionOptions": {}
@@ -479,18 +476,18 @@
                 "cls": "Thread",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_pb2",
                 "message": {
-                    "id": "fvtv1v60bl53dm9fjl2o",
+                    "id": "fvtce8l8lrao2cc5go4s",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "defaultMessageAuthorId": "fvti504httl3ak2k7h96",
+                    "defaultMessageAuthorId": "fvtc22nt61fo0jvlado1",
                     "createdBy": "aje6euqn63oa635coh28",
-                    "createdAt": "2025-04-07T14:43:04.589212Z",
+                    "createdAt": "2025-04-07T14:49:04.979672Z",
                     "updatedBy": "aje6euqn63oa635coh28",
-                    "updatedAt": "2025-04-07T14:43:04.589212Z",
+                    "updatedAt": "2025-04-07T14:49:04.979672Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2025-04-14T14:43:04.589212Z"
+                    "expiresAt": "2025-04-14T14:49:04.979672Z"
                 }
             }
         },
@@ -499,12 +496,12 @@
                 "cls": "CreateMessageRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_service_pb2",
                 "message": {
-                    "threadId": "fvtv1v60bl53dm9fjl2o",
+                    "threadId": "fvtce8l8lrao2cc5go4s",
                     "content": {
                         "content": [
                             {
                                 "text": {
-                                    "content": "hey! how are you?"
+                                    "content": "hey!"
                                 }
                             }
                         ]
@@ -515,19 +512,19 @@
                 "cls": "Message",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
                 "message": {
-                    "id": "fvtbon7t6mobao2j8s78",
-                    "threadId": "fvtv1v60bl53dm9fjl2o",
+                    "id": "fvtnjj45ncbo9edbjutg",
+                    "threadId": "fvtce8l8lrao2cc5go4s",
                     "createdBy": "aje6euqn63oa635coh28",
-                    "createdAt": "2025-04-07T14:43:04.722057Z",
+                    "createdAt": "2025-04-07T14:49:05.107889Z",
                     "author": {
-                        "id": "fvti504httl3ak2k7h96",
+                        "id": "fvtc22nt61fo0jvlado1",
                         "role": "USER"
                     },
                     "content": {
                         "content": [
                             {
                                 "text": {
-                                    "content": "hey! how are you?"
+                                    "content": "hey!"
                                 }
                             }
                         ]
@@ -541,9 +538,13 @@
                 "cls": "CreateRunRequest",
                 "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
                 "message": {
-                    "assistantId": "fvt9tffl8e882kj0j8vf",
-                    "threadId": "fvtv1v60bl53dm9fjl2o",
+                    "assistantId": "fvtr7g6tquue8i318grr",
+                    "threadId": "fvtce8l8lrao2cc5go4s",
+                    "customPromptTruncationOptions": {
+                        "maxPromptTokens": "200"
+                    },
                     "customCompletionOptions": {
+                        "maxTokens": "100",
                         "temperature": 0.0
                     }
                 }
@@ -552,15 +553,20 @@
                 "cls": "Run",
                 "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
                 "message": {
-                    "id": "fvtvmofdh529bcn8qor0",
-                    "assistantId": "fvt9tffl8e882kj0j8vf",
-                    "threadId": "fvtv1v60bl53dm9fjl2o",
+                    "id": "fvtl0vghn7ur6gjn8kve",
+                    "assistantId": "fvtr7g6tquue8i318grr",
+                    "threadId": "fvtce8l8lrao2cc5go4s",
                     "createdBy": "aje6euqn63oa635coh28",
-                    "createdAt": "2025-04-07T14:43:04.852460147Z",
+                    "createdAt": "2025-04-07T14:49:05.250357141Z",
                     "state": {
                         "status": "PENDING"
                     },
+                    "customPromptTruncationOptions": {
+                        "maxPromptTokens": "200",
+                        "autoStrategy": {}
+                    },
                     "customCompletionOptions": {
+                        "maxTokens": "100",
                         "temperature": 0.0
                     }
                 }
@@ -571,48 +577,207 @@
                 "cls": "GetRunRequest",
                 "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
                 "message": {
-                    "runId": "fvtvmofdh529bcn8qor0"
+                    "runId": "fvtl0vghn7ur6gjn8kve"
                 }
             },
             "response": {
                 "cls": "Run",
                 "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
                 "message": {
-                    "id": "fvtvmofdh529bcn8qor0",
-                    "assistantId": "fvt9tffl8e882kj0j8vf",
-                    "threadId": "fvtv1v60bl53dm9fjl2o",
+                    "id": "fvtl0vghn7ur6gjn8kve",
+                    "assistantId": "fvtr7g6tquue8i318grr",
+                    "threadId": "fvtce8l8lrao2cc5go4s",
                     "createdBy": "aje6euqn63oa635coh28",
-                    "createdAt": "2025-04-07T14:43:04.852460147Z",
+                    "createdAt": "2025-04-07T14:49:05.250357141Z",
                     "state": {
                         "status": "IN_PROGRESS"
+                    },
+                    "customPromptTruncationOptions": {
+                        "maxPromptTokens": "200",
+                        "autoStrategy": {}
+                    },
+                    "customCompletionOptions": {
+                        "maxTokens": "100",
+                        "temperature": 0.0
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "runId": "fvtl0vghn7ur6gjn8kve"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvtl0vghn7ur6gjn8kve",
+                    "assistantId": "fvtr7g6tquue8i318grr",
+                    "threadId": "fvtce8l8lrao2cc5go4s",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-04-07T14:49:05.250357141Z",
+                    "state": {
+                        "status": "IN_PROGRESS"
+                    },
+                    "customPromptTruncationOptions": {
+                        "maxPromptTokens": "200",
+                        "autoStrategy": {}
+                    },
+                    "customCompletionOptions": {
+                        "maxTokens": "100",
+                        "temperature": 0.0
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "runId": "fvtl0vghn7ur6gjn8kve"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvtl0vghn7ur6gjn8kve",
+                    "assistantId": "fvtr7g6tquue8i318grr",
+                    "threadId": "fvtce8l8lrao2cc5go4s",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-04-07T14:49:05.250357141Z",
+                    "state": {
+                        "status": "COMPLETED",
+                        "completedMessage": {
+                            "id": "fvt03j559sp61e7sv7cv",
+                            "threadId": "fvtce8l8lrao2cc5go4s",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-04-07T14:49:05.805019893Z",
+                            "author": {
+                                "id": "fvtr7g6tquue8i318grr",
+                                "role": "ASSISTANT"
+                            },
+                            "content": {
+                                "content": [
+                                    {
+                                        "text": {
+                                            "content": "Hello! How can I help you?"
+                                        }
+                                    }
+                                ]
+                            },
+                            "status": "COMPLETED"
+                        }
+                    },
+                    "usage": {
+                        "promptTokens": "12",
+                        "completionTokens": "8",
+                        "totalTokens": "20"
+                    },
+                    "customPromptTruncationOptions": {
+                        "maxPromptTokens": "200",
+                        "autoStrategy": {}
+                    },
+                    "customCompletionOptions": {
+                        "maxTokens": "100",
+                        "temperature": 0.0
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "runId": "fvtl0vghn7ur6gjn8kve"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvtl0vghn7ur6gjn8kve",
+                    "assistantId": "fvtr7g6tquue8i318grr",
+                    "threadId": "fvtce8l8lrao2cc5go4s",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-04-07T14:49:05.250357141Z",
+                    "state": {
+                        "status": "COMPLETED",
+                        "completedMessage": {
+                            "id": "fvt03j559sp61e7sv7cv",
+                            "threadId": "fvtce8l8lrao2cc5go4s",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-04-07T14:49:05.805019893Z",
+                            "author": {
+                                "id": "fvtr7g6tquue8i318grr",
+                                "role": "ASSISTANT"
+                            },
+                            "content": {
+                                "content": [
+                                    {
+                                        "text": {
+                                            "content": "Hello! How can I help you?"
+                                        }
+                                    }
+                                ]
+                            },
+                            "status": "COMPLETED"
+                        }
+                    },
+                    "usage": {
+                        "promptTokens": "12",
+                        "completionTokens": "8",
+                        "totalTokens": "20"
+                    },
+                    "customPromptTruncationOptions": {
+                        "maxPromptTokens": "200",
+                        "autoStrategy": {}
+                    },
+                    "customCompletionOptions": {
+                        "maxTokens": "100",
+                        "temperature": 0.0
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "CreateRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "assistantId": "fvtr7g6tquue8i318grr",
+                    "threadId": "fvtce8l8lrao2cc5go4s",
+                    "customPromptTruncationOptions": {
+                        "lastMessagesStrategy": {
+                            "numMessages": "10"
+                        }
                     },
                     "customCompletionOptions": {
                         "temperature": 0.0
                     }
                 }
-            }
-        },
-        {
-            "request": {
-                "cls": "GetRunRequest",
-                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
-                "message": {
-                    "runId": "fvtvmofdh529bcn8qor0"
-                }
             },
             "response": {
                 "cls": "Run",
                 "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
                 "message": {
-                    "id": "fvtvmofdh529bcn8qor0",
-                    "assistantId": "fvt9tffl8e882kj0j8vf",
-                    "threadId": "fvtv1v60bl53dm9fjl2o",
+                    "id": "fvte2mb17jvlljn3dbba",
+                    "assistantId": "fvtr7g6tquue8i318grr",
+                    "threadId": "fvtce8l8lrao2cc5go4s",
                     "createdBy": "aje6euqn63oa635coh28",
-                    "createdAt": "2025-04-07T14:43:04.852460147Z",
+                    "createdAt": "2025-04-07T14:49:06.477188441Z",
                     "state": {
-                        "status": "FAILED",
-                        "error": {
-                            "message": "java.lang.IllegalArgumentException: failed to fit messages within the maximum prompt tokens limit of 1 tokens"
+                        "status": "PENDING"
+                    },
+                    "customPromptTruncationOptions": {
+                        "lastMessagesStrategy": {
+                            "numMessages": "10"
                         }
                     },
                     "customCompletionOptions": {
@@ -626,22 +791,167 @@
                 "cls": "GetRunRequest",
                 "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
                 "message": {
-                    "runId": "fvtvmofdh529bcn8qor0"
+                    "runId": "fvte2mb17jvlljn3dbba"
                 }
             },
             "response": {
                 "cls": "Run",
                 "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
                 "message": {
-                    "id": "fvtvmofdh529bcn8qor0",
-                    "assistantId": "fvt9tffl8e882kj0j8vf",
-                    "threadId": "fvtv1v60bl53dm9fjl2o",
+                    "id": "fvte2mb17jvlljn3dbba",
+                    "assistantId": "fvtr7g6tquue8i318grr",
+                    "threadId": "fvtce8l8lrao2cc5go4s",
                     "createdBy": "aje6euqn63oa635coh28",
-                    "createdAt": "2025-04-07T14:43:04.852460147Z",
+                    "createdAt": "2025-04-07T14:49:06.477188441Z",
                     "state": {
-                        "status": "FAILED",
-                        "error": {
-                            "message": "java.lang.IllegalArgumentException: failed to fit messages within the maximum prompt tokens limit of 1 tokens"
+                        "status": "PENDING"
+                    },
+                    "customPromptTruncationOptions": {
+                        "lastMessagesStrategy": {
+                            "numMessages": "10"
+                        }
+                    },
+                    "customCompletionOptions": {
+                        "temperature": 0.0
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "runId": "fvte2mb17jvlljn3dbba"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvte2mb17jvlljn3dbba",
+                    "assistantId": "fvtr7g6tquue8i318grr",
+                    "threadId": "fvtce8l8lrao2cc5go4s",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-04-07T14:49:06.477188441Z",
+                    "state": {
+                        "status": "IN_PROGRESS"
+                    },
+                    "customPromptTruncationOptions": {
+                        "lastMessagesStrategy": {
+                            "numMessages": "10"
+                        }
+                    },
+                    "customCompletionOptions": {
+                        "temperature": 0.0
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "runId": "fvte2mb17jvlljn3dbba"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvte2mb17jvlljn3dbba",
+                    "assistantId": "fvtr7g6tquue8i318grr",
+                    "threadId": "fvtce8l8lrao2cc5go4s",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-04-07T14:49:06.477188441Z",
+                    "state": {
+                        "status": "COMPLETED",
+                        "completedMessage": {
+                            "id": "fvtphivha8rbn7tm5r91",
+                            "threadId": "fvtce8l8lrao2cc5go4s",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-04-07T14:49:07.079246689Z",
+                            "author": {
+                                "id": "fvtr7g6tquue8i318grr",
+                                "role": "ASSISTANT"
+                            },
+                            "content": {
+                                "content": [
+                                    {
+                                        "text": {
+                                            "content": "\u042f \u0433\u043e\u0442\u043e\u0432 \u043e\u0442\u0432\u0435\u0442\u0438\u0442\u044c \u043d\u0430 \u0432\u0430\u0448\u0438 \u0432\u043e\u043f\u0440\u043e\u0441\u044b."
+                                        }
+                                    }
+                                ]
+                            },
+                            "status": "COMPLETED"
+                        }
+                    },
+                    "usage": {
+                        "promptTokens": "26",
+                        "completionTokens": "7",
+                        "totalTokens": "33"
+                    },
+                    "customPromptTruncationOptions": {
+                        "lastMessagesStrategy": {
+                            "numMessages": "10"
+                        }
+                    },
+                    "customCompletionOptions": {
+                        "temperature": 0.0
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "runId": "fvte2mb17jvlljn3dbba"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvte2mb17jvlljn3dbba",
+                    "assistantId": "fvtr7g6tquue8i318grr",
+                    "threadId": "fvtce8l8lrao2cc5go4s",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-04-07T14:49:06.477188441Z",
+                    "state": {
+                        "status": "COMPLETED",
+                        "completedMessage": {
+                            "id": "fvtphivha8rbn7tm5r91",
+                            "threadId": "fvtce8l8lrao2cc5go4s",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-04-07T14:49:07.079246689Z",
+                            "author": {
+                                "id": "fvtr7g6tquue8i318grr",
+                                "role": "ASSISTANT"
+                            },
+                            "content": {
+                                "content": [
+                                    {
+                                        "text": {
+                                            "content": "\u042f \u0433\u043e\u0442\u043e\u0432 \u043e\u0442\u0432\u0435\u0442\u0438\u0442\u044c \u043d\u0430 \u0432\u0430\u0448\u0438 \u0432\u043e\u043f\u0440\u043e\u0441\u044b."
+                                        }
+                                    }
+                                ]
+                            },
+                            "status": "COMPLETED"
+                        }
+                    },
+                    "usage": {
+                        "promptTokens": "26",
+                        "completionTokens": "7",
+                        "totalTokens": "33"
+                    },
+                    "customPromptTruncationOptions": {
+                        "lastMessagesStrategy": {
+                            "numMessages": "10"
                         }
                     },
                     "customCompletionOptions": {
@@ -655,7 +965,7 @@
                 "cls": "DeleteAssistantRequest",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
                 "message": {
-                    "assistantId": "fvt9tffl8e882kj0j8vf"
+                    "assistantId": "fvtr7g6tquue8i318grr"
                 }
             },
             "response": {
@@ -669,7 +979,7 @@
                 "cls": "DeleteThreadRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
                 "message": {
-                    "threadId": "fvtv1v60bl53dm9fjl2o"
+                    "threadId": "fvtce8l8lrao2cc5go4s"
                 }
             },
             "response": {

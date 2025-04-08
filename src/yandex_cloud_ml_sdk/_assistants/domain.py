@@ -19,7 +19,8 @@ from yandex_cloud_ml_sdk._utils.coerce import coerce_tuple
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .assistant import Assistant, AssistantTypeT, AsyncAssistant
-from .utils import get_completion_options, get_prompt_trunctation_options
+from .prompt_truncation_options import PromptTruncationOptions, PromptTruncationStrategyType
+from .utils import get_completion_options
 
 
 class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
@@ -34,6 +35,7 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
         max_tokens: UndefinedOr[int] = UNDEFINED,
         instruction: UndefinedOr[str] = UNDEFINED,
         max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
         name: UndefinedOr[str] = UNDEFINED,
         description: UndefinedOr[str] = UNDEFINED,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
@@ -65,6 +67,11 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
             # NB: mypy doesn't love abstract class used as TypeVar substitution here
             tools_ = coerce_tuple(tools, BaseTool)  # type: ignore[type-abstract]
 
+        prompt_truncation_options = PromptTruncationOptions._coerce(
+            max_prompt_tokens=max_prompt_tokens,
+            strategy=prompt_truncation_strategy,
+        )
+
         request = CreateAssistantRequest(
             folder_id=self._folder_id,
             name=get_defined_value(name, ''),
@@ -72,9 +79,7 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
             labels=get_defined_value(labels, {}),
             expiration_config=expiration_config.to_proto(),
             instruction=get_defined_value(instruction, ''),
-            prompt_truncation_options=get_prompt_trunctation_options(
-                max_prompt_tokens=get_defined_value(max_prompt_tokens, None)
-            ),
+            prompt_truncation_options=prompt_truncation_options._to_proto(),
             model_uri=model_uri,
             completion_options=get_completion_options(
                 temperature=temperature,
@@ -157,6 +162,7 @@ class AsyncAssistants(BaseAssistants[AsyncAssistant]):
         max_tokens: UndefinedOr[int] = UNDEFINED,
         instruction: UndefinedOr[str] = UNDEFINED,
         max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
         name: UndefinedOr[str] = UNDEFINED,
         description: UndefinedOr[str] = UNDEFINED,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
@@ -171,6 +177,7 @@ class AsyncAssistants(BaseAssistants[AsyncAssistant]):
             max_tokens=max_tokens,
             instruction=instruction,
             max_prompt_tokens=max_prompt_tokens,
+            prompt_truncation_strategy=prompt_truncation_strategy,
             name=name,
             description=description,
             labels=labels,
@@ -220,6 +227,7 @@ class Assistants(BaseAssistants[Assistant]):
         max_tokens: UndefinedOr[int] = UNDEFINED,
         instruction: UndefinedOr[str] = UNDEFINED,
         max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
         name: UndefinedOr[str] = UNDEFINED,
         description: UndefinedOr[str] = UNDEFINED,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
@@ -234,6 +242,7 @@ class Assistants(BaseAssistants[Assistant]):
             max_tokens=max_tokens,
             instruction=instruction,
             max_prompt_tokens=max_prompt_tokens,
+            prompt_truncation_strategy=prompt_truncation_strategy,
             name=name,
             description=description,
             labels=labels,

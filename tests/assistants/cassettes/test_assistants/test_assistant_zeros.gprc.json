@@ -12,6 +12,14 @@
                 "message": {
                     "endpoints": [
                         {
+                            "id": "ai-assistants",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-files",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "ai-foundation-models",
                             "address": "llm.api.cloud.yandex.net:443"
                         },
@@ -92,8 +100,20 @@
                             "address": "data.certificate-manager.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "certificate-manager-private-ca",
+                            "address": "private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager-private-ca-data",
+                            "address": "data.private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "cic",
-                            "address": "cic-api.api.cloud.yandex.net:443"
+                            "address": "cic.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloud-registry",
+                            "address": "registry.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "cloudapps",
@@ -109,7 +129,7 @@
                         },
                         {
                             "id": "cloudrouter",
-                            "address": "cic-api.api.cloud.yandex.net:443"
+                            "address": "cloudrouter.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "cloudvideo",
@@ -146,6 +166,14 @@
                         {
                             "id": "endpoint",
                             "address": "api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "fomo-dataset",
+                            "address": "fomo-dataset.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "fomo-tuning",
+                            "address": "fomo-tuning.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "iam",
@@ -232,6 +260,10 @@
                             "address": "mks.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-metastore",
+                            "address": "metastore.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "managed-mongodb",
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
@@ -252,11 +284,19 @@
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-spark",
+                            "address": "spark.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "managed-sqlserver",
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "marketplace",
+                            "address": "marketplace.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "marketplace-pim",
                             "address": "marketplace.api.cloud.yandex.net:443"
                         },
                         {
@@ -302,6 +342,14 @@
                         {
                             "id": "organizationmanager",
                             "address": "organization-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quota-manager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quotamanager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "resource-manager",
@@ -390,27 +438,28 @@
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
-                    "promptTruncationOptions": {},
-                    "completionOptions": {}
+                    "promptTruncationOptions": {}
                 }
             },
             "response": {
                 "cls": "Assistant",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
                 "message": {
-                    "id": "fvt837cmh38cm468jd23",
+                    "id": "fvtjisaju2lq36lqtloh",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-11-08T17:23:23.316658Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-11-08T17:23:23.316658Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-04-07T14:30:18.709143Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-04-07T14:30:18.709143Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-11-15T17:23:23.316658Z",
+                    "expiresAt": "2025-04-14T14:30:18.709143Z",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
-                    "promptTruncationOptions": {},
+                    "promptTruncationOptions": {
+                        "autoStrategy": {}
+                    },
                     "completionOptions": {}
                 }
             }
@@ -420,7 +469,7 @@
                 "cls": "UpdateAssistantRequest",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
                 "message": {
-                    "assistantId": "fvt837cmh38cm468jd23",
+                    "assistantId": "fvtjisaju2lq36lqtloh",
                     "updateMask": "completionOptions.temperature",
                     "promptTruncationOptions": {},
                     "completionOptions": {
@@ -432,19 +481,21 @@
                 "cls": "Assistant",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
                 "message": {
-                    "id": "fvt837cmh38cm468jd23",
+                    "id": "fvtjisaju2lq36lqtloh",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-11-08T17:23:23.316658Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-11-08T17:23:23.397020Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-04-07T14:30:18.709143Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-04-07T14:30:18.804281Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-11-15T17:23:23.316658Z",
+                    "expiresAt": "2025-04-14T14:30:18.709143Z",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
-                    "promptTruncationOptions": {},
+                    "promptTruncationOptions": {
+                        "autoStrategy": {}
+                    },
                     "completionOptions": {
                         "temperature": 0.5
                     }
@@ -456,29 +507,30 @@
                 "cls": "UpdateAssistantRequest",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
                 "message": {
-                    "assistantId": "fvt837cmh38cm468jd23",
+                    "assistantId": "fvtjisaju2lq36lqtloh",
                     "updateMask": "completionOptions.temperature",
-                    "promptTruncationOptions": {},
-                    "completionOptions": {}
+                    "promptTruncationOptions": {}
                 }
             },
             "response": {
                 "cls": "Assistant",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
                 "message": {
-                    "id": "fvt837cmh38cm468jd23",
+                    "id": "fvtjisaju2lq36lqtloh",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-11-08T17:23:23.316658Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-11-08T17:23:23.486762Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-04-07T14:30:18.709143Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-04-07T14:30:18.859531Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-11-15T17:23:23.316658Z",
+                    "expiresAt": "2025-04-14T14:30:18.709143Z",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
-                    "promptTruncationOptions": {},
+                    "promptTruncationOptions": {
+                        "autoStrategy": {}
+                    },
                     "completionOptions": {
                         "temperature": 0.0
                     }
@@ -490,7 +542,7 @@
                 "cls": "UpdateAssistantRequest",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
                 "message": {
-                    "assistantId": "fvt837cmh38cm468jd23",
+                    "assistantId": "fvtjisaju2lq36lqtloh",
                     "updateMask": "completionOptions.temperature",
                     "promptTruncationOptions": {},
                     "completionOptions": {
@@ -502,19 +554,21 @@
                 "cls": "Assistant",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
                 "message": {
-                    "id": "fvt837cmh38cm468jd23",
+                    "id": "fvtjisaju2lq36lqtloh",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-11-08T17:23:23.316658Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-11-08T17:23:23.557513Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-04-07T14:30:18.709143Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-04-07T14:30:18.924828Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-11-15T17:23:23.316658Z",
+                    "expiresAt": "2025-04-14T14:30:18.709143Z",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
-                    "promptTruncationOptions": {},
+                    "promptTruncationOptions": {
+                        "autoStrategy": {}
+                    },
                     "completionOptions": {
                         "temperature": 0.0
                     }
@@ -538,19 +592,21 @@
                 "cls": "Assistant",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
                 "message": {
-                    "id": "fvtei28uf91tkt87r395",
+                    "id": "fvtc57rfins0b3d99gm4",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-11-08T17:23:23.639521Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-11-08T17:23:23.639521Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-04-07T14:30:18.996539Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-04-07T14:30:18.996539Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-11-15T17:23:23.639521Z",
+                    "expiresAt": "2025-04-14T14:30:18.996539Z",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
-                    "promptTruncationOptions": {},
+                    "promptTruncationOptions": {
+                        "autoStrategy": {}
+                    },
                     "completionOptions": {
                         "temperature": 0.0
                     }
@@ -562,29 +618,30 @@
                 "cls": "UpdateAssistantRequest",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
                 "message": {
-                    "assistantId": "fvtei28uf91tkt87r395",
+                    "assistantId": "fvtc57rfins0b3d99gm4",
                     "updateMask": "completionOptions.temperature",
-                    "promptTruncationOptions": {},
-                    "completionOptions": {}
+                    "promptTruncationOptions": {}
                 }
             },
             "response": {
                 "cls": "Assistant",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
                 "message": {
-                    "id": "fvtei28uf91tkt87r395",
+                    "id": "fvtc57rfins0b3d99gm4",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-11-08T17:23:23.639521Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-11-08T17:23:23.693361Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-04-07T14:30:18.996539Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-04-07T14:30:19.045001Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-11-15T17:23:23.639521Z",
+                    "expiresAt": "2025-04-14T14:30:18.996539Z",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
-                    "promptTruncationOptions": {},
+                    "promptTruncationOptions": {
+                        "autoStrategy": {}
+                    },
                     "completionOptions": {
                         "temperature": 0.0
                     }
@@ -596,7 +653,7 @@
                 "cls": "UpdateAssistantRequest",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
                 "message": {
-                    "assistantId": "fvt837cmh38cm468jd23",
+                    "assistantId": "fvtjisaju2lq36lqtloh",
                     "updateMask": "completionOptions.maxTokens",
                     "promptTruncationOptions": {},
                     "completionOptions": {
@@ -608,21 +665,24 @@
                 "cls": "Assistant",
                 "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
                 "message": {
-                    "id": "fvt837cmh38cm468jd23",
+                    "id": "fvtjisaju2lq36lqtloh",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-11-08T17:23:23.316658Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-11-08T17:23:23.733754Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-04-07T14:30:18.709143Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-04-07T14:30:19.116421Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-11-15T17:23:23.316658Z",
+                    "expiresAt": "2025-04-14T14:30:18.709143Z",
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
-                    "promptTruncationOptions": {},
+                    "promptTruncationOptions": {
+                        "autoStrategy": {}
+                    },
                     "completionOptions": {
-                        "maxTokens": "50"
+                        "maxTokens": "50",
+                        "temperature": 0.0
                     }
                 }
             }
