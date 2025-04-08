@@ -11,6 +11,7 @@ from yandex.cloud.ai.assistants.v1.runs.run_service_pb2 import AttachRunRequest,
 from yandex.cloud.ai.assistants.v1.runs.run_service_pb2 import StreamEvent as ProtoStreamEvent
 from yandex.cloud.ai.assistants.v1.runs.run_service_pb2_grpc import RunServiceStub
 
+from yandex_cloud_ml_sdk._assistants.prompt_truncation_options import PromptTruncationOptions
 from yandex_cloud_ml_sdk._tools.tool_call import AsyncToolCall, ToolCall, ToolCallTypeT
 from yandex_cloud_ml_sdk._tools.tool_result import (
     ProtoAssistantToolResultList, ToolResultInputType, tool_results_to_proto
@@ -38,7 +39,13 @@ class BaseRun(BaseResource, OperationInterface[RunResult[ToolCallTypeT]]):
     labels: dict[str, str] | None
     custom_temperature: float | None
     custom_max_tokens: int | None
-    custom_max_prompt_tokens: int | None
+    custom_prompt_truncation_options: PromptTruncationOptions | None
+
+    @property
+    def custom_max_prompt_tokens(self) -> int | None:
+        if self.custom_prompt_truncation_options:
+            return self.custom_prompt_truncation_options.max_prompt_tokens
+        return None
 
     @classmethod
     def _kwargs_from_message(cls, proto: ProtoMessage, sdk: BaseSDK) -> dict[str, Any]:
@@ -48,10 +55,12 @@ class BaseRun(BaseResource, OperationInterface[RunResult[ToolCallTypeT]]):
         kwargs.update({
             'custom_temperature': get_google_value(proto.custom_completion_options, 'temperature', None, float),
             'custom_max_tokens': get_google_value(proto.custom_completion_options, 'max_tokens', None, int),
-            'custom_max_prompt_tokens': get_google_value(
-                proto.custom_prompt_truncation_options, 'max_prompt_tokens', None, int
-            ),
         })
+        if proto.HasField('custom_prompt_truncation_options'):
+            kwargs['custom_prompt_truncation_options'] = PromptTruncationOptions._from_proto(
+                proto=proto.custom_prompt_truncation_options,
+                sdk=sdk
+            )
 
         return kwargs
 

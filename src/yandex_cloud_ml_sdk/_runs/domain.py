@@ -10,7 +10,10 @@ from yandex.cloud.ai.assistants.v1.runs.run_service_pb2 import (
 from yandex.cloud.ai.assistants.v1.runs.run_service_pb2_grpc import RunServiceStub
 
 from yandex_cloud_ml_sdk._assistants.assistant import BaseAssistant
-from yandex_cloud_ml_sdk._assistants.utils import get_completion_options, get_prompt_trunctation_options
+from yandex_cloud_ml_sdk._assistants.prompt_truncation_options import (
+    PromptTruncationOptions, PromptTruncationStrategyType
+)
+from yandex_cloud_ml_sdk._assistants.utils import get_completion_options
 from yandex_cloud_ml_sdk._threads.thread import BaseThread
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
@@ -22,6 +25,7 @@ from .run import AsyncRun, Run, RunTypeT
 class BaseRuns(BaseDomain, Generic[RunTypeT]):
     _run_impl: type[RunTypeT]
 
+    # pylint: disable=too-many-locals
     async def _create(
         self,
         assistant: str | BaseAssistant,
@@ -31,6 +35,7 @@ class BaseRuns(BaseDomain, Generic[RunTypeT]):
         custom_temperature: UndefinedOr[float] = UNDEFINED,
         custom_max_tokens: UndefinedOr[int] = UNDEFINED,
         custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        custom_prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
         timeout: float = 60,
     ) -> RunTypeT:
         assistant_id: str
@@ -53,15 +58,20 @@ class BaseRuns(BaseDomain, Generic[RunTypeT]):
                 temperature=get_defined_value(custom_temperature, None),
                 max_tokens=get_defined_value(custom_max_tokens, None),
         )
-        custom_prompt_truncation_options = get_prompt_trunctation_options(
-            max_prompt_tokens=get_defined_value(custom_max_prompt_tokens, None),
+        custom_prompt_truncation_options = PromptTruncationOptions._coerce(
+            max_prompt_tokens=custom_max_prompt_tokens,
+            strategy=custom_prompt_truncation_strategy,
         )
+        if custom_prompt_truncation_options._get_update_paths():
+            proto_custom_prompt_truncation_options = custom_prompt_truncation_options._to_proto()
+        else:
+            proto_custom_prompt_truncation_options = None
 
         request = CreateRunRequest(
             assistant_id=assistant_id,
             thread_id=thread_id,
             custom_completion_options=custom_completion_options,
-            custom_prompt_truncation_options=custom_prompt_truncation_options,
+            custom_prompt_truncation_options=proto_custom_prompt_truncation_options,
             stream=stream,
         )
 
