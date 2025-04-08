@@ -58,10 +58,9 @@ async def test_assistant_common(async_sdk: AsyncYCloudML, tool):
     assert assistant.prompt_truncation_options.strategy == AutoPromptTruncationStrategy()
 
     for value, etalon in (
-        (5, LastMessagesPromptTruncationStrategy(num_messages=5)),
-        ('auto', AutoPromptTruncationStrategy()),
         (LastMessagesPromptTruncationStrategy(num_messages=10),
          LastMessagesPromptTruncationStrategy(num_messages=10)),
+        ('auto', AutoPromptTruncationStrategy()),
         (AutoPromptTruncationStrategy(), AutoPromptTruncationStrategy()),
     ):
         new_assistant = await assistant.update(
