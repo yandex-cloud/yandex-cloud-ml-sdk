@@ -53,9 +53,10 @@ async def main() -> None:
     print(f'{result.error=}')
 
     thread = await new_thread(sdk)
-    # NB: custom_prompt_truncation_strategy=<int>
-    # is a shortcut for LastMessagesPromptTruncationStrategy(num_messages=<int>)
-    run = await assistant.run(thread, custom_prompt_truncation_strategy=1)
+    run = await assistant.run(
+        thread,
+        custom_prompt_truncation_strategy=LastMessagesPromptTruncationStrategy(num_messages=1)
+    )
     result = await run
     assert result.usage
     one_message_input_tokens = result.usage.input_text_tokens

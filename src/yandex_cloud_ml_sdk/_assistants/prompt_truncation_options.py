@@ -12,7 +12,7 @@ from yandex.cloud.ai.assistants.v1.common_pb2 import PromptTruncationOptions as 
 from yandex_cloud_ml_sdk._types.misc import Undefined, get_defined_value, is_defined
 from yandex_cloud_ml_sdk._types.proto import ProtoBased, SDKType
 
-PromptTruncationStrategyType: TypeAlias = Union[Literal['auto'], int, 'BasePromptTruncationStrategy']
+PromptTruncationStrategyType: TypeAlias = Union[Literal['auto'], 'BasePromptTruncationStrategy']
 ProtoPromptTruncationStrategy: TypeAlias = Union[
     ProtoPromptTruncationOptions.AutoStrategy,
     ProtoPromptTruncationOptions.LastMessagesStrategy
@@ -104,13 +104,8 @@ class BasePromptTruncationStrategy(ProtoBased[ProtoPromptTruncationOptions]):
 
         if strategy == 'auto':
             return AutoPromptTruncationStrategy()
-
-        if isinstance(strategy, int):
-            return LastMessagesPromptTruncationStrategy(num_messages=strategy)
-
         raise TypeError(
-            'prompt truncation strategy could be "auto", '
-            'integer as for LastMessagesPromptTruncationStrategy shortcut '
+            'prompt truncation strategy could be "auto" string literal '
             'or a BasePromptTruncationStrategy class instance'
         )
 
