@@ -4,8 +4,6 @@ import asyncio
 from collections.abc import AsyncIterator, Iterator
 from typing import Any
 
-import pyarrow.dataset as pd
-
 RecordType = dict[Any, Any]
 
 
@@ -27,6 +25,8 @@ async def read_dataset_records(path: str, batch_size: int | None) -> AsyncIterat
 
 
 def read_dataset_records_sync(path: str, batch_size: int | None) -> Iterator[RecordType]:
+    import pyarrow.dataset as pd  # pylint: disable=import-outside-toplevel
+
     # we need use kwargs method to preserve original default value
     kwargs = {}
     if batch_size is not None:

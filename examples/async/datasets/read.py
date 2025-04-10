@@ -16,6 +16,9 @@ def local_path(path: str) -> pathlib.Path:
 
 
 async def main() -> None:
+    # This example needs to have pyarrow installed
+    import pyarrow  # pylint: disable=import-outside-toplevel,unused-import
+
     sdk = AsyncYCloudML(folder_id='b1ghsjum2v37c2un8h64')
     sdk.setup_default_logging()
 
@@ -27,7 +30,7 @@ async def main() -> None:
         name=NAME,
     )
     dataset = await dataset_draft.upload()
-    print(f'new {dataset=}')
+    print(f'Going to read {dataset=} records')
     async for record in dataset.read():
         print(record)
 

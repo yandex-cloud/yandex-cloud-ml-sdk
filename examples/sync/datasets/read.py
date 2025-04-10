@@ -15,6 +15,9 @@ def local_path(path: str) -> pathlib.Path:
 
 
 def main() -> None:
+    # This example needs to have pyarrow installed
+    import pyarrow  # pylint: disable=import-outside-toplevel,unused-import
+
     sdk = YCloudML(folder_id='b1ghsjum2v37c2un8h64')
     sdk.setup_default_logging()
 
@@ -26,7 +29,7 @@ def main() -> None:
         name=NAME,
     )
     dataset = dataset_draft.upload()
-    print(f'new {dataset=}')
+    print(f'Going to read {dataset=} records')
     for record in dataset.read():
         print(record)
 
