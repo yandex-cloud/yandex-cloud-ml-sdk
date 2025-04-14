@@ -3,9 +3,11 @@ from __future__ import annotations
 
 import asyncio
 import dataclasses
+import tempfile
+from collections.abc import AsyncIterator, Iterator
 from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Iterable, TypeVar, AsyncIterator
+from typing import TYPE_CHECKING, Any, Iterable, TypeVar
 
 import aiofiles
 import httpx
@@ -14,16 +16,18 @@ from yandex.cloud.ai.dataset.v1.dataset_pb2 import DatasetInfo as ProtoDatasetIn
 from yandex.cloud.ai.dataset.v1.dataset_pb2 import ValidationError as ProtoValidationError
 from yandex.cloud.ai.dataset.v1.dataset_service_pb2 import (
     DeleteDatasetRequest, DeleteDatasetResponse, FinishMultipartUploadDraftRequest, FinishMultipartUploadDraftResponse,
-    GetUploadDraftUrlRequest, GetUploadDraftUrlResponse, StartMultipartUploadDraftRequest,
-    StartMultipartUploadDraftResponse, UpdateDatasetRequest, UpdateDatasetResponse, UploadedPartInfo,
-    GetDownloadUrlsRequest, GetDownloadUrlsResponse
+    GetDownloadUrlsRequest, GetDownloadUrlsResponse, GetUploadDraftUrlRequest, GetUploadDraftUrlResponse,
+    StartMultipartUploadDraftRequest, StartMultipartUploadDraftResponse, UpdateDatasetRequest, UpdateDatasetResponse,
+    UploadedPartInfo
 )
 from yandex.cloud.ai.dataset.v1.dataset_service_pb2_grpc import DatasetServiceStub
 
 from yandex_cloud_ml_sdk._logging import get_logger
-from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, PathLike, coerce_path
+from yandex_cloud_ml_sdk._types.misc import UNDEFINED, PathLike, UndefinedOr, coerce_path, get_defined_value
 from yandex_cloud_ml_sdk._types.resource import BaseDeleteableResource, safe_on_delete
-from yandex_cloud_ml_sdk._utils.sync import run_sync
+from yandex_cloud_ml_sdk._utils.packages import requires_package
+from yandex_cloud_ml_sdk._utils.pyarrow import read_dataset_records
+from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .status import DatasetStatus
 
@@ -161,14 +165,41 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
         return await asyncio.wait_for(self.__download_impl(
             base_path=base_path,
             exist_ok=exist_ok,
+            timeout=timeout,
         ), timeout)
+
+    async def _read(
+        self,
+        *,
+        timeout: float,
+        batch_size: UndefinedOr[int],
+    ) -> AsyncIterator[dict[Any, Any]]:
+        batch_size_ = get_defined_value(batch_size, None)
+        urls = await self._get_download_urls(timeout=timeout)
+        async with self._client.httpx() as client:
+            for _, url in urls:
+                _, filename = tempfile.mkstemp()
+                path = Path(filename)
+                try:
+                    await self.__download_file(
+                        path=path,
+                        url=url,
+                        client=client,
+                        timeout=timeout
+                    )
+
+                    async for record in read_dataset_records(filename, batch_size=batch_size_):
+                        yield record
+                finally:
+                    path.unlink(missing_ok=True)
 
     async def __download_impl(
         self,
         base_path: Path,
         exist_ok: bool,
+        timeout: float,
     ) -> tuple[Path, ...]:
-        urls = await self._get_download_urls()
+        urls = await self._get_download_urls(timeout=timeout)
         async with self._client.httpx() as client:
             coroutines = []
             for key, url in urls:
@@ -177,7 +208,7 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
                     raise ValueError(f"{file_path} already exists")
 
                 coroutines.append(
-                    self.__download_file(file_path, url, client),
+                    self.__download_file(file_path, url, client, timeout=timeout),
                 )
 
             await asyncio.gather(*coroutines)
@@ -186,21 +217,27 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
 
     async def __download_file(
         self,
-        path: Path,
+        path: Path | str,
         url: str,
         client: httpx.AsyncClient,
+        timeout: float,
     ) -> None:
         async with aiofiles.open(path, "wb") as file:
-            async for chunk in self.__read_from_url(url, client):
+            logger.debug(
+                'Going to download file for dataset %s from url %s to %s',
+                self.id, url, file.name
+            )
+            async for chunk in self.__read_from_url(url, client, timeout=timeout):
                 await file.write(chunk)
 
     async def __read_from_url(
         self,
         url: str,
         client: httpx.AsyncClient,
+        timeout: float,
         chunk_size: int = 1024 * 1024 * 8,  # 8Mb
     ) -> AsyncIterator[bytes]:
-        resp = await client.get(url)
+        resp = await client.get(url, timeout=timeout)
         resp.raise_for_status()
         async for chunk in resp.aiter_bytes(chunk_size=chunk_size):
             yield chunk
@@ -256,6 +293,8 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
                 timeout=timeout,
                 expected_type=GetDownloadUrlsResponse,
             )
+
+        logger.debug("Dataset %s returned next download urls: %r", self.id, result.download_urls)
 
         return [
             (r.key, r.url) for r in result.download_urls
@@ -361,12 +400,50 @@ class AsyncDataset(BaseDataset):
             exist_ok=exist_ok,
         )
 
+    @requires_package('pyarrow', '>=19', 'AsyncDataset.read')
+    async def read(
+        self,
+        *,
+        timeout: float = 60,
+        batch_size: UndefinedOr[int] = UNDEFINED,
+    ) -> AsyncIterator[dict[Any, Any]]:
+        """Reads the dataset from backend and yields it records one by one.
+
+        This method lazily loads records by chunks, minimizing memory usage for large datasets.
+        The iterator yields dictionaries where keys are field names and values are parsed data.
+
+        .. note::
+            This method creates temporary files in the system's default temporary directory
+            during operation. To control the location of temporary files, refer to Python's
+            :func:`tempfile.gettempdir` documentation. Temporary files are automatically
+            cleaned up after use.
+
+        :param timeout: Maximum time in seconds for both gRPC and HTTP operations.
+            Includes connection establishment, data transfer, and processing time.
+            Defaults to 60 seconds.
+        :type timeout: float
+        :param batch_size: Number of records to load to memory in one chunk.
+            When UNDEFINED (default), uses backend's optimal chunk size (typically
+            corresponds to distinct Parquet files storage layout).
+        :type batch_size: int or Undefined
+        :yields: Dictionary representing single record with field-value pairs
+        :rtype: AsyncIterator[dict[Any, Any]]
+
+        """
+
+        async for record in self._read(
+            timeout=timeout,
+            batch_size=batch_size
+        ):
+            yield record
+
 
 class Dataset(BaseDataset):
     __update = run_sync(BaseDataset._update)
     __delete = run_sync(BaseDataset._delete)
     __list_upload_formats = run_sync(BaseDataset._list_upload_formats)
     __download = run_sync(BaseDataset._download)
+    __read = run_sync_generator(BaseDataset._read)
 
     def update(
         self,
@@ -408,6 +485,42 @@ class Dataset(BaseDataset):
             download_path=download_path,
             timeout=timeout,
             exist_ok=exist_ok,
+        )
+
+    @requires_package('pyarrow', '>=19', 'Dataset.read')
+    def read(
+        self,
+        *,
+        timeout: float = 60,
+        batch_size: UndefinedOr[int] = UNDEFINED,
+    ) -> Iterator[dict[Any, Any]]:
+        """Reads the dataset from backend and yields it records one by one.
+
+        This method lazily loads records by chunks, minimizing memory usage for large datasets.
+        The iterator yields dictionaries where keys are field names and values are parsed data.
+
+        .. note::
+            This method creates temporary files in the system's default temporary directory
+            during operation. To control the location of temporary files, refer to Python's
+            :func:`tempfile.gettempdir` documentation. Temporary files are automatically
+            cleaned up after use.
+
+        :param timeout: Maximum time in seconds for both gRPC and HTTP operations.
+            Includes connection establishment, data transfer, and processing time.
+            Defaults to 60 seconds.
+        :type timeout: float
+        :param batch_size: Number of records to load to memory in one chunk.
+            When UNDEFINED (default), uses backend's optimal chunk size (typically
+            corresponds to distinct Parquet files storage layout).
+        :type batch_size: int or Undefined
+        :yields: Dictionary representing single record with field-value pairs
+        :rtype Iterator[dict[Any, Any]]
+
+        """
+
+        yield from self.__read(
+            timeout=timeout,
+            batch_size=batch_size
         )
 
 

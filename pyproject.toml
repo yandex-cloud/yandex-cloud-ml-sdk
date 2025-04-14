@@ -39,6 +39,7 @@ dependencies = [
     "httpx>=0.27,<1",
     "typing-extensions>=4",
     "aiofiles>=24.1.0",
+    "packaging>=24"
 ]
 
 [project.optional-dependencies]
@@ -52,6 +53,9 @@ langchain = [
 ]
 pydantic = [
     "pydantic>2",
+]
+datasets = [
+    "pyarrow>=19"
 ]
 
 [project.urls]
