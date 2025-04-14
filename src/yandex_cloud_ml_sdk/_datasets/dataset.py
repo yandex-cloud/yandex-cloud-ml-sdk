@@ -2,13 +2,12 @@
 from __future__ import annotations
 
 import asyncio
-import contextlib
 import dataclasses
 import tempfile
 from collections.abc import AsyncIterator, Iterator
 from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Iterable, TypeVar, cast
+from typing import TYPE_CHECKING, Any, Iterable, TypeVar
 
 import aiofiles
 import httpx

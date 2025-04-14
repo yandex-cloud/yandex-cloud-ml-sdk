@@ -17,7 +17,7 @@ def local_path(path: str) -> pathlib.Path:
 
 async def main() -> None:
     # This example needs to have pyarrow installed
-    import pyarrow  # pylint: disable=import-outside-toplevel,unused-import
+    import pyarrow  # pylint: disable=import-outside-toplevel,unused-import # noqa
 
     sdk = AsyncYCloudML(folder_id='b1ghsjum2v37c2un8h64')
     sdk.setup_default_logging()
