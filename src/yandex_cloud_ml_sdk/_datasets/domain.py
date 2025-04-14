@@ -1,12 +1,14 @@
 # pylint: disable=protected-access,no-name-in-module
 from __future__ import annotations
 
+import warnings
 from typing import AsyncIterator, Generic, Iterable, Iterator, Union
 
 from typing_extensions import TypeAlias
 from yandex.cloud.ai.dataset.v1.dataset_service_pb2 import (
     CreateDatasetRequest, CreateDatasetResponse, DescribeDatasetRequest, DescribeDatasetResponse, ListDatasetsRequest,
-    ListDatasetsResponse, ListUploadFormatsRequest, ListUploadFormatsResponse
+    ListDatasetsResponse, ListUploadFormatsRequest, ListUploadFormatsResponse, ListUploadSchemasRequest,
+    ListUploadSchemasResponse
 )
 from yandex.cloud.ai.dataset.v1.dataset_service_pb2_grpc import DatasetServiceStub
 
@@ -17,6 +19,7 @@ from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .dataset import AsyncDataset, Dataset, DatasetTypeT
 from .draft import AsyncDatasetDraft, DatasetDraft, DatasetDraftT
+from .schema import DatasetUploadSchema
 from .status import DatasetStatus
 from .task_types import KnownTaskType, TaskTypeProxy
 
@@ -172,6 +175,8 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
         *,
         timeout: float = 60,
     ) -> tuple[str, ...]:
+        warnings.warn("dataset.list_upload_formats is deprecated", category=DeprecationWarning)
+
         logger.debug('Fetching available dataset upload formats for task_type=%s', task_type)
         request = ListUploadFormatsRequest(
             task_type=task_type
@@ -190,6 +195,35 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
             len(response.formats), task_type,
         )
         return tuple(response.formats)
+
+    async def _list_upload_schemas(
+        self,
+        task_type: str,
+        *,
+        timeout: float = 60,
+    ) -> tuple[DatasetUploadSchema, ...]:
+        logger.debug('Fetching available dataset upload schemas for task_type=%s', task_type)
+        request = ListUploadSchemasRequest(
+            task_type=task_type,
+            folder_id=self._folder_id,
+        )
+
+        async with self._client.get_service_stub(DatasetServiceStub, timeout=timeout) as stub:
+            response = await self._client.call_service(
+                stub.ListUploadSchemas,
+                request,
+                timeout=timeout,
+                expected_type=ListUploadSchemasResponse,
+            )
+
+        logger.info(
+            '%d dataset upload schemas successfully fetched for a task_type=%s',
+            len(response.schemas), task_type,
+        )
+        return tuple(
+            DatasetUploadSchema._from_proto(proto=schema, sdk=self._sdk)
+            for schema in response.schemas
+        )
 
 
 class AsyncDatasets(BaseDatasets[AsyncDataset, AsyncDatasetDraft]):
@@ -231,6 +265,14 @@ class AsyncDatasets(BaseDatasets[AsyncDataset, AsyncDatasetDraft]):
     ) -> tuple[str, ...]:
         return await self._list_upload_formats(task_type=task_type, timeout=timeout)
 
+    async def list_upload_schemas(
+        self,
+        task_type: str,
+        *,
+        timeout: float = 60,
+    ) -> tuple[DatasetUploadSchema, ...]:
+        return await self._list_upload_schemas(task_type=task_type, timeout=timeout)
+
 
 class Datasets(BaseDatasets[Dataset, DatasetDraft]):
     _dataset_impl = Dataset
@@ -239,6 +281,7 @@ class Datasets(BaseDatasets[Dataset, DatasetDraft]):
     __get = run_sync(BaseDatasets._get)
     __list = run_sync_generator(BaseDatasets._list)
     __list_upload_formats = run_sync(BaseDatasets._list_upload_formats)
+    __list_upload_schemas = run_sync(BaseDatasets._list_upload_schemas)
 
     def get(
         self,
@@ -273,3 +316,11 @@ class Datasets(BaseDatasets[Dataset, DatasetDraft]):
         timeout: float = 60,
     ) -> tuple[str, ...]:
         return self.__list_upload_formats(task_type=task_type, timeout=timeout)
+
+    def list_upload_schemas(
+        self,
+        task_type: str,
+        *,
+        timeout: float = 60,
+    ) -> tuple[DatasetUploadSchema, ...]:
+        return self.__list_upload_schemas(task_type=task_type, timeout=timeout)
