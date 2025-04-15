@@ -19,6 +19,9 @@ class KnownTaskType(str, Enum):
     TextEmbeddingsPair = 'TextEmbeddingsPair'
     TextEmbeddingsTriplet = 'TextEmbeddingsTriplet'
 
+    TextToTextGenerationRequest = 'TextToTextGenerationRequest'
+    ImageTextToTextGenerationRequest = 'ImageTextToTextGenerationRequest'
+
 
 class TaskTypeProxy:
     def __init__(self, task_type: KnownTaskType):
@@ -65,6 +68,10 @@ class DatasetsWrapper:
     @property
     def list_upload_formats(self):
         return partial(self._domain.list_upload_formats, task_type=self._task_type)
+
+    @property
+    def list_upload_schemas(self):
+        return partial(self._domain.list_upload_schemas, task_type=self._task_type)
 
     @property
     def list(self):
