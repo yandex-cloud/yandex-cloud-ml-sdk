@@ -168,3 +168,6 @@ class ModelTuneMixin(
             sdk=self._sdk,
             result_type=type(self)
         )
+
+
+ModelTypeT = TypeVar('ModelTypeT', bound=BaseModel)

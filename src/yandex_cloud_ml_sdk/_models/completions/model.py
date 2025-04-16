@@ -8,16 +8,19 @@ from typing_extensions import Self, override
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import CompletionOptions, ReasoningOptions
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Tool as ProtoCompletionsTool
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import (
-    CompletionRequest, CompletionResponse, TokenizeResponse
+    BatchCompletionMetadata, BatchCompletionRequest, BatchCompletionResponse, CompletionRequest, CompletionResponse,
+    TokenizeResponse
 )
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2_grpc import (
-    TextGenerationAsyncServiceStub, TextGenerationServiceStub, TokenizerServiceStub
+    TextGenerationAsyncServiceStub, TextGenerationBatchServiceStub, TextGenerationServiceStub, TokenizerServiceStub
 )
 from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 
 from yandex_cloud_ml_sdk._tools.tool import BaseTool
 from yandex_cloud_ml_sdk._tools.tool_call import AsyncToolCall, ToolCall, ToolCallTypeT
 from yandex_cloud_ml_sdk._tuning.tuning_task import AsyncTuningTask, TuningTask, TuningTaskTypeT
+from yandex_cloud_ml_sdk._types.batch.domain import AsyncBatchSubdomain, BatchSubdomain, BatchSubdomainTypeT
+from yandex_cloud_ml_sdk._types.batch.model import AsyncModelBatchMixin, BaseModelBatchMixin, ModelBatchMixin
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr
 from yandex_cloud_ml_sdk._types.model import (
     ModelAsyncMixin, ModelSyncMixin, ModelSyncStreamMixin, ModelTuneMixin, OperationTypeT
@@ -42,11 +45,12 @@ if TYPE_CHECKING:
 
 
 class BaseGPTModel(
-    Generic[OperationTypeT, TuningTaskTypeT, ToolCallTypeT],
+    Generic[OperationTypeT, TuningTaskTypeT, ToolCallTypeT, BatchSubdomainTypeT],
     ModelSyncMixin[GPTModelConfig, GPTModelResult[ToolCallTypeT]],
     ModelSyncStreamMixin[GPTModelConfig, GPTModelResult[ToolCallTypeT]],
     ModelAsyncMixin[GPTModelConfig, GPTModelResult[ToolCallTypeT], OperationTypeT],
     ModelTuneMixin[GPTModelConfig, GPTModelResult[ToolCallTypeT], GPTModelTuneParams, TuningTaskTypeT],
+    BaseModelBatchMixin[GPTModelConfig, GPTModelResult[ToolCallTypeT], BatchSubdomainTypeT],
 ):
     _config_type = GPTModelConfig
     _result_type: type[GPTModelResult[ToolCallTypeT]]
@@ -55,6 +59,10 @@ class BaseGPTModel(
 
     _tuning_params_type = GPTModelTuneParams
     _tuning_operation_type: type[TuningTaskTypeT]
+
+    _batch_service_stub = TextGenerationBatchServiceStub
+    _batch_proto_result_type = BatchCompletionResponse
+    _batch_proto_metadata_type = BatchCompletionMetadata
 
     def langchain(self, model_type: Literal["chat"] = "chat", timeout: int = 60) -> BaseYandexLanguageModel:
         from .langchain import ChatYandexGPT  # pylint: disable=import-outside-toplevel
@@ -83,14 +91,8 @@ class BaseGPTModel(
             tools=tools,
         )
 
-    def _make_request(
-        self,
-        *,
-        messages: MessageInputType,
-        stream: bool | None,
-    ) -> CompletionRequest:
+    def _make_completion_options(self, *, stream: bool | None) -> CompletionOptions:
         completion_options_kwargs: dict[str, Any] = {}
-        response_format_kwargs: dict[str, Any] = {}
 
         if stream is not None:
             completion_options_kwargs['stream'] = stream
@@ -105,6 +107,19 @@ class BaseGPTModel(
             reasoning_mode = ReasoningMode._coerce(c.reasoning_mode)._to_proto()
             reasoning_options = ReasoningOptions(mode=reasoning_mode)  # type: ignore[arg-type]
             completion_options_kwargs['reasoning_options'] = reasoning_options
+
+        return CompletionOptions(**completion_options_kwargs)
+
+    def _make_request(
+        self,
+        *,
+        messages: MessageInputType,
+        stream: bool | None,
+    ) -> CompletionRequest:
+        response_format_kwargs: dict[str, Any] = {}
+
+        c = self._config
+
         if c.response_format is not None:
             schema = schema_from_response_format(c.response_format)
             if isinstance(schema, str):
@@ -119,10 +134,17 @@ class BaseGPTModel(
 
         return CompletionRequest(
             model_uri=self._uri,
-            completion_options=CompletionOptions(**completion_options_kwargs),
+            completion_options=self._make_completion_options(stream=stream),
             messages=messages_to_proto(messages),
             tools=[tool._to_proto(ProtoCompletionsTool) for tool in tools],
             **response_format_kwargs,
+        )
+
+    def _make_batch_request(self, dataset_id: str) -> BatchCompletionRequest:
+        return BatchCompletionRequest(
+            model_uri=self.uri,
+            completion_options=self._make_completion_options(stream=False),
+            source_dataset_id=dataset_id
         )
 
     async def _run_sync_impl(
@@ -232,8 +254,10 @@ class AsyncGPTModel(
     BaseGPTModel[
         AsyncOperation[GPTModelResult[AsyncToolCall]],
         AsyncTuningTask['AsyncGPTModel'],
-        AsyncToolCall
-    ]
+        AsyncToolCall,
+        AsyncBatchSubdomain,
+    ],
+    AsyncModelBatchMixin,
 ):
     _operation_type = AsyncOperation
     _tune_operation_type = AsyncTuningTask
@@ -368,7 +392,9 @@ class GPTModel(
         Operation[GPTModelResult[ToolCall]],
         TuningTask['GPTModel'],
         ToolCall,
-    ]
+        BatchSubdomain,
+    ],
+    ModelBatchMixin,
 ):
     _operation_type = Operation
     _tune_operation_type = TuningTask
