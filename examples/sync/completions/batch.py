@@ -72,7 +72,7 @@ def main() -> None:
     # for tuning.
 
     try:
-        import pyarrow  # pylint: disable=import-outside-toplevel,unused-import
+        import pyarrow  # pylint: disable=import-outside-toplevel,unused-import # noqa
 
         print('Resulting dataset lines:')
         for line in resulting_dataset.read():
