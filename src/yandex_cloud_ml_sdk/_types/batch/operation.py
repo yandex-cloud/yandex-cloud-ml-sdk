@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, TypeVar
 
 from yandex_cloud_ml_sdk._datasets.dataset import AsyncDataset, Dataset
+from yandex_cloud_ml_sdk._logging import TRACE, get_logger
 from yandex_cloud_ml_sdk._types.operation import (
     AsyncOperation, BaseOperation, Operation, ProtoOperation, ResultTypeT_co
 )
@@ -11,6 +12,8 @@ if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
     from .model import BatchMetadataType, BatchResultType
+
+logger = get_logger(__name__)
 
 
 class BaseBatchOperation(BaseOperation[ResultTypeT_co]):
@@ -40,9 +43,11 @@ class BaseBatchOperation(BaseOperation[ResultTypeT_co]):
             initial_operation=initial_operation,
         )
 
+    # NB: I don't want to make parent operation class Generic[MetadataTypeT] just to
+    # properly annotate this
     def _on_new_metadata(self, metadata) -> None:
-        # NB: I don't want to make parent operation class Generic[MetadataTypeT] just to
-        # properly annotate this
+        logger.log(TRACE, "updating task_id and progress from metadata %r", metadata)
+
         self._task_id = metadata.task_id
         self._total_batches = metadata.total_batches
         self._completed_batches = metadata.completed_batches
@@ -62,6 +67,7 @@ class BaseBatchOperation(BaseOperation[ResultTypeT_co]):
     async def _result_transformer(self, proto: BatchResultType, timeout: float) -> ResultTypeT_co:
         dataset_id = proto.result_dataset_id
 
+        logger.log(TRACE, "Converting batch result proto object %r to SDK dataset object", proto)
         # pylint: disable=protected-access
         return await self._sdk.datasets._get(dataset_id, timeout=timeout)
 

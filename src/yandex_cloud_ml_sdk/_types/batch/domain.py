@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING, Generic, TypeVar, cast
 
 from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 
+from yandex_cloud_ml_sdk._logging import get_logger
 from yandex_cloud_ml_sdk._types.datasets import DatasetType, coerce_dataset_id
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
@@ -15,6 +16,8 @@ if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
     from .model import BaseModelBatchMixin
+
+logger = get_logger(__name__)
 
 
 class BaseBatchSubdomain(Generic[BatchOperationTypeT], metaclass=abc.ABCMeta):
@@ -33,6 +36,11 @@ class BaseBatchSubdomain(Generic[BatchOperationTypeT], metaclass=abc.ABCMeta):
         proto_result_type = m._batch_proto_result_type
         proto_metadata_type = m._batch_proto_metadata_type
 
+        logger.debug(
+            'going to create batch task at %r service with a %r request',
+            stub_class.__name__, request
+        )
+
         async with self._sdk._client.get_service_stub(stub_class, timeout=timeout) as stub:
             response = await self._sdk._client.call_service(
                 stub.Completion,
@@ -40,6 +48,8 @@ class BaseBatchSubdomain(Generic[BatchOperationTypeT], metaclass=abc.ABCMeta):
                 expected_type=ProtoOperation,
                 timeout=timeout
             )
+
+        logger.debug('batch task created, resulting operation: %r', response)
 
         return self._operation_impl(
             id=response.id,
