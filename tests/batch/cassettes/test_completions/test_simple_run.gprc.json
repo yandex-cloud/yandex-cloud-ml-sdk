@@ -1,0 +1,1633 @@
+{
+    "interactions": [
+        {
+            "request": {
+                "cls": "ListApiEndpointsRequest",
+                "module": "yandex.cloud.endpoint.api_endpoint_service_pb2",
+                "message": {}
+            },
+            "response": {
+                "cls": "ListApiEndpointsResponse",
+                "module": "yandex.cloud.endpoint.api_endpoint_service_pb2",
+                "message": {
+                    "endpoints": [
+                        {
+                            "id": "ai-assistants",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-files",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-foundation-models",
+                            "address": "llm.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-llm",
+                            "address": "llm.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-speechkit",
+                            "address": "transcribe.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-stt",
+                            "address": "transcribe.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-stt-v3",
+                            "address": "stt.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-translate",
+                            "address": "translate.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-vision",
+                            "address": "vision.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-vision-ocr",
+                            "address": "ocr.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "alb",
+                            "address": "alb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "apigateway-connections",
+                            "address": "apigateway-connections.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "application-load-balancer",
+                            "address": "alb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "apploadbalancer",
+                            "address": "alb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "audittrails",
+                            "address": "audittrails.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "baas",
+                            "address": "backup.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "backup",
+                            "address": "backup.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "billing",
+                            "address": "billing.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "broker-data",
+                            "address": "iot-data.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cdn",
+                            "address": "cdn.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager",
+                            "address": "certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager-data",
+                            "address": "data.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager-private-ca",
+                            "address": "private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager-private-ca-data",
+                            "address": "data.private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cic",
+                            "address": "cic.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloud-registry",
+                            "address": "registry.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloudapps",
+                            "address": "cloudapps.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloudbackup",
+                            "address": "backup.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "clouddesktops",
+                            "address": "clouddesktops.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloudrouter",
+                            "address": "cloudrouter.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloudvideo",
+                            "address": "video.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "compute",
+                            "address": "compute.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "container-registry",
+                            "address": "container-registry.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "dataproc",
+                            "address": "dataproc.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "dataproc-manager",
+                            "address": "dataproc-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "datasphere",
+                            "address": "datasphere.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "datatransfer",
+                            "address": "datatransfer.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "dns",
+                            "address": "dns.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "endpoint",
+                            "address": "api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "fomo-dataset",
+                            "address": "fomo-dataset.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "fomo-tuning",
+                            "address": "fomo-tuning.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "iam",
+                            "address": "iam.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "iot-broker",
+                            "address": "iot-broker.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "iot-data",
+                            "address": "iot-data.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "iot-devices",
+                            "address": "iot-devices.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "k8s",
+                            "address": "mks.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "kms",
+                            "address": "kms.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "kms-crypto",
+                            "address": "kms.yandex:443"
+                        },
+                        {
+                            "id": "load-balancer",
+                            "address": "load-balancer.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "loadtesting",
+                            "address": "loadtesting.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "locator",
+                            "address": "locator.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "lockbox",
+                            "address": "lockbox.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "lockbox-payload",
+                            "address": "payload.lockbox.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "log-ingestion",
+                            "address": "ingester.logging.yandexcloud.net:443"
+                        },
+                        {
+                            "id": "log-reading",
+                            "address": "reader.logging.yandexcloud.net:443"
+                        },
+                        {
+                            "id": "logging",
+                            "address": "logging.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-airflow",
+                            "address": "airflow.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-clickhouse",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-elasticsearch",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-greenplum",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-kafka",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-kubernetes",
+                            "address": "mks.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-metastore",
+                            "address": "metastore.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-mongodb",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-mysql",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-opensearch",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-postgresql",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-redis",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-spark",
+                            "address": "spark.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-sqlserver",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "marketplace",
+                            "address": "marketplace.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "marketplace-pim",
+                            "address": "marketplace.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-clickhouse",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-mongodb",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-mysql",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-opensearch",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-postgresql",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-redis",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdbproxy",
+                            "address": "mdbproxy.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "monitoring",
+                            "address": "monitoring.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "operation",
+                            "address": "operation.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "organization-manager",
+                            "address": "organization-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "organizationmanager",
+                            "address": "organization-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quota-manager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quotamanager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "resource-manager",
+                            "address": "resource-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "resourcemanager",
+                            "address": "resource-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "searchapi",
+                            "address": "searchapi.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serialssh",
+                            "address": "serialssh.cloud.yandex.net:9600"
+                        },
+                        {
+                            "id": "serverless-apigateway",
+                            "address": "serverless-apigateway.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-containers",
+                            "address": "serverless-containers.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-eventrouter",
+                            "address": "serverless-eventrouter.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-functions",
+                            "address": "serverless-functions.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-gateway-connections",
+                            "address": "apigateway-connections.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-triggers",
+                            "address": "serverless-triggers.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-workflows",
+                            "address": "serverless-workflows.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverlesseventrouter-events",
+                            "address": "events.eventrouter.serverless.yandexcloud.net:443"
+                        },
+                        {
+                            "id": "smart-captcha",
+                            "address": "smartcaptcha.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "smart-web-security",
+                            "address": "smartwebsecurity.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "storage",
+                            "address": "storage.yandexcloud.net:443"
+                        },
+                        {
+                            "id": "storage-api",
+                            "address": "storage.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "video",
+                            "address": "video.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "vpc",
+                            "address": "vpc.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ydb",
+                            "address": "ydb.api.cloud.yandex.net:443"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "CreateDatasetRequest",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {
+                    "name": "fdd351d8-28ce-4860-871e-34867f3dbdf5",
+                    "folderId": "b1ghsjum2v37c2un8h64",
+                    "taskType": "TextToTextGenerationRequest",
+                    "uploadFormat": "jsonlines"
+                }
+            },
+            "response": {
+                "cls": "CreateDatasetResponse",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {
+                    "datasetId": "fds21tggo6sf7p9586md",
+                    "dataset": {
+                        "datasetId": "fds21tggo6sf7p9586md",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "name": "fdd351d8-28ce-4860-871e-34867f3dbdf5",
+                        "status": "DRAFT",
+                        "taskType": "TextToTextGenerationRequest",
+                        "createdAt": "2025-04-16T18:35:13Z",
+                        "updatedAt": "2025-04-16T18:35:13Z",
+                        "createdById": "aje6euqn63oa635coh28",
+                        "createdBy": "aje6euqn63oa635coh28"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetUploadDraftUrlRequest",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {
+                    "datasetId": "fds21tggo6sf7p9586md",
+                    "sizeBytes": "2367"
+                }
+            },
+            "response": {
+                "cls": "GetUploadDraftUrlResponse",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {
+                    "datasetId": "fds21tggo6sf7p9586md",
+                    "uploadUrl": "https://storage.yandexcloud.net/ai-fomo-drafts-prod/b1ghsjum2v37c2un8h64/fds21tggo6sf7p9586md?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250416T183513Z&X-Amz-SignedHeaders=content-length%3Bhost&X-Amz-Expires=86400&X-Amz-Credential=YCAJE_WuJJ9D1r6huCoc8I3yO%2F20250416%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=2fd62ddabec4e94c565df88eb58add4bf669b18ba6d109ec7fea21e5a9946660"
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "ValidateDatasetRequest",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {
+                    "datasetId": "fds21tggo6sf7p9586md"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fdsp9imr3f1hus08ckt9",
+                    "createdAt": "2025-04-16T18:35:14Z",
+                    "modifiedAt": "2025-04-16T18:35:14Z"
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fdsp9imr3f1hus08ckt9"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fdsp9imr3f1hus08ckt9",
+                    "createdAt": "2025-04-16T18:35:14Z",
+                    "modifiedAt": "2025-04-16T18:35:14Z"
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fdsp9imr3f1hus08ckt9"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fdsp9imr3f1hus08ckt9",
+                    "createdAt": "2025-04-16T18:35:14Z",
+                    "modifiedAt": "2025-04-16T18:36:05Z",
+                    "done": true,
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.dataset.v1.ValidateDatasetMetadata",
+                        "datasetId": "fds21tggo6sf7p9586md",
+                        "validRows": "3",
+                        "processedRows": "3",
+                        "totalRows": "3"
+                    },
+                    "response": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.dataset.v1.ValidateDatasetResponse",
+                        "datasetId": "fds21tggo6sf7p9586md",
+                        "isValid": true
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeDatasetRequest",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {
+                    "datasetId": "fds21tggo6sf7p9586md"
+                }
+            },
+            "response": {
+                "cls": "DescribeDatasetResponse",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {
+                    "dataset": {
+                        "datasetId": "fds21tggo6sf7p9586md",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "name": "fdd351d8-28ce-4860-871e-34867f3dbdf5",
+                        "status": "READY",
+                        "taskType": "TextToTextGenerationRequest",
+                        "createdAt": "2025-04-16T18:35:13Z",
+                        "updatedAt": "2025-04-16T18:35:48Z",
+                        "rows": "3",
+                        "sizeBytes": "3919",
+                        "createdById": "aje6euqn63oa635coh28",
+                        "createdBy": "aje6euqn63oa635coh28"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "BatchCompletionRequest",
+                "module": "yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2",
+                "message": {
+                    "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                    "completionOptions": {},
+                    "sourceDatasetId": "fds21tggo6sf7p9586md"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:36:14Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:36:14Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:36:17Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "PENDING"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:36:17Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "PENDING"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:36:17Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "PENDING"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:36:17Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "PENDING"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:36:17Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "PENDING"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:36:17Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "PENDING"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:37:22Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:42:56Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "COMPLETED"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fbi8crrhc123tkgm02cd"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi8crrhc123tkgm02cd",
+                    "createdAt": "2025-04-16T18:36:14Z",
+                    "modifiedAt": "2025-04-16T18:42:58Z",
+                    "done": true,
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "COMPLETED"
+                    },
+                    "response": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionResponse",
+                        "taskId": "fbivilkmtfmu63kn8ag8",
+                        "taskStatus": "COMPLETED",
+                        "resultDatasetId": "fdsoou1nom3n8drbif5p"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeDatasetRequest",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {
+                    "datasetId": "fdsoou1nom3n8drbif5p"
+                }
+            },
+            "response": {
+                "cls": "DescribeDatasetResponse",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {
+                    "dataset": {
+                        "datasetId": "fdsoou1nom3n8drbif5p",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "name": "Batch inference fbivilkmtfmu63kn8ag8 result",
+                        "status": "READY",
+                        "taskType": "TextToTextGeneration",
+                        "createdAt": "2025-04-16T18:36:20Z",
+                        "updatedAt": "2025-04-16T18:42:35Z",
+                        "sizeBytes": "3829",
+                        "createdById": "aje6euqn63oa635coh28",
+                        "labels": {
+                            "foundation_models_batch_task_id": "fbivilkmtfmu63kn8ag8",
+                            "foundation_models_source_dataset": "fds21tggo6sf7p9586md"
+                        },
+                        "createdBy": "aje6euqn63oa635coh28"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DeleteDatasetRequest",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {
+                    "datasetId": "fdsoou1nom3n8drbif5p"
+                }
+            },
+            "response": {
+                "cls": "DeleteDatasetResponse",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {}
+            }
+        },
+        {
+            "request": {
+                "cls": "DeleteDatasetRequest",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {
+                    "datasetId": "fds21tggo6sf7p9586md"
+                }
+            },
+            "response": {
+                "cls": "DeleteDatasetResponse",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {}
+            }
+        }
+    ]
+}

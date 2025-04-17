@@ -1,14 +1,14 @@
 from __future__ import annotations
 
 from numbers import Number
-from typing import Dict, Iterable, Tuple, Union
+from typing import Iterable, Union
 
 from yandex_cloud_ml_sdk._datasets.dataset import BaseDataset
+from yandex_cloud_ml_sdk._types.datasets import DatasetType
 
-DatasetType = Union[str, BaseDataset]
-WeightedDatasetType = Tuple[DatasetType, float]
+WeightedDatasetType = tuple[DatasetType, float]
 TuningDatasetType = Union[DatasetType, WeightedDatasetType]
-TuningDatasetsType = Union[TuningDatasetType, Iterable[TuningDatasetType], Dict[DatasetType, float]]
+TuningDatasetsType = Union[TuningDatasetType, Iterable[TuningDatasetType], dict[DatasetType, float]]
 
 ERROR_TEXT = ' '.join("""datasets must contain
 string with dataset ID,
