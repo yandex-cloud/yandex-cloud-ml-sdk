@@ -3,15 +3,19 @@
 from __future__ import annotations
 
 import asyncio
+import pathlib
 
 from yandex_cloud_ml_sdk import AsyncYCloudML
+
+PATH = pathlib.Path(__file__)
+NAME = f'example-{PATH.parent.name}-{PATH.name}'
 
 
 async def main() -> None:
     sdk = AsyncYCloudML(folder_id='b1ghsjum2v37c2un8h64')
     sdk.setup_default_logging()
 
-    thread = await sdk.threads.create(name='foo', ttl_days=5, expiration_policy="static")
+    thread = await sdk.threads.create(name=NAME, ttl_days=5, expiration_policy="static")
     print(f"new {thread=}")
 
     second = await sdk.threads.get(thread.id)
@@ -19,9 +23,13 @@ async def main() -> None:
     await second.update(ttl_days=9)
     print(f"with updated epiration config, {second=}")
 
-    message = await thread.write("content")
-    message2 = await second.write("content2")
-    print(f"hey, we just writed {message=} and {message2} into the thread")
+    # You could pass string
+    await thread.write("content")
+    # {"text": str, "role": str} dict
+    message2 = await second.write({"text": "content2", "role": "ASSISTANT"})
+    # or any object which have .text and .role attributes, like a Message object
+    # from assistants
+    await second.write(message2)
 
     print("and now we could read it:")
     async for message in thread:
@@ -31,8 +39,9 @@ async def main() -> None:
         print(f"    {message.status.name=}\n")
 
     async for thread in sdk.threads.list():
-        print(f"deleting thread {thread=}")
-        await thread.delete()
+        if thread.name == NAME:
+            print(f"deleting thread {thread=}")
+            await thread.delete()
 
 
 if __name__ == '__main__':

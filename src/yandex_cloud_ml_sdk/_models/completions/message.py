@@ -1,40 +1,22 @@
 from __future__ import annotations
 
-from collections.abc import Iterable, Sequence
-from dataclasses import dataclass
+from collections.abc import Iterable
 from typing import Protocol, TypedDict, Union, cast, runtime_checkable
 
 from typing_extensions import NotRequired, Required
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Message as ProtoMessage
 
-from yandex_cloud_ml_sdk._tools.tool_call import BaseToolCall
-from yandex_cloud_ml_sdk._tools.tool_call_list import ProtoCompletionsToolCallList
+from yandex_cloud_ml_sdk._tools.tool_call_list import ProtoCompletionsToolCallList, ToolCallList
 from yandex_cloud_ml_sdk._tools.tool_result import (
     ProtoCompletionsToolResultList, ToolResultDictType, tool_results_to_proto
 )
-
-
-@dataclass(frozen=True)
-class TextMessage:
-    role: str
-    text: str
-
-
-@runtime_checkable
-class TextMessageProtocol(Protocol):
-    role: str
-    text: str
+from yandex_cloud_ml_sdk._types.message import MessageType, TextMessageDict, TextMessageProtocol
 
 
 @runtime_checkable
 class TextMessageWithToolCallsProtocol(TextMessageProtocol, Protocol):
-    tool_calls: Sequence[BaseToolCall]
-
-
-class TextMessageDict(TypedDict):
-    role: NotRequired[str]
-    text: Required[str]
+    tool_calls: ToolCallList
 
 
 class FunctionResultMessageDict(TypedDict):
@@ -49,12 +31,12 @@ class _ProtoMessageKwargs(TypedDict):
     tool_call_list: NotRequired[ProtoCompletionsToolCallList]
 
 
-MessageType = Union[TextMessage, TextMessageDict, str, FunctionResultMessageDict]
-MessageInputType = Union[MessageType, Iterable[MessageType]]
+CompletionsMessageType = Union[MessageType, FunctionResultMessageDict]
+MessageInputType = Union[CompletionsMessageType, Iterable[CompletionsMessageType]]
 
 
 def messages_to_proto(messages: MessageInputType) -> list[ProtoMessage]:
-    msgs: Iterable[MessageType]
+    msgs: Iterable[CompletionsMessageType]
     if isinstance(messages, (dict, str, TextMessageProtocol)):
         # NB: dict is also Iterable, so techically messages could be a dict[MessageType, str]
         # and we are wrongly will get into this branch.

@@ -11,10 +11,9 @@ from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_servic
 
 from yandex_cloud_ml_sdk._tools.tool_call import HaveToolCalls, ToolCallTypeT
 from yandex_cloud_ml_sdk._tools.tool_call_list import ProtoCompletionsToolCallList, ToolCallList
+from yandex_cloud_ml_sdk._types.message import TextMessage
 from yandex_cloud_ml_sdk._types.proto import ProtoBased, SDKType
 from yandex_cloud_ml_sdk._types.result import BaseResult
-
-from .message import TextMessage
 
 
 @dataclass(frozen=True)
