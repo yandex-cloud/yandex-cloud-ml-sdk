@@ -14,6 +14,7 @@ from yandex.cloud.ai.assistants.v1.threads.thread_service_pb2_grpc import Thread
 
 from yandex_cloud_ml_sdk._messages.message import Message
 from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
+from yandex_cloud_ml_sdk._types.message import MessageType
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._types.resource import ExpirableResource, safe_on_delete
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
@@ -91,7 +92,7 @@ class BaseThread(ExpirableResource):
     @safe_on_delete
     async def _write(
         self,
-        content: str,
+        message: MessageType,
         *,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         timeout: float = 60,
@@ -99,7 +100,7 @@ class BaseThread(ExpirableResource):
         # pylint: disable-next=protected-access
         return await self._sdk._messages._create(
             thread_id=self.id,
-            content=content,
+            message=message,
             labels=labels,
             timeout=timeout
         )
@@ -163,13 +164,13 @@ class AsyncThread(RichThread):
 
     async def write(
         self,
-        content: str,
+        message: MessageType,
         *,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         timeout: float = 60,
     ) -> Message:
         return await self._write(
-            content=content,
+            message=message,
             labels=labels,
             timeout=timeout
         )
@@ -219,13 +220,13 @@ class Thread(RichThread):
 
     def write(
         self,
-        content: str,
+        message: MessageType,
         *,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         timeout: float = 60,
     ) -> Message:
         return self.__write(
-            content=content,
+            message=message,
             labels=labels,
             timeout=timeout
         )
