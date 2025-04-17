@@ -1,16 +1,13 @@
 from __future__ import annotations
 
 import abc
-from typing import TYPE_CHECKING, Generic, TypeVar
+from typing import TYPE_CHECKING, Generic
 
-from .model import BaseModel
+from .model import ModelTypeT
 
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
     from yandex_cloud_ml_sdk._types.domain import BaseDomain
-
-
-ModelTypeT = TypeVar('ModelTypeT', bound=BaseModel)
 
 
 class BaseFunction(abc.ABC):
