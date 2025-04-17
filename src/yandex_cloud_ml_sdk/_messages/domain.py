@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import AsyncIterator, Iterator
 
-from yandex.cloud.ai.assistants.v1.threads.message_pb2 import ContentPart
+from yandex.cloud.ai.assistants.v1.threads.message_pb2 import Author, ContentPart
 from yandex.cloud.ai.assistants.v1.threads.message_pb2 import Message as ProtoMessage
 from yandex.cloud.ai.assistants.v1.threads.message_pb2 import MessageContent, Text
 from yandex.cloud.ai.assistants.v1.threads.message_service_pb2 import (
@@ -12,6 +12,7 @@ from yandex.cloud.ai.assistants.v1.threads.message_service_pb2 import (
 from yandex.cloud.ai.assistants.v1.threads.message_service_pb2_grpc import MessageServiceStub
 
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
+from yandex_cloud_ml_sdk._types.message import MessageType, coerce_to_text_message_dict
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
@@ -23,12 +24,21 @@ class BaseMessages(BaseDomain):
 
     async def _create(
         self,
-        content: str,
+        message: MessageType,
         *,
         thread_id: str,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         timeout: float = 60,
     ) -> Message:
+        message_dict = coerce_to_text_message_dict(message)
+        content = message_dict['text']
+        author: Author | None = None
+        if role := message_dict.get('role'):
+            role = role.upper()
+            # XXX: right now id is not validating anyhow, but it is required field
+            # We passing random staff there.
+            author = Author(role=role, id=self._client._user_agent)
+
         request = CreateMessageRequest(
             thread_id=thread_id,
             content=MessageContent(
@@ -37,6 +47,7 @@ class BaseMessages(BaseDomain):
                 )]
             ),
             labels=get_defined_value(labels, {}),
+            author=author,
         )
 
         async with self._client.get_service_stub(MessageServiceStub, timeout=timeout) as stub:
@@ -91,14 +102,14 @@ class BaseMessages(BaseDomain):
 class AsyncMessages(BaseMessages):
     async def create(
         self,
-        content: str,
+        message: MessageType,
         *,
         thread_id: str,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         timeout: float = 60,
     ) -> Message:
         return await self._create(
-            content=content,
+            message=message,
             thread_id=thread_id,
             labels=labels,
             timeout=timeout
@@ -137,14 +148,14 @@ class Messages(BaseMessages):
 
     def create(
         self,
-        content: str,
+        message: MessageType,
         *,
         thread_id: str,
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         timeout: float = 60,
     ) -> Message:
         return self.__create(
-            content=content,
+            message=message,
             thread_id=thread_id,
             labels=labels,
             timeout=timeout

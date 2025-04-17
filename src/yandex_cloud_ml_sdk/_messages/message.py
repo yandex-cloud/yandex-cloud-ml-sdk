@@ -46,6 +46,10 @@ class Message(BaseMessage, BaseResource):
     citations: tuple[Citation, ...]
     status: MessageStatus
 
+    @property
+    def role(self) -> str:
+        return self.author.role
+
     @classmethod
     def _kwargs_from_message(cls, proto: ProtoMessage, sdk: BaseSDK) -> dict[str, Any]:  # type: ignore[override]
         kwargs = super()._kwargs_from_message(proto, sdk=sdk)

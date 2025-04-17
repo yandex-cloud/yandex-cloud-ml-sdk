@@ -11,7 +11,7 @@ class BaseMessage(BaseResult):
     parts: tuple[Any, ...]
 
     @property
-    def text(self):
+    def text(self) -> str:
         return '\n'.join(
             part for part in self.parts
             if isinstance(part, str)
