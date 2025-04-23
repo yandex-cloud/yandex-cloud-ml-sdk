@@ -79,7 +79,7 @@ async def main() -> None:
         async for line in resulting_dataset.read():
             print(line)
     except ImportError:
-        print('skipping dataset read; istall yandex-cloud-ml-sdk[datasets] to be able to read')
+        print('skipping dataset read; install yandex-cloud-ml-sdk[datasets] to be able to read')
 
     # Removing final dataset to not to increase chaos.
     await resulting_dataset.delete()
