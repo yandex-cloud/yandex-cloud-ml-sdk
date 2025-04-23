@@ -41,6 +41,7 @@ class BaseBatchOperation(BaseOperation[ResultTypeT_co]):
             transformer=self._result_transformer,
             service_name='ai-foundation-models',
             initial_operation=initial_operation,
+            default_poll_timeout=60 * 60 * 72,  # 72h
         )
 
     # NB: I don't want to make parent operation class Generic[MetadataTypeT] just to

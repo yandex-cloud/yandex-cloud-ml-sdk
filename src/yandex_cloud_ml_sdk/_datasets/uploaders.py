@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
 logger = get_logger(__name__)
 
-DEFAULT_CHUNK_SIZE = 500 * 1024 ** 2
+DEFAULT_CHUNK_SIZE = 100 * 1024 ** 2  # 100 Mb
 
 MAX_CHUNK_SIZE = 5 * 1024 ** 3  # 5 GB
 MAX_CHUNK_SIZE_PRETTY = '5GB'
