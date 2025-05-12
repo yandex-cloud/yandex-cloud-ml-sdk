@@ -15,6 +15,7 @@ class BaseCompletions(BaseModelFunction[ModelTypeT]):
     It defines the core functionality for calling a model
     to generate completions based on the provided model name and version.
     """
+
     @override
     def __call__(
         self,
@@ -46,10 +47,14 @@ class BaseCompletions(BaseModelFunction[ModelTypeT]):
             uri=uri,
         )
 
+
 @doc_from(BaseCompletions)
 class Completions(BaseCompletions[GPTModel]):
     _model_type = GPTModel
 
+
 @doc_from(BaseCompletions)
 class AsyncCompletions(BaseCompletions[AsyncGPTModel]):
+    __doc__ = BaseCompletions.__doc__
+
     _model_type = AsyncGPTModel

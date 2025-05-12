@@ -1,0 +1,7 @@
+Miscellations
+-------------
+
+.. toctree::
+   :hidden:
+
+   bases
