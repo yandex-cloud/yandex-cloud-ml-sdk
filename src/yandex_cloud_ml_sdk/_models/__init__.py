@@ -11,7 +11,12 @@ from .text_embeddings.function import AsyncTextEmbeddings, BaseTextEmbeddings, T
 
 
 class BaseModels(DomainWithFunctions):
-    """Domain for working with `Yandex Foundation Models <https://yandex.cloud/ru/services/foundation-models>`."""
+    """Domain for working with `Yandex Foundation Models <https://yandex.cloud/ru/services/foundation-models>`
+
+    Class is not supposed to be instantiated by user. SDK object contains already
+    instantiated ``.models`` attribute
+    """
+
     completions: BaseCompletions
     text_classifiers: BaseTextClassifiers
     image_generation: BaseImageGeneration
@@ -20,6 +25,8 @@ class BaseModels(DomainWithFunctions):
 
 @doc_from(BaseModels)
 class AsyncModels(BaseModels):
+    __doc__ = BaseModels.__doc__
+
     completions: AsyncCompletions
     text_embeddings: AsyncTextEmbeddings
     text_classifiers: AsyncTextClassifiers
@@ -28,6 +35,8 @@ class AsyncModels(BaseModels):
 
 @doc_from(BaseModels)
 class Models(BaseModels):
+    __doc__ = BaseModels.__doc__
+
     completions: Completions
     text_embeddings: TextEmbeddings
     text_classifiers: TextClassifiers

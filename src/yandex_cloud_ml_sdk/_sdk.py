@@ -33,15 +33,37 @@ from ._types.misc import UNDEFINED, PathLike, UndefinedOr, get_defined_value, is
 
 class BaseSDK:
     """The main class that needs to be instantiated to work with SDK."""
+
+    #: Domain for creation various tools for assistants and function calling
     tools: BaseTools
+
+    #: Domain for working with models: inference and tuning
     models: BaseModels
+
+    #: Domain for working with threads (part of the Assistants API)
     threads: BaseThreads
+
+    #: Domain for working with files (part of the Assistants API)
     files: BaseFiles
+
+    #: Domain for working with assistants (part of the Assistants API)
     assistants: BaseAssistants
+
+    #: Domain for working with assistants runs (part of the Assistants API)
     runs: BaseRuns
-    search_api: BaseSearchAPIDomain
+
+    #: Domain for working with search indexes (part of the Assistants API)
     search_indexes: BaseSearchIndexes
+
+    #: Domain for working with
+    #: `generative response <https://yandex.cloud/docs/search-api/concepts/generative-response>`_
+    #: service API
+    search_api: BaseSearchAPIDomain
+
+    #: Domain for working with datasets
     datasets: BaseDatasets
+
+    #: Domain for working with tuning
     tuning: BaseTuning
 
     _messages: BaseMessages
@@ -70,7 +92,7 @@ class BaseSDK:
         :param auth: string with API Key, IAM token or one of yandex_cloud_ml_sdk.auth objects;
             in case of default Undefined value, there will be a mechanism to get token
             from environment
-        :type api_key | BaseAuth: str
+        :type api_key: BaseAuth | str
         :param service_map: a way to redefine endpoints for one or more cloud subservices
             with a format of dict {service_name: service_address}.
         :type service_map: Dict[str, str]
@@ -116,6 +138,7 @@ class BaseSDK:
         :param date_format: The format for timestamps in log messages.
         :return: The instance of the SDK with logging configured.
         """
+
         setup_default_logging(
             log_level=log_level,
             log_format=log_format,
