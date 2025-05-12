@@ -18,6 +18,12 @@ if TYPE_CHECKING:
 
 
 class BaseModels(BaseDomain):
+    """Models domain.
+
+    Class is not supposed to be instantiated by user. SDK object contains already
+    instantiated ``.models`` attribute
+    """
+
     completions: BaseCompletions
     text_classifiers: BaseTextClassifiers
 
@@ -35,6 +41,8 @@ class BaseModels(BaseDomain):
 
 
 class AsyncModels(BaseModels):
+    __doc__ = BaseModels.__doc__
+
     completions: AsyncCompletions
     text_embeddings: AsyncTextEmbeddings
     text_classifiers: AsyncTextClassifiers
@@ -42,6 +50,8 @@ class AsyncModels(BaseModels):
 
 
 class Models(BaseModels):
+    __doc__ = BaseModels.__doc__
+
     completions: Completions
     text_embeddings: TextEmbeddings
     text_classifiers: TextClassifiers
