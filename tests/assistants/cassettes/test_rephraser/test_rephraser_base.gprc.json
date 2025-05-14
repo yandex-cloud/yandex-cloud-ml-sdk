@@ -1,0 +1,1635 @@
+{
+    "interactions": [
+        {
+            "request": {
+                "cls": "ListApiEndpointsRequest",
+                "module": "yandex.cloud.endpoint.api_endpoint_service_pb2",
+                "message": {}
+            },
+            "response": {
+                "cls": "ListApiEndpointsResponse",
+                "module": "yandex.cloud.endpoint.api_endpoint_service_pb2",
+                "message": {
+                    "endpoints": [
+                        {
+                            "id": "ai-assistants",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-files",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-foundation-models",
+                            "address": "llm.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-llm",
+                            "address": "llm.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-speechkit",
+                            "address": "transcribe.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-stt",
+                            "address": "transcribe.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-stt-v3",
+                            "address": "stt.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-translate",
+                            "address": "translate.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-vision",
+                            "address": "vision.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-vision-ocr",
+                            "address": "ocr.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "alb",
+                            "address": "alb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "apigateway-connections",
+                            "address": "apigateway-connections.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "application-load-balancer",
+                            "address": "alb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "apploadbalancer",
+                            "address": "alb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "audittrails",
+                            "address": "audittrails.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "baas",
+                            "address": "backup.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "backup",
+                            "address": "backup.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "billing",
+                            "address": "billing.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "broker-data",
+                            "address": "iot-data.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cdn",
+                            "address": "cdn.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager",
+                            "address": "certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager-data",
+                            "address": "data.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager-private-ca",
+                            "address": "private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager-private-ca-data",
+                            "address": "data.private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cic",
+                            "address": "cic.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloud-registry",
+                            "address": "registry.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloudapps",
+                            "address": "cloudapps.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloudbackup",
+                            "address": "backup.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "clouddesktops",
+                            "address": "clouddesktops.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloudrouter",
+                            "address": "cloudrouter.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloudvideo",
+                            "address": "video.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "compute",
+                            "address": "compute.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "container-registry",
+                            "address": "container-registry.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "dataproc",
+                            "address": "dataproc.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "dataproc-manager",
+                            "address": "dataproc-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "datasphere",
+                            "address": "datasphere.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "datatransfer",
+                            "address": "datatransfer.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "dns",
+                            "address": "dns.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "endpoint",
+                            "address": "api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "fomo-dataset",
+                            "address": "fomo-dataset.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "fomo-tuning",
+                            "address": "fomo-tuning.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "iam",
+                            "address": "iam.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "iot-broker",
+                            "address": "iot-broker.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "iot-data",
+                            "address": "iot-data.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "iot-devices",
+                            "address": "iot-devices.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "k8s",
+                            "address": "mks.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "kms",
+                            "address": "kms.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "kms-crypto",
+                            "address": "kms.yandex:443"
+                        },
+                        {
+                            "id": "load-balancer",
+                            "address": "load-balancer.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "loadtesting",
+                            "address": "loadtesting.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "locator",
+                            "address": "locator.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "lockbox",
+                            "address": "lockbox.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "lockbox-payload",
+                            "address": "payload.lockbox.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "log-ingestion",
+                            "address": "ingester.logging.yandexcloud.net:443"
+                        },
+                        {
+                            "id": "log-reading",
+                            "address": "reader.logging.yandexcloud.net:443"
+                        },
+                        {
+                            "id": "logging",
+                            "address": "logging.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-airflow",
+                            "address": "airflow.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-clickhouse",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-elasticsearch",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-greenplum",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-kafka",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-kubernetes",
+                            "address": "mks.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-metastore",
+                            "address": "metastore.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-mongodb",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-mysql",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-opensearch",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-postgresql",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-redis",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-spark",
+                            "address": "spark.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-sqlserver",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-trino",
+                            "address": "trino.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "marketplace",
+                            "address": "marketplace.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "marketplace-pim",
+                            "address": "marketplace.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-clickhouse",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-mongodb",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-mysql",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-opensearch",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-postgresql",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-redis",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdbproxy",
+                            "address": "mdbproxy.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "monitoring",
+                            "address": "monitoring.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "operation",
+                            "address": "operation.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "organization-manager",
+                            "address": "organization-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "organizationmanager",
+                            "address": "organization-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quota-manager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quotamanager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "resource-manager",
+                            "address": "resource-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "resourcemanager",
+                            "address": "resource-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "searchapi",
+                            "address": "searchapi.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serialssh",
+                            "address": "serialssh.cloud.yandex.net:9600"
+                        },
+                        {
+                            "id": "serverless-apigateway",
+                            "address": "serverless-apigateway.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-containers",
+                            "address": "serverless-containers.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-eventrouter",
+                            "address": "serverless-eventrouter.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-functions",
+                            "address": "serverless-functions.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-gateway-connections",
+                            "address": "apigateway-connections.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-triggers",
+                            "address": "serverless-triggers.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-workflows",
+                            "address": "serverless-workflows.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverlesseventrouter-events",
+                            "address": "events.eventrouter.serverless.yandexcloud.net:443"
+                        },
+                        {
+                            "id": "smart-captcha",
+                            "address": "smartcaptcha.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "smart-web-security",
+                            "address": "smartwebsecurity.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "storage",
+                            "address": "storage.yandexcloud.net:443"
+                        },
+                        {
+                            "id": "storage-api",
+                            "address": "storage.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "video",
+                            "address": "video.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "vpc",
+                            "address": "vpc.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ydb",
+                            "address": "ydb.api.cloud.yandex.net:443"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "CreateThreadRequest",
+                "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
+                "message": {
+                    "folderId": "b1ghsjum2v37c2un8h64"
+                }
+            },
+            "response": {
+                "cls": "Thread",
+                "module": "yandex.cloud.ai.assistants.v1.threads.thread_pb2",
+                "message": {
+                    "id": "fvt9mi0bvehv2tadg13r",
+                    "folderId": "b1ghsjum2v37c2un8h64",
+                    "defaultMessageAuthorId": "fvt1kpldd6hmfbdgno1t",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:28.673737Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-05-14T14:10:28.673737Z",
+                    "expirationConfig": {
+                        "expirationPolicy": "SINCE_LAST_ACTIVE",
+                        "ttlDays": "7"
+                    },
+                    "expiresAt": "2025-05-21T14:10:28.673737Z"
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "CreateFileRequest",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {
+                    "folderId": "b1ghsjum2v37c2un8h64",
+                    "content": "c2VjcmV0IG51bWJlciBpcyA5OTc="
+                }
+            },
+            "response": {
+                "cls": "File",
+                "module": "yandex.cloud.ai.files.v1.file_pb2",
+                "message": {
+                    "id": "fvtlojr96t9u7luihn1p",
+                    "folderId": "b1ghsjum2v37c2un8h64",
+                    "mimeType": "text/plain",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:29.096438Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-05-14T14:10:29.096438Z",
+                    "expirationConfig": {
+                        "expirationPolicy": "SINCE_LAST_ACTIVE",
+                        "ttlDays": "7"
+                    },
+                    "expiresAt": "2025-05-21T14:10:29.096438Z"
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "CreateSearchIndexRequest",
+                "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
+                "message": {
+                    "folderId": "b1ghsjum2v37c2un8h64",
+                    "fileIds": [
+                        "fvtlojr96t9u7luihn1p"
+                    ]
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fvt0t5ve4qft1fvhsnf9",
+                    "description": "search index creation",
+                    "createdAt": "2025-05-14T14:10:29.312218Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-05-14T14:10:29.312218Z"
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fvt0t5ve4qft1fvhsnf9"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fvt0t5ve4qft1fvhsnf9",
+                    "description": "search index creation",
+                    "createdAt": "2025-05-14T14:10:29.312218Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-05-14T14:10:29.312218Z"
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fvt0t5ve4qft1fvhsnf9"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fvt0t5ve4qft1fvhsnf9",
+                    "description": "search index creation",
+                    "createdAt": "2025-05-14T14:10:29.312218Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-05-14T14:10:31.470005Z",
+                    "done": true,
+                    "response": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.assistants.v1.searchindex.SearchIndex",
+                        "id": "fvtibkrcfsu5jq7gro5b",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-05-14T14:10:29.369493Z",
+                        "updatedBy": "aje6euqn63oa635coh28",
+                        "updatedAt": "2025-05-14T14:10:29.369493Z",
+                        "expirationConfig": {
+                            "expirationPolicy": "SINCE_LAST_ACTIVE",
+                            "ttlDays": "7"
+                        },
+                        "expiresAt": "2025-05-21T14:10:29.369493Z",
+                        "textSearchIndex": {
+                            "chunkingStrategy": {
+                                "staticStrategy": {
+                                    "maxChunkSizeTokens": "800",
+                                    "chunkOverlapTokens": "400"
+                                }
+                            },
+                            "standardTokenizer": {},
+                            "yandexLemmerAnalyzer": {}
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "CreateAssistantRequest",
+                "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
+                "message": {
+                    "folderId": "b1ghsjum2v37c2un8h64",
+                    "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
+                    "promptTruncationOptions": {},
+                    "tools": [
+                        {
+                            "searchIndex": {
+                                "searchIndexIds": [
+                                    "fvtibkrcfsu5jq7gro5b"
+                                ],
+                                "rephraserOptions": {
+                                    "rephraserUri": "gpt://b1ghsjum2v37c2un8h64/rephraser/latest"
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "response": {
+                "cls": "Assistant",
+                "module": "yandex.cloud.ai.assistants.v1.assistant_pb2",
+                "message": {
+                    "id": "fvtv7go0p55thq9dal2a",
+                    "folderId": "b1ghsjum2v37c2un8h64",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:39.543634Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-05-14T14:10:39.543634Z",
+                    "expirationConfig": {
+                        "expirationPolicy": "SINCE_LAST_ACTIVE",
+                        "ttlDays": "7"
+                    },
+                    "expiresAt": "2025-05-21T14:10:39.543634Z",
+                    "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest",
+                    "promptTruncationOptions": {
+                        "autoStrategy": {}
+                    },
+                    "completionOptions": {},
+                    "tools": [
+                        {
+                            "searchIndex": {
+                                "searchIndexIds": [
+                                    "fvtibkrcfsu5jq7gro5b"
+                                ],
+                                "rephraserOptions": {
+                                    "rephraserUri": "gpt://b1ghsjum2v37c2un8h64/rephraser/latest"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "CreateMessageRequest",
+                "module": "yandex.cloud.ai.assistants.v1.threads.message_service_pb2",
+                "message": {
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "content": {
+                        "content": [
+                            {
+                                "text": {
+                                    "content": "wats ur mystery"
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            "response": {
+                "cls": "Message",
+                "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
+                "message": {
+                    "id": "fvt8k0ko9o6acui2ccjn",
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:39.670903Z",
+                    "author": {
+                        "id": "fvt1kpldd6hmfbdgno1t",
+                        "role": "USER"
+                    },
+                    "content": {
+                        "content": [
+                            {
+                                "text": {
+                                    "content": "wats ur mystery"
+                                }
+                            }
+                        ]
+                    },
+                    "status": "COMPLETED"
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "CreateRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "assistantId": "fvtv7go0p55thq9dal2a",
+                    "threadId": "fvt9mi0bvehv2tadg13r"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvtdlo4eq1qlqhhlelbl",
+                    "assistantId": "fvtv7go0p55thq9dal2a",
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:39.830486459Z",
+                    "state": {
+                        "status": "PENDING"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "runId": "fvtdlo4eq1qlqhhlelbl"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvtdlo4eq1qlqhhlelbl",
+                    "assistantId": "fvtv7go0p55thq9dal2a",
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:39.830486459Z",
+                    "state": {
+                        "status": "PENDING"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "runId": "fvtdlo4eq1qlqhhlelbl"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvtdlo4eq1qlqhhlelbl",
+                    "assistantId": "fvtv7go0p55thq9dal2a",
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:39.830486459Z",
+                    "state": {
+                        "status": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "runId": "fvtdlo4eq1qlqhhlelbl"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvtdlo4eq1qlqhhlelbl",
+                    "assistantId": "fvtv7go0p55thq9dal2a",
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:39.830486459Z",
+                    "state": {
+                        "status": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "runId": "fvtdlo4eq1qlqhhlelbl"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvtdlo4eq1qlqhhlelbl",
+                    "assistantId": "fvtv7go0p55thq9dal2a",
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:39.830486459Z",
+                    "state": {
+                        "status": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "runId": "fvtdlo4eq1qlqhhlelbl"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvtdlo4eq1qlqhhlelbl",
+                    "assistantId": "fvtv7go0p55thq9dal2a",
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:39.830486459Z",
+                    "state": {
+                        "status": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "runId": "fvtdlo4eq1qlqhhlelbl"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvtdlo4eq1qlqhhlelbl",
+                    "assistantId": "fvtv7go0p55thq9dal2a",
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:39.830486459Z",
+                    "state": {
+                        "status": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "runId": "fvtdlo4eq1qlqhhlelbl"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvtdlo4eq1qlqhhlelbl",
+                    "assistantId": "fvtv7go0p55thq9dal2a",
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:39.830486459Z",
+                    "state": {
+                        "status": "COMPLETED",
+                        "completedMessage": {
+                            "id": "fvtour0kq65ht0g6cuef",
+                            "threadId": "fvt9mi0bvehv2tadg13r",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-05-14T14:10:42.674251411Z",
+                            "author": {
+                                "id": "fvtv7go0p55thq9dal2a",
+                                "role": "ASSISTANT"
+                            },
+                            "content": {
+                                "content": [
+                                    {
+                                        "text": {
+                                            "content": "I'm a language model, and I can help you with various tasks. My goal is to assist people in solving their problems and answering their questions.\n\nWhat mystery would you like to solve? Or what question would you like me to answer?"
+                                        }
+                                    }
+                                ]
+                            },
+                            "status": "COMPLETED"
+                        }
+                    },
+                    "usage": {
+                        "promptTokens": "14",
+                        "completionTokens": "51",
+                        "totalTokens": "65"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "runId": "fvtdlo4eq1qlqhhlelbl"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvtdlo4eq1qlqhhlelbl",
+                    "assistantId": "fvtv7go0p55thq9dal2a",
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:39.830486459Z",
+                    "state": {
+                        "status": "COMPLETED",
+                        "completedMessage": {
+                            "id": "fvtour0kq65ht0g6cuef",
+                            "threadId": "fvt9mi0bvehv2tadg13r",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-05-14T14:10:42.674251411Z",
+                            "author": {
+                                "id": "fvtv7go0p55thq9dal2a",
+                                "role": "ASSISTANT"
+                            },
+                            "content": {
+                                "content": [
+                                    {
+                                        "text": {
+                                            "content": "I'm a language model, and I can help you with various tasks. My goal is to assist people in solving their problems and answering their questions.\n\nWhat mystery would you like to solve? Or what question would you like me to answer?"
+                                        }
+                                    }
+                                ]
+                            },
+                            "status": "COMPLETED"
+                        }
+                    },
+                    "usage": {
+                        "promptTokens": "14",
+                        "completionTokens": "51",
+                        "totalTokens": "65"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "CreateMessageRequest",
+                "module": "yandex.cloud.ai.assistants.v1.threads.message_service_pb2",
+                "message": {
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "content": {
+                        "content": [
+                            {
+                                "text": {
+                                    "content": "what is your secret number"
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            "response": {
+                "cls": "Message",
+                "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
+                "message": {
+                    "id": "fvte3jlkg7hfiu6ara3k",
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:43.099897Z",
+                    "author": {
+                        "id": "fvt1kpldd6hmfbdgno1t",
+                        "role": "USER"
+                    },
+                    "content": {
+                        "content": [
+                            {
+                                "text": {
+                                    "content": "what is your secret number"
+                                }
+                            }
+                        ]
+                    },
+                    "status": "COMPLETED"
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "CreateRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "assistantId": "fvtv7go0p55thq9dal2a",
+                    "threadId": "fvt9mi0bvehv2tadg13r"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvtm071hki1gnk6r0smh",
+                    "assistantId": "fvtv7go0p55thq9dal2a",
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:43.154338853Z",
+                    "state": {
+                        "status": "PENDING"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "runId": "fvtm071hki1gnk6r0smh"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvtm071hki1gnk6r0smh",
+                    "assistantId": "fvtv7go0p55thq9dal2a",
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:43.154338853Z",
+                    "state": {
+                        "status": "PENDING"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "runId": "fvtm071hki1gnk6r0smh"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvtm071hki1gnk6r0smh",
+                    "assistantId": "fvtv7go0p55thq9dal2a",
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:43.154338853Z",
+                    "state": {
+                        "status": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "runId": "fvtm071hki1gnk6r0smh"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvtm071hki1gnk6r0smh",
+                    "assistantId": "fvtv7go0p55thq9dal2a",
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:43.154338853Z",
+                    "state": {
+                        "status": "COMPLETED",
+                        "completedMessage": {
+                            "id": "fvtcopiu3tnt2r18vvhl",
+                            "threadId": "fvt9mi0bvehv2tadg13r",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-05-14T14:10:43.989039344Z",
+                            "author": {
+                                "id": "fvtv7go0p55thq9dal2a",
+                                "role": "ASSISTANT"
+                            },
+                            "content": {
+                                "content": [
+                                    {
+                                        "text": {
+                                            "content": "My secret number is 997."
+                                        }
+                                    }
+                                ]
+                            },
+                            "status": "COMPLETED",
+                            "citations": [
+                                {
+                                    "sources": [
+                                        {
+                                            "chunk": {
+                                                "searchIndex": {
+                                                    "id": "fvtibkrcfsu5jq7gro5b",
+                                                    "folderId": "b1ghsjum2v37c2un8h64",
+                                                    "createdBy": "aje6euqn63oa635coh28",
+                                                    "createdAt": "2025-05-14T14:10:29.369493Z",
+                                                    "updatedBy": "aje6euqn63oa635coh28",
+                                                    "updatedAt": "2025-05-14T14:10:31.463623Z",
+                                                    "expirationConfig": {
+                                                        "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                                        "ttlDays": "7"
+                                                    },
+                                                    "expiresAt": "2025-05-21T14:10:42.680350Z",
+                                                    "textSearchIndex": {
+                                                        "chunkingStrategy": {
+                                                            "staticStrategy": {
+                                                                "maxChunkSizeTokens": "800",
+                                                                "chunkOverlapTokens": "400"
+                                                            }
+                                                        },
+                                                        "standardTokenizer": {},
+                                                        "yandexLemmerAnalyzer": {}
+                                                    }
+                                                },
+                                                "sourceFile": {
+                                                    "id": "fvtlojr96t9u7luihn1p",
+                                                    "folderId": "b1ghsjum2v37c2un8h64",
+                                                    "mimeType": "text/plain",
+                                                    "createdBy": "aje6euqn63oa635coh28",
+                                                    "createdAt": "2025-05-14T14:10:29.096438Z",
+                                                    "updatedBy": "aje6euqn63oa635coh28",
+                                                    "updatedAt": "2025-05-14T14:10:29.096438Z",
+                                                    "expirationConfig": {
+                                                        "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                                        "ttlDays": "7"
+                                                    },
+                                                    "expiresAt": "2025-05-21T14:10:29.402580Z"
+                                                },
+                                                "content": {
+                                                    "content": [
+                                                        {
+                                                            "text": {
+                                                                "content": "secret number is 997"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    "usage": {
+                        "promptTokens": "106",
+                        "completionTokens": "9",
+                        "totalTokens": "115"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "runId": "fvtm071hki1gnk6r0smh"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvtm071hki1gnk6r0smh",
+                    "assistantId": "fvtv7go0p55thq9dal2a",
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:43.154338853Z",
+                    "state": {
+                        "status": "COMPLETED",
+                        "completedMessage": {
+                            "id": "fvtcopiu3tnt2r18vvhl",
+                            "threadId": "fvt9mi0bvehv2tadg13r",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-05-14T14:10:43.989039344Z",
+                            "author": {
+                                "id": "fvtv7go0p55thq9dal2a",
+                                "role": "ASSISTANT"
+                            },
+                            "content": {
+                                "content": [
+                                    {
+                                        "text": {
+                                            "content": "My secret number is 997."
+                                        }
+                                    }
+                                ]
+                            },
+                            "status": "COMPLETED",
+                            "citations": [
+                                {
+                                    "sources": [
+                                        {
+                                            "chunk": {
+                                                "searchIndex": {
+                                                    "id": "fvtibkrcfsu5jq7gro5b",
+                                                    "folderId": "b1ghsjum2v37c2un8h64",
+                                                    "createdBy": "aje6euqn63oa635coh28",
+                                                    "createdAt": "2025-05-14T14:10:29.369493Z",
+                                                    "updatedBy": "aje6euqn63oa635coh28",
+                                                    "updatedAt": "2025-05-14T14:10:31.463623Z",
+                                                    "expirationConfig": {
+                                                        "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                                        "ttlDays": "7"
+                                                    },
+                                                    "expiresAt": "2025-05-21T14:10:42.680350Z",
+                                                    "textSearchIndex": {
+                                                        "chunkingStrategy": {
+                                                            "staticStrategy": {
+                                                                "maxChunkSizeTokens": "800",
+                                                                "chunkOverlapTokens": "400"
+                                                            }
+                                                        },
+                                                        "standardTokenizer": {},
+                                                        "yandexLemmerAnalyzer": {}
+                                                    }
+                                                },
+                                                "sourceFile": {
+                                                    "id": "fvtlojr96t9u7luihn1p",
+                                                    "folderId": "b1ghsjum2v37c2un8h64",
+                                                    "mimeType": "text/plain",
+                                                    "createdBy": "aje6euqn63oa635coh28",
+                                                    "createdAt": "2025-05-14T14:10:29.096438Z",
+                                                    "updatedBy": "aje6euqn63oa635coh28",
+                                                    "updatedAt": "2025-05-14T14:10:29.096438Z",
+                                                    "expirationConfig": {
+                                                        "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                                        "ttlDays": "7"
+                                                    },
+                                                    "expiresAt": "2025-05-21T14:10:29.402580Z"
+                                                },
+                                                "content": {
+                                                    "content": [
+                                                        {
+                                                            "text": {
+                                                                "content": "secret number is 997"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    "usage": {
+                        "promptTokens": "106",
+                        "completionTokens": "9",
+                        "totalTokens": "115"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "CreateMessageRequest",
+                "module": "yandex.cloud.ai.assistants.v1.threads.message_service_pb2",
+                "message": {
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "content": {
+                        "content": [
+                            {
+                                "text": {
+                                    "content": "wats ur mystery"
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            "response": {
+                "cls": "Message",
+                "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
+                "message": {
+                    "id": "fvti97bvt4f000e65jqt",
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:44.305760Z",
+                    "author": {
+                        "id": "fvt1kpldd6hmfbdgno1t",
+                        "role": "USER"
+                    },
+                    "content": {
+                        "content": [
+                            {
+                                "text": {
+                                    "content": "wats ur mystery"
+                                }
+                            }
+                        ]
+                    },
+                    "status": "COMPLETED"
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "CreateRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "assistantId": "fvtv7go0p55thq9dal2a",
+                    "threadId": "fvt9mi0bvehv2tadg13r"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvtaav8omdtmj4fholoh",
+                    "assistantId": "fvtv7go0p55thq9dal2a",
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:44.383355728Z",
+                    "state": {
+                        "status": "PENDING"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "runId": "fvtaav8omdtmj4fholoh"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvtaav8omdtmj4fholoh",
+                    "assistantId": "fvtv7go0p55thq9dal2a",
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:44.383355728Z",
+                    "state": {
+                        "status": "PENDING"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "runId": "fvtaav8omdtmj4fholoh"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvtaav8omdtmj4fholoh",
+                    "assistantId": "fvtv7go0p55thq9dal2a",
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:44.383355728Z",
+                    "state": {
+                        "status": "IN_PROGRESS"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "runId": "fvtaav8omdtmj4fholoh"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvtaav8omdtmj4fholoh",
+                    "assistantId": "fvtv7go0p55thq9dal2a",
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:44.383355728Z",
+                    "state": {
+                        "status": "COMPLETED",
+                        "completedMessage": {
+                            "id": "fvt3k6phjlofa4i84ksf",
+                            "threadId": "fvt9mi0bvehv2tadg13r",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-05-14T14:10:45.297319840Z",
+                            "author": {
+                                "id": "fvtv7go0p55thq9dal2a",
+                                "role": "ASSISTANT"
+                            },
+                            "content": {
+                                "content": [
+                                    {
+                                        "text": {
+                                            "content": "My mystery is my secret number 997."
+                                        }
+                                    }
+                                ]
+                            },
+                            "status": "COMPLETED",
+                            "citations": [
+                                {
+                                    "sources": [
+                                        {
+                                            "chunk": {
+                                                "searchIndex": {
+                                                    "id": "fvtibkrcfsu5jq7gro5b",
+                                                    "folderId": "b1ghsjum2v37c2un8h64",
+                                                    "createdBy": "aje6euqn63oa635coh28",
+                                                    "createdAt": "2025-05-14T14:10:29.369493Z",
+                                                    "updatedBy": "aje6euqn63oa635coh28",
+                                                    "updatedAt": "2025-05-14T14:10:31.463623Z",
+                                                    "expirationConfig": {
+                                                        "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                                        "ttlDays": "7"
+                                                    },
+                                                    "expiresAt": "2025-05-21T14:10:43.993176Z",
+                                                    "textSearchIndex": {
+                                                        "chunkingStrategy": {
+                                                            "staticStrategy": {
+                                                                "maxChunkSizeTokens": "800",
+                                                                "chunkOverlapTokens": "400"
+                                                            }
+                                                        },
+                                                        "standardTokenizer": {},
+                                                        "yandexLemmerAnalyzer": {}
+                                                    }
+                                                },
+                                                "sourceFile": {
+                                                    "id": "fvtlojr96t9u7luihn1p",
+                                                    "folderId": "b1ghsjum2v37c2un8h64",
+                                                    "mimeType": "text/plain",
+                                                    "createdBy": "aje6euqn63oa635coh28",
+                                                    "createdAt": "2025-05-14T14:10:29.096438Z",
+                                                    "updatedBy": "aje6euqn63oa635coh28",
+                                                    "updatedAt": "2025-05-14T14:10:29.096438Z",
+                                                    "expirationConfig": {
+                                                        "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                                        "ttlDays": "7"
+                                                    },
+                                                    "expiresAt": "2025-05-21T14:10:29.402580Z"
+                                                },
+                                                "content": {
+                                                    "content": [
+                                                        {
+                                                            "text": {
+                                                                "content": "secret number is 997"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    "usage": {
+                        "promptTokens": "129",
+                        "completionTokens": "11",
+                        "totalTokens": "140"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetRunRequest",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_service_pb2",
+                "message": {
+                    "runId": "fvtaav8omdtmj4fholoh"
+                }
+            },
+            "response": {
+                "cls": "Run",
+                "module": "yandex.cloud.ai.assistants.v1.runs.run_pb2",
+                "message": {
+                    "id": "fvtaav8omdtmj4fholoh",
+                    "assistantId": "fvtv7go0p55thq9dal2a",
+                    "threadId": "fvt9mi0bvehv2tadg13r",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-05-14T14:10:44.383355728Z",
+                    "state": {
+                        "status": "COMPLETED",
+                        "completedMessage": {
+                            "id": "fvt3k6phjlofa4i84ksf",
+                            "threadId": "fvt9mi0bvehv2tadg13r",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-05-14T14:10:45.297319840Z",
+                            "author": {
+                                "id": "fvtv7go0p55thq9dal2a",
+                                "role": "ASSISTANT"
+                            },
+                            "content": {
+                                "content": [
+                                    {
+                                        "text": {
+                                            "content": "My mystery is my secret number 997."
+                                        }
+                                    }
+                                ]
+                            },
+                            "status": "COMPLETED",
+                            "citations": [
+                                {
+                                    "sources": [
+                                        {
+                                            "chunk": {
+                                                "searchIndex": {
+                                                    "id": "fvtibkrcfsu5jq7gro5b",
+                                                    "folderId": "b1ghsjum2v37c2un8h64",
+                                                    "createdBy": "aje6euqn63oa635coh28",
+                                                    "createdAt": "2025-05-14T14:10:29.369493Z",
+                                                    "updatedBy": "aje6euqn63oa635coh28",
+                                                    "updatedAt": "2025-05-14T14:10:31.463623Z",
+                                                    "expirationConfig": {
+                                                        "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                                        "ttlDays": "7"
+                                                    },
+                                                    "expiresAt": "2025-05-21T14:10:43.993176Z",
+                                                    "textSearchIndex": {
+                                                        "chunkingStrategy": {
+                                                            "staticStrategy": {
+                                                                "maxChunkSizeTokens": "800",
+                                                                "chunkOverlapTokens": "400"
+                                                            }
+                                                        },
+                                                        "standardTokenizer": {},
+                                                        "yandexLemmerAnalyzer": {}
+                                                    }
+                                                },
+                                                "sourceFile": {
+                                                    "id": "fvtlojr96t9u7luihn1p",
+                                                    "folderId": "b1ghsjum2v37c2un8h64",
+                                                    "mimeType": "text/plain",
+                                                    "createdBy": "aje6euqn63oa635coh28",
+                                                    "createdAt": "2025-05-14T14:10:29.096438Z",
+                                                    "updatedBy": "aje6euqn63oa635coh28",
+                                                    "updatedAt": "2025-05-14T14:10:29.096438Z",
+                                                    "expirationConfig": {
+                                                        "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                                        "ttlDays": "7"
+                                                    },
+                                                    "expiresAt": "2025-05-21T14:10:29.402580Z"
+                                                },
+                                                "content": {
+                                                    "content": [
+                                                        {
+                                                            "text": {
+                                                                "content": "secret number is 997"
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    "usage": {
+                        "promptTokens": "129",
+                        "completionTokens": "11",
+                        "totalTokens": "140"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DeleteThreadRequest",
+                "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
+                "message": {
+                    "threadId": "fvt9mi0bvehv2tadg13r"
+                }
+            },
+            "response": {
+                "cls": "DeleteThreadResponse",
+                "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
+                "message": {}
+            }
+        },
+        {
+            "request": {
+                "cls": "DeleteFileRequest",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {
+                    "fileId": "fvtlojr96t9u7luihn1p"
+                }
+            },
+            "response": {
+                "cls": "DeleteFileResponse",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {}
+            }
+        },
+        {
+            "request": {
+                "cls": "DeleteSearchIndexRequest",
+                "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
+                "message": {
+                    "searchIndexId": "fvtibkrcfsu5jq7gro5b"
+                }
+            },
+            "response": {
+                "cls": "DeleteSearchIndexResponse",
+                "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
+                "message": {}
+            }
+        },
+        {
+            "request": {
+                "cls": "DeleteAssistantRequest",
+                "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
+                "message": {
+                    "assistantId": "fvtv7go0p55thq9dal2a"
+                }
+            },
+            "response": {
+                "cls": "DeleteAssistantResponse",
+                "module": "yandex.cloud.ai.assistants.v1.assistant_service_pb2",
+                "message": {}
+            }
+        }
+    ]
+}
