@@ -8,6 +8,7 @@ import grpc.aio
 import pytest
 import pytest_asyncio
 
+import yandex_cloud_ml_sdk._types.resource
 from yandex_cloud_ml_sdk import AsyncYCloudML, YCloudML
 from yandex_cloud_ml_sdk._auth import BaseAuth, NoAuth
 from yandex_cloud_ml_sdk._client import AsyncCloudClient, _get_user_agent
@@ -44,7 +45,7 @@ def patch_operation(request, monkeypatch):
     if not allow_grpc_test or generate or regenerate:
         return
 
-    import yandex_cloud_ml_sdk._types.operation  # pylint: disable=import-outside-toplevel
+    import yandex_cloud_ml_sdk._types.operation  # pylint: disable=import-outside-toplevel,redefined-outer-name
 
     monkeypatch.setattr(
         yandex_cloud_ml_sdk._types.operation.OperationInterface,  # pylint: disable=protected-access
@@ -168,3 +169,27 @@ def fixture_async_sdk(
 @pytest.fixture(name='user_agent_tuple')
 def fixture_user_agent_tuple():
     return ('grpc.primary_user_agent', _get_user_agent())
+
+
+@pytest_asyncio.fixture()
+async def clear_deleteable_resources(monkeypatch):
+    # pylint: disable=protected-access
+    created_resources = []
+
+    class PatchedDeleteableResource(yandex_cloud_ml_sdk._types.resource.BaseDeleteableResource):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            created_resources.append(self)
+
+    monkeypatch.setattr(yandex_cloud_ml_sdk._types.resource, 'BaseDeleteableResource', PatchedDeleteableResource)
+
+    try:
+        yield
+    finally:
+        # idk why but when I monkeypatch this way, there is doubles in created_resources
+        # I don't wanna to dive deep into this right now
+        deleted_resources = set()
+        for resource in created_resources:
+            if not resource._deleted and resource.id not in deleted_resources:
+                await resource._delete()
+                deleted_resources.add(resource.id)

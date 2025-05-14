@@ -16,6 +16,8 @@ from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Tool as ProtoCo
 
 from yandex_cloud_ml_sdk._types.schemas import JsonSchemaType
 
+from .rephraser.model import Rephraser
+
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
@@ -58,6 +60,7 @@ class SearchIndexTool(BaseTool):
     search_index_ids: tuple[str, ...]
 
     max_num_results: int | None = None
+    rephraser: Rephraser | None = None
 
     @classmethod
     def _from_proto(cls, proto: ProtoSearchIndexTool, sdk: BaseSDK) -> SearchIndexTool:
@@ -65,9 +68,14 @@ class SearchIndexTool(BaseTool):
         if proto.HasField("max_num_results"):
             max_num_results = proto.max_num_results.value
 
+        rephraser: Rephraser | None = None
+        if proto.HasField("rephraser_options"):
+            rephraser = Rephraser._from_proto(proto=proto.rephraser_options, sdk=sdk)
+
         return cls(
             search_index_ids=tuple(proto.search_index_ids),
             max_num_results=max_num_results,
+            rephraser=rephraser,
         )
 
     def _to_proto(self, proto_type: type[ProtoToolTypeT]) -> ProtoToolTypeT:
@@ -77,10 +85,15 @@ class SearchIndexTool(BaseTool):
         if self.max_num_results is not None:
             max_num_results = Int64Value(value=self.max_num_results)
 
+        rephraser = None
+        if self.rephraser:
+            rephraser = self.rephraser._to_proto()
+
         return proto_type(
             search_index=ProtoSearchIndexTool(
                 max_num_results=max_num_results,
-                search_index_ids=self.search_index_ids
+                search_index_ids=self.search_index_ids,
+                rephraser_options=rephraser,
             )
         )
 

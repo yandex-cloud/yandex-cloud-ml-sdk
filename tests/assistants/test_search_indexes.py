@@ -14,13 +14,6 @@ from yandex_cloud_ml_sdk.search_indexes import (
 pytestmark = pytest.mark.asyncio
 
 
-@pytest.fixture(name='test_file_path')
-def fixture_test_file_path(tmp_path):
-    path = tmp_path / 'test_file'
-    path.write_bytes(b'test file')
-    yield path
-
-
 @pytest.mark.allow_grpc
 @pytest.mark.vcr
 async def test_search_index(async_sdk, test_file_path):
