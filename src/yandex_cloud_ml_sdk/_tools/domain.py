@@ -26,8 +26,7 @@ class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
 
     @cached_property
     def rephraser(self) -> RephraserFunction:
-        return RephraserFunction(
-            name='tools.rehraser',
+        return RephraserFunction(name='tools.rehraser',
             sdk=self._sdk,
             parent_resource=self
         )
