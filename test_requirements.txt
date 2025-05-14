@@ -8,11 +8,11 @@ pylint-protobuf
 pytest
 pytest-asyncio
 pytest-flakes
+pytest-httpx
+pytest-mock
 pytest-mypy
 pytest-pylint
 pytest-recording
-pytest-httpx
-pytest-mock
 tqdm
 types-aiofiles
 types-protobuf

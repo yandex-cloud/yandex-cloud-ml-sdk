@@ -11,8 +11,8 @@ from ._auth import BaseAuth
 if TYPE_CHECKING:
     # pylint: disable=cyclic-import
     from ._client import StubType
-    from ._types.operation import OperationErrorInfo
     from ._datasets.validation import DatasetValidationResult
+    from ._types.operation import OperationErrorInfo
 
 
 class YCloudMLError(Exception):
