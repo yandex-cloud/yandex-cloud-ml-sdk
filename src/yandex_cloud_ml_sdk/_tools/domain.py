@@ -43,10 +43,10 @@ class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
 
         :param indexes: parameter takes :py:class:`~.BaseSearchIndex`, string with search index id,
             or a list of this values in any combination.
-        :max_num_results: the maximum number of results to return from the search.
+        :param max_num_results: the maximum number of results to return from the search.
             Fewer results may be returned if necessary to fit within the prompt's token limit.
             This ensures that the combined prompt and search results do not exceed the token constraints.
-        :rephraser: setting for rephrasing user queries; refer to :py:class:`~.Rephraser` documentation
+        :param rephraser: setting for rephrasing user queries; refer to :py:class:`~.Rephraser` documentation
             for details.
         """
 
