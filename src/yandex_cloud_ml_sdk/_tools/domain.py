@@ -1,8 +1,8 @@
 # pylint: disable=protected-access
 from __future__ import annotations
 
-from typing import Generic
 from functools import cached_property
+from typing import Generic
 
 from yandex_cloud_ml_sdk._search_indexes.search_index import BaseSearchIndex
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
@@ -26,8 +26,10 @@ class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
 
     @cached_property
     def rephraser(self) -> RephraserFunction:
-        return RephraserFunction(name='tools.rehraser',
-            sdk=self._sdk, parent_resource=self
+        return RephraserFunction(
+            name='tools.rehraser',
+            sdk=self._sdk,
+            parent_resource=self
         )
 
     def search_index(
