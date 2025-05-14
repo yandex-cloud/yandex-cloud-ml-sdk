@@ -29,6 +29,10 @@ autodoc_default_options = {
     'exclude-members': '__weakref__',
 }
 autodoc_inherit_docstrings = True
+autodoc_type_aliases = {
+    'BaseSDK': 'yandex_cloud_ml_sdk._sdk.BaseSDK',
+    'asyncio': 'asyncio'
+}
 
 intersphinx_mapping = {
     'grpc': ('https://grpc.github.io/grpc/python/', None),
@@ -39,6 +43,7 @@ always_document_param_types = True
 always_use_bars_union = True
 typehints_defaults = 'comma'
 
+nitpicky = True
 
 # -- Options for HTML output -------------------------------------------------
 
