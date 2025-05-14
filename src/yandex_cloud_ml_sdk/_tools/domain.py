@@ -1,8 +1,8 @@
 # pylint: disable=protected-access
 from __future__ import annotations
 
-from functools import cached_property
 from typing import Generic
+from functools import cached_property
 
 from yandex_cloud_ml_sdk._search_indexes.search_index import BaseSearchIndex
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
