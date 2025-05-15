@@ -18,6 +18,9 @@ from .file import AsyncFile, File, FileTypeT
 
 
 class BaseFiles(BaseDomain, Generic[FileTypeT]):
+    """Base class for file operations in Yandex Cloud.
+    Provides methods to upload files either as bytes or from the path.
+    """
     _file_impl: type[FileTypeT]
 
     async def _upload_bytes(
@@ -32,6 +35,24 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
         expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
         timeout: float = 60,
     ) -> FileTypeT:
+        """Uploads a byte array as a file.
+
+        :param data: The byte data to upload.
+        :param name: The name of the file. 
+            Defaults to UNDEFINED.
+        :param description: A description of the file. 
+            Defaults to UNDEFINED.
+        :param mime_type: The MIME type of the file. 
+            Defaults to UNDERFINED.
+        :param labels: Labels associated with the file. 
+            Defaults to UNDEFINED.
+        :param ttl_days: Time-to-live in days for the file. 
+            Defaults to UNDEFINED.
+        :param expiration_policy: Expiration policy for the file. 
+            Defaults to UNDEFINED.
+        :param timeout: Timeout for the operation in seconds.
+            Defaults to 60 seconds.
+        """
         if is_defined(ttl_days) != is_defined(expiration_policy):
             raise ValueError("ttl_days and expiration policy must be both defined either undefined")
 
@@ -132,10 +153,11 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
 
                 page_token_ = response.next_page_token
 
-
+@doc_from(BaseFiles)
 class AsyncFiles(BaseFiles[AsyncFile]):
     _file_impl = AsyncFile
 
+    @doc_from(BaseFiles._upload_bytes)
     async def upload_bytes(
         self,
         data: bytes,
@@ -205,7 +227,7 @@ class AsyncFiles(BaseFiles[AsyncFile]):
         ):
             yield file
 
-
+@doc_from(BaseFiles)
 class Files(BaseFiles[File]):
     _file_impl = File
 
@@ -214,6 +236,7 @@ class Files(BaseFiles[File]):
     __get = run_sync(BaseFiles._get)
     __list = run_sync_generator(BaseFiles._list)
 
+    @doc_from(BaseFiles._upload_bytes)
     def upload_bytes(
         self,
         data: bytes,
