@@ -59,3 +59,8 @@ repos:
     hooks:
       - id: check-manifest
         stages: [manual]
+
+  - repo: https://github.com/sphinx-contrib/sphinx-lint
+    rev: "v1.0.0"
+    hooks:
+      - id: sphinx-lint
