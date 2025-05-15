@@ -38,17 +38,17 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
         """Uploads a byte array as a file.
 
         :param data: The byte data to upload.
-        :param name: The name of the file. 
+        :param name: The name of the file.
             Defaults to UNDEFINED.
-        :param description: A description of the file. 
+        :param description: A description of the file.
             Defaults to UNDEFINED.
-        :param mime_type: The MIME type of the file. 
+        :param mime_type: The MIME type of the file.
             Defaults to UNDERFINED.
-        :param labels: Labels associated with the file. 
+        :param labels: Labels associated with the file.
             Defaults to UNDEFINED.
-        :param ttl_days: Time-to-live in days for the file. 
+        :param ttl_days: Time-to-live in days for the file.
             Defaults to UNDEFINED.
-        :param expiration_policy: Expiration policy for the file. 
+        :param expiration_policy: Expiration policy for the file.
             Defaults to UNDEFINED.
         :param timeout: Timeout for the operation in seconds.
             Defaults to 60 seconds.
