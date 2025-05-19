@@ -12,10 +12,11 @@ from yandex.cloud.ai.files.v1.file_service_pb2_grpc import FileServiceStub
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, PathLike, UndefinedOr, coerce_path, get_defined_value, is_defined
-from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 from yandex_cloud_ml_sdk._utils.doc import doc_from
+from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .file import AsyncFile, File, FileTypeT
+
 
 class BaseFiles(BaseDomain, Generic[FileTypeT]):
     """Files domain, which contains API for working with files.
@@ -98,9 +99,9 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
             By default (i.e. when UNDEFINED) server will try to auto-detect mime-type and you could override this file.
         :param labels: Labels associated with the file.
         :param ttl_days: Time-to-live in days for the file.
-        :param expiration_policy: Expiration policy for the file. 
+        :param expiration_policy: Expiration policy for the file.
             Assepts for passing :static or :since_last_active strings.
-        :param timeout: Timeout for the operation in seconds. 
+        :param timeout: Timeout for the operation in seconds.
             Defaults to 60.
         """
         path = coerce_path(path)
@@ -124,7 +125,7 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
         """Retrieves a file by its ID.
 
         :param file_id: The unique identifier of the file to retrieve.
-        :param timeout: Timeout for the operation in seconds. 
+        :param timeout: Timeout for the operation in seconds.
             Defaults to 60.
         """
         # TODO: we need a global per-sdk cache on file_ids to rule out
@@ -150,7 +151,7 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
         """Lists files in the specified folder.
 
         :param page_size: The maximum number of files to return per page.
-        :param timeout: Timeout for the operation in seconds. 
+        :param timeout: Timeout for the operation in seconds.
             Defaults to 60.
         """
         page_token_ = ''
@@ -205,7 +206,7 @@ class AsyncFiles(BaseFiles[AsyncFile]):
             expiration_policy=expiration_policy,
             timeout=timeout
         )
-        
+
     @doc_from(BaseFiles._upload)
     async def upload(
         self,
