@@ -13,13 +13,16 @@ from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, PathLike, UndefinedOr, coerce_path, get_defined_value, is_defined
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from .file import AsyncFile, File, FileTypeT
 
-
 class BaseFiles(BaseDomain, Generic[FileTypeT]):
-    """Base class for file operations in Yandex Cloud.
-    Provides methods to upload files either as bytes or from the path.
+    """Files domain, which contains API for working with files.
+    Files is a part of `Assistants API`_, which is the only place you could use it.
+    Provides upload, get and list methods that allow you to work with remote file objects you created earlier.
+
+    .. _Assistants API: https://yandex.cloud/ru/docs/foundation-models/assistants/api-ref/Assistant/
     """
     _file_impl: type[FileTypeT]
 
@@ -39,17 +42,13 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
 
         :param data: The byte data to upload.
         :param name: The name of the file.
-            Defaults to UNDEFINED.
         :param description: A description of the file.
-            Defaults to UNDEFINED.
         :param mime_type: The MIME type of the file.
-            Defaults to UNDERFINED.
+            By default (i.e. when UNDEFINED) server will try to auto-detect mime-type and you could override this file.
         :param labels: Labels associated with the file.
-            Defaults to UNDEFINED.
         :param ttl_days: Time-to-live in days for the file.
-            Defaults to UNDEFINED.
         :param expiration_policy: Expiration policy for the file.
-            Defaults to UNDEFINED.
+            Assepts for passing :static or :since_last_active strings. Should be defined if :ttl_days has been defined, otherwise both parameters should be underfined.
         :param timeout: Timeout for the operation in seconds.
             Defaults to 60 seconds.
         """
@@ -90,6 +89,20 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
         expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
         timeout: float = 60,
     ) -> FileTypeT:
+        """Uploads a file from a specified path.
+
+        :param path: The path of the file to upload.
+        :param name: The name of the file.
+        :param description: A description of the file.
+        :param mime_type: The MIME type of the file.
+            By default (i.e. when UNDEFINED) server will try to auto-detect mime-type and you could override this file.
+        :param labels: Labels associated with the file.
+        :param ttl_days: Time-to-live in days for the file.
+        :param expiration_policy: Expiration policy for the file. 
+            Assepts for passing :static or :since_last_active strings.
+        :param timeout: Timeout for the operation in seconds. 
+            Defaults to 60.
+        """
         path = coerce_path(path)
         return await self._upload_bytes(
             data=path.read_bytes(),
@@ -108,6 +121,12 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
         *,
         timeout: float = 60,
     ) -> FileTypeT:
+        """Retrieves a file by its ID.
+
+        :param file_id: The unique identifier of the file to retrieve.
+        :param timeout: Timeout for the operation in seconds. 
+            Defaults to 60.
+        """
         # TODO: we need a global per-sdk cache on file_ids to rule out
         # possibility we have two Files with same ids but different fields
         request = GetFileRequest(file_id=file_id)
@@ -128,6 +147,12 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
         page_size: UndefinedOr[int] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[FileTypeT]:
+        """Lists files in the specified folder.
+
+        :param page_size: The maximum number of files to return per page.
+        :param timeout: Timeout for the operation in seconds. 
+            Defaults to 60.
+        """
         page_token_ = ''
         page_size_ = get_defined_value(page_size, 0)
 
@@ -180,7 +205,8 @@ class AsyncFiles(BaseFiles[AsyncFile]):
             expiration_policy=expiration_policy,
             timeout=timeout
         )
-
+        
+    @doc_from(BaseFiles._upload)
     async def upload(
         self,
         path: PathLike,
@@ -204,6 +230,7 @@ class AsyncFiles(BaseFiles[AsyncFile]):
             timeout=timeout
         )
 
+    @doc_from(BaseFiles._get)
     async def get(
         self,
         file_id: str,
@@ -215,6 +242,7 @@ class AsyncFiles(BaseFiles[AsyncFile]):
             timeout=timeout
         )
 
+    @doc_from(BaseFiles._list)
     async def list(
         self,
         *,
@@ -260,6 +288,7 @@ class Files(BaseFiles[File]):
             timeout=timeout
         )
 
+    @doc_from(BaseFiles._upload)
     def upload(
         self,
         path: PathLike,
@@ -283,6 +312,7 @@ class Files(BaseFiles[File]):
             timeout=timeout
         )
 
+    @doc_from(BaseFiles._get)
     def get(
         self,
         file_id: str,
@@ -294,6 +324,7 @@ class Files(BaseFiles[File]):
             timeout=timeout
         )
 
+    @doc_from(BaseFiles._list)
     def list(
         self,
         *,
