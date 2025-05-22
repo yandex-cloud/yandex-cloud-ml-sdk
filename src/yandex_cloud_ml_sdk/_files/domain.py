@@ -20,10 +20,8 @@ from .file import AsyncFile, File, FileTypeT
 
 class BaseFiles(BaseDomain, Generic[FileTypeT]):
     """Files domain, which contains API for working with files.
-    Files is a part of `Assistants API`_, which is the only place you could use it.
+    Files is a part of :ref:`Assistants API`, which is the only place you could use it.
     Provides upload, get and list methods that allow you to work with remote file objects you created earlier.
-
-    .. _Assistants API: https://yandex.cloud/ru/docs/foundation-models/assistants/api-ref/Assistant/
     """
     _file_impl: type[FileTypeT]
 
@@ -42,14 +40,14 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
         """Uploads a byte array as a file.
 
         :param data: The byte data to upload.
-        :param name: The name of the file.
+        :param name: The name of the file on server.
         :param description: A description of the file.
         :param mime_type: The MIME type of the file.
             By default (i.e. when UNDEFINED) server will try to auto-detect mime-type and you could override this file.
         :param labels: Labels associated with the file.
         :param ttl_days: Time-to-live in days for the file.
         :param expiration_policy: Expiration policy for the file.
-            Assepts for passing :static or :since_last_active strings. Should be defined if :ttl_days has been defined, otherwise both parameters should be underfined.
+            Assepts for passing :ref:`static` or :ref:`since_last_active` strings. Should be defined if :ref:`ttl_days` has been defined, otherwise both parameters should be underfined.
         :param timeout: Timeout for the operation in seconds.
             Defaults to 60 seconds.
         """
@@ -93,14 +91,14 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
         """Uploads a file from a specified path.
 
         :param path: The path of the file to upload.
-        :param name: The name of the file.
+        :param name: The name of the file on server.
         :param description: A description of the file.
         :param mime_type: The MIME type of the file.
             By default (i.e. when UNDEFINED) server will try to auto-detect mime-type and you could override this file.
         :param labels: Labels associated with the file.
         :param ttl_days: Time-to-live in days for the file.
         :param expiration_policy: Expiration policy for the file.
-            Assepts for passing :static or :since_last_active strings.
+            Assepts for passing :ref:`static` or :ref:`since_last_active` strings.
         :param timeout: Timeout for the operation in seconds.
             Defaults to 60.
         """
@@ -148,7 +146,7 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
         page_size: UndefinedOr[int] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[FileTypeT]:
-        """Lists files in the specified folder.
+        """Lists Files in the SDK folder.
 
         :param page_size: The maximum number of files to return per page.
         :param timeout: Timeout for the operation in seconds.
