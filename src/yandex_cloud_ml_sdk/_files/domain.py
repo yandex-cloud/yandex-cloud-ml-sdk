@@ -44,7 +44,7 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
         :param name: The name of the file on the server.
         :param description: A description of the file.
         :param mime_type: The MIME type of the file.
-            By default (i.e. when UNDEFINED) the server will try to auto-detect mime-type and you could override this file.
+            By default (i.e. when UNDERFINED) the server will try to auto-detect mime-type and you could override this file.
         :param labels: Labels associated with the file.
         :param ttl_days: Time-to-live in days for the file.
         :param expiration_policy: Expiration policy for the file.
