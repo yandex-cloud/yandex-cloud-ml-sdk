@@ -20,7 +20,7 @@ from .file import AsyncFile, File, FileTypeT
 
 class BaseFiles(BaseDomain, Generic[FileTypeT]):
     """Files domain, which contains API for working with files.
-    
+
     Files is a part of :ref:`Assistants API`, which is the only place you could use it.
     Provides upload, get and list methods that allow you to work with remote file objects you created earlier.
     """
