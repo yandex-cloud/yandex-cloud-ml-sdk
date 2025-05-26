@@ -8,19 +8,30 @@ from yandex_cloud_ml_sdk._logging import get_logger
 
 logger = get_logger(__name__)
 
+#: DOC TODO
 LITERAL_RESPONSE_FORMATS = ('json', )
 
+#: DOC TODO
 StrResponseType = Literal['json']
 
+#: DOC TODO
 JsonVal = Union[None, bool, str, float, int, 'JsonArray', 'JsonObject']
+#: DOC TODO
 JsonArray = list[JsonVal]
+#: DOC TODO
 JsonObject = dict[str, JsonVal]
+#: DOC TODO
 JsonSchemaType: TypeAlias = JsonObject
 
 class JsonSchemaResponseType(TypedDict):
+    """DOC TODO"""
+
+    #: DOC TODO
     json_schema: JsonSchemaType
 
+#: DOC TODO
 ResponseType: TypeAlias = Union[StrResponseType, JsonSchemaResponseType, type]
+#: DOC TODO
 ParametersType: TypeAlias = Union[JsonSchemaType, type]
 
 try:

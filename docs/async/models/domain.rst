@@ -1,4 +1,5 @@
-.. include:: ../../base/models.rst.inc
+Models domain
+=============
 
 .. autoclass:: yandex_cloud_ml_sdk._models.AsyncModels
    :undoc-members:
@@ -6,4 +7,4 @@
 .. toctree::
    :hidden:
 
-   completions/index
+   completions

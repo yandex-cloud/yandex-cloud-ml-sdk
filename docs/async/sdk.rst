@@ -1,3 +1,4 @@
+=========
 Async SDK
 =========
 
@@ -7,3 +8,4 @@ Async SDK
 .. toctree::
 
    models/domain
+   tools/domain

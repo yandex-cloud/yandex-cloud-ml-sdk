@@ -267,6 +267,8 @@ class UnaryUnaryRetryInterceptor(grpc.aio.UnaryUnaryClientInterceptor, RetrierBa
         client_call_details: grpc.aio.ClientCallDetails,
         request: RequestType,
     ) -> ResponseType | grpc.aio.UnaryUnaryCall:
+        """DOC TODO"""
+
         assert client_call_details.metadata is not None  # it is always is not None because of our client
 
         # metadata on a client_call_details is mutable, and there should be a problem
@@ -293,6 +295,8 @@ class UnaryStreamRetryInterceptor(grpc.aio.UnaryStreamClientInterceptor, Retrier
         client_call_details: grpc.aio.ClientCallDetails,
         request: RequestType,
     ) -> UnaryStreamCallType | AsyncIterable[ResponseType]:
+        """DOC TODO"""
+
         assert client_call_details.metadata is not None  # it is always is not None because of our client
 
         # metadata on a client_call_details is mutable, and there should be a problem
