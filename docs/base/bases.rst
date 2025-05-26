@@ -15,7 +15,15 @@ Base classes
 
 .. autoclass:: yandex_cloud_ml_sdk._tools.tool.BaseTool
 
+.. autoclass:: yandex_cloud_ml_sdk._tools.tool_call.BaseToolCall
+
+.. autoclass:: yandex_cloud_ml_sdk._tools.tool_call_list.ToolCallList
+
+.. autoclass:: yandex_cloud_ml_sdk._tools.function_call.BaseFunctionCall
+
 .. autoclass:: yandex_cloud_ml_sdk._models.BaseModels
+
+.. autoclass:: yandex_cloud_ml_sdk._models.completions.function.BaseCompletions
 
 .. autoclass:: yandex_cloud_ml_sdk._threads.domain.BaseThreads
 
