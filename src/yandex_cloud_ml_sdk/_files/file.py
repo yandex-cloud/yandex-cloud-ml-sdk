@@ -29,8 +29,7 @@ class BaseFile(ExpirableResource):
     ) -> str:
         """Retrieve the URL for the file.
 
-        This method constructs a request to get the URL of the file
-        associated with the current instance and returns it.
+        This method constructs a request to get the temporary URL for downloading the file and returns it.
 
         :param timeout: Timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
@@ -63,6 +62,9 @@ class BaseFile(ExpirableResource):
 
         This method allows updating various properties of the file, such as
         its name, description, labels, TTL (time-to-live) days, and expiration policy.
+        Note that only the fields explicitly passed will be updated.
+        You can also pass None, which will reset it.
+        Keep in mind that the method is mutating and modifies the file object in-place.
 
         :param name: The new name for the updated file.
         :param description: The new description for the file.
@@ -121,7 +123,7 @@ class BaseFile(ExpirableResource):
     ) -> None:
         """Delete the file.
 
-        This method constructs a request to delete the file associated
+        This method constructs and executes a request to delete the file associated
         with the current instance.
 
         :param timeout: Timeout, or the maximum time to wait for the request to complete in seconds.
@@ -147,8 +149,8 @@ class BaseFile(ExpirableResource):
     ) -> bytes:
         """Download the file as bytes.
 
-        This method retrieves the file's URL and streams the file's content
-        in chunks, returning it as a byte string.
+        This method retrieves the file's URL and streams the file's content as whole
+        (this may overflow the user's memory), returning it as a byte string.
 
         :param chunk_size: The size of each chunk to read from the stream in bytes.
         :param timeout: Timeout, or the maximum time to wait for the request to complete in seconds.
@@ -176,6 +178,26 @@ class RichFile(BaseFile):
     This class extends BaseFile by including additional attributes such as
     name, description, MIME type, creating and updating details,
     expiration date, and labels.
+
+    #: Name field description
+    name: str | None.
+        The name of the file.
+    description: str | None.
+        A description of the file.
+    mime_type: str.
+        The MIME type of the file.
+    created_by: str.
+        Identifier of the user who created the file.
+    created_at: datetime.
+        Timestamp when the file was created.
+    updated_by: str.
+        Identifier of the user who last updated the file.
+    updated_at: datetime.
+        Timestamp when the file was last updated.
+    expires_at: datetime.
+        Timestamp when the file is set to expire.
+    labels: dict[str, str] | None.
+        A dictionary of labels associated with the file.
     """
     name: str | None
     description: str | None
