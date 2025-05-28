@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import abc
-from dataclasses import replace
 from typing import TYPE_CHECKING, AsyncIterator, Generic, TypeVar
 
 from yandex_cloud_ml_sdk._tuning.tuning_task import TuningTaskTypeT
@@ -56,11 +55,12 @@ class BaseModel(Generic[ConfigTypeT, ResultTypeT], metaclass=abc.ABCMeta):
             k: v for k, v in kwargs.items()
             if not isinstance(v, Undefined)
         }
-
+        new_config = self._config._replace(**kwargs)
+        new_config._validate_configure()
         return self.__class__(
             sdk=self._sdk,
             uri=self._uri,
-            config=replace(self._config, **kwargs),
+            config=new_config,
         )
 
     def __repr__(self) -> str:
