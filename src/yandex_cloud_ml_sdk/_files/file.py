@@ -178,35 +178,32 @@ class RichFile(BaseFile):
     This class extends BaseFile by including additional attributes such as
     name, description, MIME type, creating and updating details,
     expiration date, and labels.
-
-    #: Name field description
-    name: str | None.
-        The name of the file.
-    description: str | None.
-        A description of the file.
-    mime_type: str.
-        The MIME type of the file.
-    created_by: str.
-        Identifier of the user who created the file.
-    created_at: datetime.
-        Timestamp when the file was created.
-    updated_by: str.
-        Identifier of the user who last updated the file.
-    updated_at: datetime.
-        Timestamp when the file was last updated.
-    expires_at: datetime.
-        Timestamp when the file is set to expire.
-    labels: dict[str, str] | None.
-        A dictionary of labels associated with the file.
     """
+    # The name of the file
     name: str | None
+    
+    # A description of the file
     description: str | None
+    
+    # The MIME type of the file
     mime_type: str
+    
+    # Identifier of the user who created the file
     created_by: str
+    
+    # Timestamp when the file was created
     created_at: datetime
+    
+    # Identifier of the user who last updated the file
     updated_by: str
+    
+    # Timestamp when the file was last updated
     updated_at: datetime
+    
+    # Timestamp when the file is set to expire
     expires_at: datetime
+    
+    # A dictionary of labels associated with the file
     labels: dict[str, str] | None
 
 
