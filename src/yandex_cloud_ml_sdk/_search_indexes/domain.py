@@ -131,7 +131,7 @@ class BaseSearchIndexes(BaseDomain, Generic[SearchIndexTypeT, OperationTypeT]):
 
 class AsyncSearchIndexes(BaseSearchIndexes[AsyncSearchIndex, AsyncOperation[AsyncSearchIndex]]):
     _impl = AsyncSearchIndex
-    _operation_type = AsyncOperation
+    _operation_type = AsyncOperation[AsyncSearchIndex]
 
     async def create_deferred(
         self,
@@ -182,7 +182,7 @@ class AsyncSearchIndexes(BaseSearchIndexes[AsyncSearchIndex, AsyncOperation[Asyn
 
 class SearchIndexes(BaseSearchIndexes[SearchIndex, Operation[SearchIndex]]):
     _impl = SearchIndex
-    _operation_type = Operation
+    _operation_type = Operation[SearchIndex]
 
     __get = run_sync(BaseSearchIndexes._get)
     __create_deferred = run_sync(BaseSearchIndexes._create_deferred)
