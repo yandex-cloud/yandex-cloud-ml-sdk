@@ -135,7 +135,7 @@ class BaseTextClassifiersModel(
 
 
 class AsyncTextClassifiersModel(BaseTextClassifiersModel[AsyncTuningTask['AsyncTextClassifiersModel']]):
-    _tune_operation_type = AsyncTuningTask
+    _tune_operation_type = AsyncTuningTask['AsyncTextClassifiersModel']
 
     async def run(
         self,
@@ -234,7 +234,7 @@ class AsyncTextClassifiersModel(BaseTextClassifiersModel[AsyncTuningTask['AsyncT
 
 
 class TextClassifiersModel(BaseTextClassifiersModel[TuningTask['TextClassifiersModel']]):
-    _tune_operation_type = TuningTask
+    _tune_operation_type = TuningTask['TextClassifiersModel']
     __run = run_sync(BaseTextClassifiersModel._run)
     __tune_deferred = run_sync(BaseTextClassifiersModel._tune_deferred)
     __tune = run_sync(BaseTextClassifiersModel._tune)

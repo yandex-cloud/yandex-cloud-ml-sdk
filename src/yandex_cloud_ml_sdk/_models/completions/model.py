@@ -259,8 +259,8 @@ class AsyncGPTModel(
     ],
     AsyncModelBatchMixin,
 ):
-    _operation_type = AsyncOperation
-    _tune_operation_type = AsyncTuningTask
+    _operation_type = AsyncOperation[GPTModelResult[AsyncToolCall]]
+    _tune_operation_type = AsyncTuningTask['AsyncGPTModel']
     _result_type = GPTModelResult[AsyncToolCall]
 
     async def run(
@@ -396,8 +396,8 @@ class GPTModel(
     ],
     ModelBatchMixin,
 ):
-    _operation_type = Operation
-    _tune_operation_type = TuningTask
+    _operation_type = Operation[GPTModelResult[ToolCall]]
+    _tune_operation_type = TuningTask['GPTModel']
     _result_type = GPTModelResult[ToolCall]
     __run = run_sync(BaseGPTModel._run)
     __run_stream = run_sync_generator(BaseGPTModel._run_stream)
