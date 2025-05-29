@@ -26,7 +26,7 @@ class LangFilterType(TypedDict):
 
 
 FilterType: TypeAlias = Union[DateFilterType, FormatFilterType, LangFilterType]
-SmartFilterSequence: TypeAlias = Sequence[FilterType] | FilterType
+SmartFilterSequence: TypeAlias = Union[Sequence[FilterType], FilterType]
 
 AVAILABLE_FORMATS = tuple(
     format.lower().removeprefix('doc_format_')
