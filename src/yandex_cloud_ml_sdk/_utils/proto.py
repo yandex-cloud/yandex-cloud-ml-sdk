@@ -81,6 +81,7 @@ _supported_modules = {
     "yandex.cloud.endpoint": "endpoint",
     "yandex.cloud.iam": "iam",
     "yandex.cloud.operation": "operation",
+    "yandex.cloud.searchapi": "searchapi",
 }
 
 
