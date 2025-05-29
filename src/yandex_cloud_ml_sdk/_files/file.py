@@ -181,28 +181,20 @@ class RichFile(BaseFile):
     """
     # The name of the file
     name: str | None
-
     # A description of the file
     description: str | None
-
     # The MIME type of the file
     mime_type: str
-
     # Identifier of the user who created the file
     created_by: str
-
     # Timestamp when the file was created
     created_at: datetime
-
     # Identifier of the user who last updated the file
     updated_by: str
-
     # Timestamp when the file was last updated
     updated_at: datetime
-
     # Timestamp when the file is set to expire
     expires_at: datetime
-
     # A dictionary of labels associated with the file
     labels: dict[str, str] | None
 
