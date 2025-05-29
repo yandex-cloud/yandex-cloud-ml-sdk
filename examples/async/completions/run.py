@@ -19,7 +19,6 @@ async def main() -> None:
 
     for alternative in result:
         print(alternative.text)
-        print(alternative.role)
 
     result = await model.configure(
         temperature=0.5,
