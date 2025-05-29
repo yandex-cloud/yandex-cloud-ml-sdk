@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
-from typing import TypeAlias, Union
+from typing import Union
 
+from typing_extensions import TypeAlias
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.searchapi.v2.gen_search_service_pb2 import GenSearchMessage, Role
 
