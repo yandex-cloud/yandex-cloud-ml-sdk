@@ -7,6 +7,7 @@ from get_annotations import get_annotations
 
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.function import BaseModelFunction
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from .completions.function import AsyncCompletions, BaseCompletions, Completions
 from .image_generation.function import AsyncImageGeneration, ImageGeneration
@@ -18,6 +19,13 @@ if TYPE_CHECKING:
 
 
 class BaseModels(BaseDomain):
+    """Models domain.
+
+    Class is not supposed to be instantiated by user. ``{SDK}`` object contains already
+    instantiated ``.models`` attribute
+    """
+
+    #: completions model description
     completions: BaseCompletions
     text_classifiers: BaseTextClassifiers
 
@@ -34,6 +42,7 @@ class BaseModels(BaseDomain):
             setattr(self, member_name, function)
 
 
+@doc_from(BaseModels, SDK='AsyncYCloudML')
 class AsyncModels(BaseModels):
     completions: AsyncCompletions
     text_embeddings: AsyncTextEmbeddings
@@ -41,6 +50,7 @@ class AsyncModels(BaseModels):
     image_generation: AsyncImageGeneration
 
 
+@doc_from(BaseModels, SDK='YCloudML')
 class Models(BaseModels):
     completions: Completions
     text_embeddings: TextEmbeddings
