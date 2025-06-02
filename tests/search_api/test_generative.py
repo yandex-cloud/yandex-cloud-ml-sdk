@@ -45,7 +45,9 @@ async def test_generative_settings(async_sdk: AsyncYCloudML) -> None:
 async def test_generative_filters(async_sdk: AsyncYCloudML) -> None:
     for field in ('lang', 'format', 'date'):
         search = async_sdk.search_api.generative(search_filters={field: 'ods'})  # type: ignore[arg-type,misc]
-        search2 = async_sdk.search_api.generative(search_filters=[{field: 'ods'}])  # type: ignore[arg-type,list-item,misc]
+        search2 = (
+            async_sdk.search_api.generative(search_filters=[{field: 'ods'}])  # type: ignore[arg-type,list-item,misc]
+        )
         assert search.config.search_filters == search2.config.search_filters == ({field: 'ods'}, )
 
     search = async_sdk.search_api.generative(search_filters=[{'lang': 'bar'}, {'format': 'ods'}])
