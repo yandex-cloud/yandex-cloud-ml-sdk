@@ -12,6 +12,7 @@ from yandex_cloud_ml_sdk._tools.tool_result import (
     ProtoCompletionsToolResultList, ToolResultDictType, tool_results_to_proto
 )
 from yandex_cloud_ml_sdk._types.message import MessageType, TextMessageDict, TextMessageProtocol
+from yandex_cloud_ml_sdk._utils.coerce import coerce_tuple
 
 
 @runtime_checkable
@@ -36,17 +37,10 @@ MessageInputType = Union[CompletionsMessageType, Iterable[CompletionsMessageType
 
 
 def messages_to_proto(messages: MessageInputType) -> list[ProtoMessage]:
-    msgs: Iterable[CompletionsMessageType]
-    if isinstance(messages, (dict, str, TextMessageProtocol)):
-        # NB: dict is also Iterable, so techically messages could be a dict[MessageType, str]
-        # and we are wrongly will get into this branch.
-        # At least mypy thinks so.
-        # In real life, messages could be list, tuple, iterator, generator but nothing else.
-
-        msgs = [messages]  # type: ignore[list-item]
-    else:
-        assert isinstance(messages, Iterable)
-        msgs = messages
+    msgs: tuple[CompletionsMessageType, ...] = coerce_tuple(
+        messages,
+        (dict, str, TextMessageProtocol),  # type: ignore[arg-type]
+    )
 
     result: list[ProtoMessage] = []
 

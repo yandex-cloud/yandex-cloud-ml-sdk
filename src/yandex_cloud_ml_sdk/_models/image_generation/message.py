@@ -7,6 +7,8 @@ from typing_extensions import NotRequired
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.ai.foundation_models.v1.image_generation.image_generation_pb2 import Message as ProtoMessage
 
+from yandex_cloud_ml_sdk._utils.coerce import coerce_tuple
+
 
 @dataclass(frozen=True)
 class ImageMessage:
@@ -30,16 +32,10 @@ ImageMessageInputType = Union[ImageMessageType, Iterable[ImageMessageType]]
 
 
 def messages_to_proto(messages: ImageMessageInputType) -> list[ProtoMessage]:
-    msgs: Iterable[ImageMessageType]
-    if isinstance(messages, (dict, str, ImageMessage, AnyMessage)):
-        # NB: dict is also Iterable, so techically messages could be a dict[MessageType, str]
-        # and we are wrongly will get into this branch.
-        # At least mypy thinks so.
-        # In real life, messages could be list, tuple, iterator, generator but nothing else.
-
-        msgs = [messages]  # type: ignore[list-item]
-    else:
-        msgs = messages
+    msgs: tuple[ImageMessageType] = coerce_tuple(  # type: ignore[assignment]
+        messages,
+        (dict, str, ImageMessage, AnyMessage)  # type: ignore[arg-type]
+    )
 
     result: list[ProtoMessage] = []
 
