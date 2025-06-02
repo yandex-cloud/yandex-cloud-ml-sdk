@@ -29,12 +29,12 @@ class BaseGenerativeSearch(ModelSyncMixin[GenerativeSearchConfig, GenerativeSear
     def configure(  # type: ignore[override]
         self,
         *,
-        site: UndefinedOr[SmartStringSequence] = UNDEFINED,
-        host: UndefinedOr[SmartStringSequence] = UNDEFINED,
-        url: UndefinedOr[SmartStringSequence] = UNDEFINED,
-        fix_misspell: UndefinedOr[bool] = UNDEFINED,
-        enable_nrfm_docs: UndefinedOr[bool] = UNDEFINED,
-        search_filters: UndefinedOr[SmartFilterSequence] = UNDEFINED
+        site: UndefinedOr[SmartStringSequence] | None = UNDEFINED,
+        host: UndefinedOr[SmartStringSequence] | None = UNDEFINED,
+        url: UndefinedOr[SmartStringSequence] | None = UNDEFINED,
+        fix_misspell: UndefinedOr[bool] | None = UNDEFINED,
+        enable_nrfm_docs: UndefinedOr[bool] | None = UNDEFINED,
+        search_filters: UndefinedOr[SmartFilterSequence] | None = UNDEFINED
     ) -> Self:
         return super().configure(
             site=site,

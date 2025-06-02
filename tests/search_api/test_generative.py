@@ -11,10 +11,10 @@ from yandex_cloud_ml_sdk._search_api.generative.result import GenerativeSearchRe
 @pytest.mark.asyncio
 async def test_generative_settings(async_sdk: AsyncYCloudML) -> None:
     for field in ('host', 'site', 'url'):
-        search = async_sdk.search_api.generative(**{field: 'foo'})
+        search = async_sdk.search_api.generative(**{field: 'foo'})  # type: ignore[arg-type]
         assert getattr(search.config, field) == ('foo', )
 
-        search = async_sdk.search_api.generative(**{field: ['foo', 'bar']})
+        search = async_sdk.search_api.generative(**{field: ['foo', 'bar']})  # type: ignore[arg-type]
         assert getattr(search.config, field) == ('foo', 'bar')
 
     with pytest.raises(ValueError):
@@ -38,14 +38,14 @@ async def test_generative_settings(async_sdk: AsyncYCloudML) -> None:
         await search.run('foo')
 
     with pytest.raises(TypeError):
-        search = search.configure(site=123)
+        search = search.configure(site=123)  # type: ignore[arg-type]
 
 
 @pytest.mark.asyncio
 async def test_generative_filters(async_sdk: AsyncYCloudML) -> None:
     for field in ('lang', 'format', 'date'):
-        search = async_sdk.search_api.generative(search_filters={field: 'ods'})
-        search2 = async_sdk.search_api.generative(search_filters=[{field: 'ods'}])
+        search = async_sdk.search_api.generative(search_filters={field: 'ods'})  # type: ignore[arg-type,misc]
+        search2 = async_sdk.search_api.generative(search_filters=[{field: 'ods'}])  # type: ignore[arg-type,list-item,misc]
         assert search.config.search_filters == search2.config.search_filters == ({field: 'ods'}, )
 
     search = async_sdk.search_api.generative(search_filters=[{'lang': 'bar'}, {'format': 'ods'}])
@@ -58,7 +58,7 @@ async def test_generative_filters(async_sdk: AsyncYCloudML) -> None:
         [['foo']]
     ):
         with pytest.raises(ValueError):
-            async_sdk.search_api.generative(search_filters=bad_value)
+            async_sdk.search_api.generative(search_filters=bad_value)  # type: ignore[arg-type]
 
     for format_ in async_sdk.search_api.generative.available_formats:
         async_sdk.search_api.generative(search_filters={'format': format_})
@@ -75,19 +75,19 @@ def test_generative_messages_transform() -> None:
         def role(self):
             return 'user'
 
-    gpt_model_result = GPTModelResult(
-        alternatives=[
-            Alternative(role='user', text='gpt', status=None, tool_calls=None),
-            Alternative(role='2', text='2', status=None, tool_calls=None),
+    gpt_model_result: GPTModelResult = GPTModelResult(  # type: ignore[arg-type]
+        alternatives=[  # type: ignore[arg-type]
+            Alternative(role='user', text='gpt', status=None, tool_calls=None),  # type: ignore[arg-type]
+            Alternative(role='2', text='2', status=None, tool_calls=None),  # type: ignore[arg-type]
         ],
-        usage=None,
+        usage=None,  # type: ignore[arg-type]
         model_version=''
     )
 
     search_result = GenerativeSearchResult(
         role='user',
         text='search',
-        fixed_misspell_query=False,
+        fixed_misspell_query="",
         is_answer_rejected=False,
         is_bullet_answer=False,
         search_queries=(),
@@ -128,7 +128,7 @@ def test_generative_messages_transform() -> None:
         (search_result,
          [{'text': 'search', 'role': 1}]),
     ):
-        messages = messages_to_proto(input_)
+        messages = messages_to_proto(input_)  # type: ignore[arg-type]
         assert len(messages) == len(expected)
         for message, expected_message in zip(messages, expected):
             assert isinstance(message, GenSearchMessage)
@@ -153,14 +153,14 @@ def test_generative_messages_fail() -> None:
         b'foo',
     ):
         with pytest.raises(TypeError):
-            messages_to_proto(input_)
+            messages_to_proto(input_)  # type: ignore[arg-type]
 
-    for input_ in (
+    for input2 in (
         {'text': 'foo', 'role': 'nonexisting_role'},
         ['foo', {'text': 'foo', 'role': 'nonexisting_role'}],
     ):
         with pytest.raises(ValueError):
-            messages_to_proto(input_)
+            messages_to_proto(input2)  # type: ignore[arg-type]
 
 
 @pytest.mark.asyncio
