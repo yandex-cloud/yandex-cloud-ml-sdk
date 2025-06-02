@@ -20,6 +20,7 @@ from ._messages.domain import AsyncMessages, BaseMessages, Messages
 from ._models import AsyncModels, BaseModels, Models
 from ._retry import RetryPolicy
 from ._runs.domain import AsyncRuns, BaseRuns, Runs
+from ._search_api.domain import AsyncSearchAPIDomain, BaseSearchAPIDomain, SearchAPIDomain
 from ._search_indexes.domain import AsyncSearchIndexes, BaseSearchIndexes, SearchIndexes
 from ._threads.domain import AsyncThreads, BaseThreads, Threads
 from ._tools.domain import AsyncTools, BaseTools, Tools
@@ -35,6 +36,7 @@ class BaseSDK:
     files: BaseFiles
     assistants: BaseAssistants
     runs: BaseRuns
+    search_api: BaseSearchAPIDomain
     search_indexes: BaseSearchIndexes
     datasets: BaseDatasets
     tuning: BaseTuning
@@ -181,6 +183,7 @@ class AsyncYCloudML(BaseSDK):
     threads: AsyncThreads
     assistants: AsyncAssistants
     runs: AsyncRuns
+    search_api: AsyncSearchAPIDomain
     search_indexes: AsyncSearchIndexes
     datasets: AsyncDatasets
     tuning: AsyncTuning
@@ -194,6 +197,7 @@ class YCloudML(BaseSDK):
     threads: Threads
     assistants: Assistants
     runs: Runs
+    search_api: SearchAPIDomain
     search_indexes: SearchIndexes
     datasets: Datasets
     tuning: Tuning

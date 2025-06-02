@@ -231,7 +231,7 @@ defining-attr-methods= [
     "setUp",
     "__post_init__"
 ]
-exclude-protected= [
+exclude-protected=[
     "_asdict",
     "_fields",
     "_replace",
@@ -247,6 +247,9 @@ exclude-protected= [
     "_proto_result_type",
     "_proto_field_name",
     "_coerce",
+    "_validate_configure",
+    "_validate_run",
+    "_canonize",
 ]
 valid-classmethod-first-arg="cls"
 valid-metaclass-classmethod-first-arg="cls"
