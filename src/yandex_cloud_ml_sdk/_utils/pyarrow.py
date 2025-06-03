@@ -25,12 +25,12 @@ async def read_dataset_records(path: str, batch_size: int | None) -> AsyncIterat
 
 
 def read_dataset_records_sync(path: str, batch_size: int | None) -> Iterator[RecordType]:
-    import pyarrow.dataset as pd  # pylint: disable=import-outside-toplevel
+    import pyarrow.parquet as pq # pylint: disable=import-outside-toplevel
 
     # we need use kwargs method to preserve original default value
     kwargs = {}
     if batch_size is not None:
         kwargs['batch_size'] = batch_size
-    dataset = pd.dataset(source=path, format='parquet')
-    for batch in dataset.to_batches(**kwargs):  # type: ignore[arg-type]
-        yield from batch.to_pylist()
+    with pq.ParquetFile(path) as reader:
+        for batch in reader.iter_batches(**kwargs):
+            yield from batch.to_pylist()
