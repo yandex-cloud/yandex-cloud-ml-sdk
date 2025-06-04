@@ -32,8 +32,7 @@ from ._types.misc import UNDEFINED, PathLike, UndefinedOr, get_defined_value, is
 
 
 class BaseSDK:
-    """The main class that needs to be instantiated to work with SDK.
-    """
+    """The main class that needs to be instantiated to work with SDK."""
     #: Tools doc
     tools: BaseTools
     #: Models doc
@@ -46,9 +45,9 @@ class BaseSDK:
     assistants: BaseAssistants
     #: Runs doc
     runs: BaseRuns
-    #: Search_api doc
+    #: Search api doc
     search_api: BaseSearchAPIDomain
-    #: Search_indexes doc
+    #: Search indexes doc
     search_indexes: BaseSearchIndexes
     #: Datasets doc
     datasets: BaseDatasets
