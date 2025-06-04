@@ -66,7 +66,7 @@ class BaseGenerativeSearch(ModelSyncMixin[GenerativeSearchConfig, GenerativeSear
             >>> date_filter = {'date': '<20250101'}
             >>> format_filter = {'format': 'doc'}
             >>> lang_filter = {'lang': 'ru'}
-            >>> search = sdk.search_api.generative(filters=[date_filter, format_filter, lang_filter])
+            >>> search = sdk.search_api.generative(search_filters=[date_filter, format_filter, lang_filter])
 
         """
 

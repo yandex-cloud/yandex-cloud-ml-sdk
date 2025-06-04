@@ -18,7 +18,7 @@ class DateFilterType(TypedDict):
 
     Example:
 
-    >>> {'date': '>20240125'}
+    >>> filter_ = {'date': '>20240125'}
     """
 
     date: str
@@ -29,7 +29,7 @@ class FormatFilterType(TypedDict):
 
     Example:
 
-    >>> {'format': 'xlsx'}
+    >>> filter_ = {'format': 'xlsx'}
     """
 
     format: str
@@ -40,7 +40,7 @@ class LangFilterType(TypedDict):
 
     Example:
 
-    >>> {'lang': 'ru'}
+    >>> filter_ = {'lang': 'ru'}
     """
 
     lang: str
