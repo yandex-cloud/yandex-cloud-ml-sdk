@@ -11,17 +11,22 @@ from .text_embeddings.function import AsyncTextEmbeddings, TextEmbeddings
 
 
 class BaseModels(DomainWithFunctions):
-    """This class provides a structure for model-related functionalities,
-    including completions and text classifiers. It initializes model
-    functions based on defined annotations.
+    """
+    Domain for working with `Yandex Foundation Models <https://yandex.cloud/ru/services/foundation-models>`.
     """
     #: Completions doc
     completions: BaseCompletions
     #: Text_classifiers doc
     text_classifiers: BaseTextClassifiers
+    #: Image_generation doc 
+    image_generation: BaseImageGeneration
+    #: Text_embeddings doc
+    text_embeddings: BaseTextEmbeddings
 
 
 @doc_from(BaseModels)
+@doc_from(BaseModels.image_generation)
+@doc_from(BaseModels.text_embeddings)
 class AsyncModels(BaseModels):
     completions: AsyncCompletions
     text_embeddings: AsyncTextEmbeddings
@@ -30,6 +35,8 @@ class AsyncModels(BaseModels):
 
 
 @doc_from(BaseModels)
+@doc_from(BaseModels.image_generation)
+@doc_from(BaseModels.text_embeddings)
 class Models(BaseModels):
     completions: Completions
     text_embeddings: TextEmbeddings
