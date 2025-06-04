@@ -9,6 +9,7 @@ from typing import Sequence
 from get_annotations import get_annotations
 from grpc import aio
 from typing_extensions import Self
+
 from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from ._assistants.domain import Assistants, AsyncAssistants, BaseAssistants
