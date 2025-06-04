@@ -18,7 +18,7 @@ class BaseModels(DomainWithFunctions):
     completions: BaseCompletions
     #: Text_classifiers doc
     text_classifiers: BaseTextClassifiers
-    #: Image_generation doc 
+    #: Image_generation doc
     image_generation: BaseImageGeneration
     #: Text_embeddings doc
     text_embeddings: BaseTextEmbeddings
