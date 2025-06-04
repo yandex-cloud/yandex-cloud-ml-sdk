@@ -9,6 +9,7 @@ from typing import Sequence
 from get_annotations import get_annotations
 from grpc import aio
 from typing_extensions import Self
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from ._assistants.domain import Assistants, AsyncAssistants, BaseAssistants
 from ._auth import BaseAuth
@@ -30,15 +31,26 @@ from ._types.misc import UNDEFINED, PathLike, UndefinedOr, get_defined_value, is
 
 
 class BaseSDK:
+    """This class initializes various components like tools, models, threads,
+    files, assistants, runs, search indexes, datasets, and tuning.
+    """
+    #: Tools doc
     tools: BaseTools
+    #: Models doc
     models: BaseModels
+    #: Threads doc
     threads: BaseThreads
+    #: Files doc
     files: BaseFiles
+    #: Assistants doc
     assistants: BaseAssistants
+    #: Runs doc
     runs: BaseRuns
-    search_api: BaseSearchAPIDomain
+    #: Search_indexes doc
     search_indexes: BaseSearchIndexes
+    #: Datasets doc
     datasets: BaseDatasets
+    #: Tuning doc
     tuning: BaseTuning
 
     _messages: BaseMessages
@@ -106,6 +118,16 @@ class BaseSDK:
         log_format: str = DEFAULT_LOG_FORMAT,
         date_format: str = DEFAULT_DATE_FORMAT,
     ) -> Self:
+        """Sets up the default logging configuration.
+
+        :param log_level: The logging level to set.
+            Default is DEFAULT_LOG_LEVEL.
+        :param log_format: The format of the log messages.
+            Default is DEFAULT_LOG_FORMAT.
+        :param date_format: The format for timestamps in log messages.
+            Default is DEFAULT_DATE_FORMAT.
+        :return: The instance of the SDK with logging configured.
+        """
         setup_default_logging(
             log_level=log_level,
             log_format=log_format,
@@ -114,6 +136,11 @@ class BaseSDK:
         return self
 
     def _init_domains(self) -> None:
+        """Initializes domain members by creating instances of them.
+
+        This method inspects the class for any members that are subclasses of
+        BaseDomain and initializes them.
+        """
         members: dict[str, type] = get_annotations(self.__class__, eval_str=True)
         for member_name, member in members.items():
             if inspect.isclass(member) and issubclass(member, BaseDomain):
@@ -121,6 +148,14 @@ class BaseSDK:
                 setattr(self, member_name, resource)
 
     def _get_endpoint(self, endpoint: UndefinedOr[str]) -> str:
+        """Retrieves the API endpoint.
+
+        If the endpoint is defined, it will be returned. Otherwise, it checks for
+        an environment variable and defaults to a predefined endpoint.
+
+        :param endpoint: An optional, customized endpoint.
+        :return: The resolved API endpoint as a string.
+        """
         if is_defined(endpoint):
             return endpoint
 
@@ -138,6 +173,11 @@ class BaseSDK:
 
     @classmethod
     def _start_event_loop(cls):
+        """Starts the event loop in a separate thread.
+
+        This method sets the event loop for the current thread and runs it
+        infinitely.
+        """
         loop = cls._event_loop
         asyncio.set_event_loop(loop)
         loop.run_forever()
@@ -176,6 +216,7 @@ class BaseSDK:
         return kls._event_loop
 
 
+@doc_from(BaseSDK)
 class AsyncYCloudML(BaseSDK):
     tools: AsyncTools
     models: AsyncModels
@@ -190,6 +231,7 @@ class AsyncYCloudML(BaseSDK):
     _messages: AsyncMessages
 
 
+@doc_from(BaseSDK)
 class YCloudML(BaseSDK):
     tools: Tools
     models: Models
