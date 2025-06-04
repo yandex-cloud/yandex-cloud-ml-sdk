@@ -69,16 +69,6 @@ class BaseGenerativeSearch(ModelSyncMixin[GenerativeSearchConfig, GenerativeSear
             >>> search = sdk.search_api.generative(filters=[date_filter, format_filter, lang_filter])
 
         """
-        search_api = self._model_type(sdk=self._sdk, uri='<search_api>')
-
-        return search_api.configure(
-            site=site,
-            host=host,
-            url=url,
-            fix_misspell=fix_misspell,
-            enable_nrfm_docs=enable_nrfm_docs,
-            search_filters=search_filters
-        )
 
         return super().configure(
             site=site,
