@@ -122,7 +122,7 @@ class BaseSDK:
     ) -> Self:
         """Sets up the default logging configuration.
 
-        :param log_level: The logging level to set. 
+        :param log_level: The logging level to set.
             Read more about log levels in `Python documentation (logging) <https://docs.python.org/3/library/logging.html>`.
         :param log_format: The format of the log messages.
         :param date_format: The format for timestamps in log messages.
