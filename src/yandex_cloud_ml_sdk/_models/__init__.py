@@ -25,8 +25,6 @@ class BaseModels(DomainWithFunctions):
 
 
 @doc_from(BaseModels)
-@doc_from(BaseModels.image_generation)
-@doc_from(BaseModels.text_embeddings)
 class AsyncModels(BaseModels):
     completions: AsyncCompletions
     text_embeddings: AsyncTextEmbeddings
@@ -35,8 +33,6 @@ class AsyncModels(BaseModels):
 
 
 @doc_from(BaseModels)
-@doc_from(BaseModels.image_generation)
-@doc_from(BaseModels.text_embeddings)
 class Models(BaseModels):
     completions: Completions
     text_embeddings: TextEmbeddings
