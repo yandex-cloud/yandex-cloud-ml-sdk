@@ -32,5 +32,5 @@ def read_dataset_records_sync(path: str, batch_size: int | None) -> Iterator[Rec
     if batch_size is not None:
         kwargs['batch_size'] = batch_size
     with pq.ParquetFile(path) as reader:
-        for batch in reader.iter_batches(**kwargs):
+        for batch in reader.iter_batches(**kwargs):  # type: ignore[arg-type]
             yield from batch.to_pylist()
