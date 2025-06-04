@@ -17,4 +17,5 @@ pytest-recording
 tqdm
 types-aiofiles
 types-protobuf
+types-psutil
 types-tqdm
