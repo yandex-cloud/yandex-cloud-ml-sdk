@@ -25,7 +25,7 @@ async def read_dataset_records(path: str, batch_size: int | None) -> AsyncIterat
 
 
 def read_dataset_records_sync(path: str, batch_size: int | None) -> Iterator[RecordType]:
-    import pyarrow.parquet as pq # pylint: disable=import-outside-toplevel
+    import pyarrow.parquet as pq  # pylint: disable=import-outside-toplevel
 
     # we need use kwargs method to preserve original default value
     kwargs = {}
