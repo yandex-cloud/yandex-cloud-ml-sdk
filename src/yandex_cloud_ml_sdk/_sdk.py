@@ -93,7 +93,6 @@ class BaseSDK:
             of requested hosts. Either `True` (default CA bundle), a path to an SSL certificate file, or `False`
             (which will disable verification).
         :type verify: bool | pathlib.Path | str | os.PathLike
-
         """
         endpoint = self._get_endpoint(endpoint)
         retry_policy = retry_policy if is_defined(retry_policy) else RetryPolicy()
