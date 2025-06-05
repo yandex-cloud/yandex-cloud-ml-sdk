@@ -33,25 +33,15 @@ from ._types.misc import UNDEFINED, PathLike, UndefinedOr, get_defined_value, is
 
 class BaseSDK:
     """The main class that needs to be instantiated to work with SDK."""
-    #: Tools doc
     tools: BaseTools
-    #: Models doc
     models: BaseModels
-    #: Threads doc
     threads: BaseThreads
-    #: Files doc
     files: BaseFiles
-    #: Assistants doc
     assistants: BaseAssistants
-    #: Runs doc
     runs: BaseRuns
-    #: Search api doc
     search_api: BaseSearchAPIDomain
-    #: Search indexes doc
     search_indexes: BaseSearchIndexes
-    #: Datasets doc
     datasets: BaseDatasets
-    #: Tuning doc
     tuning: BaseTuning
 
     _messages: BaseMessages
