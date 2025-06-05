@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import asyncio
 import dataclasses
+import os
 import tempfile
 from collections.abc import AsyncIterator, Iterator
 from datetime import datetime
@@ -178,7 +179,7 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
         urls = await self._get_download_urls(timeout=timeout)
         async with self._client.httpx() as client:
             for _, url in urls:
-                _, filename = tempfile.mkstemp()
+                fd, filename = tempfile.mkstemp()
                 path = Path(filename)
                 try:
                     await self.__download_file(
@@ -191,7 +192,8 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
                     async for record in read_dataset_records(filename, batch_size=batch_size_):
                         yield record
                 finally:
-                    path.unlink(missing_ok=True)
+                    os.close(fd)
+                    path.unlink()
 
     async def __download_impl(
         self,
