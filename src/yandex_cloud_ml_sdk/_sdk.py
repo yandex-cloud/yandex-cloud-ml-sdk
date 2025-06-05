@@ -69,8 +69,7 @@ class BaseSDK:
         enable_server_data_logging: UndefinedOr[bool] = UNDEFINED,
         verify: UndefinedOr[bool | PathLike] = UNDEFINED,
     ):
-        """
-        Construct a new asynchronous sdk instance.
+        """Construct a new asynchronous sdk instance.
 
         :param folder_id: Yandex Cloud folder identifier which will be billed
            for models usage.
@@ -119,8 +118,9 @@ class BaseSDK:
         log_format: str = DEFAULT_LOG_FORMAT,
         date_format: str = DEFAULT_DATE_FORMAT,
     ) -> Self:
-        """Sets up the default logging configuration. Read more about log_levels,
-        log_format, and date_format in `Python documentation (logging) <https://docs.python.org/3/library/logging.html>`
+        """Sets up the default logging configuration. 
+        
+        Read more about log_levels, log_format, and date_format in `Python documentation (logging) <https://docs.python.org/3/library/logging.html>`.
 
         :param log_level: The logging level to set.
         :param log_format: The format of the log messages.
