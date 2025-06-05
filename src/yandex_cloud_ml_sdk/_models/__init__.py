@@ -5,9 +5,9 @@ from yandex_cloud_ml_sdk._types.domain import DomainWithFunctions
 from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from .completions.function import AsyncCompletions, BaseCompletions, Completions
-from .image_generation.function import AsyncImageGeneration, ImageGeneration
+from .image_generation.function import AsyncImageGeneration, ImageGeneration, BaseImageGeneration
 from .text_classifiers.function import AsyncTextClassifiers, BaseTextClassifiers, TextClassifiers
-from .text_embeddings.function import AsyncTextEmbeddings, TextEmbeddings
+from .text_embeddings.function import AsyncTextEmbeddings, TextEmbeddings, BaseTextEmbeddings
 
 
 class BaseModels(DomainWithFunctions):
