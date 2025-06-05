@@ -12,13 +12,9 @@ from .text_embeddings.function import AsyncTextEmbeddings, BaseTextEmbeddings, T
 
 class BaseModels(DomainWithFunctions):
     """Domain for working with `Yandex Foundation Models <https://yandex.cloud/ru/services/foundation-models>`."""
-    #: Completions doc
     completions: BaseCompletions
-    #: Text_classifiers doc
     text_classifiers: BaseTextClassifiers
-    #: Image_generation doc
     image_generation: BaseImageGeneration
-    #: Text_embeddings doc
     text_embeddings: BaseTextEmbeddings
 
 
