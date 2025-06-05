@@ -10,6 +10,7 @@ from .text_classifiers.function import AsyncTextClassifiers, BaseTextClassifiers
 from .text_embeddings.function import AsyncTextEmbeddings, BaseTextEmbeddings, TextEmbeddings
 
 
+
 class BaseModels(DomainWithFunctions):
     """
     Domain for working with `Yandex Foundation Models <https://yandex.cloud/ru/services/foundation-models>`.
