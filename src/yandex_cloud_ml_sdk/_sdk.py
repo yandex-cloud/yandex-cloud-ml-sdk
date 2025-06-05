@@ -119,10 +119,10 @@ class BaseSDK:
         log_format: str = DEFAULT_LOG_FORMAT,
         date_format: str = DEFAULT_DATE_FORMAT,
     ) -> Self:
-        """Sets up the default logging configuration.
+        """Sets up the default logging configuration. Read more about log_levels, 
+        log_format, and date_format in `Python documentation (logging) <https://docs.python.org/3/library/logging.html>`
 
         :param log_level: The logging level to set.
-            Read more about log levels in `Python documentation (logging) <https://docs.python.org/3/library/logging.html>`.
         :param log_format: The format of the log messages.
         :param date_format: The format for timestamps in log messages.
         :return: The instance of the SDK with logging configured.
