@@ -48,7 +48,7 @@ async def get_datasets(sdk, name, dataset_function):
 async def main() -> None:
     sdk = AsyncYCloudML(folder_id='b1ghsjum2v37c2un8h64')
     sdk.setup_default_logging()
-    base_model = sdk.models.text_embeddings('yandexgpt-lite')
+    base_model = sdk.models.text_embeddings('text-embeddings')
 
     for name, tune_type, dataset_function in [
         ('embeddings_pair', 'pair', sdk.datasets.text_embeddings_pair),
