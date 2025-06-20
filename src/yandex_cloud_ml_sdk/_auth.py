@@ -18,6 +18,7 @@ from yandex.cloud.iam.v1.iam_token_service_pb2 import (  # pylint: disable=no-na
     CreateIamTokenRequest, CreateIamTokenResponse
 )
 from yandex.cloud.iam.v1.iam_token_service_pb2_grpc import IamTokenServiceStub
+
 from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 if TYPE_CHECKING:
