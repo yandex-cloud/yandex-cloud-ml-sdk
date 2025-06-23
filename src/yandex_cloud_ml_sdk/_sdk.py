@@ -55,11 +55,8 @@ class BaseSDK:
     #: Domain for working with search indexes (part of the Assistants API)
     search_indexes: BaseSearchIndexes
 
-    #: Domain for working with `Yandex Search API <https://yandex.cloud/docs/search-api>`
-    search_api: BaseSearchAPIDomain
-
     #: Domain for working with
-    #: `generative response <https://yandex.cloud/docs/search-api/concepts/generative-response>`_
+    #: `generative response <https://yandex.cloud/docs/search-api>`_
     #: service API
     search_api: BaseSearchAPIDomain
 
