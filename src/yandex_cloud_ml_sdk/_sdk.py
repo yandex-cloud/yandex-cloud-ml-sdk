@@ -39,6 +39,7 @@ class BaseSDK:
     files: BaseFiles
     assistants: BaseAssistants
     runs: BaseRuns
+    #: API for `Yandex Search API <https://yandex.cloud/docs/search-api>`
     search_api: BaseSearchAPIDomain
     search_indexes: BaseSearchIndexes
     datasets: BaseDatasets
