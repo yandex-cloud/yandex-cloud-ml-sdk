@@ -30,19 +30,16 @@ class BaseGenerativeSearchFunction(BaseModelFunction[GenerativeSearchTypeT]):
         """
         Creates generative search object which provides methods for invoking generative search.
 
-        To know more about parameters and their formats and possible values,
+        To learn more about parameters and their formats and possible values,
         refer to
         `generative search documentation <https://yandex.cloud/docs/search-api/concepts/generative-response#body>`_
 
-        :param site: parameter for limiting search to specific location or list of locations;
-            all of the ``site``, ``host``, ``url`` parameters are mutually exclusive
-            and using one of them is mandatory.
-        :param host: parameter for limiting search to specific location or list of locations;
-            all of the ``site``, ``host``, ``url`` parameters are mutually exclusive
-            and using one of them is mandatory.
-        :param url: parameter for limiting search to specific location or list of locations;
-            all of the ``site``, ``host``, ``url`` parameters are mutually exclusive
-            and using one of them is mandatory.
+        NB: All of the ``site``, ``host``, ``url`` parameters are mutually exclusive
+        and using one of them is mandatory.
+
+        :param site: parameter for limiting search to specific location or list of sites.
+        :param host: parameter for limiting search to specific location or list of hosts.
+        :param url: parameter for limiting search to specific location or list of URLs.
         :param fix_misspell: tells to backend to fix or not to fix misspels in queries.
         :param enable_nrfm_docs: tells to backend to include or not to include pages,
             which are not available via direct clicks from given sites/hosts/urls
