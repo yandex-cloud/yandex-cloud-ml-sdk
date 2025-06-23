@@ -9,9 +9,6 @@ DocSourceType: TypeAlias = Union[type, Callable]
 
 def doc_from(source: DocSourceType, **kwargs) -> Callable[[DocSourceType], DocSourceType]:
     def decorator(destination: DocSourceType) -> DocSourceType:
-        assert type(source) is type(destination), \
-            "docstring must be copied from class to class or from method to method"
-
         doc = source.__doc__
 
         assert doc, 'source docstring cannot be empty'

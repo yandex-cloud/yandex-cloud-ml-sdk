@@ -14,14 +14,35 @@ from yandex_cloud_ml_sdk._utils.coerce import coerce_tuple
 
 
 class DateFilterType(TypedDict):
+    """Date filter dict type for generative search.
+
+    Example:
+
+    >>> filter_ = {'date': '>20240125'}
+    """
+
     date: str
 
 
 class FormatFilterType(TypedDict):
+    """Format filter dict type for generative search.
+
+    Example:
+
+    >>> filter_ = {'format': 'xlsx'}
+    """
+
     format: str
 
 
 class LangFilterType(TypedDict):
+    """Language filter dict type for generative search.
+
+    Example:
+
+    >>> filter_ = {'lang': 'ru'}
+    """
+
     lang: str
 
 

@@ -55,14 +55,6 @@ def test_doc_wrong_types() -> None:
 
         assert B  # type: ignore[truthy-function]
 
-    with pytest.raises(AssertionError):
-        class B2:
-            @doc_from(A)
-            def b(self):
-                return 1
-
-        assert B2  # type: ignore[truthy-function]
-
     class A2:
         """A2 doc {placeholder}"""
 
