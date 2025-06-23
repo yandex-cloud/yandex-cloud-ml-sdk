@@ -3,6 +3,7 @@ from __future__ import annotations
 import uuid
 from pathlib import Path
 
+import psutil
 import pytest
 
 from yandex_cloud_ml_sdk import AsyncYCloudML
@@ -21,7 +22,12 @@ async def test_simple_read(async_sdk: AsyncYCloudML, completions_jsonlines: Path
 
     dataset = await dataset_draft.upload()
 
+    process = psutil.Process()
+    fd_num = process.num_fds()
     data = [line async for line in dataset.read()]
+
+    assert process.num_fds() == fd_num
+
     assert len(data) == 3
     line = data[0]
     assert isinstance(line, dict)

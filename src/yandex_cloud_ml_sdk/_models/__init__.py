@@ -2,18 +2,23 @@
 from __future__ import annotations
 
 from yandex_cloud_ml_sdk._types.domain import DomainWithFunctions
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from .completions.function import AsyncCompletions, BaseCompletions, Completions
-from .image_generation.function import AsyncImageGeneration, ImageGeneration
+from .image_generation.function import AsyncImageGeneration, BaseImageGeneration, ImageGeneration
 from .text_classifiers.function import AsyncTextClassifiers, BaseTextClassifiers, TextClassifiers
-from .text_embeddings.function import AsyncTextEmbeddings, TextEmbeddings
+from .text_embeddings.function import AsyncTextEmbeddings, BaseTextEmbeddings, TextEmbeddings
 
 
 class BaseModels(DomainWithFunctions):
+    """Domain for working with `Yandex Foundation Models <https://yandex.cloud/ru/services/foundation-models>`."""
     completions: BaseCompletions
     text_classifiers: BaseTextClassifiers
+    image_generation: BaseImageGeneration
+    text_embeddings: BaseTextEmbeddings
 
 
+@doc_from(BaseModels)
 class AsyncModels(BaseModels):
     completions: AsyncCompletions
     text_embeddings: AsyncTextEmbeddings
@@ -21,6 +26,7 @@ class AsyncModels(BaseModels):
     image_generation: AsyncImageGeneration
 
 
+@doc_from(BaseModels)
 class Models(BaseModels):
     completions: Completions
     text_embeddings: TextEmbeddings
