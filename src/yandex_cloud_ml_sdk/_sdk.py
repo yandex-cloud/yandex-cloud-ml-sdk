@@ -56,7 +56,7 @@ class BaseSDK:
     search_indexes: BaseSearchIndexes
 
     #: Domain for working with
-    #: `generative response <https://yandex.cloud/docs/search-api>`_
+    #: `Search API <https://yandex.cloud/docs/search-api>`_
     #: service API
     search_api: BaseSearchAPIDomain
 
