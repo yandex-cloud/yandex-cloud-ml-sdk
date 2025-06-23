@@ -15,3 +15,6 @@ Async SDK
    threads
    runs
    search_indexes
+   search_api
+   datasets
+   tuning

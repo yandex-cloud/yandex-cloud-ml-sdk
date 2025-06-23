@@ -62,7 +62,10 @@ Miscellaneous types
 
 .. py:class:: yandex_cloud_ml_sdk._types.misc.UndefinedOr
 
-.. autodata:: yandex_cloud_ml_sdk._types.misc.PathLike
+.. py:class:: yandex_cloud_ml_sdk._types.misc.PathLike
+
+..
+    .. autodata:: yandex_cloud_ml_sdk._types.misc.PathLike
 
 .. autodata:: yandex_cloud_ml_sdk._types.misc.UNDEFINED
 
