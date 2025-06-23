@@ -8,30 +8,30 @@ from yandex_cloud_ml_sdk._logging import get_logger
 
 logger = get_logger(__name__)
 
-#: DOC TODO
+#: Available response formats
 LITERAL_RESPONSE_FORMATS = ('json', )
 
-#: DOC TODO
+#: Type for string response formats
 StrResponseType = Literal['json']
 
-#: DOC TODO
+#: Recurrent json object
 JsonVal = Union[None, bool, str, float, int, 'JsonArray', 'JsonObject']
-#: DOC TODO
+#: Json array
 JsonArray = list[JsonVal]
-#: DOC TODO
+#: Json object
 JsonObject = dict[str, JsonVal]
-#: DOC TODO
+#: Type for json schema
 JsonSchemaType: TypeAlias = JsonObject
 
 class JsonSchemaResponseType(TypedDict):
-    """DOC TODO"""
+    """Dict with json schema response settings"""
 
-    #: DOC TODO
+    #: Field with json schema which describes response format
     json_schema: JsonSchemaType
 
-#: DOC TODO
+#: Types availailable for response format
 ResponseType: TypeAlias = Union[StrResponseType, JsonSchemaResponseType, type]
-#: DOC TODO
+#: Types available for function call parameters
 ParametersType: TypeAlias = Union[JsonSchemaType, type]
 
 try:
@@ -124,7 +124,7 @@ def schema_from_parameters(parameters: ParametersType) -> JsonSchemaType:
         result = pydantic.TypeAdapter(parameters).json_schema()
     else:
         raise TypeError(
-            "Function call parameters could be only jsonschema dict, pydantuc model class or pydantic dataclass"
+            "Function call parameters could be only jsonschema dict, pydantic model class or pydantic dataclass"
         )
 
     logger.debug('trasform input parameters=%r to json_schema=%r', parameters, result)
