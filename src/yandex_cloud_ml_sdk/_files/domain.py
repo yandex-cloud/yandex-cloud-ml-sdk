@@ -21,7 +21,8 @@ from .file import AsyncFile, File, FileTypeT
 class BaseFiles(BaseDomain, Generic[FileTypeT]):
     """Files domain, which contains API for working with files.
 
-    Files is a part of :ref:`Assistants API`, which is the only place you could use it.
+    Files is a part of `Assistants API <https://yandex.cloud/ru/docs/foundation-models/concepts/assistant>`_,
+    which is the only place you could use it.
     Provides upload, get and list methods that allow you to work with remote file objects you created earlier.
     """
     _file_impl: type[FileTypeT]
@@ -48,7 +49,8 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
         :param labels: Labels associated with the file.
         :param ttl_days: Time-to-live in days for the file.
         :param expiration_policy: Expiration policy for the file.
-            Assepts for passing :ref:`static` or :ref:`since_last_active` strings. Should be defined if :ref:`ttl_days` has been defined, otherwise both parameters should be undefined.
+            Assepts for passing ``static`` or :``since_last_active`` strings.
+            Should be defined if ``ttl_days`` has been defined, otherwise both parameters should be undefined.
         :param timeout: Timeout for the operation in seconds.
             Defaults to 60 seconds.
         """
@@ -99,7 +101,7 @@ class BaseFiles(BaseDomain, Generic[FileTypeT]):
         :param labels: Labels associated with the file.
         :param ttl_days: Time-to-live in days for the file.
         :param expiration_policy: Expiration policy for the file.
-            Assepts for passing :ref:`static` or :ref:`since_last_active` strings.
+            Assepts for passing ``static`` or ``since_last_active`` strings.
         :param timeout: Timeout for the operation in seconds.
             Defaults to 60.
         """

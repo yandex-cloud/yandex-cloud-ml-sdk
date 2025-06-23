@@ -8,3 +8,6 @@ Models domain
    :hidden:
 
    completions
+   text_embeddings
+   text_classifiers
+   image_generation

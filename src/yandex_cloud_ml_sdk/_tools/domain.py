@@ -41,7 +41,7 @@ class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
         rephraser: UndefinedOr[RephraserInputType] = UNDEFINED,
         call_strategy: UndefinedOr[CallStrategyInputType] = UNDEFINED,
     ) -> SearchIndexTool:
-        """Creates SearchIndexTool (not to be confused with :py:class:`~.SearchIndex`).
+        """Creates SearchIndexTool (not to be confused with :py:class:`~.SearchIndex`/:py:class:`~.AsyncSearchIndex`).
 
         :param indexes: parameter takes :py:class:`~.BaseSearchIndex`, string with search index id,
             or a list of this values in any combination.

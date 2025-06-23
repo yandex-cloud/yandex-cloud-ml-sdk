@@ -1,7 +1,8 @@
-Miscellations
--------------
+Internals
+---------
 
 .. toctree::
    :hidden:
 
    bases
+   client

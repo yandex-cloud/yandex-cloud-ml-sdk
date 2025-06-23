@@ -13,6 +13,8 @@ Base classes
 
 .. autoclass:: yandex_cloud_ml_sdk._tools.domain.BaseTools
 
+.. autoclass:: yandex_cloud_ml_sdk._tools.function.BaseFunctionTools
+
 .. autoclass:: yandex_cloud_ml_sdk._tools.tool.BaseTool
 
 .. autoclass:: yandex_cloud_ml_sdk._tools.tool_call.BaseToolCall
@@ -24,6 +26,10 @@ Base classes
 .. autoclass:: yandex_cloud_ml_sdk._models.BaseModels
 
 .. autoclass:: yandex_cloud_ml_sdk._models.completions.function.BaseCompletions
+
+.. autoclass:: yandex_cloud_ml_sdk._models.completions.model.BaseGPTModel
+
+.. autoclass:: yandex_cloud_ml_sdk._models.text_classifiers.function.BaseTextClassifiers
 
 .. autoclass:: yandex_cloud_ml_sdk._threads.domain.BaseThreads
 
@@ -41,6 +47,12 @@ Base classes
 
 .. autoclass:: yandex_cloud_ml_sdk._runs.run.BaseRun
 
+.. autoclass:: yandex_cloud_ml_sdk._search_api.domain.BaseSearchAPIDomain
+
+.. autoclass:: yandex_cloud_ml_sdk._search_api.generative.function.BaseGenerativeSearchFunction
+
+.. autoclass:: yandex_cloud_ml_sdk._search_api.generative.generative.BaseGenerativeSearch
+
 .. autoclass:: yandex_cloud_ml_sdk._search_indexes.domain.BaseSearchIndexes
 
 .. autoclass:: yandex_cloud_ml_sdk._search_indexes.search_index.BaseSearchIndex
@@ -49,4 +61,10 @@ Base classes
 
 .. autoclass:: yandex_cloud_ml_sdk._datasets.dataset.BaseDataset
 
+.. autoclass:: yandex_cloud_ml_sdk._datasets.draft.BaseDatasetDraft
+
 .. autoclass:: yandex_cloud_ml_sdk._tuning.domain.BaseTuning
+
+.. autoclass:: yandex_cloud_ml_sdk._types.batch.domain.BaseBatchSubdomain
+
+.. autoclass:: yandex_cloud_ml_sdk._messages.base.BaseMessage

@@ -16,20 +16,22 @@ ProtoSchedulers = Union[ProtoSchedulerCosine, ProtoSchedulerLinear, ProtoSchedul
 
 @dataclass(frozen=True)
 class BaseScheduler(BaseTuningParameter):
+    #: :meta private:
     field_name: ClassVar[str] = 'scheduler'
     warmup_ratio: float | None = None
 
     @property
     @abc.abstractmethod
     def proto_type(self) -> type[ProtoSchedulers]:
-        pass
+        """:meta private:"""
 
     @property
     @abc.abstractmethod
     def underlying_field_name(self) -> str:
-        pass
+        """:meta private:"""
 
     def to_proto(self, proto_type: type[ProtoMessageTypeT]) -> ProtoMessageTypeT:
+        """:meta private:"""
         kwargs = asdict(self)
         kwargs.pop('warmup_ratio')
 
@@ -41,19 +43,25 @@ class BaseScheduler(BaseTuningParameter):
 
 @dataclass(frozen=True)
 class SchedulerLinear(BaseScheduler):
+    #: :meta private:
     proto_type: ClassVar = ProtoSchedulerLinear
+    #: :meta private:
     underlying_field_name: ClassVar[str] = 'linear'
     min_lr: float | None = None
 
 
 @dataclass(frozen=True)
 class SchedulerConstant(BaseScheduler):
+    #: :meta private:
     proto_type: ClassVar = ProtoSchedulerConstant
+    #: :meta private:
     underlying_field_name: ClassVar[str] = 'constant'
 
 
 @dataclass(frozen=True)
 class SchedulerCosine(BaseScheduler):
+    #: :meta private:
     proto_type: ClassVar = ProtoSchedulerCosine
+    #: :meta private:
     underlying_field_name: ClassVar[str] = 'cosine'
     min_lr: float | None = None
