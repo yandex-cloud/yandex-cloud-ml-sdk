@@ -1,5 +1,0 @@
-Tools
-=====
-
-.. toctree::
-   types

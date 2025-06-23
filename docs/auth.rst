@@ -10,3 +10,4 @@ Authentication methods classes
 ------------------------------
 
 .. automodule:: yandex_cloud_ml_sdk.auth
+   :no-undoc-members:

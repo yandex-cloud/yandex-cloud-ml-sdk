@@ -15,11 +15,10 @@ Current package version: |version|
    :maxdepth: 1
 
    auth
-   types
+   types/index
    retry
-
 
 .. toctree::
    :hidden:
 
-   base/index
+   internals/index
