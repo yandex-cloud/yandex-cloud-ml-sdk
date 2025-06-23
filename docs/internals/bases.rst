@@ -31,6 +31,10 @@ Base classes
 
 .. autoclass:: yandex_cloud_ml_sdk._models.text_classifiers.function.BaseTextClassifiers
 
+.. autoclass:: yandex_cloud_ml_sdk._models.text_embeddings.function.BaseTextEmbeddings
+
+.. autoclass:: yandex_cloud_ml_sdk._models.image_generation.function.BaseImageGeneration
+
 .. autoclass:: yandex_cloud_ml_sdk._threads.domain.BaseThreads
 
 .. autoclass:: yandex_cloud_ml_sdk._threads.thread.BaseThread
