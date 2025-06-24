@@ -3,6 +3,10 @@ from __future__ import annotations
 import pathlib
 import sys
 
+import pytest
+
+import yandex_cloud_ml_sdk
+
 pytest_plugins = [
     'pytest_asyncio',
     'pytest_recording',
@@ -28,3 +32,8 @@ def pytest_ignore_collect(collection_path, path, config):  # pylint: disable=unu
             return True
 
     return None
+
+
+@pytest.fixture(autouse=True)
+def add_np(doctest_namespace):
+    doctest_namespace["sdk"] = yandex_cloud_ml_sdk.YCloudML(folder_id='<doctest>', auth='<none>')
