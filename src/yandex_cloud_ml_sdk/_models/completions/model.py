@@ -176,7 +176,7 @@ class BaseGPTModel(
         self,
         messages: MessageInputType,
         *,
-        timeout=60,
+        timeout=180,
     ) -> GPTModelResult[ToolCallTypeT]:
         async for result in self._run_sync_impl(
             messages=messages,
@@ -193,7 +193,7 @@ class BaseGPTModel(
         self,
         messages: MessageInputType,
         *,
-        timeout=60,
+        timeout=180,
     ) -> AsyncIterator[GPTModelResult[ToolCallTypeT]]:
         async for result in self._run_sync_impl(
             messages=messages,
@@ -267,7 +267,7 @@ class AsyncGPTModel(
         self,
         messages: MessageInputType,
         *,
-        timeout=60,
+        timeout=180,
     ) -> GPTModelResult[AsyncToolCall]:
         return await self._run(
             messages=messages,
@@ -278,7 +278,7 @@ class AsyncGPTModel(
         self,
         messages: MessageInputType,
         *,
-        timeout=60,
+        timeout=180,
     ) -> AsyncIterator[GPTModelResult[AsyncToolCall]]:
         async for result in self._run_stream(
             messages=messages,
@@ -412,7 +412,7 @@ class GPTModel(
         self,
         messages: MessageInputType,
         *,
-        timeout=60,
+        timeout=180,
     ) -> GPTModelResult[ToolCall]:
         return self.__run(
             messages=messages,
@@ -423,7 +423,7 @@ class GPTModel(
         self,
         messages: MessageInputType,
         *,
-        timeout=60,
+        timeout=180,
     ) -> Iterator[GPTModelResult[ToolCall]]:
         yield from self.__run_stream(
             messages=messages,
