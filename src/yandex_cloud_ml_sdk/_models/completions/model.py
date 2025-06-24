@@ -1,6 +1,7 @@
 # pylint: disable=arguments-renamed,no-name-in-module,protected-access
 from __future__ import annotations
 
+import warnings
 from collections.abc import Sequence
 from typing import TYPE_CHECKING, Any, AsyncIterator, Generic, Iterator, Literal, cast
 
@@ -141,6 +142,15 @@ class BaseGPTModel(
         )
 
     def _make_batch_request(self, dataset_id: str) -> BatchCompletionRequest:
+        for field in ('tools', 'response_format'):
+            value = getattr(self.config, field)
+            if value is not None:
+                warnings.warn(
+                    f"The GPTModel.config.{field} is configured, "
+                    "but it is not supported in the batch run, so it will be ignored.",
+                    UserWarning, 4
+                )
+
         return BatchCompletionRequest(
             model_uri=self.uri,
             completion_options=self._make_completion_options(stream=False),
