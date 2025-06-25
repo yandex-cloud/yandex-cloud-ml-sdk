@@ -1,6 +1,7 @@
 # pylint: disable=arguments-renamed,no-name-in-module,protected-access
 from __future__ import annotations
 
+import warnings
 from collections.abc import Sequence
 from typing import TYPE_CHECKING, Any, AsyncIterator, Generic, Iterator, Literal, cast
 
@@ -141,6 +142,15 @@ class BaseGPTModel(
         )
 
     def _make_batch_request(self, dataset_id: str) -> BatchCompletionRequest:
+        for field in ('tools', 'response_format'):
+            value = getattr(self.config, field)
+            if value is not None:
+                warnings.warn(
+                    f"The GPTModel.config.{field} is configured, "
+                    "but it is not supported in the batch run, so it will be ignored.",
+                    UserWarning, 4
+                )
+
         return BatchCompletionRequest(
             model_uri=self.uri,
             completion_options=self._make_completion_options(stream=False),
@@ -176,7 +186,7 @@ class BaseGPTModel(
         self,
         messages: MessageInputType,
         *,
-        timeout=60,
+        timeout=180,
     ) -> GPTModelResult[ToolCallTypeT]:
         async for result in self._run_sync_impl(
             messages=messages,
@@ -193,7 +203,7 @@ class BaseGPTModel(
         self,
         messages: MessageInputType,
         *,
-        timeout=60,
+        timeout=180,
     ) -> AsyncIterator[GPTModelResult[ToolCallTypeT]]:
         async for result in self._run_sync_impl(
             messages=messages,
@@ -267,7 +277,7 @@ class AsyncGPTModel(
         self,
         messages: MessageInputType,
         *,
-        timeout=60,
+        timeout=180,
     ) -> GPTModelResult[AsyncToolCall]:
         return await self._run(
             messages=messages,
@@ -278,7 +288,7 @@ class AsyncGPTModel(
         self,
         messages: MessageInputType,
         *,
-        timeout=60,
+        timeout=180,
     ) -> AsyncIterator[GPTModelResult[AsyncToolCall]]:
         async for result in self._run_stream(
             messages=messages,
@@ -412,7 +422,7 @@ class GPTModel(
         self,
         messages: MessageInputType,
         *,
-        timeout=60,
+        timeout=180,
     ) -> GPTModelResult[ToolCall]:
         return self.__run(
             messages=messages,
@@ -423,7 +433,7 @@ class GPTModel(
         self,
         messages: MessageInputType,
         *,
-        timeout=60,
+        timeout=180,
     ) -> Iterator[GPTModelResult[ToolCall]]:
         yield from self.__run_stream(
             messages=messages,
