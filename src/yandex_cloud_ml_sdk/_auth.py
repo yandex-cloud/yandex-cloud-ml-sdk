@@ -36,6 +36,12 @@ Please, follow our guide if your OAuth-token is leaked
 
 
 class BaseAuth(ABC):
+    """Abstract base class for authentication methods.
+
+    This class defines the interface for obtaining authentication metadata
+    and checking if the authentication method is applicable from environment
+    variables.
+    """
     @abstractmethod
     async def get_auth_metadata(
         self,
@@ -43,6 +49,7 @@ class BaseAuth(ABC):
         timeout: float,
         lock: asyncio.Lock
     ) -> tuple[str, str] | None:
+        """:meta private:"""
         # NB: we are can't create lock in Auth constructor, so we a reusing lock from client.
         # Look at client._lock doctstring for details.
         pass
@@ -50,21 +57,28 @@ class BaseAuth(ABC):
     @classmethod
     @abstractmethod
     async def applicable_from_env(cls, **_: Any) -> Self | None:
+        """:meta private:"""
         pass
 
 
 class NoAuth(BaseAuth):
     @override
     async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> None:
+        """:meta private:"""
         return None
 
     @override
     @classmethod
     async def applicable_from_env(cls, **_: Any) -> None:
+        """:meta private:"""
         return None
 
 
 class APIKeyAuth(BaseAuth):
+    """Authentication method using an API key.
+
+    Read more about the API key in `the documentation <https://yandex.cloud/docs/iam/concepts/authorization/api-key>_`.
+    """
     env_var = 'YC_API_KEY'
 
     def __init__(self, api_key: str):
@@ -76,11 +90,13 @@ class APIKeyAuth(BaseAuth):
 
     @override
     async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> tuple[str, str]:
+        """:meta private:"""
         return ('authorization', f'Api-Key {self._api_key}')
 
     @override
     @classmethod
     async def applicable_from_env(cls, **_: Any) -> Self | None:
+        """:meta private:"""
         api_key = os.getenv(cls.env_var)
         if api_key:
             return cls(api_key)
@@ -89,15 +105,25 @@ class APIKeyAuth(BaseAuth):
 
 
 class BaseIAMTokenAuth(BaseAuth):
+    """Base class for the IAM token-based authentication."""
     def __init__(self, token: str | None):
+        """Initialize with an IAM token.
+
+        :param token: The IAM token to use for authentication. If None, it will be set to None.
+        """
         self._token = token.strip() if token else token
 
     @override
     async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> tuple[str, str]:
+        """:meta private:"""
         return ('authorization', f'Bearer {self._token}')
 
 
 class IAMTokenAuth(BaseIAMTokenAuth):
+    """Authentication method using an IAM token.
+
+    Read more about the IAM token in `the documentation <https://yandex.cloud/docs/iam/concepts/authorization/iam-token>_`.
+    """
     env_var = 'YC_IAM_TOKEN'
 
     def __init__(self, token: str):
@@ -106,6 +132,7 @@ class IAMTokenAuth(BaseIAMTokenAuth):
     @override
     @classmethod
     async def applicable_from_env(cls, **_: Any) -> Self | None:
+        """:meta private:"""
         token = os.getenv(cls.env_var)
         if token:
             return cls(token)
@@ -134,12 +161,14 @@ class EnvIAMTokenAuth(BaseIAMTokenAuth):
 
     @override
     async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> tuple[str, str]:
+        """:meta private:"""
         self._token = os.environ[self._env_var].strip()
         return await super().get_auth_metadata(client=client, timeout=timeout, lock=lock)
 
     @override
     @classmethod
     async def applicable_from_env(cls, **_: Any) -> Self | None:
+        """:meta private:"""
         token = os.getenv(cls.default_env_var)
         if token:
             return cls()
@@ -148,6 +177,12 @@ class EnvIAMTokenAuth(BaseIAMTokenAuth):
 
 
 class RefresheableIAMTokenAuth(BaseIAMTokenAuth):
+    """
+    Auth method that supports refreshing the IAM token based on a defined refresh period.
+
+    This class manages an IAM token that can be refreshed automatically if it has expired,
+    based on the specified refresh period.
+    """
     _token_refresh_period = 60 * 60
 
     def __init__(self, token: str | None) -> None:
@@ -165,6 +200,7 @@ class RefresheableIAMTokenAuth(BaseIAMTokenAuth):
 
     @override
     async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> tuple[str, str]:
+        """:meta private:"""
         if self._need_for_token():
             async with lock:
                 if self._need_for_token():
@@ -179,6 +215,14 @@ class RefresheableIAMTokenAuth(BaseIAMTokenAuth):
 
 
 class OAuthTokenAuth(RefresheableIAMTokenAuth):
+    """
+    Auth method that uses an OAuth token for authentication.
+
+    This class extends the RefresheableIAMTokenAuth to provide functionality
+    for managing and using an OAuth token for authentication purposes.
+
+    Read more about the OAuth token in `the documentation <https://yandex.cloud/docs/iam/concepts/authorization/oauth-token>_`.
+    """
     env_var = 'YC_OAUTH_TOKEN'
 
     def __init__(self, token: str):
@@ -192,6 +236,7 @@ class OAuthTokenAuth(RefresheableIAMTokenAuth):
     @override
     @classmethod
     async def applicable_from_env(cls, **_: Any) -> Self | None:
+        """:meta private:"""
         token = os.getenv(cls.env_var)
         if token:
             return cls(token)
@@ -213,6 +258,15 @@ class OAuthTokenAuth(RefresheableIAMTokenAuth):
 
 
 class YandexCloudCLIAuth(RefresheableIAMTokenAuth):
+    """
+    Authentication class for Yandex Cloud CLI using IAM tokens.
+
+    It handles the initialization and retrieval of IAM tokens
+    via the Yandex Cloud CLI that should be installed and configured.
+
+    Yandex Cloud CLI is a downloadable software for managing cloud resources via the command line.
+    Read more in `the CLI documentation <https://yandex.cloud/docs/cli/>_`.
+    """
     env_var = 'YC_PROFILE'
 
     def __init__(self, token: str | None = None, endpoint: str | None = None, yc_profile: str | None = None):
@@ -250,6 +304,7 @@ class YandexCloudCLIAuth(RefresheableIAMTokenAuth):
 
     @classmethod
     async def applicable_from_env(cls, yc_profile: str | None = None, endpoint: str | None = None, **_: Any) -> Self | None:
+        """:meta private:"""
         if yc_profile is None:
             yc_profile = os.getenv(cls.env_var)
 
@@ -289,17 +344,30 @@ class YandexCloudCLIAuth(RefresheableIAMTokenAuth):
 
 
 class MetadataAuth(RefresheableIAMTokenAuth):
+    """
+    Authentication class for retrieving IAM tokens from metadata service.
+
+    This class retrieves IAM tokens from the Google Cloud metadata service.
+    Read more in `the VM metadata documentation <https://yandex.cloud/docs/compute/concepts/vm-metadata>_`.
+    """
     env_var = 'YC_METADATA_ADDR'
     _headers = {'Metadata-Flavor': 'Google'}
     _default_addr = '169.254.169.254'
 
     def __init__(self, token: str | None = None, metadata_url: str | None = None):
+        """
+        Initialize the MetadataAuth instance.
+
+        :param token: the initial IAM token.
+        :param metadata_url: URL for the metadata service.
+        """
         self._metadata_url: str = metadata_url or self._default_addr
         super().__init__(token)
 
     @override
     @classmethod
     async def applicable_from_env(cls, **_: Any) -> Self | None:
+        """:meta private:"""
         addr = os.getenv(cls.env_var, cls._default_addr)
         url = f'http://{addr}/computeMetadata/v1/instance/service-accounts/default/token'
         # In case we found env var, we 99% would use this Auth, so timeout became
@@ -337,6 +405,22 @@ async def get_auth_provider(
     endpoint: str,
     yc_profile: str | None,
 ) -> BaseAuth:
+    """
+    Retrieve an appropriate authentication provider based on the provided auth parameter.
+
+    It determines the type of authentication to use based on the input and at environment
+    and returns an instance of a corresponding authentication class.
+    If nothing was clearly transmitted, then you need to look at the environment in the following order:
+
+    - If auth is a string, it can be an IAM token, OAuth token, or API key.
+    - If an instance of BaseAuth, it will be used directly.
+    - If auth is not provided or is invalid, the function will attempt to find an applicable
+    authentication provider from environment variables.
+
+    :param auth: a parameter which represents the authentication token, an instance of BaseAuth, or None.
+    :param endpoint: the endpoint for the Yandex Cloud service.
+    :param yc_profile: a Yandex Cloud profile name.
+    """
     simple_iam_regexp = re.compile(r'^t\d\.')
     iam_regexp = re.compile(r't1\.[A-Z0-9a-z_-]+[=]{0,2}\.[A-Z0-9a-z_-]{86}[=]{0,2}')
     simple_oauth_regexp = re.compile(r'y[0123]_[-\w]')
