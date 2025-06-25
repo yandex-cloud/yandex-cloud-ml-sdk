@@ -260,6 +260,7 @@ class RetrierBase:
 
 
 class UnaryUnaryRetryInterceptor(grpc.aio.UnaryUnaryClientInterceptor, RetrierBase):
+    """:meta private:"""
     async def intercept_unary_unary(
         self,
         continuation: UnaryUnaryContinuationType,
@@ -284,6 +285,7 @@ class UnaryUnaryRetryInterceptor(grpc.aio.UnaryUnaryClientInterceptor, RetrierBa
 
 
 class UnaryStreamRetryInterceptor(grpc.aio.UnaryStreamClientInterceptor, RetrierBase):
+    """:meta private:"""
     async def intercept_unary_stream(
         self,
         # NB: look at UnaryStreamContinuationType comment above about type ignoring
@@ -317,7 +319,7 @@ class UnaryStreamRetryInterceptor(grpc.aio.UnaryStreamClientInterceptor, Retrier
 # pylint: disable=too-many-instance-attributes
 @dataclass(frozen=True)
 class RetryPolicy:
-    """A class that defines a retry policy for gRPC operations."""
+    """A class that defines a retry policy for network operations."""
     #: the maximum number of retry attempts
     max_attempts: int = 5
     #: the initial backoff time (in seconds)
@@ -368,5 +370,5 @@ class NoRetryPolicy(RetryPolicy):
         super().__init__()
 
     def get_interceptors(self) -> tuple[()]:
-        """Get the configured grpc interceptors for the no-retry policy."""
+        """:meta private:"""
         return ()
