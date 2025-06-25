@@ -77,7 +77,7 @@ class NoAuth(BaseAuth):
 class APIKeyAuth(BaseAuth):
     """Authentication method using an API key.
 
-    Read more about the API key in `the documentation <https://yandex.cloud/docs/iam/concepts/authorization/api-key>`.
+    Read more about the API key in `the documentation <https://yandex.cloud/docs/iam/concepts/authorization/api-key>_`.
     """
     env_var = 'YC_API_KEY'
 
@@ -122,7 +122,7 @@ class BaseIAMTokenAuth(BaseAuth):
 class IAMTokenAuth(BaseIAMTokenAuth):
     """Authentication method using an IAM token.
 
-    Read more about the IAM token in `the documentation <https://yandex.cloud/docs/iam/concepts/authorization/iam-token>`.
+    Read more about the IAM token in `the documentation <https://yandex.cloud/docs/iam/concepts/authorization/iam-token>_`.
     """
     env_var = 'YC_IAM_TOKEN'
 
@@ -221,7 +221,7 @@ class OAuthTokenAuth(RefresheableIAMTokenAuth):
     This class extends the RefresheableIAMTokenAuth to provide functionality
     for managing and using an OAuth token for authentication purposes.
 
-    Read more about the OAuth token in `the documentation <https://yandex.cloud/docs/iam/concepts/authorization/oauth-token>`.
+    Read more about the OAuth token in `the documentation <https://yandex.cloud/docs/iam/concepts/authorization/oauth-token>_`.
     """
     env_var = 'YC_OAUTH_TOKEN'
 
@@ -265,7 +265,7 @@ class YandexCloudCLIAuth(RefresheableIAMTokenAuth):
     via the Yandex Cloud CLI that should be installed and configured.
 
     Yandex Cloud CLI is a downloadable software for managing cloud resources via the command line.
-    Read more in `the CLI documentation <https://yandex.cloud/docs/cli/>`.
+    Read more in `the CLI documentation <https://yandex.cloud/docs/cli/>_`.
     """
     env_var = 'YC_PROFILE'
 
@@ -348,7 +348,7 @@ class MetadataAuth(RefresheableIAMTokenAuth):
     Authentication class for retrieving IAM tokens from metadata service.
 
     This class retrieves IAM tokens from the Google Cloud metadata service.
-    Read more in `the VM metadata documentation <https://yandex.cloud/docs/compute/concepts/vm-metadata>`.
+    Read more in `the VM metadata documentation <https://yandex.cloud/docs/compute/concepts/vm-metadata>_`.
     """
     env_var = 'YC_METADATA_ADDR'
     _headers = {'Metadata-Flavor': 'Google'}
