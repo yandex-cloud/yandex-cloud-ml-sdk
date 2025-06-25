@@ -317,22 +317,28 @@ class UnaryStreamRetryInterceptor(grpc.aio.UnaryStreamClientInterceptor, Retrier
 # pylint: disable=too-many-instance-attributes
 @dataclass(frozen=True)
 class RetryPolicy:
-    """A class that defines a retry policy for grpc operations."""
+    """A class that defines a retry policy for gRPC operations."""
+    #: the maximum number of retry attempts
     max_attempts: int = 5
+    #: the initial backoff time (in seconds)
     initial_backoff: float = 1.0
+    #: the maximum backoff time (in seconds)
     max_backoff: float = 10.0
+    #: the multiplier applied to the backoff after each attempt
     backoff_multiplier: float = 1.5
+    #: the maximum amount of jitter to add to the backoff
     jitter: float = 1.0
+    #: the grpc status codes that are considered retriable
     retriable_codes: Iterable[grpc.StatusCode] = (
         grpc.StatusCode.UNAVAILABLE,
         grpc.StatusCode.RESOURCE_EXHAUSTED
     )
-
+    #: :meta private:
     unary_unary_interceptor_class: type[UnaryUnaryRetryInterceptor] | None = UnaryUnaryRetryInterceptor
+    #: :meta private:
     unary_stream_interceptor_class: type[UnaryStreamRetryInterceptor] | None = UnaryStreamRetryInterceptor
 
     def get_interceptors(self) -> tuple[grpc.aio.ClientInterceptor, ...]:
-        """Get the configured grpc interceptors based on the retry policy."""
         klasses = [self.unary_unary_interceptor_class, self.unary_stream_interceptor_class]
         result = tuple(kls(self) for kls in klasses if kls is not None)
 
@@ -340,16 +346,6 @@ class RetryPolicy:
         return result  # type: ignore[return-value]
 
     async def sleep(self, attempt: int, deadline: float | None) -> None:
-        """
-        Asynchronously sleep for a calculated backoff time.
-
-        The backoff time is determined by the initial backoff, multiplier,
-        and random jitter. It also considers the provided deadline.
-
-        :param attempt: the current retry attempt number (0-indexed).
-        :param deadline: the deadline by which the operation should complete.
-
-        """
         # first attempt == 0, so p.initial_backoff * p.backoff_multiplier ** 0 == p.initial_backoff
         backoff = self.initial_backoff * (self.backoff_multiplier ** attempt) + random.uniform(0, self.jitter)
         if deadline is None:
