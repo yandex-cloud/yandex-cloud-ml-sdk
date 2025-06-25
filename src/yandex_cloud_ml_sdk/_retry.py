@@ -317,6 +317,7 @@ class UnaryStreamRetryInterceptor(grpc.aio.UnaryStreamClientInterceptor, Retrier
 # pylint: disable=too-many-instance-attributes
 @dataclass(frozen=True)
 class RetryPolicy:
+    """A class that defines a retry policy for grpc operations."""
     max_attempts: int = 5
     initial_backoff: float = 1.0
     max_backoff: float = 10.0
@@ -331,6 +332,7 @@ class RetryPolicy:
     unary_stream_interceptor_class: type[UnaryStreamRetryInterceptor] | None = UnaryStreamRetryInterceptor
 
     def get_interceptors(self) -> tuple[grpc.aio.ClientInterceptor, ...]:
+        """Get the configured grpc interceptors based on the retry policy."""
         klasses = [self.unary_unary_interceptor_class, self.unary_stream_interceptor_class]
         result = tuple(kls(self) for kls in klasses if kls is not None)
 
@@ -338,6 +340,16 @@ class RetryPolicy:
         return result  # type: ignore[return-value]
 
     async def sleep(self, attempt: int, deadline: float | None) -> None:
+        """
+        Asynchronously sleep for a calculated backoff time.
+
+        The backoff time is determined by the initial backoff, multiplier,
+        and random jitter. It also considers the provided deadline.
+
+        :param attempt: the current retry attempt number (0-indexed).
+        :param deadline: the deadline by which the operation should complete.
+
+        """
         # first attempt == 0, so p.initial_backoff * p.backoff_multiplier ** 0 == p.initial_backoff
         backoff = self.initial_backoff * (self.backoff_multiplier ** attempt) + random.uniform(0, self.jitter)
         if deadline is None:
@@ -351,8 +363,14 @@ class RetryPolicy:
 
 
 class NoRetryPolicy(RetryPolicy):
+    """
+    A retry policy that disables retries.
+
+    This class overrides the behavior of the base RetryPolicy to return no interceptors.
+    """
     def __init__(self):
         super().__init__()
 
     def get_interceptors(self) -> tuple[()]:
+        """Get the configured grpc interceptors for the no-retry policy."""
         return ()
