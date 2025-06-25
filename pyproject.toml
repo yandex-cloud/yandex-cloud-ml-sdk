@@ -33,7 +33,7 @@ classifiers = [
 requires-python = ">=3.9"
 dynamic = ["version"]
 dependencies = [
-    "yandexcloud>=0.343.0",
+    "yandexcloud>=0.350.0",
     "grpcio>=1.70.0",
     "get-annotations",
     "httpx>=0.27,<1",
