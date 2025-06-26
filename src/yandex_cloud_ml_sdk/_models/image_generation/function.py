@@ -12,7 +12,7 @@ class BaseImageGeneration(BaseModelFunction[ModelTypeT]):
     """
     Base class for image generation models.
 
-    It provides the functionality to call an image generation model by constructing 
+    It provides the functionality to call an image generation model by constructing
     the appropriate URI based on the provided model name and version.
 
     Returns a model's object through which requests to the backend are made.
