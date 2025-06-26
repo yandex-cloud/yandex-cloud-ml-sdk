@@ -260,6 +260,7 @@ class RetrierBase:
 
 
 class UnaryUnaryRetryInterceptor(grpc.aio.UnaryUnaryClientInterceptor, RetrierBase):
+    """:meta private:"""
     async def intercept_unary_unary(
         self,
         continuation: UnaryUnaryContinuationType,
@@ -284,6 +285,7 @@ class UnaryUnaryRetryInterceptor(grpc.aio.UnaryUnaryClientInterceptor, RetrierBa
 
 
 class UnaryStreamRetryInterceptor(grpc.aio.UnaryStreamClientInterceptor, RetrierBase):
+    """:meta private:"""
     async def intercept_unary_stream(
         self,
         # NB: look at UnaryStreamContinuationType comment above about type ignoring
@@ -317,17 +319,25 @@ class UnaryStreamRetryInterceptor(grpc.aio.UnaryStreamClientInterceptor, Retrier
 # pylint: disable=too-many-instance-attributes
 @dataclass(frozen=True)
 class RetryPolicy:
+    """A class that defines a retry policy for network operations."""
+    #: the maximum number of retry attempts
     max_attempts: int = 5
+    #: the initial backoff time (in seconds)
     initial_backoff: float = 1.0
+    #: the maximum backoff time (in seconds)
     max_backoff: float = 10.0
+    #: the multiplier applied to the backoff after each attempt
     backoff_multiplier: float = 1.5
+    #: the maximum amount of jitter to add to the backoff
     jitter: float = 1.0
+    #: the grpc status codes that are considered retriable
     retriable_codes: Iterable[grpc.StatusCode] = (
         grpc.StatusCode.UNAVAILABLE,
         grpc.StatusCode.RESOURCE_EXHAUSTED
     )
-
+    #: :meta private:
     unary_unary_interceptor_class: type[UnaryUnaryRetryInterceptor] | None = UnaryUnaryRetryInterceptor
+    #: :meta private:
     unary_stream_interceptor_class: type[UnaryStreamRetryInterceptor] | None = UnaryStreamRetryInterceptor
 
     def get_interceptors(self) -> tuple[grpc.aio.ClientInterceptor, ...]:
@@ -351,8 +361,14 @@ class RetryPolicy:
 
 
 class NoRetryPolicy(RetryPolicy):
+    """
+    A retry policy that disables retries.
+
+    This class overrides the behavior of the base RetryPolicy to return no interceptors.
+    """
     def __init__(self):
         super().__init__()
 
     def get_interceptors(self) -> tuple[()]:
+        """:meta private:"""
         return ()
