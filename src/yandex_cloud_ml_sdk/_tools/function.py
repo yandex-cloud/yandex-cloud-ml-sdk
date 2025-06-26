@@ -4,7 +4,9 @@ from typing import Optional, TypeVar, cast
 
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
-from yandex_cloud_ml_sdk._types.schemas import ParametersType, schema_from_parameters
+# JsonObject needed for weird sphinx reasons
+# pylint: disable=unused-import
+from yandex_cloud_ml_sdk._types.schemas import JsonObject, ParametersType, schema_from_parameters  # noqa
 
 from .tool import FunctionTool
 from .tool_call import AsyncToolCall, HaveToolCalls, ToolCall, ToolCallTypeT

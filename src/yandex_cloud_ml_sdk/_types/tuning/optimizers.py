@@ -14,19 +14,21 @@ ProtoOptimizers = ProtoOptimizerAdamw
 
 @dataclass(frozen=True)
 class BaseOptimizer(BaseTuningParameter):
+    #: :meta private:
     field_name: ClassVar[str] = 'optimizer'
 
     @property
     @abc.abstractmethod
     def proto_type(self) -> type[ProtoOptimizerAdamw]:
-        pass
+        """:meta private:"""
 
     @property
     @abc.abstractmethod
     def underlying_field_name(self) -> str:
-        pass
+        """:meta private:"""
 
     def to_proto(self, proto_type: type[ProtoMessageTypeT]) -> ProtoMessageTypeT:
+        """:meta private:"""
         kwargs = asdict(self)
 
         return proto_type(
@@ -36,7 +38,9 @@ class BaseOptimizer(BaseTuningParameter):
 
 @dataclass(frozen=True)
 class OptimizerAdamw(BaseOptimizer):
+    #: :meta private:
     proto_type: ClassVar = ProtoOptimizerAdamw
+    #: :meta private:
     underlying_field_name: ClassVar[str] = 'adamw'
 
     beta1: float | None = None

@@ -4,19 +4,22 @@ import os
 import pathlib
 from typing import Any, TypeVar, Union, cast
 
-from typing_extensions import TypeGuard
+from typing_extensions import TypeAlias, TypeGuard
 
 _T = TypeVar('_T')
 _D = TypeVar('_D')
 
 
 class Undefined:
-    """Sentinel until PEP 0661."""
+    """Class for making possible to differ None and not-passed default value.
+
+    Sentinel until PEP 0661.
+    """
 
     def __repr__(self):
         return 'Undefined'
 
-
+#: Default, non-passed value
 UNDEFINED = Undefined()
 UndefinedOr = Union[_T, Undefined]
 
@@ -31,8 +34,8 @@ def get_defined_value(obj: UndefinedOr[_T], default: _D) -> _T | _D:
 
     return cast(_D, default)
 
-
-PathLike = Union[str, os.PathLike]
+#: Extension of os.PathLike with a string
+PathLike: TypeAlias = Union[str, os.PathLike]
 
 
 def is_path_like(path: Any) -> TypeGuard[PathLike]:
