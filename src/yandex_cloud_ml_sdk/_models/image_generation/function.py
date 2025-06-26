@@ -17,10 +17,7 @@ class BaseImageGeneration(BaseModelFunction[ModelTypeT]):
 
     Returns a model's object through which requests to the backend are made.
 
-    Example:
-       >>> model = sdk.models.image_generation('yandex-art')
-       This is how the model is created.
-
+        >>> model = sdk.models.image_generation('yandex-art') #this is how the model is created
     """
     @override
     def __call__(
