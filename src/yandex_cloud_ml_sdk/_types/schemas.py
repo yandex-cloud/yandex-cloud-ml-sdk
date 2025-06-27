@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Literal, TypedDict, Union
 
-from typing_extensions import TypeAlias, TypeGuard
+from typing_extensions import NotRequired, TypeAlias, TypeGuard
 
 from yandex_cloud_ml_sdk._logging import get_logger
 
@@ -32,6 +32,14 @@ try:
 except ImportError:
     PYDANTIC = False
     PYDANTIC_V2 = False
+
+
+class JsonObjectResponseFormat(TypedDict):
+    json_object: NotRequired[bool]
+
+
+class JsonSchemaResponseFormat(TypedDict):
+    json_schema: NotRequired[JsonSchemaType]
 
 
 def is_pydantic_model_class(response_format: ResponseType) -> TypeGuard[type[pydantic.BaseModel]]:
@@ -81,6 +89,19 @@ def schema_from_response_format(response_format: ResponseType) -> StrResponseTyp
 
     logger.debug('transform input response_format=%r to json_schema=%r', response_format, result)
     return result
+
+
+def make_response_format_kwargs(
+    response_format: ResponseType | None
+) -> JsonObjectResponseFormat | JsonSchemaResponseFormat:
+    if response_format is None:
+        return {}
+
+    schema = schema_from_response_format(response_format)
+    if isinstance(schema, str):
+        return {'json_object': True}
+    assert isinstance(schema, dict)
+    return {'json_schema': {'schema': schema}}
 
 
 def schema_from_parameters(parameters: ParametersType) -> JsonSchemaType:

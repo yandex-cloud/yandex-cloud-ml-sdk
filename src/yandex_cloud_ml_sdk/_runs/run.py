@@ -19,7 +19,8 @@ from yandex_cloud_ml_sdk._tools.tool_result import (
 from yandex_cloud_ml_sdk._types.operation import OperationInterface
 from yandex_cloud_ml_sdk._types.resource import BaseResource
 from yandex_cloud_ml_sdk._types.result import ProtoMessage
-from yandex_cloud_ml_sdk._utils.proto import get_google_value
+from yandex_cloud_ml_sdk._types.schemas import ResponseType
+from yandex_cloud_ml_sdk._utils.proto import get_google_value, proto_to_dict
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .result import RunResult, RunStreamEvent
@@ -40,6 +41,7 @@ class BaseRun(BaseResource, OperationInterface[RunResult[ToolCallTypeT]]):
     custom_temperature: float | None
     custom_max_tokens: int | None
     custom_prompt_truncation_options: PromptTruncationOptions | None
+    custom_response_format: ResponseType | None
 
     @property
     def custom_max_prompt_tokens(self) -> int | None:
@@ -51,6 +53,18 @@ class BaseRun(BaseResource, OperationInterface[RunResult[ToolCallTypeT]]):
     def _kwargs_from_message(cls, proto: ProtoMessage, sdk: BaseSDK) -> dict[str, Any]:
         proto = cast(ProtoRun, proto)
         kwargs = super()._kwargs_from_message(proto, sdk=sdk)
+
+        if proto.HasField('custom_response_format'):
+            response_format = proto.custom_response_format
+            if response_format.HasField("json_schema"):
+                kwargs['custom_response_format'] = {
+                    'json_schema': proto_to_dict(response_format.json_schema.schema)
+                }
+            elif response_format.HasField('json_object'):
+                if response_format.json_object:
+                    kwargs['custom_response_format'] = 'json'
+            else:
+                raise RuntimeError(f'Unknown {response_format=}, try to upgrade yandex-cloud-ml-sdk')
 
         kwargs.update({
             'custom_temperature': get_google_value(proto.custom_completion_options, 'temperature', None, float),

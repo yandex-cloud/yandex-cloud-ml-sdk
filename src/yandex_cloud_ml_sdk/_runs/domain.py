@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from typing import AsyncIterator, Generic, Iterator
 
+from yandex.cloud.ai.assistants.v1.common_pb2 import ResponseFormat
 from yandex.cloud.ai.assistants.v1.runs.run_pb2 import Run as ProtoRun
 from yandex.cloud.ai.assistants.v1.runs.run_service_pb2 import (
     CreateRunRequest, GetLastRunByThreadRequest, GetRunRequest, ListRunsRequest, ListRunsResponse
@@ -16,7 +17,8 @@ from yandex_cloud_ml_sdk._assistants.prompt_truncation_options import (
 from yandex_cloud_ml_sdk._assistants.utils import get_completion_options
 from yandex_cloud_ml_sdk._threads.thread import BaseThread
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
-from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
+from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
+from yandex_cloud_ml_sdk._types.schemas import ResponseType, make_response_format_kwargs
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .run import AsyncRun, Run, RunTypeT
@@ -36,6 +38,7 @@ class BaseRuns(BaseDomain, Generic[RunTypeT]):
         custom_max_tokens: UndefinedOr[int] = UNDEFINED,
         custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
         custom_prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
+        custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> RunTypeT:
         assistant_id: str
@@ -55,8 +58,8 @@ class BaseRuns(BaseDomain, Generic[RunTypeT]):
             raise TypeError('thread parameter must be a str either Thread instance')
 
         custom_completion_options = get_completion_options(
-                temperature=get_defined_value(custom_temperature, None),
-                max_tokens=get_defined_value(custom_max_tokens, None),
+            temperature=get_defined_value(custom_temperature, None),
+            max_tokens=get_defined_value(custom_max_tokens, None),
         )
         custom_prompt_truncation_options = PromptTruncationOptions._coerce(
             max_prompt_tokens=custom_max_prompt_tokens,
@@ -67,11 +70,17 @@ class BaseRuns(BaseDomain, Generic[RunTypeT]):
         else:
             proto_custom_prompt_truncation_options = None
 
+        custom_response_format_: ResponseFormat | None = None
+        if is_defined(custom_response_format):
+            response_format_kwargs = make_response_format_kwargs(custom_response_format)
+            custom_response_format_ = ResponseFormat(**response_format_kwargs)
+
         request = CreateRunRequest(
             assistant_id=assistant_id,
             thread_id=thread_id,
             custom_completion_options=custom_completion_options,
             custom_prompt_truncation_options=proto_custom_prompt_truncation_options,
+            custom_response_format=custom_response_format_,
             stream=stream,
         )
 
