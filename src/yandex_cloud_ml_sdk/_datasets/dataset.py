@@ -3,12 +3,11 @@ from __future__ import annotations
 
 import asyncio
 import dataclasses
-import os
 import tempfile
 from collections.abc import AsyncIterator, Iterator
 from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Iterable, TypeVar
+from typing import TYPE_CHECKING, Any, Final, Iterable, TypeVar
 
 import aiofiles
 import httpx
@@ -38,7 +37,7 @@ if TYPE_CHECKING:
 logger = get_logger(__name__)
 
 DEFAULT_CHUNK_SIZE = 100 * 1024 ** 2
-
+DEFAULT_MAX_PARALLEL_DOWNLOADS: Final[int] = 16 # maximum number of files open for writing during download
 
 @dataclasses.dataclass(frozen=True)
 class ValidationErrorInfo:
@@ -153,6 +152,7 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
         download_path: PathLike,
         timeout: float = 60,
         exist_ok: bool = False,
+        max_parallel_downloads: int = DEFAULT_MAX_PARALLEL_DOWNLOADS
     ) -> tuple[Path, ...]:
         logger.debug("Downloading dataset %s", self.id)
 
@@ -167,6 +167,7 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
             base_path=base_path,
             exist_ok=exist_ok,
             timeout=timeout,
+            max_parallel_downloads=max_parallel_downloads,
         ), timeout)
 
     async def _read(
@@ -176,10 +177,24 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
         batch_size: UndefinedOr[int],
     ) -> AsyncIterator[dict[Any, Any]]:
         batch_size_ = get_defined_value(batch_size, None)
+
         urls = await self._get_download_urls(timeout=timeout)
+
+        def key_comparator(item: tuple[str, str]) -> tuple[int, int | str]:
+            key_, _ = item
+            key_ = Path(key_).stem
+            if key_.isdigit():
+                return 0, int(key_)
+            else:
+                return 1, key_ # Non-numeric keys come after numeric keys
+
+        sorted_urls = sorted(urls, key=key_comparator)
+
         async with self._client.httpx() as client:
-            for _, url in urls:
-                fd, filename = tempfile.mkstemp()
+            for key, url in sorted_urls:
+                with tempfile.NamedTemporaryFile(delete=False) as tmp:
+                    filename = tmp.name
+
                 path = Path(filename)
                 try:
                     await self.__download_file(
@@ -188,21 +203,29 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
                         client=client,
                         timeout=timeout
                     )
-
                     async for record in read_dataset_records(filename, batch_size=batch_size_):
                         yield record
                 finally:
-                    os.close(fd)
-                    path.unlink()
+                    if path.exists():
+                        path.unlink()
 
     async def __download_impl(
         self,
         base_path: Path,
         exist_ok: bool,
         timeout: float,
+        max_parallel_downloads: int = DEFAULT_MAX_PARALLEL_DOWNLOADS
     ) -> tuple[Path, ...]:
         urls = await self._get_download_urls(timeout=timeout)
+
         async with self._client.httpx() as client:
+
+            semaphore = asyncio.Semaphore(max_parallel_downloads)
+
+            async def limited_download(file_path, url) -> None:
+                async with semaphore:
+                    await self.__download_file(file_path, url, client, timeout=timeout)
+
             coroutines = []
             for key, url in urls:
                 file_path = base_path / key
@@ -210,7 +233,7 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
                     raise ValueError(f"{file_path} already exists")
 
                 coroutines.append(
-                    self.__download_file(file_path, url, client, timeout=timeout),
+                    limited_download(file_path, url)
                 )
 
             await asyncio.gather(*coroutines)
@@ -395,11 +418,13 @@ class AsyncDataset(BaseDataset):
         download_path: PathLike,
         timeout: float = 60,
         exist_ok: bool = False,
+        max_parallel_downloads: int = DEFAULT_MAX_PARALLEL_DOWNLOADS,
     ) -> tuple[Path, ...]:
         return await self._download(
             download_path=download_path,
             timeout=timeout,
             exist_ok=exist_ok,
+            max_parallel_downloads=max_parallel_downloads,
         )
 
     @requires_package('pyarrow', '>=19', 'AsyncDataset.read')
