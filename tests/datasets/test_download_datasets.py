@@ -2,8 +2,10 @@
 # pylint: disable=redefined-outer-name
 from __future__ import annotations
 
+import contextlib
 from pathlib import Path
 
+import aiofiles
 import httpx
 import pytest
 from pytest_httpx import HTTPXMock
@@ -44,7 +46,7 @@ async def test_download_to_temp_dir(mock_dataset, httpx_mock: HTTPXMock, mocker,
 
     paths = await mock_dataset.download(timeout=30, download_path=tmp_path)
 
-    assert paths == (tmp_path / "file1.txt", )
+    assert paths == (tmp_path / "file1.txt",)
     assert paths[0].read_bytes() == b"test file content"
 
 
@@ -178,5 +180,56 @@ async def test_download_with_exist_ok(mock_dataset, httpx_mock: HTTPXMock, mocke
 
     paths = await mock_dataset.download(timeout=30, download_path=tmp_path, exist_ok=False)
 
-    assert paths == (tmp_path / "file1.txt", )
+    assert paths == (tmp_path / "file1.txt",)
     assert paths[0].read_bytes() == b"test file content"
+
+
+@pytest.mark.asyncio
+async def test_download_fd_num(mock_dataset, httpx_mock: HTTPXMock, mocker, tmp_path: Path):
+    """Test checks that the number of simultaneously open fd's <= max_fd_num"""
+    max_open = 0
+    cur_open = 0
+    orig_aiofiles_open = aiofiles.open
+    max_fd_num = 5
+    fake_file_num = 10
+
+    @contextlib.asynccontextmanager
+    async def fake_open(*args, **kwargs):
+        nonlocal cur_open, max_open
+        cur_open += 1
+        max_open = max(max_open, cur_open)
+        f = await orig_aiofiles_open(*args, **kwargs)
+        try:
+            yield f
+        finally:
+            cur_open -= 1
+
+    mocker.patch("aiofiles.open", fake_open)
+
+    non_empty_dir = tmp_path / "non_empty"
+    non_empty_dir.mkdir()
+    (non_empty_dir / "file1.txt").write_text("existing content")
+
+    mocker.patch.object(
+        mock_dataset, "_get_download_urls",
+        return_value=[
+            (f"file{i}.txt", f"https://example.com/file{i}.txt") for i in range(fake_file_num)
+        ]
+    )
+    for i in range(fake_file_num):
+        httpx_mock.add_response(
+            url=f"https://example.com/file{i}.txt",
+            content=f"test file{i} content".encode()
+        )
+
+    paths = await mock_dataset.download(
+        timeout=30,
+        download_path=tmp_path,
+        exist_ok=False,
+        max_parallel_downloads=max_fd_num
+    )
+
+    assert paths == tuple(tmp_path / f"file{i}.txt" for i in range(fake_file_num))
+    assert paths[0].read_bytes() == f"test file{0} content".encode()
+
+    assert max_open <= max_fd_num
