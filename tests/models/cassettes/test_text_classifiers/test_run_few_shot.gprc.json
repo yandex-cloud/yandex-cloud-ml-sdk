@@ -486,6 +486,48 @@
                     "inputTokens": "46"
                 }
             }
+        },
+        {
+            "request": {
+                "cls": "FewShotTextClassificationRequest",
+                "module": "yandex.cloud.ai.foundation_models.v1.text_classification.text_classification_service_pb2",
+                "message": {
+                    "modelUri": "cls://yc.fomo.storage.prod.service/yandexgpt/latest",
+                    "labels": [
+                        "foo",
+                        "bar"
+                    ],
+                    "text": "foo",
+                    "samples": [
+                        {
+                            "text": "foo",
+                            "label": "bar"
+                        },
+                        {
+                            "text": "bar",
+                            "label": "foo"
+                        }
+                    ]
+                }
+            },
+            "response": {
+                "cls": "FewShotTextClassificationResponse",
+                "module": "yandex.cloud.ai.foundation_models.v1.text_classification.text_classification_service_pb2",
+                "message": {
+                    "predictions": [
+                        {
+                            "label": "foo",
+                            "confidence": 0.9489163625998299
+                        },
+                        {
+                            "label": "bar",
+                            "confidence": 0.05108268848380755
+                        }
+                    ],
+                    "modelVersion": "23.10.2024",
+                    "inputTokens": "72"
+                }
+            }
         }
     ]
 }

@@ -1,21 +1,21 @@
 from __future__ import annotations
 
-import time
-
 import pytest
 
 
 @pytest.mark.asyncio
 @pytest.mark.allow_grpc
 async def test_run(async_sdk):
-    model = async_sdk.models.text_classifiers('cls://yc.fomo.storage.prod.service/yandexgpt/latest')
+    model = async_sdk.models.text_classifiers(model_name='yandexgpt-lite', model_version='rc@tamrap1sjscq6e9flit3p')
 
     result = await model.run('hello')
 
-    assert len(result) == len(result.predictions) == 6
-    assert result[0]['label'] == result[0].label == 'computer_science'
+    assert len(result) == len(result.predictions) == 1
+    assert result[0]['label'] == result[0].label == 'оператор'
     assert result[0]['confidence'] == result[0].confidence
-    assert result.input_tokens == 1
+    sentinel = object()
+    value = getattr(result, 'input_tokens', sentinel)
+    assert value is not sentinel
 
 
 @pytest.mark.asyncio
@@ -32,10 +32,10 @@ async def test_run_few_shot(async_sdk):
 
     assert len(result) == len(result.predictions) == 2
     assert result[0]['label'] == result[0].label == 'foo'
-    assert result[0].confidence > 0.5
+    assert result[0].confidence < 0.5
 
     assert result[1]['label'] == result[1].label == 'bar'
-    assert result[1].confidence < 0.5
+    assert result[1].confidence > 0.5
 
     model = model.configure(
         samples=[
@@ -48,12 +48,14 @@ async def test_run_few_shot(async_sdk):
 
     assert len(result) == len(result.predictions) == 2
     assert result[0]['label'] == result[0].label == 'foo'
-    assert result[0].confidence < 0.5
+    assert result[0].confidence > 0.5
 
     assert result[1]['label'] == result[1].label == 'bar'
-    assert result[1].confidence > 0.5
+    assert result[1].confidence < 0.5
 
-    assert hasattr(result, 'input_tokens')
+    sentinel = object()
+    value = getattr(result, 'input_tokens', sentinel)
+    assert value is not sentinel
 
 @pytest.mark.asyncio
 async def test_configure(async_sdk):

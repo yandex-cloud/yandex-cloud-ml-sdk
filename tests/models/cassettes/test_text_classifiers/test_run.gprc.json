@@ -454,6 +454,29 @@
                     ]
                 }
             }
+        },
+        {
+            "request": {
+                "cls": "TextClassificationRequest",
+                "module": "yandex.cloud.ai.foundation_models.v1.text_classification.text_classification_service_pb2",
+                "message": {
+                    "modelUri": "cls://yc.fomo.storage.prod.service/yandexgpt-lite/rc@tamrap1sjscq6e9flit3p",
+                    "text": "hello"
+                }
+            },
+            "response": {
+                "cls": "TextClassificationResponse",
+                "module": "yandex.cloud.ai.foundation_models.v1.text_classification.text_classification_service_pb2",
+                "message": {
+                    "predictions": [
+                        {
+                            "label": "\u043e\u043f\u0435\u0440\u0430\u0442\u043e\u0440",
+                            "confidence": 0.83447265625
+                        }
+                    ],
+                    "inputTokens": "2"
+                }
+            }
         }
     ]
 }
