@@ -28,6 +28,7 @@ TextClassificationResponseT = TypeVar(
 class TextClassifiersModelResultBase(BaseResult, Sequence, Generic[TextClassificationResponseT]):
     predictions: tuple[TextClassificationLabel, ...]
     model_version: str
+    ###
 
     @classmethod
     def _from_proto(cls, *, proto: ProtoMessage, sdk: BaseSDK) -> Self:  # pylint: disable=unused-argument
