@@ -13,20 +13,19 @@ from yandex.cloud.ai.assistants.v1.assistant_service_pb2 import (
     UpdateAssistantRequest
 )
 from yandex.cloud.ai.assistants.v1.assistant_service_pb2_grpc import AssistantServiceStub
-from yandex.cloud.ai.assistants.v1.common_pb2 import Tool as ProtoAssistantsTool
 
 from yandex_cloud_ml_sdk._models.completions.model import BaseGPTModel
 from yandex_cloud_ml_sdk._runs.run import AsyncRun, Run, RunTypeT
 from yandex_cloud_ml_sdk._threads.thread import AsyncThread, Thread, ThreadTypeT
 from yandex_cloud_ml_sdk._tools.tool import BaseTool
 from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
-from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
+from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._types.resource import ExpirableResource, safe_on_delete
-from yandex_cloud_ml_sdk._utils.coerce import coerce_tuple
+from yandex_cloud_ml_sdk._types.schemas import ResponseType
+from yandex_cloud_ml_sdk._utils.proto import proto_to_dict
 from yandex_cloud_ml_sdk._utils.sync import run_sync_generator_impl, run_sync_impl
 
 from .prompt_truncation_options import PromptTruncationOptions, PromptTruncationStrategyType
-from .utils import get_completion_options
 
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
@@ -39,6 +38,7 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
     instruction: str | None
     prompt_truncation_options: PromptTruncationOptions
     tools: tuple[BaseTool, ...]
+    response_format: ResponseType | None
 
     @property
     def max_prompt_tokens(self) -> int | None:
@@ -47,6 +47,18 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
     @classmethod
     def _kwargs_from_message(cls, proto: ProtoAssistant, sdk: BaseSDK) -> dict[str, Any]:  # type: ignore[override]
         kwargs = super()._kwargs_from_message(proto, sdk=sdk)
+
+        if proto.HasField('response_format'):
+            response_format = proto.response_format
+            if response_format.HasField("json_schema"):
+                kwargs['response_format'] = {
+                    'json_schema': proto_to_dict(response_format.json_schema.schema)
+                }
+            elif response_format.HasField('json_object'):
+                if response_format.json_object:
+                    kwargs['response_format'] = 'json'
+            else:
+                raise RuntimeError(f'Unknown {response_format=}, try to upgrade yandex-cloud-ml-sdk')
 
         model = sdk.models.completions(proto.model_uri)
         completion_options = proto.completion_options
@@ -84,55 +96,36 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
         ttl_days: UndefinedOr[int] = UNDEFINED,
         tools: UndefinedOr[Iterable[BaseTool]] = UNDEFINED,
         expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
+        response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> Self:
         # pylint: disable=too-many-locals
-        expiration_config = ExpirationConfig.coerce(
-            ttl_days=ttl_days,
-            expiration_policy=expiration_policy
-        )
-
-        model_uri: UndefinedOr[str] | None = UNDEFINED
-
-        tools_: tuple[BaseTool, ...] = ()
-        if is_defined(tools):
-            # NB: mypy doesn't love abstract class used as TypeVar substitution here
-            tools_ = coerce_tuple(tools, BaseTool)  # type: ignore[type-abstract]
-
-        if is_defined(model):
-            if isinstance(model, str):
-                model_uri = self._sdk.models.completions(model).uri
-            elif isinstance(model, BaseGPTModel):
-                model_uri = model.uri
-                if not is_defined(temperature) and model.config.temperature is not None:
-                    temperature = model.config.temperature
-                if not is_defined(max_tokens) and model.config.max_tokens is not None:
-                    max_tokens = model.config.max_tokens
-            else:
-                raise TypeError('model argument must be str, GPTModel object either undefined')
-
         prompt_truncation_options = PromptTruncationOptions._coerce(
             max_prompt_tokens=max_prompt_tokens,
             strategy=prompt_truncation_strategy
         )
-        proto_prompt_trunction_options = prompt_truncation_options._to_proto()
+
+        request_kwargs = self._sdk.assistants._make_request_kwargs(
+            model=model,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            instruction=instruction,
+            max_prompt_tokens=max_prompt_tokens,
+            prompt_truncation_strategy=prompt_truncation_strategy,
+            name=name,
+            description=description,
+            labels=labels,
+            ttl_days=ttl_days,
+            tools=tools,
+            expiration_policy=expiration_policy,
+            response_format=response_format
+        )
 
         request = UpdateAssistantRequest(
             assistant_id=self.id,
-            name=get_defined_value(name, ''),
-            description=get_defined_value(description, ''),
-            labels=get_defined_value(labels, {}),
-            instruction=get_defined_value(instruction, ''),
-            expiration_config=expiration_config.to_proto(),
-            prompt_truncation_options=proto_prompt_trunction_options,
-            completion_options=get_completion_options(
-                temperature=temperature,
-                max_tokens=max_tokens,
-            ),
-            tools=[tool._to_proto(ProtoAssistantsTool) for tool in tools_]
+            **request_kwargs,
         )
-        if model_uri and is_defined(model_uri):
-            request.model_uri = model_uri
+        model_uri = request_kwargs.get('model_uri', UNDEFINED)
 
         self._fill_update_mask(
             request.update_mask,
@@ -147,6 +140,7 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
                 'completion_options.temperature': temperature,
                 'completion_options.max_tokens': max_tokens,
                 'tools': tools,
+                'response_format': response_format,
             } | prompt_truncation_options._get_update_paths()
         )
 
@@ -226,6 +220,7 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
         custom_max_tokens: UndefinedOr[int] = UNDEFINED,
         custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
         custom_prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
+        custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> RunTypeT:
         return await self._sdk.runs._create(
@@ -236,6 +231,7 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
             custom_max_tokens=custom_max_tokens,
             custom_max_prompt_tokens=custom_max_prompt_tokens,
             custom_prompt_truncation_strategy=custom_prompt_truncation_strategy,
+            custom_response_format=custom_response_format,
             timeout=timeout,
         )
 
@@ -247,6 +243,7 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
         custom_max_tokens: UndefinedOr[int] = UNDEFINED,
         custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
         custom_prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
+        custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> RunTypeT:
         return await self._run_impl(
@@ -256,6 +253,7 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
             custom_max_tokens=custom_max_tokens,
             custom_max_prompt_tokens=custom_max_prompt_tokens,
             custom_prompt_truncation_strategy=custom_prompt_truncation_strategy,
+            custom_response_format=custom_response_format,
             timeout=timeout,
         )
 
@@ -267,6 +265,7 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
         custom_max_tokens: UndefinedOr[int] = UNDEFINED,
         custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
         custom_prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
+        custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> RunTypeT:
         return await self._run_impl(
@@ -276,6 +275,7 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
             custom_max_tokens=custom_max_tokens,
             custom_max_prompt_tokens=custom_max_prompt_tokens,
             custom_prompt_truncation_strategy=custom_prompt_truncation_strategy,
+            custom_response_format=custom_response_format,
             timeout=timeout,
         )
 
@@ -316,6 +316,7 @@ class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
         ttl_days: UndefinedOr[int] = UNDEFINED,
         tools: UndefinedOr[Iterable[BaseTool]] = UNDEFINED,
         expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
+        response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> Self:
         return await self._update(
@@ -331,6 +332,7 @@ class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
             ttl_days=ttl_days,
             tools=tools,
             expiration_policy=expiration_policy,
+            response_format=response_format,
             timeout=timeout
         )
 
@@ -362,6 +364,7 @@ class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
         custom_max_tokens: UndefinedOr[int] = UNDEFINED,
         custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
         custom_prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
+        custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> AsyncRun:
         return await self._run(
@@ -370,6 +373,7 @@ class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
             custom_max_tokens=custom_max_tokens,
             custom_max_prompt_tokens=custom_max_prompt_tokens,
             custom_prompt_truncation_strategy=custom_prompt_truncation_strategy,
+            custom_response_format=custom_response_format,
             timeout=timeout
         )
 
@@ -381,6 +385,7 @@ class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
         custom_max_tokens: UndefinedOr[int] = UNDEFINED,
         custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
         custom_prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
+        custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> AsyncRun:
         return await self._run_stream(
@@ -389,6 +394,7 @@ class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
             custom_max_tokens=custom_max_tokens,
             custom_max_prompt_tokens=custom_max_prompt_tokens,
             custom_prompt_truncation_strategy=custom_prompt_truncation_strategy,
+            custom_response_format=custom_response_format,
             timeout=timeout
         )
 
@@ -409,6 +415,7 @@ class Assistant(ReadOnlyAssistant[Run, Thread]):
         ttl_days: UndefinedOr[int] = UNDEFINED,
         tools: UndefinedOr[Iterable[BaseTool]] = UNDEFINED,
         expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
+        response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> Self:
         return run_sync_impl(self._update(
@@ -424,6 +431,7 @@ class Assistant(ReadOnlyAssistant[Run, Thread]):
             ttl_days=ttl_days,
             tools=tools,
             expiration_policy=expiration_policy,
+            response_format=response_format,
             timeout=timeout
         ), self._sdk)
 
@@ -457,6 +465,7 @@ class Assistant(ReadOnlyAssistant[Run, Thread]):
         custom_max_tokens: UndefinedOr[int] = UNDEFINED,
         custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
         custom_prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
+        custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> Run:
         return run_sync_impl(self._run(
@@ -465,6 +474,7 @@ class Assistant(ReadOnlyAssistant[Run, Thread]):
             custom_max_tokens=custom_max_tokens,
             custom_max_prompt_tokens=custom_max_prompt_tokens,
             custom_prompt_truncation_strategy=custom_prompt_truncation_strategy,
+            custom_response_format=custom_response_format,
             timeout=timeout
         ), self._sdk)
 
@@ -476,6 +486,7 @@ class Assistant(ReadOnlyAssistant[Run, Thread]):
         custom_max_tokens: UndefinedOr[int] = UNDEFINED,
         custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
         custom_prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
+        custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> Run:
         return run_sync_impl(self._run_stream(
@@ -484,6 +495,7 @@ class Assistant(ReadOnlyAssistant[Run, Thread]):
             custom_max_tokens=custom_max_tokens,
             custom_max_prompt_tokens=custom_max_prompt_tokens,
             custom_prompt_truncation_strategy=custom_prompt_truncation_strategy,
+            custom_response_format=custom_response_format,
             timeout=timeout
         ), self._sdk)
 
