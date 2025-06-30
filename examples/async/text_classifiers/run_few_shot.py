@@ -9,7 +9,7 @@ from yandex_cloud_ml_sdk import AsyncYCloudML
 
 
 async def main() -> None:
-    sdk = AsyncYCloudML(folder_id='b1ghsjum2v37c2un8h64')
+    sdk = AsyncYCloudML(folder_id='yc.fomo.storage.prod.service')
     sdk.setup_default_logging()
 
     model = sdk.models.text_classifiers("yandexgpt").configure(
