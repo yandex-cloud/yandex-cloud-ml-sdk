@@ -7,7 +7,7 @@ import tempfile
 from collections.abc import AsyncIterator, Iterator
 from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Iterable, TypeVar
+from typing import TYPE_CHECKING, Any, Final, Iterable, TypeVar
 
 import aiofiles
 import httpx
@@ -37,7 +37,7 @@ if TYPE_CHECKING:
 logger = get_logger(__name__)
 
 DEFAULT_CHUNK_SIZE = 100 * 1024 ** 2
-
+DEFAULT_MAX_PARALLEL_DOWNLOADS: Final[int] = 16 # maximum number of files open for writing during download
 
 @dataclasses.dataclass(frozen=True)
 class ValidationErrorInfo:
@@ -152,7 +152,7 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
         download_path: PathLike,
         timeout: float = 60,
         exist_ok: bool = False,
-        max_parallel_downloads: int = 10
+        max_parallel_downloads: int = DEFAULT_MAX_PARALLEL_DOWNLOADS
     ) -> tuple[Path, ...]:
         logger.debug("Downloading dataset %s", self.id)
 
@@ -167,7 +167,7 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
             base_path=base_path,
             exist_ok=exist_ok,
             timeout=timeout,
-            max_parallel_downloads = max_parallel_downloads,
+            max_parallel_downloads=max_parallel_downloads,
         ), timeout)
 
     async def _read(
@@ -180,13 +180,13 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
 
         urls = await self._get_download_urls(timeout=timeout)
 
-        def key_comparator(item) -> tuple[int, int | str]:
-            k, _ = item
-            k = Path(k).stem
-            try:
-                return 0, int(k)
-            except (ValueError, TypeError):
-                return 1, k  # Non-numeric keys come after numeric keys
+        def key_comparator(item: tuple[str, str]) -> tuple[int, int | str]:
+            key_, _ = item
+            key_ = Path(key_).stem
+            if key_.isdigit():
+                return 0, int(key_)
+            else:
+                return 1, key_ # Non-numeric keys come after numeric keys
 
         sorted_urls = sorted(urls, key=key_comparator)
 
@@ -210,11 +210,11 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource):
                         path.unlink()
 
     async def __download_impl(
-            self,
-            base_path: Path,
-            exist_ok: bool,
-            timeout: float,
-            max_parallel_downloads: int = 10
+        self,
+        base_path: Path,
+        exist_ok: bool,
+        timeout: float,
+        max_parallel_downloads: int = DEFAULT_MAX_PARALLEL_DOWNLOADS
     ) -> tuple[Path, ...]:
         urls = await self._get_download_urls(timeout=timeout)
 
@@ -418,7 +418,7 @@ class AsyncDataset(BaseDataset):
         download_path: PathLike,
         timeout: float = 60,
         exist_ok: bool = False,
-        max_parallel_downloads: int = 10,
+        max_parallel_downloads: int = DEFAULT_MAX_PARALLEL_DOWNLOADS,
     ) -> tuple[Path, ...]:
         return await self._download(
             download_path=download_path,
