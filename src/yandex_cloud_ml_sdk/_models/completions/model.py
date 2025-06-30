@@ -27,7 +27,7 @@ from yandex_cloud_ml_sdk._types.model import (
     ModelAsyncMixin, ModelSyncMixin, ModelSyncStreamMixin, ModelTuneMixin, OperationTypeT
 )
 from yandex_cloud_ml_sdk._types.operation import AsyncOperation, Operation
-from yandex_cloud_ml_sdk._types.schemas import ResponseType, schema_from_response_format
+from yandex_cloud_ml_sdk._types.schemas import ResponseType, make_response_format_kwargs
 from yandex_cloud_ml_sdk._types.tuning.datasets import TuningDatasetsType
 from yandex_cloud_ml_sdk._types.tuning.optimizers import BaseOptimizer
 from yandex_cloud_ml_sdk._types.tuning.schedulers import BaseScheduler
@@ -117,17 +117,9 @@ class BaseGPTModel(
         messages: MessageInputType,
         stream: bool | None,
     ) -> CompletionRequest:
-        response_format_kwargs: dict[str, Any] = {}
-
         c = self._config
 
-        if c.response_format is not None:
-            schema = schema_from_response_format(c.response_format)
-            if isinstance(schema, str):
-                response_format_kwargs['json_object'] = True
-            else:
-                assert isinstance(schema, dict)
-                response_format_kwargs['json_schema'] = {'schema': schema}
+        response_format_kwargs = make_response_format_kwargs(c.response_format)
 
         tools: tuple[BaseTool, ...] = ()
         if c.tools is not None:
@@ -186,7 +178,7 @@ class BaseGPTModel(
         self,
         messages: MessageInputType,
         *,
-        timeout=180,
+        timeout=60,
     ) -> GPTModelResult[ToolCallTypeT]:
         async for result in self._run_sync_impl(
             messages=messages,
@@ -203,7 +195,7 @@ class BaseGPTModel(
         self,
         messages: MessageInputType,
         *,
-        timeout=180,
+        timeout=60,
     ) -> AsyncIterator[GPTModelResult[ToolCallTypeT]]:
         async for result in self._run_sync_impl(
             messages=messages,
@@ -277,7 +269,7 @@ class AsyncGPTModel(
         self,
         messages: MessageInputType,
         *,
-        timeout=180,
+        timeout=60,
     ) -> GPTModelResult[AsyncToolCall]:
         return await self._run(
             messages=messages,
@@ -288,7 +280,7 @@ class AsyncGPTModel(
         self,
         messages: MessageInputType,
         *,
-        timeout=180,
+        timeout=60,
     ) -> AsyncIterator[GPTModelResult[AsyncToolCall]]:
         async for result in self._run_stream(
             messages=messages,
@@ -422,7 +414,7 @@ class GPTModel(
         self,
         messages: MessageInputType,
         *,
-        timeout=180,
+        timeout=60,
     ) -> GPTModelResult[ToolCall]:
         return self.__run(
             messages=messages,
@@ -433,7 +425,7 @@ class GPTModel(
         self,
         messages: MessageInputType,
         *,
-        timeout=180,
+        timeout=60,
     ) -> Iterator[GPTModelResult[ToolCall]]:
         yield from self.__run_stream(
             messages=messages,
