@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import TYPE_CHECKING, Generic, Sequence, TypeVar, cast, overload
 
 from typing_extensions import Self
