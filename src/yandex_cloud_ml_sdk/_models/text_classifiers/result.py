@@ -28,9 +28,8 @@ TextClassificationResponseT = TypeVar(
 class TextClassifiersModelResultBase(BaseResult, Sequence, Generic[TextClassificationResponseT]):
     predictions: tuple[TextClassificationLabel, ...]
     model_version: str
-    input_tokens: int = field(
-        metadata={'doc': "Number of input tokens provided to the model."}
-    )
+    #: doc Number of input tokens provided to the model.
+    input_tokens: int
 
     @classmethod
     def _from_proto(cls, *, proto: ProtoMessage, sdk: BaseSDK) -> Self:  # pylint: disable=unused-argument

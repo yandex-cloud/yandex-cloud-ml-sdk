@@ -28,14 +28,14 @@ async def test_run_few_shot(async_sdk):
         labels=['foo', 'bar'],
     )
 
-    result = await model.run('hello')
+    result = await model.run('foo')
 
     assert len(result) == len(result.predictions) == 2
     assert result[0]['label'] == result[0].label == 'foo'
-    assert result[0].confidence < 0.5
+    assert result[0].confidence > 0.5
 
     assert result[1]['label'] == result[1].label == 'bar'
-    assert result[1].confidence > 0.5
+    assert result[1].confidence < 0.5
 
     model = model.configure(
         samples=[

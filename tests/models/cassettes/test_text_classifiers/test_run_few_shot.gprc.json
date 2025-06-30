@@ -465,7 +465,7 @@
                         "foo",
                         "bar"
                     ],
-                    "text": "hello"
+                    "text": "foo"
                 }
             },
             "response": {
@@ -475,11 +475,11 @@
                     "predictions": [
                         {
                             "label": "foo",
-                            "confidence": 0.04603385848450005
+                            "confidence": 0.9999987905777389
                         },
                         {
                             "label": "bar",
-                            "confidence": 0.9539651875503126
+                            "confidence": 2.0942347067607549e-07
                         }
                     ],
                     "modelVersion": "23.10.2024",
