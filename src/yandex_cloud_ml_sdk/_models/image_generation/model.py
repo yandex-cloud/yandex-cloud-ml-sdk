@@ -18,8 +18,8 @@ from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr
 from yandex_cloud_ml_sdk._types.model import ModelAsyncMixin, OperationTypeT
 from yandex_cloud_ml_sdk._types.operation import AsyncOperation, Operation
-from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from .config import ImageGenerationModelConfig
 from .message import ImageMessageInputType, messages_to_proto
@@ -51,7 +51,6 @@ class BaseImageGenerationModel(
         :param width_ratio: the width ratio for the generated image.
         :param height_ratio: the height ratio for the generated image.
         :param mime_type: the MIME type of the generated image.
-
         """
         return super().configure(
             seed=seed,
@@ -111,7 +110,6 @@ class AsyncImageGenerationModel(BaseImageGenerationModel[AsyncOperation[ImageGen
         :param messages: the input messages for image generation.
         :param timeout: the timeout for the operation in seconds.
             Defaults to 60 seconds.
-
         """
         return await self._run_deferred(
             messages=messages,
@@ -128,7 +126,6 @@ class AsyncImageGenerationModel(BaseImageGenerationModel[AsyncOperation[ImageGen
         :param operation_id: the ID of the operation to attach to.
         :param timeout: the timeout for the operation in seconds.
             Defaults to 60 seconds.
-
         """
         return await self._attach_deferred(operation_id=operation_id, timeout=timeout)
 
