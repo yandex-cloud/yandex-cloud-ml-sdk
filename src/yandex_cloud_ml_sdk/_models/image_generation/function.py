@@ -10,14 +10,14 @@ from .model import AsyncImageGenerationModel, ImageGenerationModel
 
 class BaseImageGeneration(BaseModelFunction[ModelTypeT]):
     """
-    Base class for image generation models.
+    A class for image generation models.
 
     It provides the functionality to call an image generation model by constructing
     the appropriate URI based on the provided model name and version.
 
     Returns a model's object through which requests to the backend are made.
 
-        >>> model = sdk.models.image_generation('yandex-art') #this is how the model is created
+    >>> model = sdk.models.image_generation('yandex-art')  # this is how the model is created
     """
     @override
     def __call__(
