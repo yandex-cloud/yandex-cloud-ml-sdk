@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 
 @dataclass(frozen=True, repr=False)
 class ImageGenerationModelResult(BaseResult):
-    """This class represents the result of an image generation model."""
+    """This class represents the result of an image generation model inference."""
     #: the generated image in bytes
     image_bytes: bytes
     #: the version of the model used for generation
@@ -23,7 +23,6 @@ class ImageGenerationModelResult(BaseResult):
 
     @classmethod
     def _from_proto(cls, *, proto: ProtoMessage, sdk: BaseSDK) -> Self:  # pylint: disable=unused-argument
-        """:meta private:"""
         proto = cast(ImageGenerationResponse, proto)
         return cls(
             image_bytes=proto.image,
@@ -43,6 +42,5 @@ class ImageGenerationModelResult(BaseResult):
         return None
 
     def __repr__(self) -> str:
-        """:meta private:"""
         size = len(self.image_bytes)
         return f'{self.__class__.__name__}(model_version={self.model_version!r}, image_bytes=<{size} bytes>)'
