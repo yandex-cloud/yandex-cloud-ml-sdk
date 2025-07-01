@@ -18,8 +18,8 @@ from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr
 from yandex_cloud_ml_sdk._types.model import ModelAsyncMixin, OperationTypeT
 from yandex_cloud_ml_sdk._types.operation import AsyncOperation, Operation
-from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from .config import ImageGenerationModelConfig
 from .message import ImageMessageInputType, messages_to_proto
