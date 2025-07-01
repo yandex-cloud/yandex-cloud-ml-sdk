@@ -29,7 +29,7 @@ from .result import ImageGenerationModelResult
 class BaseImageGenerationModel(
     ModelAsyncMixin[ImageGenerationModelConfig, ImageGenerationModelResult, OperationTypeT],
 ):
-    """A class for image generation models."""
+    """A class of the one, concrete model. This model encapsulates the URI and configuration."""
     _config_type = ImageGenerationModelConfig
     _result_type = ImageGenerationModelResult
     _operation_type: type[OperationTypeT]
@@ -51,6 +51,7 @@ class BaseImageGenerationModel(
         :param width_ratio: the width ratio for the generated image.
         :param height_ratio: the height ratio for the generated image.
         :param mime_type: the MIME type of the generated image.
+            Read more on what MIME types exist in `the documentation <https://yandex.cloud/docs/foundation-models/image-generation/api-ref/ImageGenerationAsync/generate>`_.
         """
         return super().configure(
             seed=seed,
@@ -108,7 +109,7 @@ class AsyncImageGenerationModel(BaseImageGenerationModel[AsyncOperation[ImageGen
         and returns an operation representing the ongoing image generation process.
 
         :param messages: the input messages for image generation.
-        :param timeout: the timeout for the operation in seconds.
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
         """
         return await self._run_deferred(
@@ -124,7 +125,7 @@ class AsyncImageGenerationModel(BaseImageGenerationModel[AsyncOperation[ImageGen
         """Attaches to an ongoing image generation operation.
 
         :param operation_id: the ID of the operation to attach to.
-        :param timeout: the timeout for the operation in seconds.
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
         """
         return await self._attach_deferred(operation_id=operation_id, timeout=timeout)
