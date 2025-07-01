@@ -13,7 +13,7 @@ from yandex_cloud_ml_sdk._utils.coerce import coerce_tuple
 @dataclass(frozen=True)
 class ImageMessage:
     """
-    This class represents an image message with optional weight.
+    This class represents an image message with optional weight field.
     """
     #: the text content of the image message
     text: str
@@ -40,16 +40,13 @@ class AnyMessage(Protocol):
 
 
 ImageMessageType = Union[ImageMessage, ImageMessageDict, AnyMessage, str]
+"""Type alias for different types of image messages that can be processed."""
 ImageMessageInputType = Union[ImageMessageType, Iterable[ImageMessageType]]
+"""Type alias for input types accepted by the `messages_to_proto` function."""
 
 
 def messages_to_proto(messages: ImageMessageInputType) -> list[ProtoMessage]:
-    """
-    Converts a collection of image messages into a list of ProtoMessage objects.
-    If any message in the input is not of a valid type, will raise an error.
-
-    :param messages: a single image message or an iterable of image messages.
-    """
+    """:meta private:"""
     msgs: tuple[ImageMessageType] = coerce_tuple(  # type: ignore[assignment]
         messages,
         (dict, str, ImageMessage, AnyMessage)  # type: ignore[arg-type]
