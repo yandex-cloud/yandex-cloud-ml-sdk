@@ -15,7 +15,10 @@ if TYPE_CHECKING:
 
 @dataclass(frozen=True, repr=False)
 class ImageGenerationModelResult(BaseResult):
+    """This class represents the result of an image generation model inference."""
+    #: the generated image in bytes
     image_bytes: bytes
+    #: the version of the model used for generation
     model_version: str
 
     @classmethod
@@ -27,6 +30,7 @@ class ImageGenerationModelResult(BaseResult):
         )
 
     def _repr_jpeg_(self) -> bytes | None:
+        """:meta public:"""
         # NB: currently model could return only jpeg,
         # but for future I will put this check here to
         # remember we will need to make a _repr_png_ and such

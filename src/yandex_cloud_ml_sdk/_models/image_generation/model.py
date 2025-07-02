@@ -18,6 +18,7 @@ from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr
 from yandex_cloud_ml_sdk._types.model import ModelAsyncMixin, OperationTypeT
 from yandex_cloud_ml_sdk._types.operation import AsyncOperation, Operation
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
 from .config import ImageGenerationModelConfig
@@ -28,6 +29,7 @@ from .result import ImageGenerationModelResult
 class BaseImageGenerationModel(
     ModelAsyncMixin[ImageGenerationModelConfig, ImageGenerationModelResult, OperationTypeT],
 ):
+    """A class of the one, concrete model. This model encapsulates the URI and configuration."""
     _config_type = ImageGenerationModelConfig
     _result_type = ImageGenerationModelResult
     _operation_type: type[OperationTypeT]
@@ -41,6 +43,16 @@ class BaseImageGenerationModel(
         height_ratio: UndefinedOr[int] = UNDEFINED,
         mime_type: UndefinedOr[str] = UNDEFINED,
     ) -> Self:
+        """
+        Configures the image generation model with specified parameters and
+        returns the configured instance of the model.
+
+        :param seed: a random seed for generation.
+        :param width_ratio: the width ratio for the generated image.
+        :param height_ratio: the height ratio for the generated image.
+        :param mime_type: the MIME type of the generated image.
+            Read more on what MIME types exist in `the documentation <https://yandex.cloud/docs/foundation-models/image-generation/api-ref/ImageGenerationAsync/generate>`_.
+        """
         return super().configure(
             seed=seed,
             width_ratio=width_ratio,
@@ -83,6 +95,7 @@ class BaseImageGenerationModel(
             )
 
 
+@doc_from(BaseImageGenerationModel)
 class AsyncImageGenerationModel(BaseImageGenerationModel[AsyncOperation[ImageGenerationModelResult]]):
     _operation_type = AsyncOperation[ImageGenerationModelResult]
 
@@ -92,6 +105,13 @@ class AsyncImageGenerationModel(BaseImageGenerationModel[AsyncOperation[ImageGen
         *,
         timeout: float = 60,
     ) -> AsyncOperation[ImageGenerationModelResult]:
+        """Executes the image generation operation asynchronously
+        and returns an operation representing the ongoing image generation process.
+
+        :param messages: the input messages for image generation.
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         return await self._run_deferred(
             messages=messages,
             timeout=timeout
@@ -102,14 +122,22 @@ class AsyncImageGenerationModel(BaseImageGenerationModel[AsyncOperation[ImageGen
         operation_id: str,
         timeout: float = 60,
     ) -> AsyncOperation[ImageGenerationModelResult]:
+        """Attaches to an ongoing image generation operation.
+
+        :param operation_id: the ID of the operation to attach to.
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         return await self._attach_deferred(operation_id=operation_id, timeout=timeout)
 
 
+@doc_from(BaseImageGenerationModel)
 class ImageGenerationModel(BaseImageGenerationModel[Operation[ImageGenerationModelResult]]):
     _operation_type = Operation[ImageGenerationModelResult]
     __run_deferred = run_sync(BaseImageGenerationModel[Operation[ImageGenerationModelResult]]._run_deferred)
     __attach_deferred = run_sync(BaseImageGenerationModel[Operation[ImageGenerationModelResult]]._attach_deferred)
 
+    @doc_from(AsyncImageGenerationModel.run_deferred)
     def run_deferred(
         self,
         messages: ImageMessageInputType,
@@ -122,6 +150,7 @@ class ImageGenerationModel(BaseImageGenerationModel[Operation[ImageGenerationMod
             timeout=timeout
         )
 
+    @doc_from(AsyncImageGenerationModel.attach_deferred)
     def attach_deferred(self, operation_id: str, timeout: float = 60) -> Operation[ImageGenerationModelResult]:
         return cast(
             Operation[ImageGenerationModelResult],
