@@ -30,7 +30,7 @@ class ImageGenerationModelResult(BaseResult):
         )
 
     def _repr_jpeg_(self) -> bytes | None:
-        """:meta private:"""
+        """:meta public:"""
         # NB: currently model could return only jpeg,
         # but for future I will put this check here to
         # remember we will need to make a _repr_png_ and such
