@@ -38,7 +38,7 @@ class AnyMessage(Protocol):
     """
     text: str
 
-#: type alias for different types of image messages that can be processed
+#: type alias for different types of messages that can be processed by image generation models
 ImageMessageType = Union[ImageMessage, ImageMessageDict, AnyMessage, str]
 #: type alias for input types accepted by the `messages_to_proto` function
 ImageMessageInputType = Union[ImageMessageType, Iterable[ImageMessageType]]
