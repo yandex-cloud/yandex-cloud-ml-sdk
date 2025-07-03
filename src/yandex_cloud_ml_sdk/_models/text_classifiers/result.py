@@ -28,7 +28,7 @@ TextClassificationResponseT = TypeVar(
 class TextClassifiersModelResultBase(BaseResult, Sequence, Generic[TextClassificationResponseT]):
     predictions: tuple[TextClassificationLabel, ...]
     model_version: str
-    #: doc Number of input tokens provided to the model.
+    #: Number of input tokens provided to the model.
     input_tokens: int
 
     @classmethod

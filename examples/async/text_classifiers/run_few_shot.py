@@ -47,7 +47,7 @@ async def main() -> None:
     for prediction in result:
         print(prediction)
 
-    print(f'input_tokens= {result.input_tokens}')
+    print("f{result.input_tokens=}")
 
 
 if __name__ == '__main__':
