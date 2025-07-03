@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing_extensions import override
 
 from yandex_cloud_ml_sdk._types.function import BaseModelFunction, ModelTypeT
-
 from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from .model import AsyncTextEmbeddingsModel, TextEmbeddingsModel
