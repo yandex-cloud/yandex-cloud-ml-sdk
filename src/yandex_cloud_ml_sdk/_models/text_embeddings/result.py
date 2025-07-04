@@ -18,7 +18,7 @@ class TextEmbeddingsModelResult(BaseResult, Sequence):
     """
     Represents the result of a text embeddings model.
 
-    It holds the embedding vector, the number of tokens, and the 
+    It holds the embedding vector, the number of tokens, and the
     version of the model that is used to generate embeggings.
     """
     #: the embedding vector as a tuple of floats
