@@ -15,6 +15,11 @@ ProtoParamsName = Literal['text_embedding_pair_params', 'text_embedding_triplet_
 
 @dataclass(frozen=True)
 class TextEmbeddingsModelTuneParams(BaseTuningParams):
+    """A class with parameters for tuning text embeddings models.
+
+    It holds the tuning parameters that utilize text embeddings,
+    specifically for pair or triplet tuning types.
+    """
     @property
     def _proto_tuning_params_type(
         self
@@ -55,9 +60,15 @@ class TextEmbeddingsModelTuneParams(BaseTuningParams):
             result['embedding_dims'] = tuple(dims)
         return result
 
+    #: the type of tuning to be applied ('pair' or 'triplet')
     embeddings_tune_type: EmbeddingsTuneType | None = None
+    #: random seed for reproducibility
     seed: int | None = None
+    #: a learning rate for the tuning process
     lr: float | None = None
+    #: a number of samples to use for tuning
     n_samples: int | None = None
+    #: any additional arguments required for tuning
     additional_arguments: str | None = None
+    #: the dimensions of the embeddings
     dimensions: Sequence[int] | None = None
