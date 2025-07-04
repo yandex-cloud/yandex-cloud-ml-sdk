@@ -15,8 +15,17 @@ if TYPE_CHECKING:
 
 @dataclass(frozen=True)
 class TextEmbeddingsModelResult(BaseResult, Sequence):
+    """
+    Represents the result of a text embeddings model.
+
+    It holds the embedding vector, the number of tokens, and the 
+    version of the model that is used to generate embeggings.
+    """
+    #: the embedding vector as a tuple of floats
     embedding: tuple[float, ...]
+    #: the number of tokens processed by the model
     num_tokens: int
+    #: the version of the model used for generating embeddings
     model_version: str
 
     @classmethod
