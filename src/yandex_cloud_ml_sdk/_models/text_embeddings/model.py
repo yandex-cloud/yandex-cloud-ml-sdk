@@ -17,6 +17,7 @@ from yandex_cloud_ml_sdk._types.tuning.datasets import TuningDatasetsType
 from yandex_cloud_ml_sdk._types.tuning.optimizers import BaseOptimizer
 from yandex_cloud_ml_sdk._types.tuning.schedulers import BaseScheduler
 from yandex_cloud_ml_sdk._types.tuning.tuning_types import BaseTuningType
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
 from .config import TextEmbeddingsModelConfig
@@ -33,15 +34,27 @@ class BaseTextEmbeddingsModel(
         TuningTaskTypeT
     ],
 ):
+    """
+    A class for text embeddings models, providing configuration,
+    request creation, and asynchronous execution functionalities.
+    """
+    #: the configuration type for the model
     _config_type = TextEmbeddingsModelConfig
+    #: the result type returned by the model
     _result_type = TextEmbeddingsModelResult
+    #: the tuning parameters type for the model
     _tuning_params_type = TextEmbeddingsModelTuneParams
+    #: the type of tuning operation
     _tuning_operation_type: type[TuningTaskTypeT]
 
     # pylint: disable=useless-parent-delegation,arguments-differ
     def configure(  # type: ignore[override]
         self,
     ) -> Self:
+        """
+        This method calls the parent class's configure method and
+        returns the configured model instance.
+        """
         return super().configure()
 
     def _make_request(
@@ -74,7 +87,7 @@ class BaseTextEmbeddingsModel(
             )
             return TextEmbeddingsModelResult._from_proto(proto=response, sdk=self._sdk)
 
-
+@doc_from(BaseTextEmbeddingsModel)
 class AsyncTextEmbeddingsModel(BaseTextEmbeddingsModel):
     _tune_operation_type = AsyncTuningTask
 
@@ -84,6 +97,12 @@ class AsyncTextEmbeddingsModel(BaseTextEmbeddingsModel):
         *,
         timeout=60,
     ) -> TextEmbeddingsModelResult:
+        """Run the model to generate text embeddings.
+
+        :param text: the input text for which embeddings are to be generated.
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         return await self._run(
             text=text,
             timeout=timeout
@@ -109,6 +128,25 @@ class AsyncTextEmbeddingsModel(BaseTextEmbeddingsModel):
         optimizer: UndefinedOr[BaseOptimizer] = UNDEFINED,
         timeout: float = 60,
     ) -> AsyncTuningTask['AsyncTextEmbeddingsModel']:
+        """Initiate a deferred tuning process for the model.
+
+        :param train_datasets: the datasets used for training of the model.
+        :param embeddings_tune_type: the type of tuning to be applied.
+        :param validation_datasets: the datasets used for validation of the model.
+        :param name: the name of the tuning task.
+        :param description: the description of the tuning task.
+        :param labels: labels for the tuning task.
+        :param seed: a random seed for reproducibility.
+        :param lr: a learning rate for tuning.
+        :param n_samples: a number of samples for tuning.
+        :param additional_arguments: additional arguments for tuning.
+        :param dimensions: dimensions for the embeddings.
+        :param tuning_type: a type of tuning to be applied.
+        :param scheduler: a scheduler for tuning.
+        :param optimizer: an optimizer for tuning.
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         return await self._tune_deferred(
             train_datasets=train_datasets,
             validation_datasets=validation_datasets,
@@ -149,6 +187,29 @@ class AsyncTextEmbeddingsModel(BaseTextEmbeddingsModel):
         poll_timeout: int = 72 * 60 * 60,
         poll_interval: float = 60,
     ) -> Self:
+        """Tune the model with the specified training datasets and parameters.
+
+        :param train_datasets: the datasets used for training of the model.
+        :param embeddings_tune_type: the type of tuning to be applied.
+        :param validation_datasets: the datasets used for validation of the model.
+        :param name: the name of the tuning task.
+        :param description: the description of the tuning task.
+        :param labels: labels for the tuning task.
+        :param seed: a random seed for reproducibility.
+        :param lr: a learning rate for tuning.
+        :param n_samples: a number of samples for tuning.
+        :param additional_arguments: additional arguments for tuning.
+        :param dimensions: dimensions for the embeddings.
+        :param tuning_type: a type of tuning to be applied.
+        :param scheduler: a scheduler for tuning.
+        :param optimizer: an optimizer for tuning.
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        :param poll_timeout: the maximum time to wait while polling for completion of the tuning task.
+            Defaults to 259200 seconds (72 hours).
+        :param poll_interval: the interval between polling attempts during the tuning process.
+            Defaults to 60 seconds.
+        """
         return await self._tune(
             train_datasets=train_datasets,
             validation_datasets=validation_datasets,
@@ -175,9 +236,16 @@ class AsyncTextEmbeddingsModel(BaseTextEmbeddingsModel):
         *,
         timeout: float = 60
     ) -> AsyncTuningTask['AsyncTextEmbeddingsModel']:
+        """Attach a deferred tuning task using its task ID.
+
+        :param task_id: the ID of the deferred tuning task to attach to.
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         return await self._attach_tune_deferred(task_id=task_id, timeout=timeout)
 
 
+@doc_from(BaseTextEmbeddingsModel)
 class TextEmbeddingsModel(BaseTextEmbeddingsModel):
     _tune_operation_type = TuningTask
     __run = run_sync(BaseTextEmbeddingsModel._run)
@@ -185,6 +253,7 @@ class TextEmbeddingsModel(BaseTextEmbeddingsModel):
     __tune = run_sync(BaseTextEmbeddingsModel._tune)
     __attach_tune_deferred = run_sync(BaseTextEmbeddingsModel._attach_tune_deferred)
 
+    @doc_from(AsyncTextEmbeddingsModel.run)
     def run(
         self,
         text: str,
@@ -197,6 +266,7 @@ class TextEmbeddingsModel(BaseTextEmbeddingsModel):
         )
 
     # pylint: disable=too-many-locals
+    @doc_from(AsyncTextEmbeddingsModel.tune_deferred)
     def tune_deferred(
         self,
         train_datasets: TuningDatasetsType,
@@ -236,6 +306,7 @@ class TextEmbeddingsModel(BaseTextEmbeddingsModel):
         return cast(TuningTask[TextEmbeddingsModel], result)
 
     # pylint: disable=too-many-locals
+    @doc_from(AsyncTextEmbeddingsModel.tune)
     def tune(
         self,
         train_datasets: TuningDatasetsType,
@@ -277,6 +348,7 @@ class TextEmbeddingsModel(BaseTextEmbeddingsModel):
             poll_interval=poll_interval,
         )
 
+    @doc_from(AsyncTextEmbeddingsModel.attach_tune_deferred)
     def attach_tune_deferred(self, task_id: str, *, timeout: float = 60) -> TuningTask[TextEmbeddingsModel]:
         return cast(
             TuningTask[TextEmbeddingsModel],
