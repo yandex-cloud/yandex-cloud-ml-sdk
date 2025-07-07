@@ -30,12 +30,14 @@ class BaseImageGeneration(BaseModelFunction[ModelTypeT]):
         Call the image generation model with the specified name and version.
 
         Constructs the URI for the model based on the provided model's name
-        and version. If the name contains '://', it is treated as a
-        complete URI. Otherwise, it constructs a URI using the folder ID
-        from the SDK.
+        and version. If the name contains ``://``, it is treated as a
+        complete URI. Otherwise, it looks up the model name in
+        the well-known names dictionary. But after this, in any case,
+        we construct a URI in the form ``emb://<folder_id>/<model>/<version>``.
 
-        :param model_name: the name of the image generation model.
-        :param model_version: the version of the model to use (default is 'latest').
+        :param model_name: the name or URI of the model to call.
+        :param model_version: the version of the model to use.
+            Defaults to 'latest'.
         """
         if '://' in model_name:
             uri = model_name
