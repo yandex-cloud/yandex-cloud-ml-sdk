@@ -32,14 +32,14 @@ class BaseTextEmbeddings(BaseModelFunction[ModelTypeT]):
         It returns an instance of the specified type of the model.
 
         This method constructs the URI for the model based on the provided
-        name and version. If the name contains '://', it is
+        name and version. If the name contains ``://``, it is
         treated as a full URI. Otherwise, it looks up the model name in
-        the well-known names dictionary.
+        the well-known names dictionary. But after this, in any case,
+        we construct a URI in the form ``emb://<folder_id>/<model>/<version>``. 
 
-        :param model_name: the name of the model to call.
+        :param model_name: the name or URI of the model to call.
         :param model_version: the version of the model to use.
             Defaults to 'latest'.
-
         """
         if '://' in model_name:
             uri = model_name
