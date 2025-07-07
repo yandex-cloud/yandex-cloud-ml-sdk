@@ -36,15 +36,11 @@ class BaseTextEmbeddingsModel(
 ):
     """
     A class for text embeddings models, providing configuration,
-    request creation, and asynchronous execution functionalities.
+    request creation, and execution functionalities.
     """
-    #: the configuration type for the model
     _config_type = TextEmbeddingsModelConfig
-    #: the result type returned by the model
     _result_type = TextEmbeddingsModelResult
-    #: the tuning parameters type for the model
     _tuning_params_type = TextEmbeddingsModelTuneParams
-    #: the type of tuning operation
     _tuning_operation_type: type[TuningTaskTypeT]
 
     # pylint: disable=useless-parent-delegation,arguments-differ
@@ -130,9 +126,9 @@ class AsyncTextEmbeddingsModel(BaseTextEmbeddingsModel):
     ) -> AsyncTuningTask['AsyncTextEmbeddingsModel']:
         """Initiate a deferred tuning process for the model.
 
-        :param train_datasets: the datasets used for training of the model.
-        :param embeddings_tune_type: the type of tuning to be applied.
-        :param validation_datasets: the datasets used for validation of the model.
+        :param train_datasets: the dataset objects and/or dataset ids used for training of the model.
+        :param embeddings_tune_type: the type of tuning to be applied (e.g. TuningTypeLora, TuningTypePromptTune).
+        :param validation_datasets: the dataset objects and/or dataset ids used for validation of the model.
         :param name: the name of the tuning task.
         :param description: the description of the tuning task.
         :param labels: labels for the tuning task.
@@ -189,9 +185,9 @@ class AsyncTextEmbeddingsModel(BaseTextEmbeddingsModel):
     ) -> Self:
         """Tune the model with the specified training datasets and parameters.
 
-        :param train_datasets: the datasets used for training of the model.
-        :param embeddings_tune_type: the type of tuning to be applied.
-        :param validation_datasets: the datasets used for validation of the model.
+        :param train_datasets: the dataset objects and/or dataset ids used for training of the model.
+        :param embeddings_tune_type: the type of tuning to be applied (e.g. TuningTypeLora, TuningTypePromptTune).
+        :param validation_datasets: the dataset objects and/or dataset ids used for validation of the model.
         :param name: the name of the tuning task.
         :param description: the description of the tuning task.
         :param labels: labels for the tuning task.
