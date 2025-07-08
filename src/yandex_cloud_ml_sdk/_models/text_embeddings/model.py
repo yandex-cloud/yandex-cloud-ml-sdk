@@ -127,7 +127,7 @@ class AsyncTextEmbeddingsModel(BaseTextEmbeddingsModel):
         """Initiate a deferred tuning process for the model.
 
         :param train_datasets: the dataset objects and/or dataset ids used for training of the model.
-        :param embeddings_tune_type: the type of tuning to be applied (e.g. TuningTypeLora, TuningTypePromptTune).
+        :param embeddings_tune_type: the type of tuning to be applied (e.g. pair or triplet).
         :param validation_datasets: the dataset objects and/or dataset ids used for validation of the model.
         :param name: the name of the tuning task.
         :param description: the description of the tuning task.
@@ -186,7 +186,7 @@ class AsyncTextEmbeddingsModel(BaseTextEmbeddingsModel):
         """Tune the model with the specified training datasets and parameters.
 
         :param train_datasets: the dataset objects and/or dataset ids used for training of the model.
-        :param embeddings_tune_type: the type of tuning to be applied (e.g. TuningTypeLora, TuningTypePromptTune).
+        :param embeddings_tune_type: the type of tuning to be applied (e.g. pair or triplet).
         :param validation_datasets: the dataset objects and/or dataset ids used for validation of the model.
         :param name: the name of the tuning task.
         :param description: the description of the tuning task.
