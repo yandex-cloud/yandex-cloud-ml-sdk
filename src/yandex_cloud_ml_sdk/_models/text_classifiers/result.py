@@ -10,7 +10,6 @@ from yandex.cloud.ai.foundation_models.v1.text_classification.text_classificatio
 )
 
 from yandex_cloud_ml_sdk._types.result import BaseResult, ProtoMessage
-from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from .types import TextClassificationLabel
 
