@@ -65,13 +65,13 @@ class TextClassifiersModelResultBase(BaseResult, Sequence, Generic[TextClassific
         return self.predictions[index]
 
 
-@dataclass(frozen=True)
 @doc_from(TextClassifiersModelResultBase)
+@dataclass(frozen=True)
 class TextClassifiersModelResult(TextClassifiersModelResultBase[TextClassificationResponse]):
     pass
 
 
-@dataclass(frozen=True)
 @doc_from(TextClassifiersModelResultBase)
+@dataclass(frozen=True)
 class FewShotTextClassifiersModelResult(TextClassifiersModelResultBase[FewShotTextClassificationResponse]):
     pass
