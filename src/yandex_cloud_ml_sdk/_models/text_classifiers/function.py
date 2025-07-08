@@ -23,11 +23,13 @@ class BaseTextClassifiers(BaseModelFunction[ModelTypeT]):
     ):
         """Call the text classification model.
 
-        Constructs the URI for the model and initializes it
-        and returns an instance of the model type initialized
-        with the SDK and URI.
+        Constructs the URI for the model based on the provided model's name
+        and version. If the name contains ``://``, it is treated as a
+        complete URI. Otherwise, it looks up the model name in
+        the well-known names dictionary. But after this, in any case,
+        we construct a URI in the form ``cls://<folder_id>/<model>/<version>``.
 
-        :param model_name: the name of the model to be used.
+        :param model_name: the name or URI of the model to call.
         :param model_version: the version of the model to be used.
             Defaults to 'latest'.
         """
