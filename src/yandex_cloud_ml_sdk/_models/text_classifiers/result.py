@@ -10,6 +10,7 @@ from yandex.cloud.ai.foundation_models.v1.text_classification.text_classificatio
 )
 
 from yandex_cloud_ml_sdk._types.result import BaseResult, ProtoMessage
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from .types import TextClassificationLabel
 
@@ -26,7 +27,12 @@ TextClassificationResponseT = TypeVar(
 
 @dataclass(frozen=True)
 class TextClassifiersModelResultBase(BaseResult, Sequence, Generic[TextClassificationResponseT]):
+    """A class for text classifiers model results.
+    It represents the common structure for the results returned by text classification models.
+    """
+    #: a tuple containing the predicted labels
     predictions: tuple[TextClassificationLabel, ...]
+    #: the version of the model used for prediction
     model_version: str
 
     @classmethod
@@ -60,10 +66,12 @@ class TextClassifiersModelResultBase(BaseResult, Sequence, Generic[TextClassific
 
 
 @dataclass(frozen=True)
+@doc_from(TextClassifiersModelResultBase)
 class TextClassifiersModelResult(TextClassifiersModelResultBase[TextClassificationResponse]):
     pass
 
 
 @dataclass(frozen=True)
+@doc_from(TextClassifiersModelResultBase)
 class FewShotTextClassifiersModelResult(TextClassifiersModelResultBase[FewShotTextClassificationResponse]):
     pass
