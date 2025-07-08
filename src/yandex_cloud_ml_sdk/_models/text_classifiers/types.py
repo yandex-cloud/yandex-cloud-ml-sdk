@@ -15,17 +15,12 @@ class TextClassificationLabel(Mapping):
     confidence: float
 
     def __getitem__(self, key):
-        """Retrieve the value associated with the given key.
-        If the key is not found in the label or confidence attributes will raise the error.
-        """
         return asdict(self)[key]
 
     def __iter__(self):
-        """Return an iterator over the items (key-value pairs) of the label."""
         return iter(asdict(self))
 
     def __len__(self):
-        """Return the number of items in the label."""
         return len(asdict(self))
 
 
