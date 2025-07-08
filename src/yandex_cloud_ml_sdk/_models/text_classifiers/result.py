@@ -64,13 +64,11 @@ class TextClassifiersModelResultBase(BaseResult, Sequence, Generic[TextClassific
     def __getitem__(self, index, /):
         return self.predictions[index]
 
-@doc_from(TextClassifiersModelResultBase)
 
 @dataclass(frozen=True)
 class TextClassifiersModelResult(TextClassifiersModelResultBase[TextClassificationResponse]):
     pass
 
-@doc_from(TextClassifiersModelResultBase)
 
 @dataclass(frozen=True)
 class FewShotTextClassifiersModelResult(TextClassifiersModelResultBase[FewShotTextClassificationResponse]):
