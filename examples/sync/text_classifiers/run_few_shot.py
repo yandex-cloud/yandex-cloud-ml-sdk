@@ -7,7 +7,7 @@ from yandex_cloud_ml_sdk import YCloudML
 
 
 def main() -> None:
-    sdk = YCloudML(folder_id='b1ghsjum2v37c2un8h64')
+    sdk = YCloudML(folder_id='yc.fomo.storage.prod.service')
     sdk.setup_default_logging()
 
     model = sdk.models.text_classifiers("yandexgpt").configure(
@@ -45,6 +45,7 @@ def main() -> None:
     for prediction in result:
         print(prediction)
 
+    print("f{result.input_tokens=}")
 
 if __name__ == '__main__':
     main()

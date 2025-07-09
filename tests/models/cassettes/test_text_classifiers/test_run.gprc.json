@@ -12,6 +12,14 @@
                 "message": {
                     "endpoints": [
                         {
+                            "id": "ai-assistants",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-files",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "ai-foundation-models",
                             "address": "llm.api.cloud.yandex.net:443"
                         },
@@ -72,6 +80,10 @@
                             "address": "backup.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "baremetal",
+                            "address": "baremetal.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "billing",
                             "address": "billing.api.cloud.yandex.net:443"
                         },
@@ -92,12 +104,36 @@
                             "address": "data.certificate-manager.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "certificate-manager-private-ca",
+                            "address": "private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager-private-ca-data",
+                            "address": "data.private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cic",
+                            "address": "cic.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloud-registry",
+                            "address": "registry.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloudapps",
+                            "address": "cloudapps.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "cloudbackup",
                             "address": "backup.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "clouddesktops",
                             "address": "clouddesktops.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloudrouter",
+                            "address": "cloudrouter.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "cloudvideo",
@@ -136,6 +172,18 @@
                             "address": "api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "fomo-dataset",
+                            "address": "fomo-dataset.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "fomo-tuning",
+                            "address": "fomo-tuning.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "gitlab",
+                            "address": "gitlab.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "iam",
                             "address": "iam.api.cloud.yandex.net:443"
                         },
@@ -162,6 +210,10 @@
                         {
                             "id": "kms-crypto",
                             "address": "kms.yandex:443"
+                        },
+                        {
+                            "id": "kspm",
+                            "address": "kspm.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "load-balancer",
@@ -196,6 +248,10 @@
                             "address": "logging.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-airflow",
+                            "address": "airflow.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "managed-clickhouse",
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
@@ -214,6 +270,10 @@
                         {
                             "id": "managed-kubernetes",
                             "address": "mks.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-metastore",
+                            "address": "metastore.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "managed-mongodb",
@@ -236,11 +296,31 @@
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-spark",
+                            "address": "spark.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-spqr",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "managed-sqlserver",
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-trino",
+                            "address": "trino.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-ytsaurus",
+                            "address": "ytsaurus.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "marketplace",
+                            "address": "marketplace.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "marketplace-pim",
                             "address": "marketplace.api.cloud.yandex.net:443"
                         },
                         {
@@ -268,6 +348,10 @@
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "mdb-spqr",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "mdbproxy",
                             "address": "mdbproxy.api.cloud.yandex.net:443"
                         },
@@ -288,12 +372,24 @@
                             "address": "organization-manager.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "quota-manager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quotamanager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "resource-manager",
                             "address": "resource-manager.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "resourcemanager",
                             "address": "resource-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "searchapi",
+                            "address": "searchapi.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "serialssh",
@@ -308,6 +404,10 @@
                             "address": "serverless-containers.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "serverless-eventrouter",
+                            "address": "serverless-eventrouter.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "serverless-functions",
                             "address": "serverless-functions.api.cloud.yandex.net:443"
                         },
@@ -318,6 +418,14 @@
                         {
                             "id": "serverless-triggers",
                             "address": "serverless-triggers.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-workflows",
+                            "address": "serverless-workflows.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverlesseventrouter-events",
+                            "address": "events.eventrouter.serverless.yandexcloud.net:443"
                         },
                         {
                             "id": "smart-captcha",
@@ -356,7 +464,7 @@
                 "cls": "TextClassificationRequest",
                 "module": "yandex.cloud.ai.foundation_models.v1.text_classification.text_classification_service_pb2",
                 "message": {
-                    "modelUri": "cls://b1ghsjum2v37c2un8h64/bt14f74au2ap3q0f9ou4",
+                    "modelUri": "cls://yc.fomo.storage.prod.service/yandexgpt-lite/rc@tamrap1sjscq6e9flit3p",
                     "text": "hello"
                 }
             },
@@ -366,30 +474,11 @@
                 "message": {
                     "predictions": [
                         {
-                            "label": "computer_science",
-                            "confidence": 0.2230224609375
-                        },
-                        {
-                            "label": "mathematics",
-                            "confidence": 0.0177764892578125
-                        },
-                        {
-                            "label": "physics",
-                            "confidence": 0.03289794921875
-                        },
-                        {
-                            "label": "quantitative_biology",
-                            "confidence": 0.11932373046875
-                        },
-                        {
-                            "label": "quantitative_finance",
-                            "confidence": 0.01348114013671875
-                        },
-                        {
-                            "label": "statistics",
-                            "confidence": 0.044097900390625
+                            "label": "\u043e\u043f\u0435\u0440\u0430\u0442\u043e\u0440",
+                            "confidence": 0.83447265625
                         }
-                    ]
+                    ],
+                    "inputTokens": "2"
                 }
             }
         }
