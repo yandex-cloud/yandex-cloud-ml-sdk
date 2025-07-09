@@ -19,6 +19,7 @@ class BaseFunctionTools(BaseDomain, HaveToolCalls[ToolCallTypeT]):
         *,
         name: UndefinedOr[str] = UNDEFINED,
         description: UndefinedOr[str] = UNDEFINED,
+        strict: UndefinedOr[bool] = UNDEFINED,
     ) -> FunctionTool:
         schema = schema_from_parameters(parameters)
         description_ = (
@@ -29,6 +30,7 @@ class BaseFunctionTools(BaseDomain, HaveToolCalls[ToolCallTypeT]):
             get_defined_value(name, None) or
             cast(Optional[str], schema.get('title'))
         )
+        strict_: bool | None = get_defined_value(strict, None)
 
         if not name_:
             raise TypeError(
@@ -39,7 +41,8 @@ class BaseFunctionTools(BaseDomain, HaveToolCalls[ToolCallTypeT]):
         return FunctionTool(
             parameters=schema,
             name=name_,
-            description=description_
+            description=description_,
+            strict=strict_,
         )
 
 

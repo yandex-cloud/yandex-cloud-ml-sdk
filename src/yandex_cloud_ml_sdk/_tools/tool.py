@@ -103,6 +103,7 @@ class FunctionTool(BaseTool):
     name: str
     description: str | None
     parameters: JsonSchemaType
+    strict: bool | None
 
     @classmethod
     def _from_proto(
@@ -111,10 +112,16 @@ class FunctionTool(BaseTool):
         sdk: BaseSDK
     ) -> FunctionTool:
         parameters = MessageToDict(proto.parameters)
+
+        strict: bool | None = None
+        if hasattr(proto, 'strict'):
+            strict = proto.strict
+
         return cls(
             name=proto.name,
             description=proto.description,
             parameters=parameters,
+            strict=strict,
         )
 
     def _to_proto(self, proto_type: type[ProtoToolTypeT]) -> ProtoToolTypeT:
@@ -126,10 +133,25 @@ class FunctionTool(BaseTool):
             ProtoCompletionsTool: ProtoCompletionsFunctionTool,
         }[proto_type]
 
+        additional_kwargs = {}
+        # TODO: remove this logic after strict would be supported in assistants
+        if self.strict is not None:
+            strict_field_present = 'strict' in {
+                field.name
+                for field in function_class.DESCRIPTOR.fields  # type: ignore[attr-defined]
+            }
+            if strict_field_present:
+                additional_kwargs['strict'] = self.strict
+            else:
+                raise ValueError(
+                    '"strict" field is not supported in sdk.assistants yet, only in sdk.models.completions'
+                )
+
         function = function_class(
             name=self.name,
             description=self.description or '',
-            parameters=parameters
+            parameters=parameters,
+            **additional_kwargs,
         )
 
         # i dunno how to properly describe this type of polymorphism to mypy
