@@ -57,7 +57,8 @@ def main() -> None:
                 }
             },
             "required": ["expression"],
-        }
+        },
+        strict=True,
     )
 
     # it is imported inside only because yandex-cloud-ml-sdk does not require pydantic by default
@@ -76,7 +77,7 @@ def main() -> None:
     # be inferred from pydantic model
     weather_tool = sdk.tools.function(Weather)
 
-    model = sdk.models.completions('yandexgpt')
+    model = sdk.models.completions('yandexgpt', model_version='rc')
 
     # tools must be bound to model object via .configure method and would be used in all
     # model calls from this model object.
