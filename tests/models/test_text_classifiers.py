@@ -37,10 +37,15 @@ async def test_run_few_shot(async_sdk):
     assert result[1]['label'] == result[1].label == 'bar'
     assert result[1].confidence < 0.5
 
+
     model = model.configure(
+
+        task_description="",
+        labels=['foo', 'bar'],
         samples=[
-            {"text": "foo", "label": "bar"},
+
             {"text": "bar", "label": "foo"},
+            {"text": "foo", "label": "bar"},
         ]
     )
 
@@ -48,13 +53,14 @@ async def test_run_few_shot(async_sdk):
 
     assert len(result) == len(result.predictions) == 2
     assert result[0]['label'] == result[0].label == 'foo'
-    assert result[0].confidence > 0.5
+    assert result[0].confidence < 0.5
 
     assert result[1]['label'] == result[1].label == 'bar'
-    assert result[1].confidence < 0.5
+    assert result[1].confidence > 0.5
 
     sentinel = object()
     value = getattr(result, 'input_tokens', sentinel)
+
     assert value is not sentinel
 
 @pytest.mark.asyncio

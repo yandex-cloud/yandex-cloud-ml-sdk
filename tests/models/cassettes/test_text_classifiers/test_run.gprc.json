@@ -212,6 +212,10 @@
                             "address": "kms.yandex:443"
                         },
                         {
+                            "id": "kspm",
+                            "address": "kspm.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "load-balancer",
                             "address": "load-balancer.api.cloud.yandex.net:443"
                         },
