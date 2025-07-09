@@ -28,6 +28,8 @@ TextClassificationResponseT = TypeVar(
 class TextClassifiersModelResultBase(BaseResult, Sequence, Generic[TextClassificationResponseT]):
     predictions: tuple[TextClassificationLabel, ...]
     model_version: str
+    #: Number of input tokens provided to the model.
+    input_tokens: int
 
     @classmethod
     def _from_proto(cls, *, proto: ProtoMessage, sdk: BaseSDK) -> Self:  # pylint: disable=unused-argument
@@ -42,6 +44,7 @@ class TextClassifiersModelResultBase(BaseResult, Sequence, Generic[TextClassific
         return cls(
             predictions=predictions,
             model_version=proto.model_version,
+            input_tokens = proto.input_tokens
         )
 
     def __len__(self) -> int:
