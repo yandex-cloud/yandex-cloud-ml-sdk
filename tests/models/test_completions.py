@@ -294,3 +294,76 @@ async def test_function_call(async_sdk: AsyncYCloudML) -> None:
     assert result.text
     assert '+20' in result.text
     assert result.tool_calls is None
+
+
+@pytest.mark.allow_grpc
+async def test_parallel_function_call(async_sdk: AsyncYCloudML) -> None:
+    # pylint: disable=too-many-locals
+    schema = {
+        "properties": {
+            "numbers": {
+                "items": {"type": "integer"},
+                "title": "Numbers", "type": "array"
+            }
+        },
+        "required": ["numbers"],
+        "title": "Numbers", "type": "object"
+    }
+
+    tool = async_sdk.tools.function(
+        schema,  # type: ignore[arg-type]
+        name='something',
+        description="Tool which have to collect all the numbers from user message and do a SOMETHING with it",
+    )
+
+    tool2 = async_sdk.tools.function(
+        schema,  # type: ignore[arg-type]
+        name='spooning',
+        description="Tool which have to collect all the numbers from user message and do a SPOONING with it",
+    )
+
+    model = async_sdk.models.completions('yandexgpt', model_version='rc')
+    model = model.configure(tools=[tool, tool2])
+
+    message = 'do a SOMETHING and SPOONING with all the numbers from: 5, 4, a, 1'
+
+    for i in (0, 1):
+        # 0 for default value before configure
+        if i:
+            model = model.configure(parallel_tool_calls=True)
+
+        result = await model.run(message)
+        assert result.tool_calls
+        assert len(result.tool_calls) == 2
+
+        call1, call2 = result.tool_calls[:2]
+        assert call1.function
+        assert call2.function
+
+        assert call1.function.name == 'something'
+        assert call2.function.name == 'spooning'
+
+    model = model.configure(parallel_tool_calls=False)
+    messages: list = [message]
+
+    result = await model.run(messages)
+    calls: dict[str, int] = {}
+    results = {'something': '+20', 'spooning': '-10'}
+    i = 0
+    while result.tool_calls:
+        assert len(result.tool_calls) == 1
+        assert result.tool_calls
+        call = result.tool_calls[0]
+        assert call.function
+        name = call.function.name
+        calls.setdefault(name, 0)
+        calls[name] += 1
+
+        call_result = {'tool_results': [{'name': name, 'content': results[name]}]}
+        messages.extend([result, call_result])
+        result = await model.run(messages)
+        i += 1
+        if i == 2:
+            break
+
+    assert len(calls) == 2
