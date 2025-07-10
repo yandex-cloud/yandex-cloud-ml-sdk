@@ -152,6 +152,12 @@ class AsyncTextClassifiersModel(BaseTextClassifiersModel[AsyncTuningTask['AsyncT
     ) -> TextClassifiersModelResultBase:
         """Execute the text classification on the provided input text.
 
+        If only labels are specified, apply a zero-shot classifier.
+        If samples are also specified - it is a case of the few-shot classifier.
+        If nothing is specified, use the classify method, but it is only available for pre-trained models.
+
+        Read more about the classifiers in `the documentation <https://yandex.cloud/docs/foundation-models/concepts/classifier/>`_.
+
         :param text: the input text to classify.
         :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
