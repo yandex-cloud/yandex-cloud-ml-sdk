@@ -33,16 +33,25 @@ from ._types.misc import UNDEFINED, PathLike, UndefinedOr, get_defined_value, is
 
 class BaseSDK:
     """The main class that needs to be instantiated to work with SDK."""
+    #: Domain for creating various tools for assistants and function calling
     tools: BaseTools
+    #: Domain for working with models (inference and tuning)
     models: BaseModels
+    #: Domain for working with threads (a part of the Assistants API)
     threads: BaseThreads
+    #: Domain for working with files (a part of the Asssistants API)
     files: BaseFiles
+    #: Domain for working with assistants (a part of the Assistants API)
     assistants: BaseAssistants
+    #: Domain for working with assistants' runs (a part of the Assistants API)
     runs: BaseRuns
-    #: API for `Yandex Search API <https://yandex.cloud/docs/search-api>`
+    #: Domain for working with `Search API <https://yandex.cloud/docs/search-api>`_
     search_api: BaseSearchAPIDomain
+    #: Domain for working with search indexes (a part of the Assistants API)
     search_indexes: BaseSearchIndexes
+    #: Domain for working with datasets
     datasets: BaseDatasets
+    #: Domain for working with tuning
     tuning: BaseTuning
 
     _messages: BaseMessages
@@ -110,7 +119,7 @@ class BaseSDK:
     ) -> Self:
         """Sets up the default logging configuration.
 
-        Read more about log_levels, log_format, and date_format in `Python documentation (logging) <https://docs.python.org/3/library/logging.html>`.
+        Read more about log_levels, log_format, and date_format in `Python documentation (logging) <https://docs.python.org/3/library/logging.html>`_.
 
         :param log_level: The logging level to set.
         :param log_format: The format of the log messages.
