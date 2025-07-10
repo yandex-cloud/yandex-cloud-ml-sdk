@@ -15,6 +15,9 @@ ClassificationTuningTypes = Literal['multilabel', 'multiclass', 'binary']
 
 @dataclass(frozen=True)
 class TextClassifiersModelTuneParams(BaseTuningParams):
+    """This class encapsulates the parameters used for tuning text classification models,
+    supporting both multiclass and multilabel classification types.
+    """
     @property
     def _proto_tuning_params_type(
         self
@@ -43,8 +46,13 @@ class TextClassifiersModelTuneParams(BaseTuningParams):
                 f'classification_type must be {ClassificationTuningTypes}, got {self.classification_type}'
             )
 
+    #: the type of classification to be used (should be one of 'multilabel', 'multiclass', or 'binary'.)
     classification_type: ClassificationTuningTypes | None = None
+    #: random seed for reproducibility
     seed: int | None = None
+    #: a learning rate for the tuning process
     lr: float | None = None
+    #: a number of samples to use for tuning
     n_samples: int | None = None
+    #:  any additional arguments required for tuning
     additional_arguments: str | None = None

@@ -6,7 +6,12 @@ from typing import Mapping, TypedDict
 
 @dataclass(frozen=True)
 class TextClassificationLabel(Mapping):
+    """This class represents a label for text classification
+    with an associated confidence score.
+    """
+    #: the label for the classification
     label: str
+    #: the confidence score associated with the label
     confidence: float
 
     def __getitem__(self, key):
@@ -20,5 +25,8 @@ class TextClassificationLabel(Mapping):
 
 
 class TextClassificationSample(TypedDict):
+    """This class represents a sample of text for classification."""
+    #: the text to be classified
     text: str
+    #: the expected label for the classification
     label: str
