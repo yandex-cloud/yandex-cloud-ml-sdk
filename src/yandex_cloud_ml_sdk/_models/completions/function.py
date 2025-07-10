@@ -8,6 +8,8 @@ from .model import AsyncGPTModel, GPTModel
 
 
 class BaseCompletions(BaseModelFunction[ModelTypeT]):
+    """asdsasdasdasd"""
+
     @override
     def __call__(
         self,
@@ -32,4 +34,6 @@ class Completions(BaseCompletions[GPTModel]):
 
 
 class AsyncCompletions(BaseCompletions[AsyncGPTModel]):
+    __doc__ = BaseCompletions.__doc__
+
     _model_type = AsyncGPTModel
