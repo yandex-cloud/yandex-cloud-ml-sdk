@@ -23,6 +23,7 @@ from yandex_cloud_ml_sdk._types.tuning.datasets import TuningDatasetsType
 from yandex_cloud_ml_sdk._types.tuning.optimizers import BaseOptimizer
 from yandex_cloud_ml_sdk._types.tuning.schedulers import BaseScheduler
 from yandex_cloud_ml_sdk._types.tuning.tuning_types import BaseTuningType
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
 from .config import TextClassifiersModelConfig
@@ -40,6 +41,11 @@ class BaseTextClassifiersModel(
         TuningTaskTypeT
     ],
 ):
+    """
+    A class for text classifiers models.
+    It provides the foundational structure for building text classification models,
+    including configuration and execution of classification tasks.
+    """
     _config_type = TextClassifiersModelConfig
     _result_type = TextClassifiersModelResultBase
     _tuning_params_type = TextClassifiersModelTuneParams
@@ -134,6 +140,7 @@ class BaseTextClassifiersModel(
             return FewShotTextClassifiersModelResult._from_proto(proto=response, sdk=self._sdk)
 
 
+@doc_from(BaseTextClassifiersModel)
 class AsyncTextClassifiersModel(BaseTextClassifiersModel[AsyncTuningTask['AsyncTextClassifiersModel']]):
     _tune_operation_type = AsyncTuningTask['AsyncTextClassifiersModel']
 
@@ -143,6 +150,18 @@ class AsyncTextClassifiersModel(BaseTextClassifiersModel[AsyncTuningTask['AsyncT
         *,
         timeout: float = 60,
     ) -> TextClassifiersModelResultBase:
+        """Execute the text classification on the provided input text.
+
+        If only labels are specified, apply a zero-shot classifier.
+        If samples are also specified - it is a case of the few-shot classifier.
+        If nothing is specified, use the classify method, but it is only available for pre-trained models.
+
+        Read more about the classifiers in `the documentation <https://yandex.cloud/docs/foundation-models/concepts/classifier/>`_.
+
+        :param text: the input text to classify.
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         return await self._run(
             text=text,
             timeout=timeout
@@ -167,6 +186,24 @@ class AsyncTextClassifiersModel(BaseTextClassifiersModel[AsyncTuningTask['AsyncT
         optimizer: UndefinedOr[BaseOptimizer] = UNDEFINED,
         timeout: float = 60,
     ) -> AsyncTuningTask['AsyncTextClassifiersModel']:
+        """Initiate a deferred tuning process for the model.
+
+        :param train_datasets: the dataset objects and/or dataset ids used for training of the model.
+        :param validation_datasets: the dataset objects and/or dataset ids used for validation of the model.
+        :param classification_type: the type of classification to perform during tuning (multilabel, multiclass, or binary).
+        :param name: the name of the tuning task.
+        :param description: the description of the tuning task.
+        :param labels: labels for the tuning task.
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        :param seed: a random seed for reproducibility.
+        :param lr: a learning rate for tuning.
+        :param n_samples: a number of samples for tuning.
+        :param additional_arguments: additional arguments for tuning.
+        :param tuning_type: a type of tuning to be applied.
+        :param scheduler: a scheduler for tuning.
+        :param optimizer: an optimizer for tuning.
+        """
         return await self._tune_deferred(
             train_datasets=train_datasets,
             validation_datasets=validation_datasets,
@@ -205,6 +242,28 @@ class AsyncTextClassifiersModel(BaseTextClassifiersModel[AsyncTuningTask['AsyncT
         poll_timeout: int = 72 * 60 * 60,
         poll_interval: float = 60,
     ) -> Self:
+        """Tune the model with the specified training datasets and parameters.
+
+        :param train_datasets: the dataset objects and/or dataset ids used for training of the model.
+        :param validation_datasets: the dataset objects and/or dataset ids used for validation of the model.
+        :param classification_type: the type of classification to perform during tuning (multilabel, multiclass, or binary).
+        :param name: the name of the tuning task.
+        :param description: the description of the tuning task.
+        :param labels: labels for the tuning task.
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        :param seed: a random seed for reproducibility.
+        :param lr: a learning rate for tuning.
+        :param n_samples: a number of samples for tuning.
+        :param additional_arguments: additional arguments for tuning.
+        :param tuning_type: a type of tuning to be applied.
+        :param scheduler: a scheduler for tuning.
+        :param optimizer: an optimizer for tuning.
+        :param poll_timeout: the maximum time to wait while polling for completion of the tuning task.
+            Defaults to 259200 seconds (72 hours).
+        :param poll_interval: the interval between polling attempts during the tuning process.
+            Defaults to 60 seconds.
+        """
         return await self._tune(
             train_datasets=train_datasets,
             validation_datasets=validation_datasets,
@@ -230,9 +289,16 @@ class AsyncTextClassifiersModel(BaseTextClassifiersModel[AsyncTuningTask['AsyncT
         *,
         timeout: float = 60
     ) -> AsyncTuningTask['AsyncTextClassifiersModel']:
+        """Attach a deferred tuning task using its task ID.
+
+        :param task_id: the ID of the deferred tuning task to attach to.
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         return await self._attach_tune_deferred(task_id=task_id, timeout=timeout)
 
 
+@doc_from(BaseTextClassifiersModel)
 class TextClassifiersModel(BaseTextClassifiersModel[TuningTask['TextClassifiersModel']]):
     _tune_operation_type = TuningTask['TextClassifiersModel']
     __run = run_sync(BaseTextClassifiersModel._run)
@@ -240,6 +306,7 @@ class TextClassifiersModel(BaseTextClassifiersModel[TuningTask['TextClassifiersM
     __tune = run_sync(BaseTextClassifiersModel._tune)
     __attach_tune_deferred = run_sync(BaseTextClassifiersModel._attach_tune_deferred)
 
+    @doc_from(AsyncTextClassifiersModel.run)
     def run(
         self,
         text: str,
@@ -252,6 +319,7 @@ class TextClassifiersModel(BaseTextClassifiersModel[TuningTask['TextClassifiersM
         )
 
     # pylint: disable=too-many-locals
+    @doc_from(AsyncTextClassifiersModel.tune_deferred)
     def tune_deferred(
         self,
         train_datasets: TuningDatasetsType,
@@ -289,6 +357,7 @@ class TextClassifiersModel(BaseTextClassifiersModel[TuningTask['TextClassifiersM
         return cast(TuningTask[TextClassifiersModel], result)
 
     # pylint: disable=too-many-locals
+    @doc_from(AsyncTextClassifiersModel.tune)
     def tune(
         self,
         train_datasets: TuningDatasetsType,
@@ -328,6 +397,7 @@ class TextClassifiersModel(BaseTextClassifiersModel[TuningTask['TextClassifiersM
             poll_interval=poll_interval,
         )
 
+    @doc_from(AsyncTextClassifiersModel.attach_tune_deferred)
     def attach_tune_deferred(self, task_id: str, *, timeout: float = 60) -> TuningTask[TextClassifiersModel]:
         return cast(
             TuningTask[TextClassifiersModel],
