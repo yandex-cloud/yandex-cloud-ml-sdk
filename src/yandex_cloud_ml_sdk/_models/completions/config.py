@@ -34,3 +34,4 @@ class GPTModelConfig(BaseModelConfig):
     reasoning_mode: ReasoningModeType | None = None
     response_format: ResponseType | None = None
     tools: Sequence[CompletionTool] | CompletionTool | None = None
+    parallel_tool_calls: bool | None = None

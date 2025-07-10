@@ -5,6 +5,7 @@ import warnings
 from collections.abc import Sequence
 from typing import TYPE_CHECKING, Any, AsyncIterator, Generic, Iterator, Literal, cast
 
+from google.protobuf.wrappers_pb2 import BoolValue
 from typing_extensions import Self, override
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import CompletionOptions, ReasoningOptions
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Tool as ProtoCompletionsTool
@@ -83,6 +84,7 @@ class BaseGPTModel(
         reasoning_mode: UndefinedOr[ReasoningModeType] = UNDEFINED,
         response_format: UndefinedOr[ResponseType] = UNDEFINED,
         tools: UndefinedOr[Sequence[CompletionTool] | CompletionTool] = UNDEFINED,
+        parallel_tool_calls: UndefinedOr[bool] = UNDEFINED,
     ) -> Self:
         return super().configure(
             temperature=temperature,
@@ -90,6 +92,7 @@ class BaseGPTModel(
             reasoning_mode=reasoning_mode,
             response_format=response_format,
             tools=tools,
+            parallel_tool_calls=parallel_tool_calls,
         )
 
     def _make_completion_options(self, *, stream: bool | None) -> CompletionOptions:
@@ -125,11 +128,16 @@ class BaseGPTModel(
         if c.tools is not None:
             tools = coerce_tuple(c.tools, BaseTool)  # type: ignore[type-abstract]
 
+        parallel_tool_calls: None | BoolValue = None
+        if c.parallel_tool_calls is not None:
+            parallel_tool_calls = BoolValue(value=c.parallel_tool_calls)
+
         return CompletionRequest(
             model_uri=self._uri,
             completion_options=self._make_completion_options(stream=stream),
             messages=messages_to_proto(messages),
             tools=[tool._to_proto(ProtoCompletionsTool) for tool in tools],
+            parallel_tool_calls=parallel_tool_calls,
             **response_format_kwargs,
         )
 
