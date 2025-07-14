@@ -545,7 +545,7 @@ class GPTModel(
             timeout=timeout
         )
 
-    @doc_from(AsyncGPTModel._run_deferred)
+    @doc_from(AsyncGPTModel.run_deferred)
     def run_deferred(
         self,
         messages: MessageInputType,
