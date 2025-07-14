@@ -101,7 +101,7 @@ class ProtoEnumBase(base):
         if isinstance(value, str):
             if member := cls.__members__.get(value.upper()):
                 return member
-            raise ValueError(f'wrong value "{value}" for use as an alisas for {cls}')
+            raise ValueError(f'wrong value "{value}" for use as an alias for {cls}')
         raise TypeError(f'wrong type "{type(value)}" for use as an alias for {cls}')
 
     def _to_proto(self) -> int:

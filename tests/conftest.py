@@ -56,7 +56,7 @@ def patch_operation(request, monkeypatch):
 
 @pytest.fixture(name='folder_id')
 def fixture_folder_id():
-    return 'yc.fomo.storage.prod.service'
+    return 'b1ghsjum2v37c2un8h64'
 
 
 @pytest.fixture(name='servicers')

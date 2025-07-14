@@ -19,6 +19,29 @@ def fixture_model(async_sdk):
     return async_sdk.models.completions('yandexgpt')
 
 
+@pytest.fixture(name='schema')
+def fixture_schema():
+    return {
+        "properties": {
+            "numbers": {
+                "items": {"type": "integer"},
+                "title": "Numbers", "type": "array"
+            }
+        },
+        "required": ["numbers"],
+        "title": "Numbers", "type": "object"
+    }
+
+
+@pytest.fixture(name='tool')
+def fixture_tool(async_sdk, schema):
+    return async_sdk.tools.function(
+        schema,  # type: ignore[arg-type]
+        name='something',
+        description="Tool which have to collect all the numbers from user message and do a SOMETHING with it",
+    )
+
+
 @pytest.mark.allow_grpc
 async def test_run(model):
     result = await model.run('hello')
@@ -251,23 +274,7 @@ async def test_structured_output_json_schema(async_sdk):
 
 
 @pytest.mark.allow_grpc
-async def test_function_call(async_sdk: AsyncYCloudML) -> None:
-    schema = {
-        "properties": {
-            "numbers": {
-                "items": {"type": "integer"},
-                "title": "Numbers", "type": "array"
-            }
-        },
-        "required": ["numbers"],
-        "title": "Numbers", "type": "object"
-    }
-
-    tool = async_sdk.tools.function(
-        schema,  # type: ignore[arg-type]
-        name='something',
-        description="Tool which have to collect all the numbers from user message and do a SOMETHING with it",
-    )
+async def test_function_call(async_sdk: AsyncYCloudML, tool) -> None:
     model = async_sdk.models.completions('yandexgpt', model_version='rc')
     model = model.configure(tools=tool)
 
@@ -297,25 +304,8 @@ async def test_function_call(async_sdk: AsyncYCloudML) -> None:
 
 
 @pytest.mark.allow_grpc
-async def test_parallel_function_call(async_sdk: AsyncYCloudML) -> None:
+async def test_parallel_function_call(async_sdk: AsyncYCloudML, tool, schema) -> None:
     # pylint: disable=too-many-locals
-    schema = {
-        "properties": {
-            "numbers": {
-                "items": {"type": "integer"},
-                "title": "Numbers", "type": "array"
-            }
-        },
-        "required": ["numbers"],
-        "title": "Numbers", "type": "object"
-    }
-
-    tool = async_sdk.tools.function(
-        schema,  # type: ignore[arg-type]
-        name='something',
-        description="Tool which have to collect all the numbers from user message and do a SOMETHING with it",
-    )
-
     tool2 = async_sdk.tools.function(
         schema,  # type: ignore[arg-type]
         name='spooning',
@@ -367,3 +357,49 @@ async def test_parallel_function_call(async_sdk: AsyncYCloudML) -> None:
             break
 
     assert len(calls) == 2
+
+
+@pytest.mark.allow_grpc
+async def test_tool_choice(async_sdk: AsyncYCloudML, tool, schema) -> None:
+    tool2 = async_sdk.tools.function(
+        schema,  # type: ignore[arg-type]
+        name='something_else',
+        description="Tool which have to collect all the numbers from user message and do a SOMETHING with it",
+    )
+
+    model = async_sdk.models.completions('yandexgpt', model_version='rc')
+    model = model.configure(tools=[tool, tool2], parallel_tool_calls=False)
+
+    message = 'do a SOMETHING and SPOONING with all the numbers from: 5, 4, a, 1'
+
+    for type_ in (None, 'required', 'auto'):
+        if type_ is not None:
+            model = model.configure(tool_choice=type_)
+        result = await model.run(message)
+        assert result.status.name == 'TOOL_CALLS'
+        assert result.tool_calls
+        assert len(result.tool_calls) == 1
+        assert result.tool_calls[0].function
+        assert result.tool_calls[0].function.name == 'something'
+
+    model = model.configure(tool_choice={'type': 'function', 'function': {'name': 'something_else'}})
+    result = await model.run(message)
+    assert result.status.name == 'TOOL_CALLS'
+    assert result.tool_calls
+    assert len(result.tool_calls) == 1
+    assert result.tool_calls[0].function
+    assert result.tool_calls[0].function.name == 'something_else'
+
+    model = model.configure(tool_choice='none')
+    result = await model.run(message)
+    assert result.status.name == 'FINAL'
+
+    model = model.configure(tool_choice=None)  # type: ignore[arg-type]
+    result = await model.run(message)
+    assert result.status.name == 'TOOL_CALLS'
+
+    bad_value: object
+    for bad_value in ('foo', {}, 123):
+        with pytest.raises((TypeError, ValueError)):
+            model = model.configure(tool_choice=bad_value)  # type: ignore[arg-type]
+            await model.run(message)
