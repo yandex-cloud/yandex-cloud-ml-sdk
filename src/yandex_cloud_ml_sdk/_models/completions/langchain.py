@@ -51,6 +51,9 @@ def _transform_messages(history: list[BaseMessage]) -> list[TextMessageDict]:
 
 
 class ChatYandexGPT(BaseYandexLanguageModel[BaseGPTModel], BaseChatModel):
+    """Chat model for Yandex GPT integration.
+    This class extends the base language model and chat model to provide
+    functionalities specific to Yandex's GPT models."""
     class Config:
         arbitrary_types_allowed = True
 
