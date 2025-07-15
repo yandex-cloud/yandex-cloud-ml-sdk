@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from typing import cast
 
 import pytest
 
@@ -10,6 +11,7 @@ from yandex_cloud_ml_sdk._models.completions.result import AlternativeStatus
 from yandex_cloud_ml_sdk._models.completions.token import Token
 from yandex_cloud_ml_sdk._types.message import TextMessage
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED
+from yandex_cloud_ml_sdk._types.tool_choice import ToolChoiceDictType, ToolChoiceType
 
 pytestmark = pytest.mark.asyncio
 
@@ -17,6 +19,29 @@ pytestmark = pytest.mark.asyncio
 @pytest.fixture(name='model')
 def fixture_model(async_sdk):
     return async_sdk.models.completions('yandexgpt')
+
+
+@pytest.fixture(name='schema')
+def fixture_schema():
+    return {
+        "properties": {
+            "numbers": {
+                "items": {"type": "integer"},
+                "title": "Numbers", "type": "array"
+            }
+        },
+        "required": ["numbers"],
+        "title": "Numbers", "type": "object"
+    }
+
+
+@pytest.fixture(name='tool')
+def fixture_tool(async_sdk, schema):
+    return async_sdk.tools.function(
+        schema,  # type: ignore[arg-type]
+        name='something',
+        description="Tool which have to collect all the numbers from user message and do a SOMETHING with it",
+    )
 
 
 @pytest.mark.allow_grpc
@@ -251,23 +276,7 @@ async def test_structured_output_json_schema(async_sdk):
 
 
 @pytest.mark.allow_grpc
-async def test_function_call(async_sdk: AsyncYCloudML) -> None:
-    schema = {
-        "properties": {
-            "numbers": {
-                "items": {"type": "integer"},
-                "title": "Numbers", "type": "array"
-            }
-        },
-        "required": ["numbers"],
-        "title": "Numbers", "type": "object"
-    }
-
-    tool = async_sdk.tools.function(
-        schema,  # type: ignore[arg-type]
-        name='something',
-        description="Tool which have to collect all the numbers from user message and do a SOMETHING with it",
-    )
+async def test_function_call(async_sdk: AsyncYCloudML, tool) -> None:
     model = async_sdk.models.completions('yandexgpt', model_version='rc')
     model = model.configure(tools=tool)
 
@@ -297,25 +306,8 @@ async def test_function_call(async_sdk: AsyncYCloudML) -> None:
 
 
 @pytest.mark.allow_grpc
-async def test_parallel_function_call(async_sdk: AsyncYCloudML) -> None:
+async def test_parallel_function_call(async_sdk: AsyncYCloudML, tool, schema) -> None:
     # pylint: disable=too-many-locals
-    schema = {
-        "properties": {
-            "numbers": {
-                "items": {"type": "integer"},
-                "title": "Numbers", "type": "array"
-            }
-        },
-        "required": ["numbers"],
-        "title": "Numbers", "type": "object"
-    }
-
-    tool = async_sdk.tools.function(
-        schema,  # type: ignore[arg-type]
-        name='something',
-        description="Tool which have to collect all the numbers from user message and do a SOMETHING with it",
-    )
-
     tool2 = async_sdk.tools.function(
         schema,  # type: ignore[arg-type]
         name='spooning',
@@ -367,3 +359,60 @@ async def test_parallel_function_call(async_sdk: AsyncYCloudML) -> None:
             break
 
     assert len(calls) == 2
+
+
+@pytest.mark.allow_grpc
+async def test_tool_choice(async_sdk: AsyncYCloudML, tool, schema) -> None:
+    tool2 = async_sdk.tools.function(
+        schema,  # type: ignore[arg-type]
+        name='something_else',
+        description="Tool which have to collect all the numbers from user message and do a SOMETHING with it",
+    )
+
+    model = async_sdk.models.completions('yandexgpt', model_version='rc')
+    model = model.configure(tools=[tool, tool2], parallel_tool_calls=False)
+
+    message = 'do a SOMETHING and SPOONING with all the numbers from: 5, 4, a, 1'
+
+    tool_choice: ToolChoiceType | None
+
+    for tool_choice in (None, 'required', 'auto'):
+        if tool_choice is not None:
+            model = model.configure(tool_choice=tool_choice)
+        result = await model.run(message)
+        assert result.status.name == 'TOOL_CALLS'
+        assert result.tool_calls
+        assert len(result.tool_calls) == 1
+        assert result.tool_calls[0].function
+        assert result.tool_calls[0].function.name == 'something'
+
+    for tool_choice in (
+        tool2,
+        cast(ToolChoiceDictType, {'type': 'function', 'function': {'name': 'something_else'}})
+    ):
+        assert tool_choice is not None
+        model = model.configure(tool_choice=tool_choice)
+        result = await model.run(message)
+        assert result.status.name == 'TOOL_CALLS'
+        assert result.tool_calls
+        assert len(result.tool_calls) == 1
+        assert result.tool_calls[0].function
+        assert result.tool_calls[0].function.name == 'something_else'
+
+    model = model.configure(tool_choice='none')
+    result = await model.run(message)
+    assert result.status.name == 'FINAL'
+
+    model = model.configure(tool_choice=None)  # type: ignore[arg-type]
+    result = await model.run(message)
+    assert result.status.name == 'TOOL_CALLS'
+
+
+@pytest.mark.parametrize("bad_value", ['foo', {}, 123])
+async def test_bad_values_tool_choice(async_sdk, tool, bad_value) -> None:
+    model = async_sdk.models.completions('yandexgpt')
+    model = model.configure(tools=[tool])
+
+    with pytest.raises((TypeError, ValueError)):
+        bad_model = model.configure(tool_choice=bad_value)
+        await bad_model.run("doesn't matter")
