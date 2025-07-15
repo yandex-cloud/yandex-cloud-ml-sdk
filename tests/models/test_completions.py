@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from typing import cast
 
 import pytest
 
@@ -10,6 +11,7 @@ from yandex_cloud_ml_sdk._models.completions.result import AlternativeStatus
 from yandex_cloud_ml_sdk._models.completions.token import Token
 from yandex_cloud_ml_sdk._types.message import TextMessage
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED
+from yandex_cloud_ml_sdk._types.tool_choice import ToolChoiceDictType, ToolChoiceType
 
 pytestmark = pytest.mark.asyncio
 
@@ -372,9 +374,11 @@ async def test_tool_choice(async_sdk: AsyncYCloudML, tool, schema) -> None:
 
     message = 'do a SOMETHING and SPOONING with all the numbers from: 5, 4, a, 1'
 
-    for type_ in (None, 'required', 'auto'):
-        if type_ is not None:
-            model = model.configure(tool_choice=type_)
+    tool_choice: ToolChoiceType | None
+
+    for tool_choice in (None, 'required', 'auto'):
+        if tool_choice is not None:
+            model = model.configure(tool_choice=tool_choice)
         result = await model.run(message)
         assert result.status.name == 'TOOL_CALLS'
         assert result.tool_calls
@@ -382,13 +386,18 @@ async def test_tool_choice(async_sdk: AsyncYCloudML, tool, schema) -> None:
         assert result.tool_calls[0].function
         assert result.tool_calls[0].function.name == 'something'
 
-    model = model.configure(tool_choice={'type': 'function', 'function': {'name': 'something_else'}})
-    result = await model.run(message)
-    assert result.status.name == 'TOOL_CALLS'
-    assert result.tool_calls
-    assert len(result.tool_calls) == 1
-    assert result.tool_calls[0].function
-    assert result.tool_calls[0].function.name == 'something_else'
+    for tool_choice in (
+        tool2,
+        cast(ToolChoiceDictType, {'type': 'function', 'function': {'name': 'something_else'}})
+    ):
+        assert tool_choice is not None
+        model = model.configure(tool_choice=tool_choice)
+        result = await model.run(message)
+        assert result.status.name == 'TOOL_CALLS'
+        assert result.tool_calls
+        assert len(result.tool_calls) == 1
+        assert result.tool_calls[0].function
+        assert result.tool_calls[0].function.name == 'something_else'
 
     model = model.configure(tool_choice='none')
     result = await model.run(message)
@@ -398,8 +407,12 @@ async def test_tool_choice(async_sdk: AsyncYCloudML, tool, schema) -> None:
     result = await model.run(message)
     assert result.status.name == 'TOOL_CALLS'
 
-    bad_value: object
-    for bad_value in ('foo', {}, 123):
-        with pytest.raises((TypeError, ValueError)):
-            model = model.configure(tool_choice=bad_value)  # type: ignore[arg-type]
-            await model.run(message)
+
+@pytest.mark.parametrize("bad_value", ['foo', {}, 123])
+async def test_bad_values_tool_choice(async_sdk, tool, bad_value) -> None:
+    model = async_sdk.models.completions('yandexgpt')
+    model = model.configure(tools=[tool])
+
+    with pytest.raises((TypeError, ValueError)):
+        bad_model = model.configure(tool_choice=bad_value)
+        await bad_model.run("doesn't matter")

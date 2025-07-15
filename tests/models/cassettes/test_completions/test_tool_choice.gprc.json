@@ -551,9 +551,9 @@
                             }
                         ],
                         "usage": {
-                            "inputTextTokens": "170",
+                            "inputTextTokens": "169",
                             "completionTokens": "15",
-                            "totalTokens": "185",
+                            "totalTokens": "184",
                             "completionTokensDetails": {}
                         },
                         "modelVersion": "09.02.2025"
@@ -656,9 +656,9 @@
                             }
                         ],
                         "usage": {
-                            "inputTextTokens": "169",
+                            "inputTextTokens": "170",
                             "completionTokens": "13",
-                            "totalTokens": "182",
+                            "totalTokens": "183",
                             "completionTokensDetails": {}
                         },
                         "modelVersion": "09.02.2025"
@@ -866,9 +866,114 @@
                             }
                         ],
                         "usage": {
-                            "inputTextTokens": "170",
+                            "inputTextTokens": "169",
                             "completionTokens": "15",
-                            "totalTokens": "185",
+                            "totalTokens": "184",
+                            "completionTokensDetails": {}
+                        },
+                        "modelVersion": "09.02.2025"
+                    }
+                }
+            ]
+        },
+        {
+            "request": {
+                "cls": "CompletionRequest",
+                "module": "yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2",
+                "message": {
+                    "modelUri": "gpt://b1ghsjum2v37c2un8h64/yandexgpt/rc",
+                    "completionOptions": {},
+                    "messages": [
+                        {
+                            "role": "user",
+                            "text": "do a SOMETHING and SPOONING with all the numbers from: 5, 4, a, 1"
+                        }
+                    ],
+                    "tools": [
+                        {
+                            "function": {
+                                "name": "something",
+                                "description": "Tool which have to collect all the numbers from user message and do a SOMETHING with it",
+                                "parameters": {
+                                    "title": "Numbers",
+                                    "type": "object",
+                                    "properties": {
+                                        "numbers": {
+                                            "title": "Numbers",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "numbers"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "function": {
+                                "name": "something_else",
+                                "description": "Tool which have to collect all the numbers from user message and do a SOMETHING with it",
+                                "parameters": {
+                                    "title": "Numbers",
+                                    "type": "object",
+                                    "properties": {
+                                        "numbers": {
+                                            "title": "Numbers",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "numbers"
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "parallelToolCalls": false,
+                    "toolChoice": {
+                        "functionName": "something_else"
+                    }
+                }
+            },
+            "response_stream": [
+                {
+                    "cls": "CompletionResponse",
+                    "module": "yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2",
+                    "message": {
+                        "alternatives": [
+                            {
+                                "message": {
+                                    "role": "assistant",
+                                    "toolCallList": {
+                                        "toolCalls": [
+                                            {
+                                                "functionCall": {
+                                                    "name": "something_else",
+                                                    "arguments": {
+                                                        "numbers": [
+                                                            5.0,
+                                                            4.0,
+                                                            1.0
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                "status": "ALTERNATIVE_STATUS_TOOL_CALLS"
+                            }
+                        ],
+                        "usage": {
+                            "inputTextTokens": "169",
+                            "completionTokens": "15",
+                            "totalTokens": "184",
                             "completionTokensDetails": {}
                         },
                         "modelVersion": "09.02.2025"
@@ -950,15 +1055,15 @@
                             {
                                 "message": {
                                     "role": "assistant",
-                                    "text": "\n```\n[\n    {\n        \"numbers\": [\n            5,\n            4,\n            1\n        ]\n    },\n    {\n        \"numbers\": [\n            5,\n            4,\n            1\n        ]\n    }\n]\n```"
+                                    "text": "\n\\[Something\\]\n{\"numbers\":[5,4,1]}\n\n\\[Something_Else\\]\n{\"numbers\":[5,4,1]}"
                                 },
                                 "status": "ALTERNATIVE_STATUS_FINAL"
                             }
                         ],
                         "usage": {
-                            "inputTextTokens": "170",
-                            "completionTokens": "61",
-                            "totalTokens": "231",
+                            "inputTextTokens": "169",
+                            "completionTokens": "36",
+                            "totalTokens": "205",
                             "completionTokensDetails": {}
                         },
                         "modelVersion": "09.02.2025"

@@ -61,6 +61,8 @@ def main() -> None:
 
     # Or configure to call specific tool
     model = model.configure(tool_choice={'type': 'function', 'function': {'name': 'another_calculator'}})
+    # You could pass just a function tool object instead of this big dict
+    model = model.configure(tool_choice=another_calculator)
     result = model.run(request)
     assert result.status.name =='TOOL_CALLS'
     assert result.tool_calls

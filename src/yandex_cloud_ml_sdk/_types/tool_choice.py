@@ -6,6 +6,8 @@ from typing_extensions import TypeAlias
 # pylint: disable=no-name-in-module
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import ToolChoice as ProtoCompletionsToolChoice
 
+from yandex_cloud_ml_sdk._tools.tool import FunctionTool
+
 ProtoToolChoice: TypeAlias = ProtoCompletionsToolChoice
 ProtoToolChoiceTypeT = TypeVar('ProtoToolChoiceTypeT', bound=ProtoToolChoice)
 
@@ -25,7 +27,7 @@ ToolChoiceStringType: TypeAlias = Literal[
     'required', 'Required', 'REQUIRED'
 ]
 
-ToolChoiceType: TypeAlias = Union[ToolChoiceStringType, ToolChoiceDictType]
+ToolChoiceType: TypeAlias = Union[ToolChoiceStringType, ToolChoiceDictType, FunctionTool]
 
 STRING_TOOL_CHOICES = ('NONE', 'AUTO', 'REQUIRED')
 
@@ -57,5 +59,8 @@ def coerce_to_proto(
         tool_choice = cast(ToolChoiceDictType, tool_choice)
 
         return expected_type(function_name=tool_choice['function']['name'])
+
+    if isinstance(tool_choice, FunctionTool):
+        return expected_type(function_name=tool_choice.name)
 
     raise TypeError(f'wrong {type(tool_choice)=}, expected string or dict')
