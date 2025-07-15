@@ -33,7 +33,7 @@ class BaseCompletions(BaseModelFunction[ModelTypeT]):
 
         :param model_name: the name or URI of the model to call.
         :param model_version: the version of the model to use.
-            Defaults to ``'latest'``.
+            Defaults to 'latest'.
         """
         if '://' in model_name:
             uri = model_name
