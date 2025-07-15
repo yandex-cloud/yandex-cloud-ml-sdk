@@ -10,10 +10,8 @@ from .model import AsyncGPTModel, GPTModel
 
 class BaseCompletions(BaseModelFunction[ModelTypeT]):
     """
-    A class for handling completions models.
-
-    It defines the core functionality for calling a model
-    to generate completions based on the provided model name and version.
+    A class for handling completion models. It defines the core functionality
+    for calling a model to generate completions based on the provided model name and version.
     """
     @override
     def __call__(
