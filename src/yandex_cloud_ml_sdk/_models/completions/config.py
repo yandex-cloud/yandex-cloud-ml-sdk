@@ -12,6 +12,7 @@ from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import ReasoningOption
 from yandex_cloud_ml_sdk._tools.tool import FunctionTool
 from yandex_cloud_ml_sdk._types.model_config import BaseModelConfig
 from yandex_cloud_ml_sdk._types.schemas import ResponseType
+from yandex_cloud_ml_sdk._types.tool_choice import ToolChoiceType
 from yandex_cloud_ml_sdk._utils.proto import ProtoEnumBase
 
 _m = ProtoReasoningOptions.ReasoningMode
@@ -35,3 +36,4 @@ class GPTModelConfig(BaseModelConfig):
     response_format: ResponseType | None = None
     tools: Sequence[CompletionTool] | CompletionTool | None = None
     parallel_tool_calls: bool | None = None
+    tool_choice: ToolChoiceType | None = None
