@@ -11,7 +11,7 @@ from .text_embeddings.function import AsyncTextEmbeddings, BaseTextEmbeddings, T
 
 
 class BaseModels(DomainWithFunctions):
-    """Domain for working with `Yandex Foundation Models <https://yandex.cloud/ru/services/foundation-models>`."""
+    """Domain for working with `Yandex Foundation Models <https://yandex.cloud/ru/services/foundation-models>`_."""
     completions: BaseCompletions
     text_classifiers: BaseTextClassifiers
     image_generation: BaseImageGeneration
