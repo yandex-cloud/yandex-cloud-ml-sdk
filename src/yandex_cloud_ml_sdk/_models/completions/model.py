@@ -115,6 +115,11 @@ class BaseGPTModel(
         :param tools: tools to use for completion. Can be a sequence or a single tool.
         :param parallel_tool_calls: whether to allow parallel calls to tools during completion.
             Defaults to ``true``.
+        :param tool_choice: the strategy for choosing tools.
+            There are several ways to configure ``tool_choice`` for query processing:
+            - no tools to call (tool_choice=``'none'``);
+            - required to call any tool (tool_choice=``'required'``);
+            - call a specific tool (tool_choice=``{'type': 'function', 'function': {'name': 'another_calculator'}}`` or directly passing a tool object).
         """
         return super().configure(
             temperature=temperature,
@@ -319,7 +324,7 @@ class AsyncGPTModel(
         Executes the model with the provided messages.
 
         :param messages: the input messages to process. Could be a string, a dictionary, or a result object.
-            Read more about other possible message types in the `documentation <https://yandex.cloud/docs/foundation-models/text-generation/api-ref/TextGeneration/completion#yandex.cloud.ai.foundation_models.v1.Message>`_.
+            Read more about other possible message types in the `documentation <https://yandex.cloud/docs/foundation-models/sdk/#usage>`_.
         :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
         """
