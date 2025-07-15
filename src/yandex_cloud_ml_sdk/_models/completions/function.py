@@ -10,8 +10,8 @@ from .model import AsyncGPTModel, GPTModel
 
 class BaseCompletions(BaseModelFunction[ModelTypeT]):
     """
-    A class for handling model completions.
-
+    A class for handling completions models.
+    
     It defines the core functionality for calling a model
     to generate completions based on the provided model name and version.
     """
@@ -23,7 +23,7 @@ class BaseCompletions(BaseModelFunction[ModelTypeT]):
         model_version: str = 'latest',
     ) -> ModelTypeT:
         """
-        Call the specified model to generate completions.
+        Create a model object to call in order to generate completions.
 
         This method constructs the URI for the model based on the provided
         name and version. If the name contains ``://``, it is
