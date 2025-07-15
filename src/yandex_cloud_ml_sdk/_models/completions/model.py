@@ -9,6 +9,7 @@ from google.protobuf.wrappers_pb2 import BoolValue
 from typing_extensions import Self, override
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import CompletionOptions, ReasoningOptions
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Tool as ProtoCompletionsTool
+from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import ToolChoice as ProtoToolChoice
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import (
     BatchCompletionMetadata, BatchCompletionRequest, BatchCompletionResponse, CompletionRequest, CompletionResponse,
     TokenizeResponse
@@ -29,6 +30,8 @@ from yandex_cloud_ml_sdk._types.model import (
 )
 from yandex_cloud_ml_sdk._types.operation import AsyncOperation, Operation
 from yandex_cloud_ml_sdk._types.schemas import ResponseType, make_response_format_kwargs
+from yandex_cloud_ml_sdk._types.tool_choice import ToolChoiceType
+from yandex_cloud_ml_sdk._types.tool_choice import coerce_to_proto as coerce_to_proto_tool_choice
 from yandex_cloud_ml_sdk._types.tuning.datasets import TuningDatasetsType
 from yandex_cloud_ml_sdk._types.tuning.optimizers import BaseOptimizer
 from yandex_cloud_ml_sdk._types.tuning.schedulers import BaseScheduler
@@ -85,6 +88,7 @@ class BaseGPTModel(
         response_format: UndefinedOr[ResponseType] = UNDEFINED,
         tools: UndefinedOr[Sequence[CompletionTool] | CompletionTool] = UNDEFINED,
         parallel_tool_calls: UndefinedOr[bool] = UNDEFINED,
+        tool_choice: UndefinedOr[ToolChoiceType] = UNDEFINED,
     ) -> Self:
         return super().configure(
             temperature=temperature,
@@ -93,6 +97,7 @@ class BaseGPTModel(
             response_format=response_format,
             tools=tools,
             parallel_tool_calls=parallel_tool_calls,
+            tool_choice=tool_choice,
         )
 
     def _make_completion_options(self, *, stream: bool | None) -> CompletionOptions:
@@ -132,17 +137,22 @@ class BaseGPTModel(
         if c.parallel_tool_calls is not None:
             parallel_tool_calls = BoolValue(value=c.parallel_tool_calls)
 
+        tool_choice: None | ProtoToolChoice = None
+        if c.tool_choice is not None:
+            tool_choice = coerce_to_proto_tool_choice(c.tool_choice, expected_type=ProtoToolChoice)
+
         return CompletionRequest(
             model_uri=self._uri,
             completion_options=self._make_completion_options(stream=stream),
             messages=messages_to_proto(messages),
             tools=[tool._to_proto(ProtoCompletionsTool) for tool in tools],
             parallel_tool_calls=parallel_tool_calls,
+            tool_choice=tool_choice,
             **response_format_kwargs,
         )
 
     def _make_batch_request(self, dataset_id: str) -> BatchCompletionRequest:
-        for field in ('tools', 'response_format'):
+        for field in ('tools', 'response_format', 'tool_choice', 'parallel_tool_calls'):
             value = getattr(self.config, field)
             if value is not None:
                 warnings.warn(
