@@ -90,6 +90,20 @@ class BaseGPTModel(
         parallel_tool_calls: UndefinedOr[bool] = UNDEFINED,
         tool_choice: UndefinedOr[ToolChoiceType] = UNDEFINED,
     ) -> Self:
+        """
+        Configures the model with specified parameters.
+
+        :param temperature: a sampling temperature to use - higher values mean more random results. Should be a double number between 0 (inclusive) and 1 (inclusive).
+        :param max_tokens: a maximum number of tokens to generate in the response.
+        :param reasoning_mode: the mode of reasoning to apply during generation, allowing the model to perform internal reasoning before responding.
+            Read more about possible modes in the `documentation <https://yandex.cloud/docs/foundation-models/text-generation/api-ref/TextGeneration/completion#yandex.cloud.ai.foundation_models.v1.ReasoningOptions>`_.
+        :param response_format: a format of the response returned by the model. Could be a JsonSchema, a JSON string, or a pydantic model.
+            Read more about possible response formats in the `documentation <https://yandex.cloud/docs/foundation-models/concepts/yandexgpt/#structured-output>`_.
+        :param tools: tools to use for completion. Can be a sequence or a single tool.
+        :param parallel_tool_calls: whether to allow parallel calls to tools during completion.
+            Defaults to ``true``.
+        :param tool_choice: the strategy for choosing tools.
+        """
         return super().configure(
             temperature=temperature,
             max_tokens=max_tokens,
