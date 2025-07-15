@@ -76,8 +76,8 @@ class BaseGPTModel(
         Initializes a langchain model based on the specified model type.
 
         :param model_type: the type of langchain model to initialize.
-            Defaults to "chat".
-        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to ``"chat"``.
+        :param timeout: the timeout which sets the default for the langchain model object.
             Defaults to 60 seconds.
         """
         from .langchain import ChatYandexGPT  # pylint: disable=import-outside-toplevel
@@ -102,12 +102,15 @@ class BaseGPTModel(
         """
         Configures the model with specified parameters.
 
-        :param temperature: a sampling temperature to use - higher values mean more random results.
+        :param temperature: a sampling temperature to use - higher values mean more random results. Should be a double number between 0 (inclusive) and 1 (inclusive).
         :param max_tokens: a maximum number of tokens to generate in the response.
-        :param reasoning_mode: the mode of reasoning to apply during generation.
-        :param response_format: a format of the response returned by the model.
+        :param reasoning_mode: the mode of reasoning to apply during generation, allowing the model to perform internal reasoning before responding.
+            Read more about possible modes in the `documentation <https://yandex.cloud/docs/foundation-models/text-generation/api-ref/TextGeneration/completion#yandex.cloud.ai.foundation_models.v1.ReasoningOptions>`_.
+        :param response_format: a format of the response returned by the model. Could be a JsonSchema, a JSON string, or a pydantic model.
+            Read more about possible response formats in the `documentation <https://yandex.cloud/docs/foundation-models/concepts/yandexgpt/#structured-output>`_.
         :param tools: tools to use for completion. Can be a sequence or a single tool.
         :param parallel_tool_calls: whether to allow parallel calls to tools during completion.
+            Defaults to ``true``.
         """
         return super().configure(
             temperature=temperature,
@@ -305,7 +308,8 @@ class AsyncGPTModel(
         """
         Executes the model with the provided messages.
 
-        :param messages: the input messages to process.
+        :param messages: the input messages to process. Could be a string, a dictionary, or a result object.
+            Read more about other possible message types in the `documentation <https://yandex.cloud/docs/foundation-models/text-generation/api-ref/TextGeneration/completion#yandex.cloud.ai.foundation_models.v1.Message>`_.
         :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
         """
@@ -322,7 +326,7 @@ class AsyncGPTModel(
     ) -> AsyncIterator[GPTModelResult[AsyncToolCall]]:
         """
         Executes the model with the provided messages
-        and yields results as they become available.
+        and yields partial results as they become available.
 
         :param messages: the input messages to process.
         :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
