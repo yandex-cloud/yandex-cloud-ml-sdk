@@ -32,7 +32,7 @@ class CompletionUsage(Usage, ProtoBased[ProtoUsage]):
     """
     A class representing detailed usage statistics for a completion request,
     including reasoning tokens.
-    Inherits from :func:`.Usage` and includes additional information about reasoning tokens.
+    Inherits from :class:`.Usage` and includes additional information about reasoning tokens.
     """
     #: the number of tokens used for reasoning in the completion
     reasoning_tokens: int
@@ -79,7 +79,7 @@ class AlternativeStatus(int, Enum):
 
 @dataclass(frozen=True)
 class Alternative(TextMessage, ProtoBased[ProtoAlternative], HaveToolCalls[ToolCallTypeT]):
-    """A class representing an alternative response, including its status and tool calls."""
+    """A class representing one of the generated completion alternatives, including its content and generation status."""
     #: the status of the alternative
     status: AlternativeStatus
     #: a list of tool calls associated with this alternative, or None if no tool calls are present
