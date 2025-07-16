@@ -37,6 +37,7 @@ from yandex_cloud_ml_sdk._types.tuning.optimizers import BaseOptimizer
 from yandex_cloud_ml_sdk._types.tuning.schedulers import BaseScheduler
 from yandex_cloud_ml_sdk._types.tuning.tuning_types import BaseTuningType
 from yandex_cloud_ml_sdk._utils.coerce import coerce_tuple
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .config import CompletionTool, GPTModelConfig, ReasoningMode, ReasoningModeType
@@ -57,6 +58,10 @@ class BaseGPTModel(
     ModelTuneMixin[GPTModelConfig, GPTModelResult[ToolCallTypeT], GPTModelTuneParams, TuningTaskTypeT],
     BaseModelBatchMixin[GPTModelConfig, GPTModelResult[ToolCallTypeT], BatchSubdomainTypeT],
 ):
+    """
+    A class for GPT models providing various functionalities
+    including tuning, and batch processing.
+    """
     _config_type = GPTModelConfig
     _result_type: type[GPTModelResult[ToolCallTypeT]]
     _operation_type: type[OperationTypeT]
@@ -70,6 +75,14 @@ class BaseGPTModel(
     _batch_proto_metadata_type = BatchCompletionMetadata
 
     def langchain(self, model_type: Literal["chat"] = "chat", timeout: int = 60) -> BaseYandexLanguageModel:
+        """
+        Initializes a langchain model based on the specified model type.
+
+        :param model_type: the type of langchain model to initialize.
+            Defaults to ``"chat"``.
+        :param timeout: the timeout which sets the default for the langchain model object.
+            Defaults to 60 seconds.
+        """
         from .langchain import ChatYandexGPT  # pylint: disable=import-outside-toplevel
 
         if model_type == "chat":
@@ -90,6 +103,24 @@ class BaseGPTModel(
         parallel_tool_calls: UndefinedOr[bool] = UNDEFINED,
         tool_choice: UndefinedOr[ToolChoiceType] = UNDEFINED,
     ) -> Self:
+        """
+        Configures the model with specified parameters.
+
+        :param temperature: a sampling temperature to use - higher values mean more random results. Should be a double number between 0 (inclusive) and 1 (inclusive).
+        :param max_tokens: a maximum number of tokens to generate in the response.
+        :param reasoning_mode: the mode of reasoning to apply during generation, allowing the model to perform internal reasoning before responding.
+            Read more about possible modes in the `documentation <https://yandex.cloud/docs/foundation-models/text-generation/api-ref/TextGeneration/completion#yandex.cloud.ai.foundation_models.v1.ReasoningOptions>`_.
+        :param response_format: a format of the response returned by the model. Could be a JsonSchema, a JSON string, or a pydantic model.
+            Read more about possible response formats in the `documentation <https://yandex.cloud/docs/foundation-models/concepts/yandexgpt/#structured-output>`_.
+        :param tools: tools to use for completion. Can be a sequence or a single tool.
+        :param parallel_tool_calls: whether to allow parallel calls to tools during completion.
+            Defaults to ``true``.
+        :param tool_choice: the strategy for choosing tools.
+            There are several ways to configure ``tool_choice`` for query processing:
+            - no tools to call (tool_choice=``'none'``);
+            - required to call any tool (tool_choice=``'required'``);
+            - call a specific tool (tool_choice=``{'type': 'function', 'function': {'name': 'another_calculator'}}`` or directly passing a tool object).
+        """
         return super().configure(
             temperature=temperature,
             max_tokens=max_tokens,
@@ -269,7 +300,7 @@ class BaseGPTModel(
             )
             return tuple(Token._from_proto(t) for t in response.tokens)
 
-
+@doc_from(BaseGPTModel)
 class AsyncGPTModel(
     BaseGPTModel[
         AsyncOperation[GPTModelResult[AsyncToolCall]],
@@ -289,6 +320,14 @@ class AsyncGPTModel(
         *,
         timeout=60,
     ) -> GPTModelResult[AsyncToolCall]:
+        """
+        Executes the model with the provided messages.
+
+        :param messages: the input messages to process. Could be a string, a dictionary, or a result object.
+            Read more about other possible message types in the `documentation <https://yandex.cloud/docs/foundation-models/sdk/#usage>`_.
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         return await self._run(
             messages=messages,
             timeout=timeout
@@ -300,6 +339,14 @@ class AsyncGPTModel(
         *,
         timeout=60,
     ) -> AsyncIterator[GPTModelResult[AsyncToolCall]]:
+        """
+        Executes the model with the provided messages
+        and yields partial results as they become available.
+
+        :param messages: the input messages to process.
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         async for result in self._run_stream(
             messages=messages,
             timeout=timeout
@@ -312,12 +359,26 @@ class AsyncGPTModel(
         *,
         timeout=60
     ) -> AsyncOperation[GPTModelResult[AsyncToolCall]]:
+        """
+        Initiates a deferred execution of the model with the provided messages.
+
+        :param messages: the input messages to process.
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         return await self._run_deferred(
             messages=messages,
             timeout=timeout,
         )
 
     async def attach_deferred(self, operation_id: str, timeout: float = 60) -> AsyncOperation[GPTModelResult[AsyncToolCall]]:
+        """
+        Attaches to an ongoing deferred operation using its operation id.
+
+        :param operation_id: the id of the deferred operation to attach to.
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         return await self._attach_deferred(operation_id=operation_id, timeout=timeout)
 
     async def tokenize(
@@ -326,6 +387,13 @@ class AsyncGPTModel(
         *,
         timeout=60
     ) -> tuple[Token, ...]:
+        """
+        Tokenizes the provided messages into a tuple of tokens.
+
+        :param messages: the input messages to tokenize.
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         return await self._tokenize(
             messages=messages,
             timeout=timeout
@@ -349,6 +417,23 @@ class AsyncGPTModel(
         optimizer: UndefinedOr[BaseOptimizer] = UNDEFINED,
         timeout: float = 60,
     ) -> AsyncTuningTask['AsyncGPTModel']:
+        """Initiate a deferred tuning process for the model.
+
+        :param train_datasets: the dataset objects and/or dataset ids used for training of the model.
+        :param validation_datasets: the dataset objects and/or dataset ids used for validation of the model.
+        :param name: the name of the tuning task.
+        :param description: the description of the tuning task.
+        :param labels: labels for the tuning task.
+        :param seed: a random seed for reproducibility.
+        :param lr: a learning rate for tuning.
+        :param n_samples: a number of samples for tuning.
+        :param additional_arguments: additional arguments for tuning.
+        :param tuning_type: a type of tuning to be applied.
+        :param scheduler: a scheduler for tuning.
+        :param optimizer: an optimizer for tuning.
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         return await self._tune_deferred(
             train_datasets=train_datasets,
             validation_datasets=validation_datasets,
@@ -385,6 +470,27 @@ class AsyncGPTModel(
         poll_timeout: int = 72 * 60 * 60,
         poll_interval: float = 60,
     ) -> Self:
+        """Tune the model with the specified training datasets and parameters.
+
+        :param train_datasets: the dataset objects and/or dataset ids used for training of the model.
+        :param validation_datasets: the dataset objects and/or dataset ids used for validation of the model.
+        :param name: the name of the tuning task.
+        :param description: the description of the tuning task.
+        :param labels: labels for the tuning task.
+        :param seed: a random seed for reproducibility.
+        :param lr: a learning rate for tuning.
+        :param n_samples: a number of samples for tuning.
+        :param additional_arguments: additional arguments for tuning.
+        :param tuning_type: a type of tuning to be applied.
+        :param scheduler: a scheduler for tuning.
+        :param optimizer: an optimizer for tuning.
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        :param poll_timeout: the maximum time to wait while polling for completion of the tuning task.
+            Defaults to 259200 seconds (72 hours).
+        :param poll_interval: the interval between polling attempts during the tuning process.
+            Defaults to 60 seconds.
+        """
         return await self._tune(
             train_datasets=train_datasets,
             validation_datasets=validation_datasets,
@@ -404,9 +510,15 @@ class AsyncGPTModel(
         )
 
     async def attach_tune_deferred(self, task_id: str, *, timeout: float = 60) -> AsyncTuningTask['AsyncGPTModel']:
+        """Attach a deferred tuning task using its task id.
+
+        :param task_id: the id of the deferred tuning task to attach to.
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         return await self._attach_tune_deferred(task_id=task_id, timeout=timeout)
 
-
+@doc_from(BaseGPTModel)
 class GPTModel(
     BaseGPTModel[
         Operation[GPTModelResult[ToolCall]],
@@ -428,6 +540,7 @@ class GPTModel(
     __tune = run_sync(BaseGPTModel._tune)
     __attach_tune_deferred = run_sync(BaseGPTModel._attach_tune_deferred)
 
+    @doc_from(AsyncGPTModel.run)
     def run(
         self,
         messages: MessageInputType,
@@ -439,6 +552,7 @@ class GPTModel(
             timeout=timeout
         )
 
+    @doc_from(AsyncGPTModel.run_stream)
     def run_stream(
         self,
         messages: MessageInputType,
@@ -450,6 +564,7 @@ class GPTModel(
             timeout=timeout
         )
 
+    @doc_from(AsyncGPTModel.run_deferred)
     def run_deferred(
         self,
         messages: MessageInputType,
@@ -461,12 +576,14 @@ class GPTModel(
             timeout=timeout,
         )
 
+    @doc_from(AsyncGPTModel.attach_deferred)
     def attach_deferred(self, operation_id: str, timeout: float = 60) -> Operation[GPTModelResult[ToolCall]]:
         return cast(
             Operation[GPTModelResult[ToolCall]],
             self.__attach_deferred(operation_id=operation_id, timeout=timeout)
         )
 
+    @doc_from(AsyncGPTModel.tokenize)
     def tokenize(
         self,
         messages: MessageInputType,
@@ -479,6 +596,7 @@ class GPTModel(
         )
 
     # pylint: disable=too-many-locals
+    @doc_from(AsyncGPTModel.tune_deferred)
     def tune_deferred(
         self,
         train_datasets: TuningDatasetsType,
@@ -514,6 +632,7 @@ class GPTModel(
         return cast(TuningTask[GPTModel], result)
 
     # pylint: disable=too-many-locals
+    @doc_from(AsyncGPTModel.tune)
     def tune(
         self,
         train_datasets: TuningDatasetsType,
@@ -551,6 +670,7 @@ class GPTModel(
             poll_interval=poll_interval,
         )
 
+    @doc_from(AsyncGPTModel.attach_tune_deferred)
     def attach_tune_deferred(self, task_id: str, *, timeout: float = 60) -> TuningTask[GPTModel]:
         return cast(
             TuningTask[GPTModel],
