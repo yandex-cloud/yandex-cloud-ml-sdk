@@ -51,7 +51,7 @@ class BaseTool(ProtoBased[ProtoMessageTypeT]):
         raise NotImplementedError('tools other then search_index and function are not supported in this SDK version')
 
 
-ProtoFunctionTool = Union[ProtoCompletionsFunctionTool | ProtoAssistantsFunctionTool]
+ProtoFunctionTool = Union[ProtoCompletionsFunctionTool, ProtoAssistantsFunctionTool]
 
 
 @dataclass(frozen=True)
