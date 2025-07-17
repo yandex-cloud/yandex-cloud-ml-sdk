@@ -17,11 +17,16 @@ from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPo
 from yandex_cloud_ml_sdk._types.message import MessageType
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._types.resource import ExpirableResource, safe_on_delete
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 
 @dataclasses.dataclass(frozen=True)
 class BaseThread(ExpirableResource):
+    """A class for a thread resource.
+
+    It provides methods for updating, deleting, writing to, and reading from a thread.
+    """
     @safe_on_delete
     async def _update(
         self,
@@ -33,6 +38,17 @@ class BaseThread(ExpirableResource):
         expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
         timeout: float = 60,
     ) -> Self:
+        """Update the thread's properties, including the name, the description, labels,
+        ttl days, and the expiration policy of the thread.
+
+        :param name: the new name of the thread.
+        :param description: the new description for the thread.
+        :param labels: a set of new labels for the thread.
+        :param ttl_days: the updated time-to-live in days for the thread.
+        :param expiration_policy: an updated expiration policy for the file.
+        :param timeout: timeout for the operation in seconds.
+            Defaults to 60 seconds.
+        """
         # pylint: disable=too-many-locals
         name_ = get_defined_value(name, '')
         description_ = get_defined_value(description, '')
@@ -78,6 +94,14 @@ class BaseThread(ExpirableResource):
         *,
         timeout: float = 60,
     ) -> None:
+        """Delete the thread.
+
+        This method deletes the thread and marks it as deleted.
+        Raises an exception if the deletion fails.
+
+        :param timeout: timeout for the operation.
+            Defaults to 60 seconds.
+        """
         request = DeleteThreadRequest(thread_id=self.id)
 
         async with self._client.get_service_stub(ThreadServiceStub, timeout=timeout) as stub:
@@ -97,6 +121,15 @@ class BaseThread(ExpirableResource):
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         timeout: float = 60,
     ) -> Message:
+        """Write a message to the thread.
+
+        This method allows sending a message to the thread with optional labels.
+
+        :param message: the message to be sent to the thread.
+        :param labels: optional labels for the message.
+        :param timeout: timeout for the operation.
+            Defaults to 60 seconds.
+        """
         # pylint: disable-next=protected-access
         return await self._sdk._messages._create(
             thread_id=self.id,
@@ -110,6 +143,13 @@ class BaseThread(ExpirableResource):
         *,
         timeout: float = 60,
     ) -> AsyncIterator[Message]:
+        """Read messages from the thread.
+
+        This method allows iterating over messages in the thread.
+
+        :param timeout: timeout for the operation.
+            Defaults to 60 seconds.
+        """
         # NB: in other methods it is solved via @safe decorator, but it is doesn't work
         # with iterators, so, temporary here will be small copypaste
         # Also I'm not sure enough if we need to put whole thread reading under a lock
@@ -125,17 +165,32 @@ class BaseThread(ExpirableResource):
 
 @dataclasses.dataclass(frozen=True)
 class RichThread(BaseThread):
+    """Rich representation of a thread with additional metadata.
+
+    This class extends :class:`.BaseThread` by adding attributes that provide
+    more information about the thread's creator and timestamps.
+    """
+    #: the name of the thread
     name: str | None
+    #: the description of the thread
     description: str | None
+    #: the identifier of the user who created the thread
     created_by: str
+    #: the timestamp when the thread was created
     created_at: datetime
+    #: the identifier of the user who last updated the thread
     updated_by: str
+    #: the timestamp when the thread was last updated
     updated_at: datetime
+    #: the timestamp when the thread will expire
     expires_at: datetime
+    #: additional labels associated with the thread
     labels: dict[str, str] | None
 
-
+@doc_from(BaseThread)
 class AsyncThread(RichThread):
+
+    @doc_from(BaseThread._update)
     async def update(
         self,
         *,
@@ -155,6 +210,7 @@ class AsyncThread(RichThread):
             timeout=timeout,
         )
 
+    @doc_from(BaseThread._delete)
     async def delete(
         self,
         *,
@@ -162,6 +218,7 @@ class AsyncThread(RichThread):
     ) -> None:
         await self._delete(timeout=timeout)
 
+    @doc_from(BaseThread._write)
     async def write(
         self,
         message: MessageType,
@@ -175,6 +232,7 @@ class AsyncThread(RichThread):
             timeout=timeout
         )
 
+    @doc_from(BaseThread._read)
     async def read(
         self,
         *,
@@ -185,13 +243,14 @@ class AsyncThread(RichThread):
 
     __aiter__ = read
 
-
+@doc_from(BaseThread)
 class Thread(RichThread):
     __update = run_sync(RichThread._update)
     __delete = run_sync(RichThread._delete)
     __write = run_sync(RichThread._write)
     __read = run_sync_generator(RichThread._read)
 
+    @doc_from(BaseThread._update)
     def update(
         self,
         *,
@@ -211,6 +270,7 @@ class Thread(RichThread):
             timeout=timeout,
         )
 
+    @doc_from(BaseThread._delete)
     def delete(
         self,
         *,
@@ -218,6 +278,7 @@ class Thread(RichThread):
     ) -> None:
         self.__delete(timeout=timeout)
 
+    @doc_from(BaseThread._write)
     def write(
         self,
         message: MessageType,
@@ -231,6 +292,7 @@ class Thread(RichThread):
             timeout=timeout
         )
 
+    @doc_from(BaseThread._read)
     def read(
         self,
         *,
