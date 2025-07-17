@@ -11,7 +11,8 @@ from yandex_cloud_ml_sdk._models.completions.result import AlternativeStatus
 from yandex_cloud_ml_sdk._models.completions.token import Token
 from yandex_cloud_ml_sdk._types.message import TextMessage
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED
-from yandex_cloud_ml_sdk._types.tool_choice import ToolChoiceDictType, ToolChoiceType
+from yandex_cloud_ml_sdk._types.tools.function import FunctionDictType
+from yandex_cloud_ml_sdk._types.tools.tool_choice import ToolChoiceType
 
 pytestmark = pytest.mark.asyncio
 
@@ -388,7 +389,7 @@ async def test_tool_choice(async_sdk: AsyncYCloudML, tool, schema) -> None:
 
     for tool_choice in (
         tool2,
-        cast(ToolChoiceDictType, {'type': 'function', 'function': {'name': 'something_else'}})
+        cast(FunctionDictType, {'type': 'function', 'function': {'name': 'something_else'}})
     ):
         assert tool_choice is not None
         model = model.configure(tool_choice=tool_choice)

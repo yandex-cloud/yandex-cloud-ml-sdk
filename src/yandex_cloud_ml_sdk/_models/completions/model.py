@@ -30,8 +30,8 @@ from yandex_cloud_ml_sdk._types.model import (
 )
 from yandex_cloud_ml_sdk._types.operation import AsyncOperation, Operation
 from yandex_cloud_ml_sdk._types.schemas import ResponseType, make_response_format_kwargs
-from yandex_cloud_ml_sdk._types.tool_choice import ToolChoiceType
-from yandex_cloud_ml_sdk._types.tool_choice import coerce_to_proto as coerce_to_proto_tool_choice
+from yandex_cloud_ml_sdk._types.tools.tool_choice import ToolChoiceType
+from yandex_cloud_ml_sdk._types.tools.tool_choice import coerce_to_proto as coerce_to_proto_tool_choice
 from yandex_cloud_ml_sdk._types.tuning.datasets import TuningDatasetsType
 from yandex_cloud_ml_sdk._types.tuning.optimizers import BaseOptimizer
 from yandex_cloud_ml_sdk._types.tuning.schedulers import BaseScheduler
