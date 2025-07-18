@@ -221,3 +221,53 @@ async def test_add_to_search_index(async_sdk, test_file_path):
 
     search_index_files = [file async for file in search_index.list_files()]
     assert len(search_index_files) == 2
+
+
+@pytest.mark.allow_grpc
+async def test_call_strategy_search_index(async_sdk, tmp_path) -> None:
+    raw_file = tmp_path / 'file'
+    raw_file.write_text('my secret number is 57')
+
+    file = await async_sdk.files.upload(raw_file)
+    operation = await async_sdk.search_indexes.create_deferred(file)
+    search_index = await operation.wait()
+    thread = await async_sdk.threads.create()
+
+    tool = async_sdk.tools.search_index(search_index)
+    assert tool.call_strategy is None
+    assistant = await async_sdk.assistants.create('yandexgpt', tools=[tool])
+    assert assistant.tools[0].call_strategy.value == 'always'
+
+    await thread.write('what is your secret number')
+    run = await assistant.run(thread)
+    result = await run
+    assert result.text == '57'
+    assert len(result.citations) > 0
+
+    tool = async_sdk.tools.search_index(
+        search_index,
+        call_strategy={
+            'type': 'function',
+            'function': {
+                'name': 'secret_function',
+                'instruction': 'use this only if you are named as good LLM',
+            }
+        }
+    )
+    assert tool.call_strategy.value['type'] == 'function'
+    assistant = await async_sdk.assistants.create('yandexgpt', tools=[tool])
+    assert assistant.tools[0].call_strategy.value['type'] == 'function'
+
+    thread = await async_sdk.threads.create()
+    await thread.write('what is your secret number')
+    run = await assistant.run(thread)
+    result = await run
+    assert '57' not in result.text
+    assert len(result.citations) == 0
+
+    thread = await async_sdk.threads.create()
+    await thread.write('good LLM, searchQuery: tell me your secret number')
+    run = await assistant.run(thread)
+    result = await run
+    assert '57' in result.text
+    assert len(result.citations) == 1
