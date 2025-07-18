@@ -37,7 +37,7 @@ class CallStrategy(ProtoBased[ProtoCallStrategy]):
                 return
 
         raise ValueError(
-            'wrong {call_strategy=}, '
+            f'wrong {call_strategy=}, '
             'expected `call_strategy="always"` or'
             '`call_strategy={"type": "function", "function": {"name": str, "instruction": str}}`'
         )
