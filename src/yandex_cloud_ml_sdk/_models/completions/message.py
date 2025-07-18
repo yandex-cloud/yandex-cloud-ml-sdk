@@ -17,10 +17,18 @@ from yandex_cloud_ml_sdk._utils.coerce import coerce_tuple
 
 @runtime_checkable
 class TextMessageWithToolCallsProtocol(TextMessageProtocol, Protocol):
+    """
+    A class with a protocol which defines a text message structure with associated tool calls.
+    The protocol extends the TextMessageProtocol and requires a list of tool calls.
+    """
     tool_calls: ToolCallList
 
 
 class FunctionResultMessageDict(TypedDict):
+    """
+    A class with the TypedDict representing the structure of a function result message.
+    The dictionary contains the role of the message sender and the results of tool calls.
+    """
     role: NotRequired[str]
     tool_results: Required[Iterable[ToolResultDictType]]
 
@@ -31,12 +39,14 @@ class _ProtoMessageKwargs(TypedDict):
     tool_result_list: NotRequired[ProtoCompletionsToolResultList]
     tool_call_list: NotRequired[ProtoCompletionsToolCallList]
 
-
+#: a type alias for a message that can either be a standard message or a function result message.
 CompletionsMessageType = Union[MessageType, FunctionResultMessageDict]
+#: a type alias for input that can be either a single completion message or a collection (i.e. an iterable) of completion messages.
 MessageInputType = Union[CompletionsMessageType, Iterable[CompletionsMessageType]]
 
 
 def messages_to_proto(messages: MessageInputType) -> list[ProtoMessage]:
+    """:meta private:"""
     msgs: tuple[CompletionsMessageType, ...] = coerce_tuple(
         messages,
         (dict, str, TextMessageProtocol),  # type: ignore[arg-type]
