@@ -15,8 +15,8 @@ from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_servic
     CompletionResponse, TokenizeResponse
 )
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2_grpc import (
-    TextGenerationServiceServicer, TokenizerServiceServicer, add_TextGenerationServiceServicer_to_server,
-    add_TokenizerServiceServicer_to_server
+    TextGenerationServiceServicer, TextGenerationServiceStub, TokenizerServiceServicer,
+    add_TextGenerationServiceServicer_to_server, add_TokenizerServiceServicer_to_server
 )
 from yandex.cloud.endpoint.api_endpoint_service_pb2 import ListApiEndpointsRequest, ListApiEndpointsResponse
 from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServiceStub
@@ -24,8 +24,13 @@ from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServi
 import yandex_cloud_ml_sdk._client
 from yandex_cloud_ml_sdk import AsyncYCloudML
 from yandex_cloud_ml_sdk._client import AsyncCloudClient, _get_user_agent
+from yandex_cloud_ml_sdk._types.misc import UNDEFINED
 from yandex_cloud_ml_sdk.auth import NoAuth
-from yandex_cloud_ml_sdk.exceptions import AioRpcError
+from yandex_cloud_ml_sdk.exceptions import AioRpcError, UnknownEndpointError
+
+
+class NewChannelException(Exception):
+    pass
 
 
 @pytest.fixture(name='servicers')
@@ -93,6 +98,16 @@ async def test_multiple_requests(folder_id):
 
     for context in ctx:
         await context.__aexit__(None, None, None)
+
+
+@pytest.fixture(name='forbid_grpc_call')
+def forbid_grpc_call_fixure(monkeypatch):
+    def raise_(*args, **kwargs):
+        endpoint = args[1] if len(args) > 1 else kwargs['endpoint']
+
+        raise NewChannelException(endpoint)
+
+    monkeypatch.setattr(yandex_cloud_ml_sdk._client.AsyncCloudClient, '_new_channel', raise_)
 
 
 @pytest.mark.asyncio
@@ -373,3 +388,46 @@ async def test_grpc_request_id_wrong_metadata_exception(async_sdk, monkeypatch):
 
     assert '\tauth_provider' not in exc_repr
     assert '\tx-client-request-id = "grpc metadata was replaced with non-Metadata object"\n' in exc_repr
+
+
+# pylint: disable=unused-argument
+@pytest.mark.asyncio
+@pytest.mark.parametrize('endpoint', [None, UNDEFINED])
+async def test_client_custom_map(folder_id, forbid_grpc_call, endpoint) -> None:
+    sdk = AsyncYCloudML(
+        folder_id=folder_id,
+        endpoint=endpoint,
+        service_map={'ai-foundation-models': 'ya.ru'}
+    )
+    model = sdk.models.completions('foo')
+
+    assert not sdk._client._endpoints
+
+    with pytest.raises(
+        NewChannelException,
+        match='ya.ru'
+    ):
+        await model.run('bar')
+
+    assert sdk._client._endpoints[TextGenerationServiceStub] == 'ya.ru'
+
+
+@pytest.mark.asyncio
+async def test_client_endpoint(folder_id, forbid_grpc_call) -> None:
+    sdk = AsyncYCloudML(
+        folder_id=folder_id,
+        endpoint=None,
+    )
+
+    with pytest.raises(
+        UnknownEndpointError,
+        match=r".+?`endpoint`.+?'ai-files'.+?`service_map`"
+    ):
+        await sdk.files.get('123')
+
+    sdk = AsyncYCloudML(folder_id=folder_id, endpoint="yandex.cloud:999")
+    with pytest.raises(
+        NewChannelException,
+        match='yandex.cloud:999'
+    ):
+        await sdk.files.get('123')

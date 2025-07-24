@@ -12,6 +12,14 @@
                 "message": {
                     "endpoints": [
                         {
+                            "id": "ai-assistants",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-files",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "ai-foundation-models",
                             "address": "llm.api.cloud.yandex.net:443"
                         },
@@ -72,6 +80,10 @@
                             "address": "backup.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "baremetal",
+                            "address": "baremetal.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "billing",
                             "address": "billing.api.cloud.yandex.net:443"
                         },
@@ -92,8 +104,20 @@
                             "address": "data.certificate-manager.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "certificate-manager-private-ca",
+                            "address": "private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager-private-ca-data",
+                            "address": "data.private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "cic",
-                            "address": "cic-api.api.cloud.yandex.net:443"
+                            "address": "cic.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloud-registry",
+                            "address": "registry.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "cloudapps",
@@ -109,7 +133,7 @@
                         },
                         {
                             "id": "cloudrouter",
-                            "address": "cic-api.api.cloud.yandex.net:443"
+                            "address": "cloudrouter.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "cloudvideo",
@@ -148,6 +172,18 @@
                             "address": "api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "fomo-dataset",
+                            "address": "fomo-dataset.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "fomo-tuning",
+                            "address": "fomo-tuning.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "gitlab",
+                            "address": "gitlab.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "iam",
                             "address": "iam.api.cloud.yandex.net:443"
                         },
@@ -174,6 +210,10 @@
                         {
                             "id": "kms-crypto",
                             "address": "kms.yandex:443"
+                        },
+                        {
+                            "id": "kspm",
+                            "address": "kspm.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "load-balancer",
@@ -232,6 +272,10 @@
                             "address": "mks.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-metastore",
+                            "address": "metastore.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "managed-mongodb",
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
@@ -252,11 +296,31 @@
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-spark",
+                            "address": "spark.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-spqr",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "managed-sqlserver",
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-trino",
+                            "address": "trino.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-ytsaurus",
+                            "address": "ytsaurus.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "marketplace",
+                            "address": "marketplace.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "marketplace-pim",
                             "address": "marketplace.api.cloud.yandex.net:443"
                         },
                         {
@@ -284,6 +348,10 @@
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "mdb-spqr",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "mdbproxy",
                             "address": "mdbproxy.api.cloud.yandex.net:443"
                         },
@@ -302,6 +370,14 @@
                         {
                             "id": "organizationmanager",
                             "address": "organization-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quota-manager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quotamanager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "resource-manager",
@@ -396,19 +472,19 @@
                 "cls": "Thread",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_pb2",
                 "message": {
-                    "id": "fvt2ne2e05r93ecovmur",
+                    "id": "fvtuu90i4qi3m3ka23v9",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "t0",
-                    "defaultMessageAuthorId": "fvtahidds245ks5tmpim",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-09T18:36:27.874638Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-09T18:36:27.874638Z",
+                    "defaultMessageAuthorId": "fvttf541df6efpcag5j9",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:30:11.281293Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:30:11.281293Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-16T18:36:27.874638Z"
+                    "expiresAt": "2025-07-31T14:30:11.281293Z"
                 }
             }
         },
@@ -425,19 +501,19 @@
                 "cls": "Thread",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_pb2",
                 "message": {
-                    "id": "fvtpigno8f1m09fqf6fe",
+                    "id": "fvtuharocdtmfc1oim6b",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "t1",
-                    "defaultMessageAuthorId": "fvtka01k3a41e4j4cml2",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-09T18:36:28.096497Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-09T18:36:28.096497Z",
+                    "defaultMessageAuthorId": "fvthkrqa3ocqcojekkf8",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:30:11.331657Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:30:11.331657Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-16T18:36:28.096497Z"
+                    "expiresAt": "2025-07-31T14:30:11.331657Z"
                 }
             }
         },
@@ -454,19 +530,19 @@
                 "cls": "Thread",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_pb2",
                 "message": {
-                    "id": "fvtl9vfngmgeuubqail9",
+                    "id": "fvtejgb1gc8un8tdpel5",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "t2",
-                    "defaultMessageAuthorId": "fvtpcejtv9rt9o0k7fst",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-09T18:36:28.314690Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-09T18:36:28.314690Z",
+                    "defaultMessageAuthorId": "fvt46asfm2l55g3brr86",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:30:11.386484Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:30:11.386484Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-16T18:36:28.314690Z"
+                    "expiresAt": "2025-07-31T14:30:11.386484Z"
                 }
             }
         },
@@ -483,19 +559,19 @@
                 "cls": "Thread",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_pb2",
                 "message": {
-                    "id": "fvt3k5shbpa9skf22rma",
+                    "id": "fvt3gvqdro470elh6jvv",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "t3",
-                    "defaultMessageAuthorId": "fvthla3u68q7dig1eul7",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-09T18:36:28.489848Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-09T18:36:28.489848Z",
+                    "defaultMessageAuthorId": "fvt24tnd2vu26a72lmqg",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:30:11.430879Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:30:11.430879Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-16T18:36:28.489848Z"
+                    "expiresAt": "2025-07-31T14:30:11.430879Z"
                 }
             }
         },
@@ -512,19 +588,19 @@
                 "cls": "Thread",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_pb2",
                 "message": {
-                    "id": "fvt65fdgis7oprr9364j",
+                    "id": "fvtg1lp34su3s34tmg6m",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "t4",
-                    "defaultMessageAuthorId": "fvtpuse9j48nulmep81g",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-09T18:36:28.724861Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-09T18:36:28.724861Z",
+                    "defaultMessageAuthorId": "fvtajt2mmbe2jccfr1iv",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:30:11.480204Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:30:11.480204Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-16T18:36:28.724861Z"
+                    "expiresAt": "2025-07-31T14:30:11.480204Z"
                 }
             }
         },
@@ -541,19 +617,19 @@
                 "cls": "Thread",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_pb2",
                 "message": {
-                    "id": "fvtp0euavo6iu0fr4otu",
+                    "id": "fvt3letkes3b032mhn69",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "t5",
-                    "defaultMessageAuthorId": "fvt2geb258nu9pbcgg1g",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-09T18:36:28.944916Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-09T18:36:28.944916Z",
+                    "defaultMessageAuthorId": "fvts9q3dg5h9mob19omh",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:30:11.518989Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:30:11.518989Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-16T18:36:28.944916Z"
+                    "expiresAt": "2025-07-31T14:30:11.518989Z"
                 }
             }
         },
@@ -570,19 +646,19 @@
                 "cls": "Thread",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_pb2",
                 "message": {
-                    "id": "fvt1npn6ka0b2ptn64js",
+                    "id": "fvtt8u9979132rb7tsdh",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "t6",
-                    "defaultMessageAuthorId": "fvth89u9cisei37uo02a",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-09T18:36:29.102969Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-09T18:36:29.102969Z",
+                    "defaultMessageAuthorId": "fvt4v1it8j6l6l4kcsah",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:30:11.558815Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:30:11.558815Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-16T18:36:29.102969Z"
+                    "expiresAt": "2025-07-31T14:30:11.558815Z"
                 }
             }
         },
@@ -599,19 +675,19 @@
                 "cls": "Thread",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_pb2",
                 "message": {
-                    "id": "fvthp957c2snp16qo159",
+                    "id": "fvtmibqq17jefjfkmib9",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "t7",
-                    "defaultMessageAuthorId": "fvttpvg5cpc4qgfap85m",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-09T18:36:29.278990Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-09T18:36:29.278990Z",
+                    "defaultMessageAuthorId": "fvt1udfbd0pjb14scme2",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:30:11.606256Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:30:11.606256Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-16T18:36:29.278990Z"
+                    "expiresAt": "2025-07-31T14:30:11.606256Z"
                 }
             }
         },
@@ -628,19 +704,19 @@
                 "cls": "Thread",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_pb2",
                 "message": {
-                    "id": "fvtt5m9epknbe3vf3bii",
+                    "id": "fvtkku558868nuh8lv42",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "t8",
-                    "defaultMessageAuthorId": "fvt2k8tv283np2uispic",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-09T18:36:29.437724Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-09T18:36:29.437724Z",
+                    "defaultMessageAuthorId": "fvte8o14pdcf7p1bv88a",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:30:11.654145Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:30:11.654145Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-16T18:36:29.437724Z"
+                    "expiresAt": "2025-07-31T14:30:11.654145Z"
                 }
             }
         },
@@ -657,19 +733,19 @@
                 "cls": "Thread",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_pb2",
                 "message": {
-                    "id": "fvt4d5itg7o2bk3d52i0",
+                    "id": "fvtcu39sidaiet8d9936",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "t9",
-                    "defaultMessageAuthorId": "fvt6rge6noak0ur21jo0",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-09T18:36:29.654235Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-09T18:36:29.654235Z",
+                    "defaultMessageAuthorId": "fvtdtpui55qli2qdt3n8",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:30:11.704332Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:30:11.704332Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-16T18:36:29.654235Z"
+                    "expiresAt": "2025-07-31T14:30:11.704332Z"
                 }
             }
         },
@@ -687,157 +763,199 @@
                 "message": {
                     "threads": [
                         {
-                            "id": "fvt4d5itg7o2bk3d52i0",
+                            "id": "fvtcu39sidaiet8d9936",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "t9",
-                            "defaultMessageAuthorId": "fvt6rge6noak0ur21jo0",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-09T18:36:29.654235Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-09T18:36:29.654235Z",
+                            "defaultMessageAuthorId": "fvtdtpui55qli2qdt3n8",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:30:11.704332Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:30:11.704332Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-16T18:36:29.654235Z"
+                            "expiresAt": "2025-07-31T14:30:11.704332Z"
                         },
                         {
-                            "id": "fvtt5m9epknbe3vf3bii",
+                            "id": "fvtkku558868nuh8lv42",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "t8",
-                            "defaultMessageAuthorId": "fvt2k8tv283np2uispic",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-09T18:36:29.437724Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-09T18:36:29.437724Z",
+                            "defaultMessageAuthorId": "fvte8o14pdcf7p1bv88a",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:30:11.654145Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:30:11.654145Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-16T18:36:29.437724Z"
+                            "expiresAt": "2025-07-31T14:30:11.654145Z"
                         },
                         {
-                            "id": "fvthp957c2snp16qo159",
+                            "id": "fvtmibqq17jefjfkmib9",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "t7",
-                            "defaultMessageAuthorId": "fvttpvg5cpc4qgfap85m",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-09T18:36:29.278990Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-09T18:36:29.278990Z",
+                            "defaultMessageAuthorId": "fvt1udfbd0pjb14scme2",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:30:11.606256Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:30:11.606256Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-16T18:36:29.278990Z"
+                            "expiresAt": "2025-07-31T14:30:11.606256Z"
                         },
                         {
-                            "id": "fvt1npn6ka0b2ptn64js",
+                            "id": "fvtt8u9979132rb7tsdh",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "t6",
-                            "defaultMessageAuthorId": "fvth89u9cisei37uo02a",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-09T18:36:29.102969Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-09T18:36:29.102969Z",
+                            "defaultMessageAuthorId": "fvt4v1it8j6l6l4kcsah",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:30:11.558815Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:30:11.558815Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-16T18:36:29.102969Z"
+                            "expiresAt": "2025-07-31T14:30:11.558815Z"
                         },
                         {
-                            "id": "fvtp0euavo6iu0fr4otu",
+                            "id": "fvt3letkes3b032mhn69",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "t5",
-                            "defaultMessageAuthorId": "fvt2geb258nu9pbcgg1g",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-09T18:36:28.944916Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-09T18:36:28.944916Z",
+                            "defaultMessageAuthorId": "fvts9q3dg5h9mob19omh",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:30:11.518989Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:30:11.518989Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-16T18:36:28.944916Z"
+                            "expiresAt": "2025-07-31T14:30:11.518989Z"
                         },
                         {
-                            "id": "fvt65fdgis7oprr9364j",
+                            "id": "fvtg1lp34su3s34tmg6m",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "t4",
-                            "defaultMessageAuthorId": "fvtpuse9j48nulmep81g",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-09T18:36:28.724861Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-09T18:36:28.724861Z",
+                            "defaultMessageAuthorId": "fvtajt2mmbe2jccfr1iv",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:30:11.480204Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:30:11.480204Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-16T18:36:28.724861Z"
+                            "expiresAt": "2025-07-31T14:30:11.480204Z"
                         },
                         {
-                            "id": "fvt3k5shbpa9skf22rma",
+                            "id": "fvt3gvqdro470elh6jvv",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "t3",
-                            "defaultMessageAuthorId": "fvthla3u68q7dig1eul7",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-09T18:36:28.489848Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-09T18:36:28.489848Z",
+                            "defaultMessageAuthorId": "fvt24tnd2vu26a72lmqg",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:30:11.430879Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:30:11.430879Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-16T18:36:28.489848Z"
+                            "expiresAt": "2025-07-31T14:30:11.430879Z"
                         },
                         {
-                            "id": "fvtl9vfngmgeuubqail9",
+                            "id": "fvtejgb1gc8un8tdpel5",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "t2",
-                            "defaultMessageAuthorId": "fvtpcejtv9rt9o0k7fst",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-09T18:36:28.314690Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-09T18:36:28.314690Z",
+                            "defaultMessageAuthorId": "fvt46asfm2l55g3brr86",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:30:11.386484Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:30:11.386484Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-16T18:36:28.314690Z"
+                            "expiresAt": "2025-07-31T14:30:11.386484Z"
                         },
                         {
-                            "id": "fvtpigno8f1m09fqf6fe",
+                            "id": "fvtuharocdtmfc1oim6b",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "t1",
-                            "defaultMessageAuthorId": "fvtka01k3a41e4j4cml2",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-09T18:36:28.096497Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-09T18:36:28.096497Z",
+                            "defaultMessageAuthorId": "fvthkrqa3ocqcojekkf8",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:30:11.331657Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:30:11.331657Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-16T18:36:28.096497Z"
+                            "expiresAt": "2025-07-31T14:30:11.331657Z"
                         },
                         {
-                            "id": "fvt2ne2e05r93ecovmur",
+                            "id": "fvtuu90i4qi3m3ka23v9",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "t0",
-                            "defaultMessageAuthorId": "fvtahidds245ks5tmpim",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-09T18:36:27.874638Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-09T18:36:27.874638Z",
+                            "defaultMessageAuthorId": "fvttf541df6efpcag5j9",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:30:11.281293Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:30:11.281293Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-16T18:36:27.874638Z"
+                            "expiresAt": "2025-07-31T14:30:11.281293Z"
+                        },
+                        {
+                            "id": "fvtgj0rhq5pp80tsl3ej",
+                            "folderId": "b1ghsjum2v37c2un8h64",
+                            "defaultMessageAuthorId": "fvtp425q4rfvj00rkqvt",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:26:20.403223Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:26:20.403223Z",
+                            "expirationConfig": {
+                                "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                "ttlDays": "7"
+                            },
+                            "expiresAt": "2025-07-31T14:26:21.263794Z"
+                        },
+                        {
+                            "id": "fvt9a4leaiak4v1h215i",
+                            "folderId": "b1ghsjum2v37c2un8h64",
+                            "defaultMessageAuthorId": "fvtshbdrsd8sr9terek1",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:26:19.640977Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:26:19.640977Z",
+                            "expirationConfig": {
+                                "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                "ttlDays": "7"
+                            },
+                            "expiresAt": "2025-07-31T14:26:20.254420Z"
+                        },
+                        {
+                            "id": "fvt03veop86n8fm9ret9",
+                            "folderId": "b1ghsjum2v37c2un8h64",
+                            "defaultMessageAuthorId": "fvtftns301gq2j69n3pi",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:26:18.591352Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:26:18.591352Z",
+                            "expirationConfig": {
+                                "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                "ttlDays": "7"
+                            },
+                            "expiresAt": "2025-07-31T14:26:19.310113Z"
                         }
                     ],
-                    "nextPageToken": "MjAyNC0xMC0wOVQxODozNjoyNy44NzQ2MzhAZnZ0Mm5lMmUwNXI5M2Vjb3ZtdXI="
+                    "nextPageToken": "MjAyNS0wNy0yNFQxNDoyNjoxOC41OTEzNTJAZnZ0MDN2ZW9wODZuOGZtOXJldDk="
                 }
             }
         },
@@ -847,7 +965,7 @@
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "pageToken": "MjAyNC0xMC0wOVQxODozNjoyNy44NzQ2MzhAZnZ0Mm5lMmUwNXI5M2Vjb3ZtdXI="
+                    "pageToken": "MjAyNS0wNy0yNFQxNDoyNjoxOC41OTEzNTJAZnZ0MDN2ZW9wODZuOGZtOXJldDk="
                 }
             },
             "response": {
@@ -861,7 +979,7 @@
                 "cls": "DeleteThreadRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
                 "message": {
-                    "threadId": "fvt4d5itg7o2bk3d52i0"
+                    "threadId": "fvtcu39sidaiet8d9936"
                 }
             },
             "response": {
@@ -875,7 +993,7 @@
                 "cls": "DeleteThreadRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
                 "message": {
-                    "threadId": "fvtt5m9epknbe3vf3bii"
+                    "threadId": "fvtkku558868nuh8lv42"
                 }
             },
             "response": {
@@ -889,7 +1007,7 @@
                 "cls": "DeleteThreadRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
                 "message": {
-                    "threadId": "fvthp957c2snp16qo159"
+                    "threadId": "fvtmibqq17jefjfkmib9"
                 }
             },
             "response": {
@@ -903,7 +1021,7 @@
                 "cls": "DeleteThreadRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
                 "message": {
-                    "threadId": "fvt1npn6ka0b2ptn64js"
+                    "threadId": "fvtt8u9979132rb7tsdh"
                 }
             },
             "response": {
@@ -917,7 +1035,7 @@
                 "cls": "DeleteThreadRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
                 "message": {
-                    "threadId": "fvtp0euavo6iu0fr4otu"
+                    "threadId": "fvt3letkes3b032mhn69"
                 }
             },
             "response": {
@@ -931,7 +1049,7 @@
                 "cls": "DeleteThreadRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
                 "message": {
-                    "threadId": "fvt65fdgis7oprr9364j"
+                    "threadId": "fvtg1lp34su3s34tmg6m"
                 }
             },
             "response": {
@@ -945,7 +1063,7 @@
                 "cls": "DeleteThreadRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
                 "message": {
-                    "threadId": "fvt3k5shbpa9skf22rma"
+                    "threadId": "fvt3gvqdro470elh6jvv"
                 }
             },
             "response": {
@@ -959,7 +1077,7 @@
                 "cls": "DeleteThreadRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
                 "message": {
-                    "threadId": "fvtl9vfngmgeuubqail9"
+                    "threadId": "fvtejgb1gc8un8tdpel5"
                 }
             },
             "response": {
@@ -973,7 +1091,7 @@
                 "cls": "DeleteThreadRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
                 "message": {
-                    "threadId": "fvtpigno8f1m09fqf6fe"
+                    "threadId": "fvtuharocdtmfc1oim6b"
                 }
             },
             "response": {
@@ -987,7 +1105,49 @@
                 "cls": "DeleteThreadRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
                 "message": {
-                    "threadId": "fvt2ne2e05r93ecovmur"
+                    "threadId": "fvtuu90i4qi3m3ka23v9"
+                }
+            },
+            "response": {
+                "cls": "DeleteThreadResponse",
+                "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
+                "message": {}
+            }
+        },
+        {
+            "request": {
+                "cls": "DeleteThreadRequest",
+                "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
+                "message": {
+                    "threadId": "fvtgj0rhq5pp80tsl3ej"
+                }
+            },
+            "response": {
+                "cls": "DeleteThreadResponse",
+                "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
+                "message": {}
+            }
+        },
+        {
+            "request": {
+                "cls": "DeleteThreadRequest",
+                "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
+                "message": {
+                    "threadId": "fvt9a4leaiak4v1h215i"
+                }
+            },
+            "response": {
+                "cls": "DeleteThreadResponse",
+                "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
+                "message": {}
+            }
+        },
+        {
+            "request": {
+                "cls": "DeleteThreadRequest",
+                "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
+                "message": {
+                    "threadId": "fvt03veop86n8fm9ret9"
                 }
             },
             "response": {

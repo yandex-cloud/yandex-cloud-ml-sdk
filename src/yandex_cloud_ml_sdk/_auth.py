@@ -52,13 +52,11 @@ class BaseAuth(ABC):
         """:meta private:"""
         # NB: we are can't create lock in Auth constructor, so we a reusing lock from client.
         # Look at client._lock doctstring for details.
-        pass
 
     @classmethod
     @abstractmethod
     async def applicable_from_env(cls, **_: Any) -> Self | None:
         """:meta private:"""
-        pass
 
 
 class NoAuth(BaseAuth):
@@ -402,7 +400,7 @@ class MetadataAuth(RefresheableIAMTokenAuth):
 async def get_auth_provider(
     *,
     auth: str | BaseAuth | None,
-    endpoint: str,
+    endpoint: str | None,
     yc_profile: str | None,
 ) -> BaseAuth:
     """

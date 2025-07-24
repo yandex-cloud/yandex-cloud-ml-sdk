@@ -12,6 +12,14 @@
                 "message": {
                     "endpoints": [
                         {
+                            "id": "ai-assistants",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-files",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "ai-foundation-models",
                             "address": "llm.api.cloud.yandex.net:443"
                         },
@@ -72,6 +80,10 @@
                             "address": "backup.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "baremetal",
+                            "address": "baremetal.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "billing",
                             "address": "billing.api.cloud.yandex.net:443"
                         },
@@ -92,8 +104,20 @@
                             "address": "data.certificate-manager.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "certificate-manager-private-ca",
+                            "address": "private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager-private-ca-data",
+                            "address": "data.private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "cic",
-                            "address": "cic-api.api.cloud.yandex.net:443"
+                            "address": "cic.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloud-registry",
+                            "address": "registry.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "cloudapps",
@@ -109,7 +133,7 @@
                         },
                         {
                             "id": "cloudrouter",
-                            "address": "cic-api.api.cloud.yandex.net:443"
+                            "address": "cloudrouter.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "cloudvideo",
@@ -148,6 +172,18 @@
                             "address": "api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "fomo-dataset",
+                            "address": "fomo-dataset.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "fomo-tuning",
+                            "address": "fomo-tuning.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "gitlab",
+                            "address": "gitlab.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "iam",
                             "address": "iam.api.cloud.yandex.net:443"
                         },
@@ -174,6 +210,10 @@
                         {
                             "id": "kms-crypto",
                             "address": "kms.yandex:443"
+                        },
+                        {
+                            "id": "kspm",
+                            "address": "kspm.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "load-balancer",
@@ -232,6 +272,10 @@
                             "address": "mks.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-metastore",
+                            "address": "metastore.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "managed-mongodb",
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
@@ -252,11 +296,31 @@
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-spark",
+                            "address": "spark.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-spqr",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "managed-sqlserver",
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-trino",
+                            "address": "trino.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-ytsaurus",
+                            "address": "ytsaurus.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "marketplace",
+                            "address": "marketplace.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "marketplace-pim",
                             "address": "marketplace.api.cloud.yandex.net:443"
                         },
                         {
@@ -284,6 +348,10 @@
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "mdb-spqr",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "mdbproxy",
                             "address": "mdbproxy.api.cloud.yandex.net:443"
                         },
@@ -302,6 +370,14 @@
                         {
                             "id": "organizationmanager",
                             "address": "organization-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quota-manager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quotamanager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "resource-manager",
@@ -389,25 +465,25 @@
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "content": "dGVzdCBmaWxl"
+                    "content": "c2VjcmV0IG51bWJlciBpcyA5OTc="
                 }
             },
             "response": {
                 "cls": "File",
                 "module": "yandex.cloud.ai.files.v1.file_pb2",
                 "message": {
-                    "id": "fvte7h3e4u5bo3tkk7t0",
+                    "id": "fvt8tcq0uv7agskdvnar",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "mimeType": "text/plain",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-30T17:29:06.361039Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-30T17:29:06.361039Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:23:19.131916Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:23:19.131916Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-11-06T17:29:06.361039Z"
+                    "expiresAt": "2025-07-31T14:23:19.131916Z"
                 }
             }
         },
@@ -418,7 +494,7 @@
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "fileIds": [
-                        "fvte7h3e4u5bo3tkk7t0"
+                        "fvt8tcq0uv7agskdvnar"
                     ]
                 }
             },
@@ -426,11 +502,11 @@
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvt2pt8rv5igf3sghivk",
+                    "id": "fvt28pt2rribsjtsum89",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:29:06.534181Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:29:06.534181Z"
+                    "createdAt": "2025-07-24T14:23:19.309803Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:23:19.309803Z"
                 }
             }
         },
@@ -439,18 +515,18 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvt2pt8rv5igf3sghivk"
+                    "operationId": "fvt28pt2rribsjtsum89"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvt2pt8rv5igf3sghivk",
+                    "id": "fvt28pt2rribsjtsum89",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:29:06.534181Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:29:06.534181Z"
+                    "createdAt": "2025-07-24T14:23:19.309803Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:23:19.309803Z"
                 }
             }
         },
@@ -459,39 +535,41 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvt2pt8rv5igf3sghivk"
+                    "operationId": "fvt28pt2rribsjtsum89"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvt2pt8rv5igf3sghivk",
+                    "id": "fvt28pt2rribsjtsum89",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:29:06.534181Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:29:07.121050Z",
+                    "createdAt": "2025-07-24T14:23:19.309803Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:23:20.607896Z",
                     "done": true,
                     "response": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.assistants.v1.searchindex.SearchIndex",
-                        "id": "fvtvi63l544pcehvaite",
+                        "id": "fvtcbdrue72o2e7hmenu",
                         "folderId": "b1ghsjum2v37c2un8h64",
-                        "createdBy": "ajek27c96hekgf8f8016",
-                        "createdAt": "2024-10-30T17:29:06.523856Z",
-                        "updatedBy": "ajek27c96hekgf8f8016",
-                        "updatedAt": "2024-10-30T17:29:06.523856Z",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-07-24T14:23:19.409493Z",
+                        "updatedBy": "aje6euqn63oa635coh28",
+                        "updatedAt": "2025-07-24T14:23:19.409493Z",
                         "expirationConfig": {
                             "expirationPolicy": "SINCE_LAST_ACTIVE",
                             "ttlDays": "7"
                         },
-                        "expiresAt": "2024-11-06T17:29:06.523856Z",
+                        "expiresAt": "2025-07-31T14:23:19.409493Z",
                         "textSearchIndex": {
                             "chunkingStrategy": {
                                 "staticStrategy": {
                                     "maxChunkSizeTokens": "800",
                                     "chunkOverlapTokens": "400"
                                 }
-                            }
+                            },
+                            "standardTokenizer": {},
+                            "yandexLemmerAnalyzer": {}
                         }
                     }
                 }
@@ -504,7 +582,7 @@
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "fileIds": [
-                        "fvte7h3e4u5bo3tkk7t0"
+                        "fvt8tcq0uv7agskdvnar"
                     ],
                     "name": "s0"
                 }
@@ -513,11 +591,11 @@
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvt1vcgcemj72qs1qrqj",
+                    "id": "fvt0ghtmetuvthh0ru9k",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:29:16.713011Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:29:16.713011Z"
+                    "createdAt": "2025-07-24T14:23:29.507931Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:23:29.507931Z"
                 }
             }
         },
@@ -526,18 +604,18 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvt1vcgcemj72qs1qrqj"
+                    "operationId": "fvt0ghtmetuvthh0ru9k"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvt1vcgcemj72qs1qrqj",
+                    "id": "fvt0ghtmetuvthh0ru9k",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:29:16.713011Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:29:16.713011Z"
+                    "createdAt": "2025-07-24T14:23:29.507931Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:23:29.507931Z"
                 }
             }
         },
@@ -546,40 +624,42 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvt1vcgcemj72qs1qrqj"
+                    "operationId": "fvt0ghtmetuvthh0ru9k"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvt1vcgcemj72qs1qrqj",
+                    "id": "fvt0ghtmetuvthh0ru9k",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:29:16.713011Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:29:17.240869Z",
+                    "createdAt": "2025-07-24T14:23:29.507931Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:23:31.559014Z",
                     "done": true,
                     "response": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.assistants.v1.searchindex.SearchIndex",
-                        "id": "fvtj41mj8uu02tvvh1i5",
+                        "id": "fvtgef8mn2fbkgn6s7bq",
                         "folderId": "b1ghsjum2v37c2un8h64",
                         "name": "s0",
-                        "createdBy": "ajek27c96hekgf8f8016",
-                        "createdAt": "2024-10-30T17:29:16.701222Z",
-                        "updatedBy": "ajek27c96hekgf8f8016",
-                        "updatedAt": "2024-10-30T17:29:16.701222Z",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-07-24T14:23:29.576762Z",
+                        "updatedBy": "aje6euqn63oa635coh28",
+                        "updatedAt": "2025-07-24T14:23:29.576762Z",
                         "expirationConfig": {
                             "expirationPolicy": "SINCE_LAST_ACTIVE",
                             "ttlDays": "7"
                         },
-                        "expiresAt": "2024-11-06T17:29:16.701222Z",
+                        "expiresAt": "2025-07-31T14:23:29.576762Z",
                         "textSearchIndex": {
                             "chunkingStrategy": {
                                 "staticStrategy": {
                                     "maxChunkSizeTokens": "800",
                                     "chunkOverlapTokens": "400"
                                 }
-                            }
+                            },
+                            "standardTokenizer": {},
+                            "yandexLemmerAnalyzer": {}
                         }
                     }
                 }
@@ -592,7 +672,7 @@
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "fileIds": [
-                        "fvte7h3e4u5bo3tkk7t0"
+                        "fvt8tcq0uv7agskdvnar"
                     ],
                     "name": "s1"
                 }
@@ -601,11 +681,11 @@
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtmmavlk4tddri6rojk",
+                    "id": "fvtvj7j4tmh4femuotlc",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:29:26.905105Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:29:26.905105Z"
+                    "createdAt": "2025-07-24T14:23:39.709657Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:23:39.709657Z"
                 }
             }
         },
@@ -614,18 +694,18 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvtmmavlk4tddri6rojk"
+                    "operationId": "fvtvj7j4tmh4femuotlc"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtmmavlk4tddri6rojk",
+                    "id": "fvtvj7j4tmh4femuotlc",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:29:26.905105Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:29:26.905105Z"
+                    "createdAt": "2025-07-24T14:23:39.709657Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:23:39.709657Z"
                 }
             }
         },
@@ -634,40 +714,42 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvtmmavlk4tddri6rojk"
+                    "operationId": "fvtvj7j4tmh4femuotlc"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtmmavlk4tddri6rojk",
+                    "id": "fvtvj7j4tmh4femuotlc",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:29:26.905105Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:29:27.268515Z",
+                    "createdAt": "2025-07-24T14:23:39.709657Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:23:40.839865Z",
                     "done": true,
                     "response": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.assistants.v1.searchindex.SearchIndex",
-                        "id": "fvtmed4eflqf36igsub6",
+                        "id": "fvtgu7ad8ps9n4hhpdsu",
                         "folderId": "b1ghsjum2v37c2un8h64",
                         "name": "s1",
-                        "createdBy": "ajek27c96hekgf8f8016",
-                        "createdAt": "2024-10-30T17:29:26.895233Z",
-                        "updatedBy": "ajek27c96hekgf8f8016",
-                        "updatedAt": "2024-10-30T17:29:26.895233Z",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-07-24T14:23:39.746640Z",
+                        "updatedBy": "aje6euqn63oa635coh28",
+                        "updatedAt": "2025-07-24T14:23:39.746640Z",
                         "expirationConfig": {
                             "expirationPolicy": "SINCE_LAST_ACTIVE",
                             "ttlDays": "7"
                         },
-                        "expiresAt": "2024-11-06T17:29:26.895233Z",
+                        "expiresAt": "2025-07-31T14:23:39.746640Z",
                         "textSearchIndex": {
                             "chunkingStrategy": {
                                 "staticStrategy": {
                                     "maxChunkSizeTokens": "800",
                                     "chunkOverlapTokens": "400"
                                 }
-                            }
+                            },
+                            "standardTokenizer": {},
+                            "yandexLemmerAnalyzer": {}
                         }
                     }
                 }
@@ -680,7 +762,7 @@
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "fileIds": [
-                        "fvte7h3e4u5bo3tkk7t0"
+                        "fvt8tcq0uv7agskdvnar"
                     ],
                     "name": "s2"
                 }
@@ -689,11 +771,11 @@
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtjr1u5rco3akehju45",
+                    "id": "fvtpa5kj8l8hpa46t00d",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:29:37.075022Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:29:37.075022Z"
+                    "createdAt": "2025-07-24T14:23:49.893973Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:23:49.893973Z"
                 }
             }
         },
@@ -702,18 +784,18 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvtjr1u5rco3akehju45"
+                    "operationId": "fvtpa5kj8l8hpa46t00d"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtjr1u5rco3akehju45",
+                    "id": "fvtpa5kj8l8hpa46t00d",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:29:37.075022Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:29:37.075022Z"
+                    "createdAt": "2025-07-24T14:23:49.893973Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:23:49.893973Z"
                 }
             }
         },
@@ -722,40 +804,42 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvtjr1u5rco3akehju45"
+                    "operationId": "fvtpa5kj8l8hpa46t00d"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtjr1u5rco3akehju45",
+                    "id": "fvtpa5kj8l8hpa46t00d",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:29:37.075022Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:29:37.527901Z",
+                    "createdAt": "2025-07-24T14:23:49.893973Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:23:51.314218Z",
                     "done": true,
                     "response": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.assistants.v1.searchindex.SearchIndex",
-                        "id": "fvt7tulbln91gtl3nk9b",
+                        "id": "fvtsrmbsf57d6r96vp47",
                         "folderId": "b1ghsjum2v37c2un8h64",
                         "name": "s2",
-                        "createdBy": "ajek27c96hekgf8f8016",
-                        "createdAt": "2024-10-30T17:29:37.063620Z",
-                        "updatedBy": "ajek27c96hekgf8f8016",
-                        "updatedAt": "2024-10-30T17:29:37.063620Z",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-07-24T14:23:49.943063Z",
+                        "updatedBy": "aje6euqn63oa635coh28",
+                        "updatedAt": "2025-07-24T14:23:49.943063Z",
                         "expirationConfig": {
                             "expirationPolicy": "SINCE_LAST_ACTIVE",
                             "ttlDays": "7"
                         },
-                        "expiresAt": "2024-11-06T17:29:37.063620Z",
+                        "expiresAt": "2025-07-31T14:23:49.943063Z",
                         "textSearchIndex": {
                             "chunkingStrategy": {
                                 "staticStrategy": {
                                     "maxChunkSizeTokens": "800",
                                     "chunkOverlapTokens": "400"
                                 }
-                            }
+                            },
+                            "standardTokenizer": {},
+                            "yandexLemmerAnalyzer": {}
                         }
                     }
                 }
@@ -768,7 +852,7 @@
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "fileIds": [
-                        "fvte7h3e4u5bo3tkk7t0"
+                        "fvt8tcq0uv7agskdvnar"
                     ],
                     "name": "s3"
                 }
@@ -777,11 +861,11 @@
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvt0c1ljk97n2ge0435d",
+                    "id": "fvtmojg1esomqaaspuij",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:29:47.222949Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:29:47.222949Z"
+                    "createdAt": "2025-07-24T14:24:00.072292Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:24:00.072292Z"
                 }
             }
         },
@@ -790,18 +874,18 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvt0c1ljk97n2ge0435d"
+                    "operationId": "fvtmojg1esomqaaspuij"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvt0c1ljk97n2ge0435d",
+                    "id": "fvtmojg1esomqaaspuij",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:29:47.222949Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:29:47.222949Z"
+                    "createdAt": "2025-07-24T14:24:00.072292Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:24:00.072292Z"
                 }
             }
         },
@@ -810,40 +894,42 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvt0c1ljk97n2ge0435d"
+                    "operationId": "fvtmojg1esomqaaspuij"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvt0c1ljk97n2ge0435d",
+                    "id": "fvtmojg1esomqaaspuij",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:29:47.222949Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:29:47.831505Z",
+                    "createdAt": "2025-07-24T14:24:00.072292Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:24:02.480574Z",
                     "done": true,
                     "response": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.assistants.v1.searchindex.SearchIndex",
-                        "id": "fvtephv9opbcsh1b54qf",
+                        "id": "fvtcld32uj90vvqrhmn2",
                         "folderId": "b1ghsjum2v37c2un8h64",
                         "name": "s3",
-                        "createdBy": "ajek27c96hekgf8f8016",
-                        "createdAt": "2024-10-30T17:29:47.193797Z",
-                        "updatedBy": "ajek27c96hekgf8f8016",
-                        "updatedAt": "2024-10-30T17:29:47.193797Z",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-07-24T14:24:00.122883Z",
+                        "updatedBy": "aje6euqn63oa635coh28",
+                        "updatedAt": "2025-07-24T14:24:00.122883Z",
                         "expirationConfig": {
                             "expirationPolicy": "SINCE_LAST_ACTIVE",
                             "ttlDays": "7"
                         },
-                        "expiresAt": "2024-11-06T17:29:47.193797Z",
+                        "expiresAt": "2025-07-31T14:24:00.122883Z",
                         "textSearchIndex": {
                             "chunkingStrategy": {
                                 "staticStrategy": {
                                     "maxChunkSizeTokens": "800",
                                     "chunkOverlapTokens": "400"
                                 }
-                            }
+                            },
+                            "standardTokenizer": {},
+                            "yandexLemmerAnalyzer": {}
                         }
                     }
                 }
@@ -856,7 +942,7 @@
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "fileIds": [
-                        "fvte7h3e4u5bo3tkk7t0"
+                        "fvt8tcq0uv7agskdvnar"
                     ],
                     "name": "s4"
                 }
@@ -865,11 +951,11 @@
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtd96bkmkhbl37knuer",
+                    "id": "fvtapp8oi1khcguctcma",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:29:57.421158Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:29:57.421158Z"
+                    "createdAt": "2025-07-24T14:24:10.463041Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:24:10.463041Z"
                 }
             }
         },
@@ -878,18 +964,18 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvtd96bkmkhbl37knuer"
+                    "operationId": "fvtapp8oi1khcguctcma"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtd96bkmkhbl37knuer",
+                    "id": "fvtapp8oi1khcguctcma",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:29:57.421158Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:29:57.421158Z"
+                    "createdAt": "2025-07-24T14:24:10.463041Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:24:10.463041Z"
                 }
             }
         },
@@ -898,40 +984,42 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvtd96bkmkhbl37knuer"
+                    "operationId": "fvtapp8oi1khcguctcma"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtd96bkmkhbl37knuer",
+                    "id": "fvtapp8oi1khcguctcma",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:29:57.421158Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:29:58.243796Z",
+                    "createdAt": "2025-07-24T14:24:10.463041Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:24:11.661893Z",
                     "done": true,
                     "response": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.assistants.v1.searchindex.SearchIndex",
-                        "id": "fvt52cpch12sj7t36902",
+                        "id": "fvturcd572t9d6cag4le",
                         "folderId": "b1ghsjum2v37c2un8h64",
                         "name": "s4",
-                        "createdBy": "ajek27c96hekgf8f8016",
-                        "createdAt": "2024-10-30T17:29:57.369565Z",
-                        "updatedBy": "ajek27c96hekgf8f8016",
-                        "updatedAt": "2024-10-30T17:29:57.369565Z",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-07-24T14:24:10.509007Z",
+                        "updatedBy": "aje6euqn63oa635coh28",
+                        "updatedAt": "2025-07-24T14:24:10.509007Z",
                         "expirationConfig": {
                             "expirationPolicy": "SINCE_LAST_ACTIVE",
                             "ttlDays": "7"
                         },
-                        "expiresAt": "2024-11-06T17:29:57.369565Z",
+                        "expiresAt": "2025-07-31T14:24:10.509007Z",
                         "textSearchIndex": {
                             "chunkingStrategy": {
                                 "staticStrategy": {
                                     "maxChunkSizeTokens": "800",
                                     "chunkOverlapTokens": "400"
                                 }
-                            }
+                            },
+                            "standardTokenizer": {},
+                            "yandexLemmerAnalyzer": {}
                         }
                     }
                 }
@@ -944,7 +1032,7 @@
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "fileIds": [
-                        "fvte7h3e4u5bo3tkk7t0"
+                        "fvt8tcq0uv7agskdvnar"
                     ],
                     "name": "s5"
                 }
@@ -953,11 +1041,11 @@
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtemrmep2pbpbvejnhe",
+                    "id": "fvtljob8ta10rr3s4fg3",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:30:07.585510Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:30:07.585510Z"
+                    "createdAt": "2025-07-24T14:24:20.667839Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:24:20.667839Z"
                 }
             }
         },
@@ -966,18 +1054,18 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvtemrmep2pbpbvejnhe"
+                    "operationId": "fvtljob8ta10rr3s4fg3"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtemrmep2pbpbvejnhe",
+                    "id": "fvtljob8ta10rr3s4fg3",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:30:07.585510Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:30:07.585510Z"
+                    "createdAt": "2025-07-24T14:24:20.667839Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:24:20.667839Z"
                 }
             }
         },
@@ -986,40 +1074,42 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvtemrmep2pbpbvejnhe"
+                    "operationId": "fvtljob8ta10rr3s4fg3"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtemrmep2pbpbvejnhe",
+                    "id": "fvtljob8ta10rr3s4fg3",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:30:07.585510Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:30:08.103364Z",
+                    "createdAt": "2025-07-24T14:24:20.667839Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:24:21.601784Z",
                     "done": true,
                     "response": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.assistants.v1.searchindex.SearchIndex",
-                        "id": "fvti1jm94iontbaqea46",
+                        "id": "fvtq4r62phks0bkrut0k",
                         "folderId": "b1ghsjum2v37c2un8h64",
                         "name": "s5",
-                        "createdBy": "ajek27c96hekgf8f8016",
-                        "createdAt": "2024-10-30T17:30:07.574545Z",
-                        "updatedBy": "ajek27c96hekgf8f8016",
-                        "updatedAt": "2024-10-30T17:30:07.574545Z",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-07-24T14:24:20.749332Z",
+                        "updatedBy": "aje6euqn63oa635coh28",
+                        "updatedAt": "2025-07-24T14:24:20.749332Z",
                         "expirationConfig": {
                             "expirationPolicy": "SINCE_LAST_ACTIVE",
                             "ttlDays": "7"
                         },
-                        "expiresAt": "2024-11-06T17:30:07.574545Z",
+                        "expiresAt": "2025-07-31T14:24:20.749332Z",
                         "textSearchIndex": {
                             "chunkingStrategy": {
                                 "staticStrategy": {
                                     "maxChunkSizeTokens": "800",
                                     "chunkOverlapTokens": "400"
                                 }
-                            }
+                            },
+                            "standardTokenizer": {},
+                            "yandexLemmerAnalyzer": {}
                         }
                     }
                 }
@@ -1032,7 +1122,7 @@
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "fileIds": [
-                        "fvte7h3e4u5bo3tkk7t0"
+                        "fvt8tcq0uv7agskdvnar"
                     ],
                     "name": "s6"
                 }
@@ -1041,11 +1131,11 @@
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtcsgocft7f6avdqbj2",
+                    "id": "fvto3t0bg7hb1r8plgan",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:30:17.746958Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:30:17.746958Z"
+                    "createdAt": "2025-07-24T14:24:30.840033Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:24:30.840033Z"
                 }
             }
         },
@@ -1054,18 +1144,18 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvtcsgocft7f6avdqbj2"
+                    "operationId": "fvto3t0bg7hb1r8plgan"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtcsgocft7f6avdqbj2",
+                    "id": "fvto3t0bg7hb1r8plgan",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:30:17.746958Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:30:17.746958Z"
+                    "createdAt": "2025-07-24T14:24:30.840033Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:24:30.840033Z"
                 }
             }
         },
@@ -1074,40 +1164,42 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvtcsgocft7f6avdqbj2"
+                    "operationId": "fvto3t0bg7hb1r8plgan"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtcsgocft7f6avdqbj2",
+                    "id": "fvto3t0bg7hb1r8plgan",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:30:17.746958Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:30:18.192046Z",
+                    "createdAt": "2025-07-24T14:24:30.840033Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:24:32.621338Z",
                     "done": true,
                     "response": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.assistants.v1.searchindex.SearchIndex",
-                        "id": "fvt86tvb9p3ln5oblhkv",
+                        "id": "fvt3d1pl91045g7lgv2f",
                         "folderId": "b1ghsjum2v37c2un8h64",
                         "name": "s6",
-                        "createdBy": "ajek27c96hekgf8f8016",
-                        "createdAt": "2024-10-30T17:30:17.717751Z",
-                        "updatedBy": "ajek27c96hekgf8f8016",
-                        "updatedAt": "2024-10-30T17:30:17.717751Z",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-07-24T14:24:30.902086Z",
+                        "updatedBy": "aje6euqn63oa635coh28",
+                        "updatedAt": "2025-07-24T14:24:30.902086Z",
                         "expirationConfig": {
                             "expirationPolicy": "SINCE_LAST_ACTIVE",
                             "ttlDays": "7"
                         },
-                        "expiresAt": "2024-11-06T17:30:17.717751Z",
+                        "expiresAt": "2025-07-31T14:24:30.902086Z",
                         "textSearchIndex": {
                             "chunkingStrategy": {
                                 "staticStrategy": {
                                     "maxChunkSizeTokens": "800",
                                     "chunkOverlapTokens": "400"
                                 }
-                            }
+                            },
+                            "standardTokenizer": {},
+                            "yandexLemmerAnalyzer": {}
                         }
                     }
                 }
@@ -1120,7 +1212,7 @@
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "fileIds": [
-                        "fvte7h3e4u5bo3tkk7t0"
+                        "fvt8tcq0uv7agskdvnar"
                     ],
                     "name": "s7"
                 }
@@ -1129,11 +1221,11 @@
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtkgl9nr273t4f283qo",
+                    "id": "fvtn0jlf8p40euv6e6ji",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:30:27.929926Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:30:27.929926Z"
+                    "createdAt": "2025-07-24T14:24:41.034917Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:24:41.034917Z"
                 }
             }
         },
@@ -1142,18 +1234,18 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvtkgl9nr273t4f283qo"
+                    "operationId": "fvtn0jlf8p40euv6e6ji"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtkgl9nr273t4f283qo",
+                    "id": "fvtn0jlf8p40euv6e6ji",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:30:27.929926Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:30:27.929926Z"
+                    "createdAt": "2025-07-24T14:24:41.034917Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:24:41.034917Z"
                 }
             }
         },
@@ -1162,40 +1254,42 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvtkgl9nr273t4f283qo"
+                    "operationId": "fvtn0jlf8p40euv6e6ji"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtkgl9nr273t4f283qo",
+                    "id": "fvtn0jlf8p40euv6e6ji",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:30:27.929926Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:30:28.537471Z",
+                    "createdAt": "2025-07-24T14:24:41.034917Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:24:41.957292Z",
                     "done": true,
                     "response": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.assistants.v1.searchindex.SearchIndex",
-                        "id": "fvt4i7qqpns501o0p5fh",
+                        "id": "fvtcu0nl5iai3ddnt3kh",
                         "folderId": "b1ghsjum2v37c2un8h64",
                         "name": "s7",
-                        "createdBy": "ajek27c96hekgf8f8016",
-                        "createdAt": "2024-10-30T17:30:27.918772Z",
-                        "updatedBy": "ajek27c96hekgf8f8016",
-                        "updatedAt": "2024-10-30T17:30:27.918772Z",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-07-24T14:24:41.074476Z",
+                        "updatedBy": "aje6euqn63oa635coh28",
+                        "updatedAt": "2025-07-24T14:24:41.074476Z",
                         "expirationConfig": {
                             "expirationPolicy": "SINCE_LAST_ACTIVE",
                             "ttlDays": "7"
                         },
-                        "expiresAt": "2024-11-06T17:30:27.918772Z",
+                        "expiresAt": "2025-07-31T14:24:41.074476Z",
                         "textSearchIndex": {
                             "chunkingStrategy": {
                                 "staticStrategy": {
                                     "maxChunkSizeTokens": "800",
                                     "chunkOverlapTokens": "400"
                                 }
-                            }
+                            },
+                            "standardTokenizer": {},
+                            "yandexLemmerAnalyzer": {}
                         }
                     }
                 }
@@ -1208,7 +1302,7 @@
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "fileIds": [
-                        "fvte7h3e4u5bo3tkk7t0"
+                        "fvt8tcq0uv7agskdvnar"
                     ],
                     "name": "s8"
                 }
@@ -1217,11 +1311,11 @@
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvth4obk2nkel54o9k9d",
+                    "id": "fvta1ts514sbf443aheu",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:30:38.076416Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:30:38.076416Z"
+                    "createdAt": "2025-07-24T14:24:51.235188Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:24:51.235188Z"
                 }
             }
         },
@@ -1230,18 +1324,18 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvth4obk2nkel54o9k9d"
+                    "operationId": "fvta1ts514sbf443aheu"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvth4obk2nkel54o9k9d",
+                    "id": "fvta1ts514sbf443aheu",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:30:38.076416Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:30:38.076416Z"
+                    "createdAt": "2025-07-24T14:24:51.235188Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:24:51.235188Z"
                 }
             }
         },
@@ -1250,40 +1344,42 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvth4obk2nkel54o9k9d"
+                    "operationId": "fvta1ts514sbf443aheu"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvth4obk2nkel54o9k9d",
+                    "id": "fvta1ts514sbf443aheu",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:30:38.076416Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:30:38.469324Z",
+                    "createdAt": "2025-07-24T14:24:51.235188Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:24:52.487502Z",
                     "done": true,
                     "response": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.assistants.v1.searchindex.SearchIndex",
-                        "id": "fvtr06ep4309t8di2i5b",
+                        "id": "fvtt3gls19aslhoj9ns0",
                         "folderId": "b1ghsjum2v37c2un8h64",
                         "name": "s8",
-                        "createdBy": "ajek27c96hekgf8f8016",
-                        "createdAt": "2024-10-30T17:30:38.065293Z",
-                        "updatedBy": "ajek27c96hekgf8f8016",
-                        "updatedAt": "2024-10-30T17:30:38.065293Z",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-07-24T14:24:51.304316Z",
+                        "updatedBy": "aje6euqn63oa635coh28",
+                        "updatedAt": "2025-07-24T14:24:51.304316Z",
                         "expirationConfig": {
                             "expirationPolicy": "SINCE_LAST_ACTIVE",
                             "ttlDays": "7"
                         },
-                        "expiresAt": "2024-11-06T17:30:38.065293Z",
+                        "expiresAt": "2025-07-31T14:24:51.304316Z",
                         "textSearchIndex": {
                             "chunkingStrategy": {
                                 "staticStrategy": {
                                     "maxChunkSizeTokens": "800",
                                     "chunkOverlapTokens": "400"
                                 }
-                            }
+                            },
+                            "standardTokenizer": {},
+                            "yandexLemmerAnalyzer": {}
                         }
                     }
                 }
@@ -1296,7 +1392,7 @@
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "fileIds": [
-                        "fvte7h3e4u5bo3tkk7t0"
+                        "fvt8tcq0uv7agskdvnar"
                     ],
                     "name": "s9"
                 }
@@ -1305,11 +1401,11 @@
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtrko49u7rre0npk0l2",
+                    "id": "fvt1uvrd5k2h3q45l04f",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:30:48.282103Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:30:48.282103Z"
+                    "createdAt": "2025-07-24T14:25:01.501026Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:25:01.501026Z"
                 }
             }
         },
@@ -1318,18 +1414,18 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvtrko49u7rre0npk0l2"
+                    "operationId": "fvt1uvrd5k2h3q45l04f"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtrko49u7rre0npk0l2",
+                    "id": "fvt1uvrd5k2h3q45l04f",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:30:48.282103Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:30:48.282103Z"
+                    "createdAt": "2025-07-24T14:25:01.501026Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:25:01.501026Z"
                 }
             }
         },
@@ -1338,40 +1434,42 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvtrko49u7rre0npk0l2"
+                    "operationId": "fvt1uvrd5k2h3q45l04f"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtrko49u7rre0npk0l2",
+                    "id": "fvt1uvrd5k2h3q45l04f",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:30:48.282103Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:30:48.769330Z",
+                    "createdAt": "2025-07-24T14:25:01.501026Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:25:03.849674Z",
                     "done": true,
                     "response": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.assistants.v1.searchindex.SearchIndex",
-                        "id": "fvt32gj2cva31ochdfjf",
+                        "id": "fvtban8u09jqr5jdg6rp",
                         "folderId": "b1ghsjum2v37c2un8h64",
                         "name": "s9",
-                        "createdBy": "ajek27c96hekgf8f8016",
-                        "createdAt": "2024-10-30T17:30:48.230545Z",
-                        "updatedBy": "ajek27c96hekgf8f8016",
-                        "updatedAt": "2024-10-30T17:30:48.230545Z",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-07-24T14:25:01.567297Z",
+                        "updatedBy": "aje6euqn63oa635coh28",
+                        "updatedAt": "2025-07-24T14:25:01.567297Z",
                         "expirationConfig": {
                             "expirationPolicy": "SINCE_LAST_ACTIVE",
                             "ttlDays": "7"
                         },
-                        "expiresAt": "2024-11-06T17:30:48.230545Z",
+                        "expiresAt": "2025-07-31T14:25:01.567297Z",
                         "textSearchIndex": {
                             "chunkingStrategy": {
                                 "staticStrategy": {
                                     "maxChunkSizeTokens": "800",
                                     "chunkOverlapTokens": "400"
                                 }
-                            }
+                            },
+                            "standardTokenizer": {},
+                            "yandexLemmerAnalyzer": {}
                         }
                     }
                 }
@@ -1391,258 +1489,280 @@
                 "message": {
                     "indices": [
                         {
-                            "id": "fvt32gj2cva31ochdfjf",
+                            "id": "fvtban8u09jqr5jdg6rp",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "s9",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-30T17:30:48.230545Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-30T17:30:48.230545Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:25:01.567297Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:25:03.843130Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-11-06T17:30:48.230545Z",
+                            "expiresAt": "2025-07-31T14:25:01.567297Z",
                             "textSearchIndex": {
                                 "chunkingStrategy": {
                                     "staticStrategy": {
                                         "maxChunkSizeTokens": "800",
                                         "chunkOverlapTokens": "400"
                                     }
-                                }
+                                },
+                                "standardTokenizer": {},
+                                "yandexLemmerAnalyzer": {}
                             }
                         },
                         {
-                            "id": "fvtr06ep4309t8di2i5b",
+                            "id": "fvtt3gls19aslhoj9ns0",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "s8",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-30T17:30:38.065293Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-30T17:30:38.065293Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:24:51.304316Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:24:52.486029Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-11-06T17:30:38.065293Z",
+                            "expiresAt": "2025-07-31T14:24:51.304316Z",
                             "textSearchIndex": {
                                 "chunkingStrategy": {
                                     "staticStrategy": {
                                         "maxChunkSizeTokens": "800",
                                         "chunkOverlapTokens": "400"
                                     }
-                                }
+                                },
+                                "standardTokenizer": {},
+                                "yandexLemmerAnalyzer": {}
                             }
                         },
                         {
-                            "id": "fvt4i7qqpns501o0p5fh",
+                            "id": "fvtcu0nl5iai3ddnt3kh",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "s7",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-30T17:30:27.918772Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-30T17:30:27.918772Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:24:41.074476Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:24:41.955834Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-11-06T17:30:27.918772Z",
+                            "expiresAt": "2025-07-31T14:24:41.074476Z",
                             "textSearchIndex": {
                                 "chunkingStrategy": {
                                     "staticStrategy": {
                                         "maxChunkSizeTokens": "800",
                                         "chunkOverlapTokens": "400"
                                     }
-                                }
+                                },
+                                "standardTokenizer": {},
+                                "yandexLemmerAnalyzer": {}
                             }
                         },
                         {
-                            "id": "fvt86tvb9p3ln5oblhkv",
+                            "id": "fvt3d1pl91045g7lgv2f",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "s6",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-30T17:30:17.717751Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-30T17:30:17.717751Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:24:30.902086Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:24:32.609910Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-11-06T17:30:17.717751Z",
+                            "expiresAt": "2025-07-31T14:24:30.902086Z",
                             "textSearchIndex": {
                                 "chunkingStrategy": {
                                     "staticStrategy": {
                                         "maxChunkSizeTokens": "800",
                                         "chunkOverlapTokens": "400"
                                     }
-                                }
+                                },
+                                "standardTokenizer": {},
+                                "yandexLemmerAnalyzer": {}
                             }
                         },
                         {
-                            "id": "fvti1jm94iontbaqea46",
+                            "id": "fvtq4r62phks0bkrut0k",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "s5",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-30T17:30:07.574545Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-30T17:30:07.574545Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:24:20.749332Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:24:21.600120Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-11-06T17:30:07.574545Z",
+                            "expiresAt": "2025-07-31T14:24:20.749332Z",
                             "textSearchIndex": {
                                 "chunkingStrategy": {
                                     "staticStrategy": {
                                         "maxChunkSizeTokens": "800",
                                         "chunkOverlapTokens": "400"
                                     }
-                                }
+                                },
+                                "standardTokenizer": {},
+                                "yandexLemmerAnalyzer": {}
                             }
                         },
                         {
-                            "id": "fvt52cpch12sj7t36902",
+                            "id": "fvturcd572t9d6cag4le",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "s4",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-30T17:29:57.369565Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-30T17:29:57.369565Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:24:10.509007Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:24:11.660344Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-11-06T17:29:57.369565Z",
+                            "expiresAt": "2025-07-31T14:24:10.509007Z",
                             "textSearchIndex": {
                                 "chunkingStrategy": {
                                     "staticStrategy": {
                                         "maxChunkSizeTokens": "800",
                                         "chunkOverlapTokens": "400"
                                     }
-                                }
+                                },
+                                "standardTokenizer": {},
+                                "yandexLemmerAnalyzer": {}
                             }
                         },
                         {
-                            "id": "fvtephv9opbcsh1b54qf",
+                            "id": "fvtcld32uj90vvqrhmn2",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "s3",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-30T17:29:47.193797Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-30T17:29:47.193797Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:24:00.122883Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:24:02.478778Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-11-06T17:29:47.193797Z",
+                            "expiresAt": "2025-07-31T14:24:00.122883Z",
                             "textSearchIndex": {
                                 "chunkingStrategy": {
                                     "staticStrategy": {
                                         "maxChunkSizeTokens": "800",
                                         "chunkOverlapTokens": "400"
                                     }
-                                }
+                                },
+                                "standardTokenizer": {},
+                                "yandexLemmerAnalyzer": {}
                             }
                         },
                         {
-                            "id": "fvt7tulbln91gtl3nk9b",
+                            "id": "fvtsrmbsf57d6r96vp47",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "s2",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-30T17:29:37.063620Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-30T17:29:37.063620Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:23:49.943063Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:23:51.303019Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-11-06T17:29:37.063620Z",
+                            "expiresAt": "2025-07-31T14:23:49.943063Z",
                             "textSearchIndex": {
                                 "chunkingStrategy": {
                                     "staticStrategy": {
                                         "maxChunkSizeTokens": "800",
                                         "chunkOverlapTokens": "400"
                                     }
-                                }
+                                },
+                                "standardTokenizer": {},
+                                "yandexLemmerAnalyzer": {}
                             }
                         },
                         {
-                            "id": "fvtmed4eflqf36igsub6",
+                            "id": "fvtgu7ad8ps9n4hhpdsu",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "s1",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-30T17:29:26.895233Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-30T17:29:26.895233Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:23:39.746640Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:23:40.838285Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-11-06T17:29:26.895233Z",
+                            "expiresAt": "2025-07-31T14:23:39.746640Z",
                             "textSearchIndex": {
                                 "chunkingStrategy": {
                                     "staticStrategy": {
                                         "maxChunkSizeTokens": "800",
                                         "chunkOverlapTokens": "400"
                                     }
-                                }
+                                },
+                                "standardTokenizer": {},
+                                "yandexLemmerAnalyzer": {}
                             }
                         },
                         {
-                            "id": "fvtj41mj8uu02tvvh1i5",
+                            "id": "fvtgef8mn2fbkgn6s7bq",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "s0",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-30T17:29:16.701222Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-30T17:29:16.701222Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:23:29.576762Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:23:31.557091Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-11-06T17:29:16.701222Z",
+                            "expiresAt": "2025-07-31T14:23:29.576762Z",
                             "textSearchIndex": {
                                 "chunkingStrategy": {
                                     "staticStrategy": {
                                         "maxChunkSizeTokens": "800",
                                         "chunkOverlapTokens": "400"
                                     }
-                                }
+                                },
+                                "standardTokenizer": {},
+                                "yandexLemmerAnalyzer": {}
                             }
                         },
                         {
-                            "id": "fvtvi63l544pcehvaite",
+                            "id": "fvtcbdrue72o2e7hmenu",
                             "folderId": "b1ghsjum2v37c2un8h64",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-30T17:29:06.523856Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-30T17:29:06.523856Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:23:19.409493Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:23:20.596416Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-11-06T17:29:06.523856Z",
+                            "expiresAt": "2025-07-31T14:23:19.409493Z",
                             "textSearchIndex": {
                                 "chunkingStrategy": {
                                     "staticStrategy": {
                                         "maxChunkSizeTokens": "800",
                                         "chunkOverlapTokens": "400"
                                     }
-                                }
+                                },
+                                "standardTokenizer": {},
+                                "yandexLemmerAnalyzer": {}
                             }
                         },
                         {
-                            "id": "fvt7gc2p6c81lcdicdka",
+                            "id": "fvtee47hpjnegjvdh3l6",
                             "folderId": "b1ghsjum2v37c2un8h64",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-30T17:28:44.978882Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-30T17:28:44.978882Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:22:58.234636Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:23:02.646015Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-11-06T17:28:44.978882Z",
+                            "expiresAt": "2025-07-31T14:22:58.234636Z",
                             "vectorSearchIndex": {
                                 "docEmbedderUri": "emb://yc.ml.rag-prod.common/text-search-doc/latest",
                                 "queryEmbedderUri": "emb://yc.ml.rag-prod.common/text-search-query/latest",
@@ -1655,175 +1775,263 @@
                             }
                         },
                         {
-                            "id": "fvtskqvcjcsu3jb53qh5",
+                            "id": "fvtavu9kirfk60bfqo2u",
                             "folderId": "b1ghsjum2v37c2un8h64",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-30T17:25:49.365095Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-30T17:25:49.365095Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T18:02:31.422688Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T18:02:32.765048Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-11-06T17:25:49.365095Z",
+                            "expiresAt": "2025-07-24T18:02:44.961362Z",
                             "textSearchIndex": {
                                 "chunkingStrategy": {
                                     "staticStrategy": {
                                         "maxChunkSizeTokens": "800",
                                         "chunkOverlapTokens": "400"
                                     }
-                                }
+                                },
+                                "standardTokenizer": {},
+                                "yandexLemmerAnalyzer": {}
                             }
                         },
                         {
-                            "id": "fvt3lcbmvsabos61cdh4",
+                            "id": "fvtn4o6eephvofll92r0",
                             "folderId": "b1ghsjum2v37c2un8h64",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-30T17:24:37.913321Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-30T17:24:37.913321Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:59:37.505899Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:59:38.331690Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-11-06T17:24:37.913321Z",
+                            "expiresAt": "2025-07-24T17:59:53.131540Z",
                             "textSearchIndex": {
                                 "chunkingStrategy": {
                                     "staticStrategy": {
                                         "maxChunkSizeTokens": "800",
                                         "chunkOverlapTokens": "400"
                                     }
-                                }
+                                },
+                                "standardTokenizer": {},
+                                "yandexLemmerAnalyzer": {}
                             }
                         },
                         {
-                            "id": "fvtagnpene84ri1gko74",
+                            "id": "fvtpfbin13t2q7mp7t69",
                             "folderId": "b1ghsjum2v37c2un8h64",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-30T17:24:37.414805Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-30T17:24:37.414805Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:58:57.370667Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:58:58.545017Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-11-06T17:24:37.414805Z",
+                            "expiresAt": "2025-07-24T17:59:10.724754Z",
                             "textSearchIndex": {
                                 "chunkingStrategy": {
                                     "staticStrategy": {
                                         "maxChunkSizeTokens": "800",
                                         "chunkOverlapTokens": "400"
                                     }
-                                }
+                                },
+                                "standardTokenizer": {},
+                                "yandexLemmerAnalyzer": {}
                             }
                         },
                         {
-                            "id": "fvt4glg110v81phvnn9l",
+                            "id": "fvtvqil726sk6ofjd567",
                             "folderId": "b1ghsjum2v37c2un8h64",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-30T17:24:36.679743Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-30T17:24:36.679743Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:57:47.646328Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:57:48.692790Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-11-06T17:24:36.679743Z",
+                            "expiresAt": "2025-07-24T17:58:01.161257Z",
                             "textSearchIndex": {
                                 "chunkingStrategy": {
                                     "staticStrategy": {
                                         "maxChunkSizeTokens": "800",
                                         "chunkOverlapTokens": "400"
                                     }
-                                }
+                                },
+                                "standardTokenizer": {},
+                                "yandexLemmerAnalyzer": {}
                             }
                         },
                         {
-                            "id": "fvtv5q8tf9rrcqjruqk6",
+                            "id": "fvthduki99mcidfiaina",
                             "folderId": "b1ghsjum2v37c2un8h64",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-30T15:50:06.183955Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-30T15:50:06.183955Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:53:16.457336Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:53:18.404562Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-11-06T15:50:06.183955Z",
+                            "expiresAt": "2025-07-24T17:53:29.643906Z",
                             "textSearchIndex": {
                                 "chunkingStrategy": {
                                     "staticStrategy": {
-                                        "maxChunkSizeTokens": "700",
-                                        "chunkOverlapTokens": "300"
+                                        "maxChunkSizeTokens": "800",
+                                        "chunkOverlapTokens": "400"
                                     }
-                                }
+                                },
+                                "standardTokenizer": {},
+                                "yandexLemmerAnalyzer": {}
                             }
                         },
                         {
-                            "id": "fvtst4r1foav6uh2bl2n",
+                            "id": "fvtjvoq7b6ad3gpg8sps",
                             "folderId": "b1ghsjum2v37c2un8h64",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-30T15:47:39.580262Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-30T15:47:39.580262Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:52:25.543612Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:52:26.558323Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-11-06T15:47:39.580262Z",
+                            "expiresAt": "2025-07-24T17:52:39.079588Z",
                             "textSearchIndex": {
                                 "chunkingStrategy": {
                                     "staticStrategy": {
-                                        "maxChunkSizeTokens": "700",
-                                        "chunkOverlapTokens": "300"
+                                        "maxChunkSizeTokens": "800",
+                                        "chunkOverlapTokens": "400"
                                     }
-                                }
+                                },
+                                "standardTokenizer": {},
+                                "yandexLemmerAnalyzer": {}
                             }
                         },
                         {
-                            "id": "fvt9gqo4i706qen6abp4",
+                            "id": "fvtskcp5rkckcl6msoug",
                             "folderId": "b1ghsjum2v37c2un8h64",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-30T15:45:16.052930Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-30T15:45:16.052930Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:51:25.425980Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:51:26.632417Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-11-06T15:45:16.052930Z",
+                            "expiresAt": "2025-07-24T17:51:38.114259Z",
                             "textSearchIndex": {
                                 "chunkingStrategy": {
                                     "staticStrategy": {
-                                        "maxChunkSizeTokens": "700",
-                                        "chunkOverlapTokens": "300"
+                                        "maxChunkSizeTokens": "800",
+                                        "chunkOverlapTokens": "400"
                                     }
-                                }
+                                },
+                                "standardTokenizer": {},
+                                "yandexLemmerAnalyzer": {}
                             }
                         },
                         {
-                            "id": "fvtjsiq2svr08htf8bcj",
+                            "id": "fvtq36e1s32vqrk6kg48",
                             "folderId": "b1ghsjum2v37c2un8h64",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-10-30T15:43:52.281311Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-10-30T15:43:52.281311Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:49:37.634819Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:49:38.759303Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-11-06T15:43:52.281311Z",
+                            "expiresAt": "2025-07-24T17:49:55.807082Z",
                             "textSearchIndex": {
                                 "chunkingStrategy": {
                                     "staticStrategy": {
-                                        "maxChunkSizeTokens": "700",
-                                        "chunkOverlapTokens": "300"
+                                        "maxChunkSizeTokens": "800",
+                                        "chunkOverlapTokens": "400"
                                     }
-                                }
+                                },
+                                "standardTokenizer": {},
+                                "yandexLemmerAnalyzer": {}
+                            }
+                        },
+                        {
+                            "id": "fvtciak4to4siajfr040",
+                            "folderId": "b1ghsjum2v37c2un8h64",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:48:56.859464Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:48:57.809001Z",
+                            "expirationConfig": {
+                                "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                "ttlDays": "7"
+                            },
+                            "expiresAt": "2025-07-24T17:49:11.955465Z",
+                            "textSearchIndex": {
+                                "chunkingStrategy": {
+                                    "staticStrategy": {
+                                        "maxChunkSizeTokens": "800",
+                                        "chunkOverlapTokens": "400"
+                                    }
+                                },
+                                "standardTokenizer": {},
+                                "yandexLemmerAnalyzer": {}
+                            }
+                        },
+                        {
+                            "id": "fvt3sq4fnv7njgaqos85",
+                            "folderId": "b1ghsjum2v37c2un8h64",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:48:32.797144Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:48:34.625349Z",
+                            "expirationConfig": {
+                                "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                "ttlDays": "7"
+                            },
+                            "expiresAt": "2025-07-24T17:48:43.736Z",
+                            "textSearchIndex": {
+                                "chunkingStrategy": {
+                                    "staticStrategy": {
+                                        "maxChunkSizeTokens": "800",
+                                        "chunkOverlapTokens": "400"
+                                    }
+                                },
+                                "standardTokenizer": {},
+                                "yandexLemmerAnalyzer": {}
+                            }
+                        },
+                        {
+                            "id": "fvto0neer9nlevsrqtia",
+                            "folderId": "b1ghsjum2v37c2un8h64",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T16:42:55.737727Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T16:42:56.702173Z",
+                            "expirationConfig": {
+                                "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                "ttlDays": "7"
+                            },
+                            "expiresAt": "2025-07-24T17:42:37.116596Z",
+                            "labels": {
+                                "yc-ml-sdk-example": "example-assistants-search_index_call_strategy.py"
+                            },
+                            "textSearchIndex": {
+                                "chunkingStrategy": {
+                                    "staticStrategy": {
+                                        "maxChunkSizeTokens": "800",
+                                        "chunkOverlapTokens": "400"
+                                    }
+                                },
+                                "standardTokenizer": {},
+                                "yandexLemmerAnalyzer": {}
                             }
                         }
                     ],
-                    "nextPageToken": "MjAyNC0xMC0zMFQxNTo0Mzo1Mi4yODEzMTFAZnZ0anNpcTJzdnIwOGh0ZjhiY2o="
+                    "nextPageToken": "MjAyNS0wNy0xN1QxNjo0Mjo1NS43Mzc3MjdAZnZ0bzBuZWVyOW5sZXZzcnF0aWE="
                 }
             }
         },
@@ -1833,7 +2041,7 @@
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "pageToken": "MjAyNC0xMC0zMFQxNTo0Mzo1Mi4yODEzMTFAZnZ0anNpcTJzdnIwOGh0ZjhiY2o="
+                    "pageToken": "MjAyNS0wNy0xN1QxNjo0Mjo1NS43Mzc3MjdAZnZ0bzBuZWVyOW5sZXZzcnF0aWE="
                 }
             },
             "response": {
@@ -1847,7 +2055,7 @@
                 "cls": "DeleteSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvt32gj2cva31ochdfjf"
+                    "searchIndexId": "fvtban8u09jqr5jdg6rp"
                 }
             },
             "response": {
@@ -1861,7 +2069,7 @@
                 "cls": "DeleteSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvtr06ep4309t8di2i5b"
+                    "searchIndexId": "fvtt3gls19aslhoj9ns0"
                 }
             },
             "response": {
@@ -1875,7 +2083,7 @@
                 "cls": "DeleteSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvt4i7qqpns501o0p5fh"
+                    "searchIndexId": "fvtcu0nl5iai3ddnt3kh"
                 }
             },
             "response": {
@@ -1889,7 +2097,7 @@
                 "cls": "DeleteSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvt86tvb9p3ln5oblhkv"
+                    "searchIndexId": "fvt3d1pl91045g7lgv2f"
                 }
             },
             "response": {
@@ -1903,7 +2111,7 @@
                 "cls": "DeleteSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvti1jm94iontbaqea46"
+                    "searchIndexId": "fvtq4r62phks0bkrut0k"
                 }
             },
             "response": {
@@ -1917,7 +2125,7 @@
                 "cls": "DeleteSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvt52cpch12sj7t36902"
+                    "searchIndexId": "fvturcd572t9d6cag4le"
                 }
             },
             "response": {
@@ -1931,7 +2139,7 @@
                 "cls": "DeleteSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvtephv9opbcsh1b54qf"
+                    "searchIndexId": "fvtcld32uj90vvqrhmn2"
                 }
             },
             "response": {
@@ -1945,7 +2153,7 @@
                 "cls": "DeleteSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvt7tulbln91gtl3nk9b"
+                    "searchIndexId": "fvtsrmbsf57d6r96vp47"
                 }
             },
             "response": {
@@ -1959,7 +2167,7 @@
                 "cls": "DeleteSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvtmed4eflqf36igsub6"
+                    "searchIndexId": "fvtgu7ad8ps9n4hhpdsu"
                 }
             },
             "response": {
@@ -1973,7 +2181,7 @@
                 "cls": "DeleteSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvtj41mj8uu02tvvh1i5"
+                    "searchIndexId": "fvtgef8mn2fbkgn6s7bq"
                 }
             },
             "response": {
@@ -1987,7 +2195,7 @@
                 "cls": "DeleteSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvtvi63l544pcehvaite"
+                    "searchIndexId": "fvtcbdrue72o2e7hmenu"
                 }
             },
             "response": {
@@ -2001,7 +2209,7 @@
                 "cls": "DeleteSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvt7gc2p6c81lcdicdka"
+                    "searchIndexId": "fvtee47hpjnegjvdh3l6"
                 }
             },
             "response": {
@@ -2015,7 +2223,7 @@
                 "cls": "DeleteSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvtskqvcjcsu3jb53qh5"
+                    "searchIndexId": "fvtavu9kirfk60bfqo2u"
                 }
             },
             "response": {
@@ -2029,7 +2237,7 @@
                 "cls": "DeleteSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvt3lcbmvsabos61cdh4"
+                    "searchIndexId": "fvtn4o6eephvofll92r0"
                 }
             },
             "response": {
@@ -2043,7 +2251,7 @@
                 "cls": "DeleteSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvtagnpene84ri1gko74"
+                    "searchIndexId": "fvtpfbin13t2q7mp7t69"
                 }
             },
             "response": {
@@ -2057,7 +2265,7 @@
                 "cls": "DeleteSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvt4glg110v81phvnn9l"
+                    "searchIndexId": "fvtvqil726sk6ofjd567"
                 }
             },
             "response": {
@@ -2071,7 +2279,7 @@
                 "cls": "DeleteSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvtv5q8tf9rrcqjruqk6"
+                    "searchIndexId": "fvthduki99mcidfiaina"
                 }
             },
             "response": {
@@ -2085,7 +2293,7 @@
                 "cls": "DeleteSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvtst4r1foav6uh2bl2n"
+                    "searchIndexId": "fvtjvoq7b6ad3gpg8sps"
                 }
             },
             "response": {
@@ -2099,7 +2307,7 @@
                 "cls": "DeleteSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvt9gqo4i706qen6abp4"
+                    "searchIndexId": "fvtskcp5rkckcl6msoug"
                 }
             },
             "response": {
@@ -2113,7 +2321,49 @@
                 "cls": "DeleteSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvtjsiq2svr08htf8bcj"
+                    "searchIndexId": "fvtq36e1s32vqrk6kg48"
+                }
+            },
+            "response": {
+                "cls": "DeleteSearchIndexResponse",
+                "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
+                "message": {}
+            }
+        },
+        {
+            "request": {
+                "cls": "DeleteSearchIndexRequest",
+                "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
+                "message": {
+                    "searchIndexId": "fvtciak4to4siajfr040"
+                }
+            },
+            "response": {
+                "cls": "DeleteSearchIndexResponse",
+                "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
+                "message": {}
+            }
+        },
+        {
+            "request": {
+                "cls": "DeleteSearchIndexRequest",
+                "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
+                "message": {
+                    "searchIndexId": "fvt3sq4fnv7njgaqos85"
+                }
+            },
+            "response": {
+                "cls": "DeleteSearchIndexResponse",
+                "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
+                "message": {}
+            }
+        },
+        {
+            "request": {
+                "cls": "DeleteSearchIndexRequest",
+                "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
+                "message": {
+                    "searchIndexId": "fvto0neer9nlevsrqtia"
                 }
             },
             "response": {
@@ -2127,7 +2377,7 @@
                 "cls": "DeleteFileRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvte7h3e4u5bo3tkk7t0"
+                    "fileId": "fvt8tcq0uv7agskdvnar"
                 }
             },
             "response": {

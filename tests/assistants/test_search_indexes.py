@@ -166,11 +166,13 @@ async def test_hybrid_search_index(async_sdk: AsyncYCloudML, test_file_path):
     assert isinstance(search_index.index_type, HybridSearchIndexType)
     assert isinstance(search_index.index_type.text_search_index, TextSearchIndexType)
     assert isinstance(search_index.index_type.vector_search_index, VectorSearchIndexType)
-    assert isinstance(search_index.index_type.vector_search_index.chunking_strategy, StaticIndexChunkingStrategy)
-    assert search_index.index_type.vector_search_index.chunking_strategy.max_chunk_size_tokens == 700
+    assert search_index.index_type.vector_search_index.chunking_strategy is None
     assert search_index.index_type.normalization_strategy == IndexNormalizationStrategy.L2
     assert isinstance(search_index.index_type.combination_strategy, ReciprocalRankFusionIndexCombinationStrategy)
     assert search_index.index_type.combination_strategy.k == 51
+
+    assert isinstance(search_index.index_type.chunking_strategy, StaticIndexChunkingStrategy)
+    assert search_index.index_type.chunking_strategy.max_chunk_size_tokens == 700
 
 
 @pytest.mark.allow_grpc

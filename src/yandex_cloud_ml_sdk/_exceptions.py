@@ -18,6 +18,9 @@ if TYPE_CHECKING:
 class YCloudMLError(Exception):
     pass
 
+class UnknownEndpointError(YCloudMLError):
+    pass
+
 
 class RunError(YCloudMLError):
     def __init__(self, code: int, message: str, details: list[Any] | None, operation_id: str):
