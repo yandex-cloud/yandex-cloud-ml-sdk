@@ -80,6 +80,10 @@
                             "address": "backup.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "baremetal",
+                            "address": "baremetal.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "billing",
                             "address": "billing.api.cloud.yandex.net:443"
                         },
@@ -140,6 +144,10 @@
                             "address": "compute.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "connection-manager",
+                            "address": "connectionmanager.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "container-registry",
                             "address": "container-registry.api.cloud.yandex.net:443"
                         },
@@ -176,6 +184,10 @@
                             "address": "fomo-tuning.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "gitlab",
+                            "address": "gitlab.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "iam",
                             "address": "iam.api.cloud.yandex.net:443"
                         },
@@ -202,6 +214,10 @@
                         {
                             "id": "kms-crypto",
                             "address": "kms.yandex:443"
+                        },
+                        {
+                            "id": "kspm",
+                            "address": "kspm.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "load-balancer",
@@ -288,8 +304,20 @@
                             "address": "spark.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-spqr",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "managed-sqlserver",
                             "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-trino",
+                            "address": "trino.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-ytsaurus",
+                            "address": "ytsaurus.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "marketplace",
@@ -321,6 +349,10 @@
                         },
                         {
                             "id": "mdb-redis",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-spqr",
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
@@ -443,18 +475,18 @@
                 "cls": "Thread",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_pb2",
                 "message": {
-                    "id": "fvtitqjkhfg44j7i42kv",
+                    "id": "fvtru2b3siljaadgupgh",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "defaultMessageAuthorId": "fvt9ot56k7q2men11ugp",
+                    "defaultMessageAuthorId": "fvtjgvuh2mtchr6grkn2",
                     "createdBy": "aje6euqn63oa635coh28",
-                    "createdAt": "2025-04-03T17:21:52.850407Z",
+                    "createdAt": "2025-07-24T14:22:19.386902Z",
                     "updatedBy": "aje6euqn63oa635coh28",
-                    "updatedAt": "2025-04-03T17:21:52.850407Z",
+                    "updatedAt": "2025-07-24T14:22:19.386902Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2025-04-10T17:21:52.850407Z"
+                    "expiresAt": "2025-07-31T14:22:19.386902Z"
                 }
             }
         },
@@ -463,7 +495,7 @@
                 "cls": "CreateMessageRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_service_pb2",
                 "message": {
-                    "threadId": "fvtitqjkhfg44j7i42kv",
+                    "threadId": "fvtru2b3siljaadgupgh",
                     "labels": {
                         "foo": "bar"
                     },
@@ -482,12 +514,12 @@
                 "cls": "Message",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
                 "message": {
-                    "id": "fvtkkjv3nps3mqbbklaj",
-                    "threadId": "fvtitqjkhfg44j7i42kv",
+                    "id": "fvtmtbtapeqi9llcfemg",
+                    "threadId": "fvtru2b3siljaadgupgh",
                     "createdBy": "aje6euqn63oa635coh28",
-                    "createdAt": "2025-04-03T17:21:52.982345Z",
+                    "createdAt": "2025-07-24T14:22:19.490450Z",
                     "author": {
-                        "id": "fvt9ot56k7q2men11ugp",
+                        "id": "fvtjgvuh2mtchr6grkn2",
                         "role": "USER"
                     },
                     "labels": {
@@ -511,7 +543,7 @@
                 "cls": "DeleteThreadRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
                 "message": {
-                    "threadId": "fvtitqjkhfg44j7i42kv"
+                    "threadId": "fvtru2b3siljaadgupgh"
                 }
             },
             "response": {
