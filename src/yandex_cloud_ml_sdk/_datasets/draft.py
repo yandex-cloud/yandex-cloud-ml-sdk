@@ -119,7 +119,7 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
                 self._transform_operation_result,
                 raise_on_validation_failure=raise_on_validation_failure,
             ),
-            default_poll_timeout=DEFAULT_OPERATION_POLL_TIMEOUT,
+            custom_default_poll_timeout=DEFAULT_OPERATION_POLL_TIMEOUT,
         )
 
     async def _upload_deferred(

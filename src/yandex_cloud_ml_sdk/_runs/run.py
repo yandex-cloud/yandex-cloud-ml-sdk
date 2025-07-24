@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import dataclasses
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, AsyncIterator, Iterator, TypeVar, cast
+from typing import TYPE_CHECKING, Any, AsyncIterator, ClassVar, Iterator, TypeVar, cast
 
 from google.protobuf.wrappers_pb2 import Int64Value
 from yandex.cloud.ai.assistants.v1.runs.run_pb2 import Run as ProtoRun
@@ -16,7 +16,7 @@ from yandex_cloud_ml_sdk._tools.tool_call import AsyncToolCall, ToolCall, ToolCa
 from yandex_cloud_ml_sdk._tools.tool_result import (
     ProtoAssistantToolResultList, ToolResultInputType, tool_results_to_proto
 )
-from yandex_cloud_ml_sdk._types.operation import OperationInterface
+from yandex_cloud_ml_sdk._types.operation import AsyncOperationMixin, OperationInterface, SyncOperationMixin
 from yandex_cloud_ml_sdk._types.resource import BaseResource
 from yandex_cloud_ml_sdk._types.result import ProtoMessage
 from yandex_cloud_ml_sdk._types.schemas import ResponseType
@@ -31,7 +31,7 @@ if TYPE_CHECKING:
 
 
 @dataclasses.dataclass(frozen=True)
-class BaseRun(BaseResource, OperationInterface[RunResult[ToolCallTypeT]]):
+class BaseRun(BaseResource, OperationInterface[RunResult[ToolCallTypeT], RunStatus]):
     id: str
     assistant_id: str
     thread_id: str
@@ -42,6 +42,9 @@ class BaseRun(BaseResource, OperationInterface[RunResult[ToolCallTypeT]]):
     custom_max_tokens: int | None
     custom_prompt_truncation_options: PromptTruncationOptions | None
     custom_response_format: ResponseType | None
+
+    _default_poll_timeout: ClassVar[int] = 300
+    _default_poll_interval: ClassVar[float] = 0.5
 
     @property
     def custom_max_prompt_tokens(self) -> int | None:
@@ -167,14 +170,15 @@ class BaseRun(BaseResource, OperationInterface[RunResult[ToolCallTypeT]]):
 
         return
 
+    async def _cancel(
+        self,
+        *,
+        timeout: float = 60
+    ) -> None:
+        raise NotImplementedError("Run couldn't be cancelled")
 
-class AsyncRun(BaseRun[AsyncToolCall]):
-    async def get_status(self, *, timeout: float = 60) -> RunStatus:
-        return await self._get_status(timeout=timeout)
 
-    async def get_result(self, *, timeout: float = 60) -> RunResult[AsyncToolCall]:
-        return await self._get_result(timeout=timeout)
-
+class AsyncRun(AsyncOperationMixin[RunResult[AsyncToolCall], RunStatus], BaseRun[AsyncToolCall]):
     async def listen(
         self,
         *,
@@ -189,22 +193,6 @@ class AsyncRun(BaseRun[AsyncToolCall]):
 
     __aiter__ = listen
 
-    async def wait(
-        self,
-        *,
-        timeout: float = 60,
-        poll_timeout: int = 300,
-        poll_interval: float = 0.5,
-    ) -> RunResult[AsyncToolCall]:
-        return await self._wait(
-            timeout=timeout,
-            poll_timeout=poll_timeout,
-            poll_interval=poll_interval,
-        )
-
-    def __await__(self):
-        return self.wait().__await__()
-
     async def submit_tool_results(
         self,
         tool_results: ToolResultInputType,
@@ -214,19 +202,10 @@ class AsyncRun(BaseRun[AsyncToolCall]):
         await super()._submit_tool_results(tool_results=tool_results, timeout=timeout)
 
 
-class Run(BaseRun[ToolCall]):
-    __get_status = run_sync(BaseRun._get_status)
-    __get_result = run_sync(BaseRun._get_result)
-    __wait = run_sync(BaseRun._wait)
+class Run(SyncOperationMixin[RunResult[ToolCall], RunStatus], BaseRun[ToolCall]):
     __listen = run_sync_generator(BaseRun._listen)
     __iter__ = __listen
     __submit_tool_results = run_sync(BaseRun._submit_tool_results)
-
-    def get_status(self, *, timeout: float = 60) -> RunStatus:
-        return self.__get_status(timeout=timeout)
-
-    def get_result(self, *, timeout: float = 60) -> RunResult[ToolCall]:
-        return self.__get_result(timeout=timeout)
 
     def listen(
         self,
@@ -237,20 +216,6 @@ class Run(BaseRun[ToolCall]):
         yield from self.__listen(
             events_start_idx=events_start_idx,
             timeout=timeout,
-        )
-
-    def wait(
-        self,
-        *,
-        timeout: float = 60,
-        poll_timeout: int = 300,
-        poll_interval: float = 0.5,
-    ) -> RunResult[ToolCall]:
-        # NB: mypy can't unterstand normally __wait return type and thinks its ResultTypeT
-        return self.__wait(  # type: ignore[return-value]
-            timeout=timeout,
-            poll_timeout=poll_timeout,
-            poll_interval=poll_interval,
         )
 
     def submit_tool_results(

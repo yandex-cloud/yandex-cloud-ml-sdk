@@ -107,3 +107,10 @@ class ProtoEnumBase(base):
     def _to_proto(self) -> int:
         assert hasattr(self, 'value')
         return self.value
+
+    @classmethod
+    def _from_proto(cls, proto: int) -> Self:
+        try:
+            return cls(proto)
+        except ValueError:
+            return cls(-1)

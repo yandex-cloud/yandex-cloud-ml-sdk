@@ -1,27 +1,21 @@
 # pylint: disable=no-name-in-module
 from __future__ import annotations
 
-import enum
+from enum import IntEnum
 
 from yandex.cloud.ai.assistants.v1.runs.run_pb2 import RunState as ProtoRunState
 from yandex.cloud.ai.assistants.v1.runs.run_service_pb2 import StreamEvent as ProtoStreamEvent
 
-
-class BaseRunStatus:
-    @property
-    def is_running(self) -> bool:
-        raise NotImplementedError()
-
-    @property
-    def is_succeeded(self) -> bool:
-        raise NotImplementedError()
-
-    @property
-    def is_failed(self) -> bool:
-        raise NotImplementedError()
+from yandex_cloud_ml_sdk._types.operation import BaseOperationStatus
+from yandex_cloud_ml_sdk._utils.proto import ProtoEnumBase
 
 
-class RunStatus(BaseRunStatus, int, enum.Enum):
+# pylint: disable=abstract-method
+class BaseRunStatus(BaseOperationStatus):
+    pass
+
+
+class RunStatus(BaseRunStatus, ProtoEnumBase, IntEnum):
     UNKNOWN = -1
     RUN_STATUS_UNSPECIFIED = ProtoRunState.RUN_STATUS_UNSPECIFIED
     PENDING = ProtoRunState.PENDING
@@ -42,15 +36,8 @@ class RunStatus(BaseRunStatus, int, enum.Enum):
     def is_failed(self) -> bool:
         return self is self.FAILED
 
-    @classmethod
-    def _from_proto(cls, proto: int) -> RunStatus:
-        try:
-            return cls(proto)
-        except ValueError:
-            return cls(-1)
 
-
-class StreamEvent(BaseRunStatus, int, enum.Enum):
+class StreamEvent(BaseRunStatus, ProtoEnumBase, IntEnum):
     UNKNOWN = -1
     EVENT_TYPE_UNSPECIFIED = ProtoStreamEvent.EVENT_TYPE_UNSPECIFIED
     PARTIAL_MESSAGE = ProtoStreamEvent.PARTIAL_MESSAGE
