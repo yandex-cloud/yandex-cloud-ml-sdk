@@ -12,6 +12,14 @@
                 "message": {
                     "endpoints": [
                         {
+                            "id": "ai-assistants",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-files",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "ai-foundation-models",
                             "address": "llm.api.cloud.yandex.net:443"
                         },
@@ -72,6 +80,10 @@
                             "address": "backup.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "baremetal",
+                            "address": "baremetal.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "billing",
                             "address": "billing.api.cloud.yandex.net:443"
                         },
@@ -92,8 +104,20 @@
                             "address": "data.certificate-manager.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "certificate-manager-private-ca",
+                            "address": "private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager-private-ca-data",
+                            "address": "data.private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "cic",
-                            "address": "cic-api.api.cloud.yandex.net:443"
+                            "address": "cic.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloud-registry",
+                            "address": "registry.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "cloudapps",
@@ -109,7 +133,7 @@
                         },
                         {
                             "id": "cloudrouter",
-                            "address": "cic-api.api.cloud.yandex.net:443"
+                            "address": "cloudrouter.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "cloudvideo",
@@ -148,6 +172,18 @@
                             "address": "api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "fomo-dataset",
+                            "address": "fomo-dataset.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "fomo-tuning",
+                            "address": "fomo-tuning.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "gitlab",
+                            "address": "gitlab.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "iam",
                             "address": "iam.api.cloud.yandex.net:443"
                         },
@@ -174,6 +210,10 @@
                         {
                             "id": "kms-crypto",
                             "address": "kms.yandex:443"
+                        },
+                        {
+                            "id": "kspm",
+                            "address": "kspm.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "load-balancer",
@@ -232,6 +272,10 @@
                             "address": "mks.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-metastore",
+                            "address": "metastore.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "managed-mongodb",
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
@@ -252,11 +296,31 @@
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-spark",
+                            "address": "spark.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-spqr",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "managed-sqlserver",
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-trino",
+                            "address": "trino.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-ytsaurus",
+                            "address": "ytsaurus.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "marketplace",
+                            "address": "marketplace.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "marketplace-pim",
                             "address": "marketplace.api.cloud.yandex.net:443"
                         },
                         {
@@ -284,6 +348,10 @@
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "mdb-spqr",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "mdbproxy",
                             "address": "mdbproxy.api.cloud.yandex.net:443"
                         },
@@ -302,6 +370,14 @@
                         {
                             "id": "organizationmanager",
                             "address": "organization-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quota-manager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quotamanager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "resource-manager",
@@ -397,187 +473,311 @@
                 "message": {
                     "files": [
                         {
-                            "id": "fvt8ms6p5bu8dg6t1di0",
+                            "id": "fvt92v5fdo9iubsrhbqo",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "9",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:26.526595Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:26.526595Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:19:42.521965Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:19:42.521965Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:26.526595Z"
+                            "expiresAt": "2025-07-31T14:19:42.521965Z"
                         },
                         {
-                            "id": "fvtdvjji36bp0s7qq4dg",
+                            "id": "fvtt1pqlukoun34sqnlq",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "8",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:26.379068Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:26.379068Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:19:42.412159Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:19:42.412159Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:26.379068Z"
+                            "expiresAt": "2025-07-31T14:19:42.412159Z"
                         },
                         {
-                            "id": "fvttv61vpei2biu58r3u",
+                            "id": "fvt500bcl6d8i3dlndfd",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "7",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:26.220247Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:26.220247Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:19:42.329506Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:19:42.329506Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:26.220247Z"
+                            "expiresAt": "2025-07-31T14:19:42.329506Z"
                         },
                         {
-                            "id": "fvth5tn8vgplvpp46clc",
+                            "id": "fvt6ouonvmpqj6cejnn2",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "6",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:26.083320Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:26.083320Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:19:42.258144Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:19:42.258144Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:26.083320Z"
+                            "expiresAt": "2025-07-31T14:19:42.258144Z"
                         },
                         {
-                            "id": "fvt26dar7guq8hrut5hl",
+                            "id": "fvtdi95tin8g9vgu049u",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "5",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:25.956220Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:25.956220Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:19:42.183438Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:19:42.183438Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:25.956220Z"
+                            "expiresAt": "2025-07-31T14:19:42.183438Z"
                         },
                         {
-                            "id": "fvt2vgfuv0eateakk1eu",
+                            "id": "fvt50u058jgshtq7d619",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "4",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:25.828259Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:25.828259Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:19:42.113160Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:19:42.113160Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:25.828259Z"
+                            "expiresAt": "2025-07-31T14:19:42.113160Z"
                         },
                         {
-                            "id": "fvtp5659ibv75eiq04er",
+                            "id": "fvtee44p5agpqjqre16f",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "3",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:25.617449Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:25.617449Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:19:42.048272Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:19:42.048272Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:25.617449Z"
+                            "expiresAt": "2025-07-31T14:19:42.048272Z"
                         },
                         {
-                            "id": "fvtdpvrttmf4neeuooov",
+                            "id": "fvtb20m9f79ck83ovms8",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "2",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:25.451784Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:25.451784Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:19:41.963915Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:19:41.963915Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:25.451784Z"
+                            "expiresAt": "2025-07-31T14:19:41.963915Z"
                         },
                         {
-                            "id": "fvtc939ughi46e0hgacb",
+                            "id": "fvtnt1b1l9iupf9dr721",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "1",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:25.282885Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:25.282885Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:19:41.877641Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:19:41.877641Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:25.282885Z"
+                            "expiresAt": "2025-07-31T14:19:41.877641Z"
                         },
                         {
-                            "id": "fvtk0p9vvds0to8m2rbb",
+                            "id": "fvtvq5pegkg4tgr8mbk5",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "0",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:25.083783Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:25.083783Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:19:41.796524Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:19:41.796524Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:25.083783Z"
+                            "expiresAt": "2025-07-31T14:19:41.796524Z"
                         },
                         {
-                            "id": "fvtpc8als2hkstovmvjb",
+                            "id": "fvtd5jm8o58gve3lnsdk",
                             "folderId": "b1ghsjum2v37c2un8h64",
-                            "name": "name",
-                            "description": "description",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:42:35.413383Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:42:35.875780Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:19:37.535606Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:19:37.535606Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:42:35.413383Z"
+                            "expiresAt": "2025-07-31T14:19:37.535606Z"
                         },
                         {
-                            "id": "fvtg5ggk07ij41tpj08m",
+                            "id": "fvt0ogmrojgbr5mkuabb",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:35:35.385743Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:35:35.385743Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T18:02:31.141210Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T18:02:31.141210Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:35:35.385743Z"
+                            "expiresAt": "2025-07-24T18:02:31.484106Z"
+                        },
+                        {
+                            "id": "fvtug051tn5gjn5lt3p9",
+                            "folderId": "b1ghsjum2v37c2un8h64",
+                            "mimeType": "text/plain",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:59:37.216281Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:59:37.216281Z",
+                            "expirationConfig": {
+                                "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                "ttlDays": "7"
+                            },
+                            "expiresAt": "2025-07-24T17:59:37.517217Z"
+                        },
+                        {
+                            "id": "fvt3to0cj40cp3bfi7e3",
+                            "folderId": "b1ghsjum2v37c2un8h64",
+                            "mimeType": "text/plain",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:58:57.113566Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:58:57.113566Z",
+                            "expirationConfig": {
+                                "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                "ttlDays": "7"
+                            },
+                            "expiresAt": "2025-07-24T17:58:57.385096Z"
+                        },
+                        {
+                            "id": "fvtsetnn5v5vmse14pdt",
+                            "folderId": "b1ghsjum2v37c2un8h64",
+                            "mimeType": "text/plain",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:57:47.397746Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:57:47.397746Z",
+                            "expirationConfig": {
+                                "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                "ttlDays": "7"
+                            },
+                            "expiresAt": "2025-07-24T17:57:47.670626Z"
+                        },
+                        {
+                            "id": "fvtt22iahv2b60ngn25m",
+                            "folderId": "b1ghsjum2v37c2un8h64",
+                            "mimeType": "text/plain",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:53:16.237643Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:53:16.237643Z",
+                            "expirationConfig": {
+                                "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                "ttlDays": "7"
+                            },
+                            "expiresAt": "2025-07-24T17:53:16.530422Z"
+                        },
+                        {
+                            "id": "fvt0o1ce2san64d7nsho",
+                            "folderId": "b1ghsjum2v37c2un8h64",
+                            "mimeType": "text/plain",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:52:25.329005Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:52:25.329005Z",
+                            "expirationConfig": {
+                                "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                "ttlDays": "7"
+                            },
+                            "expiresAt": "2025-07-24T17:52:25.564282Z"
+                        },
+                        {
+                            "id": "fvtn2sh1uhb6a1a810mo",
+                            "folderId": "b1ghsjum2v37c2un8h64",
+                            "mimeType": "text/plain",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:51:25.223235Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:51:25.223235Z",
+                            "expirationConfig": {
+                                "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                "ttlDays": "7"
+                            },
+                            "expiresAt": "2025-07-24T17:51:25.475163Z"
+                        },
+                        {
+                            "id": "fvtqmvrbs389df2cv2au",
+                            "folderId": "b1ghsjum2v37c2un8h64",
+                            "mimeType": "text/plain",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:49:37.390485Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:49:37.390485Z",
+                            "expirationConfig": {
+                                "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                "ttlDays": "7"
+                            },
+                            "expiresAt": "2025-07-24T17:49:37.670276Z"
+                        },
+                        {
+                            "id": "fvt7k4ipis7mfihfh3r1",
+                            "folderId": "b1ghsjum2v37c2un8h64",
+                            "mimeType": "text/plain",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:48:56.616437Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:48:56.616437Z",
+                            "expirationConfig": {
+                                "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                "ttlDays": "7"
+                            },
+                            "expiresAt": "2025-07-24T17:48:56.877019Z"
+                        },
+                        {
+                            "id": "fvtf214rglt6rggiq7hs",
+                            "folderId": "b1ghsjum2v37c2un8h64",
+                            "mimeType": "text/plain",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:48:32.416684Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:48:32.416684Z",
+                            "expirationConfig": {
+                                "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                "ttlDays": "7"
+                            },
+                            "expiresAt": "2025-07-24T17:48:32.820863Z"
                         }
                     ],
-                    "nextPageToken": "MjAyNC0wOS0yN1QxNzozNTozNS4zODU3NDNAZnZ0ZzVnZ2swN2lqNDF0cGowOG0="
+                    "nextPageToken": "MjAyNS0wNy0xN1QxNzo0ODozMi40MTY2ODRAZnZ0ZjIxNHJnbHQ2cmdnaXE3aHM="
                 }
             }
         },
@@ -587,7 +787,7 @@
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "pageToken": "MjAyNC0wOS0yN1QxNzozNTozNS4zODU3NDNAZnZ0ZzVnZ2swN2lqNDF0cGowOG0="
+                    "pageToken": "MjAyNS0wNy0xN1QxNzo0ODozMi40MTY2ODRAZnZ0ZjIxNHJnbHQ2cmdnaXE3aHM="
                 }
             },
             "response": {
@@ -610,19 +810,19 @@
                 "cls": "File",
                 "module": "yandex.cloud.ai.files.v1.file_pb2",
                 "message": {
-                    "id": "fvtjgq2us8r579ceqnht",
+                    "id": "fvt1du9cph03eua8ibh8",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "0",
                     "mimeType": "text/plain",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-09-27T17:56:47.664832Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-09-27T17:56:47.664832Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:21:46.048596Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:21:46.048596Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-04T17:56:47.664832Z"
+                    "expiresAt": "2025-07-31T14:21:46.048596Z"
                 }
             }
         },
@@ -640,19 +840,19 @@
                 "cls": "File",
                 "module": "yandex.cloud.ai.files.v1.file_pb2",
                 "message": {
-                    "id": "fvtocg9sh0mvhiqe0slf",
+                    "id": "fvt0euakj8ndsotj2o27",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "1",
                     "mimeType": "text/plain",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-09-27T17:56:47.851406Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-09-27T17:56:47.851406Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:21:46.183058Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:21:46.183058Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-04T17:56:47.851406Z"
+                    "expiresAt": "2025-07-31T14:21:46.183058Z"
                 }
             }
         },
@@ -670,19 +870,19 @@
                 "cls": "File",
                 "module": "yandex.cloud.ai.files.v1.file_pb2",
                 "message": {
-                    "id": "fvtdmq06qmdehrc1l6a1",
+                    "id": "fvt8g2dcksrb5fcklkgk",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "2",
                     "mimeType": "text/plain",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-09-27T17:56:47.980080Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-09-27T17:56:47.980080Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:21:46.280462Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:21:46.280462Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-04T17:56:47.980080Z"
+                    "expiresAt": "2025-07-31T14:21:46.280462Z"
                 }
             }
         },
@@ -700,19 +900,19 @@
                 "cls": "File",
                 "module": "yandex.cloud.ai.files.v1.file_pb2",
                 "message": {
-                    "id": "fvtuacd8986o0bn832l1",
+                    "id": "fvtj1j81k26rkhcg9sdf",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "3",
                     "mimeType": "text/plain",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-09-27T17:56:48.166400Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-09-27T17:56:48.166400Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:21:46.399656Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:21:46.399656Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-04T17:56:48.166400Z"
+                    "expiresAt": "2025-07-31T14:21:46.399656Z"
                 }
             }
         },
@@ -730,19 +930,19 @@
                 "cls": "File",
                 "module": "yandex.cloud.ai.files.v1.file_pb2",
                 "message": {
-                    "id": "fvtji7n46r9rscb8n6t6",
+                    "id": "fvt05o42snipvt7ddrno",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "4",
                     "mimeType": "text/plain",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-09-27T17:56:48.325382Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-09-27T17:56:48.325382Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:21:46.498708Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:21:46.498708Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-04T17:56:48.325382Z"
+                    "expiresAt": "2025-07-31T14:21:46.498708Z"
                 }
             }
         },
@@ -760,19 +960,19 @@
                 "cls": "File",
                 "module": "yandex.cloud.ai.files.v1.file_pb2",
                 "message": {
-                    "id": "fvtua4sjfh7lvo4ovu4k",
+                    "id": "fvt6mqhp2cnid839ignt",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "5",
                     "mimeType": "text/plain",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-09-27T17:56:48.466437Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-09-27T17:56:48.466437Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:21:46.574389Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:21:46.574389Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-04T17:56:48.466437Z"
+                    "expiresAt": "2025-07-31T14:21:46.574389Z"
                 }
             }
         },
@@ -790,19 +990,19 @@
                 "cls": "File",
                 "module": "yandex.cloud.ai.files.v1.file_pb2",
                 "message": {
-                    "id": "fvtp9ka90o51vtict9pv",
+                    "id": "fvt0uhshq4octo7po1dq",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "6",
                     "mimeType": "text/plain",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-09-27T17:56:48.665747Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-09-27T17:56:48.665747Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:21:46.651564Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:21:46.651564Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-04T17:56:48.665747Z"
+                    "expiresAt": "2025-07-31T14:21:46.651564Z"
                 }
             }
         },
@@ -820,19 +1020,19 @@
                 "cls": "File",
                 "module": "yandex.cloud.ai.files.v1.file_pb2",
                 "message": {
-                    "id": "fvtqsgiciu69juh8goin",
+                    "id": "fvtc0m3jr5eprumqvl5t",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "7",
                     "mimeType": "text/plain",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-09-27T17:56:48.795925Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-09-27T17:56:48.795925Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:21:46.723229Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:21:46.723229Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-04T17:56:48.795925Z"
+                    "expiresAt": "2025-07-31T14:21:46.723229Z"
                 }
             }
         },
@@ -850,19 +1050,19 @@
                 "cls": "File",
                 "module": "yandex.cloud.ai.files.v1.file_pb2",
                 "message": {
-                    "id": "fvtn9b726gecupnhbncs",
+                    "id": "fvtf06gfmg9cj9tqkrvo",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "8",
                     "mimeType": "text/plain",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-09-27T17:56:48.952443Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-09-27T17:56:48.952443Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:21:46.857927Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:21:46.857927Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-04T17:56:48.952443Z"
+                    "expiresAt": "2025-07-31T14:21:46.857927Z"
                 }
             }
         },
@@ -880,19 +1080,19 @@
                 "cls": "File",
                 "module": "yandex.cloud.ai.files.v1.file_pb2",
                 "message": {
-                    "id": "fvtl7vl8ucbhs0vm9cqj",
+                    "id": "fvt4cppauoiua0nc0c03",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "9",
                     "mimeType": "text/plain",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-09-27T17:56:49.088021Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-09-27T17:56:49.088021Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:21:46.924702Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:21:46.924702Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-04T17:56:49.088021Z"
+                    "expiresAt": "2025-07-31T14:21:46.924702Z"
                 }
             }
         },
@@ -911,52 +1111,52 @@
                 "message": {
                     "files": [
                         {
-                            "id": "fvtl7vl8ucbhs0vm9cqj",
+                            "id": "fvt4cppauoiua0nc0c03",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "9",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:49.088021Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:49.088021Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:21:46.924702Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:21:46.924702Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:49.088021Z"
+                            "expiresAt": "2025-07-31T14:21:46.924702Z"
                         },
                         {
-                            "id": "fvtn9b726gecupnhbncs",
+                            "id": "fvtf06gfmg9cj9tqkrvo",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "8",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:48.952443Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:48.952443Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:21:46.857927Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:21:46.857927Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:48.952443Z"
+                            "expiresAt": "2025-07-31T14:21:46.857927Z"
                         },
                         {
-                            "id": "fvtqsgiciu69juh8goin",
+                            "id": "fvtc0m3jr5eprumqvl5t",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "7",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:48.795925Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:48.795925Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:21:46.723229Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:21:46.723229Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:48.795925Z"
+                            "expiresAt": "2025-07-31T14:21:46.723229Z"
                         }
                     ],
-                    "nextPageToken": "MjAyNC0wOS0yN1QxNzo1Njo0OC43OTU5MjVAZnZ0cXNnaWNpdTY5anVoOGdvaW4="
+                    "nextPageToken": "MjAyNS0wNy0yNFQxNDoyMTo0Ni43MjMyMjlAZnZ0YzBtM2pyNWVwcnVtcXZsNXQ="
                 }
             }
         },
@@ -967,7 +1167,7 @@
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "pageSize": "3",
-                    "pageToken": "MjAyNC0wOS0yN1QxNzo1Njo0OC43OTU5MjVAZnZ0cXNnaWNpdTY5anVoOGdvaW4="
+                    "pageToken": "MjAyNS0wNy0yNFQxNDoyMTo0Ni43MjMyMjlAZnZ0YzBtM2pyNWVwcnVtcXZsNXQ="
                 }
             },
             "response": {
@@ -976,52 +1176,52 @@
                 "message": {
                     "files": [
                         {
-                            "id": "fvtp9ka90o51vtict9pv",
+                            "id": "fvt0uhshq4octo7po1dq",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "6",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:48.665747Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:48.665747Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:21:46.651564Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:21:46.651564Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:48.665747Z"
+                            "expiresAt": "2025-07-31T14:21:46.651564Z"
                         },
                         {
-                            "id": "fvtua4sjfh7lvo4ovu4k",
+                            "id": "fvt6mqhp2cnid839ignt",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "5",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:48.466437Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:48.466437Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:21:46.574389Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:21:46.574389Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:48.466437Z"
+                            "expiresAt": "2025-07-31T14:21:46.574389Z"
                         },
                         {
-                            "id": "fvtji7n46r9rscb8n6t6",
+                            "id": "fvt05o42snipvt7ddrno",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "4",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:48.325382Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:48.325382Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:21:46.498708Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:21:46.498708Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:48.325382Z"
+                            "expiresAt": "2025-07-31T14:21:46.498708Z"
                         }
                     ],
-                    "nextPageToken": "MjAyNC0wOS0yN1QxNzo1Njo0OC4zMjUzODJAZnZ0amk3bjQ2cjlyc2NiOG42dDY="
+                    "nextPageToken": "MjAyNS0wNy0yNFQxNDoyMTo0Ni40OTg3MDhAZnZ0MDVvNDJzbmlwdnQ3ZGRybm8="
                 }
             }
         },
@@ -1032,7 +1232,7 @@
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "pageSize": "3",
-                    "pageToken": "MjAyNC0wOS0yN1QxNzo1Njo0OC4zMjUzODJAZnZ0amk3bjQ2cjlyc2NiOG42dDY="
+                    "pageToken": "MjAyNS0wNy0yNFQxNDoyMTo0Ni40OTg3MDhAZnZ0MDVvNDJzbmlwdnQ3ZGRybm8="
                 }
             },
             "response": {
@@ -1041,52 +1241,52 @@
                 "message": {
                     "files": [
                         {
-                            "id": "fvtuacd8986o0bn832l1",
+                            "id": "fvtj1j81k26rkhcg9sdf",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "3",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:48.166400Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:48.166400Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:21:46.399656Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:21:46.399656Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:48.166400Z"
+                            "expiresAt": "2025-07-31T14:21:46.399656Z"
                         },
                         {
-                            "id": "fvtdmq06qmdehrc1l6a1",
+                            "id": "fvt8g2dcksrb5fcklkgk",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "2",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:47.980080Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:47.980080Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:21:46.280462Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:21:46.280462Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:47.980080Z"
+                            "expiresAt": "2025-07-31T14:21:46.280462Z"
                         },
                         {
-                            "id": "fvtocg9sh0mvhiqe0slf",
+                            "id": "fvt0euakj8ndsotj2o27",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "1",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:47.851406Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:47.851406Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:21:46.183058Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:21:46.183058Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:47.851406Z"
+                            "expiresAt": "2025-07-31T14:21:46.183058Z"
                         }
                     ],
-                    "nextPageToken": "MjAyNC0wOS0yN1QxNzo1Njo0Ny44NTE0MDZAZnZ0b2NnOXNoMG12aGlxZTBzbGY="
+                    "nextPageToken": "MjAyNS0wNy0yNFQxNDoyMTo0Ni4xODMwNThAZnZ0MGV1YWtqOG5kc290ajJvMjc="
                 }
             }
         },
@@ -1097,7 +1297,7 @@
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "pageSize": "3",
-                    "pageToken": "MjAyNC0wOS0yN1QxNzo1Njo0Ny44NTE0MDZAZnZ0b2NnOXNoMG12aGlxZTBzbGY="
+                    "pageToken": "MjAyNS0wNy0yNFQxNDoyMTo0Ni4xODMwNThAZnZ0MGV1YWtqOG5kc290ajJvMjc="
                 }
             },
             "response": {
@@ -1106,52 +1306,52 @@
                 "message": {
                     "files": [
                         {
-                            "id": "fvtjgq2us8r579ceqnht",
+                            "id": "fvt1du9cph03eua8ibh8",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "0",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:47.664832Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:47.664832Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:21:46.048596Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:21:46.048596Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:47.664832Z"
+                            "expiresAt": "2025-07-31T14:21:46.048596Z"
                         },
                         {
-                            "id": "fvt8ms6p5bu8dg6t1di0",
+                            "id": "fvt92v5fdo9iubsrhbqo",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "9",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:26.526595Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:26.526595Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:19:42.521965Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:19:42.521965Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:26.526595Z"
+                            "expiresAt": "2025-07-31T14:19:42.521965Z"
                         },
                         {
-                            "id": "fvtdvjji36bp0s7qq4dg",
+                            "id": "fvtt1pqlukoun34sqnlq",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "8",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:26.379068Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:26.379068Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:19:42.412159Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:19:42.412159Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:26.379068Z"
+                            "expiresAt": "2025-07-31T14:19:42.412159Z"
                         }
                     ],
-                    "nextPageToken": "MjAyNC0wOS0yN1QxNzo1NjoyNi4zNzkwNjhAZnZ0ZHZqamkzNmJwMHM3cXE0ZGc="
+                    "nextPageToken": "MjAyNS0wNy0yNFQxNDoxOTo0Mi40MTIxNTlAZnZ0dDFwcWx1a291bjM0c3FubHE="
                 }
             }
         },
@@ -1162,7 +1362,7 @@
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "pageSize": "3",
-                    "pageToken": "MjAyNC0wOS0yN1QxNzo1NjoyNi4zNzkwNjhAZnZ0ZHZqamkzNmJwMHM3cXE0ZGc="
+                    "pageToken": "MjAyNS0wNy0yNFQxNDoxOTo0Mi40MTIxNTlAZnZ0dDFwcWx1a291bjM0c3FubHE="
                 }
             },
             "response": {
@@ -1171,52 +1371,52 @@
                 "message": {
                     "files": [
                         {
-                            "id": "fvttv61vpei2biu58r3u",
+                            "id": "fvt500bcl6d8i3dlndfd",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "7",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:26.220247Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:26.220247Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:19:42.329506Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:19:42.329506Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:26.220247Z"
+                            "expiresAt": "2025-07-31T14:19:42.329506Z"
                         },
                         {
-                            "id": "fvth5tn8vgplvpp46clc",
+                            "id": "fvt6ouonvmpqj6cejnn2",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "6",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:26.083320Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:26.083320Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:19:42.258144Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:19:42.258144Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:26.083320Z"
+                            "expiresAt": "2025-07-31T14:19:42.258144Z"
                         },
                         {
-                            "id": "fvt26dar7guq8hrut5hl",
+                            "id": "fvtdi95tin8g9vgu049u",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "5",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:25.956220Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:25.956220Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:19:42.183438Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:19:42.183438Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:25.956220Z"
+                            "expiresAt": "2025-07-31T14:19:42.183438Z"
                         }
                     ],
-                    "nextPageToken": "MjAyNC0wOS0yN1QxNzo1NjoyNS45NTYyMjBAZnZ0MjZkYXI3Z3VxOGhydXQ1aGw="
+                    "nextPageToken": "MjAyNS0wNy0yNFQxNDoxOTo0Mi4xODM0MzhAZnZ0ZGk5NXRpbjhnOXZndTA0OXU="
                 }
             }
         },
@@ -1227,7 +1427,7 @@
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "pageSize": "3",
-                    "pageToken": "MjAyNC0wOS0yN1QxNzo1NjoyNS45NTYyMjBAZnZ0MjZkYXI3Z3VxOGhydXQ1aGw="
+                    "pageToken": "MjAyNS0wNy0yNFQxNDoxOTo0Mi4xODM0MzhAZnZ0ZGk5NXRpbjhnOXZndTA0OXU="
                 }
             },
             "response": {
@@ -1236,52 +1436,52 @@
                 "message": {
                     "files": [
                         {
-                            "id": "fvt2vgfuv0eateakk1eu",
+                            "id": "fvt50u058jgshtq7d619",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "4",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:25.828259Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:25.828259Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:19:42.113160Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:19:42.113160Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:25.828259Z"
+                            "expiresAt": "2025-07-31T14:19:42.113160Z"
                         },
                         {
-                            "id": "fvtp5659ibv75eiq04er",
+                            "id": "fvtee44p5agpqjqre16f",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "3",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:25.617449Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:25.617449Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:19:42.048272Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:19:42.048272Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:25.617449Z"
+                            "expiresAt": "2025-07-31T14:19:42.048272Z"
                         },
                         {
-                            "id": "fvtdpvrttmf4neeuooov",
+                            "id": "fvtb20m9f79ck83ovms8",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "2",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:25.451784Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:25.451784Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:19:41.963915Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:19:41.963915Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:25.451784Z"
+                            "expiresAt": "2025-07-31T14:19:41.963915Z"
                         }
                     ],
-                    "nextPageToken": "MjAyNC0wOS0yN1QxNzo1NjoyNS40NTE3ODRAZnZ0ZHB2cnR0bWY0bmVldW9vb3Y="
+                    "nextPageToken": "MjAyNS0wNy0yNFQxNDoxOTo0MS45NjM5MTVAZnZ0YjIwbTlmNzljazgzb3Ztczg="
                 }
             }
         },
@@ -1292,7 +1492,7 @@
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "pageSize": "3",
-                    "pageToken": "MjAyNC0wOS0yN1QxNzo1NjoyNS40NTE3ODRAZnZ0ZHB2cnR0bWY0bmVldW9vb3Y="
+                    "pageToken": "MjAyNS0wNy0yNFQxNDoxOTo0MS45NjM5MTVAZnZ0YjIwbTlmNzljazgzb3Ztczg="
                 }
             },
             "response": {
@@ -1301,53 +1501,51 @@
                 "message": {
                     "files": [
                         {
-                            "id": "fvtc939ughi46e0hgacb",
+                            "id": "fvtnt1b1l9iupf9dr721",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "1",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:25.282885Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:25.282885Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:19:41.877641Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:19:41.877641Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:25.282885Z"
+                            "expiresAt": "2025-07-31T14:19:41.877641Z"
                         },
                         {
-                            "id": "fvtk0p9vvds0to8m2rbb",
+                            "id": "fvtvq5pegkg4tgr8mbk5",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "name": "0",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:56:25.083783Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:56:25.083783Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:19:41.796524Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:19:41.796524Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:56:25.083783Z"
+                            "expiresAt": "2025-07-31T14:19:41.796524Z"
                         },
                         {
-                            "id": "fvtpc8als2hkstovmvjb",
+                            "id": "fvtd5jm8o58gve3lnsdk",
                             "folderId": "b1ghsjum2v37c2un8h64",
-                            "name": "name",
-                            "description": "description",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:42:35.413383Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:42:35.875780Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-24T14:19:37.535606Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-24T14:19:37.535606Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:42:35.413383Z"
+                            "expiresAt": "2025-07-31T14:19:37.535606Z"
                         }
                     ],
-                    "nextPageToken": "MjAyNC0wOS0yN1QxNzo0MjozNS40MTMzODNAZnZ0cGM4YWxzMmhrc3Rvdm12amI="
+                    "nextPageToken": "MjAyNS0wNy0yNFQxNDoxOTozNy41MzU2MDZAZnZ0ZDVqbThvNThndmUzbG5zZGs="
                 }
             }
         },
@@ -1358,7 +1556,7 @@
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "pageSize": "3",
-                    "pageToken": "MjAyNC0wOS0yN1QxNzo0MjozNS40MTMzODNAZnZ0cGM4YWxzMmhrc3Rvdm12amI="
+                    "pageToken": "MjAyNS0wNy0yNFQxNDoxOTozNy41MzU2MDZAZnZ0ZDVqbThvNThndmUzbG5zZGs="
                 }
             },
             "response": {
@@ -1367,21 +1565,49 @@
                 "message": {
                     "files": [
                         {
-                            "id": "fvtg5ggk07ij41tpj08m",
+                            "id": "fvt0ogmrojgbr5mkuabb",
                             "folderId": "b1ghsjum2v37c2un8h64",
                             "mimeType": "text/plain",
-                            "createdBy": "ajek27c96hekgf8f8016",
-                            "createdAt": "2024-09-27T17:35:35.385743Z",
-                            "updatedBy": "ajek27c96hekgf8f8016",
-                            "updatedAt": "2024-09-27T17:35:35.385743Z",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T18:02:31.141210Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T18:02:31.141210Z",
                             "expirationConfig": {
                                 "expirationPolicy": "SINCE_LAST_ACTIVE",
                                 "ttlDays": "7"
                             },
-                            "expiresAt": "2024-10-04T17:35:35.385743Z"
+                            "expiresAt": "2025-07-24T18:02:31.484106Z"
+                        },
+                        {
+                            "id": "fvtug051tn5gjn5lt3p9",
+                            "folderId": "b1ghsjum2v37c2un8h64",
+                            "mimeType": "text/plain",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:59:37.216281Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:59:37.216281Z",
+                            "expirationConfig": {
+                                "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                "ttlDays": "7"
+                            },
+                            "expiresAt": "2025-07-24T17:59:37.517217Z"
+                        },
+                        {
+                            "id": "fvt3to0cj40cp3bfi7e3",
+                            "folderId": "b1ghsjum2v37c2un8h64",
+                            "mimeType": "text/plain",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:58:57.113566Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:58:57.113566Z",
+                            "expirationConfig": {
+                                "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                "ttlDays": "7"
+                            },
+                            "expiresAt": "2025-07-24T17:58:57.385096Z"
                         }
                     ],
-                    "nextPageToken": "MjAyNC0wOS0yN1QxNzozNTozNS4zODU3NDNAZnZ0ZzVnZ2swN2lqNDF0cGowOG0="
+                    "nextPageToken": "MjAyNS0wNy0xN1QxNzo1ODo1Ny4xMTM1NjZAZnZ0M3RvMGNqNDBjcDNiZmk3ZTM="
                 }
             }
         },
@@ -1392,7 +1618,165 @@
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "pageSize": "3",
-                    "pageToken": "MjAyNC0wOS0yN1QxNzozNTozNS4zODU3NDNAZnZ0ZzVnZ2swN2lqNDF0cGowOG0="
+                    "pageToken": "MjAyNS0wNy0xN1QxNzo1ODo1Ny4xMTM1NjZAZnZ0M3RvMGNqNDBjcDNiZmk3ZTM="
+                }
+            },
+            "response": {
+                "cls": "ListFilesResponse",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {
+                    "files": [
+                        {
+                            "id": "fvtsetnn5v5vmse14pdt",
+                            "folderId": "b1ghsjum2v37c2un8h64",
+                            "mimeType": "text/plain",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:57:47.397746Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:57:47.397746Z",
+                            "expirationConfig": {
+                                "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                "ttlDays": "7"
+                            },
+                            "expiresAt": "2025-07-24T17:57:47.670626Z"
+                        },
+                        {
+                            "id": "fvtt22iahv2b60ngn25m",
+                            "folderId": "b1ghsjum2v37c2un8h64",
+                            "mimeType": "text/plain",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:53:16.237643Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:53:16.237643Z",
+                            "expirationConfig": {
+                                "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                "ttlDays": "7"
+                            },
+                            "expiresAt": "2025-07-24T17:53:16.530422Z"
+                        },
+                        {
+                            "id": "fvt0o1ce2san64d7nsho",
+                            "folderId": "b1ghsjum2v37c2un8h64",
+                            "mimeType": "text/plain",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:52:25.329005Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:52:25.329005Z",
+                            "expirationConfig": {
+                                "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                "ttlDays": "7"
+                            },
+                            "expiresAt": "2025-07-24T17:52:25.564282Z"
+                        }
+                    ],
+                    "nextPageToken": "MjAyNS0wNy0xN1QxNzo1MjoyNS4zMjkwMDVAZnZ0MG8xY2Uyc2FuNjRkN25zaG8="
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "ListFilesRequest",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {
+                    "folderId": "b1ghsjum2v37c2un8h64",
+                    "pageSize": "3",
+                    "pageToken": "MjAyNS0wNy0xN1QxNzo1MjoyNS4zMjkwMDVAZnZ0MG8xY2Uyc2FuNjRkN25zaG8="
+                }
+            },
+            "response": {
+                "cls": "ListFilesResponse",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {
+                    "files": [
+                        {
+                            "id": "fvtn2sh1uhb6a1a810mo",
+                            "folderId": "b1ghsjum2v37c2un8h64",
+                            "mimeType": "text/plain",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:51:25.223235Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:51:25.223235Z",
+                            "expirationConfig": {
+                                "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                "ttlDays": "7"
+                            },
+                            "expiresAt": "2025-07-24T17:51:25.475163Z"
+                        },
+                        {
+                            "id": "fvtqmvrbs389df2cv2au",
+                            "folderId": "b1ghsjum2v37c2un8h64",
+                            "mimeType": "text/plain",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:49:37.390485Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:49:37.390485Z",
+                            "expirationConfig": {
+                                "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                "ttlDays": "7"
+                            },
+                            "expiresAt": "2025-07-24T17:49:37.670276Z"
+                        },
+                        {
+                            "id": "fvt7k4ipis7mfihfh3r1",
+                            "folderId": "b1ghsjum2v37c2un8h64",
+                            "mimeType": "text/plain",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:48:56.616437Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:48:56.616437Z",
+                            "expirationConfig": {
+                                "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                "ttlDays": "7"
+                            },
+                            "expiresAt": "2025-07-24T17:48:56.877019Z"
+                        }
+                    ],
+                    "nextPageToken": "MjAyNS0wNy0xN1QxNzo0ODo1Ni42MTY0MzdAZnZ0N2s0aXBpczdtZmloZmgzcjE="
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "ListFilesRequest",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {
+                    "folderId": "b1ghsjum2v37c2un8h64",
+                    "pageSize": "3",
+                    "pageToken": "MjAyNS0wNy0xN1QxNzo0ODo1Ni42MTY0MzdAZnZ0N2s0aXBpczdtZmloZmgzcjE="
+                }
+            },
+            "response": {
+                "cls": "ListFilesResponse",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {
+                    "files": [
+                        {
+                            "id": "fvtf214rglt6rggiq7hs",
+                            "folderId": "b1ghsjum2v37c2un8h64",
+                            "mimeType": "text/plain",
+                            "createdBy": "aje6euqn63oa635coh28",
+                            "createdAt": "2025-07-17T17:48:32.416684Z",
+                            "updatedBy": "aje6euqn63oa635coh28",
+                            "updatedAt": "2025-07-17T17:48:32.416684Z",
+                            "expirationConfig": {
+                                "expirationPolicy": "SINCE_LAST_ACTIVE",
+                                "ttlDays": "7"
+                            },
+                            "expiresAt": "2025-07-24T17:48:32.820863Z"
+                        }
+                    ],
+                    "nextPageToken": "MjAyNS0wNy0xN1QxNzo0ODozMi40MTY2ODRAZnZ0ZjIxNHJnbHQ2cmdnaXE3aHM="
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "ListFilesRequest",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {
+                    "folderId": "b1ghsjum2v37c2un8h64",
+                    "pageSize": "3",
+                    "pageToken": "MjAyNS0wNy0xN1QxNzo0ODozMi40MTY2ODRAZnZ0ZjIxNHJnbHQ2cmdnaXE3aHM="
                 }
             },
             "response": {
@@ -1406,14 +1790,14 @@
                 "cls": "GetFileUrlRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtl7vl8ucbhs0vm9cqj"
+                    "fileId": "fvt4cppauoiua0nc0c03"
                 }
             },
             "response": {
                 "cls": "GetFileUrlResponse",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "url": "https://assistant-files.storage.yandexcloud.net/fvtl7vl8ucbhs0vm9cqj?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240927T175649Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20240927%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=45f0611590cf73aa3f2d302973aadd751f446b9afeab2f4738a71e4d4be422f9"
+                    "url": "https://assistant-files.storage.yandexcloud.net/fvt4cppauoiua0nc0c03?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250724T142207Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20250724%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=b761d2a744558d83decddd7c648e59587b63d6eff6f44ecd216fcdde1e4b568c"
                 }
             }
         },
@@ -1422,14 +1806,14 @@
                 "cls": "GetFileUrlRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtn9b726gecupnhbncs"
+                    "fileId": "fvtf06gfmg9cj9tqkrvo"
                 }
             },
             "response": {
                 "cls": "GetFileUrlResponse",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "url": "https://assistant-files.storage.yandexcloud.net/fvtn9b726gecupnhbncs?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240927T175649Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20240927%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=95841ccdc9f332fa8476e0cef7a1d3c960655459d44ac6175dafc571185f0dfd"
+                    "url": "https://assistant-files.storage.yandexcloud.net/fvtf06gfmg9cj9tqkrvo?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250724T142207Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20250724%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=a60d8d0dca8998463ea4db6a8858ae822a0e76440b70af7d6c9b4258288c055e"
                 }
             }
         },
@@ -1438,14 +1822,14 @@
                 "cls": "GetFileUrlRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtqsgiciu69juh8goin"
+                    "fileId": "fvtc0m3jr5eprumqvl5t"
                 }
             },
             "response": {
                 "cls": "GetFileUrlResponse",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "url": "https://assistant-files.storage.yandexcloud.net/fvtqsgiciu69juh8goin?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240927T175650Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20240927%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=dc56e53407ce8a1998e395c2d2b3c1ab4fc534fdea9069879ed798593e9de860"
+                    "url": "https://assistant-files.storage.yandexcloud.net/fvtc0m3jr5eprumqvl5t?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250724T142207Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20250724%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=3cb1e70524e8b340e27883a313f0b40aa41fc214133e37191c7954f3922441af"
                 }
             }
         },
@@ -1454,14 +1838,14 @@
                 "cls": "GetFileUrlRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtp9ka90o51vtict9pv"
+                    "fileId": "fvt0uhshq4octo7po1dq"
                 }
             },
             "response": {
                 "cls": "GetFileUrlResponse",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "url": "https://assistant-files.storage.yandexcloud.net/fvtp9ka90o51vtict9pv?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240927T175650Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20240927%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=e7c48579899ac0f02646ca4a0c052ba20d0d978a61ed25904128abbd9309980d"
+                    "url": "https://assistant-files.storage.yandexcloud.net/fvt0uhshq4octo7po1dq?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250724T142207Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20250724%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=b2925baa7207cecb64446bf95d64d9eaf719728cba835f8b053325913eaf7e59"
                 }
             }
         },
@@ -1470,14 +1854,14 @@
                 "cls": "GetFileUrlRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtua4sjfh7lvo4ovu4k"
+                    "fileId": "fvt6mqhp2cnid839ignt"
                 }
             },
             "response": {
                 "cls": "GetFileUrlResponse",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "url": "https://assistant-files.storage.yandexcloud.net/fvtua4sjfh7lvo4ovu4k?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240927T175650Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20240927%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=ffd01070deb44299532f17d4caeb71143b9af41280866e5ced5ecafbe3a28bed"
+                    "url": "https://assistant-files.storage.yandexcloud.net/fvt6mqhp2cnid839ignt?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250724T142207Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20250724%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=c38e0a0795afb50efd5824ab907aa552807da7ec1383e7739f38b76548ea8671"
                 }
             }
         },
@@ -1486,14 +1870,14 @@
                 "cls": "GetFileUrlRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtji7n46r9rscb8n6t6"
+                    "fileId": "fvt05o42snipvt7ddrno"
                 }
             },
             "response": {
                 "cls": "GetFileUrlResponse",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "url": "https://assistant-files.storage.yandexcloud.net/fvtji7n46r9rscb8n6t6?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240927T175650Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20240927%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=275ec98c054b4cf091c3bed5e36edcad8a8bcae9d3894d6a0e2af508cdc749e4"
+                    "url": "https://assistant-files.storage.yandexcloud.net/fvt05o42snipvt7ddrno?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250724T142207Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20250724%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=329af87abb8012311679f476014e1c7af20c9fc577ad0d4723a6f5a09dfe6ef9"
                 }
             }
         },
@@ -1502,14 +1886,14 @@
                 "cls": "GetFileUrlRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtuacd8986o0bn832l1"
+                    "fileId": "fvtj1j81k26rkhcg9sdf"
                 }
             },
             "response": {
                 "cls": "GetFileUrlResponse",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "url": "https://assistant-files.storage.yandexcloud.net/fvtuacd8986o0bn832l1?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240927T175650Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20240927%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=5f045736692ecd24673acb57cde8f3a60960125fc7ec5914cfb1c7bab7ae994a"
+                    "url": "https://assistant-files.storage.yandexcloud.net/fvtj1j81k26rkhcg9sdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250724T142207Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20250724%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=5353d62b72007aa0c8b6f77cb4234c77323571899cf99c31772004f0fe0d5681"
                 }
             }
         },
@@ -1518,14 +1902,14 @@
                 "cls": "GetFileUrlRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtdmq06qmdehrc1l6a1"
+                    "fileId": "fvt8g2dcksrb5fcklkgk"
                 }
             },
             "response": {
                 "cls": "GetFileUrlResponse",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "url": "https://assistant-files.storage.yandexcloud.net/fvtdmq06qmdehrc1l6a1?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240927T175650Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20240927%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=8fbc62968e62594fd822cb6bec018e704370e4342d2af3e7f3b10788ed653cd3"
+                    "url": "https://assistant-files.storage.yandexcloud.net/fvt8g2dcksrb5fcklkgk?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250724T142207Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20250724%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=72871d9d3314e8f9894e0d67e96c64e69d10fa44d23b03246f1fc54a4b93d564"
                 }
             }
         },
@@ -1534,14 +1918,14 @@
                 "cls": "GetFileUrlRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtocg9sh0mvhiqe0slf"
+                    "fileId": "fvt0euakj8ndsotj2o27"
                 }
             },
             "response": {
                 "cls": "GetFileUrlResponse",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "url": "https://assistant-files.storage.yandexcloud.net/fvtocg9sh0mvhiqe0slf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240927T175650Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20240927%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=b8d40f32d9c41d0a9a2ef2fcb5c88161ead53965085a22c4950699a5a469b549"
+                    "url": "https://assistant-files.storage.yandexcloud.net/fvt0euakj8ndsotj2o27?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250724T142207Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20250724%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=40b3e2cf5b95cce4a5f2527c82e489fa8161fa0fb56a9094d43caccdf9a03540"
                 }
             }
         },
@@ -1550,14 +1934,14 @@
                 "cls": "GetFileUrlRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtjgq2us8r579ceqnht"
+                    "fileId": "fvt1du9cph03eua8ibh8"
                 }
             },
             "response": {
                 "cls": "GetFileUrlResponse",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "url": "https://assistant-files.storage.yandexcloud.net/fvtjgq2us8r579ceqnht?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240927T175650Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20240927%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=9506023013a7f418420fa2aa2e93f278a6df2438e64434d6288b5d887bc4ee26"
+                    "url": "https://assistant-files.storage.yandexcloud.net/fvt1du9cph03eua8ibh8?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250724T142207Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20250724%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=f7a85f50b7f9d123dad49bbbbd170fedf4988f1155dd92fe35ee8b673c7596a7"
                 }
             }
         },
@@ -1566,21 +1950,7 @@
                 "cls": "DeleteFileRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtl7vl8ucbhs0vm9cqj"
-                }
-            },
-            "response": {
-                "cls": "DeleteFileResponse",
-                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
-                "message": {}
-            }
-        },
-        {
-            "request": {
-                "cls": "DeleteFileRequest",
-                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
-                "message": {
-                    "fileId": "fvtn9b726gecupnhbncs"
+                    "fileId": "fvt4cppauoiua0nc0c03"
                 }
             },
             "response": {
@@ -1594,7 +1964,7 @@
                 "cls": "DeleteFileRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtqsgiciu69juh8goin"
+                    "fileId": "fvtf06gfmg9cj9tqkrvo"
                 }
             },
             "response": {
@@ -1608,7 +1978,7 @@
                 "cls": "DeleteFileRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtp9ka90o51vtict9pv"
+                    "fileId": "fvtc0m3jr5eprumqvl5t"
                 }
             },
             "response": {
@@ -1622,7 +1992,7 @@
                 "cls": "DeleteFileRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtua4sjfh7lvo4ovu4k"
+                    "fileId": "fvt0uhshq4octo7po1dq"
                 }
             },
             "response": {
@@ -1636,7 +2006,7 @@
                 "cls": "DeleteFileRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtji7n46r9rscb8n6t6"
+                    "fileId": "fvt6mqhp2cnid839ignt"
                 }
             },
             "response": {
@@ -1650,7 +2020,7 @@
                 "cls": "DeleteFileRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtuacd8986o0bn832l1"
+                    "fileId": "fvt05o42snipvt7ddrno"
                 }
             },
             "response": {
@@ -1664,7 +2034,7 @@
                 "cls": "DeleteFileRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtdmq06qmdehrc1l6a1"
+                    "fileId": "fvtj1j81k26rkhcg9sdf"
                 }
             },
             "response": {
@@ -1678,7 +2048,7 @@
                 "cls": "DeleteFileRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtocg9sh0mvhiqe0slf"
+                    "fileId": "fvt8g2dcksrb5fcklkgk"
                 }
             },
             "response": {
@@ -1692,7 +2062,7 @@
                 "cls": "DeleteFileRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtjgq2us8r579ceqnht"
+                    "fileId": "fvt0euakj8ndsotj2o27"
                 }
             },
             "response": {
@@ -1706,7 +2076,7 @@
                 "cls": "DeleteFileRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvt8ms6p5bu8dg6t1di0"
+                    "fileId": "fvt1du9cph03eua8ibh8"
                 }
             },
             "response": {
@@ -1720,7 +2090,7 @@
                 "cls": "DeleteFileRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtdvjji36bp0s7qq4dg"
+                    "fileId": "fvt92v5fdo9iubsrhbqo"
                 }
             },
             "response": {
@@ -1734,7 +2104,7 @@
                 "cls": "DeleteFileRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvttv61vpei2biu58r3u"
+                    "fileId": "fvtt1pqlukoun34sqnlq"
                 }
             },
             "response": {
@@ -1748,7 +2118,7 @@
                 "cls": "DeleteFileRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvth5tn8vgplvpp46clc"
+                    "fileId": "fvt500bcl6d8i3dlndfd"
                 }
             },
             "response": {
@@ -1762,7 +2132,7 @@
                 "cls": "DeleteFileRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvt26dar7guq8hrut5hl"
+                    "fileId": "fvt6ouonvmpqj6cejnn2"
                 }
             },
             "response": {
@@ -1776,7 +2146,7 @@
                 "cls": "DeleteFileRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvt2vgfuv0eateakk1eu"
+                    "fileId": "fvtdi95tin8g9vgu049u"
                 }
             },
             "response": {
@@ -1790,7 +2160,7 @@
                 "cls": "DeleteFileRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtp5659ibv75eiq04er"
+                    "fileId": "fvt50u058jgshtq7d619"
                 }
             },
             "response": {
@@ -1804,7 +2174,7 @@
                 "cls": "DeleteFileRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtdpvrttmf4neeuooov"
+                    "fileId": "fvtee44p5agpqjqre16f"
                 }
             },
             "response": {
@@ -1818,7 +2188,7 @@
                 "cls": "DeleteFileRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtc939ughi46e0hgacb"
+                    "fileId": "fvtb20m9f79ck83ovms8"
                 }
             },
             "response": {
@@ -1832,7 +2202,7 @@
                 "cls": "DeleteFileRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtk0p9vvds0to8m2rbb"
+                    "fileId": "fvtnt1b1l9iupf9dr721"
                 }
             },
             "response": {
@@ -1846,7 +2216,7 @@
                 "cls": "DeleteFileRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtpc8als2hkstovmvjb"
+                    "fileId": "fvtvq5pegkg4tgr8mbk5"
                 }
             },
             "response": {
@@ -1860,7 +2230,147 @@
                 "cls": "DeleteFileRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvtg5ggk07ij41tpj08m"
+                    "fileId": "fvtd5jm8o58gve3lnsdk"
+                }
+            },
+            "response": {
+                "cls": "DeleteFileResponse",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {}
+            }
+        },
+        {
+            "request": {
+                "cls": "DeleteFileRequest",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {
+                    "fileId": "fvt0ogmrojgbr5mkuabb"
+                }
+            },
+            "response": {
+                "cls": "DeleteFileResponse",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {}
+            }
+        },
+        {
+            "request": {
+                "cls": "DeleteFileRequest",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {
+                    "fileId": "fvtug051tn5gjn5lt3p9"
+                }
+            },
+            "response": {
+                "cls": "DeleteFileResponse",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {}
+            }
+        },
+        {
+            "request": {
+                "cls": "DeleteFileRequest",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {
+                    "fileId": "fvt3to0cj40cp3bfi7e3"
+                }
+            },
+            "response": {
+                "cls": "DeleteFileResponse",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {}
+            }
+        },
+        {
+            "request": {
+                "cls": "DeleteFileRequest",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {
+                    "fileId": "fvtsetnn5v5vmse14pdt"
+                }
+            },
+            "response": {
+                "cls": "DeleteFileResponse",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {}
+            }
+        },
+        {
+            "request": {
+                "cls": "DeleteFileRequest",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {
+                    "fileId": "fvtt22iahv2b60ngn25m"
+                }
+            },
+            "response": {
+                "cls": "DeleteFileResponse",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {}
+            }
+        },
+        {
+            "request": {
+                "cls": "DeleteFileRequest",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {
+                    "fileId": "fvt0o1ce2san64d7nsho"
+                }
+            },
+            "response": {
+                "cls": "DeleteFileResponse",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {}
+            }
+        },
+        {
+            "request": {
+                "cls": "DeleteFileRequest",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {
+                    "fileId": "fvtn2sh1uhb6a1a810mo"
+                }
+            },
+            "response": {
+                "cls": "DeleteFileResponse",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {}
+            }
+        },
+        {
+            "request": {
+                "cls": "DeleteFileRequest",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {
+                    "fileId": "fvtqmvrbs389df2cv2au"
+                }
+            },
+            "response": {
+                "cls": "DeleteFileResponse",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {}
+            }
+        },
+        {
+            "request": {
+                "cls": "DeleteFileRequest",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {
+                    "fileId": "fvt7k4ipis7mfihfh3r1"
+                }
+            },
+            "response": {
+                "cls": "DeleteFileResponse",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {}
+            }
+        },
+        {
+            "request": {
+                "cls": "DeleteFileRequest",
+                "module": "yandex.cloud.ai.files.v1.file_service_pb2",
+                "message": {
+                    "fileId": "fvtf214rglt6rggiq7hs"
                 }
             },
             "response": {

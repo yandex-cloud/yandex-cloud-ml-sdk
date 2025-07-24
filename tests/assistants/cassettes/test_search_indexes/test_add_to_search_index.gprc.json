@@ -80,6 +80,10 @@
                             "address": "backup.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "baremetal",
+                            "address": "baremetal.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "billing",
                             "address": "billing.api.cloud.yandex.net:443"
                         },
@@ -140,6 +144,10 @@
                             "address": "compute.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "connection-manager",
+                            "address": "connectionmanager.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "container-registry",
                             "address": "container-registry.api.cloud.yandex.net:443"
                         },
@@ -176,6 +184,10 @@
                             "address": "fomo-tuning.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "gitlab",
+                            "address": "gitlab.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "iam",
                             "address": "iam.api.cloud.yandex.net:443"
                         },
@@ -202,6 +214,10 @@
                         {
                             "id": "kms-crypto",
                             "address": "kms.yandex:443"
+                        },
+                        {
+                            "id": "kspm",
+                            "address": "kspm.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "load-balancer",
@@ -260,6 +276,10 @@
                             "address": "mks.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-metastore",
+                            "address": "metastore.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "managed-mongodb",
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
@@ -280,8 +300,24 @@
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-spark",
+                            "address": "spark.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-spqr",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "managed-sqlserver",
                             "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-trino",
+                            "address": "trino.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-ytsaurus",
+                            "address": "ytsaurus.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "marketplace",
@@ -313,6 +349,10 @@
                         },
                         {
                             "id": "mdb-redis",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-spqr",
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
@@ -429,25 +469,25 @@
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "content": "dGVzdCBmaWxl"
+                    "content": "c2VjcmV0IG51bWJlciBpcyA5OTc="
                 }
             },
             "response": {
                 "cls": "File",
                 "module": "yandex.cloud.ai.files.v1.file_pb2",
                 "message": {
-                    "id": "fvtsqark68g9hvl62gda",
+                    "id": "fvtr80fits7fkgbvjh9d",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "mimeType": "text/plain",
                     "createdBy": "aje6euqn63oa635coh28",
-                    "createdAt": "2025-03-03T15:32:06.758459Z",
+                    "createdAt": "2025-07-24T14:25:46.823158Z",
                     "updatedBy": "aje6euqn63oa635coh28",
-                    "updatedAt": "2025-03-03T15:32:06.758459Z",
+                    "updatedAt": "2025-07-24T14:25:46.823158Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2025-03-10T15:32:06.758459Z"
+                    "expiresAt": "2025-07-31T14:25:46.823158Z"
                 }
             }
         },
@@ -458,7 +498,7 @@
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "fileIds": [
-                        "fvtsqark68g9hvl62gda"
+                        "fvtr80fits7fkgbvjh9d"
                     ]
                 }
             },
@@ -466,11 +506,11 @@
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvt103rv3mcth6tq4an3",
+                    "id": "fvtaa5qog4t4st2bhnpa",
                     "description": "search index creation",
-                    "createdAt": "2025-03-03T15:32:07.007914Z",
+                    "createdAt": "2025-07-24T14:25:46.982983Z",
                     "createdBy": "aje6euqn63oa635coh28",
-                    "modifiedAt": "2025-03-03T15:32:07.007914Z"
+                    "modifiedAt": "2025-07-24T14:25:46.982983Z"
                 }
             }
         },
@@ -479,18 +519,18 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvt103rv3mcth6tq4an3"
+                    "operationId": "fvtaa5qog4t4st2bhnpa"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvt103rv3mcth6tq4an3",
+                    "id": "fvtaa5qog4t4st2bhnpa",
                     "description": "search index creation",
-                    "createdAt": "2025-03-03T15:32:07.007914Z",
+                    "createdAt": "2025-07-24T14:25:46.982983Z",
                     "createdBy": "aje6euqn63oa635coh28",
-                    "modifiedAt": "2025-03-03T15:32:07.007914Z"
+                    "modifiedAt": "2025-07-24T14:25:46.982983Z"
                 }
             }
         },
@@ -499,32 +539,32 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvt103rv3mcth6tq4an3"
+                    "operationId": "fvtaa5qog4t4st2bhnpa"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvt103rv3mcth6tq4an3",
+                    "id": "fvtaa5qog4t4st2bhnpa",
                     "description": "search index creation",
-                    "createdAt": "2025-03-03T15:32:07.007914Z",
+                    "createdAt": "2025-07-24T14:25:46.982983Z",
                     "createdBy": "aje6euqn63oa635coh28",
-                    "modifiedAt": "2025-03-03T15:32:08.295309Z",
+                    "modifiedAt": "2025-07-24T14:25:48.486032Z",
                     "done": true,
                     "response": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.assistants.v1.searchindex.SearchIndex",
-                        "id": "fvtsk8p1vnf69fgn5lgn",
+                        "id": "fvt9lnter1hceqqckdoo",
                         "folderId": "b1ghsjum2v37c2un8h64",
                         "createdBy": "aje6euqn63oa635coh28",
-                        "createdAt": "2025-03-03T15:32:07.135890Z",
+                        "createdAt": "2025-07-24T14:25:47.356802Z",
                         "updatedBy": "aje6euqn63oa635coh28",
-                        "updatedAt": "2025-03-03T15:32:07.135890Z",
+                        "updatedAt": "2025-07-24T14:25:47.356802Z",
                         "expirationConfig": {
                             "expirationPolicy": "SINCE_LAST_ACTIVE",
                             "ttlDays": "7"
                         },
-                        "expiresAt": "2025-03-10T15:32:07.135890Z",
+                        "expiresAt": "2025-07-31T14:25:47.356802Z",
                         "textSearchIndex": {
                             "chunkingStrategy": {
                                 "staticStrategy": {
@@ -532,10 +572,8 @@
                                     "chunkOverlapTokens": "400"
                                 }
                             },
-                            "ngramTokenizer": {
-                                "minGram": "3",
-                                "maxGram": "4"
-                            }
+                            "standardTokenizer": {},
+                            "yandexLemmerAnalyzer": {}
                         }
                     }
                 }
@@ -546,7 +584,7 @@
                 "cls": "ListSearchIndexFilesRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_file_service_pb2",
                 "message": {
-                    "searchIndexId": "fvtsk8p1vnf69fgn5lgn"
+                    "searchIndexId": "fvt9lnter1hceqqckdoo"
                 }
             },
             "response": {
@@ -555,13 +593,13 @@
                 "message": {
                     "files": [
                         {
-                            "id": "fvtsqark68g9hvl62gda",
-                            "searchIndexId": "fvtsk8p1vnf69fgn5lgn",
+                            "id": "fvtr80fits7fkgbvjh9d",
+                            "searchIndexId": "fvt9lnter1hceqqckdoo",
                             "createdBy": "aje6euqn63oa635coh28",
-                            "createdAt": "2025-03-03T15:32:07.179282Z"
+                            "createdAt": "2025-07-24T14:25:47.458091Z"
                         }
                     ],
-                    "nextPageToken": "MjAyNS0wMy0wM1QxNTozMjowNy4xNzkyODJAZnZ0c3Fhcms2OGc5aHZsNjJnZGE="
+                    "nextPageToken": "MjAyNS0wNy0yNFQxNDoyNTo0Ny40NTgwOTFAZnZ0cjgwZml0czdma2didmpoOWQ="
                 }
             }
         },
@@ -570,8 +608,8 @@
                 "cls": "ListSearchIndexFilesRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_file_service_pb2",
                 "message": {
-                    "searchIndexId": "fvtsk8p1vnf69fgn5lgn",
-                    "pageToken": "MjAyNS0wMy0wM1QxNTozMjowNy4xNzkyODJAZnZ0c3Fhcms2OGc5aHZsNjJnZGE="
+                    "searchIndexId": "fvt9lnter1hceqqckdoo",
+                    "pageToken": "MjAyNS0wNy0yNFQxNDoyNTo0Ny40NTgwOTFAZnZ0cjgwZml0czdma2didmpoOWQ="
                 }
             },
             "response": {
@@ -586,25 +624,25 @@
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "content": "dGVzdCBmaWxl"
+                    "content": "c2VjcmV0IG51bWJlciBpcyA5OTc="
                 }
             },
             "response": {
                 "cls": "File",
                 "module": "yandex.cloud.ai.files.v1.file_pb2",
                 "message": {
-                    "id": "fvt9vfchl0of53tompmt",
+                    "id": "fvthp22nies50asq9vbc",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "mimeType": "text/plain",
                     "createdBy": "aje6euqn63oa635coh28",
-                    "createdAt": "2025-03-03T15:32:17.342328Z",
+                    "createdAt": "2025-07-24T14:25:57.541432Z",
                     "updatedBy": "aje6euqn63oa635coh28",
-                    "updatedAt": "2025-03-03T15:32:17.342328Z",
+                    "updatedAt": "2025-07-24T14:25:57.541432Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2025-03-10T15:32:17.342328Z"
+                    "expiresAt": "2025-07-31T14:25:57.541432Z"
                 }
             }
         },
@@ -614,20 +652,20 @@
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_file_service_pb2",
                 "message": {
                     "fileIds": [
-                        "fvt9vfchl0of53tompmt"
+                        "fvthp22nies50asq9vbc"
                     ],
-                    "searchIndexId": "fvtsk8p1vnf69fgn5lgn"
+                    "searchIndexId": "fvt9lnter1hceqqckdoo"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtcps3f5djhvq92uouo",
-                    "description": "indexing files for search index <fvtsk8p1vnf69fgn5lgn>",
-                    "createdAt": "2025-03-03T15:32:17.577127Z",
+                    "id": "fvt9t4g6762rqjum0act",
+                    "description": "indexing files for search index <fvt9lnter1hceqqckdoo>",
+                    "createdAt": "2025-07-24T14:25:57.662272Z",
                     "createdBy": "aje6euqn63oa635coh28",
-                    "modifiedAt": "2025-03-03T15:32:17.577127Z"
+                    "modifiedAt": "2025-07-24T14:25:57.662272Z"
                 }
             }
         },
@@ -636,18 +674,18 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvtcps3f5djhvq92uouo"
+                    "operationId": "fvt9t4g6762rqjum0act"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtcps3f5djhvq92uouo",
-                    "description": "indexing files for search index <fvtsk8p1vnf69fgn5lgn>",
-                    "createdAt": "2025-03-03T15:32:17.577127Z",
+                    "id": "fvt9t4g6762rqjum0act",
+                    "description": "indexing files for search index <fvt9lnter1hceqqckdoo>",
+                    "createdAt": "2025-07-24T14:25:57.662272Z",
                     "createdBy": "aje6euqn63oa635coh28",
-                    "modifiedAt": "2025-03-03T15:32:17.577127Z"
+                    "modifiedAt": "2025-07-24T14:25:57.662272Z"
                 }
             }
         },
@@ -656,27 +694,27 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvtcps3f5djhvq92uouo"
+                    "operationId": "fvt9t4g6762rqjum0act"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtcps3f5djhvq92uouo",
-                    "description": "indexing files for search index <fvtsk8p1vnf69fgn5lgn>",
-                    "createdAt": "2025-03-03T15:32:17.577127Z",
+                    "id": "fvt9t4g6762rqjum0act",
+                    "description": "indexing files for search index <fvt9lnter1hceqqckdoo>",
+                    "createdAt": "2025-07-24T14:25:57.662272Z",
                     "createdBy": "aje6euqn63oa635coh28",
-                    "modifiedAt": "2025-03-03T15:32:17.894511Z",
+                    "modifiedAt": "2025-07-24T14:25:57.949063Z",
                     "done": true,
                     "response": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.assistants.v1.searchindex.BatchCreateSearchIndexFileResponse",
                         "files": [
                             {
-                                "id": "fvt9vfchl0of53tompmt",
-                                "searchIndexId": "fvtsk8p1vnf69fgn5lgn",
+                                "id": "fvthp22nies50asq9vbc",
+                                "searchIndexId": "fvt9lnter1hceqqckdoo",
                                 "createdBy": "aje6euqn63oa635coh28",
-                                "createdAt": "2025-03-03T15:32:17.601690834Z"
+                                "createdAt": "2025-07-24T14:25:57.674092531Z"
                             }
                         ]
                     }
@@ -688,7 +726,7 @@
                 "cls": "ListSearchIndexFilesRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_file_service_pb2",
                 "message": {
-                    "searchIndexId": "fvtsk8p1vnf69fgn5lgn"
+                    "searchIndexId": "fvt9lnter1hceqqckdoo"
                 }
             },
             "response": {
@@ -697,19 +735,19 @@
                 "message": {
                     "files": [
                         {
-                            "id": "fvt9vfchl0of53tompmt",
-                            "searchIndexId": "fvtsk8p1vnf69fgn5lgn",
+                            "id": "fvthp22nies50asq9vbc",
+                            "searchIndexId": "fvt9lnter1hceqqckdoo",
                             "createdBy": "aje6euqn63oa635coh28",
-                            "createdAt": "2025-03-03T15:32:17.601691Z"
+                            "createdAt": "2025-07-24T14:25:57.674093Z"
                         },
                         {
-                            "id": "fvtsqark68g9hvl62gda",
-                            "searchIndexId": "fvtsk8p1vnf69fgn5lgn",
+                            "id": "fvtr80fits7fkgbvjh9d",
+                            "searchIndexId": "fvt9lnter1hceqqckdoo",
                             "createdBy": "aje6euqn63oa635coh28",
-                            "createdAt": "2025-03-03T15:32:07.179282Z"
+                            "createdAt": "2025-07-24T14:25:47.458091Z"
                         }
                     ],
-                    "nextPageToken": "MjAyNS0wMy0wM1QxNTozMjowNy4xNzkyODJAZnZ0c3Fhcms2OGc5aHZsNjJnZGE="
+                    "nextPageToken": "MjAyNS0wNy0yNFQxNDoyNTo0Ny40NTgwOTFAZnZ0cjgwZml0czdma2didmpoOWQ="
                 }
             }
         },
@@ -718,8 +756,8 @@
                 "cls": "ListSearchIndexFilesRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_file_service_pb2",
                 "message": {
-                    "searchIndexId": "fvtsk8p1vnf69fgn5lgn",
-                    "pageToken": "MjAyNS0wMy0wM1QxNTozMjowNy4xNzkyODJAZnZ0c3Fhcms2OGc5aHZsNjJnZGE="
+                    "searchIndexId": "fvt9lnter1hceqqckdoo",
+                    "pageToken": "MjAyNS0wNy0yNFQxNDoyNTo0Ny40NTgwOTFAZnZ0cjgwZml0czdma2didmpoOWQ="
                 }
             },
             "response": {

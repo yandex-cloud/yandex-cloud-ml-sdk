@@ -11,9 +11,9 @@ interactions:
       host:
       - assistant-files.storage.yandexcloud.net
       user-agent:
-      - python-httpx/0.27.0
+      - yandex-cloud-ml-sdk/0.13.0 python/3.12
     method: GET
-    uri: https://assistant-files.storage.yandexcloud.net/fvtl7vl8ucbhs0vm9cqj?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240927T175649Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20240927%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=45f0611590cf73aa3f2d302973aadd751f446b9afeab2f4738a71e4d4be422f9
+    uri: https://assistant-files.storage.yandexcloud.net/fvt4cppauoiua0nc0c03?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250724T142207Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20250724%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=b761d2a744558d83decddd7c648e59587b63d6eff6f44ecd216fcdde1e4b568c
   response:
     body:
       string: test_file 9
@@ -27,17 +27,17 @@ interactions:
       Content-Type:
       - text/plain
       Date:
-      - Fri, 27 Sep 2024 18:25:17 GMT
+      - Thu, 24 Jul 2025 14:22:07 GMT
       Etag:
       - '"34a5e2a583d047eb73d094a37c57761d"'
       Keep-Alive:
       - timeout=60
       Last-Modified:
-      - Fri, 27 Sep 2024 17:56:49 GMT
+      - Thu, 24 Jul 2025 14:21:46 GMT
       Server:
       - nginx
       X-Amz-Request-Id:
-      - 5f4f56c89d0eaa50
+      - 6ff219e098d86eb1
       X-Amz-Server-Side-Encryption:
       - aws:kms
       X-Amz-Server-Side-Encryption-Aws-Kms-Key-Id:
@@ -57,9 +57,9 @@ interactions:
       host:
       - assistant-files.storage.yandexcloud.net
       user-agent:
-      - python-httpx/0.27.0
+      - yandex-cloud-ml-sdk/0.13.0 python/3.12
     method: GET
-    uri: https://assistant-files.storage.yandexcloud.net/fvtn9b726gecupnhbncs?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240927T175649Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20240927%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=95841ccdc9f332fa8476e0cef7a1d3c960655459d44ac6175dafc571185f0dfd
+    uri: https://assistant-files.storage.yandexcloud.net/fvtf06gfmg9cj9tqkrvo?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250724T142207Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20250724%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=a60d8d0dca8998463ea4db6a8858ae822a0e76440b70af7d6c9b4258288c055e
   response:
     body:
       string: test_file 8
@@ -73,17 +73,17 @@ interactions:
       Content-Type:
       - text/plain
       Date:
-      - Fri, 27 Sep 2024 18:25:17 GMT
+      - Thu, 24 Jul 2025 14:22:07 GMT
       Etag:
       - '"cdaa711f6610bf585997ac76271f60e8"'
       Keep-Alive:
       - timeout=60
       Last-Modified:
-      - Fri, 27 Sep 2024 17:56:49 GMT
+      - Thu, 24 Jul 2025 14:21:46 GMT
       Server:
       - nginx
       X-Amz-Request-Id:
-      - c933125b62481bfd
+      - e88b4c830240c4e2
       X-Amz-Server-Side-Encryption:
       - aws:kms
       X-Amz-Server-Side-Encryption-Aws-Kms-Key-Id:
@@ -103,9 +103,9 @@ interactions:
       host:
       - assistant-files.storage.yandexcloud.net
       user-agent:
-      - python-httpx/0.27.0
+      - yandex-cloud-ml-sdk/0.13.0 python/3.12
     method: GET
-    uri: https://assistant-files.storage.yandexcloud.net/fvtqsgiciu69juh8goin?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240927T175650Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20240927%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=dc56e53407ce8a1998e395c2d2b3c1ab4fc534fdea9069879ed798593e9de860
+    uri: https://assistant-files.storage.yandexcloud.net/fvtc0m3jr5eprumqvl5t?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250724T142207Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20250724%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=3cb1e70524e8b340e27883a313f0b40aa41fc214133e37191c7954f3922441af
   response:
     body:
       string: test_file 7
@@ -119,17 +119,17 @@ interactions:
       Content-Type:
       - text/plain
       Date:
-      - Fri, 27 Sep 2024 18:25:17 GMT
+      - Thu, 24 Jul 2025 14:22:07 GMT
       Etag:
       - '"ac93527c5b94d0d6651d16b64c24cc5e"'
       Keep-Alive:
       - timeout=60
       Last-Modified:
-      - Fri, 27 Sep 2024 17:56:48 GMT
+      - Thu, 24 Jul 2025 14:21:46 GMT
       Server:
       - nginx
       X-Amz-Request-Id:
-      - e2c18a9a7ba4d418
+      - 361531262cea782a
       X-Amz-Server-Side-Encryption:
       - aws:kms
       X-Amz-Server-Side-Encryption-Aws-Kms-Key-Id:
@@ -149,9 +149,9 @@ interactions:
       host:
       - assistant-files.storage.yandexcloud.net
       user-agent:
-      - python-httpx/0.27.0
+      - yandex-cloud-ml-sdk/0.13.0 python/3.12
     method: GET
-    uri: https://assistant-files.storage.yandexcloud.net/fvtp9ka90o51vtict9pv?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240927T175650Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20240927%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=e7c48579899ac0f02646ca4a0c052ba20d0d978a61ed25904128abbd9309980d
+    uri: https://assistant-files.storage.yandexcloud.net/fvt0uhshq4octo7po1dq?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250724T142207Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20250724%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=b2925baa7207cecb64446bf95d64d9eaf719728cba835f8b053325913eaf7e59
   response:
     body:
       string: test_file 6
@@ -165,17 +165,17 @@ interactions:
       Content-Type:
       - text/plain
       Date:
-      - Fri, 27 Sep 2024 18:25:17 GMT
+      - Thu, 24 Jul 2025 14:22:07 GMT
       Etag:
       - '"911df1ef9342387515c9596d468c0fff"'
       Keep-Alive:
       - timeout=60
       Last-Modified:
-      - Fri, 27 Sep 2024 17:56:48 GMT
+      - Thu, 24 Jul 2025 14:21:46 GMT
       Server:
       - nginx
       X-Amz-Request-Id:
-      - 6ba6dd13ca7fa6d3
+      - 4b125f968bbecf4f
       X-Amz-Server-Side-Encryption:
       - aws:kms
       X-Amz-Server-Side-Encryption-Aws-Kms-Key-Id:
@@ -195,9 +195,9 @@ interactions:
       host:
       - assistant-files.storage.yandexcloud.net
       user-agent:
-      - python-httpx/0.27.0
+      - yandex-cloud-ml-sdk/0.13.0 python/3.12
     method: GET
-    uri: https://assistant-files.storage.yandexcloud.net/fvtua4sjfh7lvo4ovu4k?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240927T175650Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20240927%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=ffd01070deb44299532f17d4caeb71143b9af41280866e5ced5ecafbe3a28bed
+    uri: https://assistant-files.storage.yandexcloud.net/fvt6mqhp2cnid839ignt?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250724T142207Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20250724%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=c38e0a0795afb50efd5824ab907aa552807da7ec1383e7739f38b76548ea8671
   response:
     body:
       string: test_file 5
@@ -211,17 +211,17 @@ interactions:
       Content-Type:
       - text/plain
       Date:
-      - Fri, 27 Sep 2024 18:25:18 GMT
+      - Thu, 24 Jul 2025 14:22:07 GMT
       Etag:
       - '"9c229ae801ee4f332394fc3c8c6539b9"'
       Keep-Alive:
       - timeout=60
       Last-Modified:
-      - Fri, 27 Sep 2024 17:56:48 GMT
+      - Thu, 24 Jul 2025 14:21:46 GMT
       Server:
       - nginx
       X-Amz-Request-Id:
-      - b766f6528d3821a7
+      - 254442fab4280adb
       X-Amz-Server-Side-Encryption:
       - aws:kms
       X-Amz-Server-Side-Encryption-Aws-Kms-Key-Id:
@@ -241,9 +241,9 @@ interactions:
       host:
       - assistant-files.storage.yandexcloud.net
       user-agent:
-      - python-httpx/0.27.0
+      - yandex-cloud-ml-sdk/0.13.0 python/3.12
     method: GET
-    uri: https://assistant-files.storage.yandexcloud.net/fvtji7n46r9rscb8n6t6?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240927T175650Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20240927%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=275ec98c054b4cf091c3bed5e36edcad8a8bcae9d3894d6a0e2af508cdc749e4
+    uri: https://assistant-files.storage.yandexcloud.net/fvt05o42snipvt7ddrno?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250724T142207Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20250724%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=329af87abb8012311679f476014e1c7af20c9fc577ad0d4723a6f5a09dfe6ef9
   response:
     body:
       string: test_file 4
@@ -257,17 +257,17 @@ interactions:
       Content-Type:
       - text/plain
       Date:
-      - Fri, 27 Sep 2024 18:25:18 GMT
+      - Thu, 24 Jul 2025 14:22:07 GMT
       Etag:
       - '"55f952df45bf503b97185bbca393609e"'
       Keep-Alive:
       - timeout=60
       Last-Modified:
-      - Fri, 27 Sep 2024 17:56:48 GMT
+      - Thu, 24 Jul 2025 14:21:46 GMT
       Server:
       - nginx
       X-Amz-Request-Id:
-      - 8a2820aa058cbdfc
+      - 5b2899daf1962ffa
       X-Amz-Server-Side-Encryption:
       - aws:kms
       X-Amz-Server-Side-Encryption-Aws-Kms-Key-Id:
@@ -287,9 +287,9 @@ interactions:
       host:
       - assistant-files.storage.yandexcloud.net
       user-agent:
-      - python-httpx/0.27.0
+      - yandex-cloud-ml-sdk/0.13.0 python/3.12
     method: GET
-    uri: https://assistant-files.storage.yandexcloud.net/fvtuacd8986o0bn832l1?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240927T175650Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20240927%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=5f045736692ecd24673acb57cde8f3a60960125fc7ec5914cfb1c7bab7ae994a
+    uri: https://assistant-files.storage.yandexcloud.net/fvtj1j81k26rkhcg9sdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250724T142207Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20250724%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=5353d62b72007aa0c8b6f77cb4234c77323571899cf99c31772004f0fe0d5681
   response:
     body:
       string: test_file 3
@@ -303,17 +303,17 @@ interactions:
       Content-Type:
       - text/plain
       Date:
-      - Fri, 27 Sep 2024 18:25:18 GMT
+      - Thu, 24 Jul 2025 14:22:07 GMT
       Etag:
       - '"f634d70f4d0ee0e1879729253b906cc5"'
       Keep-Alive:
       - timeout=60
       Last-Modified:
-      - Fri, 27 Sep 2024 17:56:48 GMT
+      - Thu, 24 Jul 2025 14:21:46 GMT
       Server:
       - nginx
       X-Amz-Request-Id:
-      - 11e75d2b2016fcee
+      - 6048d08a6b02b791
       X-Amz-Server-Side-Encryption:
       - aws:kms
       X-Amz-Server-Side-Encryption-Aws-Kms-Key-Id:
@@ -333,9 +333,9 @@ interactions:
       host:
       - assistant-files.storage.yandexcloud.net
       user-agent:
-      - python-httpx/0.27.0
+      - yandex-cloud-ml-sdk/0.13.0 python/3.12
     method: GET
-    uri: https://assistant-files.storage.yandexcloud.net/fvtdmq06qmdehrc1l6a1?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240927T175650Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20240927%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=8fbc62968e62594fd822cb6bec018e704370e4342d2af3e7f3b10788ed653cd3
+    uri: https://assistant-files.storage.yandexcloud.net/fvt8g2dcksrb5fcklkgk?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250724T142207Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20250724%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=72871d9d3314e8f9894e0d67e96c64e69d10fa44d23b03246f1fc54a4b93d564
   response:
     body:
       string: test_file 2
@@ -349,17 +349,17 @@ interactions:
       Content-Type:
       - text/plain
       Date:
-      - Fri, 27 Sep 2024 18:25:18 GMT
+      - Thu, 24 Jul 2025 14:22:07 GMT
       Etag:
       - '"622514a1542dfee61176c9c2ed6b1300"'
       Keep-Alive:
       - timeout=60
       Last-Modified:
-      - Fri, 27 Sep 2024 17:56:48 GMT
+      - Thu, 24 Jul 2025 14:21:46 GMT
       Server:
       - nginx
       X-Amz-Request-Id:
-      - b11544e3842d9d2f
+      - 6dfd95dad6ef6955
       X-Amz-Server-Side-Encryption:
       - aws:kms
       X-Amz-Server-Side-Encryption-Aws-Kms-Key-Id:
@@ -379,9 +379,9 @@ interactions:
       host:
       - assistant-files.storage.yandexcloud.net
       user-agent:
-      - python-httpx/0.27.0
+      - yandex-cloud-ml-sdk/0.13.0 python/3.12
     method: GET
-    uri: https://assistant-files.storage.yandexcloud.net/fvtocg9sh0mvhiqe0slf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240927T175650Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20240927%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=b8d40f32d9c41d0a9a2ef2fcb5c88161ead53965085a22c4950699a5a469b549
+    uri: https://assistant-files.storage.yandexcloud.net/fvt0euakj8ndsotj2o27?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250724T142207Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20250724%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=40b3e2cf5b95cce4a5f2527c82e489fa8161fa0fb56a9094d43caccdf9a03540
   response:
     body:
       string: test_file 1
@@ -395,17 +395,17 @@ interactions:
       Content-Type:
       - text/plain
       Date:
-      - Fri, 27 Sep 2024 18:25:18 GMT
+      - Thu, 24 Jul 2025 14:22:07 GMT
       Etag:
       - '"69e7d012ab4e422fef541a48370398b4"'
       Keep-Alive:
       - timeout=60
       Last-Modified:
-      - Fri, 27 Sep 2024 17:56:47 GMT
+      - Thu, 24 Jul 2025 14:21:46 GMT
       Server:
       - nginx
       X-Amz-Request-Id:
-      - 8a082300c2ce4638
+      - 477b356f9d81d73f
       X-Amz-Server-Side-Encryption:
       - aws:kms
       X-Amz-Server-Side-Encryption-Aws-Kms-Key-Id:
@@ -425,9 +425,9 @@ interactions:
       host:
       - assistant-files.storage.yandexcloud.net
       user-agent:
-      - python-httpx/0.27.0
+      - yandex-cloud-ml-sdk/0.13.0 python/3.12
     method: GET
-    uri: https://assistant-files.storage.yandexcloud.net/fvtjgq2us8r579ceqnht?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240927T175650Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20240927%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=9506023013a7f418420fa2aa2e93f278a6df2438e64434d6288b5d887bc4ee26
+    uri: https://assistant-files.storage.yandexcloud.net/fvt1du9cph03eua8ibh8?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250724T142207Z&X-Amz-SignedHeaders=host&X-Amz-Credential=YCAJEHiVgmYku8GTZkpBffKkV%2F20250724%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Expires=3600&X-Amz-Signature=f7a85f50b7f9d123dad49bbbbd170fedf4988f1155dd92fe35ee8b673c7596a7
   response:
     body:
       string: test_file 0
@@ -441,17 +441,17 @@ interactions:
       Content-Type:
       - text/plain
       Date:
-      - Fri, 27 Sep 2024 18:25:18 GMT
+      - Thu, 24 Jul 2025 14:22:07 GMT
       Etag:
       - '"900d251541164d17761945cef7feca43"'
       Keep-Alive:
       - timeout=60
       Last-Modified:
-      - Fri, 27 Sep 2024 17:56:47 GMT
+      - Thu, 24 Jul 2025 14:21:46 GMT
       Server:
       - nginx
       X-Amz-Request-Id:
-      - 215e25a3212d3a12
+      - c6fb484851593200
       X-Amz-Server-Side-Encryption:
       - aws:kms
       X-Amz-Server-Side-Encryption-Aws-Kms-Key-Id:
