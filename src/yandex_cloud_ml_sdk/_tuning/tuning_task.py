@@ -18,7 +18,9 @@ from yandex.cloud.operation.operation_service_pb2 import CancelOperationRequest,
 from yandex.cloud.operation.operation_service_pb2_grpc import OperationServiceStub
 
 from yandex_cloud_ml_sdk._logging import TRACE, get_logger
-from yandex_cloud_ml_sdk._types.operation import OperationErrorInfo, OperationInterface, OperationStatus
+from yandex_cloud_ml_sdk._types.operation import (
+    AsyncOperationMixin, OperationErrorInfo, OperationInterface, OperationStatus, SyncOperationMixin
+)
 from yandex_cloud_ml_sdk._types.resource import BaseResource
 from yandex_cloud_ml_sdk._types.result import ProtoMessage
 from yandex_cloud_ml_sdk._utils.sync import run_sync
@@ -89,7 +91,7 @@ class TuningTaskStatus(OperationStatus):
         )
 
 
-class BaseTuningTask(OperationInterface[TuningResultTypeT_co]):
+class BaseTuningTask(OperationInterface[TuningResultTypeT_co, TuningTaskStatus]):
     _sdk: BaseSDK
 
     def __init__(
@@ -310,72 +312,26 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co]):
         return None
 
 
-class AsyncTuningTask(BaseTuningTask[TuningResultTypeT_co]):
+class AsyncTuningTask(
+    AsyncOperationMixin[TuningResultTypeT_co, TuningTaskStatus],
+    BaseTuningTask[TuningResultTypeT_co]
+):
     async def get_task_info(self, *, timeout: float = 60) -> TuningTaskInfo | None:
         return await self._get_task_info(timeout=timeout)
-
-    async def get_status(self, *, timeout: float = 60) -> TuningTaskStatus:
-        return await self._get_status(timeout=timeout)
-
-    async def get_result(self, *, timeout: float = 60) -> TuningResultTypeT_co:
-        return await self._get_result(timeout=timeout)
-
-    async def cancel(self, *, timeout: float = 60) -> None:
-        await self._cancel(timeout=timeout)
-
-    async def wait(
-        self,
-        *,
-        timeout: float = 60,
-        poll_timeout: int = 72 * 60 * 60,
-        poll_interval: float = 10,
-    ) -> TuningResultTypeT_co:
-        return await self._wait(
-            timeout=timeout,
-            poll_timeout=poll_timeout,
-            poll_interval=poll_interval,
-        )
 
     async def get_metrics_url(self, *, timeout: float = 60) -> str | None:
         return await self._get_metrics_url(timeout=timeout)
 
-    def __await__(self):
-        return self.wait().__await__()
 
-
-class TuningTask(BaseTuningTask[TuningResultTypeT_co]):
-    __get_status = run_sync(BaseTuningTask._get_status)
-    __get_result = run_sync(BaseTuningTask._get_result)
-    __wait = run_sync(BaseTuningTask._wait)
-    __cancel = run_sync(BaseTuningTask._cancel)
+class TuningTask(
+    SyncOperationMixin[TuningResultTypeT_co, TuningTaskStatus],
+    BaseTuningTask[TuningResultTypeT_co]
+):
     __get_metrics_url = run_sync(BaseTuningTask._get_metrics_url)
     __get_task_info = run_sync(BaseTuningTask._get_task_info)
 
     def get_task_info(self, *, timeout: float = 60) -> TuningTaskInfo | None:
         return self.__get_task_info(timeout=timeout)
-
-    def get_status(self, *, timeout: float = 60) -> TuningTaskStatus:
-        return self.__get_status(timeout=timeout)
-
-    def get_result(self, *, timeout: float = 60) -> TuningResultTypeT_co:
-        return self.__get_result(timeout=timeout)
-
-    def cancel(self, *, timeout: float = 60) -> None:
-        self.__cancel(timeout=timeout)
-
-    def wait(
-        self,
-        *,
-        timeout: float = 60,
-        poll_timeout: int = 72 * 60 * 60,
-        poll_interval: float = 10,
-    ) -> TuningResultTypeT_co:
-        result = self.__wait(
-            timeout=timeout,
-            poll_timeout=poll_timeout,
-            poll_interval=poll_interval,
-        )
-        return cast(TuningResultTypeT_co, result)
 
     def get_metrics_url(self, *, timeout: float = 60) -> str | None:
         return self.__get_metrics_url(timeout=timeout)
