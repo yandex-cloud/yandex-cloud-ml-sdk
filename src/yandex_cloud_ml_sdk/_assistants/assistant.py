@@ -465,7 +465,7 @@ class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
     ) -> None:
         """
         Delete the assistant asynchronously.
-            
+
         :param timeout: Timeout in seconds.
             Defaults to 60 seconds.
         :type timeout: float
@@ -486,7 +486,7 @@ class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
         The method implements automatic pagination - when page_token is not specified,
         it will automatically handle pagination until all versions are retrieved.
         If page_token is provided, returns only one page of results.
-        
+
         Example usage:
 
         .. code-block:: python
@@ -675,7 +675,7 @@ class Assistant(ReadOnlyAssistant[Run, Thread]):
         The method implements automatic pagination - when page_token is not specified,
         it will automatically handle pagination until all versions are retrieved.
         If page_token is provided, returns only one page of results.
-        
+
         Example usage:
 
         .. code-block:: python
