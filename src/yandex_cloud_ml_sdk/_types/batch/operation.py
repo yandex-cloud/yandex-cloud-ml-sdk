@@ -5,57 +5,35 @@ from typing import TYPE_CHECKING, TypeVar
 from yandex_cloud_ml_sdk._datasets.dataset import AsyncDataset, Dataset
 from yandex_cloud_ml_sdk._logging import TRACE, get_logger
 from yandex_cloud_ml_sdk._types.operation import (
-    AsyncOperation, BaseOperation, Operation, ProtoOperation, ResultTypeT_co
+    AsyncOperationMixin, OperationInterface, OperationStatus, ResultTypeT_co, SyncOperationMixin
 )
 
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
-    from .model import BatchMetadataType, BatchResultType
+    from .model import BatchResultType
 
 logger = get_logger(__name__)
 
 
-class BaseBatchOperation(BaseOperation[ResultTypeT_co]):
+class BaseBatchTask(OperationInterface[ResultTypeT_co, OperationStatus]):
     _result_type: type[ResultTypeT_co]
+    _custom_default_poll_timeout = 60 * 60 * 72  # 72h
 
     def __init__(
         self,
         *,
         sdk: BaseSDK,
         id: str,
-        proto_result_type: type[BatchResultType],
-        proto_metadata_type: type[BatchMetadataType],
-        initial_operation: ProtoOperation,
     ):  # pylint: disable=redefined-builtin
-        self._task_id: str = ''
-        self._total_batches: int = 0
+        self._id: str = id
+        self._sdk = sdk
         self._completed_batches: int = 0
-
-        super().__init__(
-            sdk=sdk,
-            id=id,
-            result_type=self._result_type,
-            proto_result_type=proto_result_type,
-            proto_metadata_type=proto_metadata_type,
-            transformer=self._result_transformer,
-            service_name='ai-foundation-models',
-            initial_operation=initial_operation,
-            custom_default_poll_timeout=60 * 60 * 72,  # 72h
-        )
-
-    # NB: I don't want to make parent operation class Generic[MetadataTypeT] just to
-    # properly annotate this
-    def _on_new_metadata(self, metadata) -> None:
-        logger.log(TRACE, "updating task_id and progress from metadata %r", metadata)
-
-        self._task_id = metadata.task_id
-        self._total_batches = metadata.total_batches
-        self._completed_batches = metadata.completed_batches
+        self._total_batches: int = 0
 
     @property
     def task_id(self) -> str:
-        return self._task_id
+        return self._id
 
     @property
     def total_batches(self) -> int:
@@ -73,25 +51,18 @@ class BaseBatchOperation(BaseOperation[ResultTypeT_co]):
         return await self._sdk.datasets._get(dataset_id, timeout=timeout)
 
     def __repr__(self) -> str:
-        progress = 'unknown'
-        if self._total_batches:
-            progress = f'{self._completed_batches}/{self._total_batches}'
         return (
             f'{self.__class__.__name__}'
-            '<'
-            f'operation_id={self.id}'
-            f', task_id={self._task_id}'
-            f', progress={progress}'
-            '>'
+            f'<{self._id}>'
         )
 
 
-class AsyncBatchOperation(BaseBatchOperation[AsyncDataset], AsyncOperation[AsyncDataset]):
+class AsyncBatchTask(AsyncOperationMixin[AsyncDataset, OperationStatus], BaseBatchTask[AsyncDataset]):
     _result_type = AsyncDataset
 
 
-class BatchOperation(BaseBatchOperation[Dataset], Operation[Dataset]):
+class BatchTask(SyncOperationMixin[Dataset, OperationStatus], BaseBatchTask[Dataset]):
     _result_type = Dataset
 
 
-BatchOperationTypeT = TypeVar('BatchOperationTypeT', bound=BaseBatchOperation)
+BatchTaskTypeT = TypeVar('BatchTaskTypeT', bound=BaseBatchTask)

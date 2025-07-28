@@ -71,7 +71,6 @@ class BaseGPTModel(
     _tuning_operation_type: type[TuningTaskTypeT]
 
     _batch_service_stub = TextGenerationBatchServiceStub
-    _batch_proto_result_type = BatchCompletionResponse
     _batch_proto_metadata_type = BatchCompletionMetadata
 
     def langchain(self, model_type: Literal["chat"] = "chat", timeout: int = 60) -> BaseYandexLanguageModel:

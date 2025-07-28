@@ -10,7 +10,7 @@ from yandex_cloud_ml_sdk._logging import get_logger
 from yandex_cloud_ml_sdk._types.datasets import DatasetType, coerce_dataset_id
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
-from .operation import AsyncBatchOperation, BatchOperation, BatchOperationTypeT
+from .operation import AsyncBatchTask, BatchTask, BatchTaskTypeT
 
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
@@ -20,20 +20,19 @@ if TYPE_CHECKING:
 logger = get_logger(__name__)
 
 
-class BaseBatchSubdomain(Generic[BatchOperationTypeT], metaclass=abc.ABCMeta):
-    _operation_impl: type[BatchOperationTypeT]
+class BaseBatchSubdomain(Generic[BatchTaskTypeT], metaclass=abc.ABCMeta):
+    _operation_impl: type[BatchTaskTypeT]
 
     def __init__(self, model: BaseModelBatchMixin, sdk: BaseSDK):
         self._model = model
         self._sdk = sdk
 
-    async def _run_deferred(self, dataset: DatasetType, *, timeout: float = 60) -> BatchOperationTypeT:
+    async def _run_deferred(self, dataset: DatasetType, *, timeout: float = 60) -> BatchTaskTypeT:
         dataset_id = coerce_dataset_id(dataset)
 
         m = self._model
         request = m._make_batch_request(dataset_id)
         stub_class = m._batch_service_stub
-        proto_result_type = m._batch_proto_result_type
         proto_metadata_type = m._batch_proto_metadata_type
 
         logger.debug(
@@ -49,32 +48,33 @@ class BaseBatchSubdomain(Generic[BatchOperationTypeT], metaclass=abc.ABCMeta):
                 timeout=timeout
             )
 
-        logger.debug('batch task created, resulting operation: %r', response)
+        metadata = proto_metadata_type()
+        response.metadata.Unpack(metadata)
+        task_id = metadata.task_id
+
+        logger.debug('batch task %s created, resulting operation: %r', task_id, response)
 
         return self._operation_impl(
-            id=response.id,
+            id=task_id,
             sdk=self._sdk,
-            proto_result_type=proto_result_type,
-            proto_metadata_type=proto_metadata_type,
-            initial_operation=response,
         )
 
 
-class AsyncBatchSubdomain(BaseBatchSubdomain[AsyncBatchOperation]):
-    _operation_impl = AsyncBatchOperation
+class AsyncBatchSubdomain(BaseBatchSubdomain[AsyncBatchTask]):
+    _operation_impl = AsyncBatchTask
 
-    async def run_deferred(self, dataset: DatasetType, *, timeout: float = 60) -> AsyncBatchOperation:
+    async def run_deferred(self, dataset: DatasetType, *, timeout: float = 60) -> AsyncBatchTask:
         return await self._run_deferred(dataset=dataset, timeout=timeout)
 
 
-class BatchSubdomain(BaseBatchSubdomain[BatchOperation]):
-    _operation_impl = BatchOperation
+class BatchSubdomain(BaseBatchSubdomain[BatchTask]):
+    _operation_impl = BatchTask
 
-    __run_deferred = run_sync(BaseBatchSubdomain[BatchOperation]._run_deferred)
+    __run_deferred = run_sync(BaseBatchSubdomain[BatchTask]._run_deferred)
 
-    def run_deferred(self, dataset: DatasetType, *, timeout: float = 60) -> BatchOperation:
+    def run_deferred(self, dataset: DatasetType, *, timeout: float = 60) -> BatchTask:
         return cast(
-            BatchOperation,
+            BatchTask,
             self.__run_deferred(dataset=dataset, timeout=timeout)
         )
 
