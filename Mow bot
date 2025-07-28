@@ -1,0 +1,39 @@
+import logging
+from telegram import Bot
+from newsapi import NewsApiClient
+
+# Настройка логирования
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# News API setup
+api_key = '4d8dc5d627d5448d9f6d4707ccca6f7b'
+newsapi = NewsApiClient(api_key=api_key)
+
+# Telegram Bot setup
+token = '7014307212:AAEx0WkKGNk_e6MoUXPRa289Z4iDjmJWUq0'
+chat_id = '-100311685606'  # Ваш ID канала
+bot = Bot(token=token)
+
+def get_news_articles():
+    # Получаем новости, связанные с Евпаторией, от российских источников
+    all_articles = []
+    top_headlines = newsapi.get_top_headlines(q='Евпатория', language='ru', country='ru')
+    
+    for article in top_headlines['articles']:
+        all_articles.append({
+            'title': article['title'],
+            'description': article['description'],
+            'url': article['url']
+        })
+    
+    return all_articles
+
+def send_news_to_telegram():
+    articles = get_news_articles()
+    for article in articles:
+        logger.info(f"Sending article: {article['title']}")
+        bot.send_message(chat_id=chat_id, text=f"{article['title']}\n{article['description']}\n{article['url']}", parse_mode='Markdown')
+
+if __name__ == '__main__':
+    send_news_to_telegram()
