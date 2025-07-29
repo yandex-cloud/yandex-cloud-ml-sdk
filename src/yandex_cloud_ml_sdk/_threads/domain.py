@@ -45,7 +45,8 @@ class BaseThreads(BaseDomain, Generic[ThreadTypeT]):
         :param labels: a set of labels for the thread.
         :param ttl_days: time-to-live in days for the thread.
         :param expiration_policy: expiration policy for the file.
-            Assepts for passing :ref:`static` or :ref:`since_last_active` strings. Should be defined if :ref:`ttl_days` has been defined, otherwise both parameters should be undefined.
+            Assepts for passing ``static`` or ``since_last_active`` `strings <https://yandex.cloud/docs/foundation-models/threads/api-ref/Message/create#yandex.cloud.ai.common.ExpirationConfig>`_. 
+            Should be defined if ``ttl_days`` has been defined, otherwise both parameters should be undefined.
         :param timeout: timeout for the service call in seconds.
             Defaults to 60 seconds.
         """
