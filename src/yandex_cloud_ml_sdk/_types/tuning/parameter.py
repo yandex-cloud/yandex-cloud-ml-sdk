@@ -14,6 +14,9 @@ class BaseTuningParameter(abc.ABC):
         pass
 
     def to_proto(self, proto_type: type[ProtoMessageTypeT]) -> ProtoMessageTypeT:
+        """
+        :meta private:
+        """
         return proto_type(
             **asdict(self)
         )
