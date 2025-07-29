@@ -82,7 +82,7 @@ class BaseSDK:
         :param auth: string with API Key, IAM token or one of yandex_cloud_ml_sdk.auth objects;
             in case of default Undefined value, there will be a mechanism to get token
             from environment
-        :type api_key | BaseAuth: str
+        :type api_key: BaseAuth | str
         :param service_map: a way to redefine endpoints for one or more cloud subservices
             with a format of dict ``{"service_name": "service_address"}``.
         :type service_map: Dict[str, str]
@@ -128,6 +128,7 @@ class BaseSDK:
         :param date_format: The format for timestamps in log messages.
         :return: The instance of the SDK with logging configured.
         """
+
         setup_default_logging(
             log_level=log_level,
             log_format=log_format,

@@ -15,17 +15,19 @@ class BaseTuningType(BaseTuningParameter):
     @property
     @abc.abstractmethod
     def field_name(self) -> str:
-        pass
+        """:meta private:"""
 
     @property
     @abc.abstractmethod
     def proto_type(self) -> ProtoTuningTypeLora | ProtoTuningTypePromptTune:
-        pass
+        """:meta private:"""
 
 
 @dataclass(frozen=True)
 class TuningTypeLora(BaseTuningType):
+    #: :meta private:
     proto_type: ClassVar = ProtoTuningTypeLora
+    #: :meta private:
     field_name: ClassVar[str] = 'lora'
 
     rank: int | None = None
@@ -36,7 +38,9 @@ class TuningTypeLora(BaseTuningType):
 
 @dataclass(frozen=True)
 class TuningTypePromptTune(BaseTuningType):
+    #: :meta private:
     proto_type: ClassVar = ProtoTuningTypePromptTune
+    #: :meta private:
     field_name: ClassVar[str] = 'prompt_tune'
 
     virtual_tokens: int | None = None
