@@ -54,6 +54,12 @@ Generic types
 .. py:class:: yandex_cloud_ml_sdk._runs.result.MessageTypeT
 
 
+.. py:class:: yandex_cloud_ml_sdk._types.operation.AnyResultTypeT_co
+
+
+.. py:class:: yandex_cloud_ml_sdk._types.operation.OperationStatusTypeT
+
+
 
 Miscellaneous types
 ~~~~~~~~~~~~~~~~~~~

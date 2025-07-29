@@ -36,6 +36,10 @@ Completions-related message types
 
 .. autotypeddict:: yandex_cloud_ml_sdk._tools.tool_result.FunctionResultDict
 
+.. autotypeddict:: yandex_cloud_ml_sdk._types.tools.function.FunctionDictType
+
+.. autotypeddict:: yandex_cloud_ml_sdk._types.tools.function.FunctionNameType
+
 .. autoclass:: yandex_cloud_ml_sdk._models.completions.token.Token
    :undoc-members:
 

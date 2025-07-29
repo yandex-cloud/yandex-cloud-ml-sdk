@@ -4,13 +4,16 @@ Tools
 Search index tool
 -----------------
 
-.. autoclass:: yandex_cloud_ml_sdk._tools.tool.SearchIndexTool
+.. autoclass:: yandex_cloud_ml_sdk._tools.search_index.tool.SearchIndexTool
    :undoc-members:
 
-.. autoclass:: yandex_cloud_ml_sdk._tools.rephraser.function.RephraserFunction
+.. autoclass:: yandex_cloud_ml_sdk._tools.search_index.rephraser.function.RephraserFunction
    :undoc-members:
 
-.. autoclass:: yandex_cloud_ml_sdk._tools.rephraser.model.Rephraser
+.. autoclass:: yandex_cloud_ml_sdk._tools.search_index.rephraser.model.Rephraser
+   :undoc-members:
+
+.. autoclass:: yandex_cloud_ml_sdk._tools.search_index.call_strategy.CallStrategy
    :undoc-members:
 
 
