@@ -65,3 +65,21 @@ We are using https://pre-commit.com/ to improve our PR review experience.
 It is generally a good idea to setup pre-commit locally, otherwise some robot will come to your PR and
 will either make commit with fixes (and you will need to pull it or overwrite with a force push),
 either it will break the tests with the things it can't fix.
+
+
+# Documentation
+
+On PR we are running `sphinx-build -W` which are failing in case of any warnings such as
+unresolved references or wrong rst syntaxt in docstrings.
+
+To install sphinx and other required for work with documentation, run
+`pip isntall -r docs/requirements.txt -e .` in the repo root.
+
+To run sphinx locally to check if there are any errors or warnings,
+run `sphinx-build docs docs/_build -E -W` in the repo root.
+It will generate html in the `docs/_build` folder which you could check out in case
+you want to be sure how is your doc will looks like.
+
+Also you could install `sphinx-autobuild` and run `sphinx-autobuild docs docs/_build --watch src`
+to run a webserver (it will be available at http://localhost:8000 by-default) and automatically
+rebuild a doc when you save a file.
