@@ -52,13 +52,11 @@ class BaseAuth(ABC):
         """:meta private:"""
         # NB: we are can't create lock in Auth constructor, so we a reusing lock from client.
         # Look at client._lock doctstring for details.
-        pass
 
     @classmethod
     @abstractmethod
     async def applicable_from_env(cls, **_: Any) -> Self | None:
         """:meta private:"""
-        pass
 
 
 class NoAuth(BaseAuth):
@@ -77,7 +75,7 @@ class NoAuth(BaseAuth):
 class APIKeyAuth(BaseAuth):
     """Authentication method using an API key.
 
-    Read more about the API key in `the documentation <https://yandex.cloud/docs/iam/concepts/authorization/api-key>`_.
+    Read more about the API key in the `IAM documentation <https://yandex.cloud/docs/iam/concepts/authorization/api-key>`_.
     """
     env_var = 'YC_API_KEY'
 
@@ -122,7 +120,7 @@ class BaseIAMTokenAuth(BaseAuth):
 class IAMTokenAuth(BaseIAMTokenAuth):
     """Authentication method using an IAM token.
 
-    Read more about the IAM token in `the documentation <https://yandex.cloud/docs/iam/concepts/authorization/iam-token>`_.
+    Read more about the IAM token in `the AIM documentation <https://yandex.cloud/docs/iam/concepts/authorization/iam-token>`_.
     """
     env_var = 'YC_IAM_TOKEN'
 
@@ -221,7 +219,8 @@ class OAuthTokenAuth(RefresheableIAMTokenAuth):
     This class extends the RefresheableIAMTokenAuth to provide functionality
     for managing and using an OAuth token for authentication purposes.
 
-    Read more about the OAuth token in `the documentation <https://yandex.cloud/docs/iam/concepts/authorization/oauth-token>`_.
+    Read more about the OAuth token in
+    `the corresponding documentation <https://yandex.cloud/docs/iam/concepts/authorization/oauth-token>`_.
     """
     env_var = 'YC_OAUTH_TOKEN'
 
@@ -402,7 +401,7 @@ class MetadataAuth(RefresheableIAMTokenAuth):
 async def get_auth_provider(
     *,
     auth: str | BaseAuth | None,
-    endpoint: str,
+    endpoint: str | None,
     yc_profile: str | None,
 ) -> BaseAuth:
     """

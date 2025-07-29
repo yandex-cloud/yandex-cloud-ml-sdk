@@ -448,13 +448,10 @@ class AsyncDataset(BaseDataset):
         :param timeout: Maximum time in seconds for both gRPC and HTTP operations.
             Includes connection establishment, data transfer, and processing time.
             Defaults to 60 seconds.
-        :type timeout: float
         :param batch_size: Number of records to load to memory in one chunk.
             When UNDEFINED (default), uses backend's optimal chunk size (typically
             corresponds to distinct Parquet files storage layout).
-        :type batch_size: int or Undefined
         :yields: Dictionary representing single record with field-value pairs
-        :rtype: AsyncIterator[dict[Any, Any]]
 
         """
 
@@ -535,13 +532,10 @@ class Dataset(BaseDataset):
         :param timeout: Maximum time in seconds for both gRPC and HTTP operations.
             Includes connection establishment, data transfer, and processing time.
             Defaults to 60 seconds.
-        :type timeout: float
         :param batch_size: Number of records to load to memory in one chunk.
             When UNDEFINED (default), uses backend's optimal chunk size (typically
             corresponds to distinct Parquet files storage layout).
-        :type batch_size: int or Undefined
         :yields: Dictionary representing single record with field-value pairs
-        :rtype Iterator[dict[Any, Any]]
 
         """
 

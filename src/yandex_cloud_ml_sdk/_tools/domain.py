@@ -10,8 +10,9 @@ from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_
 from yandex_cloud_ml_sdk._utils.coerce import ResourceType, coerce_resource_ids
 
 from .function import AsyncFunctionTools, FunctionTools, FunctionToolsTypeT
-from .rephraser.function import RephraserFunction, RephraserInputType
-from .tool import SearchIndexTool
+from .search_index.call_strategy import CallStrategy, CallStrategyInputType
+from .search_index.rephraser.function import RephraserFunction, RephraserInputType
+from .search_index.tool import SearchIndexTool
 
 
 class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
@@ -38,8 +39,9 @@ class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
         *,
         max_num_results: UndefinedOr[int] = UNDEFINED,
         rephraser: UndefinedOr[RephraserInputType] = UNDEFINED,
+        call_strategy: UndefinedOr[CallStrategyInputType] = UNDEFINED,
     ) -> SearchIndexTool:
-        """Creates SearchIndexTool (not to be confused with :py:class:`~.SearchIndex`).
+        """Creates SearchIndexTool (not to be confused with :py:class:`~.SearchIndex`/:py:class:`~.AsyncSearchIndex`).
 
         :param indexes: parameter takes :py:class:`~.BaseSearchIndex`, string with search index id,
             or a list of this values in any combination.
@@ -58,10 +60,15 @@ class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
             # this is coercing any RephraserInputType to Rephraser
             rephraser_ = self.rephraser(rephraser)  # type: ignore[arg-type]
 
+        call_strategy_ = None
+        if is_defined(call_strategy):
+            call_strategy_ = CallStrategy._coerce(call_strategy)
+
         return SearchIndexTool(
             search_index_ids=tuple(index_ids),
             max_num_results=max_num_results_,
             rephraser=rephraser_,
+            call_strategy=call_strategy_,
         )
 
 

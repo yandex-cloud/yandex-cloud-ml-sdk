@@ -12,6 +12,14 @@
                 "message": {
                     "endpoints": [
                         {
+                            "id": "ai-assistants",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-files",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "ai-foundation-models",
                             "address": "llm.api.cloud.yandex.net:443"
                         },
@@ -72,6 +80,10 @@
                             "address": "backup.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "baremetal",
+                            "address": "baremetal.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "billing",
                             "address": "billing.api.cloud.yandex.net:443"
                         },
@@ -92,8 +104,20 @@
                             "address": "data.certificate-manager.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "certificate-manager-private-ca",
+                            "address": "private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager-private-ca-data",
+                            "address": "data.private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "cic",
-                            "address": "cic-api.api.cloud.yandex.net:443"
+                            "address": "cic.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloud-registry",
+                            "address": "registry.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "cloudapps",
@@ -109,7 +133,7 @@
                         },
                         {
                             "id": "cloudrouter",
-                            "address": "cic-api.api.cloud.yandex.net:443"
+                            "address": "cloudrouter.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "cloudvideo",
@@ -148,6 +172,18 @@
                             "address": "api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "fomo-dataset",
+                            "address": "fomo-dataset.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "fomo-tuning",
+                            "address": "fomo-tuning.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "gitlab",
+                            "address": "gitlab.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "iam",
                             "address": "iam.api.cloud.yandex.net:443"
                         },
@@ -174,6 +210,10 @@
                         {
                             "id": "kms-crypto",
                             "address": "kms.yandex:443"
+                        },
+                        {
+                            "id": "kspm",
+                            "address": "kspm.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "load-balancer",
@@ -232,6 +272,10 @@
                             "address": "mks.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-metastore",
+                            "address": "metastore.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "managed-mongodb",
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
@@ -252,11 +296,31 @@
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-spark",
+                            "address": "spark.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-spqr",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "managed-sqlserver",
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-trino",
+                            "address": "trino.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-ytsaurus",
+                            "address": "ytsaurus.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "marketplace",
+                            "address": "marketplace.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "marketplace-pim",
                             "address": "marketplace.api.cloud.yandex.net:443"
                         },
                         {
@@ -284,6 +348,10 @@
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "mdb-spqr",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "mdbproxy",
                             "address": "mdbproxy.api.cloud.yandex.net:443"
                         },
@@ -302,6 +370,14 @@
                         {
                             "id": "organizationmanager",
                             "address": "organization-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quota-manager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quotamanager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "resource-manager",
@@ -395,18 +471,18 @@
                 "cls": "Thread",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_pb2",
                 "message": {
-                    "id": "fvt7mme21l8lu07p0hoi",
+                    "id": "fvt6540gc62vdi7oofj4",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "defaultMessageAuthorId": "fvtot60lo6c5ogugu07d",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-09T18:36:31.959021Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-09T18:36:31.959021Z",
+                    "defaultMessageAuthorId": "fvtn5op36f7dkodt4n4u",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:30:12.841695Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:30:12.841695Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-10-16T18:36:31.959021Z"
+                    "expiresAt": "2025-07-31T14:30:12.841695Z"
                 }
             }
         },
@@ -415,7 +491,7 @@
                 "cls": "CreateMessageRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_service_pb2",
                 "message": {
-                    "threadId": "fvt7mme21l8lu07p0hoi",
+                    "threadId": "fvt6540gc62vdi7oofj4",
                     "content": {
                         "content": [
                             {
@@ -431,12 +507,12 @@
                 "cls": "Message",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
                 "message": {
-                    "id": "fvth5b1k6s88gngqlls8",
-                    "threadId": "fvt7mme21l8lu07p0hoi",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-09T18:36:32.124823Z",
+                    "id": "fvtbirc688a99mm5iine",
+                    "threadId": "fvt6540gc62vdi7oofj4",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:30:12.968411Z",
                     "author": {
-                        "id": "fvtot60lo6c5ogugu07d",
+                        "id": "fvtn5op36f7dkodt4n4u",
                         "role": "USER"
                     },
                     "content": {
@@ -447,7 +523,8 @@
                                 }
                             }
                         ]
-                    }
+                    },
+                    "status": "COMPLETED"
                 }
             }
         },
@@ -456,7 +533,7 @@
                 "cls": "CreateMessageRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_service_pb2",
                 "message": {
-                    "threadId": "fvt7mme21l8lu07p0hoi",
+                    "threadId": "fvt6540gc62vdi7oofj4",
                     "content": {
                         "content": [
                             {
@@ -472,12 +549,12 @@
                 "cls": "Message",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
                 "message": {
-                    "id": "fvtt9aimgbrtd8qp604g",
-                    "threadId": "fvt7mme21l8lu07p0hoi",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-09T18:36:32.226732Z",
+                    "id": "fvte590tl8v0dro1e1hl",
+                    "threadId": "fvt6540gc62vdi7oofj4",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:30:13.039989Z",
                     "author": {
-                        "id": "fvtot60lo6c5ogugu07d",
+                        "id": "fvtn5op36f7dkodt4n4u",
                         "role": "USER"
                     },
                     "content": {
@@ -488,7 +565,8 @@
                                 }
                             }
                         ]
-                    }
+                    },
+                    "status": "COMPLETED"
                 }
             }
         },
@@ -497,7 +575,7 @@
                 "cls": "CreateMessageRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_service_pb2",
                 "message": {
-                    "threadId": "fvt7mme21l8lu07p0hoi",
+                    "threadId": "fvt6540gc62vdi7oofj4",
                     "content": {
                         "content": [
                             {
@@ -513,12 +591,12 @@
                 "cls": "Message",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
                 "message": {
-                    "id": "fvt5584uhc61fosde284",
-                    "threadId": "fvt7mme21l8lu07p0hoi",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-09T18:36:32.374973Z",
+                    "id": "fvtevgf8t1ol437di7v6",
+                    "threadId": "fvt6540gc62vdi7oofj4",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:30:13.105040Z",
                     "author": {
-                        "id": "fvtot60lo6c5ogugu07d",
+                        "id": "fvtn5op36f7dkodt4n4u",
                         "role": "USER"
                     },
                     "content": {
@@ -529,7 +607,8 @@
                                 }
                             }
                         ]
-                    }
+                    },
+                    "status": "COMPLETED"
                 }
             }
         },
@@ -538,7 +617,7 @@
                 "cls": "CreateMessageRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_service_pb2",
                 "message": {
-                    "threadId": "fvt7mme21l8lu07p0hoi",
+                    "threadId": "fvt6540gc62vdi7oofj4",
                     "content": {
                         "content": [
                             {
@@ -554,12 +633,12 @@
                 "cls": "Message",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
                 "message": {
-                    "id": "fvttldeqnir5ddvi6ki1",
-                    "threadId": "fvt7mme21l8lu07p0hoi",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-09T18:36:32.547134Z",
+                    "id": "fvtbglamuq7dj2jj2cjo",
+                    "threadId": "fvt6540gc62vdi7oofj4",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:30:13.170604Z",
                     "author": {
-                        "id": "fvtot60lo6c5ogugu07d",
+                        "id": "fvtn5op36f7dkodt4n4u",
                         "role": "USER"
                     },
                     "content": {
@@ -570,7 +649,8 @@
                                 }
                             }
                         ]
-                    }
+                    },
+                    "status": "COMPLETED"
                 }
             }
         },
@@ -579,7 +659,7 @@
                 "cls": "CreateMessageRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_service_pb2",
                 "message": {
-                    "threadId": "fvt7mme21l8lu07p0hoi",
+                    "threadId": "fvt6540gc62vdi7oofj4",
                     "content": {
                         "content": [
                             {
@@ -595,12 +675,12 @@
                 "cls": "Message",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
                 "message": {
-                    "id": "fvt187kk4apjhrislkho",
-                    "threadId": "fvt7mme21l8lu07p0hoi",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-09T18:36:32.714853Z",
+                    "id": "fvtrc5cf12n1lkeo779g",
+                    "threadId": "fvt6540gc62vdi7oofj4",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:30:13.237754Z",
                     "author": {
-                        "id": "fvtot60lo6c5ogugu07d",
+                        "id": "fvtn5op36f7dkodt4n4u",
                         "role": "USER"
                     },
                     "content": {
@@ -611,7 +691,8 @@
                                 }
                             }
                         ]
-                    }
+                    },
+                    "status": "COMPLETED"
                 }
             }
         },
@@ -620,7 +701,7 @@
                 "cls": "CreateMessageRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_service_pb2",
                 "message": {
-                    "threadId": "fvt7mme21l8lu07p0hoi",
+                    "threadId": "fvt6540gc62vdi7oofj4",
                     "content": {
                         "content": [
                             {
@@ -636,12 +717,12 @@
                 "cls": "Message",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
                 "message": {
-                    "id": "fvtu581oe9oou8neslqs",
-                    "threadId": "fvt7mme21l8lu07p0hoi",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-09T18:36:32.816126Z",
+                    "id": "fvt81miavgo4etmghk6s",
+                    "threadId": "fvt6540gc62vdi7oofj4",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:30:13.335035Z",
                     "author": {
-                        "id": "fvtot60lo6c5ogugu07d",
+                        "id": "fvtn5op36f7dkodt4n4u",
                         "role": "USER"
                     },
                     "content": {
@@ -652,7 +733,8 @@
                                 }
                             }
                         ]
-                    }
+                    },
+                    "status": "COMPLETED"
                 }
             }
         },
@@ -661,7 +743,7 @@
                 "cls": "CreateMessageRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_service_pb2",
                 "message": {
-                    "threadId": "fvt7mme21l8lu07p0hoi",
+                    "threadId": "fvt6540gc62vdi7oofj4",
                     "content": {
                         "content": [
                             {
@@ -677,12 +759,12 @@
                 "cls": "Message",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
                 "message": {
-                    "id": "fvt90fot6nukuvhpuv18",
-                    "threadId": "fvt7mme21l8lu07p0hoi",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-09T18:36:32.954538Z",
+                    "id": "fvt6iotjff54qim35oq6",
+                    "threadId": "fvt6540gc62vdi7oofj4",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:30:13.396464Z",
                     "author": {
-                        "id": "fvtot60lo6c5ogugu07d",
+                        "id": "fvtn5op36f7dkodt4n4u",
                         "role": "USER"
                     },
                     "content": {
@@ -693,7 +775,8 @@
                                 }
                             }
                         ]
-                    }
+                    },
+                    "status": "COMPLETED"
                 }
             }
         },
@@ -702,7 +785,7 @@
                 "cls": "CreateMessageRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_service_pb2",
                 "message": {
-                    "threadId": "fvt7mme21l8lu07p0hoi",
+                    "threadId": "fvt6540gc62vdi7oofj4",
                     "content": {
                         "content": [
                             {
@@ -718,12 +801,12 @@
                 "cls": "Message",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
                 "message": {
-                    "id": "fvtb8pn9tgcbviu1f74d",
-                    "threadId": "fvt7mme21l8lu07p0hoi",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-09T18:36:33.116569Z",
+                    "id": "fvt2aflgaiu8dudsplvf",
+                    "threadId": "fvt6540gc62vdi7oofj4",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:30:13.463549Z",
                     "author": {
-                        "id": "fvtot60lo6c5ogugu07d",
+                        "id": "fvtn5op36f7dkodt4n4u",
                         "role": "USER"
                     },
                     "content": {
@@ -734,7 +817,8 @@
                                 }
                             }
                         ]
-                    }
+                    },
+                    "status": "COMPLETED"
                 }
             }
         },
@@ -743,7 +827,7 @@
                 "cls": "CreateMessageRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_service_pb2",
                 "message": {
-                    "threadId": "fvt7mme21l8lu07p0hoi",
+                    "threadId": "fvt6540gc62vdi7oofj4",
                     "content": {
                         "content": [
                             {
@@ -759,12 +843,12 @@
                 "cls": "Message",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
                 "message": {
-                    "id": "fvt0duqrv4aecr2ee80p",
-                    "threadId": "fvt7mme21l8lu07p0hoi",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-09T18:36:33.283660Z",
+                    "id": "fvthj7gv8qjng8ucsmhg",
+                    "threadId": "fvt6540gc62vdi7oofj4",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:30:13.524378Z",
                     "author": {
-                        "id": "fvtot60lo6c5ogugu07d",
+                        "id": "fvtn5op36f7dkodt4n4u",
                         "role": "USER"
                     },
                     "content": {
@@ -775,7 +859,8 @@
                                 }
                             }
                         ]
-                    }
+                    },
+                    "status": "COMPLETED"
                 }
             }
         },
@@ -784,7 +869,7 @@
                 "cls": "CreateMessageRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_service_pb2",
                 "message": {
-                    "threadId": "fvt7mme21l8lu07p0hoi",
+                    "threadId": "fvt6540gc62vdi7oofj4",
                     "content": {
                         "content": [
                             {
@@ -800,12 +885,12 @@
                 "cls": "Message",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
                 "message": {
-                    "id": "fvtgsonf7gucnnpgmta6",
-                    "threadId": "fvt7mme21l8lu07p0hoi",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-09T18:36:33.447131Z",
+                    "id": "fvta0lv35pji7vkr0vsf",
+                    "threadId": "fvt6540gc62vdi7oofj4",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:30:13.624033Z",
                     "author": {
-                        "id": "fvtot60lo6c5ogugu07d",
+                        "id": "fvtn5op36f7dkodt4n4u",
                         "role": "USER"
                     },
                     "content": {
@@ -816,7 +901,8 @@
                                 }
                             }
                         ]
-                    }
+                    },
+                    "status": "COMPLETED"
                 }
             }
         },
@@ -825,7 +911,7 @@
                 "cls": "ListMessagesRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.message_service_pb2",
                 "message": {
-                    "threadId": "fvt7mme21l8lu07p0hoi"
+                    "threadId": "fvt6540gc62vdi7oofj4"
                 }
             },
             "response_stream": [
@@ -833,12 +919,12 @@
                     "cls": "Message",
                     "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
                     "message": {
-                        "id": "fvtgsonf7gucnnpgmta6",
-                        "threadId": "fvt7mme21l8lu07p0hoi",
-                        "createdBy": "ajek27c96hekgf8f8016",
-                        "createdAt": "2024-10-09T18:36:33.447131Z",
+                        "id": "fvta0lv35pji7vkr0vsf",
+                        "threadId": "fvt6540gc62vdi7oofj4",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-07-24T14:30:13.624033Z",
                         "author": {
-                            "id": "fvtot60lo6c5ogugu07d",
+                            "id": "fvtn5op36f7dkodt4n4u",
                             "role": "USER"
                         },
                         "content": {
@@ -849,19 +935,20 @@
                                     }
                                 }
                             ]
-                        }
+                        },
+                        "status": "COMPLETED"
                     }
                 },
                 {
                     "cls": "Message",
                     "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
                     "message": {
-                        "id": "fvt0duqrv4aecr2ee80p",
-                        "threadId": "fvt7mme21l8lu07p0hoi",
-                        "createdBy": "ajek27c96hekgf8f8016",
-                        "createdAt": "2024-10-09T18:36:33.283660Z",
+                        "id": "fvthj7gv8qjng8ucsmhg",
+                        "threadId": "fvt6540gc62vdi7oofj4",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-07-24T14:30:13.524378Z",
                         "author": {
-                            "id": "fvtot60lo6c5ogugu07d",
+                            "id": "fvtn5op36f7dkodt4n4u",
                             "role": "USER"
                         },
                         "content": {
@@ -872,19 +959,20 @@
                                     }
                                 }
                             ]
-                        }
+                        },
+                        "status": "COMPLETED"
                     }
                 },
                 {
                     "cls": "Message",
                     "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
                     "message": {
-                        "id": "fvtb8pn9tgcbviu1f74d",
-                        "threadId": "fvt7mme21l8lu07p0hoi",
-                        "createdBy": "ajek27c96hekgf8f8016",
-                        "createdAt": "2024-10-09T18:36:33.116569Z",
+                        "id": "fvt2aflgaiu8dudsplvf",
+                        "threadId": "fvt6540gc62vdi7oofj4",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-07-24T14:30:13.463549Z",
                         "author": {
-                            "id": "fvtot60lo6c5ogugu07d",
+                            "id": "fvtn5op36f7dkodt4n4u",
                             "role": "USER"
                         },
                         "content": {
@@ -895,19 +983,20 @@
                                     }
                                 }
                             ]
-                        }
+                        },
+                        "status": "COMPLETED"
                     }
                 },
                 {
                     "cls": "Message",
                     "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
                     "message": {
-                        "id": "fvt90fot6nukuvhpuv18",
-                        "threadId": "fvt7mme21l8lu07p0hoi",
-                        "createdBy": "ajek27c96hekgf8f8016",
-                        "createdAt": "2024-10-09T18:36:32.954538Z",
+                        "id": "fvt6iotjff54qim35oq6",
+                        "threadId": "fvt6540gc62vdi7oofj4",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-07-24T14:30:13.396464Z",
                         "author": {
-                            "id": "fvtot60lo6c5ogugu07d",
+                            "id": "fvtn5op36f7dkodt4n4u",
                             "role": "USER"
                         },
                         "content": {
@@ -918,19 +1007,20 @@
                                     }
                                 }
                             ]
-                        }
+                        },
+                        "status": "COMPLETED"
                     }
                 },
                 {
                     "cls": "Message",
                     "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
                     "message": {
-                        "id": "fvtu581oe9oou8neslqs",
-                        "threadId": "fvt7mme21l8lu07p0hoi",
-                        "createdBy": "ajek27c96hekgf8f8016",
-                        "createdAt": "2024-10-09T18:36:32.816126Z",
+                        "id": "fvt81miavgo4etmghk6s",
+                        "threadId": "fvt6540gc62vdi7oofj4",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-07-24T14:30:13.335035Z",
                         "author": {
-                            "id": "fvtot60lo6c5ogugu07d",
+                            "id": "fvtn5op36f7dkodt4n4u",
                             "role": "USER"
                         },
                         "content": {
@@ -941,19 +1031,20 @@
                                     }
                                 }
                             ]
-                        }
+                        },
+                        "status": "COMPLETED"
                     }
                 },
                 {
                     "cls": "Message",
                     "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
                     "message": {
-                        "id": "fvt187kk4apjhrislkho",
-                        "threadId": "fvt7mme21l8lu07p0hoi",
-                        "createdBy": "ajek27c96hekgf8f8016",
-                        "createdAt": "2024-10-09T18:36:32.714853Z",
+                        "id": "fvtrc5cf12n1lkeo779g",
+                        "threadId": "fvt6540gc62vdi7oofj4",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-07-24T14:30:13.237754Z",
                         "author": {
-                            "id": "fvtot60lo6c5ogugu07d",
+                            "id": "fvtn5op36f7dkodt4n4u",
                             "role": "USER"
                         },
                         "content": {
@@ -964,19 +1055,20 @@
                                     }
                                 }
                             ]
-                        }
+                        },
+                        "status": "COMPLETED"
                     }
                 },
                 {
                     "cls": "Message",
                     "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
                     "message": {
-                        "id": "fvttldeqnir5ddvi6ki1",
-                        "threadId": "fvt7mme21l8lu07p0hoi",
-                        "createdBy": "ajek27c96hekgf8f8016",
-                        "createdAt": "2024-10-09T18:36:32.547134Z",
+                        "id": "fvtbglamuq7dj2jj2cjo",
+                        "threadId": "fvt6540gc62vdi7oofj4",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-07-24T14:30:13.170604Z",
                         "author": {
-                            "id": "fvtot60lo6c5ogugu07d",
+                            "id": "fvtn5op36f7dkodt4n4u",
                             "role": "USER"
                         },
                         "content": {
@@ -987,19 +1079,20 @@
                                     }
                                 }
                             ]
-                        }
+                        },
+                        "status": "COMPLETED"
                     }
                 },
                 {
                     "cls": "Message",
                     "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
                     "message": {
-                        "id": "fvt5584uhc61fosde284",
-                        "threadId": "fvt7mme21l8lu07p0hoi",
-                        "createdBy": "ajek27c96hekgf8f8016",
-                        "createdAt": "2024-10-09T18:36:32.374973Z",
+                        "id": "fvtevgf8t1ol437di7v6",
+                        "threadId": "fvt6540gc62vdi7oofj4",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-07-24T14:30:13.105040Z",
                         "author": {
-                            "id": "fvtot60lo6c5ogugu07d",
+                            "id": "fvtn5op36f7dkodt4n4u",
                             "role": "USER"
                         },
                         "content": {
@@ -1010,19 +1103,20 @@
                                     }
                                 }
                             ]
-                        }
+                        },
+                        "status": "COMPLETED"
                     }
                 },
                 {
                     "cls": "Message",
                     "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
                     "message": {
-                        "id": "fvtt9aimgbrtd8qp604g",
-                        "threadId": "fvt7mme21l8lu07p0hoi",
-                        "createdBy": "ajek27c96hekgf8f8016",
-                        "createdAt": "2024-10-09T18:36:32.226732Z",
+                        "id": "fvte590tl8v0dro1e1hl",
+                        "threadId": "fvt6540gc62vdi7oofj4",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-07-24T14:30:13.039989Z",
                         "author": {
-                            "id": "fvtot60lo6c5ogugu07d",
+                            "id": "fvtn5op36f7dkodt4n4u",
                             "role": "USER"
                         },
                         "content": {
@@ -1033,19 +1127,20 @@
                                     }
                                 }
                             ]
-                        }
+                        },
+                        "status": "COMPLETED"
                     }
                 },
                 {
                     "cls": "Message",
                     "module": "yandex.cloud.ai.assistants.v1.threads.message_pb2",
                     "message": {
-                        "id": "fvth5b1k6s88gngqlls8",
-                        "threadId": "fvt7mme21l8lu07p0hoi",
-                        "createdBy": "ajek27c96hekgf8f8016",
-                        "createdAt": "2024-10-09T18:36:32.124823Z",
+                        "id": "fvtbirc688a99mm5iine",
+                        "threadId": "fvt6540gc62vdi7oofj4",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-07-24T14:30:12.968411Z",
                         "author": {
-                            "id": "fvtot60lo6c5ogugu07d",
+                            "id": "fvtn5op36f7dkodt4n4u",
                             "role": "USER"
                         },
                         "content": {
@@ -1056,7 +1151,8 @@
                                     }
                                 }
                             ]
-                        }
+                        },
+                        "status": "COMPLETED"
                     }
                 }
             ]
@@ -1066,7 +1162,7 @@
                 "cls": "DeleteThreadRequest",
                 "module": "yandex.cloud.ai.assistants.v1.threads.thread_service_pb2",
                 "message": {
-                    "threadId": "fvt7mme21l8lu07p0hoi"
+                    "threadId": "fvt6540gc62vdi7oofj4"
                 }
             },
             "response": {

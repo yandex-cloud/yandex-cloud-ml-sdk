@@ -12,6 +12,14 @@
                 "message": {
                     "endpoints": [
                         {
+                            "id": "ai-assistants",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-files",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "ai-foundation-models",
                             "address": "llm.api.cloud.yandex.net:443"
                         },
@@ -72,6 +80,10 @@
                             "address": "backup.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "baremetal",
+                            "address": "baremetal.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "billing",
                             "address": "billing.api.cloud.yandex.net:443"
                         },
@@ -92,8 +104,20 @@
                             "address": "data.certificate-manager.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "certificate-manager-private-ca",
+                            "address": "private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager-private-ca-data",
+                            "address": "data.private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "cic",
-                            "address": "cic-api.api.cloud.yandex.net:443"
+                            "address": "cic.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloud-registry",
+                            "address": "registry.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "cloudapps",
@@ -109,7 +133,7 @@
                         },
                         {
                             "id": "cloudrouter",
-                            "address": "cic-api.api.cloud.yandex.net:443"
+                            "address": "cloudrouter.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "cloudvideo",
@@ -148,6 +172,18 @@
                             "address": "api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "fomo-dataset",
+                            "address": "fomo-dataset.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "fomo-tuning",
+                            "address": "fomo-tuning.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "gitlab",
+                            "address": "gitlab.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "iam",
                             "address": "iam.api.cloud.yandex.net:443"
                         },
@@ -174,6 +210,10 @@
                         {
                             "id": "kms-crypto",
                             "address": "kms.yandex:443"
+                        },
+                        {
+                            "id": "kspm",
+                            "address": "kspm.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "load-balancer",
@@ -232,6 +272,10 @@
                             "address": "mks.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-metastore",
+                            "address": "metastore.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "managed-mongodb",
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
@@ -252,11 +296,31 @@
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-spark",
+                            "address": "spark.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-spqr",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "managed-sqlserver",
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-trino",
+                            "address": "trino.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-ytsaurus",
+                            "address": "ytsaurus.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "marketplace",
+                            "address": "marketplace.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "marketplace-pim",
                             "address": "marketplace.api.cloud.yandex.net:443"
                         },
                         {
@@ -284,6 +348,10 @@
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "mdb-spqr",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "mdbproxy",
                             "address": "mdbproxy.api.cloud.yandex.net:443"
                         },
@@ -302,6 +370,14 @@
                         {
                             "id": "organizationmanager",
                             "address": "organization-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quota-manager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quotamanager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "resource-manager",
@@ -389,25 +465,25 @@
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "content": "dGVzdCBmaWxl"
+                    "content": "c2VjcmV0IG51bWJlciBpcyA5OTc="
                 }
             },
             "response": {
                 "cls": "File",
                 "module": "yandex.cloud.ai.files.v1.file_pb2",
                 "message": {
-                    "id": "fvt42bkvkv8p8blq6kod",
+                    "id": "fvtvt121u79p7ilcdqfi",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "mimeType": "text/plain",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-30T17:28:34.569100Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-30T17:28:34.569100Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:22:47.737387Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:22:47.737387Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-11-06T17:28:34.569100Z"
+                    "expiresAt": "2025-07-31T14:22:47.737387Z"
                 }
             }
         },
@@ -418,7 +494,7 @@
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "fileIds": [
-                        "fvt42bkvkv8p8blq6kod"
+                        "fvtvt121u79p7ilcdqfi"
                     ]
                 }
             },
@@ -426,11 +502,11 @@
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtrl0rd50u7b0plskht",
+                    "id": "fvtu9ck7idpr0m0i0olm",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:28:34.713711Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:28:34.713711Z"
+                    "createdAt": "2025-07-24T14:22:47.949990Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:22:47.949990Z"
                 }
             }
         },
@@ -439,18 +515,18 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvtrl0rd50u7b0plskht"
+                    "operationId": "fvtu9ck7idpr0m0i0olm"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtrl0rd50u7b0plskht",
+                    "id": "fvtu9ck7idpr0m0i0olm",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:28:34.713711Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:28:34.713711Z"
+                    "createdAt": "2025-07-24T14:22:47.949990Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:22:47.949990Z"
                 }
             }
         },
@@ -459,39 +535,41 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvtrl0rd50u7b0plskht"
+                    "operationId": "fvtu9ck7idpr0m0i0olm"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvtrl0rd50u7b0plskht",
+                    "id": "fvtu9ck7idpr0m0i0olm",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:28:34.713711Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:28:35.370730Z",
+                    "createdAt": "2025-07-24T14:22:47.949990Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:22:49.015821Z",
                     "done": true,
                     "response": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.assistants.v1.searchindex.SearchIndex",
-                        "id": "fvtbtobvouuiv6gk9m44",
+                        "id": "fvt3redua6u37cp1d1j4",
                         "folderId": "b1ghsjum2v37c2un8h64",
-                        "createdBy": "ajek27c96hekgf8f8016",
-                        "createdAt": "2024-10-30T17:28:34.703122Z",
-                        "updatedBy": "ajek27c96hekgf8f8016",
-                        "updatedAt": "2024-10-30T17:28:34.703122Z",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-07-24T14:22:48.031927Z",
+                        "updatedBy": "aje6euqn63oa635coh28",
+                        "updatedAt": "2025-07-24T14:22:48.031927Z",
                         "expirationConfig": {
                             "expirationPolicy": "SINCE_LAST_ACTIVE",
                             "ttlDays": "7"
                         },
-                        "expiresAt": "2024-11-06T17:28:34.703122Z",
+                        "expiresAt": "2025-07-31T14:22:48.031927Z",
                         "textSearchIndex": {
                             "chunkingStrategy": {
                                 "staticStrategy": {
                                     "maxChunkSizeTokens": "800",
                                     "chunkOverlapTokens": "400"
                                 }
-                            }
+                            },
+                            "standardTokenizer": {},
+                            "yandexLemmerAnalyzer": {}
                         }
                     }
                 }
@@ -502,31 +580,33 @@
                 "cls": "GetSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvtbtobvouuiv6gk9m44"
+                    "searchIndexId": "fvt3redua6u37cp1d1j4"
                 }
             },
             "response": {
                 "cls": "SearchIndex",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_pb2",
                 "message": {
-                    "id": "fvtbtobvouuiv6gk9m44",
+                    "id": "fvt3redua6u37cp1d1j4",
                     "folderId": "b1ghsjum2v37c2un8h64",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-30T17:28:34.703122Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-30T17:28:34.703122Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:22:48.031927Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:22:49.009477Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-11-06T17:28:34.703122Z",
+                    "expiresAt": "2025-07-31T14:22:48.031927Z",
                     "textSearchIndex": {
                         "chunkingStrategy": {
                             "staticStrategy": {
                                 "maxChunkSizeTokens": "800",
                                 "chunkOverlapTokens": "400"
                             }
-                        }
+                        },
+                        "standardTokenizer": {},
+                        "yandexLemmerAnalyzer": {}
                     }
                 }
             }
@@ -538,7 +618,7 @@
                 "message": {
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "fileIds": [
-                        "fvt42bkvkv8p8blq6kod"
+                        "fvtvt121u79p7ilcdqfi"
                     ],
                     "vectorSearchIndex": {}
                 }
@@ -547,11 +627,11 @@
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvt1lkkhc04dbb392hil",
+                    "id": "fvt6r6nor700ujd5gtff",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:28:44.988867Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:28:44.988867Z"
+                    "createdAt": "2025-07-24T14:22:58.152281Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:22:58.152281Z"
                 }
             }
         },
@@ -560,18 +640,18 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvt1lkkhc04dbb392hil"
+                    "operationId": "fvt6r6nor700ujd5gtff"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvt1lkkhc04dbb392hil",
+                    "id": "fvt6r6nor700ujd5gtff",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:28:44.988867Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:28:44.988867Z"
+                    "createdAt": "2025-07-24T14:22:58.152281Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:22:58.152281Z"
                 }
             }
         },
@@ -580,32 +660,32 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fvt1lkkhc04dbb392hil"
+                    "operationId": "fvt6r6nor700ujd5gtff"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fvt1lkkhc04dbb392hil",
+                    "id": "fvt6r6nor700ujd5gtff",
                     "description": "search index creation",
-                    "createdAt": "2024-10-30T17:28:44.988867Z",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "modifiedAt": "2024-10-30T17:28:46.308402Z",
+                    "createdAt": "2025-07-24T14:22:58.152281Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "modifiedAt": "2025-07-24T14:23:02.652862Z",
                     "done": true,
                     "response": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.assistants.v1.searchindex.SearchIndex",
-                        "id": "fvt7gc2p6c81lcdicdka",
+                        "id": "fvtee47hpjnegjvdh3l6",
                         "folderId": "b1ghsjum2v37c2un8h64",
-                        "createdBy": "ajek27c96hekgf8f8016",
-                        "createdAt": "2024-10-30T17:28:44.978882Z",
-                        "updatedBy": "ajek27c96hekgf8f8016",
-                        "updatedAt": "2024-10-30T17:28:44.978882Z",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-07-24T14:22:58.234636Z",
+                        "updatedBy": "aje6euqn63oa635coh28",
+                        "updatedAt": "2025-07-24T14:22:58.234636Z",
                         "expirationConfig": {
                             "expirationPolicy": "SINCE_LAST_ACTIVE",
                             "ttlDays": "7"
                         },
-                        "expiresAt": "2024-11-06T17:28:44.978882Z",
+                        "expiresAt": "2025-07-31T14:22:58.234636Z",
                         "vectorSearchIndex": {
                             "docEmbedderUri": "emb://yc.ml.rag-prod.common/text-search-doc/latest",
                             "queryEmbedderUri": "emb://yc.ml.rag-prod.common/text-search-query/latest",
@@ -625,7 +705,7 @@
                 "cls": "UpdateSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvtbtobvouuiv6gk9m44",
+                    "searchIndexId": "fvt3redua6u37cp1d1j4",
                     "updateMask": "name",
                     "name": "name"
                 }
@@ -634,25 +714,27 @@
                 "cls": "SearchIndex",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_pb2",
                 "message": {
-                    "id": "fvtbtobvouuiv6gk9m44",
+                    "id": "fvt3redua6u37cp1d1j4",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "name",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-30T17:28:34.703122Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-30T17:28:55.205825Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:22:48.031927Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:23:08.313132Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-11-06T17:28:34.703122Z",
+                    "expiresAt": "2025-07-31T14:22:48.031927Z",
                     "textSearchIndex": {
                         "chunkingStrategy": {
                             "staticStrategy": {
                                 "maxChunkSizeTokens": "800",
                                 "chunkOverlapTokens": "400"
                             }
-                        }
+                        },
+                        "standardTokenizer": {},
+                        "yandexLemmerAnalyzer": {}
                     }
                 }
             }
@@ -662,7 +744,7 @@
                 "cls": "UpdateSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvtbtobvouuiv6gk9m44",
+                    "searchIndexId": "fvt3redua6u37cp1d1j4",
                     "updateMask": "description",
                     "description": "description"
                 }
@@ -671,26 +753,28 @@
                 "cls": "SearchIndex",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_pb2",
                 "message": {
-                    "id": "fvtbtobvouuiv6gk9m44",
+                    "id": "fvt3redua6u37cp1d1j4",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "name",
                     "description": "description",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-30T17:28:34.703122Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-30T17:28:55.276859Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:22:48.031927Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:23:08.353492Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-11-06T17:28:34.703122Z",
+                    "expiresAt": "2025-07-31T14:22:48.031927Z",
                     "textSearchIndex": {
                         "chunkingStrategy": {
                             "staticStrategy": {
                                 "maxChunkSizeTokens": "800",
                                 "chunkOverlapTokens": "400"
                             }
-                        }
+                        },
+                        "standardTokenizer": {},
+                        "yandexLemmerAnalyzer": {}
                     }
                 }
             }
@@ -700,7 +784,7 @@
                 "cls": "UpdateSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvtbtobvouuiv6gk9m44",
+                    "searchIndexId": "fvt3redua6u37cp1d1j4",
                     "updateMask": "labels",
                     "labels": {
                         "foo": "bar"
@@ -711,19 +795,19 @@
                 "cls": "SearchIndex",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_pb2",
                 "message": {
-                    "id": "fvtbtobvouuiv6gk9m44",
+                    "id": "fvt3redua6u37cp1d1j4",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "name": "name",
                     "description": "description",
-                    "createdBy": "ajek27c96hekgf8f8016",
-                    "createdAt": "2024-10-30T17:28:34.703122Z",
-                    "updatedBy": "ajek27c96hekgf8f8016",
-                    "updatedAt": "2024-10-30T17:28:55.310433Z",
+                    "createdBy": "aje6euqn63oa635coh28",
+                    "createdAt": "2025-07-24T14:22:48.031927Z",
+                    "updatedBy": "aje6euqn63oa635coh28",
+                    "updatedAt": "2025-07-24T14:23:08.386861Z",
                     "expirationConfig": {
                         "expirationPolicy": "SINCE_LAST_ACTIVE",
                         "ttlDays": "7"
                     },
-                    "expiresAt": "2024-11-06T17:28:34.703122Z",
+                    "expiresAt": "2025-07-31T14:22:48.031927Z",
                     "labels": {
                         "foo": "bar"
                     },
@@ -733,7 +817,9 @@
                                 "maxChunkSizeTokens": "800",
                                 "chunkOverlapTokens": "400"
                             }
-                        }
+                        },
+                        "standardTokenizer": {},
+                        "yandexLemmerAnalyzer": {}
                     }
                 }
             }
@@ -743,7 +829,7 @@
                 "cls": "DeleteFileRequest",
                 "module": "yandex.cloud.ai.files.v1.file_service_pb2",
                 "message": {
-                    "fileId": "fvt42bkvkv8p8blq6kod"
+                    "fileId": "fvtvt121u79p7ilcdqfi"
                 }
             },
             "response": {
@@ -757,7 +843,7 @@
                 "cls": "DeleteSearchIndexRequest",
                 "module": "yandex.cloud.ai.assistants.v1.searchindex.search_index_service_pb2",
                 "message": {
-                    "searchIndexId": "fvtbtobvouuiv6gk9m44"
+                    "searchIndexId": "fvt3redua6u37cp1d1j4"
                 }
             },
             "response": {

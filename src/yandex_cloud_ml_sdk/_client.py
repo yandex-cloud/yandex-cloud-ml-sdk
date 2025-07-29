@@ -14,7 +14,7 @@ from yandex.cloud.endpoint.api_endpoint_service_pb2 import ListApiEndpointsReque
 from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServiceStub
 
 from ._auth import BaseAuth, get_auth_provider
-from ._exceptions import AioRpcError
+from ._exceptions import AioRpcError, UnknownEndpointError
 from ._retry import RETRY_KIND_METADATA_KEY, RetryKind, RetryPolicy
 from ._types.misc import PathLike, coerce_path
 from ._utils.lock import LazyLock
@@ -44,7 +44,7 @@ class AsyncCloudClient:
     def __init__(
         self,
         *,
-        endpoint: str,
+        endpoint: str | None,
         auth: BaseAuth | str | None,
         service_map: dict[str, str],
         interceptors: Sequence[grpc.aio.ClientInterceptor] | None,
@@ -78,6 +78,10 @@ class AsyncCloudClient:
 
     async def _init_service_map(self, timeout: float):
         metadata = await self._get_metadata(auth_required=False, timeout=timeout, retry_kind=RetryKind.SINGLE)
+
+        if not self._endpoint:
+            raise RuntimeError('This method should be never called while endpoint=None')
+
         channel = self._new_channel(self._endpoint)
         async with channel:
             stub = ApiEndpointServiceStub(channel)
@@ -89,8 +93,30 @@ class AsyncCloudClient:
             for endpoint in response.endpoints:
                 self._service_map[endpoint.id] = endpoint.address
 
+    async def _discover_service_endpoint(
+        self,
+        service_name: str,
+        stub_class: type[StubType],
+        timeout: float
+    ) -> str:
+        endpoint: str | None
         # TODO: add a validation for unknown services in override
-        self._service_map.update(self._service_map_override)
+        if endpoint := self._service_map_override.get(service_name):
+            return endpoint
+
+        if self._endpoint is None:
+            raise UnknownEndpointError(
+                "due to `endpoint` SDK param explicitly set to `None` you need to define "
+                f"{service_name!r} endpoint manually at `service_map` SDK param"
+            )
+
+        if not self._service_map:
+            await self._init_service_map(timeout=timeout)
+
+        if endpoint := self._service_map.get(service_name):
+            return endpoint
+
+        raise UnknownEndpointError(f'failed to find endpoint for {service_name=} and {stub_class=}')
 
     async def _get_metadata(
         self,
@@ -172,19 +198,12 @@ class AsyncCloudClient:
                 return self._channels[stub_class]
 
             service_name = service_name if service_name else service_for_ctor(stub_class)
-            if not self._service_map:
-                await self._init_service_map(timeout=timeout)
 
-            if not (endpoint := self._service_map.get(service_name)):
-                # NB: this fix will work if service_map will change ai-assistant to ai-assistants
-                # (and retrospectively if user will stuck with this version)
-                # and if _service_for_ctor will change ai-assistants to ai-assistant
-                if service_name in ('ai-assistant', 'ai-assistants'):
-                    service_name = 'ai-assistant' if service_name == 'ai-assistants' else 'ai-assistants'
-                    if not (endpoint := self._service_map.get(service_name)):
-                        raise ValueError(f'failed to find endpoint for {service_name=} and {stub_class=}')
-                else:
-                    raise ValueError(f'failed to find endpoint for {service_name=} and {stub_class=}')
+            endpoint = await self._discover_service_endpoint(
+                service_name=service_name,
+                stub_class=stub_class,
+                timeout=timeout
+            )
 
             self._endpoints[stub_class] = endpoint
             channel = self._channels[stub_class] = self._new_channel(endpoint)

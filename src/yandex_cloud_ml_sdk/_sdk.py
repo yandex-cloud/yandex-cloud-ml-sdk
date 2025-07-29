@@ -60,7 +60,7 @@ class BaseSDK:
         self,
         *,
         folder_id: str,
-        endpoint: UndefinedOr[str] = UNDEFINED,
+        endpoint: UndefinedOr[str] | None = UNDEFINED,
         auth: UndefinedOr[str | BaseAuth] = UNDEFINED,
         retry_policy: UndefinedOr[RetryPolicy] = UNDEFINED,
         yc_profile: UndefinedOr[str] = UNDEFINED,
@@ -76,13 +76,15 @@ class BaseSDK:
         :type folder_id: str
         :param endpoint: domain:port pair for Yandex Cloud API or any other
             grpc compatible target.
+            In case of ``None`` passed it turns off service endpoint discovery mechanism
+            and requires ``service_map`` to be passed.
         :type endpoint: str
         :param auth: string with API Key, IAM token or one of yandex_cloud_ml_sdk.auth objects;
             in case of default Undefined value, there will be a mechanism to get token
             from environment
-        :type api_key | BaseAuth: str
+        :type api_key: BaseAuth | str
         :param service_map: a way to redefine endpoints for one or more cloud subservices
-            with a format of dict {service_name: service_address}.
+            with a format of dict ``{"service_name": "service_address"}``.
         :type service_map: Dict[str, str]
         :param enable_server_data_logging: when passed bool, we will add
             `x-data-logging-enabled: <value>` to all of requests, which will
@@ -126,6 +128,7 @@ class BaseSDK:
         :param date_format: The format for timestamps in log messages.
         :return: The instance of the SDK with logging configured.
         """
+
         setup_default_logging(
             log_level=log_level,
             log_format=log_format,
@@ -145,7 +148,7 @@ class BaseSDK:
                 resource = member(name=member_name, sdk=self)
                 setattr(self, member_name, resource)
 
-    def _get_endpoint(self, endpoint: UndefinedOr[str]) -> str:
+    def _get_endpoint(self, endpoint: UndefinedOr[str] | None) -> str | None:
         """Retrieves the API endpoint.
 
         If the endpoint is defined, it will be returned. Otherwise, it checks for

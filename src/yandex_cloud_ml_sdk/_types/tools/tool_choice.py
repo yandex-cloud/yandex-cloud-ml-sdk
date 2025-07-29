@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Literal, TypedDict, TypeVar, Union, cast
+from typing import Literal, TypeVar, Union, cast
 
 from typing_extensions import TypeAlias
 # pylint: disable=no-name-in-module
@@ -8,18 +8,10 @@ from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import ToolChoice as P
 
 from yandex_cloud_ml_sdk._tools.tool import FunctionTool
 
+from .function import FunctionDictType, validate_function_dict
+
 ProtoToolChoice: TypeAlias = ProtoCompletionsToolChoice
 ProtoToolChoiceTypeT = TypeVar('ProtoToolChoiceTypeT', bound=ProtoToolChoice)
-
-
-class FunctionNameType(TypedDict):
-    name: str
-
-
-class ToolChoiceDictType(TypedDict):
-    type: Literal['function']
-    function: FunctionNameType
-
 
 ToolChoiceStringType: TypeAlias = Literal[
     'none', 'None', 'NONE',
@@ -27,7 +19,8 @@ ToolChoiceStringType: TypeAlias = Literal[
     'required', 'Required', 'REQUIRED'
 ]
 
-ToolChoiceType: TypeAlias = Union[ToolChoiceStringType, ToolChoiceDictType, FunctionTool]
+ToolChoiceType: TypeAlias = Union[ToolChoiceStringType, FunctionDictType, FunctionTool]
+
 
 STRING_TOOL_CHOICES = ('NONE', 'AUTO', 'REQUIRED')
 
@@ -45,19 +38,7 @@ def coerce_to_proto(
         return expected_type(mode=tool_choice_value)
 
     if isinstance(tool_choice, dict):
-        if (
-            tool_choice.get('type') != 'function' or
-            not isinstance(tool_choice.get('function'), dict) or
-            not isinstance(tool_choice['function'].get('name'), str)
-        ):
-            raise ValueError(
-                'wrong dict structure for tool_choice, expected '
-                '`{"type": "function", "function": {"name": function_name}}`, '
-                'got {tool_choice}'
-            )
-
-        tool_choice = cast(ToolChoiceDictType, tool_choice)
-
+        tool_choice = validate_function_dict(tool_choice)
         return expected_type(function_name=tool_choice['function']['name'])
 
     if isinstance(tool_choice, FunctionTool):
