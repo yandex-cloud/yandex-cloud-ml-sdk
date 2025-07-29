@@ -71,7 +71,7 @@ class BaseFile(ExpirableResource):
         :param labels: A dictionary of labels to associate with the file.
         :param ttl_days: The new TTL (time-to-live) for the file in days.
         :param expiration_policy: The new expiration policy for the file.
-            Assepts for passing :ref:`static` or :ref:`since_last_active` strings.
+            Assepts for passing ``static`` or ``since_last_active`` strings.
         :param timeout: Timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
         :return: The updated instance of the file.

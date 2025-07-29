@@ -8,7 +8,7 @@ from .generative.function import AsyncGenerativeSearchFunction, BaseGenerativeSe
 
 class BaseSearchAPIDomain(DomainWithFunctions):
     """
-    Domain for working with `Yandex Search API <https://yandex.cloud/docs/search-api>` services.
+    Domain for working with `Yandex Search API <https://yandex.cloud/docs/search-api>`_ services.
     """
 
     #: API for `generative response <https://yandex.cloud/docs/search-api/concepts/generative-response>`_ service
