@@ -24,6 +24,7 @@ from yandex_cloud_ml_sdk._types.resource import ExpirableResource, safe_on_delet
 from yandex_cloud_ml_sdk._types.schemas import ResponseType
 from yandex_cloud_ml_sdk._utils.proto import proto_to_dict
 from yandex_cloud_ml_sdk._utils.sync import run_sync_generator_impl, run_sync_impl
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from .prompt_truncation_options import PromptTruncationOptions, PromptTruncationStrategyType
 

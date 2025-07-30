@@ -19,6 +19,7 @@ from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_
 from yandex_cloud_ml_sdk._types.schemas import ResponseType, make_response_format_kwargs
 from yandex_cloud_ml_sdk._utils.coerce import coerce_tuple
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from .assistant import Assistant, AssistantTypeT, AsyncAssistant
 from .prompt_truncation_options import PromptTruncationOptions, PromptTruncationStrategyType
