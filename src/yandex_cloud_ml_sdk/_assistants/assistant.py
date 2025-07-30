@@ -307,7 +307,7 @@ class ReadOnlyAssistant(BaseAssistant[RunTypeT, ThreadTypeT]):
     # Expiration timestamp.
     expires_at: datetime
     # Set of key-value pairs that can be used to organize and categorize the assistant.
-    labels: dict[str, str] | None 
+    labels: dict[str, str] | None
 
 @dataclasses.dataclass(frozen=True)
 class AssistantVersion:
@@ -323,7 +323,7 @@ class AssistantVersion:
 
 @doc_from(ReadOnlyAssistant)
 class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
-    
+
     @doc_from(ReadOnlyAssistant._update)
     async def update(
         self,
@@ -359,7 +359,7 @@ class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
             response_format=response_format,
             timeout=timeout
         )
-    
+
     @doc_from(ReadOnlyAssistant._delete)
     async def delete(
         self,
