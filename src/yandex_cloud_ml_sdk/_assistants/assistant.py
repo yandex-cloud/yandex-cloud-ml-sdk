@@ -22,6 +22,7 @@ from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPo
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._types.resource import ExpirableResource, safe_on_delete
 from yandex_cloud_ml_sdk._types.schemas import ResponseType
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.proto import proto_to_dict
 from yandex_cloud_ml_sdk._utils.sync import run_sync_generator_impl, run_sync_impl
 
@@ -33,15 +34,24 @@ if TYPE_CHECKING:
 
 @dataclasses.dataclass(frozen=True)
 class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
+    #: Expiration configuration for the assistant.
     expiration_config: ExpirationConfig
+    #: The GPT model used by the assistant.
     model: BaseGPTModel
+    #: Instructions or guidelines that the assistant should follow. These instructions guide the assistant's behavior and responses.
     instruction: str | None
+    #: Options for truncating thread messages. Controls how messages are truncated when forming the prompt.
     prompt_truncation_options: PromptTruncationOptions
+    #: Tools available to the assistant. Can be a sequence or a single tool. Tools must implement BaseTool interface.
     tools: tuple[BaseTool, ...]
+    #: A format of the response returned by the model. Could be a JsonSchema, a JSON string, or a pydantic model
     response_format: ResponseType | None
 
     @property
     def max_prompt_tokens(self) -> int | None:
+        """
+        Returns the maximum number of prompt tokens allowed for the assistant.
+        """
         return self.prompt_truncation_options.max_prompt_tokens
 
     @classmethod
@@ -283,24 +293,38 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
 
 @dataclasses.dataclass(frozen=True)
 class ReadOnlyAssistant(BaseAssistant[RunTypeT, ThreadTypeT]):
+    #: Name of the assistant.
     name: str | None
+    #: Description of the assistant.
     description: str | None
+    #: Identifier of the creator.
     created_by: str
+    #: Creation timestamp.
     created_at: datetime
+    #: Identifier of the last updater.
     updated_by: str
+    #: Last update timestamp.
     updated_at: datetime
+    #: Expiration timestamp.
     expires_at: datetime
+    #: Set of key-value pairs that can be used to organize and categorize the assistant.
     labels: dict[str, str] | None
-
 
 @dataclasses.dataclass(frozen=True)
 class AssistantVersion:
+    """
+    Represents a specific version of an Assistant.
+    """
+    #: ID of the assistant version.
     id: str
+    #: The assistant instance for this version.
     assistant: ReadOnlyAssistant
+    #: Mask specifying which fields were updated in this version. Mask also have a custom JSON encoding
     update_mask: tuple[str, ...]
 
-
+@doc_from(ReadOnlyAssistant)
 class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
+    @doc_from(ReadOnlyAssistant._update)
     async def update(
         self,
         *,
@@ -336,6 +360,7 @@ class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
             timeout=timeout
         )
 
+    @doc_from(ReadOnlyAssistant._delete)
     async def delete(
         self,
         *,
@@ -343,6 +368,7 @@ class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
     ) -> None:
         await self._delete(timeout=timeout)
 
+    @doc_from(ReadOnlyAssistant._list_versions)
     async def list_versions(
         self,
         page_size: UndefinedOr[int] = UNDEFINED,
@@ -356,6 +382,7 @@ class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
         ):
             yield version
 
+    @doc_from(ReadOnlyAssistant._run)
     async def run(
         self,
         thread: str | AsyncThread,
@@ -377,6 +404,7 @@ class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
             timeout=timeout
         )
 
+    @doc_from(ReadOnlyAssistant._run_stream)
     async def run_stream(
         self,
         thread: str | AsyncThread,
@@ -398,8 +426,9 @@ class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
             timeout=timeout
         )
 
-
+@doc_from(ReadOnlyAssistant)
 class Assistant(ReadOnlyAssistant[Run, Thread]):
+    @doc_from(ReadOnlyAssistant._update)
     def update(
         self,
         *,
@@ -435,6 +464,7 @@ class Assistant(ReadOnlyAssistant[Run, Thread]):
             timeout=timeout
         ), self._sdk)
 
+    @doc_from(ReadOnlyAssistant._delete)
     def delete(
         self,
         *,
@@ -442,6 +472,7 @@ class Assistant(ReadOnlyAssistant[Run, Thread]):
     ) -> None:
         run_sync_impl(self._delete(timeout=timeout), self._sdk)
 
+    @doc_from(ReadOnlyAssistant._list_versions)
     def list_versions(
         self,
         page_size: UndefinedOr[int] = UNDEFINED,
@@ -457,6 +488,7 @@ class Assistant(ReadOnlyAssistant[Run, Thread]):
             self._sdk
         )
 
+    @doc_from(ReadOnlyAssistant._run)
     def run(
         self,
         thread: str | Thread,
@@ -478,6 +510,7 @@ class Assistant(ReadOnlyAssistant[Run, Thread]):
             timeout=timeout
         ), self._sdk)
 
+    @doc_from(ReadOnlyAssistant._run_stream)
     def run_stream(
         self,
         thread: str | Thread,
