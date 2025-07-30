@@ -27,7 +27,7 @@ from .utils import get_completion_options
 
 
 class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
-    
+
     #: Type parameter for concrete Assistant implementation
     _assistant_impl: type[AssistantTypeT]
 
@@ -285,7 +285,7 @@ class AsyncAssistants(BaseAssistants[AsyncAssistant]):
             response_format=response_format,
             timeout=timeout,
         )
-    
+
     @doc_from(BaseAssistants._get)
     async def get(
         self,
