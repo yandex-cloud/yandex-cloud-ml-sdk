@@ -33,17 +33,17 @@ if TYPE_CHECKING:
 
 @dataclasses.dataclass(frozen=True)
 class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
-    # Expiration configuration for the assistant.
+    #: Expiration configuration for the assistant.
     expiration_config: ExpirationConfig
-    # The GPT model used by the assistant.
+    #: The GPT model used by the assistant.
     model: BaseGPTModel
-    # Instructions or guidelines that the assistant should follow. These instructions guide the assistant's behavior and responses.
+    #: Instructions or guidelines that the assistant should follow. These instructions guide the assistant's behavior and responses.
     instruction: str | None
-    # Options for truncating thread messages. Controls how messages are truncated when forming the prompt.
+    #: Options for truncating thread messages. Controls how messages are truncated when forming the prompt.
     prompt_truncation_options: PromptTruncationOptions
-    # Tools available to the assistant. Can be a sequence or a single tool. Tools must implement BaseTool interface.
+    #: Tools available to the assistant. Can be a sequence or a single tool. Tools must implement BaseTool interface.
     tools: tuple[BaseTool, ...]
-    # A format of the response returned by the assistant. Could be a JsonSchema, a JSON string, a pydantic model or None.
+    #: A format of the response returned by the model. Could be a JsonSchema, a JSON string, or a pydantic model
     response_format: ResponseType | None
 
     @property
@@ -292,21 +292,21 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
 
 @dataclasses.dataclass(frozen=True)
 class ReadOnlyAssistant(BaseAssistant[RunTypeT, ThreadTypeT]):
-    # Name of the assistant.
+    #: Name of the assistant.
     name: str | None
-    # Description of the assistant.
+    #: Description of the assistant.
     description: str | None
-    # Identifier of the creator.
+    #: Identifier of the creator.
     created_by: str
-    # Creation timestamp.
+    #: Creation timestamp.
     created_at: datetime
-    # Identifier of the last updater.
+    #: Identifier of the last updater.
     updated_by: str
-    # Last update timestamp.
+    #: Last update timestamp.
     updated_at: datetime
-    # Expiration timestamp.
+    #: Expiration timestamp.
     expires_at: datetime
-    # Set of key-value pairs that can be used to organize and categorize the assistant.
+    #: Set of key-value pairs that can be used to organize and categorize the assistant.
     labels: dict[str, str] | None
 
 @dataclasses.dataclass(frozen=True)
@@ -314,16 +314,15 @@ class AssistantVersion:
     """
     Represents a specific version of an Assistant.
     """
-    # ID of the assistant version.
+    #: ID of the assistant version.
     id: str
-    # The assistant instance for this version.
+    #: The assistant instance for this version.
     assistant: ReadOnlyAssistant
-    # Mask specifying which fields were updated in this version. Mask also have a custom JSON encoding
+    #: Mask specifying which fields were updated in this version. Mask also have a custom JSON encoding
     update_mask: tuple[str, ...]
 
 @doc_from(ReadOnlyAssistant)
 class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
-
     @doc_from(ReadOnlyAssistant._update)
     async def update(
         self,
@@ -447,26 +446,6 @@ class Assistant(ReadOnlyAssistant[Run, Thread]):
         response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> Self:
-        """
-        Update the assistant's configuration synchronously.
-
-        :param model: New model or model URI.
-        :param temperature: A sampling temperature to use - higher values mean more random results. Should be a double number between 0 (inclusive) and 1 (inclusive).
-        :param max_tokens: Maximum tokens for completion.
-        :param instruction: New instruction for the assistant.
-        :param max_prompt_tokens: Maximum prompt tokens.
-        :param prompt_truncation_strategy: Strategy for prompt truncation.
-        :param name: New name for the assistant.
-        :param description: New description.
-        :param labels: New labels.
-        :param ttl_days: Time-to-live in days.
-        :param tools: Iterable of tools.
-        :param expiration_policy: Expiration policy.
-        :param response_format: A format of the response returned by the assistant as JSON.
-        :param timeout: Timeout, or the maximum time to wait for the request to complete in seconds.
-            Defaults to 60 seconds.
-        :return: Updated assistant instance.
-        """
         return run_sync_impl(self._update(
             model=model,
             temperature=temperature,

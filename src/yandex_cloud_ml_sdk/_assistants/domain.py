@@ -26,14 +26,8 @@ from .utils import get_completion_options
 
 
 class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
-    """Base class for Assistants API operations.
-
-    This class provides common functionality for both async and sync Assistants implementations.
-    It handles request preparation and basic CRUD operations.
-
-    :param AssistantTypeT: Type parameter for concrete Assistant implementation
-    :type AssistantTypeT: Type[Union[Assistant, AsyncAssistant]]
-    """
+    
+    #: Type parameter for concrete Assistant implementation
     _assistant_impl: type[AssistantTypeT]
 
     def _make_request_kwargs(
@@ -215,27 +209,12 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
 
                 page_token_ = response.next_page_token
 
-
+@doc_from(BaseAssistants)
 class AsyncAssistants(BaseAssistants[AsyncAssistant]):
-    """Asynchronous client for Yandex Cloud Assistants API.
-
-    Provides async methods to create, get and list AI assistants.
-    See `Yandex Cloud Assistants documentation <https://cloud.yandex.com/en/docs/foundation-models/concepts/assistants>`_.
-
-    Example:
-        .. code-block:: python
-
-            async with SDK() as sdk:
-                assistants = sdk.assistants.async_()
-                # Create assistant
-                assistant = await assistants.create("gpt-3.5-turbo")
-                # List assistants
-                async for a in assistants.list():
-                    print(a.id)
-    """
     _assistant_impl = AsyncAssistant
 
     # pylint: disable=too-many-arguments
+    @doc_from(BaseAssistants._create)
     async def create(
         self,
         model: str | BaseGPTModel,
@@ -305,66 +284,34 @@ class AsyncAssistants(BaseAssistants[AsyncAssistant]):
             response_format=response_format,
             timeout=timeout,
         )
-
+    
+    @doc_from(BaseAssistants._get)
     async def get(
         self,
         assistant_id: str,
         *,
         timeout: float = 60,
     ) -> AsyncAssistant:
-        """Get an existing assistant by ID.
-
-        :param assistant_id: ID of the assistant to retrieve
-        :type assistant_id: str
-        :param timeout: Request timeout in seconds. Defaults to 60
-        :type timeout: float
-        :return: Retrieved assistant instance
-        :rtype: AsyncAssistant
-        """
         return await self._get(
             assistant_id=assistant_id,
             timeout=timeout
         )
 
+    @doc_from(BaseAssistants._list)
     async def list(
         self,
         *,
         page_size: UndefinedOr[int] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[AsyncAssistant]:
-        """List all assistants in the current folder.
-
-        :param page_size: Number of assistants per page. Defaults to API default
-        :type page_size: UndefinedOr[int]
-        :param timeout: Request timeout in seconds. Defaults to 60
-        :type timeout: float
-        :return: Async iterator of assistant instances
-        :rtype: AsyncIterator[AsyncAssistant]
-        """
         async for assistant in self._list(
             page_size=page_size,
             timeout=timeout
         ):
             yield assistant
 
-
+@doc_from(BaseAssistants)
 class Assistants(BaseAssistants[Assistant]):
-    """Synchronous client for Yandex Cloud Assistants API.
-
-    Provides sync methods to create, get and list AI assistants.
-    See `Yandex Cloud Assistants documentation <https://cloud.yandex.com/en/docs/foundation-models/concepts/assistants>`_.
-
-    Example:
-        .. code-block:: python
-
-            with SDK() as sdk:
-                assistants = sdk.assistants.sync()
-                # Create assistant
-                assistant = assistants.create("gpt-3.5-turbo")
-                # List assistants
-                for a in assistants.list():
-                    print(a.id)
-    """
     _assistant_impl = Assistant
 
     __get = run_sync(BaseAssistants._get)
@@ -372,6 +319,7 @@ class Assistants(BaseAssistants[Assistant]):
     __list = run_sync_generator(BaseAssistants._list)
 
     # pylint: disable=too-many-arguments
+    @doc_from(BaseAssistants._create)
     def create(
         self,
         model: str | BaseGPTModel,
@@ -390,41 +338,6 @@ class Assistants(BaseAssistants[Assistant]):
         response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> Assistant:
-        """Create a new AI assistant (synchronous version).
-
-        :param model: Model ID or BaseGPTModel instance to use for the assistant
-        :type model: str | BaseGPTModel
-        :param temperature: Sampling temperature. Defaults to model's default temperature
-        :type temperature: UndefinedOr[float]
-        :param max_tokens: Maximum number of tokens to generate. Defaults to model's default
-        :type max_tokens: UndefinedOr[int]
-        :param instruction: System instruction for the assistant
-        :type instruction: UndefinedOr[str]
-        :param max_prompt_tokens: Maximum tokens allowed in prompt
-        :type max_prompt_tokens: UndefinedOr[int]
-        :param prompt_truncation_strategy: Strategy for prompt truncation
-        :type prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType]
-        :param name: Assistant name
-        :type name: UndefinedOr[str]
-        :param description: Assistant description
-        :type description: UndefinedOr[str]
-        :param labels: Key-value labels
-        :type labels: UndefinedOr[dict[str, str]]
-        :param ttl_days: Time-to-live in days
-        :type ttl_days: UndefinedOr[int]
-        :param tools: List of tools available to assistant
-        :type tools: UndefinedOr[Iterable[BaseTool]]
-        :param expiration_policy: Expiration policy for assistant
-        :type expiration_policy: UndefinedOr[ExpirationPolicyAlias]
-        :param response_format: Format for model responses
-        :type response_format: UndefinedOr[ResponseType]
-        :param timeout: Request timeout in seconds. Defaults to 60
-        :type timeout: float
-        :return: Created assistant instance
-        :rtype: Assistant
-        :raises ValueError: If ttl_days and expiration_policy are not both defined/undefined
-        :raises TypeError: If model argument has invalid type
-        """
         return self.__create(
             model=model,
             temperature=temperature,
@@ -442,41 +355,25 @@ class Assistants(BaseAssistants[Assistant]):
             timeout=timeout,
         )
 
+    @doc_from(BaseAssistants._get)
     def get(
         self,
         assistant_id: str,
         *,
         timeout: float = 60,
     ) -> Assistant:
-        """Get an existing assistant by ID (synchronous version).
-
-        :param assistant_id: ID of the assistant to retrieve
-        :type assistant_id: str
-        :param timeout: Request timeout in seconds. Defaults to 60
-        :type timeout: float
-        :return: Retrieved assistant instance
-        :rtype: Assistant
-        """
         return self.__get(
             assistant_id=assistant_id,
             timeout=timeout
         )
 
+    @doc_from(BaseAssistants._list)
     def list(
         self,
         *,
         page_size: UndefinedOr[int] = UNDEFINED,
         timeout: float = 60
     ) -> Iterator[Assistant]:
-        """List all assistants in the current folder (synchronous version).
-
-        :param page_size: Number of assistants per page. Defaults to API default
-        :type page_size: UndefinedOr[int]
-        :param timeout: Request timeout in seconds. Defaults to 60
-        :type timeout: float
-        :return: Iterator of assistant instances
-        :rtype: Iterator[Assistant]
-        """
         yield from self.__list(
             page_size=page_size,
             timeout=timeout
