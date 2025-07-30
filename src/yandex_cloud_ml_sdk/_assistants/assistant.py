@@ -33,64 +33,23 @@ if TYPE_CHECKING:
 
 @dataclasses.dataclass(frozen=True)
 class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
-    """
-    Base class for implementing AI Assistants in Yandex Cloud ML SDK.
-
-    This class provides core functionality for AI Assistants including:
-    - Configuration management (expiration, model, instructions)
-    - Thread and run management
-    - Tool integration
-    - Prompt processing
-
-    The class follows the Template Method pattern, allowing subclasses to override
-    specific behaviors while maintaining the overall workflow. It's designed to be
-    thread-safe for concurrent usage.
-
-    Example:
-
-    .. code-block:: python
-        class MyAssistant(BaseAssistant):
-            def process_run(self, run: RunTypeT) -> Any:
-                # Custom run processing logic
-
-        assistant = MyAssistant(
-            model=GPTModel.YANDEX_GPT,
-            instruction="You are a helpful assistant",
-            tools=[SearchTool(), CalculatorTool()]
-        )
-
-    :param expiration_config: Expiration configuration for the assistant. Determines when the assistant should be considered expired.
-        Read more about possible ExpirationConfig format in the `documentation <https://yandex.cloud/ru/docs/foundation-models/assistants/api-ref/grpc/Assistant/create#yandex.cloud.ai.common.ExpirationConfig>`_.
-    :type expiration_config: ExpirationConfig
-    :param model: The GPT model used by the assistant. Defines the underlying AI model capabilities.
-        Read more about possible GPT models in the `documentation <https://yandex.cloud/ru/docs/foundation-models/concepts/yandexgpt/models>`_.
-    :type model: BaseGPTModel
-    :param instruction: Instructions or guidelines that the assistant should follow. These instructions guide the assistant's behavior and responses.
-    :type instruction: str or None
-    :param prompt_truncation_options: Options for truncating thread messages.Controls how messages are truncated when forming the prompt.
-        Read more about possible PromptTruncationOptions format in the `documentation <https://yandex.cloud/ru/docs/foundation-models/assistants/api-ref/Assistant/create#yandex.cloud.ai.assistants.v1.PromptTruncationOptions>`_.
-    :type prompt_truncation_options: PromptTruncationOptions
-    :param tools: Tools available to the assistant. Can be a sequence or a single tool. Tools must implement BaseTool interface.
-        Read more about available tools for assistant in the `documentation <https://yandex.cloud/ru/docs/foundation-models/assistants/api-ref/grpc/Assistant/create#yandex.cloud.ai.assistants.v1.Tool>`_.
-    :type tools: tuple[BaseTool, ...]
-    :param response_format: A format of the response returned by the assistant. Could be a JsonSchema, a JSON string, a pydantic model or None.
-        Read more about response_format for assistant in the `documentation <https://yandex.cloud/ru/docs/foundation-models/assistants/api-ref/grpc/Assistant/create#yandex.cloud.ai.assistants.v1.ResponseFormat2>`_.
-    :type response_format: ResponseType or None
-    """
+    # Expiration configuration for the assistant.
     expiration_config: ExpirationConfig
+    # The GPT model used by the assistant.
     model: BaseGPTModel
+    # Instructions or guidelines that the assistant should follow. These instructions guide the assistant's behavior and responses.
     instruction: str | None
+    # Options for truncating thread messages. Controls how messages are truncated when forming the prompt.
     prompt_truncation_options: PromptTruncationOptions
+    # Tools available to the assistant. Can be a sequence or a single tool. Tools must implement BaseTool interface.
     tools: tuple[BaseTool, ...]
+    # A format of the response returned by the assistant. Could be a JsonSchema, a JSON string, a pydantic model or None.
     response_format: ResponseType | None
 
     @property
     def max_prompt_tokens(self) -> int | None:
         """
         Returns the maximum number of prompt tokens allowed for the assistant.
-
-        :return: Maximum prompt tokens or None if not set.
-        :rtype: int or None
         """
         return self.prompt_truncation_options.max_prompt_tokens
 
@@ -333,74 +292,39 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
 
 @dataclasses.dataclass(frozen=True)
 class ReadOnlyAssistant(BaseAssistant[RunTypeT, ThreadTypeT]):
-    """
-    Read-only representation of an AI Assistant, including metadata such as name, description, and timestamps.
-        Read more about some assistant parameters in the `documentation <https://yandex.cloud/ru/docs/foundation-models/assistants/api-ref/grpc/Assistant/get#yandex.cloud.ai.assistants.v1.Assistant>`_.
-
-    :param name: Name of the assistant.
-    :type name: str or None
-    :param description: Description of the assistant.
-    :type description: str or None
-    :param created_by: Identifier of the creator.
-    :type created_by: str
-    :param created_at: Creation timestamp.
-    :type created_at: datetime
-    :param updated_by: Identifier of the last updater.
-    :type updated_by: str
-    :param updated_at: Last update timestamp.
-    :type updated_at: datetime
-    :param expires_at: Expiration timestamp.
-    :type expires_at: datetime
-    :param labels: Set of key-value pairs that can be used to organize and categorize the assistant.
-    :type labels: dict[str, str] or None
-    """
+    # Name of the assistant.
     name: str | None
+    # Description of the assistant.
     description: str | None
+    # Identifier of the creator.
     created_by: str
+    # Creation timestamp.
     created_at: datetime
+    # Identifier of the last updater.
     updated_by: str
+    # Last update timestamp.
     updated_at: datetime
+    # Expiration timestamp.
     expires_at: datetime
-    labels: dict[str, str] | None
-
+    # Set of key-value pairs that can be used to organize and categorize the assistant.
+    labels: dict[str, str] | None 
 
 @dataclasses.dataclass(frozen=True)
 class AssistantVersion:
     """
     Represents a specific version of an Assistant.
-        Read more about:
-        - How to get list of versions of an assistant in the `documentation <https://yandex.cloud/ru/docs/foundation-models/assistants/api-ref/grpc/Assistant/listVersions>`_.
-        - Parameters in version of an assistant in the `documentation <https://yandex.cloud/ru/docs/foundation-models/assistants/api-ref/grpc/Assistant/listVersions#yandex.cloud.ai.assistants.v1.AssistantVersion>`_.
-
-    :param id: ID of the assistant version.
-    :type id: str
-    :param assistant: The assistant instance for this version.
-    :type assistant: ReadOnlyAssistant
-    :param update_mask: Mask specifying which fields were updated in this version. Mask also have a custom JSON encoding
-    :type update_mask: tuple[str, ...]
     """
+    # ID of the assistant version.
     id: str
+    # The assistant instance for this version.
     assistant: ReadOnlyAssistant
+    # Mask specifying which fields were updated in this version. Mask also have a custom JSON encoding
     update_mask: tuple[str, ...]
 
-
+@doc_from(ReadOnlyAssistant)
 class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
-    """
-    Provides asynchronous interface for managing and interacting with AI Assistants.
-
-    This class implements a interactions with Yandex Cloud ML Assistant API with asynchronous interface.
-    It's thread-safe and designed for high-performance concurrent usage.
-
-    Example usage:
-
-    .. code-block:: python
-        async with AssistantClient() as client:
-          assistant = await client.create(
-             name="My Assistant",
-             instructions="Help with coding tasks"
-          )
-          response = await assistant.run("How to write Python decorator?")
-    """
+    
+    @doc_from(ReadOnlyAssistant._update)
     async def update(
         self,
         *,
@@ -419,28 +343,6 @@ class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
         response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> Self:
-        """
-        Update the assistant's configuration asynchronously.
-            Read more about some parameters in update function in the `documentation <https://yandex.cloud/ru/docs/foundation-models/assistants/api-ref/grpc/Assistant/update>`_.
-
-        :param model: New model or model URI.
-        :param temperature: A sampling temperature to use - higher values mean more random results. Should be a double number between 0 (inclusive) and 1 (inclusive).
-        :param max_tokens: Maximum tokens for completion.
-        :param instruction: New instruction for the assistant.
-        :param max_prompt_tokens: Maximum prompt tokens.
-        :param prompt_truncation_strategy: Strategy for prompt truncation.
-        :param name: New name for the assistant.
-        :param description: New description.
-        :param labels: New labels.
-        :param ttl_days: Time-to-live in days.
-        :param tools: Iterable set of tools.
-        :param expiration_policy: Expiration policy.
-        :param response_format: A format of the response returned by the assistant as JSON.
-        :param timeout: Timeout in seconds.
-            Defaults to 60 seconds.
-        :return: Updated assistant instance.
-        :rtype: Self
-        """
         return await self._update(
             model=model,
             temperature=temperature,
@@ -457,57 +359,22 @@ class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
             response_format=response_format,
             timeout=timeout
         )
-
+    
+    @doc_from(ReadOnlyAssistant._delete)
     async def delete(
         self,
         *,
         timeout: float = 60,
     ) -> None:
-        """
-        Delete the assistant asynchronously.
-
-        :param timeout: Timeout in seconds.
-            Defaults to 60 seconds.
-        :type timeout: float
-        :return: None
-        """
         await self._delete(timeout=timeout)
 
+    @doc_from(ReadOnlyAssistant._list_versions)
     async def list_versions(
         self,
         page_size: UndefinedOr[int] = UNDEFINED,
         page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[AssistantVersion]:
-        """
-        List all versions of the assistant asynchronously with pagination support.
-        Versions are returned in reverse chronological order (newest first).
-
-        The method implements automatic pagination - when page_token is not specified,
-        it will automatically handle pagination until all versions are retrieved.
-        If page_token is provided, returns only one page of results.
-
-        Example usage:
-
-        .. code-block:: python
-
-            async for version in assistant.list_versions():
-                print(version.id)
-
-        :param page_size: Number of versions per page.
-            Defaults to server-side setting (typically 50) if not specified (UNDEFINED).
-        :param page_token: Token for the next page.
-            Defaults to None (UNDEFINED) to start from the beginning and automatically paginate through all results.
-        :param timeout: Timeout in seconds for each request.
-            Defaults to 60 seconds.
-        :return: Asynchronous iterator of AssistantVersion objects.
-        :rtype: AsyncIterator[AssistantVersion]
-        :raises:
-            - TimeoutError: If the request times out
-            - RuntimeError: If there are issues with the request
-        :note: If no versions exist, the iterator will complete without yielding any items.
-            Read more in the `documentation <https://yandex.cloud/ru/docs/foundation-models/assistants/api-ref/grpc/Assistant/listVersions>`_.
-        """
         async for version in self._list_versions(
             page_size=page_size,
             page_token=page_token,
@@ -515,6 +382,7 @@ class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
         ):
             yield version
 
+    @doc_from(ReadOnlyAssistant._run)
     async def run(
         self,
         thread: str | AsyncThread,
@@ -526,23 +394,6 @@ class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
         custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> AsyncRun:
-        """
-        Run the assistant asynchronously on a given thread.
-
-        :param thread: Thread ID or AsyncThread instance.
-            Read more about Thread in the `documentation <https://yandex.cloud/ru/docs/foundation-models/threads/api-ref/grpc/Thread/>`_.
-        :param custom_temperature: A custom temperature for this run, should be a double number between 0 (inclusive) and 1 (inclusive).
-        :param custom_max_tokens: Custom max tokens for this run.
-        :param custom_max_prompt_tokens: Custom max prompt tokens for this run.
-        :param custom_prompt_truncation_strategy: Custom prompt truncation strategy.
-            Specifies the truncation strategy to use when the prompt exceeds the token limit.
-            Read more about truncating thread messages in the `documentation <https://yandex.cloud/ru/docs/foundation-models/runs/api-ref/grpc/Run/create#yandex.cloud.ai.assistants.v1.PromptTruncationOptions2>`_.
-        :param custom_response_format: A custom format of the response returned by the assistant as JSON object.
-        :param timeout: Timeout in seconds.
-            Defaults to 60 seconds.
-        :return: AsyncRun instance representing the run.
-        :rtype: AsyncRun
-        """
         return await self._run(
             thread=thread,
             custom_temperature=custom_temperature,
@@ -553,6 +404,7 @@ class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
             timeout=timeout
         )
 
+    @doc_from(ReadOnlyAssistant._run_stream)
     async def run_stream(
         self,
         thread: str | AsyncThread,
@@ -564,20 +416,6 @@ class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
         custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> AsyncRun:
-        """
-        Run the assistant asynchronously on a given thread with streaming enabled. For example, it can be used to submit function call results when the run is waiting for user input.
-
-        :param thread: Thread ID or AsyncThread instance.
-        :param custom_temperature: A custom temperature for this run, should be a double number between 0 (inclusive) and 1 (inclusive).
-        :param custom_max_tokens: Custom max tokens for this run.
-        :param custom_max_prompt_tokens: Custom max prompt tokens for this run.
-        :param custom_prompt_truncation_strategy: Custom prompt truncation strategy.
-        :param custom_response_format: A custom format of the response returned by the assistant as JSON object.
-        :param timeout: Timeout in seconds.
-            Defaults to 60 seconds.
-        :return: AsyncRun instance representing the run.
-        :rtype: AsyncRun
-        """
         return await self._run_stream(
             thread=thread,
             custom_temperature=custom_temperature,
@@ -588,11 +426,9 @@ class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
             timeout=timeout
         )
 
-
+@doc_from(ReadOnlyAssistant)
 class Assistant(ReadOnlyAssistant[Run, Thread]):
-    """
-    Synchronous interface for managing and interacting with an AI Assistant.
-    """
+    @doc_from(ReadOnlyAssistant._update)
     def update(
         self,
         *,
@@ -627,10 +463,9 @@ class Assistant(ReadOnlyAssistant[Run, Thread]):
         :param tools: Iterable of tools.
         :param expiration_policy: Expiration policy.
         :param response_format: A format of the response returned by the assistant as JSON.
-        :param timeout: Timeout in seconds.
+        :param timeout: Timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
         :return: Updated assistant instance.
-        :rtype: Self
         """
         return run_sync_impl(self._update(
             model=model,
@@ -649,53 +484,21 @@ class Assistant(ReadOnlyAssistant[Run, Thread]):
             timeout=timeout
         ), self._sdk)
 
+    @doc_from(ReadOnlyAssistant._delete)
     def delete(
         self,
         *,
         timeout: float = 60,
     ) -> None:
-        """
-        Delete the assistant synchronously.
-
-        :param timeout: Timeout in seconds.
-            Defaults to 60 seconds.
-        """
         run_sync_impl(self._delete(timeout=timeout), self._sdk)
 
+    @doc_from(ReadOnlyAssistant._list_versions)
     def list_versions(
         self,
         page_size: UndefinedOr[int] = UNDEFINED,
         page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
     ) -> Iterator[AssistantVersion]:
-        """
-        List all versions of the assistant synchronously with pagination support.
-        Versions are returned in reverse chronological order (newest first).
-
-        The method implements automatic pagination - when page_token is not specified,
-        it will automatically handle pagination until all versions are retrieved.
-        If page_token is provided, returns only one page of results.
-
-        Example usage:
-
-        .. code-block:: python
-            for version in assistant.list_versions():
-                print(version.id)
-
-        :param page_size: Number of versions per page.
-            Defaults to server-side setting (typically 50) if not specified (UNDEFINED).
-        :param page_token: Token for the next page.
-            Defaults to None (UNDEFINED) to start from the beginning and automatically paginate through all results.
-        :param timeout: Timeout in seconds for each request.
-            Defaults to 60 seconds.
-        :return: Iterator of AssistantVersion objects.
-        :rtype: Iterator[AssistantVersion]
-        :raises:
-            - TimeoutError: If the request times out
-            - RuntimeError: If there are issues with the request
-        :note: If no versions exist, the iterator will complete without yielding any items.
-            Read more in the `documentation <https://yandex.cloud/ru/docs/foundation-models/assistants/api-ref/grpc/Assistant/listVersions>`_.
-        """
         yield from run_sync_generator_impl(
             self._list_versions(
                 page_size=page_size,
@@ -705,6 +508,7 @@ class Assistant(ReadOnlyAssistant[Run, Thread]):
             self._sdk
         )
 
+    @doc_from(ReadOnlyAssistant._run)
     def run(
         self,
         thread: str | Thread,
@@ -716,21 +520,6 @@ class Assistant(ReadOnlyAssistant[Run, Thread]):
         custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> Run:
-        """
-        Run the assistant synchronously on a given thread.
-
-        :param thread: Thread ID or Thread instance.
-            Read more about Thread in the `documentation <https://yandex.cloud/ru/docs/foundation-models/threads/api-ref/grpc/Thread/>`_.
-        :param custom_temperature: A custom temperature for this run, should be a double number between 0 (inclusive) and 1 (inclusive).
-        :param custom_max_tokens: Custom max tokens for this run.
-        :param custom_max_prompt_tokens: Custom max prompt tokens for this run.
-        :param custom_prompt_truncation_strategy: Custom prompt truncation strategy.
-        :param custom_response_format: A custom format of the response returned by the assistant as JSON object.
-        :param timeout: Timeout in seconds.
-            Defaults to 60 seconds.
-        :return: Run instance representing the run.
-        :rtype: Run
-        """
         return run_sync_impl(self._run(
             thread=thread,
             custom_temperature=custom_temperature,
@@ -741,6 +530,7 @@ class Assistant(ReadOnlyAssistant[Run, Thread]):
             timeout=timeout
         ), self._sdk)
 
+    @doc_from(ReadOnlyAssistant._run_stream)
     def run_stream(
         self,
         thread: str | Thread,
@@ -752,21 +542,6 @@ class Assistant(ReadOnlyAssistant[Run, Thread]):
         custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> Run:
-        """
-        Run the assistant synchronously on a given thread with streaming enabled.
-
-        :param thread: Thread ID or Thread instance.
-            Read more about Thread in the `documentation <https://yandex.cloud/ru/docs/foundation-models/threads/api-ref/grpc/>`_.
-        :param custom_temperature: A custom temperature for this run, should be a double number between 0 (inclusive) and 1 (inclusive).
-        :param custom_max_tokens: Custom max tokens for this run.
-        :param custom_max_prompt_tokens: Custom max prompt tokens for this run.
-        :param custom_prompt_truncation_strategy: Custom prompt truncation strategy.
-        :param custom_response_format: A custom format of the response returned by the assistant as JSON object.
-        :param timeout: Timeout in seconds.
-            Defaults to 60 seconds.
-        :return: Run instance representing the run.
-        :rtype: Run
-        """
         return run_sync_impl(self._run_stream(
             thread=thread,
             custom_temperature=custom_temperature,
