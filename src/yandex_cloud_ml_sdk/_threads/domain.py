@@ -19,7 +19,7 @@ from .thread import AsyncThread, Thread, ThreadTypeT
 
 
 class BaseThreads(BaseDomain, Generic[ThreadTypeT]):
-    """A class for managing threads. It is a part of Assistants API.
+    """A class for managing threads. Is a part of Assistants API.
 
     This class provides methods to create, retrieve, and list threads.
     """
