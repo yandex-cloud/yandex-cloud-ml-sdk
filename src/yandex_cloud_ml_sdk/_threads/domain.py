@@ -19,10 +19,9 @@ from .thread import AsyncThread, Thread, ThreadTypeT
 
 
 class BaseThreads(BaseDomain, Generic[ThreadTypeT]):
-    """A class for managing threads in a specific domain.
+    """A class for managing threads. It is a part of Assistants API.
 
-    This class provides methods to create, retrieve, and list threads. It acts as a foundation for
-    thread implementations and requires a specific thread type to be defined.
+    This class provides methods to create, retrieve, and list threads.
     """
     _thread_impl: type[ThreadTypeT]
 
@@ -45,7 +44,7 @@ class BaseThreads(BaseDomain, Generic[ThreadTypeT]):
         :param labels: a set of labels for the thread.
         :param ttl_days: time-to-live in days for the thread.
         :param expiration_policy: expiration policy for the file.
-            Assepts for passing ``static`` or ``since_last_active`` `strings <https://yandex.cloud/docs/foundation-models/threads/api-ref/Message/create#yandex.cloud.ai.common.ExpirationConfig>`_. Should be defined if ``ttl_days`` has been defined, otherwise both parameters should be undefined.
+            Assepts for passing ``static`` or ``since_last_active`` strings. Should be defined if ``ttl_days`` has been defined, otherwise both parameters should be undefined.
         :param timeout: timeout for the service call in seconds.
             Defaults to 60 seconds.
         """
@@ -80,7 +79,7 @@ class BaseThreads(BaseDomain, Generic[ThreadTypeT]):
     ) -> ThreadTypeT:
         """Retrieve a thread by its id.
 
-        This method fetches a thread using its unique identifier.
+        This method fetches an already created thread using its unique identifier.
 
         :param thread_id: the unique identifier of the thread to retrieve.
         :param timeout: timeout for the service call in seconds.
@@ -108,7 +107,7 @@ class BaseThreads(BaseDomain, Generic[ThreadTypeT]):
     ) -> AsyncIterator[ThreadTypeT]:
         """List threads in the specified folder.
 
-        This method retrieves a list of threads, paginated by the specified page size. It continues
+        This method retrieves a list of threads. It continues
         to fetch threads until there are no more available.
 
         :param page_size: the maximum number of threads to return per page.
