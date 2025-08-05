@@ -43,7 +43,7 @@ class BaseBatchTaskOperation(OperationInterface[ResultTypeT_co, BatchTaskStatus]
         self._lock = Lock()
 
     @property
-    def id(self) -> str:
+    def id(self) -> str:  # type: ignore[override]
         return self._id
 
     @property

@@ -113,15 +113,11 @@ OperationStatusTypeT = TypeVar('OperationStatusTypeT', bound=BaseOperationStatus
 
 
 class OperationInterface(abc.ABC, Generic[AnyResultTypeT_co, OperationStatusTypeT]):
+    id: str
     _default_poll_timeout: ClassVar[int] = 3600
     _default_poll_interval: ClassVar[float] = 10
     _custom_default_poll_timeout: int | None = None
     _sdk: BaseSDK
-
-    @property
-    @abc.abstractmethod
-    def id(self) -> str:
-        pass
 
     @abc.abstractmethod
     async def _get_status(self, *, timeout: float = 60) -> OperationStatusTypeT:
