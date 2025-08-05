@@ -22,7 +22,7 @@ ProtoPromptTruncationStrategy: TypeAlias = Union[
 @dataclass(frozen=True)
 class PromptTruncationOptions(ProtoBased[ProtoPromptTruncationOptions]):
     """Configuration options for prompt truncation in assistant conversations.
-    
+
     This class defines how to handle prompt truncation when the conversation
     exceeds the maximum token limit. It allows specifying both the maximum
     token limit and the strategy for truncation.
@@ -38,7 +38,7 @@ class PromptTruncationOptions(ProtoBased[ProtoPromptTruncationOptions]):
     @property
     def _auto_strategy(self) -> AutoPromptTruncationStrategy | None:
         """Get the auto truncation strategy if it's set.
-        
+
         Returns:
             The auto truncation strategy instance if the strategy is set to auto,
             otherwise None.
@@ -50,7 +50,7 @@ class PromptTruncationOptions(ProtoBased[ProtoPromptTruncationOptions]):
     @property
     def _last_messages_strategy(self) -> LastMessagesPromptTruncationStrategy | None:
         """Get the last messages truncation strategy if it's set.
-        
+
         Returns:
             The last messages truncation strategy instance if the strategy is set
             to last messages, otherwise None.
@@ -62,11 +62,11 @@ class PromptTruncationOptions(ProtoBased[ProtoPromptTruncationOptions]):
     @classmethod
     def _from_proto(cls, proto: ProtoPromptTruncationOptions, sdk: SDKType) -> PromptTruncationOptions:
         """Create a PromptTruncationOptions instance from a protobuf message.
-        
+
         Args:
             proto: The protobuf message containing truncation options.
             sdk: The SDK type for context.
-            
+
         Returns:
             A new PromptTruncationOptions instance with data from the protobuf message.
         """
@@ -80,7 +80,7 @@ class PromptTruncationOptions(ProtoBased[ProtoPromptTruncationOptions]):
 
     def _to_proto(self) -> ProtoPromptTruncationOptions:
         """Convert this instance to a protobuf message.
-        
+
         Returns:
             A protobuf message representing this truncation options configuration.
         """
@@ -99,13 +99,13 @@ class PromptTruncationOptions(ProtoBased[ProtoPromptTruncationOptions]):
         strategy: PromptTruncationStrategyType | Undefined,
     ) -> PromptTruncationOptions:
         """Coerce input parameters to create a PromptTruncationOptions instance.
-        
+
         Args:
             max_prompt_tokens: The maximum number of tokens allowed in the prompt.
                 Can be an integer, None, or Undefined.
             strategy: The truncation strategy to use. Can be 'auto', a strategy instance,
                 or Undefined.
-                
+
         Returns:
             A new PromptTruncationOptions instance with the coerced parameters.
         """
@@ -121,7 +121,7 @@ class PromptTruncationOptions(ProtoBased[ProtoPromptTruncationOptions]):
 
     def _get_update_paths(self) -> dict[str, bool]:
         """Get the update paths for this configuration.
-        
+
         Returns:
             A dictionary mapping field paths to boolean values indicating
             which fields should be updated.
@@ -140,22 +140,22 @@ class PromptTruncationOptions(ProtoBased[ProtoPromptTruncationOptions]):
 
 class BasePromptTruncationStrategy(ProtoBased[ProtoPromptTruncationOptions]):
     """Base class for prompt truncation strategies.
-    
+
     This abstract base class defines the interface for different truncation
     strategies that can be used when the prompt exceeds the maximum token limit.
     Concrete implementations should override the abstract methods to provide
     specific truncation behavior.
     """
-    
+
     @classmethod
     @abc.abstractmethod
     def _from_proto(cls, proto: ProtoPromptTruncationOptions, sdk: SDKType) -> BasePromptTruncationStrategy:
         """Create a strategy instance from a protobuf message.
-        
+
         Args:
             proto: The protobuf message containing strategy data.
             sdk: The SDK type for context.
-            
+
         Returns:
             A new strategy instance with data from the protobuf message.
         """
@@ -164,7 +164,7 @@ class BasePromptTruncationStrategy(ProtoBased[ProtoPromptTruncationOptions]):
     @abc.abstractmethod
     def _to_proto(self) -> ProtoPromptTruncationStrategy:
         """Convert this strategy instance to a protobuf message.
-        
+
         Returns:
             A protobuf message representing this strategy configuration.
         """
@@ -173,14 +173,14 @@ class BasePromptTruncationStrategy(ProtoBased[ProtoPromptTruncationOptions]):
     @classmethod
     def _coerce(cls, strategy: PromptTruncationStrategyType) -> BasePromptTruncationStrategy:
         """Coerce a strategy input to a BasePromptTruncationStrategy instance.
-        
+
         Args:
             strategy: The strategy to coerce. Can be 'auto' string literal
                 or a BasePromptTruncationStrategy instance.
-                
+
         Returns:
             A BasePromptTruncationStrategy instance.
-            
+
         Raises:
             TypeError: If the strategy is not a valid type or value.
         """
@@ -197,14 +197,14 @@ class BasePromptTruncationStrategy(ProtoBased[ProtoPromptTruncationOptions]):
     @classmethod
     def _from_upper_proto(cls, proto: ProtoPromptTruncationOptions, sdk: SDKType) -> BasePromptTruncationStrategy:
         """Create a strategy instance from an upper-level protobuf message.
-        
+
         Args:
             proto: The protobuf message containing strategy data.
             sdk: The SDK type for context.
-            
+
         Returns:
             A new strategy instance based on the protobuf message type.
-            
+
         Raises:
             NotImplementedError: If the strategy type is not supported in this SDK version.
         """
@@ -223,7 +223,7 @@ class BasePromptTruncationStrategy(ProtoBased[ProtoPromptTruncationOptions]):
 @dataclass(frozen=True)
 class AutoPromptTruncationStrategy(BasePromptTruncationStrategy):
     """Automatic prompt truncation strategy.
-    
+
     The system will handle truncation in a way that aims to preserve
     the most relevant context. This strategy lets the AI service
     automatically determine the best approach for truncating the prompt
@@ -233,11 +233,11 @@ class AutoPromptTruncationStrategy(BasePromptTruncationStrategy):
     @classmethod
     def _from_proto(cls, proto: ProtoPromptTruncationOptions, sdk: SDKType) -> AutoPromptTruncationStrategy:
         """Create an AutoPromptTruncationStrategy instance from a protobuf message.
-        
+
         Args:
             proto: The protobuf message containing strategy data.
             sdk: The SDK type for context.
-            
+
         Returns:
             A new AutoPromptTruncationStrategy instance.
         """
@@ -245,7 +245,7 @@ class AutoPromptTruncationStrategy(BasePromptTruncationStrategy):
 
     def _to_proto(self) -> ProtoPromptTruncationOptions.AutoStrategy:
         """Convert this strategy instance to a protobuf message.
-        
+
         Returns:
             A protobuf AutoStrategy message representing this strategy.
         """
@@ -255,11 +255,11 @@ class AutoPromptTruncationStrategy(BasePromptTruncationStrategy):
 @dataclass(frozen=True)
 class LastMessagesPromptTruncationStrategy(BasePromptTruncationStrategy):
     """Last messages prompt truncation strategy.
-    
+
     This strategy specifies that when truncation is needed, the system
     should retain the most recent messages up to the specified number,
     and truncate older messages to fit within the token limit.
-    
+
     Attributes:
         num_messages: The number of most recent messages to retain in the prompt.
             If these messages exceed `max_prompt_tokens`, older messages will be
@@ -273,11 +273,11 @@ class LastMessagesPromptTruncationStrategy(BasePromptTruncationStrategy):
     @classmethod
     def _from_proto(cls, proto: ProtoPromptTruncationOptions, sdk: SDKType) -> LastMessagesPromptTruncationStrategy:
         """Create a LastMessagesPromptTruncationStrategy instance from a protobuf message.
-        
+
         Args:
             proto: The protobuf message containing strategy data.
             sdk: The SDK type for context.
-            
+
         Returns:
             A new LastMessagesPromptTruncationStrategy instance with data from the protobuf message.
         """
@@ -287,7 +287,7 @@ class LastMessagesPromptTruncationStrategy(BasePromptTruncationStrategy):
 
     def _to_proto(self) -> ProtoPromptTruncationOptions.LastMessagesStrategy:
         """Convert this strategy instance to a protobuf message.
-        
+
         Returns:
             A protobuf LastMessagesStrategy message representing this strategy.
         """
