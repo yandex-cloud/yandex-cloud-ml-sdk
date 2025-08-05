@@ -80,6 +80,10 @@
                             "address": "backup.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "baremetal",
+                            "address": "baremetal.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "billing",
                             "address": "billing.api.cloud.yandex.net:443"
                         },
@@ -140,6 +144,10 @@
                             "address": "compute.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "connection-manager",
+                            "address": "connectionmanager.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "container-registry",
                             "address": "container-registry.api.cloud.yandex.net:443"
                         },
@@ -176,6 +184,10 @@
                             "address": "fomo-tuning.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "gitlab",
+                            "address": "gitlab.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "iam",
                             "address": "iam.api.cloud.yandex.net:443"
                         },
@@ -202,6 +214,10 @@
                         {
                             "id": "kms-crypto",
                             "address": "kms.yandex:443"
+                        },
+                        {
+                            "id": "kspm",
+                            "address": "kspm.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "load-balancer",
@@ -288,8 +304,20 @@
                             "address": "spark.api.cloud.yandex.net:443"
                         },
                         {
+                            "id": "managed-spqr",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
                             "id": "managed-sqlserver",
                             "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-trino",
+                            "address": "trino.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-ytsaurus",
+                            "address": "ytsaurus.api.cloud.yandex.net:443"
                         },
                         {
                             "id": "marketplace",
@@ -321,6 +349,10 @@
                         },
                         {
                             "id": "mdb-redis",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-spqr",
                             "address": "mdb.api.cloud.yandex.net:443"
                         },
                         {
@@ -436,7 +468,7 @@
                 "cls": "CreateDatasetRequest",
                 "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
                 "message": {
-                    "name": "fdd351d8-28ce-4860-871e-34867f3dbdf5",
+                    "name": "43327620-deca-4f8c-840a-4d874df618ea",
                     "folderId": "b1ghsjum2v37c2un8h64",
                     "taskType": "TextToTextGenerationRequest",
                     "uploadFormat": "jsonlines"
@@ -446,15 +478,15 @@
                 "cls": "CreateDatasetResponse",
                 "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
                 "message": {
-                    "datasetId": "fds21tggo6sf7p9586md",
+                    "datasetId": "fds3dei2ej0kmd50ab2e",
                     "dataset": {
-                        "datasetId": "fds21tggo6sf7p9586md",
+                        "datasetId": "fds3dei2ej0kmd50ab2e",
                         "folderId": "b1ghsjum2v37c2un8h64",
-                        "name": "fdd351d8-28ce-4860-871e-34867f3dbdf5",
+                        "name": "43327620-deca-4f8c-840a-4d874df618ea",
                         "status": "DRAFT",
                         "taskType": "TextToTextGenerationRequest",
-                        "createdAt": "2025-04-16T18:35:13Z",
-                        "updatedAt": "2025-04-16T18:35:13Z",
+                        "createdAt": "2025-08-04T12:54:57Z",
+                        "updatedAt": "2025-08-04T12:54:57Z",
                         "createdById": "aje6euqn63oa635coh28",
                         "createdBy": "aje6euqn63oa635coh28"
                     }
@@ -466,7 +498,7 @@
                 "cls": "GetUploadDraftUrlRequest",
                 "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
                 "message": {
-                    "datasetId": "fds21tggo6sf7p9586md",
+                    "datasetId": "fds3dei2ej0kmd50ab2e",
                     "sizeBytes": "2367"
                 }
             },
@@ -474,8 +506,8 @@
                 "cls": "GetUploadDraftUrlResponse",
                 "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
                 "message": {
-                    "datasetId": "fds21tggo6sf7p9586md",
-                    "uploadUrl": "https://storage.yandexcloud.net/ai-fomo-drafts-prod/b1ghsjum2v37c2un8h64/fds21tggo6sf7p9586md?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250416T183513Z&X-Amz-SignedHeaders=content-length%3Bhost&X-Amz-Expires=86400&X-Amz-Credential=YCAJE_WuJJ9D1r6huCoc8I3yO%2F20250416%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=2fd62ddabec4e94c565df88eb58add4bf669b18ba6d109ec7fea21e5a9946660"
+                    "datasetId": "fds3dei2ej0kmd50ab2e",
+                    "uploadUrl": "https://storage.yandexcloud.net/ai-fomo-drafts-prod/b1ghsjum2v37c2un8h64/fds3dei2ej0kmd50ab2e?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250804T125457Z&X-Amz-SignedHeaders=content-length%3Bhost&X-Amz-Expires=86399&X-Amz-Credential=YCAJE_WuJJ9D1r6huCoc8I3yO%2F20250804%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=7b629e2f35ee83a90c0a959e51489572077940bd2e95afb0a7124dd074c4a881"
                 }
             }
         },
@@ -484,16 +516,16 @@
                 "cls": "ValidateDatasetRequest",
                 "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
                 "message": {
-                    "datasetId": "fds21tggo6sf7p9586md"
+                    "datasetId": "fds3dei2ej0kmd50ab2e"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fdsp9imr3f1hus08ckt9",
-                    "createdAt": "2025-04-16T18:35:14Z",
-                    "modifiedAt": "2025-04-16T18:35:14Z"
+                    "id": "fdsa5bq0ki7n3hhsodjm",
+                    "createdAt": "2025-08-04T12:54:57Z",
+                    "modifiedAt": "2025-08-04T12:54:57Z"
                 }
             }
         },
@@ -502,16 +534,16 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fdsp9imr3f1hus08ckt9"
+                    "operationId": "fdsa5bq0ki7n3hhsodjm"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fdsp9imr3f1hus08ckt9",
-                    "createdAt": "2025-04-16T18:35:14Z",
-                    "modifiedAt": "2025-04-16T18:35:14Z"
+                    "id": "fdsa5bq0ki7n3hhsodjm",
+                    "createdAt": "2025-08-04T12:54:57Z",
+                    "modifiedAt": "2025-08-04T12:54:57Z"
                 }
             }
         },
@@ -520,27 +552,70 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fdsp9imr3f1hus08ckt9"
+                    "operationId": "fdsa5bq0ki7n3hhsodjm"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fdsp9imr3f1hus08ckt9",
-                    "createdAt": "2025-04-16T18:35:14Z",
-                    "modifiedAt": "2025-04-16T18:36:05Z",
+                    "id": "fdsa5bq0ki7n3hhsodjm",
+                    "createdAt": "2025-08-04T12:54:57Z",
+                    "modifiedAt": "2025-08-04T12:54:58Z"
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fdsa5bq0ki7n3hhsodjm"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fdsa5bq0ki7n3hhsodjm",
+                    "createdAt": "2025-08-04T12:54:57Z",
+                    "modifiedAt": "2025-08-04T12:56:07Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.dataset.v1.ValidateDatasetMetadata",
+                        "datasetId": "fds3dei2ej0kmd50ab2e",
+                        "validRows": "3",
+                        "processedRows": "3",
+                        "totalRows": "3"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fdsa5bq0ki7n3hhsodjm"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fdsa5bq0ki7n3hhsodjm",
+                    "createdAt": "2025-08-04T12:54:57Z",
+                    "modifiedAt": "2025-08-04T12:57:13Z",
                     "done": true,
                     "metadata": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.dataset.v1.ValidateDatasetMetadata",
-                        "datasetId": "fds21tggo6sf7p9586md",
+                        "datasetId": "fds3dei2ej0kmd50ab2e",
                         "validRows": "3",
                         "processedRows": "3",
                         "totalRows": "3"
                     },
                     "response": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.dataset.v1.ValidateDatasetResponse",
-                        "datasetId": "fds21tggo6sf7p9586md",
+                        "datasetId": "fds3dei2ej0kmd50ab2e",
                         "isValid": true
                     }
                 }
@@ -551,7 +626,7 @@
                 "cls": "DescribeDatasetRequest",
                 "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
                 "message": {
-                    "datasetId": "fds21tggo6sf7p9586md"
+                    "datasetId": "fds3dei2ej0kmd50ab2e"
                 }
             },
             "response": {
@@ -559,13 +634,13 @@
                 "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
                 "message": {
                     "dataset": {
-                        "datasetId": "fds21tggo6sf7p9586md",
+                        "datasetId": "fds3dei2ej0kmd50ab2e",
                         "folderId": "b1ghsjum2v37c2un8h64",
-                        "name": "fdd351d8-28ce-4860-871e-34867f3dbdf5",
+                        "name": "43327620-deca-4f8c-840a-4d874df618ea",
                         "status": "READY",
                         "taskType": "TextToTextGenerationRequest",
-                        "createdAt": "2025-04-16T18:35:13Z",
-                        "updatedAt": "2025-04-16T18:35:48Z",
+                        "createdAt": "2025-08-04T12:54:57Z",
+                        "updatedAt": "2025-08-04T12:56:07Z",
                         "rows": "3",
                         "sizeBytes": "3919",
                         "createdById": "aje6euqn63oa635coh28",
@@ -581,991 +656,921 @@
                 "message": {
                     "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
                     "completionOptions": {},
-                    "sourceDatasetId": "fds21tggo6sf7p9586md"
+                    "sourceDatasetId": "fds3dei2ej0kmd50ab2e"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:36:14Z",
+                    "id": "fbi7nieaejnkimmdhdia",
+                    "createdAt": "2025-08-04T12:57:58Z",
+                    "modifiedAt": "2025-08-04T12:57:58Z",
                     "metadata": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8"
+                        "taskId": "fbi0lliaben2rvd22sp2"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:36:14Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "CREATED",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:36:17Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "PENDING"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "PENDING",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:36:17Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "PENDING"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "PENDING",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:36:17Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "PENDING"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "PENDING",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:36:17Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "PENDING"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "PENDING",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:36:17Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "PENDING"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "PENDING",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:36:17Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "PENDING"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "PENDING",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z",
+                        "errors": {
+                            "status": {}
+                        }
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z",
+                        "errors": {
+                            "status": {}
+                        }
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "COMPLETED",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z",
+                        "finishedAt": "2025-08-04T13:02:16.947191Z",
+                        "errors": {
+                            "status": {}
+                        }
                     }
                 }
             }
         },
         {
             "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
+                    "taskId": "fbi0lliaben2rvd22sp2"
                 }
             },
             "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
                 "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
-                    }
-                }
-            }
-        },
-        {
-            "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
-                "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
-                }
-            },
-            "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
-                "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
-                    }
-                }
-            }
-        },
-        {
-            "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
-                "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
-                }
-            },
-            "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
-                "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
-                    }
-                }
-            }
-        },
-        {
-            "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
-                "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
-                }
-            },
-            "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
-                "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
-                    }
-                }
-            }
-        },
-        {
-            "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
-                "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
-                }
-            },
-            "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
-                "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
-                    }
-                }
-            }
-        },
-        {
-            "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
-                "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
-                }
-            },
-            "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
-                "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
-                    }
-                }
-            }
-        },
-        {
-            "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
-                "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
-                }
-            },
-            "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
-                "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
-                    }
-                }
-            }
-        },
-        {
-            "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
-                "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
-                }
-            },
-            "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
-                "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
-                    }
-                }
-            }
-        },
-        {
-            "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
-                "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
-                }
-            },
-            "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
-                "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
-                    }
-                }
-            }
-        },
-        {
-            "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
-                "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
-                }
-            },
-            "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
-                "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
-                    }
-                }
-            }
-        },
-        {
-            "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
-                "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
-                }
-            },
-            "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
-                "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
-                    }
-                }
-            }
-        },
-        {
-            "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
-                "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
-                }
-            },
-            "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
-                "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
-                    }
-                }
-            }
-        },
-        {
-            "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
-                "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
-                }
-            },
-            "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
-                "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:37:22Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "IN_PROGRESS"
-                    }
-                }
-            }
-        },
-        {
-            "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
-                "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
-                }
-            },
-            "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
-                "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:42:56Z",
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "COMPLETED"
-                    }
-                }
-            }
-        },
-        {
-            "request": {
-                "cls": "GetOperationRequest",
-                "module": "yandex.cloud.operation.operation_service_pb2",
-                "message": {
-                    "operationId": "fbi8crrhc123tkgm02cd"
-                }
-            },
-            "response": {
-                "cls": "Operation",
-                "module": "yandex.cloud.operation.operation_pb2",
-                "message": {
-                    "id": "fbi8crrhc123tkgm02cd",
-                    "createdAt": "2025-04-16T18:36:14Z",
-                    "modifiedAt": "2025-04-16T18:42:58Z",
-                    "done": true,
-                    "metadata": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "COMPLETED"
-                    },
-                    "response": {
-                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionResponse",
-                        "taskId": "fbivilkmtfmu63kn8ag8",
-                        "taskStatus": "COMPLETED",
-                        "resultDatasetId": "fdsoou1nom3n8drbif5p"
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "COMPLETED",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z",
+                        "finishedAt": "2025-08-04T13:02:16.947191Z",
+                        "errors": {
+                            "status": {}
+                        }
                     }
                 }
             }
@@ -1575,7 +1580,7 @@
                 "cls": "DescribeDatasetRequest",
                 "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
                 "message": {
-                    "datasetId": "fdsoou1nom3n8drbif5p"
+                    "datasetId": "fds54eahbh8tbd2en619"
                 }
             },
             "response": {
@@ -1583,18 +1588,18 @@
                 "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
                 "message": {
                     "dataset": {
-                        "datasetId": "fdsoou1nom3n8drbif5p",
+                        "datasetId": "fds54eahbh8tbd2en619",
                         "folderId": "b1ghsjum2v37c2un8h64",
-                        "name": "Batch inference fbivilkmtfmu63kn8ag8 result",
+                        "name": "Batch inference fbi0lliaben2rvd22sp2 result",
                         "status": "READY",
                         "taskType": "TextToTextGeneration",
-                        "createdAt": "2025-04-16T18:36:20Z",
-                        "updatedAt": "2025-04-16T18:42:35Z",
-                        "sizeBytes": "3829",
+                        "createdAt": "2025-08-04T12:58:06Z",
+                        "updatedAt": "2025-08-04T13:01:57Z",
+                        "sizeBytes": "4054",
                         "createdById": "aje6euqn63oa635coh28",
                         "labels": {
-                            "foundation_models_batch_task_id": "fbivilkmtfmu63kn8ag8",
-                            "foundation_models_source_dataset": "fds21tggo6sf7p9586md"
+                            "foundation_models_batch_task_id": "fbi0lliaben2rvd22sp2",
+                            "foundation_models_source_dataset": "fds3dei2ej0kmd50ab2e"
                         },
                         "createdBy": "aje6euqn63oa635coh28"
                     }
@@ -1606,7 +1611,7 @@
                 "cls": "DeleteDatasetRequest",
                 "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
                 "message": {
-                    "datasetId": "fdsoou1nom3n8drbif5p"
+                    "datasetId": "fds54eahbh8tbd2en619"
                 }
             },
             "response": {
@@ -1620,7 +1625,7 @@
                 "cls": "DeleteDatasetRequest",
                 "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
                 "message": {
-                    "datasetId": "fds21tggo6sf7p9586md"
+                    "datasetId": "fds3dei2ej0kmd50ab2e"
                 }
             },
             "response": {
