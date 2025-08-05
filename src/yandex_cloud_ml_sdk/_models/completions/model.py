@@ -11,8 +11,7 @@ from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import CompletionOptio
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Tool as ProtoCompletionsTool
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import ToolChoice as ProtoToolChoice
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import (
-    BatchCompletionMetadata, BatchCompletionRequest, BatchCompletionResponse, CompletionRequest, CompletionResponse,
-    TokenizeResponse
+    BatchCompletionMetadata, BatchCompletionRequest, CompletionRequest, CompletionResponse, TokenizeResponse
 )
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2_grpc import (
     TextGenerationAsyncServiceStub, TextGenerationBatchServiceStub, TextGenerationServiceStub, TokenizerServiceStub
@@ -71,7 +70,6 @@ class BaseGPTModel(
     _tuning_operation_type: type[TuningTaskTypeT]
 
     _batch_service_stub = TextGenerationBatchServiceStub
-    _batch_proto_result_type = BatchCompletionResponse
     _batch_proto_metadata_type = BatchCompletionMetadata
 
     def langchain(self, model_type: Literal["chat"] = "chat", timeout: int = 60) -> BaseYandexLanguageModel:

@@ -18,3 +18,4 @@
    search_api
    datasets
    tuning
+   batch

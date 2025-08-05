@@ -65,9 +65,15 @@ async def main() -> None:
 
     # Batch run returns an operation object you could
     # follow or just call .wait method
-    operation = await model.batch.run_deferred(dataset)
+    task = await model.batch.run_deferred(dataset)
 
-    resulting_dataset = await operation
+    try:
+        resulting_dataset = await task
+    except:
+        status = await task.get_status()
+        if status.is_running:
+            await task.cancel()
+        raise
 
     # NB: Resulting dataset have task_type="TextToTextGeneration" and could be used as an input
     # for tuning.
