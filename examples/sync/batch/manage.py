@@ -58,22 +58,26 @@ def main() -> None:
     dataset = get_dataset(sdk)
     model = sdk.models.completions('gemma-3-12b-it')
 
-    # We are creating batch task operation, but doesn't save it in any variable
-    model.batch.run_deferred(dataset)
+    batch_task_operation = model.batch.run_deferred(dataset)
+    # Look how you can restore your operation when you have its id
+    batch_task_operation = sdk.batch.get(batch_task_operation.id)
+    batch_task_info = batch_task_operation.get_task_info()
+    print(f'Freshly started {batch_task_operation=} have {batch_task_info=}')
 
     # You can list batch task operations;
-    # but it is light wrapper with an operation interface, which allows you to:
+    # it is light wrapper with an operation interface, which allows you to:
     # * .wait
     # * .get_status
     # * .cancel
     # * .delete
     # * .get_task_info
+    # but doesn't have any fields with task information
     for task in sdk.batch.list_operations(status='in_progress'):
         print(f"Batch task operation object: {task}")
 
         # You could retrieve a result from task operations history:
         status = task.get_status()
-        if status.name.is_succeeded:
+        if status.is_succeeded:
             result = task.get_result()
             print(f'Found a finished task, recovering its result from task operation: {result}')
 
