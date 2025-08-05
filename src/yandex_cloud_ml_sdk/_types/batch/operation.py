@@ -43,6 +43,10 @@ class BaseBatchTaskOperation(OperationInterface[ResultTypeT_co, BatchTaskStatus]
         self._lock = Lock()
 
     @property
+    def id(self) -> str:
+        return self._id
+
+    @property
     def _client(self) -> AsyncCloudClient:
         return self._sdk._client
 

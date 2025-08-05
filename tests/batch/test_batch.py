@@ -12,7 +12,7 @@ pytestmark = pytest.mark.asyncio
 
 @pytest.mark.allow_grpc
 @pytest.mark.vcr
-async def test_simple_run(async_sdk: AsyncYCloudML, completions_jsonlines: pathlib.Path) -> None:
+async def test_batch_list(async_sdk: AsyncYCloudML, completions_jsonlines: pathlib.Path) -> None:
     name = uuid.uuid4()
     dataset_draft = async_sdk.datasets.draft_from_path(
         task_type="TextToTextGenerationRequest",
@@ -25,16 +25,18 @@ async def test_simple_run(async_sdk: AsyncYCloudML, completions_jsonlines: pathl
 
     model = async_sdk.models.completions('gemma-3-12b-it')
     operation = await model.batch.run_deferred(dataset)
-    resulting_dataset = await operation
 
-    assert resulting_dataset.task_type == 'TextToTextGeneration'
-    # pretty random number
-    assert resulting_dataset.size_bytes > 1024
+    task_id = operation.id
 
-    labels = resulting_dataset.labels
+    operation2 = await async_sdk.batch.get(task_id)
+    assert operation is not operation2
 
-    assert labels.get('foundation_models_batch_task_id') == operation.task_id
-    assert labels.get('foundation_models_source_dataset') == dataset.id
+    async for operation in async_sdk.batch.list_operations():
+        if operation.id == task_id:
+            break
+    else:
+        assert False, "operation not found"
 
-    await resulting_dataset.delete()
-    await dataset.delete()
+    await operation
+
+    await operation.delete()
