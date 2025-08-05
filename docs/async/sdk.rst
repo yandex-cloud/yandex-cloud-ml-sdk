@@ -18,3 +18,4 @@ Async SDK
    search_api
    datasets
    tuning
+   batch

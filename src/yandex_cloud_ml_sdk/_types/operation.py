@@ -44,6 +44,10 @@ class BaseOperationStatus:
         raise NotImplementedError()
 
     @property
+    def is_finished(self) -> bool:
+        return self.is_succeeded or self.is_failed
+
+    @property
     def status_name(self) -> str:
         if self.is_succeeded:
             return 'success'

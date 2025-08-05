@@ -80,7 +80,7 @@ interactions:
       user-agent:
       - yandex-cloud-ml-sdk/0.13.1 python/3.12
     method: PUT
-    uri: https://storage.yandexcloud.net/ai-fomo-drafts-prod/b1ghsjum2v37c2un8h64/fds3dei2ej0kmd50ab2e?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250804T125457Z&X-Amz-SignedHeaders=content-length%3Bhost&X-Amz-Expires=86399&X-Amz-Credential=YCAJE_WuJJ9D1r6huCoc8I3yO%2F20250804%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=7b629e2f35ee83a90c0a959e51489572077940bd2e95afb0a7124dd074c4a881
+    uri: https://storage.yandexcloud.net/ai-fomo-drafts-prod/b1ghsjum2v37c2un8h64/fdsm3mdfshu5dps5jk95?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250805T172656Z&X-Amz-SignedHeaders=content-length%3Bhost&X-Amz-Expires=86400&X-Amz-Credential=YCAJE_WuJJ9D1r6huCoc8I3yO%2F20250805%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=403e76d5f35eb8918ab8a940bd479952da421ef38049d33517aaa17ca3ee288f
   response:
     body:
       string: ''
@@ -90,7 +90,7 @@ interactions:
       Content-Type:
       - application/octet-stream
       Date:
-      - Mon, 04 Aug 2025 12:54:57 GMT
+      - Tue, 05 Aug 2025 17:26:56 GMT
       Etag:
       - '"ad778f66cadb94169f9050b81371777d"'
       Keep-Alive:
@@ -100,9 +100,9 @@ interactions:
       Transfer-Encoding:
       - chunked
       X-Amz-Expiration:
-      - expiry-date="Thu, 04 Sep 2025 00:00:00 GMT", rule-id="DatasetDraftLifecycleRule"
+      - expiry-date="Fri, 05 Sep 2025 00:00:00 GMT", rule-id="DatasetDraftLifecycleRule"
       X-Amz-Request-Id:
-      - f0d9b247a553f92a
+      - 1eb944f699d02fd8
     status:
       code: 200
       message: OK
