@@ -112,6 +112,7 @@ async def main() -> None:
 
         # You could retrieve a result from task info history:
         if task_info.status.is_succeeded:
+            assert task_info.result_dataset_id
             result = await sdk.datasets.get(task_info.result_dataset_id)
             print(f'Found a finished task, recovering its result from task info: {result}')
 

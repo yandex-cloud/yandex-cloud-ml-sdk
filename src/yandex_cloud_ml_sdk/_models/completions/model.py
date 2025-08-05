@@ -11,8 +11,7 @@ from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import CompletionOptio
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Tool as ProtoCompletionsTool
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import ToolChoice as ProtoToolChoice
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import (
-    BatchCompletionMetadata, BatchCompletionRequest, BatchCompletionResponse, CompletionRequest, CompletionResponse,
-    TokenizeResponse
+    BatchCompletionMetadata, BatchCompletionRequest, CompletionRequest, CompletionResponse, TokenizeResponse
 )
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2_grpc import (
     TextGenerationAsyncServiceStub, TextGenerationBatchServiceStub, TextGenerationServiceStub, TokenizerServiceStub
