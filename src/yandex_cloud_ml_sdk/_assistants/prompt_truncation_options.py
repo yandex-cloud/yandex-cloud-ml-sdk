@@ -294,4 +294,3 @@ class LastMessagesPromptTruncationStrategy(BasePromptTruncationStrategy):
         return ProtoPromptTruncationOptions.LastMessagesStrategy(
             num_messages=self.num_messages
         )
-
