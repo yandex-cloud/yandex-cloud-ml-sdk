@@ -25,7 +25,7 @@ from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 class BaseThread(ExpirableResource):
     """A class for a thread resource.
 
-    It provides methods for updating, deleting, writing to, and reading from a thread.
+    It provides methods for working with messages that that the thread contains (e.g. updating, deleting, writing to, and reading from).
     """
     @safe_on_delete
     async def _update(
@@ -125,7 +125,8 @@ class BaseThread(ExpirableResource):
 
         This method allows sending a message to the thread with optional labels.
 
-        :param message: the message to be sent to the thread.
+        :param message: the message to be sent to the thread. Could be a string, a dictionary, or a result object.
+            Read more about other possible message types in the `documentation <https://yandex.cloud/docs/foundation-models/sdk/#usage>`_.
         :param labels: optional labels for the message.
         :param timeout: timeout for the operation.
             Defaults to 60 seconds.
@@ -165,11 +166,6 @@ class BaseThread(ExpirableResource):
 
 @dataclasses.dataclass(frozen=True)
 class RichThread(BaseThread):
-    """Rich representation of a thread with additional metadata.
-
-    This class extends :class:`.BaseThread` by adding attributes that provide
-    more information about the thread's creator and timestamps.
-    """
     #: the name of the thread
     name: str | None
     #: the description of the thread
@@ -187,7 +183,6 @@ class RichThread(BaseThread):
     #: additional labels associated with the thread
     labels: dict[str, str] | None
 
-@doc_from(BaseThread)
 class AsyncThread(RichThread):
 
     @doc_from(BaseThread._update)
@@ -241,9 +236,9 @@ class AsyncThread(RichThread):
         async for message in self._read(timeout=timeout):
             yield message
 
+    #: alias for the read method
     __aiter__ = read
 
-@doc_from(BaseThread)
 class Thread(RichThread):
     __update = run_sync(RichThread._update)
     __delete = run_sync(RichThread._delete)
