@@ -183,7 +183,7 @@ class BaseGPTModel(
         )
 
     def _make_batch_request(self, dataset_id: str) -> BatchCompletionRequest:
-        for field in ('tools', 'response_format', 'tool_choice', 'parallel_tool_calls'):
+        for field in ('tools', 'tool_choice', 'parallel_tool_calls'):
             value = getattr(self.config, field)
             if value is not None:
                 warnings.warn(
@@ -192,10 +192,13 @@ class BaseGPTModel(
                     UserWarning, 4
                 )
 
+        response_format_kwargs = make_response_format_kwargs(self._config.response_format)
+
         return BatchCompletionRequest(
             model_uri=self.uri,
             completion_options=self._make_completion_options(stream=False),
-            source_dataset_id=dataset_id
+            source_dataset_id=dataset_id,
+            **response_format_kwargs,
         )
 
     async def _run_sync_impl(
