@@ -144,9 +144,11 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
         :param description: Assistant description
         :param labels: Key-value labels
         :param ttl_days: Time-to-live in days
-        :param tools: List of tools available to assistant
+        :param tools: Tools to use for completion. Can be a sequence or a single tool.
         :param expiration_policy: Expiration policy for assistant
-        :param response_format: Format for model responses
+        :param response_format: A format of the response returned by the model. Could be a JsonSchema, a JSON string, or a pydantic model.
+            Read more about possible response formats in the
+            `structured output documentation <https://yandex.cloud/docs/foundation-models/concepts/yandexgpt/#structured-output>`_.
         :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
         """
@@ -195,7 +197,7 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
         """Get an existing assistant by ID.
 
         :param assistant_id: ID of the assistant to retrieve
-        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
         """
         # TODO: we need a global per-sdk cache on ids to rule out

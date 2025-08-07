@@ -116,7 +116,7 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
         configuration. Only specified parameters will be updated, others remain unchanged.
 
         :param model: New model URI or BaseGPTModel instance to use
-        :param temperature: a sampling temperature to use - higher values mean more random results. Should be a double number between 0 (inclusive) and 1 (inclusive).
+        :param temperature: A sampling temperature to use - higher values mean more random results. Should be a double number between 0 (inclusive) and 1 (inclusive).
         :param max_tokens: Maximum number of tokens to generate
         :param instruction: New instructions for the assistant
         :param max_prompt_tokens: Maximum tokens allowed in the prompt
@@ -125,10 +125,12 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
         :param description: New description for the assistant
         :param labels: New key-value labels for the assistant
         :param ttl_days: Time-to-live in days before automatic deletion
-        :param tools: New set of tools available to the assistant
+        :param tools: Tools to use for completion. Can be a sequence or a single tool.
         :param expiration_policy: Policy for handling expiration
-        :param response_format: Format for model responses (JSON schema/object)
-        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+        :param response_format: A format of the response returned by the model. Could be a JsonSchema, a JSON string, or a pydantic model.
+            Read more about possible response formats in the
+            `structured output documentation <https://yandex.cloud/docs/foundation-models/concepts/yandexgpt/#structured-output>`_.
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
         """
         # pylint: disable=too-many-locals
@@ -199,7 +201,7 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
         Sends a delete request to the Yandex Cloud ML API to remove the assistant.
         After successful deletion, marks the assistant as deleted internally.
 
-        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
         """
         request = DeleteAssistantRequest(assistant_id=self.id)
@@ -226,7 +228,7 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
 
         :param page_size: Maximum number of versions to return per page
         :param page_token: Token for pagination
-        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
         """
         page_token_ = get_defined_value(page_token, '')
@@ -306,7 +308,7 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
         :param custom_max_prompt_tokens: Override for max prompt tokens
         :param custom_prompt_truncation_strategy: Override for prompt truncation strategy
         :param custom_response_format: Override for response format
-        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
         """
         return await self._run_impl(
@@ -340,7 +342,7 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
         :param custom_max_prompt_tokens: Override for max prompt tokens
         :param custom_prompt_truncation_strategy: Override for prompt truncation strategy
         :param custom_response_format: Override for response format
-        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
         """
         return await self._run_impl(
