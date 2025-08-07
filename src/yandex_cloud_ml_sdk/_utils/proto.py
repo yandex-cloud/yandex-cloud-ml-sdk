@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import inspect
 from enum import Enum
-from typing import TYPE_CHECKING, Any, TypeVar, cast
+from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
 
 from google.protobuf.descriptor import FieldDescriptor
 from google.protobuf.json_format import MessageToDict
@@ -82,6 +82,7 @@ _supported_modules = {
     "yandex.cloud.iam": "iam",
     "yandex.cloud.operation": "operation",
     "yandex.cloud.searchapi": "searchapi",
+    "yandex.cloud.ai.batch_inference": "ai-foundation-models",
 }
 
 
@@ -114,3 +115,8 @@ class ProtoEnumBase(base):
             return cls(proto)
         except ValueError:
             return cls(-1)
+
+
+
+ProtoEnumTypeT = TypeVar("ProtoEnumTypeT", bound=ProtoEnumBase)
+ProtoEnumCoercible = Union[ProtoEnumTypeT, str, int]
