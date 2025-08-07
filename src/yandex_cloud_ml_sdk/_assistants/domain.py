@@ -106,24 +106,6 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
 
 
     # pylint: disable=too-many-arguments
-    """Create a new assistant instance.
-
-    :param model: Model ID or BaseGPTModel instance
-    :param temperature: a sampling temperature to use - higher values mean more random results. Should be a double number between 0 (inclusive) and 1 (inclusive).
-    :param max_tokens: Maximum number of tokens to generate
-    :param instruction: System instruction for the assistant
-    :param max_prompt_tokens: Maximum tokens allowed in prompt
-    :param prompt_truncation_strategy: Strategy for prompt truncation
-    :param name: Assistant name
-    :param description: Assistant description
-    :param labels: Key-value labels
-    :param ttl_days: Time-to-live in days
-    :param tools: List of tools available to assistant
-    :param expiration_policy: Expiration policy for assistant
-    :param response_format: Format for model responses
-    :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
-            Defaults to 60 seconds.
-    """
     async def _create(
         self,
         model: str | BaseGPTModel,
@@ -142,6 +124,24 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
         response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> AssistantTypeT:
+        """Create a new assistant instance.
+
+        :param model: Model ID or BaseGPTModel instance
+        :param temperature: A sampling temperature to use - higher values mean more random results. Should be a double number between 0 (inclusive) and 1 (inclusive).
+        :param max_tokens: Maximum number of tokens to generate
+        :param instruction: System instruction for the assistant
+        :param max_prompt_tokens: Maximum tokens allowed in prompt
+        :param prompt_truncation_strategy: Strategy for prompt truncation
+        :param name: Assistant name
+        :param description: Assistant description
+        :param labels: Key-value labels
+        :param ttl_days: Time-to-live in days
+        :param tools: List of tools available to assistant
+        :param expiration_policy: Expiration policy for assistant
+        :param response_format: Format for model responses
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         # pylint: disable=too-many-locals
         if is_defined(ttl_days) != is_defined(expiration_policy):
             raise ValueError("ttl_days and expiration policy must be both defined either undefined")
@@ -177,18 +177,19 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
 
         return self._assistant_impl._from_proto(proto=response, sdk=self._sdk)
 
-    """Get an existing assistant by ID.
-
-    :param assistant_id: ID of the assistant to retrieve
-    :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
-            Defaults to 60 seconds.
-    """
+    
     async def _get(
         self,
         assistant_id: str,
         *,
         timeout: float = 60,
     ) -> AssistantTypeT:
+        """Get an existing assistant by ID.
+
+        :param assistant_id: ID of the assistant to retrieve
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         # TODO: we need a global per-sdk cache on ids to rule out
         # possibility we have two Assistants with same ids but different fields
         request = GetAssistantRequest(assistant_id=assistant_id)
@@ -203,18 +204,18 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
 
         return self._assistant_impl._from_proto(proto=response, sdk=self._sdk)
 
-    """List all assistants.
-
-    :param page_size: Number of assistants per page
-    :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
-            Defaults to 60 seconds.
-    """
     async def _list(
         self,
         *,
         page_size: UndefinedOr[int] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[AssistantTypeT]:
+        """List all assistants.
+
+        :param page_size: Number of assistants per page
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         page_token_ = ''
         page_size_ = get_defined_value(page_size, 0)
 
