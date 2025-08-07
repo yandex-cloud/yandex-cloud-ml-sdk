@@ -128,7 +128,8 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
         :param tools: New set of tools available to the assistant
         :param expiration_policy: Policy for handling expiration
         :param response_format: Format for model responses (JSON schema/object)
-        :param timeout: Request timeout in seconds
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
         """
         # pylint: disable=too-many-locals
         prompt_truncation_options = PromptTruncationOptions._coerce(
@@ -192,6 +193,15 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
         *,
         timeout: float = 60,
     ) -> None:
+        """
+        Delete the assistant from Yandex Cloud ML.
+
+        Sends a delete request to the Yandex Cloud ML API to remove the assistant.
+        After successful deletion, marks the assistant as deleted internally.
+
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         request = DeleteAssistantRequest(assistant_id=self.id)
 
         async with self._client.get_service_stub(AssistantServiceStub, timeout=timeout) as stub:
@@ -209,6 +219,16 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
         page_token: UndefinedOr[str] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[AssistantVersion]:
+        """
+        List all versions of the assistant.
+
+        This method retrieves historical versions of the assistant in a paginated manner.
+
+        :param page_size: Maximum number of versions to return per page
+        :param page_token: Token for pagination
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         page_token_ = get_defined_value(page_token, '')
         page_size_ = get_defined_value(page_size, 0)
 
@@ -277,6 +297,18 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
         custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> RunTypeT:
+        """
+        Execute a non-streaming run with the assistant on the given thread.
+
+        :param thread: Thread ID or Thread object to run on
+        :param custom_temperature: Override for model temperature
+        :param custom_max_tokens: Override for max tokens to generate
+        :param custom_max_prompt_tokens: Override for max prompt tokens
+        :param custom_prompt_truncation_strategy: Override for prompt truncation strategy
+        :param custom_response_format: Override for response format
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         return await self._run_impl(
             thread=thread,
             stream=False,
@@ -299,6 +331,18 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
         custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> RunTypeT:
+        """
+        Execute a streaming run with the assistant on the given thread.
+
+        :param thread: Thread ID or Thread object to run on
+        :param custom_temperature: Override for model temperature
+        :param custom_max_tokens: Override for max tokens to generate
+        :param custom_max_prompt_tokens: Override for max prompt tokens
+        :param custom_prompt_truncation_strategy: Override for prompt truncation strategy
+        :param custom_response_format: Override for response format
+        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         return await self._run_impl(
             thread=thread,
             stream=True,
