@@ -109,6 +109,27 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
         response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> Self:
+        """
+        Update the assistant's configuration with new parameters.
+
+        This method sends an update request to Yandex Cloud ML API to modify the assistant's
+        configuration. Only specified parameters will be updated, others remain unchanged.
+
+        :param model: New model URI or BaseGPTModel instance to use
+        :param temperature: Sampling temperature for model responses
+        :param max_tokens: Maximum number of tokens to generate
+        :param instruction: New instructions for the assistant
+        :param max_prompt_tokens: Maximum tokens allowed in the prompt
+        :param prompt_truncation_strategy: Strategy for truncating long prompts
+        :param name: New name for the assistant
+        :param description: New description for the assistant
+        :param labels: New key-value labels for the assistant
+        :param ttl_days: Time-to-live in days before automatic deletion
+        :param tools: New set of tools available to the assistant
+        :param expiration_policy: Policy for handling expiration
+        :param response_format: Format for model responses (JSON schema/object)
+        :param timeout: Request timeout in seconds
+        """
         # pylint: disable=too-many-locals
         prompt_truncation_options = PromptTruncationOptions._coerce(
             max_prompt_tokens=max_prompt_tokens,
