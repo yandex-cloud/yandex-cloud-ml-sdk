@@ -27,6 +27,10 @@ from .utils import get_completion_options
 
 
 class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
+    """Base class for assistants management.
+
+    Provides common functionality for creating, getting and listing assistants.
+    """
 
     #: Type parameter for concrete Assistant implementation
     _assistant_impl: type[AssistantTypeT]
@@ -48,6 +52,10 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
         expiration_policy: UndefinedOr[ExpirationPolicyAlias],
         response_format: UndefinedOr[ResponseType],
     ) -> dict[str, Any]:
+        """Prepare request arguments for assistant creation.
+
+        Handles conversion of various parameters to protobuf format.
+        """
         # pylint: disable=too-many-locals
         model_uri: UndefinedOr[str] | None = UNDEFINED
 
