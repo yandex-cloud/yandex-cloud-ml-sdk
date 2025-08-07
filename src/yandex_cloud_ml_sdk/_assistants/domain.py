@@ -177,7 +177,7 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
 
         return self._assistant_impl._from_proto(proto=response, sdk=self._sdk)
 
-    
+
     async def _get(
         self,
         assistant_id: str,
