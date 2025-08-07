@@ -265,41 +265,6 @@ class AsyncAssistants(BaseAssistants[AsyncAssistant]):
         response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> AsyncAssistant:
-        """Create a new AI assistant.
-
-        :param model: Model ID or BaseGPTModel instance to use for the assistant
-        :type model: str | BaseGPTModel
-        :param temperature: Sampling temperature. Defaults to model's default temperature
-        :type temperature: UndefinedOr[float]
-        :param max_tokens: Maximum number of tokens to generate. Defaults to model's default
-        :type max_tokens: UndefinedOr[int]
-        :param instruction: System instruction for the assistant
-        :type instruction: UndefinedOr[str]
-        :param max_prompt_tokens: Maximum tokens allowed in prompt
-        :type max_prompt_tokens: UndefinedOr[int]
-        :param prompt_truncation_strategy: Strategy for prompt truncation
-        :type prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType]
-        :param name: Assistant name
-        :type name: UndefinedOr[str]
-        :param description: Assistant description
-        :type description: UndefinedOr[str]
-        :param labels: Key-value labels
-        :type labels: UndefinedOr[dict[str, str]]
-        :param ttl_days: Time-to-live in days
-        :type ttl_days: UndefinedOr[int]
-        :param tools: List of tools available to assistant
-        :type tools: UndefinedOr[Iterable[BaseTool]]
-        :param expiration_policy: Expiration policy for assistant
-        :type expiration_policy: UndefinedOr[ExpirationPolicyAlias]
-        :param response_format: Format for model responses
-        :type response_format: UndefinedOr[ResponseType]
-        :param timeout: Request timeout in seconds. Defaults to 60
-        :type timeout: float
-        :return: Created assistant instance
-        :rtype: AsyncAssistant
-        :raises ValueError: If ttl_days and expiration_policy are not both defined/undefined
-        :raises TypeError: If model argument has invalid type
-        """
         return await self._create(
             model=model,
             temperature=temperature,
