@@ -116,7 +116,7 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
         configuration. Only specified parameters will be updated, others remain unchanged.
 
         :param model: New model URI or BaseGPTModel instance to use
-        :param temperature: Sampling temperature for model responses
+        :param temperature: a sampling temperature to use - higher values mean more random results. Should be a double number between 0 (inclusive) and 1 (inclusive).
         :param max_tokens: Maximum number of tokens to generate
         :param instruction: New instructions for the assistant
         :param max_prompt_tokens: Maximum tokens allowed in the prompt

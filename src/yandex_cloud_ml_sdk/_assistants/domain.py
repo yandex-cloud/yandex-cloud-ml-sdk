@@ -106,6 +106,24 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
 
 
     # pylint: disable=too-many-arguments
+    """Create a new assistant instance.
+
+    :param model: Model ID or BaseGPTModel instance
+    :param temperature: a sampling temperature to use - higher values mean more random results. Should be a double number between 0 (inclusive) and 1 (inclusive).
+    :param max_tokens: Maximum number of tokens to generate
+    :param instruction: System instruction for the assistant
+    :param max_prompt_tokens: Maximum tokens allowed in prompt
+    :param prompt_truncation_strategy: Strategy for prompt truncation
+    :param name: Assistant name
+    :param description: Assistant description
+    :param labels: Key-value labels
+    :param ttl_days: Time-to-live in days
+    :param tools: List of tools available to assistant
+    :param expiration_policy: Expiration policy for assistant
+    :param response_format: Format for model responses
+    :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+    """
     async def _create(
         self,
         model: str | BaseGPTModel,
@@ -159,6 +177,12 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
 
         return self._assistant_impl._from_proto(proto=response, sdk=self._sdk)
 
+    """Get an existing assistant by ID.
+
+    :param assistant_id: ID of the assistant to retrieve
+    :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+    """
     async def _get(
         self,
         assistant_id: str,
@@ -179,6 +203,12 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
 
         return self._assistant_impl._from_proto(proto=response, sdk=self._sdk)
 
+    """List all assistants.
+
+    :param page_size: Number of assistants per page
+    :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+    """
     async def _list(
         self,
         *,
