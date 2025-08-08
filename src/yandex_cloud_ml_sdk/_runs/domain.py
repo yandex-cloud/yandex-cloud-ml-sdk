@@ -51,8 +51,8 @@ class BaseRuns(BaseDomain, Generic[RunTypeT]):
         custom_prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
         #: Custom response format
         custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
-        #: :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
-        #:  Defaults to 60 seconds.
+        #: The timeout, or the maximum time to wait for the request to complete in seconds.
+        #: Defaults to 60 seconds.
         timeout: float = 60,
     ) -> RunTypeT:
         """
