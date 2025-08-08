@@ -72,3 +72,8 @@ Base classes
 .. autoclass:: yandex_cloud_ml_sdk._types.batch.domain.BaseBatchSubdomain
 
 .. autoclass:: yandex_cloud_ml_sdk._messages.base.BaseMessage
+
+.. autoclass:: yandex_cloud_ml_sdk._batch.domain.BaseBatch
+
+.. autoclass:: yandex_cloud_ml_sdk._types.batch.operation.BaseBatchTaskOperation
+   :undoc-members:

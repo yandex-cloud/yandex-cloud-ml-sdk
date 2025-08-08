@@ -7,9 +7,7 @@ from typing import Generic, TypeVar
 
 from google.protobuf.message import Message
 from typing_extensions import TypeAlias
-from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import (
-    BatchCompletionMetadata, BatchCompletionResponse
-)
+from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import BatchCompletionMetadata
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2_grpc import (
     TextGenerationBatchServiceStub
 )
@@ -19,7 +17,6 @@ from yandex_cloud_ml_sdk._types.model import BaseModel, ConfigTypeT, ResultTypeT
 from .domain import AsyncBatchSubdomain, BatchSubdomain, BatchSubdomainTypeT
 
 BatchStubType: TypeAlias = TextGenerationBatchServiceStub
-BatchResultType: TypeAlias = BatchCompletionResponse
 BatchMetadataType: TypeAlias = BatchCompletionMetadata
 
 
@@ -37,11 +34,6 @@ class BaseModelBatchMixin(
     @property
     @abc.abstractmethod
     def _batch_service_stub(self) -> type[BatchStubType]:
-        pass
-
-    @property
-    @abc.abstractmethod
-    def _batch_proto_result_type(self) -> type[BatchResultType]:
         pass
 
     @property

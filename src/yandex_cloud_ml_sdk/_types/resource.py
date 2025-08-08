@@ -19,6 +19,7 @@ if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
 
+# TODO: rework it to inherit yandex_cloud_ml_sdk._types.proto.ProtoMirrored
 @dataclasses.dataclass(frozen=True)
 class BaseResource(BaseResult):
     id: str
