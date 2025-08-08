@@ -31,8 +31,11 @@ class BaseRunResult(
     HaveToolCalls[ToolCallTypeT],
     Generic[StatusTypeT, MessageTypeT, ToolCallTypeT],
 ):
+    #: Run status
     status: StatusTypeT
+    #: Error message if run failed
     error: str | None
+    #: List of tool calls if any
     tool_calls: ToolCallList[ProtoAssistantToolCallList, ToolCallTypeT] | None
     _message: MessageTypeT | None
 
@@ -43,30 +46,48 @@ class BaseRunResult(
 
     @property
     def is_running(self) -> bool:
+        """
+        Check if run is in progress.
+        """
         return self.status.is_running
 
     @property
     def is_succeeded(self) -> bool:
+        """
+        Check if run completed successfully.
+        """
         return self.status.is_succeeded
 
     @property
     def is_failed(self) -> bool:
+        """
+        Check if run failed.
+        """
         return self.status.is_failed
 
     @property
     def message(self) -> MessageTypeT | None:
+        """
+        Get the message result of the run.
+        """
         if self.is_failed:
             raise ValueError("run is failed and don't have a message result")
         return self._message
 
     @property
     def text(self) -> str | None:
+        """
+        Get text content from message if available.
+        """
         if not self.message:
             return None
         return self.message.text
 
     @property
     def parts(self) -> tuple[Any, ...]:
+        """
+        Get message parts if available.
+        """
         if not self.message:
             return ()
         return self.message.parts
@@ -74,6 +95,7 @@ class BaseRunResult(
 
 @dataclasses.dataclass(frozen=True)
 class RunResult(BaseRunResult[RunStatus, Message, ToolCallTypeT]):
+    #: Token usage statistics
     usage: Usage | None
 
     @classmethod
@@ -122,6 +144,9 @@ class RunResult(BaseRunResult[RunStatus, Message, ToolCallTypeT]):
 
     @property
     def citations(self) -> tuple[Citation, ...]:
+        """
+        Get citations from message if available.
+        """
         if not self.message:
             return ()
         return self.message.citations
