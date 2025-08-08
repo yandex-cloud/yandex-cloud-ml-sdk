@@ -14,8 +14,8 @@ from yandex.cloud.ai.assistants.v1.threads.message_service_pb2_grpc import Messa
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.message import MessageType, coerce_to_text_message_dict
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
-from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 from yandex_cloud_ml_sdk._utils.doc import doc_from
+from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .message import Message
 
@@ -145,7 +145,7 @@ class AsyncMessages(BaseMessages):
             labels=labels,
             timeout=timeout
         )
-    
+
     @doc_from(BaseMessages._get)
     async def get(
         self,
