@@ -12,6 +12,7 @@ from yandex_cloud_ml_sdk._utils.proto import ProtoEnumBase
 
 # pylint: disable=abstract-method
 class BaseRunStatus(BaseOperationStatus):
+    pass
     """
     Base class for run status enumerations.
     """

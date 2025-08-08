@@ -44,7 +44,7 @@ class BaseRuns(BaseDomain, Generic[RunTypeT]):
         #: Custom temperature value
         custom_temperature: UndefinedOr[float] = UNDEFINED,
         #: Custom max tokens value
-        custom_max_tokens: UndefinedOr[float] = UNDEFINED,
+        custom_max_tokens: UndefinedOr[int] = UNDEFINED,
         #: Custom max prompt tokens value
         custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
         #: Custom truncation strategy
@@ -101,7 +101,7 @@ class BaseRuns(BaseDomain, Generic[RunTypeT]):
             stream=stream,
         )
 
-        async with self._client.get_service_stub(RRunServiceStub, timeout=timeout) as stub:
+        async with self._client.get_service_stub(RunServiceStub, timeout=timeout) as stub:
             response = await self._client.call_service(
                 stub.Create,
                 request,
@@ -117,6 +117,8 @@ class BaseRuns(BaseDomain, Generic[RunTypeT]):
         *,
         timeout: float = 60,
     ) -> RunTypeT:
+        # TODO: we need a global per-sdk cache on ids to rule out
+        # possibility we have two Runs with same ids but different fields
         """
         Get a run by ID.
 
