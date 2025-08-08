@@ -21,6 +21,10 @@ if TYPE_CHECKING:
 
 @dataclasses.dataclass(frozen=True)
 class Citation(BaseResult):
+    """
+    Represents a citation with multiple sources.
+    """
+    #: Tuple of Source objects referenced in this citation
     sources: tuple[Source, ...]
 
     @classmethod
@@ -33,9 +37,16 @@ class Citation(BaseResult):
         )
 
 class Source(BaseResult):
+    """
+    Abstract base class for citation sources.
+    """
+
     @property
     @abc.abstractmethod
     def type(self) -> str:
+        """
+        Get the type identifier of this source.
+        """
         pass
 
     @classmethod
@@ -48,11 +59,19 @@ class Source(BaseResult):
 
 @dataclasses.dataclass(frozen=True)
 class FileChunk(Source, BaseMessage):
+    """
+    Represents a file chunk citation source.
+    """
+    #: Search index this chunk belongs to
     search_index: BaseSearchIndex
+    #: File this chunk belongs to (optional)
     file: BaseFile | None
 
     @property
     def type(self) -> str:
+        """
+        Get the type identifier for file chunks. Always returns 'filechunk'
+        """
         return 'filechunk'
 
     @classmethod
@@ -85,10 +104,17 @@ class FileChunk(Source, BaseMessage):
 
 @dataclasses.dataclass(frozen=True)
 class UnknownSource(Source):
+    """
+    Represents an unknown citation source type.
+    """
+    #: Description of the unknown source
     text: str
 
     @property
     def type(self) -> str:
+        """
+        Get the type identifier for unknown sources. Always returns 'unknown'.
+        """
         return 'unknown'
 
     @classmethod
