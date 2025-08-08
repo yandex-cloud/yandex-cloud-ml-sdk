@@ -97,7 +97,7 @@ class BaseRun(BaseResource, OperationInterface[RunResult[ToolCallTypeT], RunStat
     async def _get_run(self, *, timeout: float = 60) -> ProtoRun:
         """
         Get raw protobuf run object from server.
-        
+
         :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
         """
@@ -116,7 +116,7 @@ class BaseRun(BaseResource, OperationInterface[RunResult[ToolCallTypeT], RunStat
     async def _get_status(self, *, timeout: float = 60) -> RunStatus:  # type: ignore[override]
         """
         Get current run status.
-        
+
         :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
         """
@@ -127,7 +127,7 @@ class BaseRun(BaseResource, OperationInterface[RunResult[ToolCallTypeT], RunStat
     async def _get_result(self, *, timeout: float = 60) -> RunResult[ToolCallTypeT]:
         """
         Get final run result.
-        
+
         :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
         """
@@ -143,7 +143,7 @@ class BaseRun(BaseResource, OperationInterface[RunResult[ToolCallTypeT], RunStat
     ) -> AsyncIterator[RunStreamEvent[ToolCallTypeT]]:
         """
         Listen to run events stream.
-        
+
         :param events_start_idx: Starting event index
         :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
@@ -172,7 +172,7 @@ class BaseRun(BaseResource, OperationInterface[RunResult[ToolCallTypeT], RunStat
     ) -> AsyncIterator[ProtoStreamEvent]:
         """
         Internal implementation of attach operation.
-        
+
         :param requests: Async iterator of attach requests
         :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
@@ -196,7 +196,7 @@ class BaseRun(BaseResource, OperationInterface[RunResult[ToolCallTypeT], RunStat
     ) -> None:
         """
         Submit tool execution results to continue the run.
-        
+
         :param tool_results: Tool call results to submit
         :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
@@ -229,7 +229,7 @@ class BaseRun(BaseResource, OperationInterface[RunResult[ToolCallTypeT], RunStat
     ) -> None:
         """
         Cancel the run (not implemented).
-        
+
         :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
         """
@@ -248,7 +248,7 @@ class AsyncRun(AsyncOperationMixin[RunResult[AsyncToolCall], RunStatus], BaseRun
     ) -> AsyncIterator[RunStreamEvent[AsyncToolCall]]:
         """
         Listen to run events stream (async).
-        
+
         :param events_start_idx: Starting event index
         :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
@@ -269,7 +269,7 @@ class AsyncRun(AsyncOperationMixin[RunResult[AsyncToolCall], RunStatus], BaseRun
     ) -> None:
         """
         Submit tool execution results to continue the run (async).
-        
+
         :param tool_results: Tool call results to submit
         :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
@@ -293,7 +293,7 @@ class Run(SyncOperationMixin[RunResult[ToolCall], RunStatus], BaseRun[ToolCall])
     ) -> Iterator[RunStreamEvent[ToolCall]]:
         """
         Listen to run events stream (sync).
-        
+
         :param events_start_idx: Starting event index
         :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
@@ -311,7 +311,7 @@ class Run(SyncOperationMixin[RunResult[ToolCall], RunStatus], BaseRun[ToolCall])
     ) -> None:
         """
         Submit tool execution results to continue the run (sync).
-        
+
         :param tool_results: Tool call results to submit
         :param timeout: Request timeout in seconds
         """
