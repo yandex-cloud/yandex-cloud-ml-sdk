@@ -127,9 +127,6 @@ class BaseMessages(BaseDomain):
 
 @doc_from(BaseMessages)
 class AsyncMessages(BaseMessages):
-    """
-    Async implementation of message operations.
-    """
     @doc_from(BaseMessages._create)
     async def create(
         self,
@@ -175,9 +172,6 @@ class AsyncMessages(BaseMessages):
 
 @doc_from(BaseMessages)
 class Messages(BaseMessages):
-    """
-    Sync implementation of message operations.
-    """
 
     __get = run_sync(BaseMessages._get)
     __create = run_sync(BaseMessages._create)
