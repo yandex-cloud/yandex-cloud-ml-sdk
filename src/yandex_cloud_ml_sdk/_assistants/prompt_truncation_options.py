@@ -21,12 +21,20 @@ ProtoPromptTruncationStrategy: TypeAlias = Union[
 
 @dataclass(frozen=True)
 class PromptTruncationOptions(ProtoBased[ProtoPromptTruncationOptions]):
+    """Configuration options for prompt truncation in assistant conversations.
+
+    This class defines how to handle prompt truncation when the conversation
+    exceeds the maximum token limit. It allows specifying both the maximum
+    token limit and the strategy for truncation.
+    """
     #: The maximum number of tokens allowed in the prompt.
     #: If the prompt exceeds this limit, the thread messages will be truncated.
     #: Default max_prompt_tokens: 7000
     max_prompt_tokens: int | None = None
+    #: The truncation strategy to use when the prompt exceeds the token limit.
+    #: Can be either 'auto' for automatic strategy or a specific strategy instance.
+    #: If None, no truncation strategy is applied.
     strategy: BasePromptTruncationStrategy | None = None
-
     @property
     def _auto_strategy(self) -> AutoPromptTruncationStrategy | None:
         if isinstance(self.strategy, AutoPromptTruncationStrategy):
@@ -88,6 +96,14 @@ class PromptTruncationOptions(ProtoBased[ProtoPromptTruncationOptions]):
 
 
 class BasePromptTruncationStrategy(ProtoBased[ProtoPromptTruncationOptions]):
+    """Base class for prompt truncation strategies.
+
+    This abstract base class defines the interface for different truncation
+    strategies that can be used when the prompt exceeds the maximum token limit.
+    Concrete implementations should override the abstract methods to provide
+    specific truncation behavior.
+    """
+
     @classmethod
     @abc.abstractmethod
     def _from_proto(cls, proto: ProtoPromptTruncationOptions, sdk: SDKType) -> BasePromptTruncationStrategy:
@@ -125,7 +141,13 @@ class BasePromptTruncationStrategy(ProtoBased[ProtoPromptTruncationOptions]):
 
 @dataclass(frozen=True)
 class AutoPromptTruncationStrategy(BasePromptTruncationStrategy):
-    """The system will handle truncation in a way that aims to preserve the most relevant context."""
+    """Automatic prompt truncation strategy.
+
+    The system will handle truncation in a way that aims to preserve
+    the most relevant context. This strategy lets the AI service
+    automatically determine the best approach for truncating the prompt
+    while maintaining conversation coherence.
+    """
 
     @classmethod
     def _from_proto(cls, proto: ProtoPromptTruncationOptions, sdk: SDKType) -> AutoPromptTruncationStrategy:
@@ -137,7 +159,12 @@ class AutoPromptTruncationStrategy(BasePromptTruncationStrategy):
 
 @dataclass(frozen=True)
 class LastMessagesPromptTruncationStrategy(BasePromptTruncationStrategy):
-    """Specifies the truncation strategy to use when the prompt exceeds the token limit."""
+    """Last messages prompt truncation strategy.
+
+    This strategy specifies that when truncation is needed, the system
+    should retain the most recent messages up to the specified number,
+    and truncate older messages to fit within the token limit.
+    """
 
     #: The number of most recent messages to retain in the prompt.
     #: If these messages exceed `max_prompt_tokens`, older messages will be further truncated to fit the limit.
