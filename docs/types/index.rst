@@ -15,3 +15,4 @@ Types
    runs
    search_indexes
    other
+   batch

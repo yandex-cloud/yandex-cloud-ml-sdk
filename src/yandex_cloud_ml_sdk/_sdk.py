@@ -14,6 +14,7 @@ from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from ._assistants.domain import Assistants, AsyncAssistants, BaseAssistants
 from ._auth import BaseAuth
+from ._batch.domain import AsyncBatch, BaseBatch, Batch
 from ._client import AsyncCloudClient
 from ._datasets.domain import AsyncDatasets, BaseDatasets, Datasets
 from ._files.domain import AsyncFiles, BaseFiles, Files
@@ -53,6 +54,8 @@ class BaseSDK:
     datasets: BaseDatasets
     #: Domain for working with tuning
     tuning: BaseTuning
+    #: Domain for working with batch tasks
+    batch: BaseBatch
 
     _messages: BaseMessages
 
@@ -229,6 +232,7 @@ class AsyncYCloudML(BaseSDK):
     search_indexes: AsyncSearchIndexes
     datasets: AsyncDatasets
     tuning: AsyncTuning
+    batch: AsyncBatch
     _messages: AsyncMessages
 
 
@@ -244,4 +248,5 @@ class YCloudML(BaseSDK):
     search_indexes: SearchIndexes
     datasets: Datasets
     tuning: Tuning
+    batch: Batch
     _messages: Messages
