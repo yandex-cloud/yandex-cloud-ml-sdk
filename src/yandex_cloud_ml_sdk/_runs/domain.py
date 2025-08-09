@@ -28,7 +28,7 @@ from .run import AsyncRun, Run, RunTypeT
 class BaseRuns(BaseDomain, Generic[RunTypeT]):
     """
     Base class for Runs operations.
-    
+
     For usage examples see `runs example <https://github.com/yandex-cloud/yandex-cloud-ml-sdk/blob/master/examples/async/assistants/runs.py>`_.
     """
     _run_impl: type[RunTypeT]
