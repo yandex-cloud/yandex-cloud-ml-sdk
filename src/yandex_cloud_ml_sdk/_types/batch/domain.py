@@ -40,7 +40,7 @@ class BaseBatchSubdomain(Generic[BatchTaskOperationTypeT], metaclass=abc.ABCMeta
         stub_class = m._batch_service_stub
         proto_metadata_type = m._batch_proto_metadata_type
 
-        logger.debug(
+        logger.info(
             'going to create batch task at %r service with a %r request',
             stub_class.__name__, request
         )
