@@ -12,12 +12,17 @@ from yandex.cloud.ai.assistants.v1.threads.thread_service_pb2_grpc import Thread
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .thread import AsyncThread, Thread, ThreadTypeT
 
 
 class BaseThreads(BaseDomain, Generic[ThreadTypeT]):
+    """A class for managing threads. It is a part of Assistants API.
+
+    This class provides methods to create, retrieve, and list threads.
+    """
     _thread_impl: type[ThreadTypeT]
 
     async def _create(
@@ -30,6 +35,19 @@ class BaseThreads(BaseDomain, Generic[ThreadTypeT]):
         expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
         timeout: float = 60,
     ) -> ThreadTypeT:
+        """Create a new thread.
+
+        This method creates a new thread with the specified parameters.
+
+        :param name: the name of the thread.
+        :param description: a description for the thread.
+        :param labels: a set of labels for the thread.
+        :param ttl_days: time-to-live in days for the thread.
+        :param expiration_policy: expiration policy for the file.
+            Assepts for passing ``static`` or ``since_last_active`` strings. Should be defined if ``ttl_days`` has been defined, otherwise both parameters should be undefined.
+        :param timeout: timeout for the service call in seconds.
+            Defaults to 60 seconds.
+        """
         if is_defined(ttl_days) != is_defined(expiration_policy):
             raise ValueError("ttl_days and expiration policy must be both defined either undefined")
 
@@ -59,6 +77,14 @@ class BaseThreads(BaseDomain, Generic[ThreadTypeT]):
         *,
         timeout: float = 60,
     ) -> ThreadTypeT:
+        """Retrieve a thread by its id.
+
+        This method fetches an already created thread using its unique identifier.
+
+        :param thread_id: the unique identifier of the thread to retrieve.
+        :param timeout: timeout for the service call in seconds.
+            Defaults to 60 seconds.
+        """
         # TODO: we need a global per-sdk cache on ids to rule out
         # possibility we have two Threads with same ids but different fields
         request = GetThreadRequest(thread_id=thread_id)
@@ -79,6 +105,15 @@ class BaseThreads(BaseDomain, Generic[ThreadTypeT]):
         page_size: UndefinedOr[int] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[ThreadTypeT]:
+        """List threads in the specified folder.
+
+        This method retrieves a list of threads. It continues
+        to fetch threads until there are no more available.
+
+        :param page_size: the maximum number of threads to return per page.
+        :param timeout: timeout for the service call in seconds.
+            Defaults to 60 seconds.
+        """
         page_token_ = ''
         page_size_ = get_defined_value(page_size, 0)
 
@@ -104,10 +139,11 @@ class BaseThreads(BaseDomain, Generic[ThreadTypeT]):
 
                 page_token_ = response.next_page_token
 
-
+@doc_from(BaseThreads)
 class AsyncThreads(BaseThreads[AsyncThread]):
     _thread_impl = AsyncThread
 
+    @doc_from(BaseThreads._create)
     async def create(
         self,
         *,
@@ -127,6 +163,7 @@ class AsyncThreads(BaseThreads[AsyncThread]):
             timeout=timeout,
         )
 
+    @doc_from(BaseThreads._get)
     async def get(
         self,
         thread_id: str,
@@ -138,6 +175,7 @@ class AsyncThreads(BaseThreads[AsyncThread]):
             timeout=timeout,
         )
 
+    @doc_from(BaseThreads._list)
     async def list(
         self,
         *,
@@ -150,7 +188,7 @@ class AsyncThreads(BaseThreads[AsyncThread]):
         ):
             yield thread
 
-
+@doc_from(BaseThreads)
 class Threads(BaseThreads[Thread]):
     _thread_impl = Thread
 
@@ -158,6 +196,7 @@ class Threads(BaseThreads[Thread]):
     __create = run_sync(BaseThreads._create)
     __list = run_sync_generator(BaseThreads._list)
 
+    @doc_from(BaseThreads._create)
     def create(
         self,
         *,
@@ -177,6 +216,7 @@ class Threads(BaseThreads[Thread]):
             timeout=timeout,
         )
 
+    @doc_from(BaseThreads._get)
     def get(
         self,
         thread_id: str,
@@ -188,6 +228,7 @@ class Threads(BaseThreads[Thread]):
             timeout=timeout,
         )
 
+    @doc_from(BaseThreads._list)
     def list(
         self,
         *,
