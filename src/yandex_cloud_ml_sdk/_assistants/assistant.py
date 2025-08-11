@@ -382,7 +382,7 @@ class ReadOnlyAssistant(BaseAssistant[RunTypeT, ThreadTypeT]):
     updated_at: datetime
     #: The timestamp when the assistant will expire.
     expires_at: datetime
-    #: Additional labels associated with the assistant.    
+    #: Additional labels associated with the assistant.
     labels: dict[str, str] | None
 
 @dataclasses.dataclass(frozen=True)
