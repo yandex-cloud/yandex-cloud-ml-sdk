@@ -40,7 +40,7 @@ class Author:
     """
     Represents the author of a message.
     """
-    #: Unique identifier of the author
+    #: Unique identifier of the message author
     id: str
     #: Role of the author (e.g., 'user', 'assistant')
     role: str
@@ -57,7 +57,7 @@ class Message(BaseMessage, BaseResource):
     created_by: str
     #: Timestamp when the message was created
     created_at: datetime
-    #: Optional dictionary of message labels
+    #: A set of labels for the message.
     labels: dict[str, str] | None
     #: Author information
     author: Author
