@@ -32,7 +32,6 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
     Provides common functionality for creating, getting and listing assistants.
     """
 
-    #: Type parameter for concrete Assistant implementation
     _assistant_impl: type[AssistantTypeT]
 
     def _make_request_kwargs(
@@ -52,10 +51,6 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
         expiration_policy: UndefinedOr[ExpirationPolicyAlias],
         response_format: UndefinedOr[ResponseType],
     ) -> dict[str, Any]:
-        """Prepare request arguments for assistant creation.
-
-        Handles conversion of various parameters to protobuf format.
-        """
         # pylint: disable=too-many-locals
         model_uri: UndefinedOr[str] | None = UNDEFINED
 
@@ -142,7 +137,7 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
         :param prompt_truncation_strategy: Strategy for prompt truncation
         :param name: Assistant name
         :param description: Assistant description
-        :param labels: Key-value labels
+        :param labels: Additional labels associated with the assistant
         :param ttl_days: Time-to-live in days
         :param tools: Tools to use for completion. Can be a sequence or a single tool.
         :param expiration_policy: Expiration policy for assistant

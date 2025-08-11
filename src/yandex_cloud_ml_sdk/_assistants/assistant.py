@@ -360,21 +360,29 @@ class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
 
 @dataclasses.dataclass(frozen=True)
 class ReadOnlyAssistant(BaseAssistant[RunTypeT, ThreadTypeT]):
-    #: Name of the assistant.
+    """
+    Base class providing read-only access to Yandex Cloud ML Assistant configuration and metadata.
+
+    This class implements the core interface for interacting with Yandex Cloud ML Assistant API
+    in a read-only manner. It serves as the parent class for both synchronous (Assistant)
+    and asynchronous (AsyncAssistant) implementations.
+    """
+
+    #: The name of the assistant.
     name: str | None
-    #: Description of the assistant.
+    #: The description of the assistant.
     description: str | None
-    #: Identifier of the creator.
+    #: The identifier of the user who created the assistant.
     created_by: str
-    #: Creation timestamp.
+    #: The timestamp when the assistant was created.
     created_at: datetime
-    #: Identifier of the last updater.
+    #: The identifier of the user who last updated the assistant.
     updated_by: str
-    #: Last update timestamp.
+    #: The timestamp when the assistant was last updated.
     updated_at: datetime
-    #: Expiration timestamp.
+    #: The timestamp when the assistant will expire.
     expires_at: datetime
-    #: Set of key-value pairs that can be used to organize and categorize the assistant.
+    #: Additional labels associated with the assistant.    
     labels: dict[str, str] | None
 
 @dataclasses.dataclass(frozen=True)
