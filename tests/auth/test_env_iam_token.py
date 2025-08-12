@@ -42,6 +42,6 @@ async def test_applicable_from_env(iam_token, monkeypatch):
     auth = await EnvIAMTokenAuth.applicable_from_env()
     assert auth
     assert (
-        await auth.get_auth_metadata(client=None, timeout=None, lock=None) ==
+        await auth.get_grpc_metadata(client=None, timeout=None, lock=None) ==
         ('authorization', f'Bearer {iam_token}')
     )

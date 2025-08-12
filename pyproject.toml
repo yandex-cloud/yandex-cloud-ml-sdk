@@ -37,6 +37,7 @@ dependencies = [
     "grpcio>=1.70.0",
     "get-annotations",
     "httpx>=0.27,<1",
+    "httpx-sse>=0.4.1",
     "typing-extensions>=4",
     "aiofiles>=24.1.0",
     "packaging>=24"
@@ -241,6 +242,7 @@ exclude-protected=[
     "_sdk",
     "_folder_id",
     "_from_proto",
+    "_from_json",
     "_from_upper_proto",
     "_to_proto",
     "_result_type",

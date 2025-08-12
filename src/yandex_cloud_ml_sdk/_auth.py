@@ -43,7 +43,7 @@ class BaseAuth(ABC):
     variables.
     """
     @abstractmethod
-    async def get_auth_metadata(
+    async def get_grpc_metadata(
         self,
         client: AsyncCloudClient,
         timeout: float,
@@ -53,6 +53,15 @@ class BaseAuth(ABC):
         # NB: we are can't create lock in Auth constructor, so we a reusing lock from client.
         # Look at client._lock doctstring for details.
 
+    @abstractmethod
+    async def get_value(
+        self,
+        client: AsyncCloudClient,
+        timeout: float,
+        lock: asyncio.Lock
+    ) -> str | None:
+        """:meta private:"""
+
     @classmethod
     @abstractmethod
     async def applicable_from_env(cls, **_: Any) -> Self | None:
@@ -61,7 +70,12 @@ class BaseAuth(ABC):
 
 class NoAuth(BaseAuth):
     @override
-    async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> None:
+    async def get_grpc_metadata(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> None:
+        """:meta private:"""
+        return None
+
+    @override
+    async def get_value(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> None:
         """:meta private:"""
         return None
 
@@ -87,9 +101,15 @@ class APIKeyAuth(BaseAuth):
         self._api_key = api_key.strip()
 
     @override
-    async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> tuple[str, str]:
+    async def get_value(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> str:
         """:meta private:"""
-        return ('authorization', f'Api-Key {self._api_key}')
+        return self._api_key
+
+    @override
+    async def get_grpc_metadata(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> tuple[str, str]:
+        """:meta private:"""
+        value = await self.get_value(client=client, timeout=timeout, lock=lock)
+        return ('authorization', f'Api-Key {value}')
 
     @override
     @classmethod
@@ -112,9 +132,15 @@ class BaseIAMTokenAuth(BaseAuth):
         self._token = token.strip() if token else token
 
     @override
-    async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> tuple[str, str]:
+    async def get_value(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> str | None:
         """:meta private:"""
-        return ('authorization', f'Bearer {self._token}')
+        return self._token
+
+    @override
+    async def get_grpc_metadata(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> tuple[str, str]:
+        """:meta private:"""
+        value = await self.get_value(client=client, timeout=timeout, lock=lock)
+        return ('authorization', f'Bearer {value}')
 
 
 class IAMTokenAuth(BaseIAMTokenAuth):
@@ -158,10 +184,10 @@ class EnvIAMTokenAuth(BaseIAMTokenAuth):
         super().__init__(token=None)
 
     @override
-    async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> tuple[str, str]:
+    async def get_value(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> str:
         """:meta private:"""
         self._token = os.environ[self._env_var].strip()
-        return await super().get_auth_metadata(client=client, timeout=timeout, lock=lock)
+        return self._token
 
     @override
     @classmethod
@@ -197,7 +223,7 @@ class RefresheableIAMTokenAuth(BaseIAMTokenAuth):
         )
 
     @override
-    async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> tuple[str, str]:
+    async def get_value(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> str | None:
         """:meta private:"""
         if self._need_for_token():
             async with lock:
@@ -205,7 +231,7 @@ class RefresheableIAMTokenAuth(BaseIAMTokenAuth):
                     self._token = await self._get_token(client, timeout=timeout)
                     self._issue_time = time.time()
 
-        return await super().get_auth_metadata(client, timeout=timeout, lock=lock)
+        return self._token
 
     @abstractmethod
     async def _get_token(self, client: AsyncCloudClient, timeout: float) -> str:
