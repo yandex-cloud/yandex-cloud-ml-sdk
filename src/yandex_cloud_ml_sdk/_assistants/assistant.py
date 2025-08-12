@@ -32,7 +32,7 @@ if TYPE_CHECKING:
 
 
 @dataclasses.dataclass(frozen=True)
-class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
+class BaseAssistant(ExpirableResource[ProtoAssistant], Generic[RunTypeT, ThreadTypeT]):
     expiration_config: ExpirationConfig
     model: BaseGPTModel
     instruction: str | None
