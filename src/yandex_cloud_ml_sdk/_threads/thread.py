@@ -21,7 +21,7 @@ from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 
 @dataclasses.dataclass(frozen=True)
-class BaseThread(ExpirableResource):
+class BaseThread(ExpirableResource[ProtoThread]):
     @safe_on_delete
     async def _update(
         self,
