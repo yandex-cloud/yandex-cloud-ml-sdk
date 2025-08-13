@@ -39,6 +39,7 @@ class BaseIndexChunkingStrategy(abc.ABC):
         raise NotImplementedError('chunking strategies other then static are not supported in this SDK version')
 
 @doc_from(BaseIndexChunkingStrategy)
+
 @dataclass(frozen=True)
 class StaticIndexChunkingStrategy(BaseIndexChunkingStrategy):
     #: the maximum size of each chunk in tokens
