@@ -11,9 +11,14 @@ from yandex.cloud.ai.assistants.v1.searchindex.common_pb2 import StaticChunkingS
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
-
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 class BaseIndexChunkingStrategy(abc.ABC):
+    """
+    A class for index chunking strategies.
+
+    This class defines the interface for different chunking strategies that can be applied to an index.
+    """
     @classmethod
     @abc.abstractmethod
     def _from_proto(cls, proto: Any, sdk: BaseSDK) -> BaseIndexChunkingStrategy:
@@ -33,10 +38,12 @@ class BaseIndexChunkingStrategy(abc.ABC):
         raise NotImplementedError('chunking strategies other then static are not supported in this SDK version')
 
 
+@doc_from(BaseIndexChunkingStrategy)
 @dataclass(frozen=True)
 class StaticIndexChunkingStrategy(BaseIndexChunkingStrategy):
+    #: the maximum size of each chunk in tokens
     max_chunk_size_tokens: int
-
+    #: the number of overlapping tokens between consecutive chunks
     chunk_overlap_tokens: int
 
     @classmethod
