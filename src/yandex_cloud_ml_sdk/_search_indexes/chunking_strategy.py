@@ -18,7 +18,7 @@ class BaseIndexChunkingStrategy(abc.ABC):
     """
     A class for index chunking strategies.
 
-    This class defines the interface for different chunking strategies that can be applied to an index.
+    This class defines the interface for different chunking strategies that can be applied to the index.
     """
     @classmethod
     @abc.abstractmethod
