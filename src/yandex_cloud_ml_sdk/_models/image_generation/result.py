@@ -1,20 +1,20 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING
 
 from typing_extensions import Self
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.ai.foundation_models.v1.image_generation.image_generation_service_pb2 import ImageGenerationResponse
 
-from yandex_cloud_ml_sdk._types.result import BaseResult, ProtoMessage
+from yandex_cloud_ml_sdk._types.result import BaseProtoResult
 
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
 
 @dataclass(frozen=True, repr=False)
-class ImageGenerationModelResult(BaseResult):
+class ImageGenerationModelResult(BaseProtoResult[ImageGenerationResponse]):
     """This class represents the result of an image generation model inference."""
     #: the generated image in bytes
     image_bytes: bytes
@@ -22,8 +22,7 @@ class ImageGenerationModelResult(BaseResult):
     model_version: str
 
     @classmethod
-    def _from_proto(cls, *, proto: ProtoMessage, sdk: BaseSDK) -> Self:  # pylint: disable=unused-argument
-        proto = cast(ImageGenerationResponse, proto)
+    def _from_proto(cls, *, proto: ImageGenerationResponse, sdk: BaseSDK) -> Self:  # pylint: disable=unused-argument
         return cls(
             image_bytes=proto.image,
             model_version=proto.model_version,

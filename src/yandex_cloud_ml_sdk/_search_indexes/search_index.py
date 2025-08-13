@@ -24,7 +24,7 @@ from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPo
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._types.operation import AsyncOperation, Operation, OperationTypeT, ReturnsOperationMixin
 from yandex_cloud_ml_sdk._types.resource import ExpirableResource, safe_on_delete
-from yandex_cloud_ml_sdk._types.result import BaseResult
+from yandex_cloud_ml_sdk._types.result import BaseProtoResult
 from yandex_cloud_ml_sdk._utils.coerce import ResourceType, coerce_resource_ids
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
@@ -39,9 +39,13 @@ SearchIndexFileTuple: TypeAlias = tuple[SearchIndexFile, ...]
 
 
 @dataclasses.dataclass(frozen=True)
-class BaseSearchIndex(ExpirableResource, BaseResult, ReturnsOperationMixin[OperationTypeT]):
+class BaseSearchIndex(
+    ExpirableResource[ProtoSearchIndex],
+    BaseProtoResult[ProtoSearchIndex],
+    ReturnsOperationMixin[OperationTypeT]
+):
     @classmethod
-    def _kwargs_from_message(cls, proto: ProtoSearchIndex, sdk: BaseSDK) -> dict[str, Any]:  # type: ignore[override]
+    def _kwargs_from_message(cls, proto: ProtoSearchIndex, sdk: BaseSDK) -> dict[str, Any]:
         kwargs = super()._kwargs_from_message(proto, sdk=sdk)
         # pylint: disable=protected-access
         kwargs['index_type'] = BaseSearchIndexType._from_upper_proto(proto=proto, sdk=sdk)

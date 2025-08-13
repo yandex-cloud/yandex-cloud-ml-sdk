@@ -11,8 +11,7 @@ from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import CompletionOptio
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Tool as ProtoCompletionsTool
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import ToolChoice as ProtoToolChoice
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import (
-    BatchCompletionMetadata, BatchCompletionRequest, BatchCompletionResponse, CompletionRequest, CompletionResponse,
-    TokenizeResponse
+    BatchCompletionMetadata, BatchCompletionRequest, CompletionRequest, CompletionResponse, TokenizeResponse
 )
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2_grpc import (
     TextGenerationAsyncServiceStub, TextGenerationBatchServiceStub, TextGenerationServiceStub, TokenizerServiceStub
@@ -71,7 +70,6 @@ class BaseGPTModel(
     _tuning_operation_type: type[TuningTaskTypeT]
 
     _batch_service_stub = TextGenerationBatchServiceStub
-    _batch_proto_result_type = BatchCompletionResponse
     _batch_proto_metadata_type = BatchCompletionMetadata
 
     def langchain(self, model_type: Literal["chat"] = "chat", timeout: int = 60) -> BaseYandexLanguageModel:
@@ -185,7 +183,7 @@ class BaseGPTModel(
         )
 
     def _make_batch_request(self, dataset_id: str) -> BatchCompletionRequest:
-        for field in ('tools', 'response_format', 'tool_choice', 'parallel_tool_calls'):
+        for field in ('tools', 'tool_choice', 'parallel_tool_calls'):
             value = getattr(self.config, field)
             if value is not None:
                 warnings.warn(
@@ -194,10 +192,13 @@ class BaseGPTModel(
                     UserWarning, 4
                 )
 
+        response_format_kwargs = make_response_format_kwargs(self._config.response_format)
+
         return BatchCompletionRequest(
             model_uri=self.uri,
             completion_options=self._make_completion_options(stream=False),
-            source_dataset_id=dataset_id
+            source_dataset_id=dataset_id,
+            **response_format_kwargs,
         )
 
     async def _run_sync_impl(

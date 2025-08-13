@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import dataclasses
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, AsyncIterator, ClassVar, Iterator, TypeVar, cast
+from typing import TYPE_CHECKING, Any, AsyncIterator, ClassVar, Iterator, TypeVar
 
 from google.protobuf.wrappers_pb2 import Int64Value
 from yandex.cloud.ai.assistants.v1.runs.run_pb2 import Run as ProtoRun
@@ -18,7 +18,6 @@ from yandex_cloud_ml_sdk._tools.tool_result import (
 )
 from yandex_cloud_ml_sdk._types.operation import AsyncOperationMixin, OperationInterface, SyncOperationMixin
 from yandex_cloud_ml_sdk._types.resource import BaseResource
-from yandex_cloud_ml_sdk._types.result import ProtoMessage
 from yandex_cloud_ml_sdk._types.schemas import ResponseType
 from yandex_cloud_ml_sdk._utils.proto import get_google_value, proto_to_dict
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
@@ -31,7 +30,7 @@ if TYPE_CHECKING:
 
 
 @dataclasses.dataclass(frozen=True)
-class BaseRun(BaseResource, OperationInterface[RunResult[ToolCallTypeT], RunStatus]):
+class BaseRun(BaseResource[ProtoRun], OperationInterface[RunResult[ToolCallTypeT], RunStatus]):
     id: str
     assistant_id: str
     thread_id: str
@@ -53,8 +52,7 @@ class BaseRun(BaseResource, OperationInterface[RunResult[ToolCallTypeT], RunStat
         return None
 
     @classmethod
-    def _kwargs_from_message(cls, proto: ProtoMessage, sdk: BaseSDK) -> dict[str, Any]:
-        proto = cast(ProtoRun, proto)
+    def _kwargs_from_message(cls, proto: ProtoRun, sdk: BaseSDK) -> dict[str, Any]:
         kwargs = super()._kwargs_from_message(proto, sdk=sdk)
 
         if proto.HasField('custom_response_format'):
