@@ -47,7 +47,7 @@ class Author:
 
 
 @dataclasses.dataclass(frozen=True)
-class Message(BaseMessage, BaseResource):
+class Message(BaseMessage[ProtoMessage], BaseResource[ProtoMessage]):
     """
     Represents a message in a conversation thread.
     """
@@ -102,7 +102,7 @@ class Message(BaseMessage, BaseResource):
 
 
 @dataclasses.dataclass(frozen=True)
-class PartialMessage(BaseMessage, BaseResource):
+class PartialMessage(BaseMessage[MessageContent], BaseResource[MessageContent]):
     """
     Represents a partial message (content only without full metadata).
     """

@@ -20,7 +20,7 @@ from yandex_cloud_ml_sdk._utils.sync import run_sync
 
 
 @dataclasses.dataclass(frozen=True)
-class BaseFile(ExpirableResource):
+class BaseFile(ExpirableResource[ProtoFile]):
     @safe_on_delete
     async def _get_url(
         self,

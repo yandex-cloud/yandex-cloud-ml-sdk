@@ -3,11 +3,11 @@ from __future__ import annotations
 import dataclasses
 from typing import Any
 
-from yandex_cloud_ml_sdk._types.result import BaseResult
+from yandex_cloud_ml_sdk._types.result import BaseProtoResult, ProtoMessageTypeT_contra
 
 
 @dataclasses.dataclass(frozen=True)
-class BaseMessage(BaseResult):
+class BaseMessage(BaseProtoResult[ProtoMessageTypeT_contra]):
     """
     Base class for all message types in the SDK.
     """
