@@ -4,7 +4,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import TYPE_CHECKING, Any, TypeVar, cast
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from grpc import StatusCode
 from grpc.aio import AioRpcError
@@ -22,7 +22,6 @@ from yandex_cloud_ml_sdk._types.operation import (
     AsyncOperationMixin, OperationErrorInfo, OperationInterface, OperationStatus, SyncOperationMixin
 )
 from yandex_cloud_ml_sdk._types.resource import BaseResource
-from yandex_cloud_ml_sdk._types.result import ProtoMessage
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 from yandex_cloud_ml_sdk.exceptions import RunError, WrongAsyncOperationStatusError
 
@@ -45,7 +44,7 @@ class TuningTaskStatusEnum(Enum):
 
 
 @dataclass(frozen=True)
-class TuningTaskInfo(BaseResource):
+class TuningTaskInfo(BaseResource[TuningTaskProto]):
     task_id: str
     operation_id: str
 
@@ -61,8 +60,7 @@ class TuningTaskInfo(BaseResource):
     target_model_uri: str | None
 
     @classmethod
-    def _kwargs_from_message(cls, proto: ProtoMessage, sdk: BaseSDK) -> dict[str, Any]:  # pylint: disable=unused-argument
-        proto = cast(TuningTaskProto, proto)
+    def _kwargs_from_message(cls, proto: TuningTaskProto, sdk: BaseSDK) -> dict[str, Any]:  # pylint: disable=unused-argument
         kwargs = super()._kwargs_from_message(proto=proto, sdk=sdk)
         kwargs['status'] = TuningTaskStatusEnum(proto.status)
         return kwargs

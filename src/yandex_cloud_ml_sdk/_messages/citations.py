@@ -11,7 +11,7 @@ from yandex.cloud.ai.assistants.v1.threads.message_pb2 import Source as ProtoSou
 
 from yandex_cloud_ml_sdk._files.file import BaseFile
 from yandex_cloud_ml_sdk._search_indexes.search_index import BaseSearchIndex
-from yandex_cloud_ml_sdk._types.result import BaseResult
+from yandex_cloud_ml_sdk._types.result import BaseProtoResult
 
 from .base import BaseMessage
 
@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 
 
 @dataclasses.dataclass(frozen=True)
-class Citation(BaseResult):
+class Citation(BaseProtoResult[ProtoCitation]):
     sources: tuple[Source, ...]
 
     @classmethod
@@ -32,7 +32,7 @@ class Citation(BaseResult):
             )
         )
 
-class Source(BaseResult):
+class Source(BaseProtoResult[ProtoSource]):
     @property
     @abc.abstractmethod
     def type(self) -> str:
@@ -47,7 +47,7 @@ class Source(BaseResult):
 
 
 @dataclasses.dataclass(frozen=True)
-class FileChunk(Source, BaseMessage):
+class FileChunk(Source, BaseMessage[ProtoSource]):
     search_index: BaseSearchIndex
     file: BaseFile | None
 

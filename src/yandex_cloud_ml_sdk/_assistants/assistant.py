@@ -33,7 +33,7 @@ if TYPE_CHECKING:
 
 
 @dataclasses.dataclass(frozen=True)
-class BaseAssistant(ExpirableResource, Generic[RunTypeT, ThreadTypeT]):
+class BaseAssistant(ExpirableResource[ProtoAssistant], Generic[RunTypeT, ThreadTypeT]):
     #: Expiration configuration for the assistant.
     expiration_config: ExpirationConfig
     #: The GPT model used by the assistant.
