@@ -11,8 +11,6 @@ from yandex.cloud.ai.assistants.v1.searchindex.common_pb2 import StaticChunkingS
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
-from yandex_cloud_ml_sdk._utils.doc import doc_from
-
 
 class BaseIndexChunkingStrategy(abc.ABC):
     """
@@ -37,8 +35,6 @@ class BaseIndexChunkingStrategy(abc.ABC):
                 sdk=sdk
             )
         raise NotImplementedError('chunking strategies other then static are not supported in this SDK version')
-
-@doc_from(BaseIndexChunkingStrategy)
 
 @dataclass(frozen=True)
 class StaticIndexChunkingStrategy(BaseIndexChunkingStrategy):
