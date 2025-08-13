@@ -82,6 +82,7 @@ def test_inputs(async_sdk):
     messages = messages_to_proto(gpt_model_result)
     check_messages(messages, ['1'])
 
+    # pylint: disable=unexpected-keyword-arg
     assistant_message = AssistantMessage(
         id='1',
         _sdk=async_sdk,
@@ -97,6 +98,7 @@ def test_inputs(async_sdk):
     messages = messages_to_proto(assistant_message)
     check_messages(messages, ['a\nb'])
 
+    # pylint: disable=unexpected-keyword-arg
     partial_message = PartialMessage(
         id='1',
         _sdk=async_sdk,

@@ -24,6 +24,7 @@ from yandex.cloud.ai.dataset.v1.dataset_service_pb2_grpc import DatasetServiceSt
 
 from yandex_cloud_ml_sdk._logging import get_logger
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, PathLike, UndefinedOr, coerce_path, get_defined_value
+from yandex_cloud_ml_sdk._types.proto import ProtoBased
 from yandex_cloud_ml_sdk._types.resource import BaseDeleteableResource, safe_on_delete
 from yandex_cloud_ml_sdk._utils.packages import requires_package
 from yandex_cloud_ml_sdk._utils.pyarrow import read_dataset_records
@@ -40,13 +41,14 @@ DEFAULT_CHUNK_SIZE = 100 * 1024 ** 2
 DEFAULT_MAX_PARALLEL_DOWNLOADS: Final[int] = 16 # maximum number of files open for writing during download
 
 @dataclasses.dataclass(frozen=True)
-class ValidationErrorInfo:
+class ValidationErrorInfo(ProtoBased[ProtoValidationError]):
     error: str
     description: str
     rows: tuple[int, ...]
 
+    # pylint: disable=unused-argument
     @classmethod
-    def _from_proto(cls, proto: ProtoValidationError) -> ValidationErrorInfo:
+    def _from_proto(cls, *, proto: ProtoValidationError, sdk: BaseSDK) -> ValidationErrorInfo:
         return cls(
             error=proto.error,
             description=proto.error_description,
@@ -74,15 +76,15 @@ class DatasetInfo:
 
 
 @dataclasses.dataclass(frozen=True)
-class BaseDataset(DatasetInfo, BaseDeleteableResource):
+class BaseDataset(DatasetInfo, BaseDeleteableResource[ProtoDatasetInfo]):
     @classmethod
-    def _kwargs_from_message(cls, proto: ProtoDatasetInfo, sdk: BaseSDK) -> dict[str, Any]:  # type: ignore[override]
+    def _kwargs_from_message(cls, proto: ProtoDatasetInfo, sdk: BaseSDK) -> dict[str, Any]:
         kwargs = super()._kwargs_from_message(proto, sdk=sdk)
         kwargs['id'] = proto.dataset_id
         kwargs['created_by'] = proto.created_by_id
         kwargs['status'] = DatasetStatus._from_proto(proto.status)
         kwargs['validation_errors'] = tuple(
-            ValidationErrorInfo._from_proto(p) for p in proto.validation_error
+            ValidationErrorInfo._from_proto(proto=p, sdk=sdk) for p in proto.validation_error
         )
         kwargs['allow_data_logging'] = proto.allow_data_log
         return kwargs

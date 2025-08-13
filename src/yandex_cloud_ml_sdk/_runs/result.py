@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import abc
 import dataclasses
-from typing import TYPE_CHECKING, Any, Generic, TypeVar, cast
+from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
 from yandex.cloud.ai.assistants.v1.runs.run_pb2 import Run as ProtoRun
 from yandex.cloud.ai.assistants.v1.runs.run_service_pb2 import StreamEvent as ProtoStreamEvent
@@ -13,7 +13,7 @@ from yandex_cloud_ml_sdk._messages.message import BaseMessage, Message, PartialM
 from yandex_cloud_ml_sdk._models.completions.result import Usage
 from yandex_cloud_ml_sdk._tools.tool_call import HaveToolCalls, ToolCallTypeT
 from yandex_cloud_ml_sdk._tools.tool_call_list import ProtoAssistantToolCallList, ToolCallList
-from yandex_cloud_ml_sdk._types.result import BaseResult, ProtoMessage
+from yandex_cloud_ml_sdk._types.result import BaseProtoResult, ProtoMessageTypeT_contra
 
 from .status import BaseRunStatus, RunStatus, StreamEvent
 
@@ -27,9 +27,9 @@ MessageTypeT = TypeVar('MessageTypeT', bound=BaseMessage)
 @dataclasses.dataclass(frozen=True)
 class BaseRunResult(
     BaseRunStatus,
-    BaseResult,
+    BaseProtoResult[ProtoMessageTypeT_contra],
     HaveToolCalls[ToolCallTypeT],
-    Generic[StatusTypeT, MessageTypeT, ToolCallTypeT],
+    Generic[StatusTypeT, MessageTypeT, ToolCallTypeT, ProtoMessageTypeT_contra],
 ):
     #: Run status
     status: StatusTypeT
@@ -41,7 +41,7 @@ class BaseRunResult(
 
     @classmethod
     @abc.abstractmethod
-    def _from_proto(cls, *, proto: ProtoMessage, sdk: BaseSDK) -> BaseRunResult:
+    def _from_proto(cls, *, proto: ProtoMessageTypeT_contra, sdk: BaseSDK) -> BaseRunResult:
         pass
 
     @property
@@ -94,13 +94,12 @@ class BaseRunResult(
 
 
 @dataclasses.dataclass(frozen=True)
-class RunResult(BaseRunResult[RunStatus, Message, ToolCallTypeT]):
+class RunResult(BaseRunResult[RunStatus, Message, ToolCallTypeT, ProtoRun]):
     #: Token usage statistics
     usage: Usage | None
 
     @classmethod
-    def _from_proto(cls, *, proto: ProtoMessage, sdk: BaseSDK) -> RunResult:
-        proto = cast(ProtoRun, proto)
+    def _from_proto(cls, *, proto: ProtoRun, sdk: BaseSDK) -> RunResult:
         usage: Usage | None = None
 
         if proto.HasField('usage'):
@@ -153,10 +152,9 @@ class RunResult(BaseRunResult[RunStatus, Message, ToolCallTypeT]):
 
 
 @dataclasses.dataclass(frozen=True)
-class RunStreamEvent(BaseRunResult[StreamEvent, BaseMessage, ToolCallTypeT]):
+class RunStreamEvent(BaseRunResult[StreamEvent, BaseMessage[ProtoStreamEvent], ToolCallTypeT, ProtoStreamEvent]):
     @classmethod
-    def _from_proto(cls, *, proto: ProtoMessage, sdk: BaseSDK) -> RunStreamEvent:
-        proto = cast(ProtoStreamEvent, proto)
+    def _from_proto(cls, *, proto: ProtoStreamEvent, sdk: BaseSDK) -> RunStreamEvent:
         message: BaseMessage | None = None
         if proto.HasField('partial_message'):
             message = PartialMessage._from_proto(sdk=sdk, proto=proto.partial_message)
