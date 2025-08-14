@@ -13,6 +13,7 @@ if TYPE_CHECKING:
 
 from yandex_cloud_ml_sdk._utils.doc import doc_from
 
+
 class BaseIndexChunkingStrategy(abc.ABC):
     """A class for an index chunking strategy, from which all other strategies are inherited."""
     @classmethod
