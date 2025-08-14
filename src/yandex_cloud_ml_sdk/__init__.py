@@ -4,7 +4,7 @@ from ._logging import setup_default_logging
 from ._logging import setup_default_logging_from_env as _setup_default_logging_from_env
 from ._sdk import AsyncYCloudML, YCloudML
 
-__version__ = "0.13.1"
+__version__ = "0.14.0"
 
 __all__ = [
     '__version__',
