@@ -11,8 +11,6 @@ from yandex.cloud.ai.assistants.v1.searchindex.common_pb2 import StaticChunkingS
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
-from yandex_cloud_ml_sdk._utils.doc import doc_from
-
 
 class BaseIndexChunkingStrategy(abc.ABC):
     """A class for an index chunking strategy, from which all other strategies are inherited."""
