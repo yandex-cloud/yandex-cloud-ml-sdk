@@ -22,7 +22,11 @@ if TYPE_CHECKING:
 @dataclasses.dataclass(frozen=True)
 class Citation(BaseProtoResult[ProtoCitation]):
     """
-    Represents a citation with multiple sources.
+    Represents a citation from search results with multiple sources.
+
+    A citation contains references to one or more sources from search indexes that were used
+    to generate or support the content. This is typically used in generative AI responses
+    to provide attribution for factual information.
     """
     #: Tuple of Source objects referenced in this citation
     sources: tuple[Source, ...]

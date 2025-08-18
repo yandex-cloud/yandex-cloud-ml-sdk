@@ -34,7 +34,7 @@ class BaseMessages(BaseDomain):
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         timeout: float = 60,
     ) -> Message:
-        """Create a new message (internal implementation).
+        """Create a new message.
 
         :param message: Message content to create
         :param thread_id: ID of the thread to add message to
@@ -80,7 +80,7 @@ class BaseMessages(BaseDomain):
         timeout: float = 60,
     ) -> Message:
         """
-        Get a message by ID (internal implementation).
+        Get a message by ID.
 
         :param thread_id: ID of the thread containing the message
         :param message_id: ID of the message to retrieve
@@ -108,7 +108,7 @@ class BaseMessages(BaseDomain):
         timeout: float = 60
     ) -> AsyncIterator[Message]:
         """
-        List messages in a thread (internal implementation).
+        List messages in a thread.
 
         :param thread_id: ID of the thread to list messages from
         :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.

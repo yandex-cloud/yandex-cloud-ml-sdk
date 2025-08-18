@@ -9,7 +9,16 @@ from yandex_cloud_ml_sdk._types.result import BaseProtoResult, ProtoMessageTypeT
 @dataclasses.dataclass(frozen=True)
 class BaseMessage(BaseProtoResult[ProtoMessageTypeT_contra]):
     """
-    Base class for all message types in the SDK.
+    Abstract class for messages in Yandex Cloud ML Assistant service.
+
+    Provides core functionality for all message types including:
+    - Storage and processing of message parts (text, citations, etc.)
+    - Basic text content operations
+    - Protocol buffer support via BaseProtoResult[ProtoMessageTypeT_contra]
+
+    Extended by:
+    - Message: Complete assistant messages
+    - PartialMessage: Intermediate message content during streaming
     """
     #: Tuple containing message parts (can be strings or other types)
     parts: tuple[Any, ...]
