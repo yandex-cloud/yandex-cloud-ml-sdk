@@ -49,7 +49,7 @@ class BaseRuns(BaseDomain, Generic[RunTypeT]):
         timeout: float = 60,
     ) -> RunTypeT:
         """
-        Create a new run, allowing to override assistant parameters 
+        Create a new run, allowing to override assistant parameters
         for this specific run while keeping the original assistant configuration.
 
         :param assistant: Assistant ID or instance
@@ -214,7 +214,7 @@ class BaseRuns(BaseDomain, Generic[RunTypeT]):
 
                 page_token_ = response.next_page_token
 
-@doc_from(BaseRuns, link="async") 
+@doc_from(BaseRuns, link="async")
 class AsyncRuns(BaseRuns[AsyncRun]):
     # NB: there is no public 'create'
     _run_impl = AsyncRun
@@ -256,7 +256,7 @@ class AsyncRuns(BaseRuns[AsyncRun]):
         ):
             yield run
 
-@doc_from(BaseRuns, link="sync") 
+@doc_from(BaseRuns, link="sync")
 class Runs(BaseRuns[Run]):
     _run_impl = Run
 

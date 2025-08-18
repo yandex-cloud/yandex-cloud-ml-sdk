@@ -19,9 +19,9 @@ from yandex_cloud_ml_sdk._tools.tool_result import (
 from yandex_cloud_ml_sdk._types.operation import AsyncOperationMixin, OperationInterface, SyncOperationMixin
 from yandex_cloud_ml_sdk._types.resource import BaseResource
 from yandex_cloud_ml_sdk._types.schemas import ResponseType
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.proto import get_google_value, proto_to_dict
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
-from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from .result import RunResult, RunStreamEvent
 from .status import RunStatus
