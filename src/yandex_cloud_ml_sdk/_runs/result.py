@@ -68,7 +68,7 @@ class BaseRunResult(
     @property
     def message(self) -> MessageTypeT | None:
         """
-        Get the message result of the run.
+        Get the message result of the run. If run has failed this property raise error value.
         """
         if self.is_failed:
             raise ValueError("run is failed and don't have a message result")
@@ -77,7 +77,7 @@ class BaseRunResult(
     @property
     def text(self) -> str | None:
         """
-        Get text content from message if available.
+        Get the text content of the message if available, otherwise return nothing.
         """
         if not self.message:
             return None
@@ -86,7 +86,7 @@ class BaseRunResult(
     @property
     def parts(self) -> tuple[Any, ...]:
         """
-        Get message parts if available.
+        Get message parts if available, otherwise return nothing.
         """
         if not self.message:
             return ()
@@ -144,7 +144,14 @@ class RunResult(BaseRunResult[RunStatus, Message, ToolCallTypeT, ProtoRun]):
     @property
     def citations(self) -> tuple[Citation, ...]:
         """
-        Get citations from message if available.
+        Extract and return citations from the assistant's message if present.
+        
+        In Yandex ML SDK context, citations refer to references to external sources or documents
+        that the model used to generate its response. These typically include:
+        - Source document IDs
+        - Document titles or descriptions
+        - Relevant snippets or passages
+        Returns None if no citations are present in the message.
         """
         if not self.message:
             return ()

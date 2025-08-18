@@ -27,38 +27,41 @@ from .run import AsyncRun, Run, RunTypeT
 
 class BaseRuns(BaseDomain, Generic[RunTypeT]):
     """
-    Base class for Runs operations.
+    Abstract class for Runs operations with configurable RunTypeT.
+    Provides core functionality for managing assistant execution in streams.
 
-    For usage examples see `runs example <https://github.com/yandex-cloud/yandex-cloud-ml-sdk/blob/master/examples/async/assistants/runs.py>`_.
+    For usage examples see `runs example <https://github.com/yandex-cloud/yandex-cloud-ml-sdk/blob/master/examples/{link}/assistants/runs.py>`_.
     """
     _run_impl: type[RunTypeT]
 
     # pylint: disable=too-many-locals
     async def _create(
         self,
-        #: Assistant ID or instance
         assistant: str | BaseAssistant,
-        #: Thread ID or instance
         thread: str | BaseThread,
         *,
-        #: Whether to stream the response
         stream: bool,
-        #: Custom temperature value
         custom_temperature: UndefinedOr[float] = UNDEFINED,
-        #: Custom max tokens value
         custom_max_tokens: UndefinedOr[int] = UNDEFINED,
-        #: Custom max prompt tokens value
         custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
-        #: Custom truncation strategy
         custom_prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
-        #: Custom response format
         custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
-        #: The timeout, or the maximum time to wait for the request to complete in seconds.
-        #: Defaults to 60 seconds.
         timeout: float = 60,
     ) -> RunTypeT:
         """
-        Create a new run.
+        Create a new run, allowing to override assistant parameters 
+        for this specific run while keeping the original assistant configuration.
+
+        :param assistant: Assistant ID or instance
+        :param thread: Thread ID or instance
+        :param stream: Whether to stream the response
+        :param custom_temperature: Custom temperature value
+        :param custom_max_tokens: Custom max tokens value
+        :param custom_max_prompt_tokens: Custom max prompt tokens value
+        :param custom_prompt_truncation_strategy: Custom truncation strategy
+        :param custom_response_format: Custom response format
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
         """
         assistant_id: str
         if isinstance(assistant, str):
@@ -211,7 +214,7 @@ class BaseRuns(BaseDomain, Generic[RunTypeT]):
 
                 page_token_ = response.next_page_token
 
-@doc_from(BaseRuns)
+@doc_from(BaseRuns, link="async") 
 class AsyncRuns(BaseRuns[AsyncRun]):
     # NB: there is no public 'create'
     _run_impl = AsyncRun
@@ -253,7 +256,7 @@ class AsyncRuns(BaseRuns[AsyncRun]):
         ):
             yield run
 
-@doc_from(BaseRuns)
+@doc_from(BaseRuns, link="sync") 
 class Runs(BaseRuns[Run]):
     _run_impl = Run
 

@@ -21,6 +21,7 @@ from yandex_cloud_ml_sdk._types.resource import BaseResource
 from yandex_cloud_ml_sdk._types.schemas import ResponseType
 from yandex_cloud_ml_sdk._utils.proto import get_google_value, proto_to_dict
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from .result import RunResult, RunStreamEvent
 from .status import RunStatus
@@ -93,12 +94,7 @@ class BaseRun(BaseResource[ProtoRun], OperationInterface[RunResult[ToolCallTypeT
         return kwargs
 
     async def _get_run(self, *, timeout: float = 60) -> ProtoRun:
-        """
-        Get raw protobuf run object from server.
 
-        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
-            Defaults to 60 seconds.
-        """
         request = GetRunRequest(run_id=self.id)
 
         async with self._client.get_service_stub(RunServiceStub, timeout=timeout) as stub:
@@ -168,13 +164,6 @@ class BaseRun(BaseResource[ProtoRun], OperationInterface[RunResult[ToolCallTypeT
         *,
         timeout: float = 60,
     ) -> AsyncIterator[ProtoStreamEvent]:
-        """
-        Internal implementation of attach operation.
-
-        :param requests: Async iterator of attach requests
-        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
-            Defaults to 60 seconds.
-        """
         async with self._client.get_service_stub(RunServiceStub, timeout=timeout) as stub:
             async for response in self._client.stream_service_stream(
                 stub.Attach,
@@ -259,19 +248,13 @@ class AsyncRun(AsyncOperationMixin[RunResult[AsyncToolCall], RunStatus], BaseRun
 
     __aiter__ = listen
 
+    @doc_from(Run.submit_tool_results)
     async def submit_tool_results(
         self,
         tool_results: ToolResultInputType,
         *,
         timeout: float = 60,
     ) -> None:
-        """
-        Submit tool execution results to continue the run (async).
-
-        :param tool_results: Tool call results to submit
-        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
-            Defaults to 60 seconds.
-        """
         await super()._submit_tool_results(tool_results=tool_results, timeout=timeout)
 
 
