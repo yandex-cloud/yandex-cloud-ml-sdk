@@ -160,6 +160,15 @@ class RunResult(BaseRunResult[RunStatus, Message, ToolCallTypeT, ProtoRun]):
 
 @dataclasses.dataclass(frozen=True)
 class RunStreamEvent(BaseRunResult[StreamEvent, BaseMessage[ProtoStreamEvent], ToolCallTypeT, ProtoStreamEvent]):
+    """
+    Represents a streaming event in a run execution process.
+
+    This class encapsulates all possible events that can occur during streaming execution
+    of a run, including:
+    - Partial and completed messages
+    - Errors that may occur during execution
+    - Tool calls initiated by the model
+    """
     @classmethod
     def _from_proto(cls, *, proto: ProtoStreamEvent, sdk: BaseSDK) -> RunStreamEvent:
         message: BaseMessage | None = None

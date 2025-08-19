@@ -108,23 +108,11 @@ class BaseRun(BaseResource[ProtoRun], OperationInterface[RunResult[ToolCallTypeT
         return response
 
     async def _get_status(self, *, timeout: float = 60) -> RunStatus:  # type: ignore[override]
-        """
-        Get current run status.
-
-        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
-            Defaults to 60 seconds.
-        """
         run = await self._get_run(timeout=timeout)
 
         return RunStatus._from_proto(proto=run.state.status)
 
     async def _get_result(self, *, timeout: float = 60) -> RunResult[ToolCallTypeT]:
-        """
-        Get final run result.
-
-        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
-            Defaults to 60 seconds.
-        """
         run = await self._get_run(timeout=timeout)
 
         return RunResult._from_proto(sdk=self._sdk, proto=run)
@@ -214,12 +202,6 @@ class BaseRun(BaseResource[ProtoRun], OperationInterface[RunResult[ToolCallTypeT
         *,
         timeout: float = 60
     ) -> None:
-        """
-        Cancel the run (not implemented).
-
-        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
-            Defaults to 60 seconds.
-        """
         raise NotImplementedError("Run couldn't be cancelled")
 
 
@@ -227,19 +209,13 @@ class AsyncRun(AsyncOperationMixin[RunResult[AsyncToolCall], RunStatus], BaseRun
     """
     Asynchronous implementation of Run operations.
     """
+    @doc_from(BaseRun._listen)
     async def listen(
         self,
         *,
         events_start_idx: int = 0,
         timeout: float = 60,
     ) -> AsyncIterator[RunStreamEvent[AsyncToolCall]]:
-        """
-        Listen to run events stream (async).
-
-        :param events_start_idx: Starting event index
-        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
-            Defaults to 60 seconds.
-        """
         async for event in self._listen(
             events_start_idx=events_start_idx,
             timeout=timeout,
@@ -266,36 +242,25 @@ class Run(SyncOperationMixin[RunResult[ToolCall], RunStatus], BaseRun[ToolCall])
     __iter__ = __listen
     __submit_tool_results = run_sync(BaseRun._submit_tool_results)
 
+    @doc_from(BaseRun._listen)
     def listen(
         self,
         *,
         events_start_idx: int = 0,
         timeout: float = 60,
     ) -> Iterator[RunStreamEvent[ToolCall]]:
-        """
-        Listen to run events stream (sync).
-
-        :param events_start_idx: Starting event index
-        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
-            Defaults to 60 seconds.
-        """
         yield from self.__listen(
             events_start_idx=events_start_idx,
             timeout=timeout,
         )
 
+    @doc_from(BaseRun._submit_tool_results)
     def submit_tool_results(
         self,
         tool_results: ToolResultInputType,
         *,
         timeout: float = 60,
     ) -> None:
-        """
-        Submit tool execution results to continue the run (sync).
-
-        :param tool_results: Tool call results to submit
-        :param timeout: Request timeout in seconds
-        """
         self.__submit_tool_results(tool_results=tool_results, timeout=timeout)
 
 
