@@ -17,9 +17,9 @@ from yandex_cloud_ml_sdk._types.batch.status import BatchTaskStatus
 from yandex_cloud_ml_sdk._types.batch.task_info import BatchTaskInfo
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.proto import ProtoEnumCoercible
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
-from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 logger = get_logger(__name__)
 
