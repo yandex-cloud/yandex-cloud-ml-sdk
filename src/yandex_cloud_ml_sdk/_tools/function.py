@@ -28,7 +28,7 @@ class BaseFunctionTools(BaseDomain, HaveToolCalls[ToolCallTypeT]):
     ) -> FunctionTool:
         """
         Create a function tool with given parameters.
-        
+
         :param parameters: Function parameters schema
         :param name: Optional function name (default: inferred from parameters)
         :param description: Optional function description

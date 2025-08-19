@@ -19,7 +19,7 @@ ProtoFunctionCall = Union[ProtoAssistantFunctionCall, ProtoCompletionsFunctionCa
 class BaseFunctionCall(ProtoBased[ProtoFunctionCall]):
     """
     Base class representing a function call in Yandex Cloud ML SDK.
-    
+
     :param name: Name of the function being called
     :param arguments: Arguments passed to the function
     """
@@ -36,7 +36,7 @@ class BaseFunctionCall(ProtoBased[ProtoFunctionCall]):
     ) -> Self:
         """
         Create BaseFunctionCall instance from protobuf message.
-        
+
         :param proto: Protobuf message to convert
         """
         return cls(

@@ -25,13 +25,13 @@ class BaseTool(ProtoBased[ProtoMessageTypeT]):
     """
     Base class for all tools in Yandex Cloud ML SDK.
     """
-    
+
     @classmethod
     @abc.abstractmethod
     def _from_proto(cls, *, proto: ProtoMessageTypeT, sdk: SDKType) -> BaseTool:
         """
         Create tool instance from protobuf message.
-        
+
         :param proto: Protobuf message to convert
         :param sdk: SDK instance
         """
@@ -40,7 +40,7 @@ class BaseTool(ProtoBased[ProtoMessageTypeT]):
     @abc.abstractmethod
     def _to_proto(self, proto_type: type[ProtoToolTypeT]) -> ProtoToolTypeT:
         """Convert tool to protobuf message.
-        
+
         :param proto_type: Protobuf message type to create
         """
         pass
@@ -48,7 +48,7 @@ class BaseTool(ProtoBased[ProtoMessageTypeT]):
     @classmethod
     def _from_upper_proto(cls, proto: ProtoToolTypeT, sdk: SDKType) -> BaseTool:
         """Create tool instance from upper-level protobuf message.
-        
+
         :param proto: Protobuf message to convert
         :param sdk: SDK instance
         """
@@ -103,7 +103,7 @@ class FunctionTool(BaseTool[ProtoFunctionTool]):
     ) -> FunctionTool:
         """
         Create FunctionTool from protobuf message.
-        
+
         :param proto: Protobuf message to convert
         :param sdk: SDK instance
         """
@@ -122,7 +122,7 @@ class FunctionTool(BaseTool[ProtoFunctionTool]):
 
     def _to_proto(self, proto_type: type[ProtoToolTypeT]) -> ProtoToolTypeT:
         """Convert FunctionTool to protobuf message.
-        
+
         :param proto_type: Protobuf message type to create
         :raises ValueError: If strict validation is not supported for the proto type
         """

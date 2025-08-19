@@ -47,7 +47,7 @@ class FunctionResultDict(TypedDict):
     """
     Dictionary structure for function results.
     """
-    
+
     #: Name of the function
     name: Required[str]
     #: Result content
@@ -83,7 +83,7 @@ def tool_result_to_proto(
 ) -> ProtoToolResultTypeT:
     """
     Convert tool result dictionary to protobuf message.
-    
+
     :param tool_result: Tool result to convert
     :param proto_type: Protobuf message type to create
     """
@@ -121,7 +121,7 @@ def tool_results_to_proto(
 ) -> ProtoToolResultListTypeT:
     """
     Convert one or more tool results to protobuf message list.
-    
+
     :param tool_results: Tool result(s) to convert
     :param proto_type: Protobuf message list type to create
     """

@@ -42,7 +42,7 @@ class ToolCallList(
     def __getitem__(self, index: int, /) -> ToolCallTypeT:
         """
         Get tool call by integer index.
-        
+
         :param index: Index of tool call to get
         """
         pass
@@ -51,7 +51,7 @@ class ToolCallList(
     def __getitem__(self, slice_: slice, /) -> tuple[ToolCallTypeT, ...]:
         """
         Get slice of tool calls.
-        
+
         :param slice_: Slice to get
         """
         pass
@@ -59,7 +59,7 @@ class ToolCallList(
     def __getitem__(self, index, /):
         """
         Get tool call(s) by index or slice.
-        
+
         :param index: Index or slice to get
         """
         return self.tool_calls[index]
@@ -80,7 +80,7 @@ class ToolCallList(
     ) -> Self:
         """
         Create ToolCallList from protobuf message.
-        
+
         :param proto: Protobuf message to convert
         :param sdk: SDK instance
         :param tool_call_impl: Tool call implementation class

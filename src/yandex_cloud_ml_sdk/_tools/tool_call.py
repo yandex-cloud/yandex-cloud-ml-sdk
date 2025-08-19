@@ -41,7 +41,7 @@ class BaseToolCall(ProtoBased[ProtoToolCall], FunctionCallMixin[FunctionCallType
     ) -> Self:
         """
         Create BaseToolCall instance from protobuf message.
-        
+
         :param proto: Protobuf message to convert
         :param sdk: SDK instance
         """
