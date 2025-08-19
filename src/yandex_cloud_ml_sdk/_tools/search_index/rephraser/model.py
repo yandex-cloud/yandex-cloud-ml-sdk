@@ -7,14 +7,14 @@ from yandex.cloud.ai.assistants.v1.common_pb2 import RephraserOptions as ProtoRe
 from yandex_cloud_ml_sdk._types.model import BaseModel
 from yandex_cloud_ml_sdk._types.model_config import BaseModelConfig
 from yandex_cloud_ml_sdk._types.proto import ProtoBased, SDKType
-from yandex_cloud_ml_sdk._types.result import BaseResult
+from yandex_cloud_ml_sdk._types.result import BaseProtoResult
 
 
 class RephraserConfig(BaseModelConfig):
     pass
 
 
-class _RephraserPseudoResult(BaseResult):
+class _RephraserPseudoResult(BaseProtoResult[ProtoRephraserOptions]):
     pass
 
 

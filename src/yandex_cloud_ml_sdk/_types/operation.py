@@ -44,6 +44,10 @@ class BaseOperationStatus:
         raise NotImplementedError()
 
     @property
+    def is_finished(self) -> bool:
+        return self.is_succeeded or self.is_failed
+
+    @property
     def status_name(self) -> str:
         if self.is_succeeded:
             return 'success'
@@ -224,7 +228,7 @@ class BaseOperation(Generic[ResultTypeT_co], OperationInterface[ResultTypeT_co, 
     # pylint: disable=unused-argument
     async def _default_result_transofrmer(self, proto: Any, timeout: float) -> ResultTypeT_co:
         # NB: default_result_transformer should be used only with _result_type
-        # which are BaseResult-compatible, but I don't know how to express it with typing,
+        # which are BaseProtoResult-compatible, but I don't know how to express it with typing,
         # maybe we need special operation class, which support transforming (probably a base one)
         # NB: issubclass don't like if instead of SomeClass object pass SomeClass[T];
         # because we use _result_type also for a generic typing reasons, sometimes it requires
