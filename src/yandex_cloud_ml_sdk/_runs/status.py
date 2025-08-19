@@ -56,10 +56,3 @@ class StreamEvent(BaseRunStatus, ProtoEnumBase, IntEnum):
     @property
     def is_failed(self) -> bool:
         return self is self.ERROR
-
-    @classmethod
-    def _from_proto(cls, proto: int) -> StreamEvent:
-        try:
-            return cls(proto)
-        except ValueError:
-            return cls(-1)
