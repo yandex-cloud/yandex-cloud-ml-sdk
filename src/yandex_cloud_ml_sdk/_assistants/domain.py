@@ -18,6 +18,7 @@ from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPo
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
 from yandex_cloud_ml_sdk._types.schemas import ResponseType, make_response_format_kwargs
 from yandex_cloud_ml_sdk._utils.coerce import coerce_tuple
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .assistant import Assistant, AssistantTypeT, AsyncAssistant
@@ -26,6 +27,11 @@ from .utils import get_completion_options
 
 
 class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
+    """Base class for assistants management.
+
+    Provides common functionality for creating, getting and listing assistants.
+    """
+
     _assistant_impl: type[AssistantTypeT]
 
     def _make_request_kwargs(
@@ -121,6 +127,26 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
         response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> AssistantTypeT:
+        """Create a new assistant instance.
+
+        :param model: Model ID or BaseGPTModel instance
+        :param temperature: A sampling temperature to use - higher values mean more random results. Should be a double number between 0 (inclusive) and 1 (inclusive).
+        :param max_tokens: Maximum number of tokens to generate
+        :param instruction: System instruction for the assistant
+        :param max_prompt_tokens: Maximum tokens allowed in prompt
+        :param prompt_truncation_strategy: Strategy for prompt truncation
+        :param name: Assistant name
+        :param description: Assistant description
+        :param labels: Additional labels associated with the assistant
+        :param ttl_days: Time-to-live in days
+        :param tools: Tools to use for completion. Can be a sequence or a single tool.
+        :param expiration_policy: Expiration policy for assistant
+        :param response_format: A format of the response returned by the model. Could be a JsonSchema, a JSON string, or a pydantic model.
+            Read more about possible response formats in the
+            `structured output documentation <https://yandex.cloud/docs/foundation-models/concepts/yandexgpt/#structured-output>`_.
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         # pylint: disable=too-many-locals
         if is_defined(ttl_days) != is_defined(expiration_policy):
             raise ValueError("ttl_days and expiration policy must be both defined either undefined")
@@ -156,12 +182,19 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
 
         return self._assistant_impl._from_proto(proto=response, sdk=self._sdk)
 
+
     async def _get(
         self,
         assistant_id: str,
         *,
         timeout: float = 60,
     ) -> AssistantTypeT:
+        """Get an existing assistant by ID.
+
+        :param assistant_id: ID of the assistant to retrieve
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         # TODO: we need a global per-sdk cache on ids to rule out
         # possibility we have two Assistants with same ids but different fields
         request = GetAssistantRequest(assistant_id=assistant_id)
@@ -182,6 +215,12 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
         page_size: UndefinedOr[int] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[AssistantTypeT]:
+        """List all assistants.
+
+        :param page_size: Number of assistants per page
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         page_token_ = ''
         page_size_ = get_defined_value(page_size, 0)
 
@@ -207,11 +246,12 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
 
                 page_token_ = response.next_page_token
 
-
+@doc_from(BaseAssistants)
 class AsyncAssistants(BaseAssistants[AsyncAssistant]):
     _assistant_impl = AsyncAssistant
 
     # pylint: disable=too-many-arguments
+    @doc_from(BaseAssistants._create)
     async def create(
         self,
         model: str | BaseGPTModel,
@@ -247,6 +287,7 @@ class AsyncAssistants(BaseAssistants[AsyncAssistant]):
             timeout=timeout,
         )
 
+    @doc_from(BaseAssistants._get)
     async def get(
         self,
         assistant_id: str,
@@ -258,6 +299,7 @@ class AsyncAssistants(BaseAssistants[AsyncAssistant]):
             timeout=timeout
         )
 
+    @doc_from(BaseAssistants._list)
     async def list(
         self,
         *,
@@ -270,7 +312,7 @@ class AsyncAssistants(BaseAssistants[AsyncAssistant]):
         ):
             yield assistant
 
-
+@doc_from(BaseAssistants)
 class Assistants(BaseAssistants[Assistant]):
     _assistant_impl = Assistant
 
@@ -279,6 +321,7 @@ class Assistants(BaseAssistants[Assistant]):
     __list = run_sync_generator(BaseAssistants._list)
 
     # pylint: disable=too-many-arguments
+    @doc_from(BaseAssistants._create)
     def create(
         self,
         model: str | BaseGPTModel,
@@ -314,6 +357,7 @@ class Assistants(BaseAssistants[Assistant]):
             timeout=timeout,
         )
 
+    @doc_from(BaseAssistants._get)
     def get(
         self,
         assistant_id: str,
@@ -325,6 +369,7 @@ class Assistants(BaseAssistants[Assistant]):
             timeout=timeout
         )
 
+    @doc_from(BaseAssistants._list)
     def list(
         self,
         *,

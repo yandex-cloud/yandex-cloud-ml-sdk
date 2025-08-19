@@ -61,13 +61,19 @@ async def main() -> None:
 
     # There are only specific models supports batch runs,
     # please refer to Yandex Foundation Models doctumentation
-    model = sdk.models.completions('gemma-3-12b-it')
+    model = sdk.models.completions('qwen2.5-32b-instruct')
 
     # Batch run returns an operation object you could
     # follow or just call .wait method
-    operation = await model.batch.run_deferred(dataset)
+    task = await model.batch.run_deferred(dataset)
 
-    resulting_dataset = await operation
+    # You also could use "structured output feature".
+    # Look for details in examples/async/completions/structured_output.py
+    model = model.configure(response_format='json')
+    json_task = await model.batch.run_deferred(dataset)
+
+    resulting_dataset = await task
+    json_dataset = await json_task
 
     # NB: Resulting dataset have task_type="TextToTextGeneration" and could be used as an input
     # for tuning.
@@ -78,11 +84,18 @@ async def main() -> None:
         print('Resulting dataset lines:')
         async for line in resulting_dataset.read():
             print(line)
+
+        print('Json dataset lines:')
+        async for line in json_dataset.read():
+            print(line)
     except ImportError:
         print('skipping dataset read; install yandex-cloud-ml-sdk[datasets] to be able to read')
 
-    # Removing final dataset to not to increase chaos.
+    # Removing all the data to not to increase chaos.
     await resulting_dataset.delete()
+    await json_dataset.delete()
+    await task.delete()
+    await json_task.delete()
 
 
 if __name__ == '__main__':

@@ -8,7 +8,7 @@ from yandex.cloud.searchapi.v2.gen_search_service_pb2 import GenSearchResponse, 
 
 from yandex_cloud_ml_sdk._types.message import TextMessage
 from yandex_cloud_ml_sdk._types.proto import ProtoBased
-from yandex_cloud_ml_sdk._types.result import BaseResult, SDKType
+from yandex_cloud_ml_sdk._types.result import BaseProtoResult, SDKType
 
 
 @dataclass(frozen=True)
@@ -53,7 +53,7 @@ class SearchQuery(ProtoBased[GenSearchResponse.SearchQuery]):
 
 
 @dataclass(frozen=True)
-class GenerativeSearchResult(BaseResult[GenSearchResponse], TextMessage):
+class GenerativeSearchResult(BaseProtoResult[GenSearchResponse], TextMessage):
     #: Generative answer itself.
     #: Note that footnootes like ``[N]`` in the text refers to ``GenerativeSearchResult.sources[N]``
     #: source.

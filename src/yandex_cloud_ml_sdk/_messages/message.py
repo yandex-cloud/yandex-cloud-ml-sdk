@@ -37,7 +37,7 @@ class Author:
 
 
 @dataclasses.dataclass(frozen=True)
-class Message(BaseMessage, BaseResource):
+class Message(BaseMessage[ProtoMessage], BaseResource[ProtoMessage]):
     thread_id: str
     created_by: str
     created_at: datetime
@@ -79,7 +79,7 @@ class Message(BaseMessage, BaseResource):
 
 
 @dataclasses.dataclass(frozen=True)
-class PartialMessage(BaseMessage, BaseResource):
+class PartialMessage(BaseMessage[MessageContent], BaseResource[MessageContent]):
     @classmethod
     def _kwargs_from_message(cls, proto: MessageContent, sdk: BaseSDK) -> dict[str, Any]:  # type: ignore[override]
         kwargs = super()._kwargs_from_message(proto, sdk=sdk)
