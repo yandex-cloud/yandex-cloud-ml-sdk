@@ -248,7 +248,7 @@ class AsyncRun(AsyncOperationMixin[RunResult[AsyncToolCall], RunStatus], BaseRun
 
     __aiter__ = listen
 
-    @doc_from(Run.submit_tool_results)
+    @doc_from(BaseRun._submit_tool_results)
     async def submit_tool_results(
         self,
         tool_results: ToolResultInputType,
