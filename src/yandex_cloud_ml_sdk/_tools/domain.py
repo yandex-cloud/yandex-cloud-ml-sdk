@@ -16,10 +16,18 @@ from .search_index.tool import SearchIndexTool
 
 
 class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
+    """
+    Сlass for tools functionality in Yandex Cloud ML SDK.
+
+    Provides common functionality for both synchronous and asynchronous tools.
+    """
     _functions_impl: type[FunctionToolsTypeT]
 
     @cached_property
     def function(self) -> FunctionToolsTypeT:
+        """
+        Get the function tools instance.
+        """
         return self._functions_impl(
             name='tools.function',
             sdk=self._sdk
@@ -27,6 +35,11 @@ class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
 
     @cached_property
     def rephraser(self) -> RephraserFunction:
+        """
+        Get the rephraser function instance.
+
+        The rephraser is used to modify user queries for better search results.
+        """
         return RephraserFunction(
             name='tools.rehraser',
             sdk=self._sdk,
@@ -41,7 +54,8 @@ class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
         rephraser: UndefinedOr[RephraserInputType] = UNDEFINED,
         call_strategy: UndefinedOr[CallStrategyInputType] = UNDEFINED,
     ) -> SearchIndexTool:
-        """Creates SearchIndexTool (not to be confused with :py:class:`~.SearchIndex`/:py:class:`~.AsyncSearchIndex`).
+        """
+        Creates SearchIndexTool (not to be confused with :py:class:`~.SearchIndex`/:py:class:`~.AsyncSearchIndex`).
 
         :param indexes: parameter takes :py:class:`~.BaseSearchIndex`, string with search index id,
             or a list of this values in any combination.
@@ -73,8 +87,17 @@ class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
 
 
 class AsyncTools(BaseTools[AsyncFunctionTools]):
+    """
+    Asynchronous implementation of tools functionality.
+
+    Provides async versions of all tools methods.
+    """
     _functions_impl = AsyncFunctionTools
 
-
 class Tools(BaseTools[FunctionTools]):
+    """
+    Synchronous implementation of tools functionality.
+
+    Provides sync versions of all tools methods.
+    """
     _functions_impl = FunctionTools

@@ -17,11 +17,18 @@ ProtoToolCall = Union[ProtoAssistantToolCall, ProtoCompletionsToolCall]
 
 # We need this class to separate _function_call_impl from dataclass
 class FunctionCallMixin(Generic[FunctionCallTypeT]):
+    """
+    Mixin class providing function call implementation type.
+    """
     _function_call_impl: type[FunctionCallTypeT]
 
 
 @dataclass(frozen=True)
 class BaseToolCall(ProtoBased[ProtoToolCall], FunctionCallMixin[FunctionCallTypeT]):
+    """
+    Base class representing a tool call in Yandex Cloud ML SDK.
+    """
+    #: Function call associated with this tool call
     function: FunctionCallTypeT | None
     _proto_origin: ProtoToolCall = field(repr=False)
 
@@ -32,6 +39,12 @@ class BaseToolCall(ProtoBased[ProtoToolCall], FunctionCallMixin[FunctionCallType
         proto: ProtoToolCall,
         sdk,
     ) -> Self:
+        """
+        Create BaseToolCall instance from protobuf message.
+        
+        :param proto: Protobuf message to convert
+        :param sdk: SDK instance
+        """
         function: FunctionCallTypeT | None = None
         if proto.HasField('function_call'):
             function = cls._function_call_impl._from_proto(proto=proto.function_call, sdk=sdk)
@@ -42,15 +55,26 @@ class BaseToolCall(ProtoBased[ProtoToolCall], FunctionCallMixin[FunctionCallType
 
 
 class AsyncToolCall(BaseToolCall):
+    """
+    Asynchronous version of tool call representation.
+    """
     _function_call_impl = AsyncFunctionCall
 
 
 class ToolCall(BaseToolCall):
+    """
+    Synchronous version of tool call representation.
+    """
     _function_call_impl = FunctionCall
 
 
 ToolCallTypeT = TypeVar('ToolCallTypeT', bound=BaseToolCall)
+"""
+Type variable representing any tool call type.
+"""
 
 
 class HaveToolCalls(Generic[ToolCallTypeT]):
-    pass
+   """
+   Interface for objects that can have tool calls.
+   """

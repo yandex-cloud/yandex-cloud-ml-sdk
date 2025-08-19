@@ -10,12 +10,36 @@ from yandex_cloud_ml_sdk._types.proto import ProtoBased, SDKType
 from yandex_cloud_ml_sdk._types.tools.function import FunctionDictType, validate_function_dict
 
 CallStrategyStringType: TypeAlias = Literal['always']
+"""
+Type alias for string-based call strategy. Currently only supports 'always' value.
+"""
 
 CallStrategyType: TypeAlias = Union[CallStrategyStringType, FunctionDictType]
+"""
+Type alias for all supported call strategy types.
+
+Can be either:
+- A string literal ('always')
+- A function dictionary with instruction
+"""
 CallStrategyInputType: TypeAlias = Union[CallStrategyType, 'CallStrategy']
+"""
+Type alias for call strategy input types.
+
+Can be either:
+- A CallStrategyType (string or function dict)
+- An existing CallStrategy instance
+"""
 
 
 class CallStrategy(ProtoBased[ProtoCallStrategy]):
+    """
+    Implements call strategy for search index tools.
+
+    The call strategy determines when a tool should be called:
+    - 'always': call the tool on every request
+    - function dict: call based on function instruction
+    """
     _call_strategy: CallStrategyType
 
     def __init__(self, call_strategy: CallStrategyType):
@@ -24,6 +48,9 @@ class CallStrategy(ProtoBased[ProtoCallStrategy]):
 
     @property
     def value(self) -> CallStrategyType:
+        """
+        Get the current call strategy value.
+        """
         return self._call_strategy
 
     def _validate(self):

@@ -14,6 +14,9 @@ from yandex_cloud_ml_sdk._types.proto import ProtoBased, SDKType
 from .tool_call import ToolCallTypeT
 
 ProtoToolCallListTypeT = TypeVar('ProtoToolCallListTypeT', ProtoAssistantToolCallList, ProtoCompletionsToolCallList)
+"""
+Type variable representing protobuf tool call list types.
+"""
 
 
 @dataclass
@@ -22,24 +25,49 @@ class ToolCallList(
     ProtoBased[ProtoToolCallListTypeT],
     Generic[ProtoToolCallListTypeT, ToolCallTypeT],
 ):
+    """
+    List of tool calls in Yandex Cloud ML SDK.
+    """
     _proto_origin: ProtoToolCallListTypeT
+    #: Tuple of tool calls
     tool_calls: tuple[ToolCallTypeT, ...]
 
     def __len__(self) -> int:
+        """
+        Return number of tool calls in the list.
+        """
         return len(self.tool_calls)
 
     @overload
     def __getitem__(self, index: int, /) -> ToolCallTypeT:
+        """
+        Get tool call by integer index.
+        
+        :param index: Index of tool call to get
+        """
         pass
 
     @overload
     def __getitem__(self, slice_: slice, /) -> tuple[ToolCallTypeT, ...]:
+        """
+        Get slice of tool calls.
+        
+        :param slice_: Slice to get
+        """
         pass
 
     def __getitem__(self, index, /):
+        """
+        Get tool call(s) by index or slice.
+        
+        :param index: Index or slice to get
+        """
         return self.tool_calls[index]
 
     def __repr__(self):
+        """
+        Return string representation of tool call list.
+        """
         return f'{self.__class__.__name__}{self.tool_calls!r}'
 
     @classmethod
@@ -50,6 +78,13 @@ class ToolCallList(
         sdk: SDKType,
         tool_call_impl: type[ToolCallTypeT] | None = None,
     ) -> Self:
+        """
+        Create ToolCallList from protobuf message.
+        
+        :param proto: Protobuf message to convert
+        :param sdk: SDK instance
+        :param tool_call_impl: Tool call implementation class
+        """
         # I know for sure it will be called only with tool_call_impl
         assert tool_call_impl
         tool_calls = tuple(

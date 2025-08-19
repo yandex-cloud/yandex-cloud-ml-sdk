@@ -19,10 +19,12 @@ class _RephraserPseudoResult(BaseResult):
 
 
 class Rephraser(BaseModel[RephraserConfig, _RephraserPseudoResult], ProtoBased[ProtoRephraserOptions]):
-    """Class for incapsulating rephraser settings.
+    """
+    Class for incapsulating rephraser settings.
 
-    Used to rewrite the last user message for search,
-    incorporating context from the previous conversation.
+    Used to rewrite the last user message for search, incorporating context from the previous conversation.
+
+    For usage search index tool with and without rephraser example see `rephraser example <https://github.com/yandex-cloud/yandex-cloud-ml-sdk/blob/master/examples/sync/assistants/rephraser.py>`_.
     """
 
     _config_type = RephraserConfig
