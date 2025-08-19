@@ -11,11 +11,11 @@ from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 
 from yandex_cloud_ml_sdk._logging import get_logger
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
-from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._types.model import ModelTuneMixin
 from yandex_cloud_ml_sdk._types.tuning.datasets import TuningDatasetsType, coerce_datasets
 from yandex_cloud_ml_sdk._types.tuning.params import BaseTuningParams
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .tuning_task import AsyncTuningTask, TuningTask, TuningTaskTypeT
@@ -26,7 +26,7 @@ logger = get_logger(__name__)
 class BaseTuning(BaseDomain, Generic[TuningTaskTypeT]):
     """
     Base class for model tuning operations in Yandex Cloud ML SDK.
-    
+
     Provides common functionality for both async and sync tuning implementations.
     This class serves as an abstract base for all model fine-tuning operations,
     handling common tasks like dataset processing and parameter validation.
@@ -163,7 +163,7 @@ class BaseTuning(BaseDomain, Generic[TuningTaskTypeT]):
     ) -> TuningTaskTypeT:
         """
         Get tuning task by ID.
-        
+
         :param task_id: Tuning task ID
         :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
@@ -190,7 +190,7 @@ class BaseTuning(BaseDomain, Generic[TuningTaskTypeT]):
     ) -> AsyncIterator[TuningTaskTypeT]:
         """
         List tuning tasks.
-        
+
         :param page_size: Number of items per page (optional)
         :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.

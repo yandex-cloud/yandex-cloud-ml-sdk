@@ -96,7 +96,7 @@ class TuningTaskInfo(BaseResource[TuningTaskProto]):
 class TuningTaskStatus(OperationStatus):
     """
     Status of a tuning task operation.
-    
+
     Extends OperationStatus with tuning-specific status information.
     """
     @classmethod
