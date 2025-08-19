@@ -27,9 +27,8 @@ logger = get_logger(__name__)
 class BaseBatch(BaseDomain, Generic[BatchTaskOperationTypeT]):
     """
     Abstract base class for managing batch operations in Yandex Cloud ML SDK.
-    This class should not be instantiated directly. Instead use:
-        - `Batch` for synchronous operations
-        - `AsyncBatch` for asynchronous operations
+    This class should not be instantiated directly.
+    Instead use: `Batch` for synchronous operations or `AsyncBatch` for asynchronous operations.
 
     For usage examples see `batch example <https://github.com/yandex-cloud/yandex-cloud-ml-sdk/blob/master/examples/{link}/completions/batch.py>`_.
     """
