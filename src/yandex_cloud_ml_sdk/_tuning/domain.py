@@ -11,6 +11,7 @@ from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 
 from yandex_cloud_ml_sdk._logging import get_logger
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._types.model import ModelTuneMixin
 from yandex_cloud_ml_sdk._types.tuning.datasets import TuningDatasetsType, coerce_datasets
@@ -23,6 +24,19 @@ logger = get_logger(__name__)
 
 
 class BaseTuning(BaseDomain, Generic[TuningTaskTypeT]):
+    """
+    Base class for model tuning operations in Yandex Cloud ML SDK.
+    
+    Provides common functionality for both async and sync tuning implementations.
+    This class serves as an abstract base for all model fine-tuning operations,
+    handling common tasks like dataset processing and parameter validation.
+
+    Key Features:
+        - Generic implementation supporting both sync and async variants
+        - Standardized dataset processing methods
+        - Common parameter validation logic
+        - Base for concrete tuning task implementations
+    """
     _tuning_impl: type[TuningTaskTypeT]
 
     def _coerce_datasets(
@@ -147,6 +161,13 @@ class BaseTuning(BaseDomain, Generic[TuningTaskTypeT]):
         *,
         timeout: float = 60,
     ) -> TuningTaskTypeT:
+        """
+        Get tuning task by ID.
+        
+        :param task_id: Tuning task ID
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         logger.debug('Fetching tuning task %s from server', task_id)
         result_type = await self._get_task_result_type(
             task_id=task_id,
@@ -167,6 +188,13 @@ class BaseTuning(BaseDomain, Generic[TuningTaskTypeT]):
         page_size: UndefinedOr[int] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[TuningTaskTypeT]:
+        """
+        List tuning tasks.
+        
+        :param page_size: Number of items per page (optional)
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         logger.debug('Fetching tuning task list')
 
         page_token_ = ''
@@ -218,9 +246,11 @@ class BaseTuning(BaseDomain, Generic[TuningTaskTypeT]):
                 page_token_ = response.next_page_token
 
 
+@doc_from(BaseTuning)
 class AsyncTuning(BaseTuning[AsyncTuningTask]):
     _tuning_impl = AsyncTuningTask
 
+    @doc_from(BaseTuning._get)
     async def get(
         self,
         task_id: str,
@@ -229,6 +259,7 @@ class AsyncTuning(BaseTuning[AsyncTuningTask]):
     ) -> AsyncTuningTask:
         return await self._get(task_id=task_id, timeout=timeout)
 
+    @doc_from(BaseTuning._list)
     async def list(
         self,
         *,
@@ -241,12 +272,13 @@ class AsyncTuning(BaseTuning[AsyncTuningTask]):
         ):
             yield task
 
-
+@doc_from(BaseTuning)
 class Tuning(BaseTuning[TuningTask]):
     _tuning_impl = TuningTask
     __get = run_sync(BaseTuning._get)
     __list = run_sync_generator(BaseTuning._list)
 
+    @doc_from(BaseTuning._get)
     def get(
         self,
         task_id: str,
@@ -255,6 +287,7 @@ class Tuning(BaseTuning[TuningTask]):
     ) -> TuningTask:
         return self.__get(task_id=task_id, timeout=timeout)
 
+    @doc_from(BaseTuning._list)
     def list(
         self,
         *,

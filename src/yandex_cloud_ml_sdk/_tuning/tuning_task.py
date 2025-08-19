@@ -22,6 +22,7 @@ from yandex_cloud_ml_sdk._types.operation import (
     AsyncOperationMixin, OperationErrorInfo, OperationInterface, OperationStatus, SyncOperationMixin
 )
 from yandex_cloud_ml_sdk._types.resource import BaseResource
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 from yandex_cloud_ml_sdk.exceptions import RunError, WrongAsyncOperationStatusError
 
@@ -35,28 +36,54 @@ TuningResultTypeT_co = TypeVar('TuningResultTypeT_co', covariant=True, bound='Mo
 
 
 class TuningTaskStatusEnum(Enum):
+    """
+    Enum representing possible statuses of a tuning task.
+
+    """
+    #: Status not specified
     STATUS_UNSPECIFIED = 0
+    #: Task created but not started
     CREATED = 1
+    #: Task pending execution
     PENDING = 2
+    #: Task execution in progress
     IN_PROGRESS = 3
+    #: Task completed successfully
     COMPLETED = 4
+    #: Task failed
     FAILED = 5
 
 
 @dataclass(frozen=True)
 class TuningTaskInfo(BaseResource[TuningTaskProto]):
+    """
+    Contains metadata and status information about a model tuning task in Yandex Cloud ML.
+
+    This class represents the state and configuration of a fine-tuning operation for machine learning models.
+    It tracks the task lifecycle through status updates and provides references to related resources.
+    """
+    #: Unique task identifier
     task_id: str
+    #: Associated operation ID
     operation_id: str
 
+    #: Current task status
     status: TuningTaskStatusEnum
 
+    #: Yandex Cloud folder ID
     folder_id: str
+    #: Creator identity
     created_by: str
+    #: Creation timestamp
     created_at: datetime
+    #: Start timestamp (None if not started)
     started_at: datetime | None
+    #: Completion timestamp (None if not finished)
     finished_at: datetime | None
 
+    #: URI of source model
     source_model_uri: str
+    #: URI of tuned model (None if not completed)
     target_model_uri: str | None
 
     @classmethod
@@ -67,6 +94,11 @@ class TuningTaskInfo(BaseResource[TuningTaskProto]):
 
 
 class TuningTaskStatus(OperationStatus):
+    """
+    Status of a tuning task operation.
+    
+    Extends OperationStatus with tuning-specific status information.
+    """
     @classmethod
     def _from_tuning_info(cls, info: TuningTaskInfo) -> TuningTaskStatus:
         done = False
@@ -90,6 +122,12 @@ class TuningTaskStatus(OperationStatus):
 
 
 class BaseTuningTask(OperationInterface[TuningResultTypeT_co, TuningTaskStatus]):
+    """
+    Base class for tuning task operations in Yandex Cloud ML SDK.
+
+    Subclasses should implement model-specific tuning logic while reusing
+    the common infrastructure provided by this base class.
+    """
     _sdk: BaseSDK
 
     def __init__(
@@ -109,6 +147,12 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co, TuningTaskStatus])
 
     @property
     def id(self):
+        """
+        Get fine-tuning task identifier.
+
+        Returns operation_id if set, otherwise task_id.
+        At least one of these identifiers must be provided when creating the task.
+        """
         return self._operation_id or self._task_id
 
     def __repr__(self):
@@ -147,6 +191,16 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co, TuningTaskStatus])
         return self._task_id
 
     async def _get_task_info(self, *, timeout: float = 60) -> TuningTaskInfo | None:
+        """
+        Retrieves tuning task information from the Yandex Cloud ML service.
+
+        Makes an async gRPC call to the TuningService to get detailed information
+        about the current tuning task. The method first obtains the task ID and
+        then fetches the full task information.
+
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         task_id = await self._get_task_id(timeout=timeout)
         if not task_id:
             logger.debug('Failed to fetch task info for %s due to absence of task', self)
@@ -282,6 +336,17 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co, TuningTaskStatus])
         logger.info('%s successfully cancelled', self)
 
     async def _get_metrics_url(self, *, timeout: float = 60) -> str | None:
+        """
+        Fetches metrics URL for the current tuning task.
+
+        Makes an async request to TuningService to get the metrics load URL.
+        Handles NOT_FOUND errors gracefully by returning None.
+
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+
+        Raises: AioRpcError: For any gRPC errors except NOT_FOUND.
+        """
         logger.debug('Fetching metrics url for %s', self)
         task_id = await self._get_task_id(timeout=timeout)
         response: GetMetricsUrlResponse | None = None
@@ -309,18 +374,20 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co, TuningTaskStatus])
         logger.debug('Metrics url for %s is not available', self)
         return None
 
-
+@doc_from(BaseTuningTask)
 class AsyncTuningTask(
     AsyncOperationMixin[TuningResultTypeT_co, TuningTaskStatus],
     BaseTuningTask[TuningResultTypeT_co]
 ):
+    @doc_from(BaseTuningTask._get_task_info)
     async def get_task_info(self, *, timeout: float = 60) -> TuningTaskInfo | None:
         return await self._get_task_info(timeout=timeout)
 
+    @doc_from(BaseTuningTask._get_metrics_url)
     async def get_metrics_url(self, *, timeout: float = 60) -> str | None:
         return await self._get_metrics_url(timeout=timeout)
 
-
+@doc_from(BaseTuningTask)
 class TuningTask(
     SyncOperationMixin[TuningResultTypeT_co, TuningTaskStatus],
     BaseTuningTask[TuningResultTypeT_co]
@@ -328,9 +395,11 @@ class TuningTask(
     __get_metrics_url = run_sync(BaseTuningTask._get_metrics_url)
     __get_task_info = run_sync(BaseTuningTask._get_task_info)
 
+    @doc_from(BaseTuningTask._get_task_info)
     def get_task_info(self, *, timeout: float = 60) -> TuningTaskInfo | None:
         return self.__get_task_info(timeout=timeout)
 
+    @doc_from(BaseTuningTask._get_metrics_url)
     def get_metrics_url(self, *, timeout: float = 60) -> str | None:
         return self.__get_metrics_url(timeout=timeout)
 
