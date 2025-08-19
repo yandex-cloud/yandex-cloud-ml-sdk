@@ -19,11 +19,20 @@ from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._utils.proto import ProtoEnumCoercible
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 logger = get_logger(__name__)
 
 
 class BaseBatch(BaseDomain, Generic[BatchTaskOperationTypeT]):
+    """
+    Abstract base class for managing batch operations in Yandex Cloud ML SDK.
+    This class should not be instantiated directly. Instead use:
+        - `Batch` for synchronous operations
+        - `AsyncBatch` for asynchronous operations
+
+    For usage examples see `batch example <https://github.com/yandex-cloud/yandex-cloud-ml-sdk/blob/master/examples/{link}/completions/batch.py>`_.
+    """
     _operation_impl: type[BatchTaskOperationTypeT]
 
     async def _get(
@@ -32,6 +41,17 @@ class BaseBatch(BaseDomain, Generic[BatchTaskOperationTypeT]):
         *,
         timeout: float = 60,
     ) -> BatchTaskOperationTypeT:
+        """
+        Get batch task operation by ID or BatchTaskInfo object.
+
+        :param task: Either task ID string or BatchTaskInfo object
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+
+        Raises:
+            ValueError: If task ID is invalid
+            TimeoutError: If request timed out
+        """
         logger.debug('Fetching batch task %s from server', task)
 
         if isinstance(task, BatchTaskInfo):
@@ -59,6 +79,14 @@ class BaseBatch(BaseDomain, Generic[BatchTaskOperationTypeT]):
         status: UndefinedOr[ProtoEnumCoercible[BatchTaskStatus]] = UNDEFINED,
         timeout: float = 60,
     ) -> AsyncIterator[BatchTaskOperationTypeT]:
+        """
+        List batch task operations with optional filtering.
+
+        :param page_size: Maximum number of tasks per page (optional)
+        :param status: Filter tasks by status (optional)
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         logger.debug('Fetching batch task list')
 
         async for task_proto in self._list_impl(
@@ -78,6 +106,14 @@ class BaseBatch(BaseDomain, Generic[BatchTaskOperationTypeT]):
         status: UndefinedOr[ProtoEnumCoercible[BatchTaskStatus]] = UNDEFINED,
         timeout: float = 60,
     ) -> AsyncIterator[BatchTaskInfo]:
+        """
+        List batch task information with optional filtering.
+
+        :param page_size: Maximum number of tasks per page (optional)
+        :param status: Filter tasks by status (optional)
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         logger.debug('Fetching batch task list')
 
         async for task_proto in self._list_impl(
@@ -138,9 +174,11 @@ class BaseBatch(BaseDomain, Generic[BatchTaskOperationTypeT]):
                 page_token = response.next_page_token
 
 
+@doc_from(BaseBatch, link="async")
 class AsyncBatch(BaseBatch[AsyncBatchTaskOperation]):
     _operation_impl = AsyncBatchTaskOperation
 
+    @doc_from(BaseBatch._get)
     async def get(
         self,
         task: str | BatchTaskInfo,
@@ -149,6 +187,7 @@ class AsyncBatch(BaseBatch[AsyncBatchTaskOperation]):
     ) -> AsyncBatchTaskOperation:
         return await self._get(task=task, timeout=timeout)
 
+    @doc_from(BaseBatch._list_operations)
     async def list_operations(
         self,
         *,
@@ -163,6 +202,7 @@ class AsyncBatch(BaseBatch[AsyncBatchTaskOperation]):
         ):
             yield task
 
+    @doc_from(BaseBatch._list_info)
     async def list_info(
         self,
         *,
@@ -177,13 +217,14 @@ class AsyncBatch(BaseBatch[AsyncBatchTaskOperation]):
         ):
             yield task
 
-
+@doc_from(BaseBatch, link="sync")
 class Batch(BaseBatch[BatchTaskOperation]):
     _operation_impl = BatchTaskOperation
     __get = run_sync(BaseBatch._get)
     __list_operations = run_sync_generator(BaseBatch._list_operations)
     __list_info = run_sync_generator(BaseBatch._list_info)
 
+    @doc_from(BaseBatch._get)
     def get(
         self,
         task: str | BatchTaskInfo,
@@ -192,6 +233,7 @@ class Batch(BaseBatch[BatchTaskOperation]):
     ) -> BatchTaskOperation:
         return self.__get(task=task, timeout=timeout)
 
+    @doc_from(BaseBatch._list_operations)
     def list_operations(
         self,
         *,
@@ -205,6 +247,7 @@ class Batch(BaseBatch[BatchTaskOperation]):
             timeout=timeout
         )
 
+    @doc_from(BaseBatch._list_info)
     def list_info(
         self,
         *,
