@@ -19,3 +19,4 @@ Async SDK
    datasets
    tuning
    batch
+   chat/domain
