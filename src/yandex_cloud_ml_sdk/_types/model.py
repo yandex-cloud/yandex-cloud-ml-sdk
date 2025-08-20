@@ -8,7 +8,7 @@ from yandex_cloud_ml_sdk._tuning.tuning_task import TuningTaskTypeT
 from .misc import Undefined, UndefinedOr, get_defined_value
 from .model_config import BaseModelConfig
 from .operation import OperationTypeT
-from .result import BaseProtoResult, ProtoMessage
+from .result import BaseResult, ProtoMessage
 from .tuning.datasets import TuningDatasetsType
 from .tuning.params import BaseTuningParams
 
@@ -19,7 +19,7 @@ if TYPE_CHECKING:
 
 
 ConfigTypeT = TypeVar('ConfigTypeT', bound=BaseModelConfig)
-ResultTypeT = TypeVar('ResultTypeT', bound=BaseProtoResult)
+ResultTypeT = TypeVar('ResultTypeT', bound=BaseResult)
 TuningParamsTypeT = TypeVar('TuningParamsTypeT', bound=BaseTuningParams)
 
 
@@ -79,7 +79,7 @@ class ModelSyncStreamMixin(BaseModel[ConfigTypeT, ResultTypeT]):
         raise NotImplementedError()
 
         # to make this method an iterator we need to write at least one yield
-        yield BaseProtoResult()  # pylint: disable=unreachable,abstract-class-instantiated
+        yield BaseResult()  # pylint: disable=unreachable,abstract-class-instantiated
 
 
 class ModelAsyncMixin(

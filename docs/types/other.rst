@@ -7,6 +7,9 @@ Settings types
 .. autoclass:: yandex_cloud_ml_sdk._models.completions.config.ReasoningMode
    :undoc-members:
 
+.. autoclass:: yandex_cloud_ml_sdk._chat.completions.config.ChatReasoningMode
+   :undoc-members:
+
 
 Generic types
 ~~~~~~~~~~~~~
