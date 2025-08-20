@@ -12,9 +12,9 @@ def messages_to_json(messages: MessageInputType) -> list[dict[str, Any]]:
 
     for message in proto_messages:
         if message.HasField('tool_call_list'):
-            raise ValueError(123)
+            raise NotImplementedError('tool calling is not implemented')
         if message.HasField('tool_result_list'):
-            raise ValueError(234)
+            raise NotImplementedError('tool calling is not implemented')
 
         result.append({
             "content": message.text,

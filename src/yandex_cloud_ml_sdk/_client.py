@@ -171,7 +171,7 @@ class AsyncCloudClient:
         auth_provider = await self._get_auth_provider()
         # in case of self._auth=NoAuth(), it will return None
         # and it is might be okay: for local installations and on-premises
-        auth = await auth_provider.get_grpc_metadata(client=self, timeout=timeout, lock=self._auth_lock())
+        auth = await auth_provider.get_auth_metadata(client=self, timeout=timeout, lock=self._auth_lock())
 
         if auth:
             return metadata + (auth, )
@@ -337,11 +337,11 @@ class AsyncCloudClient:
         headers.update(kwargs.pop('headers', {}))
         if auth:
             auth_provider = await self._get_auth_provider()
-            token = await auth_provider.get_value(client=self, timeout=timeout, lock=self._auth_lock())
+            auth_metadata = await auth_provider.get_auth_metadata(client=self, timeout=timeout, lock=self._auth_lock())
             # in case of self._auth=NoAuth(), it will return None
             # and it is might be okay: for local installations and on-premises
-            if token:
-                headers['Authorization'] = f"Bearer {token}"
+            if auth_metadata:
+                headers['Authorization'] = auth_metadata[1]
 
         verify: str | bool
         if isinstance(self._verify, bool):
