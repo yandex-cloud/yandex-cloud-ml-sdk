@@ -141,7 +141,11 @@ class AsyncCloudClient:
             get_http_service_endpoint(service=service_name, cloud_endpoint=self._endpoint)
         )
 
-    def _get_common_headers(self) -> list[tuple[str, str]]:
+    async def _get_common_headers(
+        self,
+        auth_required: bool,
+        timeout: float,
+    ) -> list[tuple[str, str]]:
         headers = [
             ('x-client-request-id', str(uuid.uuid4())),
         ]
@@ -150,6 +154,17 @@ class AsyncCloudClient:
             headers.append(
                 ("x-data-logging-enabled", enable_server_data_logging),
             )
+
+        if not auth_required:
+            return headers
+
+        auth_provider = await self._get_auth_provider()
+        # in case of self._auth=NoAuth(), it will return None
+        # and it is might be okay: for local installations and on-premises
+        auth = await auth_provider.get_auth_metadata(client=self, timeout=timeout, lock=self._auth_lock())
+
+        if auth:
+            headers.append(auth)
 
         return headers
 
@@ -160,21 +175,11 @@ class AsyncCloudClient:
         timeout: float,
         retry_kind: RetryKind = RetryKind.NONE,
     ) -> tuple[tuple[str, str], ...]:
+        common_headers = await self._get_common_headers(auth_required, timeout)
         metadata: tuple[tuple[str, str], ...] = (
             (RETRY_KIND_METADATA_KEY, retry_kind.name),
-            *self._get_common_headers(),
+            *common_headers,
         )
-
-        if not auth_required:
-            return metadata
-
-        auth_provider = await self._get_auth_provider()
-        # in case of self._auth=NoAuth(), it will return None
-        # and it is might be okay: for local installations and on-premises
-        auth = await auth_provider.get_auth_metadata(client=self, timeout=timeout, lock=self._auth_lock())
-
-        if auth:
-            return metadata + (auth, )
 
         return metadata
 
@@ -333,15 +338,9 @@ class AsyncCloudClient:
         headers = {
             'User-Agent': self._user_agent,
         }
-        headers.update(self._get_common_headers())
+        common_headers = await self._get_common_headers(auth, timeout)
+        headers.update(common_headers)
         headers.update(kwargs.pop('headers', {}))
-        if auth:
-            auth_provider = await self._get_auth_provider()
-            auth_metadata = await auth_provider.get_auth_metadata(client=self, timeout=timeout, lock=self._auth_lock())
-            # in case of self._auth=NoAuth(), it will return None
-            # and it is might be okay: for local installations and on-premises
-            if auth_metadata:
-                headers['Authorization'] = auth_metadata[1]
 
         verify: str | bool
         if isinstance(self._verify, bool):
