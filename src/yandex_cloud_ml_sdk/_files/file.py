@@ -160,7 +160,7 @@ class BaseFile(ExpirableResource[ProtoFile]):
         # I didn't invent better way to use this function without a @safe_on_delete-lock
         url = await self._get_url.__wrapped__(self, timeout=timeout)  # type: ignore[attr-defined]
 
-        async with self._client.httpx() as client:
+        async with self._client.httpx(timeout=timeout, auth=False) as client:
             async with client.stream("GET", url, timeout=timeout) as response:
                 response.raise_for_status()
 
