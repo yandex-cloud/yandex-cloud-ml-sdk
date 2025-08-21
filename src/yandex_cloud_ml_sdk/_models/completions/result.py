@@ -89,15 +89,11 @@ class Alternative(TextMessage, ProtoBased[ProtoAlternative], HaveToolCalls[ToolC
     def _from_proto(cls, *, proto: ProtoAlternative, sdk: SDKType) -> Alternative:
         message = proto.message
 
-        # pylint: disable=protected-access
-        tool_call_impl: type[ToolCallTypeT] = sdk.tools.function._call_impl
-
         tool_call_list: ToolCallList | None = None
         if message.tool_call_list.tool_calls:
             tool_call_list = ToolCallList._from_proto(
                 proto=message.tool_call_list,
                 sdk=sdk,
-                tool_call_impl=tool_call_impl
             )
 
         return cls(

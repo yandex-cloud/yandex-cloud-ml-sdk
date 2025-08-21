@@ -8,19 +8,26 @@ import typing
 import pytest
 
 import yandex_cloud_ml_sdk._types.schemas
-from yandex_cloud_ml_sdk._types.schemas import schema_from_response_format
+from yandex_cloud_ml_sdk._types.schemas import http_schema_from_response_format
 
 
 def test_string_type() -> None:
-    assert schema_from_response_format('json') == 'json'
+    assert http_schema_from_response_format('json') == {'type': 'json_object'}
     with pytest.raises(ValueError):
-        schema_from_response_format('yaml')  # type: ignore[arg-type]
+        http_schema_from_response_format('yaml')  # type: ignore[arg-type]
 
 
 def test_dict_type() -> None:
-    assert schema_from_response_format({"json_schema": {"foo": "bar"}}) == {"foo": "bar"}
+    assert http_schema_from_response_format({"json_schema": {"foo": "bar"}}) == {
+        'type': 'json_schema',
+        'json_schema': {'schema': {"foo": "bar"}}
+    }
     with pytest.raises(ValueError):
-        schema_from_response_format({"foo": "bar"})  # type: ignore[arg-type]
+        http_schema_from_response_format({"foo": "bar"})  # type: ignore[arg-type]
+
+
+def schema_from_response_format(obj):
+    return http_schema_from_response_format(obj)['json_schema']['schema']
 
 
 @pytest.mark.require_env('pydantic')
@@ -104,13 +111,13 @@ def test_wrong_type() -> None:
         a: int
 
     with pytest.raises(TypeError):
-        schema_from_response_format(1)  # type: ignore[arg-type]
+        http_schema_from_response_format(1)  # type: ignore[arg-type]
 
     with pytest.raises(TypeError):
-        schema_from_response_format(A)
+        http_schema_from_response_format(A)
 
     with pytest.raises(TypeError):
-        schema_from_response_format(B)
+        http_schema_from_response_format(B)
 
 
 @pytest.fixture(name='no_pydantic')
@@ -140,4 +147,4 @@ def test_no_pydantic(no_pydantic) -> None:
         a: int
 
     with pytest.raises(TypeError):
-        schema_from_response_format(A)
+        http_schema_from_response_format(A)
