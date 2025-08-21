@@ -10,6 +10,7 @@ from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import ToolCall as Pro
 
 from yandex_cloud_ml_sdk._types.json import JsonBased, JsonObject
 from yandex_cloud_ml_sdk._types.proto import ProtoBased, SDKType
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from .function_call import AsyncFunctionCall, FunctionCall, FunctionCallTypeT
 
@@ -79,18 +80,12 @@ class BaseToolCall(
             _json_origin=data,
         )
 
-
+@doc_from(BaseToolCall)
 class AsyncToolCall(BaseToolCall):
-    """
-    Asynchronous version of tool call representation.
-    """
     _function_call_impl = AsyncFunctionCall
 
-
+@doc_from(BaseToolCall)
 class ToolCall(BaseToolCall):
-    """
-    Synchronous version of tool call representation.
-    """
     _function_call_impl = FunctionCall
 
 

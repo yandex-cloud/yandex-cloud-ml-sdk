@@ -6,6 +6,7 @@ from typing import Generic
 
 from yandex_cloud_ml_sdk._search_indexes.search_index import BaseSearchIndex
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
 from yandex_cloud_ml_sdk._utils.coerce import ResourceType, coerce_resource_ids
 
@@ -85,19 +86,10 @@ class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
             call_strategy=call_strategy_,
         )
 
-
+@doc_from(BaseTools)
 class AsyncTools(BaseTools[AsyncFunctionTools]):
-    """
-    Asynchronous implementation of tools functionality.
-
-    Provides async versions of all tools methods.
-    """
     _functions_impl = AsyncFunctionTools
 
+@doc_from(BaseTools)
 class Tools(BaseTools[FunctionTools]):
-    """
-    Synchronous implementation of tools functionality.
-
-    Provides sync versions of all tools methods.
-    """
     _functions_impl = FunctionTools

@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Optional, TypeVar, cast
 
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 # JsonObject needed for weird sphinx reasons
 # pylint: disable=unused-import
@@ -59,17 +60,12 @@ class BaseFunctionTools(BaseDomain, HaveToolCalls[ToolCallTypeT]):
         )
 
 
+@doc_from(BaseFunctionTools)
 class AsyncFunctionTools(BaseFunctionTools[AsyncToolCall]):
-    """
-    Asynchronous version of function tools.
-    """
     _call_impl = AsyncToolCall
 
-
+@doc_from(BaseFunctionTools)
 class FunctionTools(BaseFunctionTools[ToolCall]):
-    """
-    Synchronous version of function tools.
-    """
     _call_impl = ToolCall
 
 
