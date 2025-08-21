@@ -8,7 +8,8 @@ from typing_extensions import Self
 from yandex.cloud.ai.assistants.v1.common_pb2 import ToolCall as ProtoAssistantToolCall
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import ToolCall as ProtoCompletionsToolCall
 
-from yandex_cloud_ml_sdk._types.proto import ProtoBased
+from yandex_cloud_ml_sdk._types.json import JsonBased, JsonObject
+from yandex_cloud_ml_sdk._types.proto import ProtoBased, SDKType
 
 from .function_call import AsyncFunctionCall, FunctionCall, FunctionCallTypeT
 
@@ -24,20 +25,26 @@ class FunctionCallMixin(Generic[FunctionCallTypeT]):
 
 
 @dataclass(frozen=True)
-class BaseToolCall(ProtoBased[ProtoToolCall], FunctionCallMixin[FunctionCallTypeT]):
+class BaseToolCall(
+    JsonBased,
+    ProtoBased[ProtoToolCall],
+    FunctionCallMixin[FunctionCallTypeT]
+):
     """
     Base class representing a tool call in Yandex Cloud ML SDK.
     """
+    id: str | None
     #: Function call associated with this tool call
     function: FunctionCallTypeT | None
-    _proto_origin: ProtoToolCall = field(repr=False)
+    _proto_origin: ProtoToolCall | None = field(repr=False)
+    _json_origin: JsonObject | None = field(repr=False)
 
     @classmethod
     def _from_proto(
         cls,
         *,
         proto: ProtoToolCall,
-        sdk,
+        sdk: SDKType,
     ) -> Self:
         """
         Create BaseToolCall instance from protobuf message.
@@ -49,8 +56,27 @@ class BaseToolCall(ProtoBased[ProtoToolCall], FunctionCallMixin[FunctionCallType
         if proto.HasField('function_call'):
             function = cls._function_call_impl._from_proto(proto=proto.function_call, sdk=sdk)
         return cls(
+            id=None,
             function=function,
             _proto_origin=proto,
+            _json_origin=None,
+        )
+
+    @classmethod
+    def _from_json(cls, *, data: JsonObject, sdk: SDKType) -> Self:
+        function: FunctionCallTypeT | None = None
+        id_ = data.get('id')
+        assert isinstance(id_, str)
+        if data.get('type') == 'function':
+            function_data = data.get('function', {})
+            assert isinstance(function_data, dict)
+            function = cls._function_call_impl._from_json(data=function_data, sdk=sdk)
+
+        return cls(
+            id=id_,
+            function=function,
+            _proto_origin=None,
+            _json_origin=data,
         )
 
 

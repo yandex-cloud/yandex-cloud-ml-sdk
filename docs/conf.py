@@ -68,6 +68,7 @@ nitpick_ignore = {
     ('py:class', 'yandex_cloud_ml_sdk._client._D'),
     ('py:class', 'google.protobuf.message.Message'),
     ('py:class', 'httpx.AsyncClient'),
+    ('py:class', 'httpx_sse._models.ServerSentEvent'),
     # It creates a ton of langchain refs I want to pass right now
     ('py:class', 'yandex_cloud_ml_sdk._types.langchain.BaseYandexLanguageModel'),
     ('py:class', 'BaseYandexLanguageModel'),

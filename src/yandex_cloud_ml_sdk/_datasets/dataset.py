@@ -192,7 +192,7 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource[ProtoDatasetInfo]):
 
         sorted_urls = sorted(urls, key=key_comparator)
 
-        async with self._client.httpx() as client:
+        async with self._client.httpx(timeout=timeout, auth=False) as client:
             for key, url in sorted_urls:
                 with tempfile.NamedTemporaryFile(delete=False) as tmp:
                     filename = tmp.name
@@ -220,8 +220,7 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource[ProtoDatasetInfo]):
     ) -> tuple[Path, ...]:
         urls = await self._get_download_urls(timeout=timeout)
 
-        async with self._client.httpx() as client:
-
+        async with self._client.httpx(timeout=timeout, auth=False) as client:
             semaphore = asyncio.Semaphore(max_parallel_downloads)
 
             async def limited_download(file_path, url) -> None:

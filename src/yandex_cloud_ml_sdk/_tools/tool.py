@@ -13,7 +13,7 @@ from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import FunctionTool as
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Tool as ProtoCompletionsTool
 
 from yandex_cloud_ml_sdk._types.proto import ProtoBased, ProtoMessageTypeT, SDKType
-from yandex_cloud_ml_sdk._types.schemas import JsonSchemaType
+from yandex_cloud_ml_sdk._types.schemas import JsonObject, JsonSchemaType
 
 ProtoToolTypeT = TypeVar('ProtoToolTypeT', ProtoAssistantsTool, ProtoCompletionsTool)
 """
@@ -71,6 +71,9 @@ class BaseTool(ProtoBased[ProtoMessageTypeT]):
                 sdk=sdk
             )
         raise NotImplementedError('tools other then search_index and function are not supported in this SDK version')
+
+    def _to_json(self) -> JsonObject:
+        raise NotImplementedError(f'tools of type {self.__class__.__name__} are not supported in this part of the API')
 
 
 ProtoFunctionTool = Union[ProtoCompletionsFunctionTool, ProtoAssistantsFunctionTool]
@@ -157,3 +160,14 @@ class FunctionTool(BaseTool[ProtoFunctionTool]):
 
         # i dunno how to properly describe this type of polymorphism to mypy
         return proto_type(function=function)  # type: ignore[arg-type]
+
+    def _to_json(self) -> JsonObject:
+        return {
+            'function': {
+                'name': self.name,
+                'description': self.description,
+                'parameters': self.parameters,
+                'strict': self.strict,
+            },
+            'type': 'function',
+        }
