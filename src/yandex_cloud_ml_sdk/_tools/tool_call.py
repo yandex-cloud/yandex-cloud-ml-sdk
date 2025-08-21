@@ -34,6 +34,7 @@ class BaseToolCall(
     """
     Base class representing a tool call in Yandex Cloud ML SDK.
     """
+    #: Unique tool call identifier
     id: str | None
     #: Function call associated with this tool call
     function: FunctionCallTypeT | None

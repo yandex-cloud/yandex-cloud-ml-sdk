@@ -29,11 +29,6 @@ class SearchIndexTool(BaseTool[ProtoSearchIndexTool]):
 
     @classmethod
     def _from_proto(cls, *, proto: ProtoSearchIndexTool, sdk: SDKType) -> SearchIndexTool:
-        """Create SearchIndexTool instance from protocol buffer message.
-
-        :param proto: Protocol buffer message to convert from
-        :param sdk: SDK instance for type conversion
-        """
         max_num_results: int | None = None
         if proto.HasField("max_num_results"):
             max_num_results = proto.max_num_results.value
@@ -54,11 +49,6 @@ class SearchIndexTool(BaseTool[ProtoSearchIndexTool]):
         )
 
     def _to_proto(self, proto_type: type[ProtoToolTypeT]) -> ProtoToolTypeT:
-        """Convert SearchIndexTool instance to protocol buffer message.
-
-        :param proto_type: Protocol buffer message type to convert to
-        :raises AssertionError: If proto_type is not subclass of ProtoAssistantsTool
-        """
         assert issubclass(proto_type, ProtoAssistantsTool)
 
         max_num_results: None | Int64Value = None
