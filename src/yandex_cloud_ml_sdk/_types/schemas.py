@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Literal, TypedDict, Union
 
-from typing_extensions import NotRequired, TypeAlias, TypeGuard
+from typing_extensions import NotRequired, Required, TypeAlias, TypeGuard
 
 from yandex_cloud_ml_sdk._logging import get_logger
 
@@ -28,6 +28,8 @@ class JsonSchemaResponseType(TypedDict):
 
     #: Field with json schema which describes response format
     json_schema: JsonSchemaType
+    strict: NotRequired[bool]
+    name: NotRequired[str]
 
 #: Types availailable for response format
 ResponseType: TypeAlias = Union[StrResponseType, JsonSchemaResponseType, type]
@@ -45,12 +47,27 @@ except ImportError:
     PYDANTIC_V2 = False
 
 
-class JsonObjectResponseFormat(TypedDict):
-    json_object: NotRequired[bool]
+class JsonObjectProtoFormat(TypedDict):
+    json_object: Required[bool]
+
+
+class JsonSchemaProtoFormat(TypedDict):
+    json_schema: Required[JsonSchemaType]
+
+
+class EmptyProtoFormat(TypedDict):
+    pass
 
 
 class JsonSchemaResponseFormat(TypedDict):
-    json_schema: NotRequired[JsonSchemaType]
+    schema: Required[JsonSchemaType]
+    strict: NotRequired[bool]
+    name: NotRequired[str]
+
+
+class JsonSchemaParameterType(TypedDict):
+    type: Required[Literal['json_object', 'json_schema']]
+    json_schema: NotRequired[JsonSchemaResponseFormat]
 
 
 def is_pydantic_model_class(response_format: ResponseType) -> TypeGuard[type[pydantic.BaseModel]]:
@@ -62,21 +79,40 @@ def is_pydantic_model_class(response_format: ResponseType) -> TypeGuard[type[pyd
     )
 
 
-def schema_from_response_format(response_format: ResponseType) -> StrResponseType | JsonSchemaType:
-    result: StrResponseType | JsonSchemaType
+def http_schema_from_response_format(response_format: ResponseType) -> JsonSchemaParameterType:
+    result: JsonSchemaParameterType
 
     if isinstance(response_format, str):
         if not response_format in LITERAL_RESPONSE_FORMATS:
             raise ValueError(
-                f"Literal response type '{response_format}' is not supported, use one of {LITERAL_RESPONSE_FORMATS}")
-        result = response_format
+                f"Literal response type '{response_format}' is not supported, use one of {LITERAL_RESPONSE_FORMATS}"
+            )
+
+        assert response_format == 'json'
+        result = {
+            'type': 'json_object'
+        }
     elif isinstance(response_format, dict):
         # TODO: in case we would get jsonschema dependency, it is a good
         # idea to add validation here
-
-        json_schema = response_format.get('json_schema') or response_format.get('jsonschema')
+        json_schema = (
+            response_format.get('json_schema') or
+            response_format.get('jsonschema') or
+            response_format.get('schema')
+        )
         if json_schema and isinstance(json_schema, dict):
-            result = dict(json_schema)
+            result = {
+                'type': 'json_schema',
+                'json_schema': {
+                    'schema': json_schema,
+                }
+            }
+            if name := response_format.get('name'):
+                assert isinstance(name, str)
+                result['json_schema']['name'] = name
+
+            if 'strict' in response_format:
+                result['json_schema']['strict'] = response_format['strict']
         else:
             raise ValueError(
                 'json_schema field must be present in response_format field '
@@ -93,10 +129,24 @@ def schema_from_response_format(response_format: ResponseType) -> StrResponseTyp
         )
 
     elif is_pydantic_model_class(response_format):
-        result = response_format.model_json_schema()
+        result = {
+            'type': 'json_schema',
+            'json_schema': {
+                'schema': response_format.model_json_schema(),
+                'name': response_format.__name__,
+                'strict': True,
+            },
+        }
     else:
         assert pydantic.dataclasses.is_pydantic_dataclass(response_format)
-        result = pydantic.TypeAdapter(response_format).json_schema()
+        result = {
+            'type': 'json_schema',
+            'json_schema': {
+                'schema': pydantic.TypeAdapter(response_format).json_schema(),
+                'name': response_format.__name__,
+                'strict': True,
+            },
+        }
 
     logger.debug('transform input response_format=%r to json_schema=%r', response_format, result)
     return result
@@ -104,15 +154,22 @@ def schema_from_response_format(response_format: ResponseType) -> StrResponseTyp
 
 def make_response_format_kwargs(
     response_format: ResponseType | None
-) -> JsonObjectResponseFormat | JsonSchemaResponseFormat:
+) -> JsonObjectProtoFormat | JsonSchemaProtoFormat | EmptyProtoFormat:
+    """
+    Here we are transforming
+    1) http_schema <- schema_from_response_format(response_format)
+    2) grpc_schema <- http_schema
+    """
     if response_format is None:
         return {}
 
-    schema = schema_from_response_format(response_format)
-    if isinstance(schema, str):
+    schema = http_schema_from_response_format(response_format)
+
+    type_ = schema['type']
+    if type_  == 'json_object':
         return {'json_object': True}
-    assert isinstance(schema, dict)
-    return {'json_schema': {'schema': schema}}
+    assert type_ == 'json_schema'
+    return {'json_schema': {'schema': schema['json_schema']['schema']}}
 
 
 def schema_from_parameters(parameters: ParametersType) -> JsonSchemaType:
