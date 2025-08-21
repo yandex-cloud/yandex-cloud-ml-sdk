@@ -1,19 +1,22 @@
 # pylint: disable=protected-access
 from __future__ import annotations
 
-from collections.abc import AsyncIterator, Iterator
+from collections.abc import AsyncIterator, Iterator, Sequence
 from typing import Any, Generic
 
 from typing_extensions import Self, override
 
+from yandex_cloud_ml_sdk._models.completions.config import CompletionTool
 from yandex_cloud_ml_sdk._tools.tool_call import AsyncToolCall, ToolCall, ToolCallTypeT
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr
 from yandex_cloud_ml_sdk._types.model import ModelSyncMixin, ModelSyncStreamMixin
 from yandex_cloud_ml_sdk._types.schemas import ResponseType, http_schema_from_response_format
+from yandex_cloud_ml_sdk._types.tools.tool_choice import ToolChoiceType
+from yandex_cloud_ml_sdk._types.tools.tool_choice import coerce_to_json as coerce_tool_choice_to_json
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .config import ChatModelConfig, ChatReasoningModeType
-from .message import MessageInputType, messages_to_json
+from .message import ChatMessageInputType, messages_to_json
 from .result import ChatModelResult
 
 
@@ -34,15 +37,21 @@ class BaseChatModel(
         max_tokens: UndefinedOr[int] | None = UNDEFINED,
         reasoning_mode: UndefinedOr[ChatReasoningModeType] | None = UNDEFINED,
         response_format: UndefinedOr[ResponseType] | None = UNDEFINED,
+        tools: UndefinedOr[Sequence[CompletionTool] | CompletionTool] = UNDEFINED,
+        parallel_tool_calls: UndefinedOr[bool] = UNDEFINED,
+        tool_choice: UndefinedOr[ToolChoiceType] = UNDEFINED,
     ) -> Self:
         return super().configure(
             temperature=temperature,
             max_tokens=max_tokens,
             reasoning_mode=reasoning_mode,
             response_format=response_format,
+            tools=tools,
+            parallel_tool_calls=parallel_tool_calls,
+            tool_choice=tool_choice,
         )
 
-    def _build_request_json(self, messages: MessageInputType, stream: bool) -> dict[str, Any]:
+    def _build_request_json(self, messages: ChatMessageInputType, stream: bool) -> dict[str, Any]:
         result = {
             'model': self._uri,
             'messages': messages_to_json(messages),
@@ -68,13 +77,22 @@ class BaseChatModel(
         if c.reasoning_mode is not None:
             result['reasoning_effort'] = c.reasoning_mode.value
 
+        if c.tools is not None:
+            result['tools'] = [tool._to_json() for tool in c.tools]
+
+        if c.parallel_tool_calls is not None:
+            result['parallel_tool_calls'] = c.parallel_tool_calls
+
+        if c.tool_choice is not None:
+            result['tool_choice'] = coerce_tool_choice_to_json(c.tool_choice)
+
         return result
 
     @override
     # pylint: disable-next=arguments-differ
     async def _run(
         self,
-        messages: MessageInputType,
+        messages: ChatMessageInputType,
         *,
         timeout=180,
     ) -> ChatModelResult[ToolCallTypeT]:
@@ -92,7 +110,7 @@ class BaseChatModel(
     # pylint: disable-next=arguments-differ,too-many-locals
     async def _run_stream(
         self,
-        messages: MessageInputType,
+        messages: ChatMessageInputType,
         *,
         timeout=180,
     ) -> AsyncIterator[ChatModelResult[ToolCallTypeT]]:
@@ -178,7 +196,7 @@ class AsyncChatModel(
 
     async def run(
         self,
-        messages: MessageInputType,
+        messages: ChatMessageInputType,
         *,
         timeout=180,
     ) -> ChatModelResult[AsyncToolCall]:
@@ -189,7 +207,7 @@ class AsyncChatModel(
 
     async def run_stream(
         self,
-        messages: MessageInputType,
+        messages: ChatMessageInputType,
         *,
         timeout=180,
     ) -> AsyncIterator[ChatModelResult[AsyncToolCall]]:
@@ -209,7 +227,7 @@ class ChatModel(
 
     def run(
         self,
-        messages: MessageInputType,
+        messages: ChatMessageInputType,
         *,
         timeout=180,
     ) -> ChatModelResult[ToolCall]:
@@ -220,7 +238,7 @@ class ChatModel(
 
     def run_stream(
         self,
-        messages: MessageInputType,
+        messages: ChatMessageInputType,
         *,
         timeout=180,
     ) -> Iterator[ChatModelResult[ToolCall]]:

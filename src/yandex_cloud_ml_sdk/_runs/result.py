@@ -100,14 +100,11 @@ class RunResult(BaseRunResult[RunStatus, Message, ToolCallTypeT, ProtoRun]):
                 proto=state.completed_message
             )
 
-        # pylint: disable=protected-access
-        tool_call_impl: type[ToolCallTypeT] = sdk.tools.function._call_impl
         tool_call_list: ToolCallList[ProtoAssistantToolCallList, ToolCallTypeT] | None = None
         if state.tool_call_list.tool_calls:
             tool_call_list = ToolCallList._from_proto(
                 proto=state.tool_call_list,
                 sdk=sdk,
-                tool_call_impl=tool_call_impl
             )
 
         # pylint: disable=unexpected-keyword-arg
@@ -140,14 +137,11 @@ class RunStreamEvent(BaseRunResult[StreamEvent, BaseMessage[ProtoStreamEvent], T
         if proto.HasField('error'):
             error = proto.error.message
 
-        # pylint: disable=protected-access
-        tool_call_impl: type[ToolCallTypeT] = sdk.tools.function._call_impl
         tool_call_list: ToolCallList[ProtoAssistantToolCallList, ToolCallTypeT] | None = None
         if proto.tool_call_list.tool_calls:
             tool_call_list = ToolCallList._from_proto(
                 proto=proto.tool_call_list,
                 sdk=sdk,
-                tool_call_impl=tool_call_impl
             )
 
         # pylint: disable=unexpected-keyword-arg
