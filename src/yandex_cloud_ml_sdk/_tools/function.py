@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import Optional, TypeVar, cast
 
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
-from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 # JsonObject needed for weird sphinx reasons
 # pylint: disable=unused-import
