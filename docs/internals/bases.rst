@@ -77,3 +77,9 @@ Base classes
 
 .. autoclass:: yandex_cloud_ml_sdk._types.batch.operation.BaseBatchTaskOperation
    :undoc-members:
+
+.. autoclass:: yandex_cloud_ml_sdk._chat.BaseChat
+
+.. autoclass:: yandex_cloud_ml_sdk._chat.completions.function.BaseChatCompletions
+
+.. autoclass:: yandex_cloud_ml_sdk._chat.completions.model.BaseChatModel

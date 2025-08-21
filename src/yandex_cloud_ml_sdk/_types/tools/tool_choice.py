@@ -7,6 +7,7 @@ from typing_extensions import TypeAlias
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import ToolChoice as ProtoCompletionsToolChoice
 
 from yandex_cloud_ml_sdk._tools.tool import FunctionTool
+from yandex_cloud_ml_sdk._types.json import JsonObject
 
 from .function import FunctionDictType, validate_function_dict
 
@@ -43,5 +44,24 @@ def coerce_to_proto(
 
     if isinstance(tool_choice, FunctionTool):
         return expected_type(function_name=tool_choice.name)
+
+    raise TypeError(f'wrong {type(tool_choice)=}, expected string or dict')
+
+
+def coerce_to_json(tool_choice: ToolChoiceType) -> JsonObject | str | FunctionDictType:
+    if isinstance(tool_choice, str):
+        return tool_choice
+
+    if isinstance(tool_choice, dict):
+        tool_choice = validate_function_dict(tool_choice)
+        return tool_choice
+
+    if isinstance(tool_choice, FunctionTool):
+        return {
+            'type': 'function',
+            'function': {
+                'name': tool_choice.name,
+            }
+        }
 
     raise TypeError(f'wrong {type(tool_choice)=}, expected string or dict')

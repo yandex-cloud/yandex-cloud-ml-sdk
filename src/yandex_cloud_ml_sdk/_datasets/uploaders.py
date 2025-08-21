@@ -76,7 +76,7 @@ class SingleUploader(BaseUploader):
             data = await file_.read()
 
         # NB: here will be retries at sometime
-        async with dataset._client.httpx() as client:
+        async with dataset._client.httpx(timeout=timeout, auth=False) as client:
             response = await client.put(
                 url=presigned_url,
                 content=data,
@@ -108,7 +108,7 @@ class MultipartUploader(BaseUploader):
                 await f.seek(chunk_number * chunk_size)
                 data = await f.read(chunk_size)
 
-            async with dataset._client.httpx() as client:
+            async with dataset._client.httpx(timeout=timeout, auth=False) as client:
                 response = await client.put(
                     url=url,
                     content=data,

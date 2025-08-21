@@ -4,19 +4,21 @@ from __future__ import annotations
 import sys
 import uuid
 from contextlib import asynccontextmanager
-from typing import AsyncIterator, Literal, Protocol, Sequence, TypeVar, cast
+from typing import Any, AsyncIterator, Literal, Protocol, Sequence, TypeVar, cast
 
 import grpc
 import grpc.aio
-import httpx
+import httpx as httpx_
+import httpx_sse
 from google.protobuf.message import Message
 from yandex.cloud.endpoint.api_endpoint_service_pb2 import ListApiEndpointsRequest  # pylint: disable=no-name-in-module
 from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServiceStub
 
 from ._auth import BaseAuth, get_auth_provider
-from ._exceptions import AioRpcError, UnknownEndpointError
+from ._exceptions import AioRpcError, HttpSseError, UnknownEndpointError
 from ._retry import RETRY_KIND_METADATA_KEY, RetryKind, RetryPolicy
 from ._types.misc import PathLike, coerce_path
+from ._utils.http import HTTPServiceName, get_http_service_endpoint
 from ._utils.lock import LazyLock
 from ._utils.proto import service_for_ctor
 
@@ -76,6 +78,18 @@ class AsyncCloudClient:
         self._enable_server_data_logging = enable_server_data_logging
         self._verify = verify if verify is not None else True
 
+    async def _get_auth_provider(self) -> BaseAuth:
+        if self._auth_provider is None:
+            async with self._auth_lock():
+                if self._auth_provider is None:
+                    self._auth_provider = await get_auth_provider(
+                        auth=self._auth,
+                        endpoint=self._endpoint,
+                        yc_profile=self._yc_profile
+                    )
+
+        return self._auth_provider
+
     async def _init_service_map(self, timeout: float):
         metadata = await self._get_metadata(auth_required=False, timeout=timeout, retry_kind=RetryKind.SINGLE)
 
@@ -118,6 +132,42 @@ class AsyncCloudClient:
 
         raise UnknownEndpointError(f'failed to find endpoint for {service_name=} and {stub_class=}')
 
+    def _discover_http_endpoint(
+        self,
+        service_name: HTTPServiceName,
+    ) -> str:
+        return (
+            self._service_map_override.get(service_name) or
+            get_http_service_endpoint(service=service_name, cloud_endpoint=self._endpoint)
+        )
+
+    async def _get_common_headers(
+        self,
+        auth_required: bool,
+        timeout: float,
+    ) -> list[tuple[str, str]]:
+        headers = [
+            ('x-client-request-id', str(uuid.uuid4())),
+        ]
+        if self._enable_server_data_logging is not None:
+            enable_server_data_logging = "true" if self._enable_server_data_logging else "false"
+            headers.append(
+                ("x-data-logging-enabled", enable_server_data_logging),
+            )
+
+        if not auth_required:
+            return headers
+
+        auth_provider = await self._get_auth_provider()
+        # in case of self._auth=NoAuth(), it will return None
+        # and it is might be okay: for local installations and on-premises
+        auth = await auth_provider.get_auth_metadata(client=self, timeout=timeout, lock=self._auth_lock())
+
+        if auth:
+            headers.append(auth)
+
+        return headers
+
     async def _get_metadata(
         self,
         *,
@@ -125,35 +175,11 @@ class AsyncCloudClient:
         timeout: float,
         retry_kind: RetryKind = RetryKind.NONE,
     ) -> tuple[tuple[str, str], ...]:
+        common_headers = await self._get_common_headers(auth_required, timeout)
         metadata: tuple[tuple[str, str], ...] = (
             (RETRY_KIND_METADATA_KEY, retry_kind.name),
-            ('x-client-request-id', str(uuid.uuid4())),
+            *common_headers,
         )
-
-        if self._enable_server_data_logging is not None:
-            enable_server_data_logging = "true" if self._enable_server_data_logging else "false"
-            metadata += (
-                ("x-data-logging-enabled", enable_server_data_logging),
-            )
-
-        if not auth_required:
-            return metadata
-
-        if self._auth_provider is None:
-            async with self._auth_lock():
-                if self._auth_provider is None:
-                    self._auth_provider = await get_auth_provider(
-                        auth=self._auth,
-                        endpoint=self._endpoint,
-                        yc_profile=self._yc_profile
-                    )
-
-        # in case of self._auth=NoAuth(), it will return None
-        # and it is might be okay: for local installations and on-premises
-        auth = await self._auth_provider.get_auth_metadata(client=self, timeout=timeout, lock=self._auth_lock())
-
-        if auth:
-            return metadata + (auth, )
 
         return metadata
 
@@ -302,13 +328,82 @@ class AsyncCloudClient:
             yield cast(_D, response)
 
     @asynccontextmanager
-    async def httpx(self) -> AsyncIterator[httpx.AsyncClient]:
-        headers = {'user-agent': self._user_agent}
+    async def httpx(
+        self,
+        *,
+        timeout: float,
+        auth: bool,
+        **kwargs: Any
+    ) -> AsyncIterator[httpx_.AsyncClient]:
+        headers = {
+            'User-Agent': self._user_agent,
+        }
+        common_headers = await self._get_common_headers(auth, timeout)
+        headers.update(common_headers)
+        headers.update(kwargs.pop('headers', {}))
+
         verify: str | bool
         if isinstance(self._verify, bool):
             verify = self._verify
         else:
             verify = str(coerce_path(self._verify))
 
-        async with httpx.AsyncClient(headers=headers, verify=verify) as client:
+        async with httpx_.AsyncClient(
+            headers=headers,
+            verify=verify,
+            **kwargs,
+        ) as client:
             yield client
+
+    @asynccontextmanager
+    async def httpx_for_service(
+        self,
+        service_name: HTTPServiceName,
+        timeout: float,
+    ) -> AsyncIterator[httpx_.AsyncClient]:
+        endpoint = self._discover_http_endpoint(service_name)
+        async with self.httpx(
+            timeout=timeout,
+            auth=True,
+            base_url=endpoint
+        ) as client:
+            yield client
+
+    async def sse_stream(
+        self,
+        service_name: HTTPServiceName,
+        *,
+        method: str,
+        url: str,
+        timeout: float,
+        **kwargs: Any
+    ) -> AsyncIterator[httpx_sse.ServerSentEvent]:
+        async with self.httpx_for_service(service_name, timeout=timeout) as client:
+            async with client.stream(
+                method=method,
+                url=url,
+                **kwargs
+            ) as response:
+                response.raise_for_status()
+                event_source = httpx_sse.EventSource(response)
+
+                async for sse in event_source.aiter_sse():
+                    if sse.data.startswith('[DONE]'):
+                        break
+
+                    data = sse.json()
+                    if isinstance(data, dict) and data.get('error'):
+                        error = data['error']
+                        message: str | None = None
+                        if isinstance(error, dict):
+                            message = error.get('error')
+                        if not message or not isinstance(message, str):
+                            message = "streaming error"
+
+                        raise HttpSseError(
+                            event=sse.event,
+                            message=message,
+                            error=error
+                        )
+
+                    yield sse
