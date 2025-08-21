@@ -8,7 +8,7 @@ from typing import Any, Sequence, overload
 
 from yandex_cloud_ml_sdk._models.completions.result import AlternativeStatus, Usage
 from yandex_cloud_ml_sdk._tools.tool_call import HaveToolCalls, ToolCallTypeT
-from yandex_cloud_ml_sdk._tools.tool_call_list import ProtoCompletionsToolCallList, ToolCallList
+from yandex_cloud_ml_sdk._tools.tool_call_list import HttpToolCallList
 from yandex_cloud_ml_sdk._types.json import JsonBased
 from yandex_cloud_ml_sdk._types.message import TextMessage
 from yandex_cloud_ml_sdk._types.result import BaseJsonResult, SDKType
@@ -47,7 +47,7 @@ STATUS_TABLE = {
 class ChatChoice(TextMessage, HaveToolCalls[ToolCallTypeT], JsonBased):
     finish_reason: FinishReason
     status: AlternativeStatus
-    tool_calls: ToolCallList[ProtoCompletionsToolCallList, ToolCallTypeT] | None
+    tool_calls: HttpToolCallList[ToolCallTypeT] | None
     reasoning_text: str | None
 
     @property
@@ -71,23 +71,27 @@ class ChatChoice(TextMessage, HaveToolCalls[ToolCallTypeT], JsonBased):
         text = message['content']
         reasoning_text = message.get('reasoning_content')
 
+        tool_calls = None
+        if raw_tool_calls := message.get('tool_calls'):
+            tool_calls = HttpToolCallList._from_json(data=raw_tool_calls, sdk=sdk)
+
         return cls(
             text=text,
             role=role,
             finish_reason=finish_reason,
             status=status,
             reasoning_text=reasoning_text,
-            tool_calls=None
+            tool_calls=tool_calls,
         )
 
 
 @dataclass(frozen=True)
-class DeltaChatChoice(ChatChoice):
+class DeltaChatChoice(ChatChoice[ToolCallTypeT]):
     delta: str = field(repr=False)
     reasoning_delta: str | None = field(repr=False)
 
     @classmethod
-    def _from_json(cls, *, data: dict[str, Any], sdk: SDKType) -> DeltaChatChoice:
+    def _from_json(cls, *, data: dict[str, Any], sdk: SDKType) -> DeltaChatChoice[ToolCallTypeT]:
         delta_dict = data.get('delta', {})
 
         delta = delta_dict.get('content', '')
@@ -189,5 +193,5 @@ class ChatModelResult(BaseJsonResult, Sequence, HaveToolCalls[ToolCallTypeT]):
         return self[0].finish_reason
 
     @property
-    def tool_calls(self) -> ToolCallList[ProtoCompletionsToolCallList, ToolCallTypeT] | None:
+    def tool_calls(self) -> HttpToolCallList[ToolCallTypeT] | None:
         return self[0].tool_calls
