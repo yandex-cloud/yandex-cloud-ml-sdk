@@ -85,6 +85,7 @@ class AsyncToolCall(BaseToolCall):
     _function_call_impl = AsyncFunctionCall
 
 @doc_from(BaseToolCall)
+@doc_from(BaseToolCall)
 class ToolCall(BaseToolCall):
     _function_call_impl = FunctionCall
 
