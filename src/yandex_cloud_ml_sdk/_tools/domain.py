@@ -6,7 +6,6 @@ from typing import Generic
 
 from yandex_cloud_ml_sdk._search_indexes.search_index import BaseSearchIndex
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
-from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
 from yandex_cloud_ml_sdk._utils.coerce import ResourceType, coerce_resource_ids
 from yandex_cloud_ml_sdk._utils.doc import doc_from
