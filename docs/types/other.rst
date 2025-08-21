@@ -82,3 +82,5 @@ Miscellaneous types
    :no-undoc-members:
    :show-inheritance:
    :no-inherited-members:
+
+.. py:class:: yandex_cloud_ml_sdk._tools.tool_call_list.HttpToolCallList

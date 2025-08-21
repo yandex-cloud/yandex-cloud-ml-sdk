@@ -45,6 +45,36 @@ CompletionsMessageType = Union[MessageType, FunctionResultMessageDict]
 MessageInputType = Union[CompletionsMessageType, Iterable[CompletionsMessageType]]
 
 
+def message_to_proto(message: CompletionsMessageType) -> ProtoMessage:
+    kwargs: _ProtoMessageKwargs
+    if isinstance(message, str):
+        kwargs = {'role': 'user', 'text': message}
+    elif isinstance(message, TextMessageProtocol):
+        if isinstance(message, TextMessageWithToolCallsProtocol) and message.tool_calls:
+            # pylint: disable=protected-access
+            kwargs = {'role': message.role, 'tool_call_list': message.tool_calls._proto_origin}
+        else:
+            kwargs = {'role': message.role, 'text': message.text}
+    elif isinstance(message, dict):
+        role = message.get('role', 'user')
+        if 'text' in message:
+            message = cast(TextMessageDict, message)
+            kwargs = {'role': role, 'text': message['text']}
+        elif 'tool_results' in message:
+            message = cast(FunctionResultMessageDict, message)
+            tool_results = tool_results_to_proto(message['tool_results'], proto_type=ProtoCompletionsToolResultList)
+            kwargs = {
+                'role': role,
+                'tool_result_list': tool_results,
+            }
+        else:
+            raise TypeError(f'{message=!r} should have a "text" or "tool_results" key')
+    else:
+        raise TypeError(f'{message=!r} should be str, dict with "text" or "tool_results" key or TextMessage instance')
+
+    return ProtoMessage(**kwargs)
+
+
 def messages_to_proto(messages: MessageInputType) -> list[ProtoMessage]:
     """:meta private:"""
     msgs: tuple[CompletionsMessageType, ...] = coerce_tuple(
@@ -55,34 +85,8 @@ def messages_to_proto(messages: MessageInputType) -> list[ProtoMessage]:
     result: list[ProtoMessage] = []
 
     for message in msgs:
-        kwargs: _ProtoMessageKwargs
-        if isinstance(message, str):
-            kwargs = {'role': 'user', 'text': message}
-        elif isinstance(message, TextMessageProtocol):
-            if isinstance(message, TextMessageWithToolCallsProtocol) and message.tool_calls:
-                # pylint: disable=protected-access
-                kwargs = {'role': message.role, 'tool_call_list': message.tool_calls._proto_origin}
-            else:
-                kwargs = {'role': message.role, 'text': message.text}
-        elif isinstance(message, dict):
-            role = message.get('role', 'user')
-            if 'text' in message:
-                message = cast(TextMessageDict, message)
-                kwargs = {'role': role, 'text': message['text']}
-            elif 'tool_results' in message:
-                message = cast(FunctionResultMessageDict, message)
-                tool_results = tool_results_to_proto(message['tool_results'], proto_type=ProtoCompletionsToolResultList)
-                kwargs = {
-                    'role': role,
-                    'tool_result_list': tool_results,
-                }
-            else:
-                raise TypeError(f'{message=!r} should have a "text" or "tool_results" key')
-        else:
-            raise TypeError(f'{message=!r} should be str, dict with "text" or "tool_results" key or TextMessage instance')
-
         result.append(
-            ProtoMessage(**kwargs)
+            message_to_proto(message)
         )
 
     return result
