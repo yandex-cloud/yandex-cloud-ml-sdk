@@ -147,8 +147,8 @@ class BaseChatModel(
                 # but with our model we need to put it explicitly
                 delta = data['choices'][0]['delta'] = {'content': ''}
 
-            if 'tool_call' in delta:
-                raise NotImplementedError('tool calls not implemented in stream mode yet')
+            if 'tool_calls' in delta:
+                raise NotImplementedError('tool calls not implemented in SDK in stream mode yet')
 
             # By our model each chunk have to have an role, but in this stream only first one have
             if new_role := delta.get('role'):
