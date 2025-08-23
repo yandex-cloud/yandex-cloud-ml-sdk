@@ -19,6 +19,12 @@ ProtoFunctionCall = Union[ProtoAssistantFunctionCall, ProtoCompletionsFunctionCa
 
 @dataclass(frozen=True)
 class BaseFunctionCall(JsonBased, ProtoBased[ProtoFunctionCall]):
+    """
+    Base class representing a function call in Yandex Cloud ML SDK.
+
+    :param name: Name of the function being called
+    :param arguments: Arguments passed to the function
+    """
     name: str
     arguments: JsonObject
     _proto_origin: ProtoFunctionCall | None = field(repr=False)
@@ -30,6 +36,11 @@ class BaseFunctionCall(JsonBased, ProtoBased[ProtoFunctionCall]):
         proto: ProtoFunctionCall,
         **_,
     ) -> Self:
+        """
+        Create BaseFunctionCall instance from protobuf message.
+
+        :param proto: Protobuf message to convert
+        """
         return cls(
             name=proto.name,
             arguments=MessageToDict(proto.arguments),
@@ -51,11 +62,18 @@ class BaseFunctionCall(JsonBased, ProtoBased[ProtoFunctionCall]):
 
 
 class AsyncFunctionCall(BaseFunctionCall):
-    pass
+    """
+    Asynchronous version of function call representation.
+    """
 
 
 class FunctionCall(BaseFunctionCall):
-    pass
+    """
+    Synchronous version of function call representation.
+    """
 
 
 FunctionCallTypeT = TypeVar('FunctionCallTypeT', bound=BaseFunctionCall)
+"""
+Type variable representing any function call type.
+"""

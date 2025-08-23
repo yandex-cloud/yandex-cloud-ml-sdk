@@ -7,12 +7,16 @@ from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_
 # JsonObject needed for weird sphinx reasons
 # pylint: disable=unused-import
 from yandex_cloud_ml_sdk._types.schemas import JsonObject, ParametersType, schema_from_parameters  # noqa
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from .tool import FunctionTool
 from .tool_call import AsyncToolCall, HaveToolCalls, ToolCall, ToolCallTypeT
 
 
 class BaseFunctionTools(BaseDomain, HaveToolCalls[ToolCallTypeT]):
+    """
+    Base class for function tools in Yandex Cloud ML SDK.
+    """
     _call_impl: type[ToolCallTypeT]
 
     def __call__(
@@ -23,6 +27,14 @@ class BaseFunctionTools(BaseDomain, HaveToolCalls[ToolCallTypeT]):
         description: UndefinedOr[str] = UNDEFINED,
         strict: UndefinedOr[bool] = UNDEFINED,
     ) -> FunctionTool:
+        """
+        Create a function tool with given parameters.
+
+        :param parameters: Function parameters schema
+        :param name: Optional function name (default: inferred from parameters)
+        :param description: Optional function description
+        :param strict: Whether to enforce strict parameter validation
+        """
         schema = schema_from_parameters(parameters)
         description_ = (
             get_defined_value(description, None) or
@@ -48,12 +60,16 @@ class BaseFunctionTools(BaseDomain, HaveToolCalls[ToolCallTypeT]):
         )
 
 
+@doc_from(BaseFunctionTools)
 class AsyncFunctionTools(BaseFunctionTools[AsyncToolCall]):
     _call_impl = AsyncToolCall
 
-
+@doc_from(BaseFunctionTools)
 class FunctionTools(BaseFunctionTools[ToolCall]):
     _call_impl = ToolCall
 
 
 FunctionToolsTypeT = TypeVar('FunctionToolsTypeT', bound=BaseFunctionTools)
+"""
+Type variable representing any function tools type.
+"""
