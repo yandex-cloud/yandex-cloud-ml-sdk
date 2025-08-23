@@ -13,7 +13,6 @@ from yandex_cloud_ml_sdk._messages.message import BaseMessage, Message, PartialM
 from yandex_cloud_ml_sdk._models.completions.result import Usage
 from yandex_cloud_ml_sdk._tools.tool_call import HaveToolCalls, ToolCallTypeT
 from yandex_cloud_ml_sdk._tools.tool_call_list import ProtoAssistantToolCallList, ToolCallList
-from yandex_cloud_ml_sdk._types.operation import BaseOperationStatus
 from yandex_cloud_ml_sdk._types.result import BaseProtoResult, ProtoMessageTypeT_contra
 
 from .status import BaseRunStatus, RunStatus, StreamEvent
