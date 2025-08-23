@@ -19,12 +19,19 @@ from yandex_cloud_ml_sdk._threads.thread import BaseThread
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
 from yandex_cloud_ml_sdk._types.schemas import ResponseType, make_response_format_kwargs
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .run import AsyncRun, Run, RunTypeT
 
 
 class BaseRuns(BaseDomain, Generic[RunTypeT]):
+    """
+    Class for Runs operations.
+    Provides core functionality for managing assistant execution in streams.
+
+    For usage examples see `runs example <https://github.com/yandex-cloud/yandex-cloud-ml-sdk/blob/master/examples/{link}/assistants/runs.py>`_.
+    """
     _run_impl: type[RunTypeT]
 
     # pylint: disable=too-many-locals
@@ -41,6 +48,21 @@ class BaseRuns(BaseDomain, Generic[RunTypeT]):
         custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
         timeout: float = 60,
     ) -> RunTypeT:
+        """
+        Create a new run, allowing to override assistant parameters
+        for this specific run while keeping the original assistant configuration.
+
+        :param assistant: Assistant ID or instance
+        :param thread: Thread ID or instance
+        :param stream: Whether to stream the response
+        :param custom_temperature: Custom temperature value
+        :param custom_max_tokens: Custom max tokens value
+        :param custom_max_prompt_tokens: Custom max prompt tokens value
+        :param custom_prompt_truncation_strategy: Custom truncation strategy
+        :param custom_response_format: Custom response format
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         assistant_id: str
         if isinstance(assistant, str):
             assistant_id = assistant
@@ -102,6 +124,13 @@ class BaseRuns(BaseDomain, Generic[RunTypeT]):
     ) -> RunTypeT:
         # TODO: we need a global per-sdk cache on ids to rule out
         # possibility we have two Runs with same ids but different fields
+        """
+        Get a run by ID.
+
+        :param run_id: Run ID
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         request = GetRunRequest(run_id=run_id)
 
         async with self._client.get_service_stub(RunServiceStub, timeout=timeout) as stub:
@@ -120,6 +149,13 @@ class BaseRuns(BaseDomain, Generic[RunTypeT]):
         *,
         timeout: float = 60
     ) -> RunTypeT:
+        """
+        Get the last run for a thread.
+
+        :param thread: Thread ID or instance
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         thread_id: str
         if isinstance(thread, str):
             thread_id = thread
@@ -146,6 +182,13 @@ class BaseRuns(BaseDomain, Generic[RunTypeT]):
         page_size: UndefinedOr[int] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[RunTypeT]:
+        """
+        List runs with pagination.
+
+        :param page_size: Number of items per page
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         page_token_ = ''
         page_size_ = get_defined_value(page_size, 0)
 
@@ -171,11 +214,12 @@ class BaseRuns(BaseDomain, Generic[RunTypeT]):
 
                 page_token_ = response.next_page_token
 
-
+@doc_from(BaseRuns, link="async")
 class AsyncRuns(BaseRuns[AsyncRun]):
     # NB: there is no public 'create'
     _run_impl = AsyncRun
 
+    @doc_from(BaseRuns._get)
     async def get(
         self,
         run_id: str,
@@ -187,6 +231,7 @@ class AsyncRuns(BaseRuns[AsyncRun]):
             timeout=timeout,
         )
 
+    @doc_from(BaseRuns._get_last_by_thread)
     async def get_last_by_thread(
         self,
         thread: str | BaseThread,
@@ -198,6 +243,7 @@ class AsyncRuns(BaseRuns[AsyncRun]):
             timeout=timeout,
         )
 
+    @doc_from(BaseRuns._list)
     async def list(
         self,
         *,
@@ -210,7 +256,7 @@ class AsyncRuns(BaseRuns[AsyncRun]):
         ):
             yield run
 
-
+@doc_from(BaseRuns, link="sync")
 class Runs(BaseRuns[Run]):
     _run_impl = Run
 
@@ -219,6 +265,7 @@ class Runs(BaseRuns[Run]):
     __get_last_by_thread = run_sync(BaseRuns._get_last_by_thread)
     __list = run_sync_generator(BaseRuns._list)
 
+    @doc_from(BaseRuns._get)
     def get(
         self,
         run_id: str,
@@ -230,6 +277,7 @@ class Runs(BaseRuns[Run]):
             timeout=timeout,
         )
 
+    @doc_from(BaseRuns._get_last_by_thread)
     def get_last_by_thread(
         self,
         thread: str | BaseThread,
@@ -241,6 +289,7 @@ class Runs(BaseRuns[Run]):
             timeout=timeout,
         )
 
+    @doc_from(BaseRuns._list)
     def list(
         self,
         *,

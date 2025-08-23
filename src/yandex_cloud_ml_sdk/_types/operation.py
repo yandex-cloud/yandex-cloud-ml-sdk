@@ -33,22 +33,37 @@ ResultTypeT_co = TypeVar('ResultTypeT_co', covariant=True)
 class BaseOperationStatus:
     @property
     def is_running(self) -> bool:
+        """
+        Check if operation execution is still in progress.
+        """
         raise NotImplementedError()
 
     @property
     def is_succeeded(self) -> bool:
+        """
+        Check if operation execution completed successfully.
+        """
         raise NotImplementedError()
 
     @property
     def is_failed(self) -> bool:
+        """
+        Check if operation execution failed.
+        """
         raise NotImplementedError()
 
     @property
     def is_finished(self) -> bool:
+        """
+        Check if operation execution finished.
+        """
         return self.is_succeeded or self.is_failed
 
     @property
     def status_name(self) -> str:
+        """
+        Get operation execution status name.
+        """
         if self.is_succeeded:
             return 'success'
         if self.is_failed:
