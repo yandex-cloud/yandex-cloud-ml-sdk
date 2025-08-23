@@ -14,12 +14,16 @@ from yandex.cloud.ai.assistants.v1.threads.message_service_pb2_grpc import Messa
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.message import MessageType, coerce_to_text_message_dict
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .message import Message
 
 
 class BaseMessages(BaseDomain):
+    """
+    Base class for message operations (sync and async implementations).
+    """
     _message_impl = Message
 
     async def _create(
@@ -30,6 +34,14 @@ class BaseMessages(BaseDomain):
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         timeout: float = 60,
     ) -> Message:
+        """Create a new message.
+
+        :param message: Message content to create
+        :param thread_id: ID of the thread to add message to
+        :param labels: Optional dictionary of message labels
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         message_dict = coerce_to_text_message_dict(message)
         content = message_dict['text']
         author: Author | None = None
@@ -67,6 +79,14 @@ class BaseMessages(BaseDomain):
         message_id: str,
         timeout: float = 60,
     ) -> Message:
+        """
+        Get a message by ID.
+
+        :param thread_id: ID of the thread containing the message
+        :param message_id: ID of the message to retrieve
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         # TODO: we need a global per-sdk cache on ids to rule out
         # possibility we have two Messages with same ids but different fields
         request = GetMessageRequest(thread_id=thread_id, message_id=message_id)
@@ -87,6 +107,13 @@ class BaseMessages(BaseDomain):
         thread_id: str,
         timeout: float = 60
     ) -> AsyncIterator[Message]:
+        """
+        List messages in a thread.
+
+        :param thread_id: ID of the thread to list messages from
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         request = ListMessagesRequest(thread_id=thread_id)
 
         async with self._client.get_service_stub(MessageServiceStub, timeout=timeout) as stub:
@@ -98,8 +125,9 @@ class BaseMessages(BaseDomain):
             ):
                 yield self._message_impl._from_proto(proto=response, sdk=self._sdk)
 
-
+@doc_from(BaseMessages)
 class AsyncMessages(BaseMessages):
+    @doc_from(BaseMessages._create)
     async def create(
         self,
         message: MessageType,
@@ -115,6 +143,7 @@ class AsyncMessages(BaseMessages):
             timeout=timeout
         )
 
+    @doc_from(BaseMessages._get)
     async def get(
         self,
         *,
@@ -128,6 +157,7 @@ class AsyncMessages(BaseMessages):
             timeout=timeout
         )
 
+    @doc_from(BaseMessages._list)
     async def list(
         self,
         *,
@@ -140,12 +170,14 @@ class AsyncMessages(BaseMessages):
         ):
             yield message
 
-
+@doc_from(BaseMessages)
 class Messages(BaseMessages):
+
     __get = run_sync(BaseMessages._get)
     __create = run_sync(BaseMessages._create)
     __list = run_sync_generator(BaseMessages._list)
 
+    @doc_from(BaseMessages._create)
     def create(
         self,
         message: MessageType,
@@ -161,6 +193,7 @@ class Messages(BaseMessages):
             timeout=timeout
         )
 
+    @doc_from(BaseMessages._get)
     def get(
         self,
         *,
@@ -174,6 +207,7 @@ class Messages(BaseMessages):
             timeout=timeout
         )
 
+    @doc_from(BaseMessages._list)
     def list(
         self,
         *,
