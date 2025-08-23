@@ -26,10 +26,8 @@ logger = get_logger(__name__)
 
 class BaseBatch(BaseDomain, Generic[BatchTaskOperationTypeT]):
     """
-    Abstract base class for managing batch operations in Yandex Cloud ML SDK.
-    This class should not be instantiated directly.
-    Instead use: `Batch` for synchronous operations or `AsyncBatch` for asynchronous operations.
-
+    Сlass for managing batch operations in Yandex Cloud ML SDK.
+    
     For usage examples see `batch example <https://github.com/yandex-cloud/yandex-cloud-ml-sdk/blob/master/examples/{link}/completions/batch.py>`_.
     """
     _operation_impl: type[BatchTaskOperationTypeT]
@@ -41,15 +39,11 @@ class BaseBatch(BaseDomain, Generic[BatchTaskOperationTypeT]):
         timeout: float = 60,
     ) -> BatchTaskOperationTypeT:
         """
-        Get batch task operation by ID or BatchTaskInfo object.
+        Get batch task operation by ID or by BatchTaskInfo object.
 
         :param task: Either task ID string or BatchTaskInfo object
         :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
-
-        Raises:
-            ValueError: If task ID is invalid
-            TimeoutError: If request timed out
         """
         logger.debug('Fetching batch task %s from server', task)
 
