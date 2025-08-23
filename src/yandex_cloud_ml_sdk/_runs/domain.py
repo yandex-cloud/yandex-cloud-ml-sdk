@@ -27,7 +27,7 @@ from .run import AsyncRun, Run, RunTypeT
 
 class BaseRuns(BaseDomain, Generic[RunTypeT]):
     """
-    Abstract class for Runs operations with configurable RunTypeT.
+    Class for Runs operations.
     Provides core functionality for managing assistant execution in streams.
 
     For usage examples see `runs example <https://github.com/yandex-cloud/yandex-cloud-ml-sdk/blob/master/examples/{link}/assistants/runs.py>`_.

@@ -13,7 +13,9 @@ from yandex_cloud_ml_sdk._messages.message import BaseMessage, Message, PartialM
 from yandex_cloud_ml_sdk._models.completions.result import Usage
 from yandex_cloud_ml_sdk._tools.tool_call import HaveToolCalls, ToolCallTypeT
 from yandex_cloud_ml_sdk._tools.tool_call_list import ProtoAssistantToolCallList, ToolCallList
+from yandex_cloud_ml_sdk._types.operation import BaseOperationStatus
 from yandex_cloud_ml_sdk._types.result import BaseProtoResult, ProtoMessageTypeT_contra
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from .status import BaseRunStatus, RunStatus, StreamEvent
 
@@ -45,24 +47,18 @@ class BaseRunResult(
         pass
 
     @property
+    @doc_from(BaseOperationStatus.is_running)
     def is_running(self) -> bool:
-        """
-        Check if run is in progress.
-        """
         return self.status.is_running
 
     @property
+    @doc_from(BaseOperationStatus.is_succeeded)
     def is_succeeded(self) -> bool:
-        """
-        Check if run completed successfully.
-        """
         return self.status.is_succeeded
 
     @property
+    @doc_from(BaseOperationStatus.is_failed)
     def is_failed(self) -> bool:
-        """
-        Check if run failed.
-        """
         return self.status.is_failed
 
     @property
