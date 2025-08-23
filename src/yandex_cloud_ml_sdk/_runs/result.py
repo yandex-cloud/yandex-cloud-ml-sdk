@@ -57,7 +57,6 @@ class BaseRunResult(
         return self.status.is_succeeded
 
     @property
-    @doc_from(BaseOperationStatus.is_failed)
     def is_failed(self) -> bool:
         return self.status.is_failed
 
