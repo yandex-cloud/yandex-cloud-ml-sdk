@@ -123,10 +123,7 @@ class TuningTaskStatus(OperationStatus):
 
 class BaseTuningTask(OperationInterface[TuningResultTypeT_co, TuningTaskStatus]):
     """
-    Base class for tuning task operations in Yandex Cloud ML SDK.
-
-    Subclasses should implement model-specific tuning logic while reusing
-    the common infrastructure provided by this base class.
+    Tuning task class that provides an Operation interface for tracking the tuning task and obtaining results in Yandex Cloud ML SDK.
     """
     _sdk: BaseSDK
 
