@@ -22,6 +22,18 @@ _LONG_TYPES = frozenset([
 ])
 
 def proto_to_dict(message: Message) -> dict[str, Any]:
+    """
+    Convert a protobuf message to a dictionary with proper type handling.
+    
+    This function converts protobuf messages to dictionaries while handling
+    special cases for timestamps and long integer types.
+    
+    :param message: The protobuf message to convert
+    
+    .. note::
+        Timestamp fields are converted to Python datetime objects.
+        Long integer fields are converted to Python int objects.
+    """
     dct = MessageToDict(
         message,
         preserving_proto_field_name=True
@@ -42,6 +54,18 @@ def get_google_value(
     default: _D,
     expected_type: type[_T],  # pylint: disable=unused-argument
 ) -> _T | _D:
+    """
+    Extract a value from a Google protobuf wrapper type.
+    
+    This function extracts the actual value from Google protobuf wrapper types
+    (like google.protobuf.wrappers_pb2.StringValue), returning a default if
+    the field is not present.
+    
+    :param message: The protobuf message containing the field
+    :param field_name: Name of the field to extract
+    :param default: Default value to return if field is not present
+    :param expected_type: Expected type of the extracted value (used for type hints)
+    """
     if message.HasField(field_name):
         return cast(_T, getattr(message, field_name).value)
 
@@ -49,6 +73,14 @@ def get_google_value(
 
 
 def service_for_ctor(stub_ctor: Any) -> str:
+    """
+    Determine the service ID for a given stub constructor.
+    
+    This function inspects a gRPC stub constructor to determine which
+    Yandex Cloud service it belongs to by analyzing its module name.
+    
+    :param stub_ctor: The gRPC stub constructor
+    """
     m = inspect.getmodule(stub_ctor)
     if m is not None:
         name = m.__name__
@@ -93,6 +125,13 @@ else:
 
 
 class ProtoEnumBase(base):
+    """
+    Class for protocol buffer enum wrappers.
+    
+    This class provides functionality for converting between different
+    representations of protobuf enum values (string, int, enum instances).
+    """
+
     @classmethod
     def _coerce(cls, value: str | int | ProtoEnumBase) -> Self:
         if isinstance(value, cls):
@@ -119,4 +158,7 @@ class ProtoEnumBase(base):
 
 
 ProtoEnumTypeT = TypeVar("ProtoEnumTypeT", bound=ProtoEnumBase)
+#: Type variable for protobuf enum types that extend ProtoEnumBase.
+
 ProtoEnumCoercible = Union[ProtoEnumTypeT, str, int]
+#: Union type for values that can be coerced to a protobuf enum.
