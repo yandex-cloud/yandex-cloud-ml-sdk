@@ -89,5 +89,6 @@ ToolCallTypeT = TypeVar('ToolCallTypeT', bound=BaseToolCall)
 
 
 class HaveToolCalls(Generic[ToolCallTypeT]):
-    """Interface for objects that can have tool calls."""
-    pass
+    """
+    Interface for objects that can have tool calls.
+    """
