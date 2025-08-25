@@ -55,3 +55,20 @@ Image generation
 
 .. autoclass:: yandex_cloud_ml_sdk._models.image_generation.result.ImageGenerationModelResult
    :undoc-members:
+
+Chat completions
+----------------
+
+.. currentmodule:: yandex_cloud_ml_sdk._chat.completions.result
+
+.. autoclass:: ChatModelResult
+   :undoc-members:
+
+.. autoclass:: ChatChoice
+   :undoc-members:
+
+.. autoclass:: FinishReason
+   :undoc-members:
+
+.. autoclass:: ChatUsage
+   :undoc-members:

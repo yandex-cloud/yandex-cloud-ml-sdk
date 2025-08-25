@@ -16,6 +16,7 @@ from yandex_cloud_ml_sdk._types.expiration import ExpirationConfig, ExpirationPo
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
 from yandex_cloud_ml_sdk._types.operation import AsyncOperation, Operation, OperationTypeT
 from yandex_cloud_ml_sdk._utils.coerce import ResourceType, coerce_resource_ids
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .index_type import BaseSearchIndexType
@@ -23,6 +24,10 @@ from .search_index import AsyncSearchIndex, SearchIndex, SearchIndexTypeT
 
 
 class BaseSearchIndexes(BaseDomain, Generic[SearchIndexTypeT, OperationTypeT]):
+    """
+    A class for search indexes. It is a part of Assistants API
+    and it provides the foundation for creating and managing search indexes.
+    """
     _impl: type[SearchIndexTypeT]
     _operation_type: type[OperationTypeT]
 
@@ -39,6 +44,22 @@ class BaseSearchIndexes(BaseDomain, Generic[SearchIndexTypeT, OperationTypeT]):
         expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
         timeout: float = 60,
     ) -> OperationTypeT:
+        """
+        Create a deferred search index.
+
+        It returns an operation that can be used to track the creation process.
+
+        :param files: the files to be indexed.
+        :param index_type: the type of the search index.
+        :param name: the name of the search index.
+        :param description: a description for the search index.
+        :param labels: a set of labels for the search index.
+        :param ttl_days: time-to-live in days for the search index.
+        :param expiration_policy: expiration policy for the file.
+            Assepts for passing ``static`` or ``since_last_active`` strings. Should be defined if ``ttl_days`` has been defined, otherwise both parameters should be undefined.
+        :param timeout: the time to wait for the operation to complete.
+            Defaults to 60 seconds.
+        """
         if is_defined(ttl_days) != is_defined(expiration_policy):
             raise ValueError("ttl_days and expiration policy must be both defined either undefined")
 
@@ -83,6 +104,14 @@ class BaseSearchIndexes(BaseDomain, Generic[SearchIndexTypeT, OperationTypeT]):
         *,
         timeout: float = 60,
     ) -> SearchIndexTypeT:
+        """Retrieve a search index by its id.
+
+        This method fetches an already created search index using its unique identifier.
+
+        :param search_index_id: the unique identifier of the search index to retrieve.
+        :param timeout: the time to wait for the operation to complete.
+            Defaults to 60 seconds.
+        """
         # TODO: we need a global per-sdk cache on ids to rule out
         # possibility we have two SearchIndexs with same ids but different fields
         request = GetSearchIndexRequest(search_index_id=search_index_id)
@@ -103,6 +132,15 @@ class BaseSearchIndexes(BaseDomain, Generic[SearchIndexTypeT, OperationTypeT]):
         page_size: UndefinedOr[int] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[SearchIndexTypeT]:
+        """List search indexes in the specified folder.
+
+        This method retrieves a list of search indexes. It continues
+        to fetch search indexes until there are no more available.
+
+        :param page_size: the maximum number of search indexes to return per page.
+        :param timeout: the time to wait for the operation to complete.
+            Defaults to 60 seconds.
+        """
         page_token_ = ''
         page_size_ = get_defined_value(page_size, 0)
 
@@ -129,10 +167,12 @@ class BaseSearchIndexes(BaseDomain, Generic[SearchIndexTypeT, OperationTypeT]):
                 page_token_ = response.next_page_token
 
 
+@doc_from(BaseSearchIndexes)
 class AsyncSearchIndexes(BaseSearchIndexes[AsyncSearchIndex, AsyncOperation[AsyncSearchIndex]]):
     _impl = AsyncSearchIndex
     _operation_type = AsyncOperation[AsyncSearchIndex]
 
+    @doc_from(BaseSearchIndexes._create_deferred)
     async def create_deferred(
         self,
         files: ResourceType[BaseFile],
@@ -156,6 +196,7 @@ class AsyncSearchIndexes(BaseSearchIndexes[AsyncSearchIndex, AsyncOperation[Asyn
             timeout=timeout
         )
 
+    @doc_from(BaseSearchIndexes._get)
     async def get(
         self,
         search_index_id: str,
@@ -167,6 +208,7 @@ class AsyncSearchIndexes(BaseSearchIndexes[AsyncSearchIndex, AsyncOperation[Asyn
             timeout=timeout,
         )
 
+    @doc_from(BaseSearchIndexes._list)
     async def list(
         self,
         *,
@@ -180,6 +222,7 @@ class AsyncSearchIndexes(BaseSearchIndexes[AsyncSearchIndex, AsyncOperation[Asyn
             yield search_index
 
 
+@doc_from(BaseSearchIndexes)
 class SearchIndexes(BaseSearchIndexes[SearchIndex, Operation[SearchIndex]]):
     _impl = SearchIndex
     _operation_type = Operation[SearchIndex]
@@ -188,6 +231,7 @@ class SearchIndexes(BaseSearchIndexes[SearchIndex, Operation[SearchIndex]]):
     __create_deferred = run_sync(BaseSearchIndexes._create_deferred)
     __list = run_sync_generator(BaseSearchIndexes._list)
 
+    @doc_from(BaseSearchIndexes._create_deferred)
     def create_deferred(
         self,
         files: ResourceType[BaseFile],
@@ -211,6 +255,7 @@ class SearchIndexes(BaseSearchIndexes[SearchIndex, Operation[SearchIndex]]):
             timeout=timeout
         )
 
+    @doc_from(BaseSearchIndexes._get)
     def get(
         self,
         search_index_id: str,
@@ -222,6 +267,7 @@ class SearchIndexes(BaseSearchIndexes[SearchIndex, Operation[SearchIndex]]):
             timeout=timeout,
         )
 
+    @doc_from(BaseSearchIndexes._list)
     def list(
         self,
         *,
