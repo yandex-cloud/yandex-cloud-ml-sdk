@@ -14,10 +14,10 @@ def coerce_resource_ids(
     resource_type: type[ResourceTypeT],
 ) -> tuple[str, ...]:
     """Coerce resource objects or IDs into a tuple of string IDs.
-    
+
     Converts various resource representations (single resource, string ID,
     or iterable of resources/IDs) into a standardized tuple of string IDs.
-    
+
     :param resources: Resource(s) to coerce. Can be a string ID, resource object,
                      or iterable of string IDs/resource objects.
     :param resource_type: The expected resource type for validation.
@@ -45,10 +45,10 @@ def coerce_resource_ids(
 
 def coerce_tuple(value: Iterable[_T] | _T, value_type: type[_T]) -> tuple[_T, ...]:
     """Coerce a single value or iterable into a tuple of specified type.
-    
+
     Converts a single value of the expected type or an iterable of values
     into a standardized tuple format.
-    
+
     :param value: Value(s) to coerce. Can be a single value of the expected type
                  or an iterable of values.
     :param value_type: The expected type for validation of single values.

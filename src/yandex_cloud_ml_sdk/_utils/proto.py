@@ -24,12 +24,12 @@ _LONG_TYPES = frozenset([
 def proto_to_dict(message: Message) -> dict[str, Any]:
     """
     Convert a protobuf message to a dictionary with proper type handling.
-    
+
     This function converts protobuf messages to dictionaries while handling
     special cases for timestamps and long integer types.
-    
+
     :param message: The protobuf message to convert
-    
+
     .. note::
         Timestamp fields are converted to Python datetime objects.
         Long integer fields are converted to Python int objects.
@@ -56,11 +56,11 @@ def get_google_value(
 ) -> _T | _D:
     """
     Extract a value from a Google protobuf wrapper type.
-    
+
     This function extracts the actual value from Google protobuf wrapper types
     (like google.protobuf.wrappers_pb2.StringValue), returning a default if
     the field is not present.
-    
+
     :param message: The protobuf message containing the field
     :param field_name: Name of the field to extract
     :param default: Default value to return if field is not present
@@ -75,10 +75,10 @@ def get_google_value(
 def service_for_ctor(stub_ctor: Any) -> str:
     """
     Determine the service ID for a given stub constructor.
-    
+
     This function inspects a gRPC stub constructor to determine which
     Yandex Cloud service it belongs to by analyzing its module name.
-    
+
     :param stub_ctor: The gRPC stub constructor
     """
     m = inspect.getmodule(stub_ctor)
@@ -127,7 +127,7 @@ else:
 class ProtoEnumBase(base):
     """
     Class for protocol buffer enum wrappers.
-    
+
     This class provides functionality for converting between different
     representations of protobuf enum values (string, int, enum instances).
     """

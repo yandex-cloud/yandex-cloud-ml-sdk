@@ -11,11 +11,11 @@ RecordType = dict[Any, Any]
 async def read_dataset_records(path: str, batch_size: int | None) -> AsyncIterator[RecordType]:
     """
     Asynchronously read dataset records from a Parquet file.
-    
+
     This function provides an asynchronous interface for reading records from
     a Parquet dataset file. It internally uses the synchronous version and
     executes it in a thread to avoid blocking the event loop.
-    
+
     :param path: Path to the Parquet file to read from.
     :param batch_size: Optional batch size for reading records. If None,
                       uses the default batch size from pyarrow.
@@ -39,11 +39,11 @@ async def read_dataset_records(path: str, batch_size: int | None) -> AsyncIterat
 def read_dataset_records_sync(path: str, batch_size: int | None) -> Iterator[RecordType]:
     """
     Synchronously read dataset records from a Parquet file.
-    
+
     This function reads records from a Parquet dataset file using pyarrow
     and yields individual records as dictionaries. It processes the file
     in batches for memory efficiency.
-    
+
     :param path: Path to the Parquet file to read from.
     :param batch_size: Optional batch size for reading records. If None,
                       uses pyarrow's default batch size.

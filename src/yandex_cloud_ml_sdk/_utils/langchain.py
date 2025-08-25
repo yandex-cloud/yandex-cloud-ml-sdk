@@ -6,13 +6,13 @@ from langchain_core.callbacks.manager import AsyncCallbackManagerForLLMRun, Call
 def make_async_run_manager(manager:CallbackManagerForLLMRun) -> AsyncCallbackManagerForLLMRun:
     """
     Convert a synchronous callback manager to an asynchronous callback manager.
-    
+
     This utility function creates an AsyncCallbackManagerForLLMRun instance from
     a CallbackManagerForLLMRun by transferring all the relevant properties like
     handlers, metadata, tags, and run identifiers.
-    
+
     :param manager: The synchronous callback manager to convert.
-    
+
     .. note::
        This function is useful when you need to bridge synchronous and asynchronous
        callback handling in LangChain integrations.
