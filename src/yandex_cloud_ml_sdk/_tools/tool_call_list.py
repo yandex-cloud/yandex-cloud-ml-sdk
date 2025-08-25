@@ -19,9 +19,7 @@ ProtoToolCallListTypeT = TypeVar(
     ProtoAssistantToolCallList,
     ProtoCompletionsToolCallList,
 )
-"""
-Type variable representing protobuf tool call list types.
-"""
+#: Type variable representing protobuf tool call list types.
 
 
 @dataclass
@@ -29,8 +27,14 @@ class BaseToolCallList(
     Sequence[ToolCallTypeT],
 ):
     """
-    List of tool calls in Yandex Cloud ML SDK.
+    Сlass for managing collections of tool calls in Yandex Cloud ML SDK.
+    
+    This class provides a sequence-like interface for working with tool calls,
+    supporting indexing, slicing, and iteration over the collection of tool calls.
+    It serves as a foundation for both protobuf-based and JSON-based tool call
+    list implementations.
     """
+    #: Collections of tool calls
     tool_calls: tuple[ToolCallTypeT, ...]
 
     def __len__(self) -> int:
@@ -88,13 +92,6 @@ class ToolCallList(
         proto: ProtoToolCallListTypeT,
         sdk: SDKType,
     ) -> Self:
-        """
-        Create ToolCallList from protobuf message.
-
-        :param proto: Protobuf message to convert
-        :param sdk: SDK instance
-        :param tool_call_impl: Tool call implementation class
-        """
         tool_call_impl = sdk.tools.function._call_impl  # pylint: disable=protected-access
         tool_calls = tuple(
             tool_call_impl._from_proto(proto=tool_call, sdk=sdk)

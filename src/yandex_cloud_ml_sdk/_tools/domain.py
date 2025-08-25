@@ -19,15 +19,13 @@ from .search_index.tool import SearchIndexTool
 class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
     """
     Сlass for tools functionality in Yandex Cloud ML SDK.
-
-    Provides common functionality for both synchronous and asynchronous tools.
     """
     _functions_impl: type[FunctionToolsTypeT]
 
     @cached_property
     def function(self) -> FunctionToolsTypeT:
         """
-        Get the function tools instance.
+        Get the function sub-domain for creating function tools.
         """
         return self._functions_impl(
             name='tools.function',
@@ -37,9 +35,22 @@ class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
     @cached_property
     def rephraser(self) -> RephraserFunction:
         """
-        Get the rephraser function instance.
+        Get the rephraser function for creating query transformation models.
 
-        The rephraser is used to modify user queries for better search results.
+        The rephraser function provides access to specialized language models designed to intelligently
+        rewrite and enhance user search queries by incorporating conversational context. This is
+        particularly useful in multi-turn conversations where the latest user message may lack context
+        from previous exchanges.
+
+        The rephraser works by:
+        - Analyzing the conversation history and current user query
+        - Reformulating the query to be more specific and contextually complete
+        - Improving search relevance by expanding abbreviated or ambiguous terms
+        - Maintaining semantic intent while adding necessary context
+
+        This function returns a factory that can create Rephraser model instances with different
+        configurations, supporting various model types including the default 'rephraser' model or
+        custom rephrasing models.
         """
         return RephraserFunction(
             name='tools.rehraser',

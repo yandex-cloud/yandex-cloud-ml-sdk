@@ -15,7 +15,7 @@ from .tool_call import AsyncToolCall, HaveToolCalls, ToolCall, ToolCallTypeT
 
 class BaseFunctionTools(BaseDomain, HaveToolCalls[ToolCallTypeT]):
     """
-    Base class for function tools in Yandex Cloud ML SDK.
+    Class for function tools in Yandex Cloud ML SDK.
     """
     _call_impl: type[ToolCallTypeT]
 
@@ -30,10 +30,21 @@ class BaseFunctionTools(BaseDomain, HaveToolCalls[ToolCallTypeT]):
         """
         Create a function tool with given parameters.
 
-        :param parameters: Function parameters schema
-        :param name: Optional function name (default: inferred from parameters)
-        :param description: Optional function description
-        :param strict: Whether to enforce strict parameter validation
+        :param parameters: Function parameters specification. Can be one of:
+            - JSON Schema dict: A dictionary containing a valid JSON schema that describes
+              the function parameters, their types, descriptions, and validation rules
+            - Pydantic BaseModel class: A class inheriting from pydantic.BaseModel.
+              The JSON schema will be automatically generated from the model definition
+            - Pydantic dataclass: A dataclass decorated with @pydantic.dataclasses.dataclass.
+              The JSON schema will be automatically generated from the dataclass definition
+        :param name: Optional function name. If not provided:
+            - For JSON Schema dict: must be provided explicitly or error will be raised
+            - For Pydantic models: automatically inferred from the class __name__ attribute
+        :param description: Optional function description. If not provided:
+            - For JSON Schema dict: taken from the 'description' field in the schema if present
+            - For Pydantic models: automatically inferred from the class docstring if present
+        :param strict: Whether to enforce strict parameter validation. When True, the function
+            call will strictly validate that only the defined parameters are provided
         """
         schema = schema_from_parameters(parameters)
         description_ = (
@@ -70,6 +81,4 @@ class FunctionTools(BaseFunctionTools[ToolCall]):
 
 
 FunctionToolsTypeT = TypeVar('FunctionToolsTypeT', bound=BaseFunctionTools)
-"""
-Type variable representing any function tools type.
-"""
+#: Type variable representing any function tools type.

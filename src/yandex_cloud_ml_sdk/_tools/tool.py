@@ -16,42 +16,25 @@ from yandex_cloud_ml_sdk._types.proto import ProtoBased, ProtoMessageTypeT, SDKT
 from yandex_cloud_ml_sdk._types.schemas import JsonObject, JsonSchemaType
 
 ProtoToolTypeT = TypeVar('ProtoToolTypeT', ProtoAssistantsTool, ProtoCompletionsTool)
-"""
-Type variable representing protobuf tool types.
-"""
+#: Type variable representing protobuf tool types.
 
 
 class BaseTool(ProtoBased[ProtoMessageTypeT]):
     """
-    Base class for all tools in Yandex Cloud ML SDK.
+    Class for all tools in Yandex Cloud ML SDK.
     """
 
     @classmethod
     @abc.abstractmethod
     def _from_proto(cls, *, proto: ProtoMessageTypeT, sdk: SDKType) -> BaseTool:
-        """
-        Create tool instance from protobuf message.
-
-        :param proto: Protobuf message to convert
-        :param sdk: SDK instance
-        """
         pass
 
     @abc.abstractmethod
     def _to_proto(self, proto_type: type[ProtoToolTypeT]) -> ProtoToolTypeT:
-        """Convert tool to protobuf message.
-
-        :param proto_type: Protobuf message type to create
-        """
         pass
 
     @classmethod
     def _from_upper_proto(cls, proto: ProtoToolTypeT, sdk: SDKType) -> BaseTool:
-        """Create tool instance from upper-level protobuf message.
-
-        :param proto: Protobuf message to convert
-        :param sdk: SDK instance
-        """
         if proto.HasField('function'):
             return FunctionTool._from_proto(
                 proto=proto.function,
@@ -77,15 +60,21 @@ class BaseTool(ProtoBased[ProtoMessageTypeT]):
 
 
 ProtoFunctionTool = Union[ProtoCompletionsFunctionTool, ProtoAssistantsFunctionTool]
-"""
-Union type for function tool protobuf messages.
-"""
+#: Union type for function tool protobuf messages.
 
 
 @dataclass(frozen=True)
 class FunctionTool(BaseTool[ProtoFunctionTool]):
     """
-    Function tool representation in Yandex Cloud ML SDK.
+    A function tool that can be called by AI models in Yandex Cloud ML SDK.
+    
+    This class represents a callable function that can be used by AI models
+    for function calling capabilities. It encapsulates the function's metadata
+    including its name, description, parameter schema, and validation settings.
+    
+    The function tool can be used with both completions and assistants APIs,
+    providing a unified interface for defining external functions that models
+    can invoke during conversations or completion requests.
     """
     #: Name of the function
     name: str
@@ -104,12 +93,6 @@ class FunctionTool(BaseTool[ProtoFunctionTool]):
         proto: ProtoFunctionTool,
         sdk:SDKType,
     ) -> FunctionTool:
-        """
-        Create FunctionTool from protobuf message.
-
-        :param proto: Protobuf message to convert
-        :param sdk: SDK instance
-        """
         parameters = MessageToDict(proto.parameters)
 
         strict: bool | None = None
@@ -124,11 +107,6 @@ class FunctionTool(BaseTool[ProtoFunctionTool]):
         )
 
     def _to_proto(self, proto_type: type[ProtoToolTypeT]) -> ProtoToolTypeT:
-        """Convert FunctionTool to protobuf message.
-
-        :param proto_type: Protobuf message type to create
-        :raises ValueError: If strict validation is not supported for the proto type
-        """
         parameters = Struct()
         parameters.update(self.parameters)
 

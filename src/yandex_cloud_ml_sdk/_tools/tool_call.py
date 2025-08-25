@@ -32,7 +32,7 @@ class BaseToolCall(
     FunctionCallMixin[FunctionCallTypeT]
 ):
     """
-    Base class representing a tool call in Yandex Cloud ML SDK.
+    Class representing a tool call in Yandex Cloud ML SDK.
     """
     #: Unique tool call identifier
     id: str | None
@@ -48,12 +48,6 @@ class BaseToolCall(
         proto: ProtoToolCall,
         sdk: SDKType,
     ) -> Self:
-        """
-        Create BaseToolCall instance from protobuf message.
-
-        :param proto: Protobuf message to convert
-        :param sdk: SDK instance
-        """
         function: FunctionCallTypeT | None = None
         if proto.HasField('function_call'):
             function = cls._function_call_impl._from_proto(proto=proto.function_call, sdk=sdk)
@@ -91,12 +85,9 @@ class ToolCall(BaseToolCall):
 
 
 ToolCallTypeT = TypeVar('ToolCallTypeT', bound=BaseToolCall)
-"""
-Type variable representing any tool call type.
-"""
+#: Type variable representing any tool call type.
 
 
 class HaveToolCalls(Generic[ToolCallTypeT]):
-   """
-   Interface for objects that can have tool calls.
-   """
+    """Interface for objects that can have tool calls."""
+    pass
