@@ -67,11 +67,11 @@ ProtoFunctionTool = Union[ProtoCompletionsFunctionTool, ProtoAssistantsFunctionT
 class FunctionTool(BaseTool[ProtoFunctionTool]):
     """
     A function tool that can be called by AI models in Yandex Cloud ML SDK.
-    
+
     This class represents a callable function that can be used by AI models
     for function calling capabilities. It encapsulates the function's metadata
     including its name, description, parameter schema, and validation settings.
-    
+
     The function tool can be used with both completions and assistants APIs,
     providing a unified interface for defining external functions that models
     can invoke during conversations or completion requests.

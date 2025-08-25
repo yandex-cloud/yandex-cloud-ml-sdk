@@ -28,7 +28,7 @@ class BaseToolCallList(
 ):
     """
     Сlass for managing collections of tool calls in Yandex Cloud ML SDK.
-    
+
     This class provides a sequence-like interface for working with tool calls,
     supporting indexing, slicing, and iteration over the collection of tool calls.
     It serves as a foundation for both protobuf-based and JSON-based tool call
