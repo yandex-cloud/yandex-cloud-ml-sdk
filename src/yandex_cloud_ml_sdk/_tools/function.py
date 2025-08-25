@@ -32,10 +32,8 @@ class BaseFunctionTools(BaseDomain, HaveToolCalls[ToolCallTypeT]):
 
         :param parameters: Function parameters specification. Can be one of:
             - JSON Schema dict: A dictionary containing a valid JSON schema that describes the function parameters, their types, descriptions, and validation rules.
-            - Pydantic BaseModel class: A class inheriting from pydantic.BaseModel.
-              The JSON schema will be automatically generated from the model definition.
-            - Pydantic dataclass: A dataclass decorated with @pydantic.dataclasses.dataclass.
-              The JSON schema will be automatically generated from the dataclass definition.
+            - Pydantic BaseModel class: A class inheriting from pydantic.BaseModel. The JSON schema will be automatically generated from the model definition.
+            - Pydantic dataclass: A dataclass decorated with @pydantic.dataclasses.dataclass. The JSON schema will be automatically generated from the dataclass definition.
 
         :param name: Optional function name. If not provided:
             - For JSON Schema dict: must be provided explicitly or error will be raised.
