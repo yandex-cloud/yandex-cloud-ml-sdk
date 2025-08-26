@@ -8,28 +8,65 @@ from typing_extensions import NotRequired, Required, TypeAlias
 
 @dataclass(frozen=True)
 class TextMessage:
+    """
+    Immutable text message representation.
+
+    A frozen dataclass that represents a text message with a role and content.
+    This is the primary message type used throughout the SDK.
+    """
+    #: The role of the message sender (e.g., 'user', 'assistant', 'system')
     role: str
+    #: The actual text content of the message
     text: str
 
 
 @runtime_checkable
 class TextMessageProtocol(Protocol):
+    """
+    Protocol for text message-like objects.
+
+    This protocol defines the interface that any text message object should implement.
+    It can be used for type checking and duck typing with objects that have role and text properties.
+    The protocol is runtime checkable, meaning isinstance() checks will work.
+    """
+
     @property
+    #: Get the role of the message sender.
     def role(self) -> str: ...
 
     @property
+    #: Get the text content of the message.
     def text(self) -> str: ...
 
 
 class TextMessageDict(TypedDict):
+    """
+    Typed dictionary representation of a text message.
+    
+    A TypedDict that represents a text message as a dictionary structure.
+    The role field is optional while text field is required.
+    
+    :param role: Optional role of the message sender
+    :param text: Required text content of the message
+    """
     role: NotRequired[str]
     text: Required[str]
 
 
+#: Type alias for all supported message types.
 MessageType: TypeAlias = Union[TextMessage, TextMessageDict, TextMessageProtocol, str]
 
 
 def coerce_to_text_message_dict(message: MessageType) -> TextMessageDict:
+    """
+    Convert any supported message type to TextMessageDict format.
+    
+    This function provides a unified way to convert different message representations
+    into a standardized dictionary format. It handles various input types and ensures
+    consistent output format for further processing.
+    
+    :param message: The message to convert, can be any supported message type
+    """
     if isinstance(message, (TextMessage, TextMessageProtocol)):
         return {
             'text': message.text,
