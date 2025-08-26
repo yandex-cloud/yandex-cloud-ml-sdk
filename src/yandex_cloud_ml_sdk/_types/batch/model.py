@@ -31,11 +31,11 @@ class BaseModelBatchMixin(
 ):
     """
     Mixin class for models that support batch processing operations.
-    
+
     This abstract base class provides the core functionality for models that need to support
     batch processing capabilities. It defines the interface for creating batch requests,
     accessing batch service stubs, and managing batch metadata.
-    
+
     :param ConfigTypeT: Type parameter for model configuration
     :param ResultTypeT: Type parameter for model results
     :param BatchSubdomainTypeT: Type parameter for batch subdomain implementation

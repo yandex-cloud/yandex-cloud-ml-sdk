@@ -24,14 +24,14 @@ logger = get_logger(__name__)
 class BaseBatchSubdomain(Generic[BatchTaskOperationTypeT], metaclass=abc.ABCMeta):
     """
     Class for batch processing subdomains.
-    
+
     This class provides the core functionality for batch operations on ML models,
     including creating deferred batch tasks and managing their execution.
-    
+
     :param model: The ML model that supports batch operations
     :param sdk: The base SDK instance for API communication
     """
-    
+
     def __init__(self, model: BaseModelBatchMixin, sdk: BaseSDK):
         self._model = model
         self._sdk = sdk
