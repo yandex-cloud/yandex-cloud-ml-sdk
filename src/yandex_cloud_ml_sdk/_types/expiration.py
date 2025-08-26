@@ -17,16 +17,17 @@ from .misc import UndefinedOr, get_defined_value
 
 # NB: I wanted to make it a Protocol, with expiration_config field,
 # but it loses information about Message inheritance
-ExpirationProtoType = Union[Assistant, SearchIndex, Thread, File]
+
 #: Union type for protobuf message types that support expiration configuration.
+ExpirationProtoType = Union[Assistant, SearchIndex, Thread, File]
 
 
+#: Contravariant type variable bound to ExpirationProtoType.
 ExpirationProtoTypeT_contra = TypeVar(
     'ExpirationProtoTypeT_contra',
     contravariant=True,
     bound=ExpirationProtoType
 )
-#: Contravariant type variable bound to ExpirationProtoType.
 
 
 class ExpirationPolicy(ProtoEnumBase, Enum):
@@ -42,13 +43,13 @@ class ExpirationPolicy(ProtoEnumBase, Enum):
     SINCE_LAST_ACTIVE = ExpirationConfigProto.SINCE_LAST_ACTIVE
 
 
+#: Type alias for various ways to specify expiration policy.
 ExpirationPolicyAlias = Union[
     ExpirationPolicy,
     Literal[1, 2],
     Literal['STATIC', 'SINCE_LAST_ACTIVE'],
     Literal['static', 'since_last_active'],
 ]
-#: Type alias for various ways to specify expiration policy.
 
 
 @dataclass(frozen=True)
