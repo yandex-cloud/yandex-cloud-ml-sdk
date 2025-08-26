@@ -17,18 +17,39 @@ else:
     SDKType: TypeAlias = Any
 
 
+#: Type variable for contravariant protobuf message types
 ProtoMessageTypeT_contra = TypeVar('ProtoMessageTypeT_contra', bound=ProtoMessage, contravariant=True)
+#: Type variable for protobuf message types
 ProtoMessageTypeT = TypeVar('ProtoMessageTypeT', bound=ProtoMessage)
 
 
 @runtime_checkable
 class ProtoBasedType(Protocol[ProtoMessageTypeT_contra]):
+    """
+    Protocol for types that can be created from protobuf messages.
+    
+    This protocol defines the interface for classes that can be instantiated
+    from Protocol Buffer messages using the SDK context.
+    
+    :param ProtoMessageTypeT_contra: The protobuf message type (contravariant)
+    """
+    
     @classmethod
     def _from_proto(cls, *, proto: ProtoMessageTypeT_contra, sdk: BaseSDK) -> Self:
         raise NotImplementedError()
 
 
 class ProtoBased(abc.ABC, ProtoBasedType[ProtoMessageTypeT_contra]):
+    """
+    Abstract base class for types based on protobuf messages.
+    
+    This class provides a concrete implementation of the ProtoBasedType protocol
+    and serves as a base class for SDK types that are derived from Protocol Buffer
+    messages.
+    
+    :param ProtoMessageTypeT_contra: The protobuf message type (contravariant)
+    """
+    
     @classmethod
     @abc.abstractmethod
     def _from_proto(cls, *, proto: ProtoMessageTypeT_contra, sdk: BaseSDK) -> Self:
@@ -37,6 +58,16 @@ class ProtoBased(abc.ABC, ProtoBasedType[ProtoMessageTypeT_contra]):
 
 @dataclasses.dataclass(frozen=True)
 class ProtoMirrored(ProtoBased[ProtoMessageTypeT_contra]):
+    """
+    A dataclass that mirrors protobuf message fields.
+    
+    This class automatically maps protobuf message fields to dataclass fields
+    with the same names. It provides a convenient way to create immutable SDK
+    types that directly correspond to protobuf message structures.
+    
+    :param ProtoMessageTypeT_contra: The protobuf message type (contravariant)
+    """
+    
     # pylint: disable=unused-argument
     @classmethod
     def _kwargs_from_message(cls, proto: ProtoMessageTypeT_contra, sdk: BaseSDK) -> dict[str, Any]:

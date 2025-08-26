@@ -22,6 +22,13 @@ if TYPE_CHECKING:
 # TODO: rework it to inherit yandex_cloud_ml_sdk._types.proto.ProtoMirrored
 @dataclasses.dataclass(frozen=True)
 class BaseResource(BaseProtoResult[ProtoMessageTypeT_contra]):
+    """
+    Resource class for Yandex Cloud ML SDK.
+    
+    This class provides common functionality for all cloud resources,
+    including serialization from protobuf messages and basic resource management.
+    """
+    #: Unique identifier of the resource
     id: str
 
     _sdk: BaseSDK = dataclasses.field(repr=False)
@@ -67,6 +74,12 @@ class BaseResource(BaseProtoResult[ProtoMessageTypeT_contra]):
 
 @dataclasses.dataclass(frozen=True)
 class BaseDeleteableResource(BaseResource[ProtoMessageTypeT_contra]):
+    """
+    Class for resources that can be deleted.
+    
+    Extends BaseResource with deletion functionality and thread-safe operations.
+    Maintains deletion state and provides locking mechanism for safe concurrent access.
+    """
     _lock: asyncio.Lock = dataclasses.field(repr=False)
     _deleted: bool = dataclasses.field(repr=False)
 
@@ -82,6 +95,13 @@ class BaseDeleteableResource(BaseResource[ProtoMessageTypeT_contra]):
 
 @dataclasses.dataclass(frozen=True)
 class ExpirableResource(BaseDeleteableResource[ExpirationProtoTypeT_contra]):
+    """
+    Resource that can expire based on TTL or expiration policy.
+
+    Extends BaseDeleteableResource with expiration functionality.
+    Resources of this type have a configurable expiration policy and time-to-live.
+    """
+    #: Configuration for resource expiration
     expiration_config: ExpirationConfig
 
     @classmethod
@@ -102,6 +122,15 @@ R = TypeVar('R', bound=BaseDeleteableResource)
 def safe_on_delete(
     method: Callable[Concatenate[R, P], Awaitable[T]]
 ) -> Callable[Concatenate[R, P], Awaitable[T]]:
+    """
+    Decorator that ensures operations are safe to perform on deleteable resources.
+    
+    This decorator wraps methods to prevent operations on deleted resources.
+    It acquires an async lock to ensure thread-safe access and checks if the
+    resource has been marked as deleted before allowing the operation to proceed.
+    
+    :param method: The async method to wrap with deletion safety checks
+    """
     @functools.wraps(method)
     async def inner(self: R, *args: P.args, **kwargs: P.kwargs) -> T:
         async with self._lock:  # pylint: disable=protected-access

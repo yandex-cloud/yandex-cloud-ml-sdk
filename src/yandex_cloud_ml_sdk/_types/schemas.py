@@ -24,7 +24,13 @@ JsonObject = dict[str, JsonVal]
 JsonSchemaType: TypeAlias = JsonObject
 
 class JsonSchemaResponseType(TypedDict):
-    """Dict with json schema response settings"""
+    """
+    Dictionary with JSON schema response settings.
+    
+    :param json_schema: JSON schema that describes the response format
+    :param strict: Whether to enforce strict schema validation
+    :param name: Name identifier for the schema
+    """
 
     #: Field with json schema which describes response format
     json_schema: JsonSchemaType
@@ -48,29 +54,60 @@ except ImportError:
 
 
 class JsonObjectProtoFormat(TypedDict):
+    """
+    Protocol format for JSON object responses.
+
+    :param json_object: Flag indicating JSON object format
+    """
     json_object: Required[bool]
 
 
 class JsonSchemaProtoFormat(TypedDict):
+    """
+    Protocol format for JSON schema responses.
+    
+    :param json_schema: The JSON schema definition
+    """
     json_schema: Required[JsonSchemaType]
 
 
 class EmptyProtoFormat(TypedDict):
+    """
+    Empty protocol format for responses with no specific format requirements.
+    """
     pass
 
 
 class JsonSchemaResponseFormat(TypedDict):
+    """
+    Response format configuration for JSON schema.
+    
+    :param schema: The JSON schema definition
+    :param strict: Whether to enforce strict schema validation
+    :param name: Name identifier for the schema
+    """
     schema: Required[JsonSchemaType]
     strict: NotRequired[bool]
     name: NotRequired[str]
 
 
 class JsonSchemaParameterType(TypedDict):
+    """
+    Parameter type definition for JSON schema operations.
+    
+    :param type: The parameter type, either 'json_object' or 'json_schema'
+    :param json_schema: JSON schema response format configuration
+    """
     type: Required[Literal['json_object', 'json_schema']]
     json_schema: NotRequired[JsonSchemaResponseFormat]
 
 
 def is_pydantic_model_class(response_format: ResponseType) -> TypeGuard[type[pydantic.BaseModel]]:
+    """
+    Check if the response format is a Pydantic model class.
+    
+    :param response_format: The response format to check
+    """
     return (
         PYDANTIC and
         isinstance(response_format, type) and
@@ -80,6 +117,14 @@ def is_pydantic_model_class(response_format: ResponseType) -> TypeGuard[type[pyd
 
 
 def http_schema_from_response_format(response_format: ResponseType) -> JsonSchemaParameterType:
+    """
+    Convert a response format to HTTP JSON schema parameter type.
+    
+    Transforms various response format types (string literals, dictionaries,
+    Pydantic models/dataclasses) into a standardized HTTP JSON schema format.
+    
+    :param response_format: The response format to convert
+    """
     result: JsonSchemaParameterType
 
     if isinstance(response_format, str):
@@ -156,9 +201,13 @@ def make_response_format_kwargs(
     response_format: ResponseType | None
 ) -> JsonObjectProtoFormat | JsonSchemaProtoFormat | EmptyProtoFormat:
     """
-    Here we are transforming
-    1) http_schema <- schema_from_response_format(response_format)
-    2) grpc_schema <- http_schema
+    Create response format kwargs from response format specification.
+    
+    Transforms response format into protocol buffer format kwargs by:
+    1) Converting response_format to http_schema via schema_from_response_format
+    2) Converting http_schema to grpc_schema format
+    
+    :param response_format: The response format specification or None
     """
     if response_format is None:
         return {}
@@ -173,6 +222,14 @@ def make_response_format_kwargs(
 
 
 def schema_from_parameters(parameters: ParametersType) -> JsonSchemaType:
+    """
+    Extract JSON schema from function call parameters.
+    
+    Converts various parameter types (dictionaries, Pydantic models/dataclasses)
+    into a JSON schema representation.
+    
+    :param parameters: The parameters to convert to JSON schema
+    """
     if isinstance(parameters, dict):
         result = dict(parameters)
     elif is_pydantic_model_class(parameters):
