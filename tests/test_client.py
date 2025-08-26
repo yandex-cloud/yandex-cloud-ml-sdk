@@ -164,7 +164,7 @@ def test_multiple_threads(sdk_maker, caplog):
 
 @pytest.mark.asyncio
 async def test_httpx_client(sdk):
-    async with sdk._client.httpx() as client:
+    async with sdk._client.httpx(timeout=10, auth=False) as client:
         assert client.headers['User-Agent'] == _get_user_agent()
 
 
@@ -265,7 +265,7 @@ async def test_httpx_credentials(folder_id, monkeypatch):
     # httpx at the moment
     monkeypatch.setattr(httpx._transports.default, 'create_ssl_context', create_ssl_context)
     sdk = AsyncYCloudML(folder_id=folder_id, verify=path)
-    async with sdk._client.httpx() as client:
+    async with sdk._client.httpx(timeout=10, auth=False) as client:
         assert client
         assert called
 

@@ -7,6 +7,9 @@ Settings types
 .. autoclass:: yandex_cloud_ml_sdk._models.completions.config.ReasoningMode
    :undoc-members:
 
+.. autoclass:: yandex_cloud_ml_sdk._chat.completions.config.ChatReasoningMode
+   :undoc-members:
+
 
 Generic types
 ~~~~~~~~~~~~~
@@ -79,3 +82,5 @@ Miscellaneous types
    :no-undoc-members:
    :show-inheritance:
    :no-inherited-members:
+
+.. py:class:: yandex_cloud_ml_sdk._tools.tool_call_list.HttpToolCallList

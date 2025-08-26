@@ -19,3 +19,4 @@
    datasets
    tuning
    batch
+   chat/domain
