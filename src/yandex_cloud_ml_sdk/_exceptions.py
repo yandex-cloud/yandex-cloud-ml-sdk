@@ -149,3 +149,18 @@ class AioRpcError(BaseAioRpcError):
 class TuningError(RunError):
     def __str__(self):
         return f'Tuning task {self.operation_id} failed'
+
+
+class HttpSseError(YCloudMLError):
+    def __init__(
+        self,
+        event: str,
+        message: str,
+        error: dict[str, Any],
+    ):
+        self._event = event
+        self._message = message
+        self._error = error
+
+    def __str__(self) -> str:
+        return f"{self.__class__.__name__}({self._event!r}, {self._message!r}, {self._error!r})"
