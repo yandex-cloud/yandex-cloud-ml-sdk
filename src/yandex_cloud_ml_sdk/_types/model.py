@@ -31,10 +31,10 @@ TuningParamsTypeT = TypeVar('TuningParamsTypeT', bound=BaseTuningParams)
 class BaseModel(Generic[ConfigTypeT, ResultTypeT], metaclass=abc.ABCMeta):
     """
     Model class for Yandex Cloud ML SDK.
-    
+
     This class provides a foundation for all model types in the SDK,
     handling common functionality like configuration management and SDK integration.
-    
+
     :param ConfigTypeT: Type parameter for model configuration class.
     :param ResultTypeT: Type parameter for model result class.
     """
@@ -73,7 +73,7 @@ class BaseModel(Generic[ConfigTypeT, ResultTypeT], metaclass=abc.ABCMeta):
     def configure(self, **kwargs) -> Self:
         """
         Create a new instance with updated configuration.
-        
+
         :param kwargs: Configuration parameters to update.
         """
         kwargs = {
@@ -95,11 +95,11 @@ class BaseModel(Generic[ConfigTypeT, ResultTypeT], metaclass=abc.ABCMeta):
 class ModelSyncMixin(BaseModel[ConfigTypeT, ResultTypeT]):
     """
     Mixin class for models that support synchronous execution.
-    
+
     This mixin provides the interface for models that can execute
     operations and return results directly.
     """
-    
+
     @abc.abstractmethod
     async def _run(self, *args, **kwargs) -> ResultTypeT:
         pass
@@ -108,11 +108,11 @@ class ModelSyncMixin(BaseModel[ConfigTypeT, ResultTypeT]):
 class ModelSyncStreamMixin(BaseModel[ConfigTypeT, ResultTypeT]):
     """
     Mixin class for models that support streaming execution.
-    
+
     This mixin provides the interface for models that can execute
     operations and return results as an async stream.
     """
-    
+
     @abc.abstractmethod
     async def _run_stream(self, *args, **kwargs) -> AsyncIterator[ResultTypeT]:
         raise NotImplementedError()
@@ -127,10 +127,10 @@ class ModelAsyncMixin(
 ):
     """
     Mixin class for models that support asynchronous/deferred execution.
-    
+
     This mixin provides the interface for models that can execute
     operations asynchronously and return operation handles for later retrieval.
-    
+
     :param OperationTypeT: Type parameter for operation class.
     """
     _operation_type: type[OperationTypeT]
@@ -156,10 +156,10 @@ class ModelTuneMixin(
 ):
     """
     Mixin class for models that support fine-tuning.
-    
+
     This mixin provides the interface for models that can be fine-tuned
     with custom datasets and parameters.
-    
+
     :param TuningParamsTypeT: Type parameter for tuning parameters class
     :param TuningTaskTypeT: Type parameter for tuning task class
     """

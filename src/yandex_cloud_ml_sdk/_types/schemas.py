@@ -26,7 +26,7 @@ JsonSchemaType: TypeAlias = JsonObject
 class JsonSchemaResponseType(TypedDict):
     """
     Dictionary with JSON schema response settings.
-    
+
     :param json_schema: JSON schema that describes the response format
     :param strict: Whether to enforce strict schema validation
     :param name: Name identifier for the schema
@@ -65,7 +65,7 @@ class JsonObjectProtoFormat(TypedDict):
 class JsonSchemaProtoFormat(TypedDict):
     """
     Protocol format for JSON schema responses.
-    
+
     :param json_schema: The JSON schema definition
     """
     json_schema: Required[JsonSchemaType]
@@ -81,7 +81,7 @@ class EmptyProtoFormat(TypedDict):
 class JsonSchemaResponseFormat(TypedDict):
     """
     Response format configuration for JSON schema.
-    
+
     :param schema: The JSON schema definition
     :param strict: Whether to enforce strict schema validation
     :param name: Name identifier for the schema
@@ -94,7 +94,7 @@ class JsonSchemaResponseFormat(TypedDict):
 class JsonSchemaParameterType(TypedDict):
     """
     Parameter type definition for JSON schema operations.
-    
+
     :param type: The parameter type, either 'json_object' or 'json_schema'
     :param json_schema: JSON schema response format configuration
     """
@@ -105,7 +105,7 @@ class JsonSchemaParameterType(TypedDict):
 def is_pydantic_model_class(response_format: ResponseType) -> TypeGuard[type[pydantic.BaseModel]]:
     """
     Check if the response format is a Pydantic model class.
-    
+
     :param response_format: The response format to check
     """
     return (
@@ -119,10 +119,10 @@ def is_pydantic_model_class(response_format: ResponseType) -> TypeGuard[type[pyd
 def http_schema_from_response_format(response_format: ResponseType) -> JsonSchemaParameterType:
     """
     Convert a response format to HTTP JSON schema parameter type.
-    
+
     Transforms various response format types (string literals, dictionaries,
     Pydantic models/dataclasses) into a standardized HTTP JSON schema format.
-    
+
     :param response_format: The response format to convert
     """
     result: JsonSchemaParameterType
@@ -202,11 +202,11 @@ def make_response_format_kwargs(
 ) -> JsonObjectProtoFormat | JsonSchemaProtoFormat | EmptyProtoFormat:
     """
     Create response format kwargs from response format specification.
-    
+
     Transforms response format into protocol buffer format kwargs by:
     1) Converting response_format to http_schema via schema_from_response_format
     2) Converting http_schema to grpc_schema format
-    
+
     :param response_format: The response format specification or None
     """
     if response_format is None:
@@ -224,10 +224,10 @@ def make_response_format_kwargs(
 def schema_from_parameters(parameters: ParametersType) -> JsonSchemaType:
     """
     Extract JSON schema from function call parameters.
-    
+
     Converts various parameter types (dictionaries, Pydantic models/dataclasses)
     into a JSON schema representation.
-    
+
     :param parameters: The parameters to convert to JSON schema
     """
     if isinstance(parameters, dict):

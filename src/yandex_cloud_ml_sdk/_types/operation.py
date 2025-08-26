@@ -34,7 +34,7 @@ ResultTypeT_co = TypeVar('ResultTypeT_co', covariant=True)
 class BaseOperationStatus:
     """
     Class for operation status.
-    
+
     Provides a common interface for checking operation status states.
     Cannot be an ABC because descendants can't inherit from ABC and Enum at the same time.
     """
@@ -98,7 +98,7 @@ class OperationStatus(BaseOperationStatus):
     """
     Status of a long-running operation.
     """
-    
+
     #: Whether the operation has completed.
     done: bool
     #: Error information if the operation failed.
@@ -156,10 +156,10 @@ OperationStatusTypeT = TypeVar('OperationStatusTypeT', bound=BaseOperationStatus
 class OperationInterface(abc.ABC, Generic[AnyResultTypeT_co, OperationStatusTypeT]):
     """
     Interface for long-running operations.
-    
+
     Provides a common interface for managing asynchronous operations including
     status checking, result retrieval, cancellation, and polling with timeout.
-        
+
     :param id: Unique operation identifier.
     """
     id: str
@@ -249,7 +249,7 @@ class OperationInterface(abc.ABC, Generic[AnyResultTypeT_co, OperationStatusType
 class BaseOperation(Generic[ResultTypeT_co], OperationInterface[ResultTypeT_co, OperationStatus]):
     """
     Implementation for long-running operations.
-    
+
     Provides concrete implementation of the OperationInterface for operations
     that return results of type ResultTypeT_co and use OperationStatus for status.
     """
@@ -434,7 +434,7 @@ class AsyncOperationMixin(OperationInterface[AnyResultTypeT_co, OperationStatusT
     @doc_from(OperationInterface._get_result)
     async def get_result(self, *, timeout: float = 60) -> AnyResultTypeT_co:
         return await self._get_result(timeout=timeout)
-    
+
     @doc_from(OperationInterface._cancel)
     async def cancel(self, *, timeout: float = 60) -> None:
         await self._cancel(timeout=timeout)
@@ -474,7 +474,7 @@ class SyncOperationMixin(OperationInterface[AnyResultTypeT_co, OperationStatusTy
     Wraps the async methods of OperationInterface to provide synchronous equivalents
     using run_sync_impl to execute async operations in a synchronous context.
     """
-    
+
     @doc_from(OperationInterface._get_status)
     def get_status(self, *, timeout: float = 60) -> OperationStatusTypeT:
         return run_sync_impl(
@@ -517,7 +517,7 @@ class SyncOperationMixin(OperationInterface[AnyResultTypeT_co, OperationStatusTy
 class Operation(SyncOperationMixin[ResultTypeT_co, OperationStatus], BaseOperation[ResultTypeT_co]):
     """
     Concrete synchronous operation implementation.
-    
+
     Combines SyncOperationMixin and BaseOperation to provide a complete
     synchronous operation implementation with public sync interface.
     """
@@ -530,7 +530,7 @@ OperationTypeT = TypeVar('OperationTypeT', bound=BaseOperation)
 class ReturnsOperationMixin(Generic[OperationTypeT]):
     """
     Mixin for classes that return operations.
-    
+
     Provides a way to declare Generic[OperationTypeT] in dataclasses.
     This is needed to maintain type information about the specific operation type
     being returned by various methods.

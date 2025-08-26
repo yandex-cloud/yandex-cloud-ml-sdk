@@ -24,7 +24,7 @@ if TYPE_CHECKING:
 class BaseResource(BaseProtoResult[ProtoMessageTypeT_contra]):
     """
     Resource class for Yandex Cloud ML SDK.
-    
+
     This class provides common functionality for all cloud resources,
     including serialization from protobuf messages and basic resource management.
     """
@@ -76,7 +76,7 @@ class BaseResource(BaseProtoResult[ProtoMessageTypeT_contra]):
 class BaseDeleteableResource(BaseResource[ProtoMessageTypeT_contra]):
     """
     Class for resources that can be deleted.
-    
+
     Extends BaseResource with deletion functionality and thread-safe operations.
     Maintains deletion state and provides locking mechanism for safe concurrent access.
     """
@@ -124,11 +124,11 @@ def safe_on_delete(
 ) -> Callable[Concatenate[R, P], Awaitable[T]]:
     """
     Decorator that ensures operations are safe to perform on deleteable resources.
-    
+
     This decorator wraps methods to prevent operations on deleted resources.
     It acquires an async lock to ensure thread-safe access and checks if the
     resource has been marked as deleted before allowing the operation to proceed.
-    
+
     :param method: The async method to wrap with deletion safety checks
     """
     @functools.wraps(method)

@@ -16,7 +16,7 @@ class BaseModelConfig:
 
     The class is frozen to ensure immutability of configuration objects after creation.
     """
-    
+
     def _validate_configure(self) -> None:
         pass
 
