@@ -18,6 +18,7 @@ from .misc import UndefinedOr, get_defined_value
 # NB: I wanted to make it a Protocol, with expiration_config field,
 # but it loses information about Message inheritance
 ExpirationProtoType = Union[Assistant, SearchIndex, Thread, File]
+#: Union type for protobuf message types that support expiration configuration.
 
 
 ExpirationProtoTypeT_contra = TypeVar(
@@ -25,10 +26,19 @@ ExpirationProtoTypeT_contra = TypeVar(
     contravariant=True,
     bound=ExpirationProtoType
 )
+#: Contravariant type variable bound to ExpirationProtoType.
 
 
 class ExpirationPolicy(ProtoEnumBase, Enum):
+    """
+    Enumeration of available expiration policies.
+    
+    This enum defines the different ways that resources can expire
+    in the Yandex Cloud ML SDK.
+    """
+    #: Resource expires at a fixed time after creation.
     STATIC = ExpirationConfigProto.STATIC
+    #: Resource expires based on last activity time.
     SINCE_LAST_ACTIVE = ExpirationConfigProto.SINCE_LAST_ACTIVE
 
 
@@ -38,11 +48,20 @@ ExpirationPolicyAlias = Union[
     Literal['STATIC', 'SINCE_LAST_ACTIVE'],
     Literal['static', 'since_last_active'],
 ]
+#: Type alias for various ways to specify expiration policy.
 
 
 @dataclass(frozen=True)
 class ExpirationConfig:
+    """
+    Configuration for resource expiration settings.
+    
+    This class encapsulates the configuration needed to set up expiration
+    for various resources in the Yandex Cloud ML SDK.
+    """
+    #: Time-to-live in days. If None, no TTL is set.
     ttl_days: int | None = None
+    #: The policy determining how expiration is calculated. If None, no expiration policy is set.
     expiration_policy: ExpirationPolicy | None = None
 
     @classmethod
@@ -51,7 +70,15 @@ class ExpirationConfig:
         ttl_days: UndefinedOr[int],
         expiration_policy: UndefinedOr[ExpirationPolicyAlias]
     ) -> ExpirationConfig:
+        """
+        Create an ExpirationConfig from potentially undefined values.
+        
+        This class method handles the conversion of undefined or various formats
+        of expiration parameters into a properly typed ExpirationConfig instance.
+        """
+        #: Time-to-live in days, may be undefined.
         ttl_days_ = get_defined_value(ttl_days, None)
+        #: Expiration policy in various formats, may be undefined.
         expiration_policy_raw = get_defined_value(expiration_policy, None)
         expiration_policy_: ExpirationPolicy | None = None
         if expiration_policy_raw is not None:
@@ -63,6 +90,12 @@ class ExpirationConfig:
         )
 
     def to_proto(self) -> ExpirationConfigProto | None:
+        """
+        Convert this configuration to the corresponding protobuf message.
+        
+        Transforms the current ExpirationConfig instance into a protobuf
+        ExpirationConfigProto message that can be used in API calls.
+        """
         if not self.expiration_policy and not self.ttl_days:
             return None
 

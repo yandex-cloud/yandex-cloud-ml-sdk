@@ -12,6 +12,16 @@ if TYPE_CHECKING:
 
 
 class BaseDomain:
+    """
+    Domain class for Yandex Cloud ML SDK.
+    
+    This class provides the foundational structure for domain-specific functionality
+    within the SDK, maintaining references to the SDK instance and providing access
+    to the underlying client and folder configuration.
+    
+    :param name: The name of the domain.
+    :param sdk: The base SDK instance.
+    """
     # TODO: add some repr, description and such
     def __init__(self, name: str, sdk: BaseSDK):
         self._name = name
@@ -27,6 +37,16 @@ class BaseDomain:
 
 
 class DomainWithFunctions(BaseDomain):
+    """
+    Domain class that automatically initializes functions from type annotations.
+    
+    This class extends BaseDomain to provide automatic initialization of functions
+    based on class type annotations. It scans for BaseModelFunction subclasses
+    in the type annotations and creates instances of them as attributes.
+    
+    :param name: The name of the domain.
+    :param sdk: The base SDK instance.
+    """
     def __init__(self, name: str, sdk: BaseSDK):
         super().__init__(name=name, sdk=sdk)
         self._init_functions()
