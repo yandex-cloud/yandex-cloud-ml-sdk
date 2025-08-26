@@ -32,7 +32,7 @@ ExpirationProtoTypeT_contra = TypeVar(
 class ExpirationPolicy(ProtoEnumBase, Enum):
     """
     Enumeration of available expiration policies.
-    
+
     This enum defines the different ways that resources can expire
     in the Yandex Cloud ML SDK.
     """
@@ -55,7 +55,7 @@ ExpirationPolicyAlias = Union[
 class ExpirationConfig:
     """
     Configuration for resource expiration settings.
-    
+
     This class encapsulates the configuration needed to set up expiration
     for various resources in the Yandex Cloud ML SDK.
     """
@@ -72,7 +72,7 @@ class ExpirationConfig:
     ) -> ExpirationConfig:
         """
         Create an ExpirationConfig from potentially undefined values.
-        
+
         This class method handles the conversion of undefined or various formats
         of expiration parameters into a properly typed ExpirationConfig instance.
         """
@@ -92,7 +92,7 @@ class ExpirationConfig:
     def to_proto(self) -> ExpirationConfigProto | None:
         """
         Convert this configuration to the corresponding protobuf message.
-        
+
         Transforms the current ExpirationConfig instance into a protobuf
         ExpirationConfigProto message that can be used in API calls.
         """
