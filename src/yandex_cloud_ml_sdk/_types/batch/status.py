@@ -6,7 +6,7 @@ from enum import IntEnum
 from yandex.cloud.ai.batch_inference.v1.batch_inference_task_pb2 import BatchInferenceTask as ProtoBatchInferenceTask
 
 from yandex_cloud_ml_sdk._types.operation import BaseOperationStatus
-from yandex_cloud_ml_sdk._utils.doc import doc_from
+# from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.proto import ProtoEnumBase
 
 _base = ProtoBatchInferenceTask.Status

@@ -15,7 +15,7 @@ from yandex_cloud_ml_sdk._logging import TRACE, get_logger
 from yandex_cloud_ml_sdk._types.operation import (
     AsyncOperationMixin, OperationInterface, ResultTypeT_co, SyncOperationMixin
 )
-from yandex_cloud_ml_sdk._utils.doc import doc_from
+# from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
 from .status import BatchTaskStatus

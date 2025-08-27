@@ -15,7 +15,7 @@ from yandex.cloud.operation.operation_service_pb2 import CancelOperationRequest,
 from yandex.cloud.operation.operation_service_pb2_grpc import OperationServiceStub
 
 from yandex_cloud_ml_sdk._logging import TRACE, get_logger
-from yandex_cloud_ml_sdk._utils.doc import doc_from
+# from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync_impl
 from yandex_cloud_ml_sdk.exceptions import RunError, WrongAsyncOperationStatusError
 
