@@ -121,11 +121,11 @@ class BaseBatchTaskOperation(OperationInterface[ResultTypeT_co, BatchTaskStatus]
 class AsyncBatchTaskOperation(AsyncOperationMixin[AsyncDataset, BatchTaskStatus], BaseBatchTaskOperation[AsyncDataset]):
     _result_type = AsyncDataset
 
-    @doc_from(BaseBatchTaskOperation._delete)
+    # @doc_from(BaseBatchTaskOperation._delete)
     async def delete(self, *, timeout: float = 60) -> None:
         return await self._delete(timeout=timeout)
 
-    @doc_from(BaseBatchTaskOperation._get_task_info)
+    # @doc_from(BaseBatchTaskOperation._get_task_info)
     async def get_task_info(self, *, timeout: float = 60) -> BatchTaskInfo:
         return await self._get_task_info(timeout=timeout)
 
@@ -136,11 +136,11 @@ class BatchTaskOperation(SyncOperationMixin[Dataset, BatchTaskStatus], BaseBatch
     __delete = run_sync(BaseBatchTaskOperation._delete)
     __get_task_info = run_sync(BaseBatchTaskOperation._get_task_info)
 
-    @doc_from(BaseBatchTaskOperation._delete)
+    # @doc_from(BaseBatchTaskOperation._delete)
     def delete(self, *, timeout: float = 60) -> None:
         return self.__delete(timeout=timeout)
 
-    @doc_from(BaseBatchTaskOperation._get_task_info)
+    # @doc_from(BaseBatchTaskOperation._get_task_info)
     def get_task_info(self, *, timeout: float = 60) -> BatchTaskInfo:
         return self.__get_task_info(timeout=timeout)
 

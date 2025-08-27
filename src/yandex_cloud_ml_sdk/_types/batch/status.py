@@ -38,16 +38,16 @@ class BatchTaskStatus(BaseOperationStatus, ProtoEnumBase, IntEnum):
     CANCELED = _base.CANCELED
 
     @property
-    @doc_from(BaseOperationStatus.is_running)
+    # @doc_from(BaseOperationStatus.is_running)
     def is_running(self) -> bool:
         return self in (self.IN_PROGRESS, self.PENDING, self.CREATED)
 
     @property
-    @doc_from(BaseOperationStatus.is_succeeded)
+    # @doc_from(BaseOperationStatus.is_succeeded)
     def is_succeeded(self) -> bool:
         return self is self.COMPLETED
 
     @property
-    @doc_from(BaseOperationStatus.is_failed)
+    # @doc_from(BaseOperationStatus.is_failed)
     def is_failed(self) -> bool:
         return self in (self.FAILED, self.CANCELED)
