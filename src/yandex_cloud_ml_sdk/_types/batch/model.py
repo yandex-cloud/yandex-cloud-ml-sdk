@@ -87,6 +87,4 @@ class ModelBatchMixin(
     _batch_impl = BatchSubdomain
 
 
-#: Type variable for models that inherit from BaseModelBatchMixin, used to ensure
-#: type safety when working with batch-enabled models
 ModelWithBatchTypeT = TypeVar('ModelWithBatchTypeT', bound=BaseModelBatchMixin)

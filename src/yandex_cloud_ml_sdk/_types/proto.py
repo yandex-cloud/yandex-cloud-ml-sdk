@@ -17,9 +17,8 @@ else:
     SDKType: TypeAlias = Any
 
 
-#: Type variable for contravariant protobuf message types
 ProtoMessageTypeT_contra = TypeVar('ProtoMessageTypeT_contra', bound=ProtoMessage, contravariant=True)
-#: Type variable for protobuf message types
+
 ProtoMessageTypeT = TypeVar('ProtoMessageTypeT', bound=ProtoMessage)
 
 

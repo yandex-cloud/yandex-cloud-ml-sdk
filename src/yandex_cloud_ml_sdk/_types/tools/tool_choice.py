@@ -13,7 +13,7 @@ from .function import FunctionDictType, validate_function_dict
 
 #: Type alias for protocol buffer ToolChoice message
 ProtoToolChoice: TypeAlias = ProtoCompletionsToolChoice
-#: Type variable bound to protocol buffer ToolChoice for generic functions
+
 ProtoToolChoiceTypeT = TypeVar('ProtoToolChoiceTypeT', bound=ProtoToolChoice)
 
 #: String literals representing tool choice modes.

@@ -14,7 +14,6 @@ from pydantic import ConfigDict
 
 from yandex_cloud_ml_sdk._types.model import BaseModel
 
-#: Type variable for BaseModel subclasses used in generic type annotations.
 ModelTypeT = TypeVar('ModelTypeT', bound=BaseModel)
 
 

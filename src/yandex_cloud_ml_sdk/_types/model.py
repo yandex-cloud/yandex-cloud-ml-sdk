@@ -18,13 +18,10 @@ if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
 
-#: Type variable for configuration types bounded by BaseModelConfig.
 ConfigTypeT = TypeVar('ConfigTypeT', bound=BaseModelConfig)
 
-#: Type variable for result types bounded by BaseResult.
 ResultTypeT = TypeVar('ResultTypeT', bound=BaseResult)
 
-#: Type variable for tuning parameter types bounded by BaseTuningParams.
 TuningParamsTypeT = TypeVar('TuningParamsTypeT', bound=BaseTuningParams)
 
 
@@ -226,5 +223,4 @@ class ModelTuneMixin(
         )
 
 
-#: Type variable for model types bounded by BaseModel.
 ModelTypeT = TypeVar('ModelTypeT', bound=BaseModel)
