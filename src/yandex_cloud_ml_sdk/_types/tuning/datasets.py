@@ -6,8 +6,11 @@ from typing import Iterable, Union
 from yandex_cloud_ml_sdk._datasets.dataset import BaseDataset
 from yandex_cloud_ml_sdk._types.datasets import DatasetType
 
+#: Type alias for a dataset with an associated weight.
 WeightedDatasetType = tuple[DatasetType, float]
+#: Type alias for a single tuning dataset input.
 TuningDatasetType = Union[DatasetType, WeightedDatasetType]
+#: Type alias for multiple tuning datasets input.
 TuningDatasetsType = Union[TuningDatasetType, Iterable[TuningDatasetType], dict[DatasetType, float]]
 
 ERROR_TEXT = ' '.join("""datasets must contain
@@ -20,6 +23,19 @@ got {}
 """.split('\n'))
 
 def coerce_datasets(datasets: TuningDatasetsType) -> tuple[tuple[str, float], ...]:
+    """
+    Coerce various dataset input formats into a standardized tuple format.
+    
+    This function normalizes different types of dataset inputs into a consistent
+    format of tuples containing dataset IDs and their weights. It handles:
+    
+    - Single datasets (strings or BaseDataset objects) - assigned weight 1.0
+    - Weighted datasets as tuples (dataset, weight)
+    - Collections of datasets (lists, iterables)
+    - Dictionaries mapping datasets to weights
+    
+    :param datasets: Input datasets in various supported formats
+    """
     if (
         isinstance(datasets, (str, BaseDataset)) or
         isinstance(datasets, tuple) and len(datasets) == 2 and isinstance(datasets[1], Number)
