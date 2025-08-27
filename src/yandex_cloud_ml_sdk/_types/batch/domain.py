@@ -108,4 +108,6 @@ class BatchSubdomain(BaseBatchSubdomain[BatchTaskOperation]):
         )
 
 
+#: Type variable for batch subdomain types, bound to BaseBatchSubdomain.
+#: Used for generic typing of batch subdomain implementations.
 BatchSubdomainTypeT = TypeVar('BatchSubdomainTypeT', bound=BaseBatchSubdomain)
