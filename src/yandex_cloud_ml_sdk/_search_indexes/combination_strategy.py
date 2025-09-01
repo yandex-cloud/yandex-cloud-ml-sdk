@@ -20,6 +20,7 @@ if TYPE_CHECKING:
 
 
 class BaseIndexCombinationStrategy(abc.ABC):
+    """A class for index combination strategies."""
     @classmethod
     @abc.abstractmethod
     def _from_proto(cls, proto: Any, sdk: BaseSDK) -> BaseIndexCombinationStrategy:
@@ -45,10 +46,11 @@ class BaseIndexCombinationStrategy(abc.ABC):
             'combination strategies other then Mean and RRF are not supported in this SDK version'
         )
 
-
+#: represents the mean evaluation technique which is utilized to calculate the average value
 _orig = ProtoMeanCombinationStrategy.MeanEvaluationTechnique
 
 class MeanIndexEvaluationTechnique(ProtoEnumBase, enum.IntEnum):
+    """A class with enumeration for mean index evaluation techniques."""
     MEAN_EVALUATION_TECHNIQUE_UNSPECIFIED = _orig.MEAN_EVALUATION_TECHNIQUE_UNSPECIFIED
     ARITHMETIC = _orig.ARITHMETIC
     GEOMETRIC = _orig.GEOMETRIC
@@ -57,7 +59,10 @@ class MeanIndexEvaluationTechnique(ProtoEnumBase, enum.IntEnum):
 
 @dataclass(frozen=True)
 class MeanIndexCombinationStrategy(BaseIndexCombinationStrategy):
+    """A class which contains mean index combination strategy with evaluation technique and weights."""
+    #: the technique used for mean evaluation
     mean_evaluation_technique: MeanIndexEvaluationTechnique | None
+    #: the weights associated with the evaluation technique
     weights: Collection[float] | None
 
     @classmethod
@@ -82,6 +87,8 @@ class MeanIndexCombinationStrategy(BaseIndexCombinationStrategy):
 
 @dataclass(frozen=True)
 class ReciprocalRankFusionIndexCombinationStrategy(BaseIndexCombinationStrategy):
+    """A class which describes reciprocal rank fusion index combination strategy."""
+    #: the parameter used in reciprocal rank fusion
     k: int | None = None
 
     @classmethod
