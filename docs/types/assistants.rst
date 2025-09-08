@@ -3,7 +3,7 @@ Assistant types
 
 .. automodule:: yandex_cloud_ml_sdk._types.expiration
    :undoc-members:
-   :exclude-members: ExpirationPolicyAlias
+   :exclude-members: ExpirationPolicyAlias,ExpirationProtoTypeT_contra
 
 .. autodata:: yandex_cloud_ml_sdk._types.expiration.ExpirationPolicyAlias
 
