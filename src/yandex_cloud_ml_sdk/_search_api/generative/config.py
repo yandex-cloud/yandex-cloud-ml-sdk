@@ -45,7 +45,7 @@ class LangFilterType(TypedDict):
 
     lang: str
 
-
+#: Generative search filter type which describes dict formats eligible to use with generative search API.
 FilterType: TypeAlias = Union[DateFilterType, FormatFilterType, LangFilterType]
 SmartFilterSequence: TypeAlias = Union[Sequence[FilterType], FilterType]
 
@@ -60,28 +60,23 @@ AVAILABLE_FORMATS_INPUTS = (
 )
 
 
-def format_to_proto(format_: str) -> GenSearchRequest.SearchFilter.DocFormat:
-    format_ = format_.lower()
-    assert format_ in AVAILABLE_FORMATS
-    if not format_.startswith('doc_format_'):
-        format_ = f'doc_format_{format_}'
-
-    format_ = format_.upper()
-    return cast(
-        GenSearchRequest.SearchFilter.DocFormat,
-        GenSearchRequest.SearchFilter.DocFormat.Value(format_)
-    )
-
-
 @dataclass(frozen=True)
 class GenerativeSearchConfig(BaseModelConfig):
+    #: Parameter for limiting search to specific location or list of sites.
     site: tuple[str, ...] | None = None
+    #: Parameter for limiting search to specific location or list of hosts.
     host: tuple[str, ...] | None = None
+    #: Parameter for limiting search to specific location or list of urls.
     url: tuple[str, ...] | None = None
 
+    #: tells to backend to fix or not to fix misspels in queries.
     fix_misspell: bool | None = None
+    #: tells to backend to include or not to include pages,
+    #: which are not available via direct clicks from given sites/hosts/urls
+    #: to search result.
     enable_nrfm_docs: bool | None = None
-    search_filters: tuple[FilterType] | None = None
+    #: allows to limit search results with additional filters.
+    search_filters: tuple[FilterType, ...] | None = None
 
     @property
     def _url_score(self) -> int:
