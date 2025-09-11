@@ -62,7 +62,7 @@ class BaseAuth(ABC):
 class NoAuth(BaseAuth):
     """
     Specifies that no authentication data will be provided.
-  
+
     Example: ``auth = NoAuth()``
     """
     @override
