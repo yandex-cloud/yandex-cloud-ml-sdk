@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, replace
+from typing import Any
 
 from typing_extensions import Self
 
@@ -13,7 +14,7 @@ class BaseModelConfig:
     def _validate_run(self) -> None:
         pass
 
-    def _replace(self, **kwargs: dict) -> Self:
+    def _replace(self, **kwargs: Any) -> Self:
         return replace(self, **kwargs)
 
     def _asdict(self):

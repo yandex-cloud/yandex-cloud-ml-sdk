@@ -12,8 +12,8 @@ if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
 
-
 class BaseIndexChunkingStrategy(abc.ABC):
+    """A class for an index chunking strategy, from which all other strategies are inherited."""
     @classmethod
     @abc.abstractmethod
     def _from_proto(cls, proto: Any, sdk: BaseSDK) -> BaseIndexChunkingStrategy:
@@ -35,8 +35,14 @@ class BaseIndexChunkingStrategy(abc.ABC):
 
 @dataclass(frozen=True)
 class StaticIndexChunkingStrategy(BaseIndexChunkingStrategy):
-    max_chunk_size_tokens: int
+    """
+    This class implements a static chunking strategy (i.e. a specific strategy with specific properties).
 
+    It is characterized by maximum chunk size and overlap in tokens.
+    """
+    #: the maximum size of each chunk in tokens
+    max_chunk_size_tokens: int
+    #: the number of overlapping tokens between consecutive chunks
     chunk_overlap_tokens: int
 
     @classmethod

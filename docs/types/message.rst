@@ -43,6 +43,11 @@ Completions-related message types
 .. autoclass:: yandex_cloud_ml_sdk._models.completions.token.Token
    :undoc-members:
 
+Chat completions related message types
+--------------------------------------
+
+.. autotypeddict:: yandex_cloud_ml_sdk._chat.completions.message.ChatFunctionResultMessageDict
+
 
 Image generation messages
 -------------------------
