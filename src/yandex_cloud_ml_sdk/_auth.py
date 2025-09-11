@@ -60,6 +60,11 @@ class BaseAuth(ABC):
 
 
 class NoAuth(BaseAuth):
+    """
+    Specifies that no authentication data will be provided.
+  
+    Example: ``auth = NoAuth()``
+    """
     @override
     async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> None:
         """:meta private:"""
@@ -76,6 +81,8 @@ class APIKeyAuth(BaseAuth):
     """Authentication method using an API key.
 
     Read more about the API key in the `IAM documentation <https://yandex.cloud/docs/iam/concepts/authorization/api-key>`_.
+
+    Example: ``auth = APIKeyAuth('<API_key>')``
     """
     env_var = 'YC_API_KEY'
 
@@ -121,6 +128,8 @@ class IAMTokenAuth(BaseIAMTokenAuth):
     """Authentication method using an IAM token.
 
     Read more about the IAM token in `the AIM documentation <https://yandex.cloud/docs/iam/concepts/authorization/iam-token>`_.
+
+    Example: ``auth = IAMTokenAuth('<IAM_token>')``
     """
     env_var = 'YC_IAM_TOKEN'
 
@@ -150,6 +159,7 @@ class EnvIAMTokenAuth(BaseIAMTokenAuth):
     Therefore, it is not recommended to use this environment variable
     when setting up a personal work environment.
 
+    Examples: ``auth = EnvIAMTokenAuth()`` or ``auth = EnvIAMTokenAuth("ENV_VAR")``
     """
     default_env_var = 'YC_TOKEN'
 
@@ -221,6 +231,8 @@ class OAuthTokenAuth(RefresheableIAMTokenAuth):
 
     Read more about the OAuth token in
     `the corresponding documentation <https://yandex.cloud/docs/iam/concepts/authorization/oauth-token>`_.
+
+    Example: ``auth = OAuthTokenAuth('<OAuth_token>')``
     """
     env_var = 'YC_OAUTH_TOKEN'
 
@@ -265,6 +277,8 @@ class YandexCloudCLIAuth(RefresheableIAMTokenAuth):
 
     Yandex Cloud CLI is a downloadable software for managing cloud resources via the command line.
     Read more in `the CLI documentation <https://yandex.cloud/docs/cli/>`_.
+
+    Example: ``auth = YandexCloudCLIAuth()``
     """
     env_var = 'YC_PROFILE'
 
@@ -348,6 +362,8 @@ class MetadataAuth(RefresheableIAMTokenAuth):
 
     This class retrieves IAM tokens from the Google Cloud metadata service.
     Read more in `the VM metadata documentation <https://yandex.cloud/docs/compute/concepts/vm-metadata>`_.
+
+    Example: ``auth = MetadataAuth()``
     """
     env_var = 'YC_METADATA_ADDR'
     _headers = {'Metadata-Flavor': 'Google'}
