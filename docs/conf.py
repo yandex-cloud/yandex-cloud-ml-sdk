@@ -98,8 +98,6 @@ def setup(_):
     def patched_find_obj(self, env, modname, name, *args, **kwargs):
         if modname and modname.startswith('yandex_cloud_ml_sdk._retry'):
             modname = modname.replace('_retry', 'retry')
-        elif modname and modname.startswith('yandex_cloud_ml_sdk._auth'):
-            modname = modname.replace('_auth', 'auth')
         return original_find_obj(self, env, modname, name, *args, **kwargs)
 
     PythonDomain.find_obj = patched_find_obj
