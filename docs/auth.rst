@@ -110,9 +110,3 @@ If the ``auth`` field is not explicitly set, the SDK will automatically try to s
 .. note::
 
    The maximum `lifetime <https://yandex.cloud/docs/iam/concepts/authorization/iam-token#lifetime>`_ of an IAM token is 12 hours. Keep this in mind when sending requests with authentication based on an IAM token specified in a string, object of the ``IAMTokenAuth`` class, or the ``YC_IAM_TOKEN`` environment variable.
-
-Authentication methods classes
-------------------------------
-
-.. automodule:: yandex_cloud_ml_sdk.auth
-   :no-undoc-members:
