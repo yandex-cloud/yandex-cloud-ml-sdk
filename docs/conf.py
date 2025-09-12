@@ -50,7 +50,6 @@ autodoc_typehints = 'description'
 intersphinx_mapping = {
     'grpc': ('https://grpc.github.io/grpc/python/', None),
     'python': ('https://docs.python.org/3', None),
-    'pydantic': ('https://docs.pydantic.dev/latest', None),
 }
 
 nitpicky = True
