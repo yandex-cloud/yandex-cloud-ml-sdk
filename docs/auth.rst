@@ -27,8 +27,15 @@ The SDK will automatically determine the type of authentication data.
 
 Object of one of the following classes:
 
-.. automodule:: yandex_cloud_ml_sdk.auth
-   :no-undoc-members:
+* `APIKeyAuth`: Allows you to explicitly set authentication by the provided API key. Example: `auth = APIKeyAuth('<API_key>')`.
+* `IAMTokenAuth`: Allows you to explicitly set authentication by the provided API token. Example: `auth = IAMTokenAuth('<IAM_token>')`.
+* `OAuthTokenAuth`: Allows you to explicitly set authentication by the provided OAuth token. Example: `auth = OAuthTokenAuth('<OAuth_token>')`.
+* `MetadataAuth`: Allows you to explicitly set authentication as the service account specified in the {{ compute-full-name }} VM [metadata](../../compute/concepts/vm-metadata.md). Example: `auth = MetadataAuth()`.
+* `EnvIAMTokenAuth`: Allows you to explicitly set authentication using the IAM token specified in the `YC_TOKEN` or any other environment variable. Example: `auth = EnvIAMTokenAuth()` or `auth = EnvIAMTokenAuth("ENV_VAR")`.
+
+The SDK obtains the IAM token from this environment variable with each request, so you can occasionally update the IAM token in the environment variable yourself outside the SDK. This authentication option is optimal for use with a [service agent](../../datasphere/operations/community/create-ssa.md) in {{ ml-platform-full-name }} if that service has [access](../../iam/concepts/service-control.md) to other resources in the user's cloud.
+* `YandexCloudCLIAuth`: Allows you to explicitly set authentication as a [user](../../iam/concepts/users/accounts.md) or service account [specified](../../cli/operations/index.md#auth) in the [{{ yandex-cloud }} CLI](../../cli/index.yaml) profile on the user's computer. Example: `auth = YandexCloudCLIAuth()`.
+* `NoAuth`: Specifies that no authentication data will be provided. Example: `auth = NoAuth()`.
 
 You can get these classes by importing them from the ML SDK library. Here is an example:
 
@@ -53,3 +60,9 @@ If the ``auth`` field is not explicitly set, the SDK will automatically try to s
 .. note::
 
    The maximum `lifetime <https://yandex.cloud/docs/iam/concepts/authorization/iam-token#lifetime>`_ of an IAM token is 12 hours. Keep this in mind when sending requests with authentication based on an IAM token specified in a string, object of the ``IAMTokenAuth`` class, or the ``YC_IAM_TOKEN`` environment variable.
+
+Authentication methods classes
+------------------------------
+
+.. automodule:: yandex_cloud_ml_sdk.auth
+   :no-undoc-members:
