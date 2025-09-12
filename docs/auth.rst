@@ -3,7 +3,7 @@ Authentication
 To authenticate in Yandex Cloud ML SDK, you need to provide the ``YCloudML`` object to the model. This object contains the following fields:
 
 ``folder_id``
-   `ID of the folder <https://yandex.cloud/en/docs/resource-manager/operations/folder/get-id>`_ you are going to use to work with models.
+   `ID of the folder <https://yandex.cloud/docs/resource-manager/operations/folder/get-id>`_ you are going to use to work with models.
 
 ``auth``
    Key, token, or other authentication data to identify the user. You can specify the ``auth`` field value explicitly or get it automatically from the environment.
@@ -17,9 +17,9 @@ If set explicitly, the ``auth`` field value can be one of the following:
 
 As a string, you can provide:
 
-* `IAM token <../../iam/concepts/authorization/iam-token.md>`_ of a user or `service account <../../iam/concepts/users/service-accounts.md>`_.
-* Secret part of the service account `API key <../../iam/concepts/authorization/api-key.md>`_.
-* `OAuth token <../../iam/concepts/authorization/oauth-token.md>`_ of a user account.
+* `IAM token <https://yandex.cloud/docs/iam/concepts/authorization/iam-token>`_ of a user or `service account <https://yandex.cloud/docs/iam/concepts/users/service-accounts>`_.
+* Secret part of the service account `API key <https://yandex.cloud/docs/iam/concepts/authorization/api-key>`_.
+* `OAuth token <https://yandex.cloud/docs/iam/concepts/authorization/oauth-token>`_ of a user account.
 
 The SDK will automatically determine the type of authentication data.
 
@@ -48,8 +48,8 @@ If the ``auth`` field is not explicitly set, the SDK will automatically try to s
 5. Authenticate using the IAM token from the ``YC_TOKEN`` environment variable if it is set.
 
    The SDK obtains the IAM token from this environment variable with each request, so you can occasionally update the IAM token in the ``YC_TOKEN`` environment variable yourself outside the SDK.
-6. If the previous options fail, the SDK will attempt to authenticate using the IAM token of the `user <../../iam/concepts/users/accounts.md>`_ or service account `specified <../../cli/operations/index.md#auth>`_ in the `Yandex Cloud CLI <../../cli/index.yaml>`_ profile on the user's computer.
+6. If the previous options fail, the SDK will attempt to authenticate using the IAM token of the `user <https://yandex.cloud/docs/iam/concepts/users/accounts>`_ or service account `specified <https://yandex.cloud/docs/cli/operations/#auth>`_ in the `Yandex Cloud CLI <https://yandex.cloud/docs/cli/>`_ profile on the user's computer.
 
 .. note::
 
-   The maximum `lifetime <../../iam/concepts/authorization/iam-token.md#lifetime>`_ of an IAM token is 12 hours. Keep this in mind when sending requests with authentication based on an IAM token specified in a string, object of the ``IAMTokenAuth`` class, or the ``YC_IAM_TOKEN`` environment variable.
+   The maximum `lifetime <https://yandex.cloud/docs/iam/concepts/authorization/iam-token#lifetime>`_ of an IAM token is 12 hours. Keep this in mind when sending requests with authentication based on an IAM token specified in a string, object of the ``IAMTokenAuth`` class, or the ``YC_IAM_TOKEN`` environment variable.
