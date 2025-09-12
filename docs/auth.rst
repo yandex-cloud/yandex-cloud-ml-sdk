@@ -51,7 +51,7 @@ Object of one of the following classes:
 
      auth = OAuthTokenAuth('<OAuth_token>')
 
-* :py:class:`MetadataAuth` - Allows you to explicitly set authentication as the service account specified in the {{ compute-full-name }} VM `metadata <../../compute/concepts/vm-metadata.md>`_.
+* :py:class:`MetadataAuth` - Allows you to explicitly set authentication as the service account specified in the Yandex Compute Cloud VM `metadata <https://yandex.cloud/docs/compute/concepts/vm-metadata>`_.
 
   Example:
 
@@ -69,9 +69,9 @@ Object of one of the following classes:
      # or
      auth = EnvIAMTokenAuth("ENV_VAR")
 
-  The SDK obtains the IAM token from this environment variable with each request, so you can occasionally update the IAM token in the environment variable yourself outside the SDK. This authentication option is optimal for use with a `service agent <../../datasphere/operations/community/create-ssa.md>`_ in {{ ml-platform-full-name }} if that service has `access <../../iam/concepts/service-control.md>`_ to other resources in the user's cloud.
+  The SDK obtains the IAM token from this environment variable with each request, so you can occasionally update the IAM token in the environment variable yourself outside the SDK. This authentication option is optimal for use with a `service agent <https://yandex.cloud/docs/datasphere/operations/community/create-ssa>`_ in Yandex DataSphere if that service has `access <https://yandex.cloud/docs/iam/concepts/service-control>`_ to other resources in the user's cloud.
 
-* :py:class:`YandexCloudCLIAuth` - Allows you to explicitly set authentication as a `user <../../iam/concepts/users/accounts.md>`_ or service account `specified <../../cli/operations/index.md#auth>`_ in the `{{ yandex-cloud }} CLI <../../cli/index.yaml>`_ profile on the user's computer.
+* :py:class:`YandexCloudCLIAuth` - Allows you to explicitly set authentication as a `user <https://yandex.cloud/docs/iam/concepts/users/accounts>`_ or service account `specified <https://yandex.cloud/docs/cli/operations/#auth>`_ in the `Yandex Cloud CLI <https://yandex.cloud/docs/cli/>`_ profile on the user's computer.
 
   Example:
 
