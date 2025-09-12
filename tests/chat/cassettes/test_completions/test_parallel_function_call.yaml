@@ -1,0 +1,155 @@
+interactions:
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/rc","messages":[{"role":"user","content":"do
+      a SOMETHING and SPOONING with all the numbers from: 5, 4, a, 1"}],"stream":false,"tools":[{"function":{"name":"something","description":"Tool
+      which have to collect all the numbers from user message and do a SOMETHING with
+      it","parameters":{"properties":{"numbers":{"items":{"type":"integer"},"title":"Numbers","type":"array"}},"required":["numbers"],"title":"Numbers","type":"object"},"strict":null},"type":"function"},{"function":{"name":"spooning","description":"Tool
+      which have to collect all the numbers from user message and do a SPOONING with
+      it","parameters":{"properties":{"numbers":{"items":{"type":"integer"},"title":"Numbers","type":"array"}},"required":["numbers"],"title":"Numbers","type":"object"},"strict":null},"type":"function"}]}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      authorization:
+      - Bearer t1.9euelZqOl8_MysaajJLNx5uQipTHmO3rnpWalM3InMbJl5qUmJnHmcfPzsnl8_cpaXQ5-e94QTBB_d3z92kXcjn573hBMEH9zef1656VmpyJzpyOzMbLncfGnJDNnJWe7_zF656VmpyJzpyOzMbLncfGnJDNnJWeveuelZqZio7GyJCbiY-KzJCVyZuMzrXrhpzRlp6S0ZCPmpGWm9KMmo2Jmo0.5Xf19Ehbay0iZuIm7eBBIf1wntPWuIc_CpGJBkkREyU2J0hL3Uavgu1L5_K3WUTKWDfgYUpGCkZxZA-NV1ZCDQ
+      connection:
+      - keep-alive
+      content-length:
+      - '839'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - c47435b3-c1b2-41d8-b23e-9d96dd874331
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: '{"id":"68147783-d0dc-4d76-8623-f635fede87c3","object":"chat.completion","created":1757597745,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/rc","choices":[{"index":0,"message":{"role":"assistant","content":"","tool_calls":[{"index":0,"id":"something","type":"function","function":{"name":"something","arguments":"{\"numbers\":[5,4,1]}"}},{"index":1,"id":"spooning","type":"function","function":{"name":"spooning","arguments":"{\"numbers\":[5,4,1]}"}}]},"finish_reason":"tool_calls"}],"usage":{"prompt_tokens":169,"total_tokens":198,"completion_tokens":29}}
+
+        '
+    headers:
+      content-length:
+      - '556'
+      content-type:
+      - application/json
+      date:
+      - Thu, 11 Sep 2025 13:35:45 GMT
+      server:
+      - ycalb
+      x-client-request-id:
+      - c47435b3-c1b2-41d8-b23e-9d96dd874331
+      x-request-id:
+      - 133106e1-b955-4481-90c3-b8590d0ae4ed
+      x-server-trace-id:
+      - bc7e5014ae56be5c:74964ed89d1e010:bc7e5014ae56be5c:1
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/rc","messages":[{"role":"user","content":"do
+      a SOMETHING and SPOONING with all the numbers from: 5, 4, a, 1"}],"stream":false,"tools":[{"function":{"name":"something","description":"Tool
+      which have to collect all the numbers from user message and do a SOMETHING with
+      it","parameters":{"properties":{"numbers":{"items":{"type":"integer"},"title":"Numbers","type":"array"}},"required":["numbers"],"title":"Numbers","type":"object"},"strict":null},"type":"function"},{"function":{"name":"spooning","description":"Tool
+      which have to collect all the numbers from user message and do a SPOONING with
+      it","parameters":{"properties":{"numbers":{"items":{"type":"integer"},"title":"Numbers","type":"array"}},"required":["numbers"],"title":"Numbers","type":"object"},"strict":null},"type":"function"}],"parallel_tool_calls":true}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      authorization:
+      - Bearer t1.9euelZqOl8_MysaajJLNx5uQipTHmO3rnpWalM3InMbJl5qUmJnHmcfPzsnl8_cpaXQ5-e94QTBB_d3z92kXcjn573hBMEH9zef1656VmpyJzpyOzMbLncfGnJDNnJWe7_zF656VmpyJzpyOzMbLncfGnJDNnJWeveuelZqZio7GyJCbiY-KzJCVyZuMzrXrhpzRlp6S0ZCPmpGWm9KMmo2Jmo0.5Xf19Ehbay0iZuIm7eBBIf1wntPWuIc_CpGJBkkREyU2J0hL3Uavgu1L5_K3WUTKWDfgYUpGCkZxZA-NV1ZCDQ
+      connection:
+      - keep-alive
+      content-length:
+      - '866'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - 121d671f-e65a-4198-84c3-e2b4123f4708
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: '{"id":"2eeade81-ee61-4e01-8d65-0a57ec6befe1","object":"chat.completion","created":1757597746,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/rc","choices":[{"index":0,"message":{"role":"assistant","content":"","tool_calls":[{"index":0,"id":"something","type":"function","function":{"name":"something","arguments":"{\"numbers\":[5,4,1]}"}},{"index":1,"id":"spooning","type":"function","function":{"name":"spooning","arguments":"{\"numbers\":[5,4,1]}"}}]},"finish_reason":"tool_calls"}],"usage":{"prompt_tokens":169,"total_tokens":198,"completion_tokens":29}}
+
+        '
+    headers:
+      content-length:
+      - '556'
+      content-type:
+      - application/json
+      date:
+      - Thu, 11 Sep 2025 13:35:46 GMT
+      server:
+      - ycalb
+      x-client-request-id:
+      - 121d671f-e65a-4198-84c3-e2b4123f4708
+      x-request-id:
+      - 36ae85cd-d002-405f-9621-4990cd527539
+      x-server-trace-id:
+      - e62ffd1ecefc9acf:1a73474de38f1af1:e62ffd1ecefc9acf:1
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/rc","messages":[{"role":"user","content":"do
+      a SOMETHING and SPOONING with all the numbers from: 5, 4, a, 1"}],"stream":false,"tools":[{"function":{"name":"something","description":"Tool
+      which have to collect all the numbers from user message and do a SOMETHING with
+      it","parameters":{"properties":{"numbers":{"items":{"type":"integer"},"title":"Numbers","type":"array"}},"required":["numbers"],"title":"Numbers","type":"object"},"strict":null},"type":"function"},{"function":{"name":"spooning","description":"Tool
+      which have to collect all the numbers from user message and do a SPOONING with
+      it","parameters":{"properties":{"numbers":{"items":{"type":"integer"},"title":"Numbers","type":"array"}},"required":["numbers"],"title":"Numbers","type":"object"},"strict":null},"type":"function"}],"parallel_tool_calls":false}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      authorization:
+      - Bearer t1.9euelZqOl8_MysaajJLNx5uQipTHmO3rnpWalM3InMbJl5qUmJnHmcfPzsnl8_cpaXQ5-e94QTBB_d3z92kXcjn573hBMEH9zef1656VmpyJzpyOzMbLncfGnJDNnJWe7_zF656VmpyJzpyOzMbLncfGnJDNnJWeveuelZqZio7GyJCbiY-KzJCVyZuMzrXrhpzRlp6S0ZCPmpGWm9KMmo2Jmo0.5Xf19Ehbay0iZuIm7eBBIf1wntPWuIc_CpGJBkkREyU2J0hL3Uavgu1L5_K3WUTKWDfgYUpGCkZxZA-NV1ZCDQ
+      connection:
+      - keep-alive
+      content-length:
+      - '867'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - f02665ed-eb2b-4351-b10e-74d0957d185c
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: '{"id":"a785e350-a10e-434d-b924-6d35a76f4881","object":"chat.completion","created":1757597746,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/rc","choices":[{"index":0,"message":{"role":"assistant","content":"","tool_calls":[{"index":0,"id":"something","type":"function","function":{"name":"something","arguments":"{\"numbers\":[5,4,1]}"}},{"index":1,"id":"spooning","type":"function","function":{"name":"spooning","arguments":"{\"numbers\":[5,4,1]}"}}]},"finish_reason":"tool_calls"}],"usage":{"prompt_tokens":169,"total_tokens":198,"completion_tokens":29}}
+
+        '
+    headers:
+      content-length:
+      - '556'
+      content-type:
+      - application/json
+      date:
+      - Thu, 11 Sep 2025 13:35:46 GMT
+      server:
+      - ycalb
+      x-client-request-id:
+      - f02665ed-eb2b-4351-b10e-74d0957d185c
+      x-request-id:
+      - c8768220-4c7d-4d0b-97ea-bbef4cfbdb54
+      x-server-trace-id:
+      - dfc460727352ad6e:8f64516dc2f1ae1d:dfc460727352ad6e:1
+    status:
+      code: 200
+      message: OK
+version: 1

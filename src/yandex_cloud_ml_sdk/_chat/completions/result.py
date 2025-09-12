@@ -144,7 +144,7 @@ class ChatModelResult(BaseJsonResult, Sequence, HaveToolCalls[ToolCallTypeT]):
         return cls(
             choices=choices,
             usage=usage,
-            created=datetime.datetime.utcfromtimestamp(data['created']),
+            created=datetime.datetime.fromtimestamp(data['created'], datetime.UTC),
             model=data['model'],
             id=data['id']
         )
