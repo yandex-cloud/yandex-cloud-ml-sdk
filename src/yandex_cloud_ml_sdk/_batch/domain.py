@@ -41,7 +41,7 @@ class BaseBatch(BaseDomain, Generic[BatchTaskOperationTypeT]):
         """
         Get batch task operation by ID or by BatchTaskInfo object.
 
-        :param task: Either task ID string or BatchTaskInfo object
+        :param task: Either task ID string or BatchTaskInfo object.
         :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
         """
@@ -75,8 +75,8 @@ class BaseBatch(BaseDomain, Generic[BatchTaskOperationTypeT]):
         """
         List batch task operations with optional filtering.
 
-        :param page_size: Maximum number of tasks per page (optional)
-        :param status: Filter tasks by status (optional)
+        :param page_size: Maximum number of tasks per page (optional).
+        :param status: Filter tasks by status (optional).
         :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
         """
@@ -102,8 +102,8 @@ class BaseBatch(BaseDomain, Generic[BatchTaskOperationTypeT]):
         """
         List batch task information with optional filtering.
 
-        :param page_size: Maximum number of tasks per page (optional)
-        :param status: Filter tasks by status (optional)
+        :param page_size: Maximum number of tasks per page (optional).
+        :param status: Filter tasks by status (optional).
         :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
         """
