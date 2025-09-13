@@ -96,7 +96,7 @@ def setup(_):
     original_find_obj = PythonDomain.find_obj
 
     def patched_find_obj(self, env, modname, name, *args, **kwargs):
-        if modname.startswith('yandex_cloud_ml_sdk._retry'):
+        if modname and modname.startswith('yandex_cloud_ml_sdk._retry'):
             modname = modname.replace('_retry', 'retry')
         return original_find_obj(self, env, modname, name, *args, **kwargs)
 
