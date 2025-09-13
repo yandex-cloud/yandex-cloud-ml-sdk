@@ -19,14 +19,14 @@ class BaseTuningType(BaseTuningParameter):
 
     @property
     @abc.abstractmethod
-    def proto_type(self) -> Type[ProtoTuningTypeLora] | Type[ProtoTuningTypePromptTune]:
+    def proto_type(self) -> type[ProtoTuningTypeLora] | type[ProtoTuningTypePromptTune]:
         """:meta private:"""
 
 
 @dataclass(frozen=True)
 class TuningTypeLora(BaseTuningType):
     #: :meta private:
-    proto_type: ClassVar[Type[ProtoTuningTypeLora]] = ProtoTuningTypeLora
+    proto_type: ClassVar[type[ProtoTuningTypeLora]] = ProtoTuningTypeLora
     #: :meta private:
     field_name: ClassVar[str] = 'lora'
 
@@ -39,7 +39,7 @@ class TuningTypeLora(BaseTuningType):
 @dataclass(frozen=True)
 class TuningTypePromptTune(BaseTuningType):
     #: :meta private:
-    proto_type: ClassVar[Type[ProtoTuningTypePromptTune]] = ProtoTuningTypePromptTune
+    proto_type: ClassVar[type[ProtoTuningTypePromptTune]] = ProtoTuningTypePromptTune
     #: :meta private:
     field_name: ClassVar[str] = 'prompt_tune'
 
