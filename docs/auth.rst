@@ -71,7 +71,7 @@ Object of one of the following classes:
 
   The SDK obtains the IAM token from this environment variable with each request, so you can occasionally update the IAM token in the environment variable yourself outside the SDK. This authentication option is optimal for use with a `service agent <https://yandex.cloud/docs/datasphere/operations/community/create-ssa>`_ in Yandex DataSphere if that service has `access <https://yandex.cloud/docs/iam/concepts/service-control>`_ to other resources in the user's cloud.
 
-* :py:class:`yandex_cloud_ml_sdk.auth.YandexCloudCLIAuth` - Allows you to explicitly set authentication as a `user <https://yandex.cloud/docs/iam/concepts/users/accounts>`_ or service account `specified <https://yandex.cloud/docs/cli/operations/#auth>`_ in the `Yandex Cloud CLI <https://yandex.cloud/docs/cli/>`_ profile on the user's computer.
+* :py:class:`yandex_cloud_ml_sdk.auth.YandexCloudCLIAuth` - Allows you to explicitly set authentication as a `user_1 <https://yandex.cloud/docs/iam/concepts/users/accounts>`_ or service account `specified_1 <https://yandex.cloud/docs/cli/operations/#auth>`_ in the `Yandex Cloud CLI_1 <https://yandex.cloud/docs/cli/>`_ profile on the user's computer.
 
   Example:
 
@@ -105,7 +105,7 @@ If the ``auth`` field is not explicitly set, the SDK will automatically try to s
 5. Authenticate using the IAM token from the ``YC_TOKEN`` environment variable if it is set.
 
    The SDK obtains the IAM token from this environment variable with each request, so you can occasionally update the IAM token in the ``YC_TOKEN`` environment variable yourself outside the SDK.
-6. If the previous options fail, the SDK will attempt to authenticate using the IAM token of the `user <https://yandex.cloud/docs/iam/concepts/users/accounts>`_ or service account `specified <https://yandex.cloud/docs/cli/operations/#auth>`_ in the `Yandex Cloud CLI <https://yandex.cloud/docs/cli/>`_ profile on the user's computer.
+6. If the previous options fail, the SDK will attempt to authenticate using the IAM token of the `user_2 <https://yandex.cloud/docs/iam/concepts/users/accounts>`_ or service account `specified_2 <https://yandex.cloud/docs/cli/operations/#auth>`_ in the `Yandex Cloud CLI_2 <https://yandex.cloud/docs/cli/>`_ profile on the user's computer.
 
 .. note::
 
