@@ -1,17 +1,17 @@
 interactions:
 - request:
-    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest","messages":[{"role":"user","content":"hello"}],"stream":false}'
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/qwen3-235b-a22b-fp8/latest","messages":[{"role":"user","content":"hello"}],"stream":false}'
     headers:
       accept:
       - '*/*'
       accept-encoding:
       - gzip, deflate, zstd
       authorization:
-      - Bearer t1.9euelZqOl8_MysaajJLNx5uQipTHmO3rnpWalM3InMbJl5qUmJnHmcfPzsnl8_cpaXQ5-e94QTBB_d3z92kXcjn573hBMEH9zef1656VmpyJzpyOzMbLncfGnJDNnJWe7_zF656VmpyJzpyOzMbLncfGnJDNnJWeveuelZqZio7GyJCbiY-KzJCVyZuMzrXrhpzRlp6S0ZCPmpGWm9KMmo2Jmo0.5Xf19Ehbay0iZuIm7eBBIf1wntPWuIc_CpGJBkkREyU2J0hL3Uavgu1L5_K3WUTKWDfgYUpGCkZxZA-NV1ZCDQ
+      - Bearer t1.9euelZqWlp2bxpiUmZuLl57Lz8yMjO3rnpWalM3InMbJl5qUmJnHmcfPzsnl8_cXWF85-e9wPgBV_t3z91cGXTn573A-AFX-zef1656VmpHMi8vNmY2YjI_OjpWYncaM7_zF656VmpHMi8vNmY2YjI_OjpWYncaMveuelZrHy5fHis2MjY-dzIyJnJXIkrXrhpzRlp6S0ZCPmpGWm9KMmo2Jmo0.G0eyVx1OQ_yLFHLGkNV9gUPu64rm0aIT2-Hdbo-LGa5pwM7KetKWhD9ZTXg-Sg6L6CH_kW8Ay1LzAaQON5OfAw
       connection:
       - keep-alive
       content-length:
-      - '117'
+      - '127'
       content-type:
       - application/json
       host:
@@ -19,30 +19,24 @@ interactions:
       user-agent:
       - yandex-cloud-ml-sdk/0.15.0 python/3.12
       x-client-request-id:
-      - 52e5c092-475a-49ae-aa44-77a219ef79fb
+      - cd7b8bc3-a76d-4562-8e90-d64f81eccaa0
     method: POST
     uri: https://llm.api.cloud.yandex.net/v1/chat/completions
   response:
     body:
-      string: '{"id":"9d6859ba-a872-41ee-8e17-14fa63eeb18f","object":"chat.completion","created":1757597734,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest","choices":[{"index":0,"message":{"role":"assistant","content":"Hello!
-        How can I assist you today?"},"finish_reason":"stop"}],"usage":{"prompt_tokens":11,"total_tokens":20,"completion_tokens":9}}
-
-        '
+      string: "{\"id\":\"chatcmpl-c97fe7c7-5e85-4aa5-86d4-451a8f495d9e\",\"object\":\"chat.completion\",\"created\":1757951666,\"model\":\"gpt://qwen3-235b-a22b-fp8/latest\",\"choices\":[{\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":\"Hello!
+        How can I assist you today? \U0001F60A\"},\"finish_reason\":\"stop\"}],\"usage\":{\"prompt_tokens\":9,\"total_tokens\":21,\"completion_tokens\":12}}\n"
     headers:
       content-length:
-      - '342'
+      - '345'
       content-type:
       - application/json
       date:
-      - Thu, 11 Sep 2025 13:35:34 GMT
+      - Mon, 15 Sep 2025 15:54:30 GMT
       server:
       - ycalb
-      x-client-request-id:
-      - 52e5c092-475a-49ae-aa44-77a219ef79fb
-      x-request-id:
-      - 36b608bc-c52d-4032-af52-c5d2a586610d
       x-server-trace-id:
-      - da046617d361730d:8a677c4e6ce7eba0:da046617d361730d:1
+      - 1f94c0a47d1b6530:497a0dc737109747:1f94c0a47d1b6530:1
     status:
       code: 200
       message: OK

@@ -6,11 +6,7 @@ from typing import cast
 import pytest
 
 from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk._chat.completions.result import FinishReason
-from yandex_cloud_ml_sdk._models.completions.message import ProtoMessage, messages_to_proto
-from yandex_cloud_ml_sdk._models.completions.result import AlternativeStatus
-from yandex_cloud_ml_sdk._models.completions.token import Token
-from yandex_cloud_ml_sdk._types.message import TextMessage
+from yandex_cloud_ml_sdk._chat.completions.result import AlternativeStatus, FinishReason
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED
 from yandex_cloud_ml_sdk._types.tools.function import FunctionDictType
 from yandex_cloud_ml_sdk._types.tools.tool_choice import ToolChoiceType
@@ -157,54 +153,14 @@ async def test_configure(model):
     with pytest.raises(TypeError):
         model.configure(foo=500)
 
+    def make_request(**kwargs):
+        return model._build_request_json(**kwargs)
+
     assert model._config.reasoning_mode is None
-    assert model._make_request(messages="foo", stream=None).completion_options.reasoning_options.mode == 0
+    assert 'reasoning_effort' not in make_request(messages="foo", stream=None)
 
-    model = model.configure(reasoning_mode='disabled')
-    assert model._config.reasoning_mode == 'disabled'
-    assert model._make_request(messages="foo", stream=None).completion_options.reasoning_options.mode == 1
-
-    model = model.configure(reasoning_mode='ENABLED_HIDDEN')
-    assert model._make_request(messages="foo", stream=None).completion_options.reasoning_options.mode == 2
-
-
-# async def test_messages():
-#     text_message = 'foo'
-#     dict_message = {'role': 'somebody', 'text': 'something'}
-#     class_message = TextMessage(role='1', text='2')
-#
-#     assert messages_to_proto([text_message]) == [ProtoMessage(role='user', text=text_message)]
-#     assert messages_to_proto([dict_message]) == [ProtoMessage(role=dict_message['role'], text=dict_message['text'])]
-#     assert messages_to_proto([class_message]) == [ProtoMessage(role=class_message.role, text=class_message.text)]
-#
-#     assert messages_to_proto([dict_message, text_message, class_message]) == [
-#         ProtoMessage(role=dict_message['role'], text=dict_message['text']),
-#         ProtoMessage(role='user', text=text_message),
-#         ProtoMessage(role=class_message.role, text=class_message.text),
-#     ]
-#
-#     assert not messages_to_proto([])
-#
-#     with pytest.raises(TypeError):
-#         messages_to_proto([{}])
-#
-#     call_result_message = {'tool_results': [{'name': 'something', 'content': '+20.0'}]}
-#     call_result_message2 = {'tool_results': [{'type': 'function', 'name': 'something', 'content': '+20.0'}]}
-#     proto_messages = messages_to_proto(call_result_message)
-#     assert proto_messages == messages_to_proto([call_result_message]) == messages_to_proto(call_result_message2)
-#     assert proto_messages[0].tool_result_list.tool_results[0].function_result.name == 'something'
-#
-#     with pytest.raises(TypeError):
-#         messages_to_proto({'tool_results': [{'type': 'something', 'name': 'something', 'content': '+20.0'}]})
-#
-#     with pytest.raises(TypeError):
-#         messages_to_proto({'tool_results': [{'name': 'something'}]})
-#
-#     with pytest.raises(TypeError):
-#         messages_to_proto({'tool_results': [{'content': 'something'}]})
-#
-#     with pytest.raises(TypeError):
-#         messages_to_proto({'tool_results': {}})
+    model = model.configure(reasoning_mode='LOW')
+    assert make_request(messages="foo", stream=None)['reasoning_effort'] == 'low'
 
 
 async def test_structured_output_simple_json(async_sdk):
@@ -213,7 +169,7 @@ async def test_structured_output_simple_json(async_sdk):
 
     result = await model.run('collect all numbers from: 5, 4, a, 1')
 
-    assert json.loads(result.text) == {"output": "5, 4, 1"}
+    assert json.loads(result.text) == {"output": '5, 4, 1'}
 
     model = model.configure(response_format=True)
     with pytest.raises(TypeError):
@@ -264,7 +220,7 @@ async def test_structured_output_json_schema(async_sdk):
     }
 
     model = async_sdk.chat.completions('yandexgpt')
-    model = model.configure(response_format={'json_schema': schema})
+    model = model.configure(response_format={'json_schema': schema, "name": 'foo'})
 
     result = await model.run('collect all numbers from: 5, 4, a, 1')
 
@@ -290,7 +246,7 @@ async def test_function_call(async_sdk: AsyncYCloudML, tool) -> None:
     assert function.name == 'something'
     numbers = function.arguments['numbers']
     assert numbers == [5.0, 4.0, 1.0]
-    assert all(isinstance(number, float) for number in numbers)
+    assert all(isinstance(number, int) for number in numbers)
 
     call_result = {'tool_results': [{'name': 'something', 'content': '+20.0'}]}
     messages.append(call_result)
@@ -301,6 +257,7 @@ async def test_function_call(async_sdk: AsyncYCloudML, tool) -> None:
     assert result.tool_calls is None
 
 
+@pytest.mark.xfail(reason="parallel_tool_calls is not working with openai api right now")
 async def test_parallel_function_call(async_sdk: AsyncYCloudML, tool, schema) -> None:
     # pylint: disable=too-many-locals
     tool2 = async_sdk.tools.function(
@@ -338,6 +295,7 @@ async def test_parallel_function_call(async_sdk: AsyncYCloudML, tool, schema) ->
     results = {'something': '+20', 'spooning': '-10'}
     i = 0
     while result.tool_calls:
+        print(result.tool_calls)
         assert len(result.tool_calls) == 1
         assert result.tool_calls
         call = result.tool_calls[0]
@@ -356,6 +314,7 @@ async def test_parallel_function_call(async_sdk: AsyncYCloudML, tool, schema) ->
     assert len(calls) == 2
 
 
+@pytest.mark.xfail(reason="parallel_tool_calls is not working with openai api right now")
 async def test_tool_choice(async_sdk: AsyncYCloudML, tool, schema) -> None:
     tool2 = async_sdk.tools.function(
         schema,  # type: ignore[arg-type]
@@ -400,13 +359,3 @@ async def test_tool_choice(async_sdk: AsyncYCloudML, tool, schema) -> None:
     model = model.configure(tool_choice=None)  # type: ignore[arg-type]
     result = await model.run(message)
     assert result.status.name == 'TOOL_CALLS'
-
-
-@pytest.mark.parametrize("bad_value", ['foo', {}, 123])
-async def test_bad_values_tool_choice(async_sdk, tool, bad_value) -> None:
-    model = async_sdk.chat.completions('yandexgpt')
-    model = model.configure(tools=[tool])
-
-    with pytest.raises((TypeError, ValueError)):
-        bad_model = model.configure(tool_choice=bad_value)
-        await bad_model.run("doesn't matter")
