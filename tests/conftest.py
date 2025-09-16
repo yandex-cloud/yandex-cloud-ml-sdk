@@ -20,6 +20,11 @@ from yandex_cloud_ml_sdk._testing.interceptor import (
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED
 
 
+@pytest.fixture(scope="module")
+def vcr_config():
+    return {"filter_headers": ["authorization"]}
+
+
 @pytest.fixture(name='auth')
 def fixture_auth(request, vcr):
     # NB: we want to use auth only and only when developer directly MAKING CASSETES

@@ -7,8 +7,6 @@ interactions:
       - '*/*'
       accept-encoding:
       - gzip, deflate, zstd
-      authorization:
-      - Bearer t1.9euelZrKjJORx5OLm5yeiseNmsuKke3rnpWalM3InMbJl5qUmJnHmcfPzsnl8_dFHFo5-e92cFNT_d3z9wVLVzn573ZwU1P9zef1656Vmp7Ik4yMx4nMjsiPlJvKyIma7_zF656Vmp7Ik4yMx4nMjsiPlJvKyImaveuelZqJjo_MkZ2WyI6bzJCYk4yXz7XrhpzRlp6S0ZCPmpGWm9KMmo2Jmo0._uBa0UALhuAPdknWaHJdWrE1R8e9c9TA-bAZzBwjL-Kao5U3-2wM_UThPVLrWmlY5Ei1LLYJRZAvjARfvLd1BQ
       connection:
       - keep-alive
       content-length:
@@ -20,36 +18,32 @@ interactions:
       user-agent:
       - yandex-cloud-ml-sdk/0.15.0 python/3.12
       x-client-request-id:
-      - f274eb16-096c-4c33-b813-b976ef1fc98d
+      - b26d50fe-d2a9-4acc-9539-65718de6d214
     method: POST
     uri: https://llm.api.cloud.yandex.net/v1/chat/completions
   response:
     body:
-      string: "{\"id\":\"chatcmpl-b5792776-fe99-4889-8e03-d5619e6213ef\",\"object\":\"chat.completion\",\"created\":1758044878,\"model\":\"gpt://gemma-3-27b-it/latest\",\"choices\":[{\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":\"The
-        image depicts a highly detailed LEGO replica of a computer case, specifically
-        a high-end gaming PC. \\n\\nHere are the key features visible:\\n\\n*   **Open
-        Case:** The LEGO computer case is designed to be open, showcasing the internal
-        components.\\n*   **Detailed Internals:** The interior is filled with LEGO
-        bricks configured to resemble components like a motherboard, CPU, cooler,
-        graphics card, RAM, and power supply. \\n*   **Circular Component:** There\u2019s
-        a circular element in the center, likely representing a fan or cooler.\\n*
-        \  **Realistic Build:** The creator has clearly put a lot of work into making
-        it look like a real computer, with accurate placement and color-coding of
-        the LEGO bricks. \\n*   **Background:** There is a plant and wooden paneling
-        in the background.\\n\\nIt is an impressive model built entirely from LEGO
-        bricks, demonstrating the builder's attention to detail and understanding
-        of computer hardware.\"},\"finish_reason\":\"stop\"}],\"usage\":{\"prompt_tokens\":276,\"total_tokens\":472,\"completion_tokens\":196}}\n"
+      string: '{"id":"chatcmpl-dcfb0b8e-e3d4-45cf-8713-d4cf45e22458","object":"chat.completion","created":1758047037,"model":"gpt://gemma-3-27b-it/latest","choices":[{"index":0,"message":{"role":"assistant","content":"The
+        image depicts a highly detailed **LEGO Technic model of a computer**. \n\nIt''s
+        a complex build replicating the internal components of a desktop computer,
+        including what appears to be a motherboard, CPU with cooler, graphics card,
+        and power supply. The frame surrounding the components looks like a computer
+        case.  It''s a remarkably realistic and intricate LEGO creation! \n\nThere
+        are also plants visible on the left side, and a blurred background of wood
+        paneling."},"finish_reason":"stop"}],"usage":{"prompt_tokens":276,"total_tokens":372,"completion_tokens":96}}
+
+        '
     headers:
       content-length:
-      - '1236'
+      - '773'
       content-type:
       - application/json
       date:
-      - Tue, 16 Sep 2025 17:48:06 GMT
+      - Tue, 16 Sep 2025 18:24:01 GMT
       server:
       - ycalb
       x-server-trace-id:
-      - 4113486ca509f33a:c182fc5027dd4d2f:4113486ca509f33a:1
+      - 258e73912996318a:6ecdeda12706f85:258e73912996318a:1
     status:
       code: 200
       message: OK

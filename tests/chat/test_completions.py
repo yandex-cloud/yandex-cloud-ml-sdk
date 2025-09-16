@@ -167,7 +167,7 @@ async def test_configure(model):
 
 async def test_structured_output_simple_json(async_sdk):
     model = async_sdk.chat.completions('yandexgpt')
-    model = model.configure(response_format='json')
+    model = model.configure(response_format='json', temperature=1)
 
     result = await model.run('collect all numbers from: 5, 4, a, 1')
 
@@ -202,7 +202,7 @@ async def test_structured_output_pydantic_dataclass(async_sdk) -> None:
         numbers: list[int]
 
     model = async_sdk.chat.completions('yandexgpt')
-    model = model.configure(response_format=Numbers)
+    model = model.configure(response_format=Numbers, temperature=0)
 
     result = await model.run('collect all numbers from: 5, 4, a, 1')
 
@@ -387,4 +387,4 @@ async def test_multimodal(async_sdk: AsyncYCloudML) -> None:
         }
     ]
     result = await model.run(request)
-    assert 'bricks' in result.text
+    assert 'complex' in result.text

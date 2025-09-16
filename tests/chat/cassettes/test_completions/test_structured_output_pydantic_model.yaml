@@ -7,8 +7,6 @@ interactions:
       - '*/*'
       accept-encoding:
       - gzip, deflate, zstd
-      authorization:
-      - Bearer t1.9euelZqWlp2bxpiUmZuLl57Lz8yMjO3rnpWalM3InMbJl5qUmJnHmcfPzsnl8_cXWF85-e9wPgBV_t3z91cGXTn573A-AFX-zef1656VmpHMi8vNmY2YjI_OjpWYncaM7_zF656VmpHMi8vNmY2YjI_OjpWYncaMveuelZrHy5fHis2MjY-dzIyJnJXIkrXrhpzRlp6S0ZCPmpGWm9KMmo2Jmo0.G0eyVx1OQ_yLFHLGkNV9gUPu64rm0aIT2-Hdbo-LGa5pwM7KetKWhD9ZTXg-Sg6L6CH_kW8Ay1LzAaQON5OfAw
       connection:
       - keep-alive
       content-length:
@@ -20,12 +18,12 @@ interactions:
       user-agent:
       - yandex-cloud-ml-sdk/0.15.0 python/3.12
       x-client-request-id:
-      - b1149be9-27d2-4383-afc8-0493bcf3eb3e
+      - 4033380e-4686-455b-a2d1-a15535883e21
     method: POST
     uri: https://llm.api.cloud.yandex.net/v1/chat/completions
   response:
     body:
-      string: '{"id":"4001f0c6-94d6-4dc0-8811-8cf60a3c1be8","object":"chat.completion","created":1757951644,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest","choices":[{"index":0,"message":{"role":"assistant","content":"{\"numbers\":
+      string: '{"id":"7850ed9a-3be6-4b58-8682-46d68d6b803d","object":"chat.completion","created":1758047632,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest","choices":[{"index":0,"message":{"role":"assistant","content":"{\"numbers\":
         [5, 4, 1]}"},"finish_reason":"stop"}],"usage":{"prompt_tokens":25,"total_tokens":37,"completion_tokens":12}}
 
         '
@@ -35,15 +33,15 @@ interactions:
       content-type:
       - application/json
       date:
-      - Mon, 15 Sep 2025 15:54:04 GMT
+      - Tue, 16 Sep 2025 18:33:52 GMT
       server:
       - ycalb
       x-client-request-id:
-      - b1149be9-27d2-4383-afc8-0493bcf3eb3e
+      - 4033380e-4686-455b-a2d1-a15535883e21
       x-request-id:
-      - 529e22f7-69cf-4752-a707-bf3efcaed77a
+      - c7b76df8-5e0b-4817-8478-2b55b36fa58e
       x-server-trace-id:
-      - fa760ec54d2ec7e1:167c017b0774e9c6:fa760ec54d2ec7e1:1
+      - 8a00b4819f6a2b45:4d1d1012e254e63f:8a00b4819f6a2b45:1
     status:
       code: 200
       message: OK
