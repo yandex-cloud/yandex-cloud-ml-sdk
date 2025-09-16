@@ -85,7 +85,6 @@ class BaseChatModel(
 
         if c.tool_choice is not None:
             result['tool_choice'] = coerce_tool_choice_to_json(c.tool_choice)
-
         return result
 
     @override

@@ -1,0 +1,137 @@
+interactions:
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/qwen3-235b-a22b-fp8/latest","messages":[{"content":"Your
+      name is Arkadiy","role":"system"},{"role":"user","content":"Hello! how is your
+      name?"}],"stream":false}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      authorization:
+      - Bearer t1.9euelZqWlp2bxpiUmZuLl57Lz8yMjO3rnpWalM3InMbJl5qUmJnHmcfPzsnl8_cXWF85-e9wPgBV_t3z91cGXTn573A-AFX-zef1656VmpHMi8vNmY2YjI_OjpWYncaM7_zF656VmpHMi8vNmY2YjI_OjpWYncaMveuelZrHy5fHis2MjY-dzIyJnJXIkrXrhpzRlp6S0ZCPmpGWm9KMmo2Jmo0.G0eyVx1OQ_yLFHLGkNV9gUPu64rm0aIT2-Hdbo-LGa5pwM7KetKWhD9ZTXg-Sg6L6CH_kW8Ay1LzAaQON5OfAw
+      connection:
+      - keep-alive
+      content-length:
+      - '197'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - 5a3fcf89-bb93-4e61-9379-61227d23bd28
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: "{\"id\":\"chatcmpl-2ee9e39e-6ceb-4c70-93e1-a29034b09534\",\"object\":\"chat.completion\",\"created\":1757951686,\"model\":\"gpt://qwen3-235b-a22b-fp8/latest\",\"choices\":[{\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":\"Hello!
+        My name is Arkadiy. How can I assist you today? \U0001F60A\"},\"finish_reason\":\"stop\"}],\"usage\":{\"prompt_tokens\":26,\"total_tokens\":45,\"completion_tokens\":19}}\n"
+    headers:
+      content-length:
+      - '366'
+      content-type:
+      - application/json
+      date:
+      - Mon, 15 Sep 2025 15:54:46 GMT
+      server:
+      - ycalb
+      x-server-trace-id:
+      - a2fbc7955280d426:7d558323c079506f:a2fbc7955280d426:1
+    status:
+      code: 200
+      message: OK
+- request:
+    body: "{\"model\":\"gpt://b1ghsjum2v37c2un8h64/qwen3-235b-a22b-fp8/latest\",\"messages\":[{\"content\":\"Your
+      name is Arkadiy\",\"role\":\"system\"},{\"role\":\"user\",\"content\":\"Hello!
+      how is your name?\"},{\"content\":\"Hello! My name is Arkadiy. How can I assist
+      you today? \U0001F60A\",\"role\":\"assistant\"},{\"role\":\"user\",\"content\":\"My
+      name is Andrew\"}],\"stream\":false}"
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      authorization:
+      - Bearer t1.9euelZqWlp2bxpiUmZuLl57Lz8yMjO3rnpWalM3InMbJl5qUmJnHmcfPzsnl8_cXWF85-e9wPgBV_t3z91cGXTn573A-AFX-zef1656VmpHMi8vNmY2YjI_OjpWYncaM7_zF656VmpHMi8vNmY2YjI_OjpWYncaMveuelZrHy5fHis2MjY-dzIyJnJXIkrXrhpzRlp6S0ZCPmpGWm9KMmo2Jmo0.G0eyVx1OQ_yLFHLGkNV9gUPu64rm0aIT2-Hdbo-LGa5pwM7KetKWhD9ZTXg-Sg6L6CH_kW8Ay1LzAaQON5OfAw
+      connection:
+      - keep-alive
+      content-length:
+      - '336'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - 24ae7c12-ca25-4764-9b37-d3848f67cd81
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: "{\"id\":\"chatcmpl-26c17979-ed03-414d-b613-6a2a5bc7ba03\",\"object\":\"chat.completion\",\"created\":1757951686,\"model\":\"gpt://qwen3-235b-a22b-fp8/latest\",\"choices\":[{\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":\"Nice
+        to meet you, Andrew! \U0001F60A How can I help you today?\"},\"finish_reason\":\"stop\"}],\"usage\":{\"prompt_tokens\":58,\"total_tokens\":75,\"completion_tokens\":17}}\n"
+    headers:
+      content-length:
+      - '363'
+      content-type:
+      - application/json
+      date:
+      - Mon, 15 Sep 2025 15:54:46 GMT
+      server:
+      - ycalb
+      x-server-trace-id:
+      - 73cf81250d9fc777:1cd7ffa5c15e8f0:73cf81250d9fc777:1
+    status:
+      code: 200
+      message: OK
+- request:
+    body: "{\"model\":\"gpt://b1ghsjum2v37c2un8h64/qwen3-235b-a22b-fp8/latest\",\"messages\":[{\"content\":\"Your
+      name is Arkadiy\",\"role\":\"system\"},{\"role\":\"user\",\"content\":\"Hello!
+      how is your name?\"},{\"content\":\"Hello! My name is Arkadiy. How can I assist
+      you today? \U0001F60A\",\"role\":\"assistant\"},{\"role\":\"user\",\"content\":\"My
+      name is Andrew\"},{\"content\":\"Nice to meet you, Andrew! \U0001F60A How can
+      I help you today?\",\"role\":\"assistant\"},{\"role\":\"user\",\"content\":\"What
+      is my name?\"}],\"stream\":false}"
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      authorization:
+      - Bearer t1.9euelZqWlp2bxpiUmZuLl57Lz8yMjO3rnpWalM3InMbJl5qUmJnHmcfPzsnl8_cXWF85-e9wPgBV_t3z91cGXTn573A-AFX-zef1656VmpHMi8vNmY2YjI_OjpWYncaM7_zF656VmpHMi8vNmY2YjI_OjpWYncaMveuelZrHy5fHis2MjY-dzIyJnJXIkrXrhpzRlp6S0ZCPmpGWm9KMmo2Jmo0.G0eyVx1OQ_yLFHLGkNV9gUPu64rm0aIT2-Hdbo-LGa5pwM7KetKWhD9ZTXg-Sg6L6CH_kW8Ay1LzAaQON5OfAw
+      connection:
+      - keep-alive
+      content-length:
+      - '471'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - d26dea55-8f0c-4f20-a771-ac77db321a2b
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: "{\"id\":\"chatcmpl-985ce6ba-8160-4c52-b6c7-466c9e470bf5\",\"object\":\"chat.completion\",\"created\":1757951687,\"model\":\"gpt://qwen3-235b-a22b-fp8/latest\",\"choices\":[{\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":\"Your
+        name is Andrew! \U0001F60A\"},\"finish_reason\":\"stop\"}],\"usage\":{\"prompt_tokens\":89,\"total_tokens\":97,\"completion_tokens\":8}}\n"
+    headers:
+      content-length:
+      - '331'
+      content-type:
+      - application/json
+      date:
+      - Mon, 15 Sep 2025 15:54:47 GMT
+      server:
+      - ycalb
+      x-server-trace-id:
+      - 3f621a2346607f53:8798599acd908a22:3f621a2346607f53:1
+    status:
+      code: 200
+      message: OK
+version: 1

@@ -24,6 +24,7 @@ ChatCompletionsMessageType = Union[MessageType, ChatFunctionResultMessageDict, M
 ChatMessageInputType = Union[ChatCompletionsMessageType, Iterable[ChatCompletionsMessageType]]
 
 
+# pylint: disable-next=too-many-return-statements
 def message_to_json(message: ChatCompletionsMessageType, tool_name_ids: dict[str, str]) -> JsonObject | list[JsonObject]:
     if isinstance(message, str):
         return {'role': 'user', 'content': message}
@@ -54,6 +55,14 @@ def message_to_json(message: ChatCompletionsMessageType, tool_name_ids: dict[str
                 'role': role,
                 'content': text,
                 'tool_call_id': tool_call_id,
+            }
+
+        if tool_calls := message.get('tool_calls'):
+            tool_calls = cast(JsonObject, tool_calls)
+            role = message.get('role', 'assistant')
+            return {
+                'tool_calls': tool_calls,
+                'role': role,
             }
 
         if text:

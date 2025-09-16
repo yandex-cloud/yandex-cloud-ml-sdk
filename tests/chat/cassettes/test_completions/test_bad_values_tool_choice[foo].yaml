@@ -1,0 +1,51 @@
+interactions:
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest","messages":[{"role":"user","content":"doesn''t
+      matter"}],"stream":false,"tools":[{"function":{"name":"something","description":"Tool
+      which have to collect all the numbers from user message and do a SOMETHING with
+      it","parameters":{"properties":{"numbers":{"items":{"type":"integer"},"title":"Numbers","type":"array"}},"required":["numbers"],"title":"Numbers","type":"object"},"strict":null},"type":"function"}],"tool_choice":"foo"}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      authorization:
+      - Bearer t1.9euelZqOl8_MysaajJLNx5uQipTHmO3rnpWalM3InMbJl5qUmJnHmcfPzsnl8_cpaXQ5-e94QTBB_d3z92kXcjn573hBMEH9zef1656VmpyJzpyOzMbLncfGnJDNnJWe7_zF656VmpyJzpyOzMbLncfGnJDNnJWeveuelZqZio7GyJCbiY-KzJCVyZuMzrXrhpzRlp6S0ZCPmpGWm9KMmo2Jmo0.5Xf19Ehbay0iZuIm7eBBIf1wntPWuIc_CpGJBkkREyU2J0hL3Uavgu1L5_K3WUTKWDfgYUpGCkZxZA-NV1ZCDQ
+      connection:
+      - keep-alive
+      content-length:
+      - '485'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - e0ed5418-d8a0-400f-8826-4de630914f3d
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: '{"error":{"message":"invalid tool choice: foo","type":"invalid_request_error"}}
+
+        '
+    headers:
+      content-length:
+      - '80'
+      content-type:
+      - application/json
+      date:
+      - Thu, 11 Sep 2025 13:35:47 GMT
+      server:
+      - ycalb
+      x-client-request-id:
+      - e0ed5418-d8a0-400f-8826-4de630914f3d
+      x-request-id:
+      - 959ab37f-b3d9-4689-aba2-8b24fe5fe219
+      x-server-trace-id:
+      - 8715238fd9c10677:c2f06193888bfc9e:8715238fd9c10677:1
+    status:
+      code: 400
+      message: Bad Request
+version: 1
