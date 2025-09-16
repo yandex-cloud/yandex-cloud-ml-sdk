@@ -66,13 +66,13 @@ def message_to_json(message: ChatCompletionsMessageType, tool_name_ids: dict[str
     if isinstance(message, dict):
         role: str | None = message.get('role')
         content: Sequence | str | None = message.get('content')  # type: ignore[assignment]
-        if isinstance(content, Sequence):
+        if isinstance(content, Sequence) and not isinstance(content, (str, bytes)):
             return {
                 'role': role or 'user',
                 'content': list(content),
             }
 
-        text: str | None = message.get('text') or content  # type: ignore[assignment]
+        text: str | None = message.get('text') or content or '' # type: ignore[assignment]
         assert isinstance(text, str)
 
         if tool_call_id := message.get('tool_call_id'):
