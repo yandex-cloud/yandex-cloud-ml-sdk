@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import base64
 import json
+import pathlib
 from typing import cast
 
 import pytest
@@ -359,3 +361,30 @@ async def test_tool_choice(async_sdk: AsyncYCloudML, tool, schema) -> None:
     model = model.configure(tool_choice=None)  # type: ignore[arg-type]
     result = await model.run(message)
     assert result.status.name == 'TOOL_CALLS'
+
+
+async def test_multimodal(async_sdk: AsyncYCloudML) -> None:
+    model = async_sdk.chat.completions('gemma-3-27b-it')
+    image_path = pathlib.Path(__file__).parent / 'example.png'
+    image_data = image_path.read_bytes()
+    image_base64 = base64.b64encode(image_data)
+    image = image_base64.decode('utf-8')
+
+    request = [
+        {
+            'role': 'user',
+            'content': [
+                {
+                    'type': 'text', 'text': "What is depicted in the following image",
+                },
+                {
+                    'type': 'image_url',
+                    'image_url': {
+                        'url': f'data:image/png;base64,{image}'
+                    }
+                }
+            ]
+        }
+    ]
+    result = await model.run(request)
+    assert 'bricks' in result.text
