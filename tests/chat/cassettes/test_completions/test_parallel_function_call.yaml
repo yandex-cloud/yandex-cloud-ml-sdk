@@ -11,8 +11,6 @@ interactions:
       - '*/*'
       accept-encoding:
       - gzip, deflate, zstd
-      authorization:
-      - Bearer t1.9euelZqWlp2bxpiUmZuLl57Lz8yMjO3rnpWalM3InMbJl5qUmJnHmcfPzsnl8_cXWF85-e9wPgBV_t3z91cGXTn573A-AFX-zef1656VmpHMi8vNmY2YjI_OjpWYncaM7_zF656VmpHMi8vNmY2YjI_OjpWYncaMveuelZrHy5fHis2MjY-dzIyJnJXIkrXrhpzRlp6S0ZCPmpGWm9KMmo2Jmo0.G0eyVx1OQ_yLFHLGkNV9gUPu64rm0aIT2-Hdbo-LGa5pwM7KetKWhD9ZTXg-Sg6L6CH_kW8Ay1LzAaQON5OfAw
       connection:
       - keep-alive
       content-length:
@@ -24,12 +22,12 @@ interactions:
       user-agent:
       - yandex-cloud-ml-sdk/0.15.0 python/3.12
       x-client-request-id:
-      - 261010d5-3e09-4205-8498-df8d86710e90
+      - c9c46c56-0933-4c5f-a5ec-11394a87059c
     method: POST
     uri: https://llm.api.cloud.yandex.net/v1/chat/completions
   response:
     body:
-      string: '{"id":"4e3070a7-23dd-44fd-a915-bf142de4a60b","object":"chat.completion","created":1757951689,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/rc","choices":[{"index":0,"message":{"role":"assistant","content":"","tool_calls":[{"index":0,"id":"something","type":"function","function":{"name":"something","arguments":"{\"numbers\":[5,4,1]}"}},{"index":1,"id":"spooning","type":"function","function":{"name":"spooning","arguments":"{\"numbers\":[5,4,1]}"}}]},"finish_reason":"tool_calls"}],"usage":{"prompt_tokens":169,"total_tokens":198,"completion_tokens":29}}
+      string: '{"id":"1b90ba66-63d8-43cd-8006-957f5f5a1239","object":"chat.completion","created":1758047035,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/rc","choices":[{"index":0,"message":{"role":"assistant","content":"","tool_calls":[{"index":0,"id":"something","type":"function","function":{"name":"something","arguments":"{\"numbers\":[5,4,1]}"}},{"index":1,"id":"spooning","type":"function","function":{"name":"spooning","arguments":"{\"numbers\":[5,4,1]}"}}]},"finish_reason":"tool_calls"}],"usage":{"prompt_tokens":169,"total_tokens":198,"completion_tokens":29}}
 
         '
     headers:
@@ -38,15 +36,15 @@ interactions:
       content-type:
       - application/json
       date:
-      - Mon, 15 Sep 2025 15:54:49 GMT
+      - Tue, 16 Sep 2025 18:23:55 GMT
       server:
       - ycalb
       x-client-request-id:
-      - 261010d5-3e09-4205-8498-df8d86710e90
+      - c9c46c56-0933-4c5f-a5ec-11394a87059c
       x-request-id:
-      - cac95fc5-3b69-4a5a-8123-2be340827018
+      - 74c96db0-57e5-49a2-9d9d-320e90f6caa6
       x-server-trace-id:
-      - fc6beb006f52bb91:cb99efe741ca973d:fc6beb006f52bb91:1
+      - ec72b6564abc849f:68fdd6f36859e155:ec72b6564abc849f:1
     status:
       code: 200
       message: OK
@@ -62,8 +60,6 @@ interactions:
       - '*/*'
       accept-encoding:
       - gzip, deflate, zstd
-      authorization:
-      - Bearer t1.9euelZqWlp2bxpiUmZuLl57Lz8yMjO3rnpWalM3InMbJl5qUmJnHmcfPzsnl8_cXWF85-e9wPgBV_t3z91cGXTn573A-AFX-zef1656VmpHMi8vNmY2YjI_OjpWYncaM7_zF656VmpHMi8vNmY2YjI_OjpWYncaMveuelZrHy5fHis2MjY-dzIyJnJXIkrXrhpzRlp6S0ZCPmpGWm9KMmo2Jmo0.G0eyVx1OQ_yLFHLGkNV9gUPu64rm0aIT2-Hdbo-LGa5pwM7KetKWhD9ZTXg-Sg6L6CH_kW8Ay1LzAaQON5OfAw
       connection:
       - keep-alive
       content-length:
@@ -75,12 +71,12 @@ interactions:
       user-agent:
       - yandex-cloud-ml-sdk/0.15.0 python/3.12
       x-client-request-id:
-      - 483d052a-cc88-449b-be98-0cf883b8a74e
+      - ce3d7ae0-62ff-4602-b113-813aa898e7a2
     method: POST
     uri: https://llm.api.cloud.yandex.net/v1/chat/completions
   response:
     body:
-      string: '{"id":"499f5eb7-d4ef-461b-8edc-cee1f84af9a4","object":"chat.completion","created":1757951689,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/rc","choices":[{"index":0,"message":{"role":"assistant","content":"","tool_calls":[{"index":0,"id":"something","type":"function","function":{"name":"something","arguments":"{\"numbers\":[5,4,1]}"}},{"index":1,"id":"spooning","type":"function","function":{"name":"spooning","arguments":"{\"numbers\":[5,4,1]}"}}]},"finish_reason":"tool_calls"}],"usage":{"prompt_tokens":169,"total_tokens":198,"completion_tokens":29}}
+      string: '{"id":"42f7188a-0f8e-43f8-83e7-f6f790c86f13","object":"chat.completion","created":1758047036,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/rc","choices":[{"index":0,"message":{"role":"assistant","content":"","tool_calls":[{"index":0,"id":"something","type":"function","function":{"name":"something","arguments":"{\"numbers\":[5,4,1]}"}},{"index":1,"id":"spooning","type":"function","function":{"name":"spooning","arguments":"{\"numbers\":[5,4,1]}"}}]},"finish_reason":"tool_calls"}],"usage":{"prompt_tokens":169,"total_tokens":198,"completion_tokens":29}}
 
         '
     headers:
@@ -89,15 +85,15 @@ interactions:
       content-type:
       - application/json
       date:
-      - Mon, 15 Sep 2025 15:54:49 GMT
+      - Tue, 16 Sep 2025 18:23:56 GMT
       server:
       - ycalb
       x-client-request-id:
-      - 483d052a-cc88-449b-be98-0cf883b8a74e
+      - ce3d7ae0-62ff-4602-b113-813aa898e7a2
       x-request-id:
-      - a0016794-28c8-43e7-bab1-b9ab70811fb2
+      - e0f67b87-a79d-437c-ad50-c5a55e639de1
       x-server-trace-id:
-      - e7419675b523ac37:91d22a9eba57b91f:e7419675b523ac37:1
+      - 447c1dc6083e696:1cf72c0e57815c3b:447c1dc6083e696:1
     status:
       code: 200
       message: OK
@@ -113,8 +109,6 @@ interactions:
       - '*/*'
       accept-encoding:
       - gzip, deflate, zstd
-      authorization:
-      - Bearer t1.9euelZqWlp2bxpiUmZuLl57Lz8yMjO3rnpWalM3InMbJl5qUmJnHmcfPzsnl8_cXWF85-e9wPgBV_t3z91cGXTn573A-AFX-zef1656VmpHMi8vNmY2YjI_OjpWYncaM7_zF656VmpHMi8vNmY2YjI_OjpWYncaMveuelZrHy5fHis2MjY-dzIyJnJXIkrXrhpzRlp6S0ZCPmpGWm9KMmo2Jmo0.G0eyVx1OQ_yLFHLGkNV9gUPu64rm0aIT2-Hdbo-LGa5pwM7KetKWhD9ZTXg-Sg6L6CH_kW8Ay1LzAaQON5OfAw
       connection:
       - keep-alive
       content-length:
@@ -126,12 +120,12 @@ interactions:
       user-agent:
       - yandex-cloud-ml-sdk/0.15.0 python/3.12
       x-client-request-id:
-      - a6209b56-79f8-4032-a0fc-3279e4b3bc17
+      - 6c3803bf-5eb7-4464-bb7a-021cb2b6fbc5
     method: POST
     uri: https://llm.api.cloud.yandex.net/v1/chat/completions
   response:
     body:
-      string: '{"id":"3110e6e7-fa64-4137-a96b-2d7a9169153d","object":"chat.completion","created":1757951689,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/rc","choices":[{"index":0,"message":{"role":"assistant","content":"","tool_calls":[{"index":0,"id":"something","type":"function","function":{"name":"something","arguments":"{\"numbers\":[5,4,1]}"}},{"index":1,"id":"spooning","type":"function","function":{"name":"spooning","arguments":"{\"numbers\":[5,4,1]}"}}]},"finish_reason":"tool_calls"}],"usage":{"prompt_tokens":169,"total_tokens":198,"completion_tokens":29}}
+      string: '{"id":"56ad5d20-b4fd-4761-95f6-8c0ad96cb4c0","object":"chat.completion","created":1758047036,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/rc","choices":[{"index":0,"message":{"role":"assistant","content":"","tool_calls":[{"index":0,"id":"something","type":"function","function":{"name":"something","arguments":"{\"numbers\":[5,4,1]}"}},{"index":1,"id":"spooning","type":"function","function":{"name":"spooning","arguments":"{\"numbers\":[5,4,1]}"}}]},"finish_reason":"tool_calls"}],"usage":{"prompt_tokens":169,"total_tokens":198,"completion_tokens":29}}
 
         '
     headers:
@@ -140,15 +134,15 @@ interactions:
       content-type:
       - application/json
       date:
-      - Mon, 15 Sep 2025 15:54:49 GMT
+      - Tue, 16 Sep 2025 18:23:56 GMT
       server:
       - ycalb
       x-client-request-id:
-      - a6209b56-79f8-4032-a0fc-3279e4b3bc17
+      - 6c3803bf-5eb7-4464-bb7a-021cb2b6fbc5
       x-request-id:
-      - d458e779-6bcd-4456-85f4-919d15744da5
+      - ce117798-f932-4496-a296-24b9ed5c8a9e
       x-server-trace-id:
-      - f546428fc9023e21:127c1cb8fa006f38:f546428fc9023e21:1
+      - c2cf5a5df5356ca1:5949067557bd3925:c2cf5a5df5356ca1:1
     status:
       code: 200
       message: OK
