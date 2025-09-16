@@ -1,0 +1,50 @@
+interactions:
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest","messages":[{"role":"user","content":"collect
+      all numbers from: 5, 4, a, 1"}],"stream":false,"response_format":{"type":"json_schema","json_schema":{"schema":{"properties":{"numbers":{"items":{"type":"integer"},"title":"Numbers","type":"array"}},"required":["numbers"],"title":"Numbers","type":"object"},"name":"Numbers","strict":true}}}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      authorization:
+      - Bearer t1.9euelZqWlp2bxpiUmZuLl57Lz8yMjO3rnpWalM3InMbJl5qUmJnHmcfPzsnl8_cXWF85-e9wPgBV_t3z91cGXTn573A-AFX-zef1656VmpHMi8vNmY2YjI_OjpWYncaM7_zF656VmpHMi8vNmY2YjI_OjpWYncaMveuelZrHy5fHis2MjY-dzIyJnJXIkrXrhpzRlp6S0ZCPmpGWm9KMmo2Jmo0.G0eyVx1OQ_yLFHLGkNV9gUPu64rm0aIT2-Hdbo-LGa5pwM7KetKWhD9ZTXg-Sg6L6CH_kW8Ay1LzAaQON5OfAw
+      connection:
+      - keep-alive
+      content-length:
+      - '391'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - 630720e0-3a98-4349-b983-556bb33d7b9a
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: '{"id":"1b87ee47-c4d0-459d-aa4d-dd478eb564dd","object":"chat.completion","created":1757951645,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest","choices":[{"index":0,"message":{"role":"assistant","content":"{\"numbers\":
+        [5, 4, 1]}"},"finish_reason":"stop"}],"usage":{"prompt_tokens":25,"total_tokens":37,"completion_tokens":12}}
+
+        '
+    headers:
+      content-length:
+      - '333'
+      content-type:
+      - application/json
+      date:
+      - Mon, 15 Sep 2025 15:54:05 GMT
+      server:
+      - ycalb
+      x-client-request-id:
+      - 630720e0-3a98-4349-b983-556bb33d7b9a
+      x-request-id:
+      - 095d32b0-5c29-4f97-ba2e-411b484ea945
+      x-server-trace-id:
+      - 1b0f46db012ca858:631a4dcf0fc68063:1b0f46db012ca858:1
+    status:
+      code: 200
+      message: OK
+version: 1
