@@ -11,8 +11,6 @@ interactions:
       - '*/*'
       accept-encoding:
       - gzip, deflate, zstd
-      authorization:
-      - Bearer t1.9euelZqWlp2bxpiUmZuLl57Lz8yMjO3rnpWalM3InMbJl5qUmJnHmcfPzsnl8_cXWF85-e9wPgBV_t3z91cGXTn573A-AFX-zef1656VmpHMi8vNmY2YjI_OjpWYncaM7_zF656VmpHMi8vNmY2YjI_OjpWYncaMveuelZrHy5fHis2MjY-dzIyJnJXIkrXrhpzRlp6S0ZCPmpGWm9KMmo2Jmo0.G0eyVx1OQ_yLFHLGkNV9gUPu64rm0aIT2-Hdbo-LGa5pwM7KetKWhD9ZTXg-Sg6L6CH_kW8Ay1LzAaQON5OfAw
       connection:
       - keep-alive
       content-length:
@@ -24,12 +22,12 @@ interactions:
       user-agent:
       - yandex-cloud-ml-sdk/0.15.0 python/3.12
       x-client-request-id:
-      - 57c8ba4a-4b6a-4264-bdab-1e75597c0fff
+      - 2b8a637b-0f16-449e-b6d8-92c5d7d83d56
     method: POST
     uri: https://llm.api.cloud.yandex.net/v1/chat/completions
   response:
     body:
-      string: '{"id":"68f234f7-1f75-498c-8e29-54f91b8283ef","object":"chat.completion","created":1757951690,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest","choices":[{"index":0,"message":{"role":"assistant","content":"","tool_calls":[{"index":0,"id":"something","type":"function","function":{"name":"something","arguments":"{\"numbers\":[5,4,1]}"}},{"index":1,"id":"something_else","type":"function","function":{"name":"something_else","arguments":"{\"numbers\":[5,4,1]}"}}]},"finish_reason":"tool_calls"}],"usage":{"prompt_tokens":169,"total_tokens":198,"completion_tokens":29}}
+      string: '{"id":"13ab8970-7d9d-437b-bba4-a2f30449dd2e","object":"chat.completion","created":1758047037,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest","choices":[{"index":0,"message":{"role":"assistant","content":"","tool_calls":[{"index":0,"id":"something","type":"function","function":{"name":"something","arguments":"{\"numbers\":[5,4,1]}"}},{"index":1,"id":"something_else","type":"function","function":{"name":"something_else","arguments":"{\"numbers\":[5,4,1]}"}}]},"finish_reason":"tool_calls"}],"usage":{"prompt_tokens":169,"total_tokens":198,"completion_tokens":29}}
 
         '
     headers:
@@ -38,15 +36,15 @@ interactions:
       content-type:
       - application/json
       date:
-      - Mon, 15 Sep 2025 15:54:50 GMT
+      - Tue, 16 Sep 2025 18:23:57 GMT
       server:
       - ycalb
       x-client-request-id:
-      - 57c8ba4a-4b6a-4264-bdab-1e75597c0fff
+      - 2b8a637b-0f16-449e-b6d8-92c5d7d83d56
       x-request-id:
-      - b75cc66b-9173-4040-b6bd-dd84c293ced2
+      - fcde7de5-26fc-4835-b2d9-14c083f91f29
       x-server-trace-id:
-      - d6c7c8383ce3c4e4:a6398e642c8f811a:d6c7c8383ce3c4e4:1
+      - c94355c5ea458ccc:a639f9fde340e33d:c94355c5ea458ccc:1
     status:
       code: 200
       message: OK
