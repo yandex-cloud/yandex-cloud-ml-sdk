@@ -15,7 +15,7 @@ from yandex_cloud_ml_sdk._types.tools.tool_choice import ToolChoiceType
 from yandex_cloud_ml_sdk._types.tools.tool_choice import coerce_to_json as coerce_tool_choice_to_json
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
-from .config import ChatModelConfig, ChatReasoningModeType
+from .config import ChatModelConfig, ChatReasoningModeType, QueryType
 from .message import ChatMessageInputType, messages_to_json
 from .result import ChatModelResult
 
@@ -40,6 +40,7 @@ class BaseChatModel(
         tools: UndefinedOr[Sequence[CompletionTool] | CompletionTool] = UNDEFINED,
         parallel_tool_calls: UndefinedOr[bool] = UNDEFINED,
         tool_choice: UndefinedOr[ToolChoiceType] = UNDEFINED,
+        extra_query: UndefinedOr[QueryType] = UNDEFINED,
     ) -> Self:
         return super().configure(
             temperature=temperature,
@@ -49,6 +50,7 @@ class BaseChatModel(
             tools=tools,
             parallel_tool_calls=parallel_tool_calls,
             tool_choice=tool_choice,
+            extra_query=extra_query,
         )
 
     def _build_request_json(self, messages: ChatMessageInputType, stream: bool) -> dict[str, Any]:
@@ -85,6 +87,10 @@ class BaseChatModel(
 
         if c.tool_choice is not None:
             result['tool_choice'] = coerce_tool_choice_to_json(c.tool_choice)
+
+        if c.extra_query is not None:
+            result.update(c.extra_query)
+
         return result
 
     @override

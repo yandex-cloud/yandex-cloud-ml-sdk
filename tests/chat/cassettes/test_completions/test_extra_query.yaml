@@ -1,0 +1,92 @@
+interactions:
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest","messages":[{"role":"user","content":"Say
+      random number from 0 to 10"}],"stream":false}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      connection:
+      - keep-alive
+      content-length:
+      - '142'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - e39a16aa-9ecc-4769-a220-d99a47e9997c
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: '{"id":"09afef25-7de1-4a86-8cda-1cb673f2ddc1","object":"chat.completion","created":1758116486,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest","choices":[{"index":0,"message":{"role":"assistant","content":"7"},"finish_reason":"stop"}],"usage":{"prompt_tokens":20,"total_tokens":22,"completion_tokens":2}}
+
+        '
+    headers:
+      content-length:
+      - '309'
+      content-type:
+      - application/json
+      date:
+      - Wed, 17 Sep 2025 13:41:26 GMT
+      server:
+      - ycalb
+      x-client-request-id:
+      - e39a16aa-9ecc-4769-a220-d99a47e9997c
+      x-request-id:
+      - c3402ee1-93c6-4c99-a660-f978ec004b35
+      x-server-trace-id:
+      - 990d344b241074c2:295875c4dbdaafe7:990d344b241074c2:1
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest","messages":[{"role":"user","content":"Say
+      random number from 0 to 10"}],"stream":false,"top_k":3}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      connection:
+      - keep-alive
+      content-length:
+      - '152'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - 5a710077-50b4-43ed-b269-78116ab15066
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: '{"id":"1ee562fa-00fa-4d56-84a5-4bcea60cd694","object":"chat.completion","created":1758116487,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest","choices":[{"index":0,"message":{"role":"assistant","content":"7"},"finish_reason":"stop"}],"usage":{"prompt_tokens":20,"total_tokens":22,"completion_tokens":2}}
+
+        '
+    headers:
+      content-length:
+      - '309'
+      content-type:
+      - application/json
+      date:
+      - Wed, 17 Sep 2025 13:41:27 GMT
+      server:
+      - ycalb
+      x-client-request-id:
+      - 5a710077-50b4-43ed-b269-78116ab15066
+      x-request-id:
+      - e3cb30bc-4cdb-4110-a4ba-90c9b2744aa9
+      x-server-trace-id:
+      - 16405981e4f1ec7d:64b3b33e662bcec:16405981e4f1ec7d:1
+    status:
+      code: 200
+      message: OK
+version: 1
