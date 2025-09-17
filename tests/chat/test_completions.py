@@ -5,8 +5,8 @@ import json
 import pathlib
 from typing import cast
 
-import pytest
 import httpx._client
+import pytest
 
 from yandex_cloud_ml_sdk import AsyncYCloudML
 from yandex_cloud_ml_sdk._chat.completions.result import AlternativeStatus, FinishReason
