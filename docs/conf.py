@@ -76,6 +76,7 @@ nitpick_ignore = {
     ('py:class', 'yandex_cloud_ml_sdk._types.schemas.JsonArray'),
     ('py:class', "'yandex_cloud_ml_sdk._types.schemas.JsonArray'"),
     ('py:class', 'JsonObject'),
+    ('py:class', 'JsonArray'),
     ('py:class', 'JsonSchemaType'),
     ('py:class', 'ResponseType'),
 }
