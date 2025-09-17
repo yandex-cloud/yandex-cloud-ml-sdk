@@ -5,6 +5,7 @@ import json
 import pathlib
 from typing import cast
 
+import httpx._client
 import pytest
 
 from yandex_cloud_ml_sdk import AsyncYCloudML
@@ -388,3 +389,27 @@ async def test_multimodal(async_sdk: AsyncYCloudML) -> None:
     ]
     result = await model.run(request)
     assert 'complex' in result.text
+
+
+async def test_extra_query(async_sdk: AsyncYCloudML, monkeypatch) -> None:
+    top_k = None
+
+    original = httpx._client.AsyncClient.request
+
+    async def patched_request(*args, **kwargs):
+        nonlocal top_k
+        top_k = kwargs.get('json', {}).get('top_k')
+        return await original(*args, **kwargs)
+
+    monkeypatch.setattr("httpx._client.AsyncClient.request", patched_request)
+
+    query = "Say random number from 0 to 10"
+
+    model = async_sdk.chat.completions('yandexgpt')
+
+    await model.run(query)
+    assert not top_k
+
+    model = model.configure(extra_query={'top_k': 3})
+    await model.run(query)
+    assert top_k == 3
