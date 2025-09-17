@@ -3,7 +3,7 @@ from __future__ import annotations
 from copy import deepcopy
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, Union
+from typing import Any, Union
 
 from typing_extensions import Self, TypeAlias
 
@@ -28,7 +28,7 @@ class ChatReasoningMode(str, Enum):
 
 
 ChatReasoningModeType = Union[str, ChatReasoningMode]
-QueryType: TypeAlias = dict[str, JsonObject]
+QueryType: TypeAlias = JsonObject
 
 
 @dataclass(frozen=True)
