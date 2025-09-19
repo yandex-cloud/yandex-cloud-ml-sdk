@@ -69,6 +69,10 @@ class AlternativeStatus(int, Enum):
     #: represents an unknown status (-1)
     UNKNOWN = -1
 
+    #: special status for message with only usage data;
+    #: used in some SDK places
+    USAGE = -2
+
     @classmethod
     def _from_proto(cls, status: int):
         try:
