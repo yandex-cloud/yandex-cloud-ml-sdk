@@ -28,9 +28,9 @@ class ChatReasoningMode(str, Enum):
 
 
 ChatReasoningModeType = Union[str, ChatReasoningMode]
-QueryType: TypeAlias = dict[str, JsonObject]
+QueryType: TypeAlias = JsonObject
 
-
+  
 @dataclass(frozen=True)
 class ChatModelConfig(GPTModelConfig):
     reasoning_mode: ChatReasoningMode | None = None
