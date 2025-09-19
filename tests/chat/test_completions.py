@@ -46,7 +46,7 @@ def fixture_tool(async_sdk, schema):
     return async_sdk.tools.function(
         schema,  # type: ignore[arg-type]
         name='something',
-        description="Tool which have to collect all the numbers from user message and do a SOMETHING with it",
+        description="Tool which have to collect all the numbers from user message and do a SOMETHING with it"
     )
 
 
@@ -83,14 +83,10 @@ async def test_run_stream(model):
         for r in results[:-2]
     )
 
-    assert all(
-        r[0].status == AlternativeStatus.FINAL
-        for r in results[-2:]
-    )
-    assert all(
-        r[0].finish_reason == FinishReason.STOP
-        for r in results[-2:]
-    )
+    assert results[-2].status == AlternativeStatus.FINAL
+    assert results[-2].finish_reason == FinishReason.STOP
+    assert results[-1].status == AlternativeStatus.USAGE
+    assert results[-1].finish_reason == FinishReason.USAGE
 
     assert all(
         r[0].role == 'assistant' and r[0].text is not None and len(r) == 1
@@ -230,7 +226,6 @@ async def test_structured_output_json_schema(async_sdk):
     assert json.loads(result.text) == {'numbers': [5, 4, 1]}
 
 
-@pytest.mark.allow_grpc
 async def test_function_call(async_sdk: AsyncYCloudML, tool) -> None:
     model = async_sdk.chat.completions('yandexgpt')
     model = model.configure(tools=tool)
@@ -413,3 +408,59 @@ async def test_extra_query(async_sdk: AsyncYCloudML, monkeypatch) -> None:
     model = model.configure(extra_query={'top_k': 3})
     await model.run(query)
     assert top_k == 3
+
+
+@pytest.mark.parametrize(
+    "model_name",
+    ['yandexgpt', 'gemma-3-27b-it', 'llama', 'qwen3-235b-a22b-fp8']
+)
+async def test_stream_function_call(async_sdk: AsyncYCloudML, model_name) -> None:
+    calculator_tool = async_sdk.tools.function(
+        name="calculator",
+        description=(
+            "A simple calculator that performs basic arithmetic and @ operations; "
+            "call it on ANY arithmetic questions"
+        ),
+        parameters={
+            "type": "object",
+            "properties": {
+                "expression": {
+                    "type": "string",
+                    "description": "The mathematical expression to evaluate (e.g., '2 + 3 * 4').",
+                }
+            },
+            "required": ["expression"],
+        },
+        strict=True,
+    )
+
+    version = 'latest'
+    if model_name in ('yandexgpt', 'llama'):
+        version = 'rc'
+    model = async_sdk.chat.completions(model_name, model_version=version)
+    model = model.configure(tools=calculator_tool)
+
+    messages: list = [
+        "How much it would be 7@8?",
+    ]
+    chunk = None
+
+    async for chunk in model.run_stream(messages):
+        if chunk.tool_calls:
+            tool_call = chunk.tool_calls[0]
+            assert tool_call.function
+            assert tool_call.function.name == 'calculator'
+            assert tool_call.function.arguments == {"expression": '7@8'}
+
+            messages.append(chunk)
+            call_result = {'tool_results': [{'name': 'calculator', 'content': '-5'}]}
+            messages.append(call_result)
+
+    assert len(messages) == 3
+
+    async for chunk in model.run_stream(messages):
+        pass
+
+    assert chunk
+    assert chunk.text
+    assert '-5' in chunk.text
