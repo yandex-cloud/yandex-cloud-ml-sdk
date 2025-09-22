@@ -84,3 +84,21 @@ Miscellaneous types
    :no-inherited-members:
 
 .. py:class:: yandex_cloud_ml_sdk._tools.tool_call_list.HttpToolCallList
+
+
+Completions-related types
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. py:class:: yandex_cloud_ml_sdk._chat.completions.config.ChatReasoningModeType
+
+.. autodata:: yandex_cloud_ml_sdk._chat.completions.config.ChatReasoningModeType
+
+.. py:class:: yandex_cloud_ml_sdk._chat.completions.config.QueryType
+
+.. py:class:: yandex_cloud_ml_sdk._models.completions.config.CompletionTool
+
+.. autodata:: yandex_cloud_ml_sdk._models.completions.config.CompletionTool
+
+.. py:class:: yandex_cloud_ml_sdk._types.tools.tool_choice.ToolChoiceType
+
+.. autodata:: yandex_cloud_ml_sdk._types.tools.tool_choice.ToolChoiceType
