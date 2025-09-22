@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import datetime
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Sequence, overload
 
@@ -12,6 +12,11 @@ from yandex_cloud_ml_sdk._tools.tool_call_list import HttpToolCallList
 from yandex_cloud_ml_sdk._types.json import JsonBased
 from yandex_cloud_ml_sdk._types.message import TextMessage
 from yandex_cloud_ml_sdk._types.result import BaseJsonResult, SDKType
+
+YCMLSDK_PREFIX = 'ycmlsdk'
+YCMLSDK_TOOL_CALLS = f'{YCMLSDK_PREFIX}_tool_calls'
+YCMLSDK_TEXT = f'{YCMLSDK_PREFIX}_text'
+YCMLSDK_REASONING_TEXT = f'{YCMLSDK_PREFIX}_reasoning_text'
 
 
 class ChatUsage(Usage):
@@ -26,6 +31,7 @@ class FinishReason(Enum):
     CONTENT_FILTER = 'content_filter'
     TOOL_CALLS = 'tool_calls'
     NULL = 'null'
+    USAGE = 'usage'
 
     @classmethod
     def _coerce(cls, value: str | None):
@@ -39,7 +45,8 @@ STATUS_TABLE = {
     FinishReason.LENGTH: AlternativeStatus.TRUNCATED_FINAL,
     FinishReason.CONTENT_FILTER: AlternativeStatus.CONTENT_FILTER,
     FinishReason.TOOL_CALLS: AlternativeStatus.TOOL_CALLS,
-    FinishReason.NULL: AlternativeStatus.PARTIAL
+    FinishReason.NULL: AlternativeStatus.PARTIAL,
+    FinishReason.USAGE: AlternativeStatus.USAGE,
 }
 
 
@@ -87,22 +94,26 @@ class ChatChoice(TextMessage, HaveToolCalls[ToolCallTypeT], JsonBased):
 
 @dataclass(frozen=True)
 class DeltaChatChoice(ChatChoice[ToolCallTypeT]):
-    delta: str = field(repr=False)
-    reasoning_delta: str | None = field(repr=False)
+    delta: str
+    reasoning_delta: str | None
 
     @classmethod
     def _from_json(cls, *, data: dict[str, Any], sdk: SDKType) -> DeltaChatChoice[ToolCallTypeT]:
         delta_dict = data.get('delta', {})
 
         delta = delta_dict.get('content', '')
-        text = delta_dict.get('text', '')
+        text = delta_dict.get(YCMLSDK_TEXT, '')
         role = delta_dict.get('role', 'unknown')
 
-        reasoning_text = delta_dict.get('reasoning_text')
+        reasoning_text = delta_dict.get(YCMLSDK_REASONING_TEXT)
         reasoning_delta = delta_dict.get('reasoning_content')
 
         finish_reason = FinishReason._coerce(data.get('finish_reason'))
         status = STATUS_TABLE[finish_reason]
+
+        tool_calls = None
+        if raw_tool_calls := delta_dict.get(YCMLSDK_TOOL_CALLS):
+            tool_calls = HttpToolCallList._from_json(data=raw_tool_calls, sdk=sdk)
 
         return cls(
             delta=delta,
@@ -112,7 +123,7 @@ class DeltaChatChoice(ChatChoice[ToolCallTypeT]):
             status=status,
             reasoning_text=reasoning_text,
             reasoning_delta=reasoning_delta,
-            tool_calls=None
+            tool_calls=tool_calls
         )
 
 

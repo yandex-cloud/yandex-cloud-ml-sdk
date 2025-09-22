@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from collections.abc import Iterable
-from typing import TypedDict, Union, cast
+from collections.abc import Iterable, Sequence
+from typing import Literal, TypedDict, Union, cast
 
 from typing_extensions import NotRequired, Required
 
@@ -20,10 +20,30 @@ class ChatFunctionResultMessageDict(TypedDict):
     content: Required[str]
 
 
-ChatCompletionsMessageType = Union[MessageType, ChatFunctionResultMessageDict, MessageInputType]
+class ImageUrlDict(TypedDict):
+    url: str
+
+
+class ImageUrlContent(TypedDict):
+    type: Literal['image_url']
+    image_url: ImageUrlDict
+
+
+class TextContent(TypedDict):
+    type: Literal['text']
+    text: str
+
+
+class MultimodalMessageDict(TypedDict):
+    role: NotRequired[str]
+    content: Sequence[ImageUrlDict | TextContent]
+
+
+ChatCompletionsMessageType = Union[MessageType, ChatFunctionResultMessageDict, MessageInputType, MultimodalMessageDict]
 ChatMessageInputType = Union[ChatCompletionsMessageType, Iterable[ChatCompletionsMessageType]]
 
 
+# pylint: disable-next=too-many-return-statements
 def message_to_json(message: ChatCompletionsMessageType, tool_name_ids: dict[str, str]) -> JsonObject | list[JsonObject]:
     if isinstance(message, str):
         return {'role': 'user', 'content': message}
@@ -42,33 +62,46 @@ def message_to_json(message: ChatCompletionsMessageType, tool_name_ids: dict[str
             "content": message.text,
             "role": message.role,
         }
+
     if isinstance(message, dict):
-        text = message.get('text') or message.get('content', '')
+        role: str | None = message.get('role')
+        content: Sequence | str | None = message.get('content')  # type: ignore[assignment]
+        if isinstance(content, Sequence) and not isinstance(content, (str, bytes)):
+            return {
+                'role': role or 'user',
+                'content': list(content),
+            }
+
+        text: str | None = message.get('text') or content or '' # type: ignore[assignment]
         assert isinstance(text, str)
 
         if tool_call_id := message.get('tool_call_id'):
             assert isinstance(tool_call_id, str)
             message = cast(ChatFunctionResultMessageDict, message)
-            role = message.get('role', 'tool')
             return {
-                'role': role,
+                'role': role or 'tool',
                 'content': text,
                 'tool_call_id': tool_call_id,
             }
 
+        if tool_calls := message.get('tool_calls'):
+            tool_calls = cast(JsonObject, tool_calls)
+            return {
+                'tool_calls': tool_calls,
+                'role': role or 'assistant',
+            }
+
         if text:
             message = cast(TextMessageDict, message)
-            role = message.get('role', 'user')
             return {
                 'content': text,
-                'role': role
+                'role': role or 'user'
             }
 
         if tool_results := message.get('tool_results'):
             assert isinstance(tool_results, list)
             message = cast(FunctionResultMessageDict, message)
 
-            role = message.get('role', 'tool')
             result: list[JsonObject] = []
             for tool_result in tool_results:
                 tool_result = cast(ToolResultDictType, tool_result)
@@ -82,7 +115,7 @@ def message_to_json(message: ChatCompletionsMessageType, tool_name_ids: dict[str
                     )
 
                 result.append({
-                    'role': role,
+                    'role': role or 'tool',
                     'content': content,
                     'tool_call_id': id_,
                 })

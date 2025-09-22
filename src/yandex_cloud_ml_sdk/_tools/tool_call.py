@@ -63,10 +63,13 @@ class BaseToolCall(
         function: FunctionCallTypeT | None = None
         id_ = data.get('id')
         assert isinstance(id_, str)
-        if data.get('type') == 'function':
+        data['type'] = type_ = data.get('type') or 'function'
+        if type_ == 'function':
             function_data = data.get('function', {})
             assert isinstance(function_data, dict)
             function = cls._function_call_impl._from_json(data=function_data, sdk=sdk)
+        else:
+            raise RuntimeError(f'got unknown tool_call type={type_}; try to upgrade sdk')
 
         return cls(
             id=id_,
