@@ -46,7 +46,17 @@ Completions-related message types
 Chat completions related message types
 --------------------------------------
 
-.. autotypeddict:: yandex_cloud_ml_sdk._chat.completions.message.ChatFunctionResultMessageDict
+.. currentmodule:: yandex_cloud_ml_sdk._chat.completions.message
+
+.. autotypeddict:: ChatFunctionResultMessageDict
+
+.. autotypeddict:: MultimodalMessageDict
+
+.. autotypeddict:: TextContent
+
+.. autotypeddict:: ImageUrlContent
+
+.. autotypeddict:: ImageUrlDict
 
 
 Image generation messages
