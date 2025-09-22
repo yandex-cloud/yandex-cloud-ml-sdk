@@ -15,9 +15,10 @@ from yandex_cloud_ml_sdk._types.tools.tool_choice import ToolChoiceType
 from yandex_cloud_ml_sdk._types.tools.tool_choice import coerce_to_json as coerce_tool_choice_to_json
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
-from .config import ChatModelConfig, ChatReasoningModeType
+from .config import ChatModelConfig, ChatReasoningModeType, QueryType
 from .message import ChatMessageInputType, messages_to_json
-from .result import ChatModelResult
+from .result import YCMLSDK_REASONING_TEXT, YCMLSDK_TEXT, YCMLSDK_TOOL_CALLS, ChatModelResult
+from .utils import ToolCallsBuffer
 
 
 class BaseChatModel(
@@ -40,6 +41,7 @@ class BaseChatModel(
         tools: UndefinedOr[Sequence[CompletionTool] | CompletionTool] = UNDEFINED,
         parallel_tool_calls: UndefinedOr[bool] = UNDEFINED,
         tool_choice: UndefinedOr[ToolChoiceType] = UNDEFINED,
+        extra_query: UndefinedOr[QueryType] = UNDEFINED,
     ) -> Self:
         return super().configure(
             temperature=temperature,
@@ -49,6 +51,7 @@ class BaseChatModel(
             tools=tools,
             parallel_tool_calls=parallel_tool_calls,
             tool_choice=tool_choice,
+            extra_query=extra_query,
         )
 
     def _build_request_json(self, messages: ChatMessageInputType, stream: bool) -> dict[str, Any]:
@@ -86,6 +89,9 @@ class BaseChatModel(
         if c.tool_choice is not None:
             result['tool_choice'] = coerce_tool_choice_to_json(c.tool_choice)
 
+        if c.extra_query is not None:
+            result.update(c.extra_query)
+
         return result
 
     @override
@@ -107,7 +113,7 @@ class BaseChatModel(
         return ChatModelResult._from_json(data=response.json(), sdk=self._sdk)
 
     @override
-    # pylint: disable-next=arguments-differ,too-many-locals
+    # pylint: disable-next=arguments-differ,too-many-locals,too-many-branches
     async def _run_stream(
         self,
         messages: ChatMessageInputType,
@@ -115,9 +121,9 @@ class BaseChatModel(
         timeout=180,
     ) -> AsyncIterator[ChatModelResult[ToolCallTypeT]]:
         role: str = ""
-        content_buffer: str = ""
-        reasoning_content_buffer: str | None = ""
-        last_finish_reason: str | None = None
+        content_buffer: str | None = None
+        reasoning_content_buffer: str | None = None
+        tool_calls_buffer = ToolCallsBuffer()
 
         async for sse in self._client.sse_stream(
             'http_completions',
@@ -126,67 +132,80 @@ class BaseChatModel(
             json=self._build_request_json(messages, stream=True),
             timeout=timeout
         ):
-            # {'id': '...', 'object': 'chat.completion.chunk', 'created': ..., 'model': '...', 'choices': [{'index': 0, 'delta': {'content': '...'}}]}
+            # {'id': '...', 'object': 'chat.completion.chunk', 'created': ..., 'model': '...', 'choices': [{'index': 0, 'delta': {'content': '...', 'tool_calls': '...', 'role': '...'}}]}
             data = sse.json()
 
-            choices: list[dict[str, Any]] | None = data.get('choices')
-            if not choices:
-                # We are making pseudo-choices which have exactly same content as a last chunk;
+            if choices := data.get('choices'):
+                choice = choices[0]
+            else:
+                # for convenience of following code we make an empty choice structure;
                 # qwen3-235b-a22b-fp8, for example, producing empty choices at last chunk which have usage instead
-                choices = data['choices'] = [{
-                    'index': 0,
-                    'delta': {'content': ''}
-                }]
+                choice = {'index': 0}
 
-            # NB: We will take the 'delta' dict and modify it inplace
-            choice = choices[0]
-            delta = choice.get('delta', {})
+            # NB: We will take the 'delta' dict and modify it inplace;
+            # qwen3-235b-a22b-fp8 sometimets producing an empty delta
+            delta = choice.setdefault('delta', {})
             assert isinstance(delta, dict)
-            if not delta:
-                # qwen3-235b-a22b-fp8 sometimets producing an empty delta,
-                # but with our model we need to put it explicitly
-                delta = data['choices'][0]['delta'] = {'content': ''}
 
-            if 'tool_calls' in delta:
-                raise NotImplementedError('tool calls not implemented in SDK in stream mode yet')
+            if tool_calls_delta := delta.get('tool_calls'):
+                tool_calls_buffer.update(tool_calls_delta)
 
             # By our model each chunk have to have an role, but in this stream only first one have
             if new_role := delta.get('role'):
                 role = new_role
-            if role:
+            else:
                 delta['role'] = role
 
             # qwen3-235b-a22b-fp8 have a first message without content, only with role
-            content = delta['content'] = delta.get('content', '')
-            content_buffer += content
+            if content := delta.get('content'):
+                content_buffer = content_buffer or ""
+                content_buffer += content
 
-            reasoning_content = delta.get('reasoning_content')
-            if reasoning_content is not None:
+            if reasoning_content := delta.get('reasoning_content'):
                 reasoning_content_buffer = reasoning_content_buffer or ""
                 reasoning_content_buffer += reasoning_content
 
             if reasoning_content_buffer:
-                delta['reasoning_text'] = reasoning_content_buffer
+                delta[YCMLSDK_REASONING_TEXT] = reasoning_content_buffer
 
-            finish_reason: str | None = choice.get('finish_reason')  # type: ignore[assignment]
+            finish_reason: str = choice.get('finish_reason', '')  # type: ignore[assignment]
+            finish_reason = finish_reason.lower()
             # qwen3-235b-a22b-fp8 in usage message (which follows the "last chunk")
             # do not have a finish_reason field and
             # I don't like we are producing chunk with a "null" finish_reason
             # which we translating into "partial" status after a chunk with real finish reason
-            # so we are inheriting finish_reason in case it was already produced before
-            choice['finish_reason'] = finish_reason or last_finish_reason
-            if finish_reason:
-                last_finish_reason = finish_reason
+            # so we are setting special finish_reason
+            if not finish_reason and 'usage' in data:
+                choice['finish_reason'] = finish_reason = 'usage'
+
             # In our model we operating with growing prefixes instead of deltas;
             # However, in case of content_filter we need to pass a whole content instead of a prefix
-            if finish_reason and finish_reason.lower() == 'content_filter':
-                delta['text'] = content
-            else:
-                delta['text'] = content_buffer
+            if finish_reason == 'content_filter':
+                delta[YCMLSDK_TEXT] = content
+            elif finish_reason == 'tool_calls':
+                # in case of finish_reason=tool_calls
+                # and not-empty tool_call_buffer we are
+                # hacking into delta structure
+                if tool_calls := tool_calls_buffer.value:
+                    delta[YCMLSDK_TOOL_CALLS] = tool_calls
+                tool_calls_buffer = ToolCallsBuffer()
+            elif content_buffer:
+                delta[YCMLSDK_TEXT] = content_buffer
 
             data['choices'] = [choice]
 
-            yield self._result_type._from_json(data=data, sdk=self._sdk)
+            # we don't want to generate chunks without any new information
+            if (
+                # so if chunk have any content
+                'content' in delta or
+                'reasoning_content' in delta or
+                # or we dumped tool_call_buffer into it
+                YCMLSDK_TOOL_CALLS in delta or
+                # or it have usage
+                finish_reason in ('usage', 'stop')
+            ):
+                # we are generating this chunk
+                yield self._result_type._from_json(data=data, sdk=self._sdk)
 
 
 class AsyncChatModel(

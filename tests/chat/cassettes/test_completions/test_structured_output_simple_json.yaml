@@ -1,0 +1,48 @@
+interactions:
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest","messages":[{"role":"user","content":"collect
+      all numbers from: 5, 4, a, 1"}],"stream":false,"temperature":1,"response_format":{"type":"json_object"}}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      connection:
+      - keep-alive
+      content-length:
+      - '205'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - 4200a0a1-423d-4dd2-aacd-30aa8ba86dcf
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: '{"id":"e9a45da8-3260-4429-b8fa-6ec2eaa77c50","object":"chat.completion","created":1758047600,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest","choices":[{"index":0,"message":{"role":"assistant","content":"{\"output\":
+        \"5, 4, 1\"}"},"finish_reason":"stop"}],"usage":{"prompt_tokens":25,"total_tokens":37,"completion_tokens":12}}
+
+        '
+    headers:
+      content-length:
+      - '334'
+      content-type:
+      - application/json
+      date:
+      - Tue, 16 Sep 2025 18:33:20 GMT
+      server:
+      - ycalb
+      x-client-request-id:
+      - 4200a0a1-423d-4dd2-aacd-30aa8ba86dcf
+      x-request-id:
+      - d5f1d0a3-e015-4daa-97cb-160266c9f1cd
+      x-server-trace-id:
+      - e95d2d9c7c857a9c:43fb786b460fc3f0:e95d2d9c7c857a9c:1
+    status:
+      code: 200
+      message: OK
+version: 1

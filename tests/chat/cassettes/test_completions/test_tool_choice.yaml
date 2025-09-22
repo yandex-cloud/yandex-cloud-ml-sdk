@@ -1,0 +1,51 @@
+interactions:
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest","messages":[{"role":"user","content":"do
+      a SOMETHING and SPOONING with all the numbers from: 5, 4, a, 1"}],"stream":false,"tools":[{"function":{"name":"something","description":"Tool
+      which have to collect all the numbers from user message and do a SOMETHING with
+      it","parameters":{"properties":{"numbers":{"items":{"type":"integer"},"title":"Numbers","type":"array"}},"required":["numbers"],"title":"Numbers","type":"object"},"strict":null},"type":"function"},{"function":{"name":"something_else","description":"Tool
+      which have to collect all the numbers from user message and do a SOMETHING with
+      it","parameters":{"properties":{"numbers":{"items":{"type":"integer"},"title":"Numbers","type":"array"}},"required":["numbers"],"title":"Numbers","type":"object"},"strict":null},"type":"function"}],"parallel_tool_calls":false}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      connection:
+      - keep-alive
+      content-length:
+      - '878'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - 2b8a637b-0f16-449e-b6d8-92c5d7d83d56
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: '{"id":"13ab8970-7d9d-437b-bba4-a2f30449dd2e","object":"chat.completion","created":1758047037,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest","choices":[{"index":0,"message":{"role":"assistant","content":"","tool_calls":[{"index":0,"id":"something","type":"function","function":{"name":"something","arguments":"{\"numbers\":[5,4,1]}"}},{"index":1,"id":"something_else","type":"function","function":{"name":"something_else","arguments":"{\"numbers\":[5,4,1]}"}}]},"finish_reason":"tool_calls"}],"usage":{"prompt_tokens":169,"total_tokens":198,"completion_tokens":29}}
+
+        '
+    headers:
+      content-length:
+      - '572'
+      content-type:
+      - application/json
+      date:
+      - Tue, 16 Sep 2025 18:23:57 GMT
+      server:
+      - ycalb
+      x-client-request-id:
+      - 2b8a637b-0f16-449e-b6d8-92c5d7d83d56
+      x-request-id:
+      - fcde7de5-26fc-4835-b2d9-14c083f91f29
+      x-server-trace-id:
+      - c94355c5ea458ccc:a639f9fde340e33d:c94355c5ea458ccc:1
+    status:
+      code: 200
+      message: OK
+version: 1

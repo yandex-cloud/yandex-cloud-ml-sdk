@@ -1,0 +1,98 @@
+interactions:
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest","messages":[{"role":"user","content":"do
+      a SOMETHING with all the numbers from: 5, 4, a, 1"}],"stream":false,"tools":[{"function":{"name":"something","description":"Tool
+      which have to collect all the numbers from user message and do a SOMETHING with
+      it","parameters":{"properties":{"numbers":{"items":{"type":"integer"},"title":"Numbers","type":"array"}},"required":["numbers"],"title":"Numbers","type":"object"},"strict":null},"type":"function"}]}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      connection:
+      - keep-alive
+      content-length:
+      - '503'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - 104f04a8-1970-4f03-988d-ba17a0f9680c
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: '{"id":"1a3cd092-9640-4d03-9116-deec2c69bd72","object":"chat.completion","created":1758047034,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest","choices":[{"index":0,"message":{"role":"assistant","content":"","tool_calls":[{"index":0,"id":"something","type":"function","function":{"name":"something","arguments":"{\"numbers\":[5,4,1]}"}}]},"finish_reason":"tool_calls"}],"usage":{"prompt_tokens":100,"total_tokens":114,"completion_tokens":14}}
+
+        '
+    headers:
+      content-length:
+      - '447'
+      content-type:
+      - application/json
+      date:
+      - Tue, 16 Sep 2025 18:23:54 GMT
+      server:
+      - ycalb
+      x-client-request-id:
+      - 104f04a8-1970-4f03-988d-ba17a0f9680c
+      x-request-id:
+      - e971b99d-f904-4fd2-a911-9139d824d259
+      x-server-trace-id:
+      - 81ea8b747bd0d880:286ceffecda263d8:81ea8b747bd0d880:1
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest","messages":[{"role":"user","content":"do
+      a SOMETHING with all the numbers from: 5, 4, a, 1"},{"role":"assistant","tool_calls":[{"index":0,"id":"something","type":"function","function":{"name":"something","arguments":"{\"numbers\":[5,4,1]}"}}]},{"role":"tool","content":"+20.0","tool_call_id":"something"}],"stream":false,"tools":[{"function":{"name":"something","description":"Tool
+      which have to collect all the numbers from user message and do a SOMETHING with
+      it","parameters":{"properties":{"numbers":{"items":{"type":"integer"},"title":"Numbers","type":"array"}},"required":["numbers"],"title":"Numbers","type":"object"},"strict":null},"type":"function"}]}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      connection:
+      - keep-alive
+      content-length:
+      - '715'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - 46c3501b-b356-4230-94e7-0ad51b842398
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: '{"id":"3b89a22a-60e0-4707-8059-3c9bf1919a1b","object":"chat.completion","created":1758047035,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest","choices":[{"index":0,"message":{"role":"assistant","content":"The
+        result of the operation performed by the tool on the numbers [5, 4, 1] is
+        +20.0."},"finish_reason":"stop"}],"usage":{"prompt_tokens":130,"total_tokens":158,"completion_tokens":28}}
+
+        '
+    headers:
+      content-length:
+      - '395'
+      content-type:
+      - application/json
+      date:
+      - Tue, 16 Sep 2025 18:23:55 GMT
+      server:
+      - ycalb
+      x-client-request-id:
+      - 46c3501b-b356-4230-94e7-0ad51b842398
+      x-request-id:
+      - 9d00b6ba-ea3a-44d1-83ad-dfc256d9a188
+      x-server-trace-id:
+      - 2901457e11ed83b0:a552443c375b09d3:2901457e11ed83b0:1
+    status:
+      code: 200
+      message: OK
+version: 1
