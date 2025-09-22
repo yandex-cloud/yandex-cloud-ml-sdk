@@ -8,6 +8,7 @@ from yandex_cloud_ml_sdk._search_indexes.search_index import BaseSearchIndex
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
 from yandex_cloud_ml_sdk._utils.coerce import ResourceType, coerce_resource_ids
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from .function import AsyncFunctionTools, FunctionTools, FunctionToolsTypeT
 from .search_index.call_strategy import CallStrategy, CallStrategyInputType
@@ -16,10 +17,16 @@ from .search_index.tool import SearchIndexTool
 
 
 class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
+    """
+    Сlass for tools functionality in Yandex Cloud ML SDK.
+    """
     _functions_impl: type[FunctionToolsTypeT]
 
     @cached_property
     def function(self) -> FunctionToolsTypeT:
+        """
+        Get the function sub-domain for creating function tools.
+        """
         return self._functions_impl(
             name='tools.function',
             sdk=self._sdk
@@ -27,6 +34,24 @@ class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
 
     @cached_property
     def rephraser(self) -> RephraserFunction:
+        """
+        Get the rephraser function for creating query transformation models.
+
+        The rephraser function provides access to specialized language models designed to intelligently
+        rewrite and enhance user search queries by incorporating conversational context. This is
+        particularly useful in multi-turn conversations where the latest user message may lack context
+        from previous exchanges.
+
+        The rephraser works by:
+        - Analyzing the conversation history and current user query
+        - Reformulating the query to be more specific and contextually complete
+        - Improving search relevance by expanding abbreviated or ambiguous terms
+        - Maintaining semantic intent while adding necessary context
+
+        This function returns a factory that can create Rephraser model instances with different
+        configurations, supporting various model types including the default 'rephraser' model or
+        custom rephrasing models.
+        """
         return RephraserFunction(
             name='tools.rehraser',
             sdk=self._sdk,
@@ -41,7 +66,8 @@ class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
         rephraser: UndefinedOr[RephraserInputType] = UNDEFINED,
         call_strategy: UndefinedOr[CallStrategyInputType] = UNDEFINED,
     ) -> SearchIndexTool:
-        """Creates SearchIndexTool (not to be confused with :py:class:`~.SearchIndex`/:py:class:`~.AsyncSearchIndex`).
+        """
+        Creates SearchIndexTool (not to be confused with :py:class:`~.SearchIndex`/:py:class:`~.AsyncSearchIndex`).
 
         :param indexes: parameter takes :py:class:`~.BaseSearchIndex`, string with search index id,
             or a list of this values in any combination.
@@ -71,10 +97,10 @@ class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
             call_strategy=call_strategy_,
         )
 
-
+@doc_from(BaseTools)
 class AsyncTools(BaseTools[AsyncFunctionTools]):
     _functions_impl = AsyncFunctionTools
 
-
+@doc_from(BaseTools)
 class Tools(BaseTools[FunctionTools]):
     _functions_impl = FunctionTools

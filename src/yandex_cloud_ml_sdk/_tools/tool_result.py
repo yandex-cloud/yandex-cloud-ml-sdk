@@ -19,31 +19,53 @@ ProtoToolResultListTypeT = TypeVar(
     ProtoAssistantToolResultList,
     ProtoCompletionsToolResultList
 )
+#: Type variable representing protobuf tool result list types.
+
 ProtoToolResultTypeT = TypeVar(
     'ProtoToolResultTypeT',
     ProtoAssistantToolResult,
     ProtoCompletionsToolResult,
 )
+#: Type variable representing protobuf tool result types.
+
 ProtoToolResultType = Union[ProtoAssistantToolResult, ProtoCompletionsToolResult]
+#: Union type for all supported protobuf tool result types.
+
 ProtoFunctionResultType = Union[ProtoAssistantFunctionResult, ProtoCompletionsFunctionResult]
+#: Union type for all supported protobuf function result types.
 
 
 class FunctionResultDict(TypedDict):
+    """
+    Dictionary structure for function results.
+    """
+
+    #: Name of the function
     name: Required[str]
+    #: Result content
     content: Required[str]
+    #: Optional result type (default: 'function')
     type: NotRequired[str]
 
 
 FunctionResultType: TypeAlias = FunctionResultDict
+#: Type alias for function result dictionary.
+
 ToolResultType: TypeAlias = FunctionResultType
+#: Type alias for tool result dictionary.
+
 ToolResultDictType: TypeAlias = FunctionResultDict
+#: Type alias for tool result dictionary (legacy name).
+
 ToolResultInputType: TypeAlias = Union[ToolResultType, Iterable[ToolResultType]]
+#: Input type for tool results (single or multiple).
 
 
 def tool_result_to_proto(
     tool_result: ToolResultType,
     proto_type: type[ProtoToolResultTypeT]
 ) -> ProtoToolResultTypeT:
+    """:meta private:"""
     proto_function_result_type = cast(type[ProtoFunctionResultType], {
         ProtoAssistantToolResult: ProtoAssistantFunctionResult,
         ProtoCompletionsToolResult: ProtoCompletionsFunctionResult,
@@ -76,6 +98,7 @@ def tool_results_to_proto(
     tool_results: ToolResultInputType,
     proto_type: type[ProtoToolResultListTypeT]
 ) -> ProtoToolResultListTypeT:
+    """:meta private:"""
     proto_tool_result_type = cast(type[ProtoToolResultType], {
         ProtoAssistantToolResultList: ProtoAssistantToolResult,
         ProtoCompletionsToolResultList: ProtoCompletionsToolResult,

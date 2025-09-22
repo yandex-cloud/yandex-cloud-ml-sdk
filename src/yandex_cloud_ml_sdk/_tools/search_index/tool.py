@@ -15,10 +15,16 @@ from .rephraser.model import Rephraser
 
 @dataclass(frozen=True)
 class SearchIndexTool(BaseTool[ProtoSearchIndexTool]):
+    """
+    Tool for working with search indexes in Yandex Cloud ML SDK.
+    """
+    #: Tuple of search index IDs to use with this tool
     search_index_ids: tuple[str, ...]
-
+    #: Maximum number of results to return from search, optional
     max_num_results: int | None = None
+    #: Rephraser instance for query rephrasing, optional
     rephraser: Rephraser | None = None
+    #: Strategy for calling the search index, optional
     call_strategy: CallStrategy | None = None
 
     @classmethod
