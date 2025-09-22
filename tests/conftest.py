@@ -20,11 +20,24 @@ from yandex_cloud_ml_sdk._testing.interceptor import (
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED
 
 
+@pytest.fixture(scope="module")
+def vcr_config():
+    return {"filter_headers": ["authorization"]}
+
+
 @pytest.fixture(name='auth')
-def fixture_auth(request):
+def fixture_auth(request, vcr):
+    # NB: we want to use auth only and only when developer directly MAKING CASSETES
+
+    vcr_mode = getattr(vcr, 'record_mode', None)
+
     cassette_manager = CassetteManager(request)
-    if cassette_manager.allow_grpc and cassette_manager.mode == 'write':
+    if (
+        cassette_manager.allow_grpc and cassette_manager.mode == 'write' or
+        vcr_mode in ('once', 'all', 'new_episodes')
+    ):
         return UNDEFINED  # it will trigger choosing of auth provider at client
+
     return NoAuth()
 
 

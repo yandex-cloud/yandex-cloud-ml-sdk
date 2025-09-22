@@ -1,0 +1,41 @@
+interactions:
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/qwen3-235b-a22b-fp8/latest","messages":[{"role":"user","content":"hello"}],"stream":false}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      connection:
+      - keep-alive
+      content-length:
+      - '127'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - 6b98f807-6e80-4986-b714-caf62b47be56
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: "{\"id\":\"chatcmpl-b4a9afec-3827-4f7d-92f4-0bacd94a541a\",\"object\":\"chat.completion\",\"created\":1758047016,\"model\":\"gpt://qwen3-235b-a22b-fp8/latest\",\"choices\":[{\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":\"Hello!
+        How can I assist you today? \U0001F60A\"},\"finish_reason\":\"stop\"}],\"usage\":{\"prompt_tokens\":9,\"total_tokens\":21,\"completion_tokens\":12}}\n"
+    headers:
+      content-length:
+      - '345'
+      content-type:
+      - application/json
+      date:
+      - Tue, 16 Sep 2025 18:23:36 GMT
+      server:
+      - ycalb
+      x-server-trace-id:
+      - fdc4a19ceb7a13ab:ed6c25f1e507f981:fdc4a19ceb7a13ab:1
+    status:
+      code: 200
+      message: OK
+version: 1

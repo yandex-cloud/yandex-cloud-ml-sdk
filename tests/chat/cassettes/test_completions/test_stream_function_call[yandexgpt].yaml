@@ -1,0 +1,114 @@
+interactions:
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/rc","messages":[{"role":"user","content":"How
+      much it would be 7@8?"}],"stream":true,"tools":[{"function":{"name":"calculator","description":"A
+      simple calculator that performs basic arithmetic and @ operations; call it on
+      ANY arithmetic questions","parameters":{"type":"object","properties":{"expression":{"type":"string","description":"The
+      mathematical expression to evaluate (e.g., ''2 + 3 * 4'')."}},"required":["expression"]},"strict":true},"type":"function"}]}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      connection:
+      - keep-alive
+      content-length:
+      - '510'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - 943b0dac-d0b6-4133-b547-eac17e48773e
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: 'data: {"id":"50f5b87a-9b37-4bcd-9a2e-77a0c2ec013a","object":"chat.completion.chunk","created":1758299820,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/rc","choices":[{"index":0,"delta":{"role":"assistant","tool_calls":[{"index":0,"id":"calculator","type":"function","function":{"name":"calculator","arguments":"{\"expression\":\"7@8\"}"}}]},"finish_reason":"tool_calls"}]}
+
+
+        data: [DONE]
+
+
+        '
+    headers:
+      cache-control:
+      - no-cache
+      content-type:
+      - text/event-stream
+      date:
+      - Fri, 19 Sep 2025 16:37:00 GMT
+      server:
+      - ycalb
+      transfer-encoding:
+      - chunked
+      x-client-request-id:
+      - 943b0dac-d0b6-4133-b547-eac17e48773e
+      x-request-id:
+      - 39b12c4d-9f5c-4cb1-aed3-becbd4a1f956
+      x-server-trace-id:
+      - a7b96c772468824:69bed7e101fe33f5:a7b96c772468824:1
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/rc","messages":[{"role":"user","content":"How
+      much it would be 7@8?"},{"role":"assistant","tool_calls":[{"function":{"name":"calculator","arguments":"{\"expression\":\"7@8\"}"},"index":0,"id":"calculator","type":"function"}]},{"role":"tool","content":"-5","tool_call_id":"calculator"}],"stream":true,"tools":[{"function":{"name":"calculator","description":"A
+      simple calculator that performs basic arithmetic and @ operations; call it on
+      ANY arithmetic questions","parameters":{"type":"object","properties":{"expression":{"type":"string","description":"The
+      mathematical expression to evaluate (e.g., ''2 + 3 * 4'')."}},"required":["expression"]},"strict":true},"type":"function"}]}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      connection:
+      - keep-alive
+      content-length:
+      - '725'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - 4d070472-e05d-4eab-bfb8-9ca358e34339
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: 'data: {"id":"35fc34cf-cd88-4027-aed5-898e4653737b","object":"chat.completion.chunk","created":1758299820,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/rc","choices":[{"index":0,"delta":{"role":"assistant","content":"The"}}]}
+
+
+        data: {"id":"35fc34cf-cd88-4027-aed5-898e4653737b","object":"chat.completion.chunk","created":1758299820,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/rc","choices":[{"index":0,"delta":{"content":"
+        result of 7@8 is -5."},"finish_reason":"stop"}]}
+
+
+        data: [DONE]
+
+
+        '
+    headers:
+      cache-control:
+      - no-cache
+      content-type:
+      - text/event-stream
+      date:
+      - Fri, 19 Sep 2025 16:37:01 GMT
+      server:
+      - ycalb
+      transfer-encoding:
+      - chunked
+      x-client-request-id:
+      - 4d070472-e05d-4eab-bfb8-9ca358e34339
+      x-request-id:
+      - 10d8bcbe-75bc-4c85-ba54-844967d68c75
+      x-server-trace-id:
+      - bf9b05d16bf926f1:d26902a49e1b6fad:bf9b05d16bf926f1:1
+    status:
+      code: 200
+      message: OK
+version: 1
