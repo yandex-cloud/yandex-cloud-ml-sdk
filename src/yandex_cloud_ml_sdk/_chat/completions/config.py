@@ -3,7 +3,7 @@ from __future__ import annotations
 from copy import deepcopy
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Union
+from typing import Any, Literal, Union
 
 from typing_extensions import Self, TypeAlias
 
@@ -14,6 +14,12 @@ from yandex_cloud_ml_sdk._utils.coerce import coerce_tuple
 
 
 class ChatReasoningMode(str, Enum):
+    """Enumeration for reasoning modes.
+
+    This class defines the various modes of reasoning that can be used
+    in the ``sdk.chat.completions`` model's configurations.
+    """
+
     LOW = 'low'
     MEDIUM = 'medium'
     HIGH = 'high'
@@ -27,14 +33,28 @@ class ChatReasoningMode(str, Enum):
         return cls(value.lower())
 
 
-ChatReasoningModeType = Union[str, ChatReasoningMode]
+#: type alias for reasoning mode representation
+ChatReasoningModeType = Union[
+    Literal['low', 'medium', 'high'],
+    Literal['LOW', 'MEDIUM', 'HIGH'],
+    ChatReasoningMode
+]
+#: type alias for model arguments
 QueryType: TypeAlias = JsonObject
 
 
 @dataclass(frozen=True)
 class ChatModelConfig(GPTModelConfig):
+    """Configuration for the chat model.
+
+    It holds the configuration settings for the chat model,
+    including parameters for generation and tool usage.
+    """
+
     reasoning_mode: ChatReasoningMode | None = None
     tools: tuple[CompletionTool, ...] | None = None
+
+    #: Extra arbitrary model query arguments
     extra_query: QueryType | None = None
 
     def _replace(self, **kwargs: Any) -> Self:

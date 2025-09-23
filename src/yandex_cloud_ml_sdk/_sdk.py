@@ -57,7 +57,8 @@ class BaseSDK:
     tuning: BaseTuning
     #: Domain for working with batch tasks
     batch: BaseBatch
-
+    #: Domain for working with
+    #: `Yandex Cloud OpenAI Compatible API <https://yandex.cloud/ru/docs/foundation-models/concepts/openai-compatibility>`_.
     chat: BaseChat
 
     _messages: BaseMessages

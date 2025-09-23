@@ -117,9 +117,10 @@ class BaseGPTModel(
             Defaults to ``true``.
         :param tool_choice: the strategy for choosing tools.
             There are several ways to configure ``tool_choice`` for query processing:
-            - no tools to call (tool_choice=``'none'``);
-            - required to call any tool (tool_choice=``'required'``);
-            - call a specific tool (tool_choice=``{'type': 'function', 'function': {'name': 'another_calculator'}}`` or directly passing a tool object).
+            - no tools to call (``tool_choice='none'``);
+            - required to call any tool (``tool_choice='required'``);
+            - call a specific tool (``tool_choice={'type': 'function', 'function': {'name': 'another_calculator'}}`` or directly passing a tool object).
+        :returns: new model instance with provided configuration.
         """
         return super().configure(
             temperature=temperature,

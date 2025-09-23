@@ -26,7 +26,6 @@ class AsyncModels(BaseModels):
     image_generation: AsyncImageGeneration
 
 
-@doc_from(BaseModels, SDK='YCloudML')
 class Models(BaseModels):
     completions: Completions
     text_embeddings: TextEmbeddings

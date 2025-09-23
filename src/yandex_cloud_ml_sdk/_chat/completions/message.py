@@ -15,36 +15,47 @@ from yandex_cloud_ml_sdk._utils.coerce import coerce_tuple
 
 
 class ChatFunctionResultMessageDict(TypedDict):
+    """Function call result in chat domain format"""
+
     role: NotRequired[str]
     tool_call_id: Required[str]
     content: Required[str]
 
 
 class ImageUrlDict(TypedDict):
+    """Dict for passing image url"""
     url: str
 
 
 class ImageUrlContent(TypedDict):
+    """A way to pass an image data in multimodal message"""
+
     type: Literal['image_url']
     image_url: ImageUrlDict
 
 
 class TextContent(TypedDict):
+    """A way to pass an text data in multimodal message"""
+
     type: Literal['text']
     text: str
 
 
 class MultimodalMessageDict(TypedDict):
+    """Multimodal message allowing to pass image and text data at the same time"""
     role: NotRequired[str]
     content: Sequence[ImageUrlDict | TextContent]
 
 
+#: Message types allowed at the ``chat.completions`` domain as an input data
 ChatCompletionsMessageType = Union[MessageType, ChatFunctionResultMessageDict, MessageInputType, MultimodalMessageDict]
+#: Data type allowed at the ``chat.completions`` domain as an input data
 ChatMessageInputType = Union[ChatCompletionsMessageType, Iterable[ChatCompletionsMessageType]]
 
 
 # pylint: disable-next=too-many-return-statements
 def message_to_json(message: ChatCompletionsMessageType, tool_name_ids: dict[str, str]) -> JsonObject | list[JsonObject]:
+    """:meta private:"""
     if isinstance(message, str):
         return {'role': 'user', 'content': message}
 
