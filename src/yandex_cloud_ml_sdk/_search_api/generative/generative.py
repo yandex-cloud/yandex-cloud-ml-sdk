@@ -8,15 +8,17 @@ from yandex.cloud.searchapi.v2.gen_search_service_pb2 import GenSearchRequest, G
 from yandex.cloud.searchapi.v2.gen_search_service_pb2_grpc import GenSearchServiceStub
 
 from yandex_cloud_ml_sdk._logging import get_logger
+from yandex_cloud_ml_sdk._tools.generative_search import GenerativeSearchTool
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr
 from yandex_cloud_ml_sdk._types.model import ModelSyncMixin
 from yandex_cloud_ml_sdk._types.string import SmartStringSequence
 from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
-from .config import GenerativeSearchConfig, SmartFilterSequence, format_to_proto
+from .config import GenerativeSearchConfig, SmartFilterSequence
 from .message import MessageInputType, messages_to_proto
 from .result import GenerativeSearchResult
+from .utils import filters_to_proto
 
 logger = get_logger(__name__)
 
@@ -129,16 +131,10 @@ class BaseGenerativeSearch(ModelSyncMixin[GenerativeSearchConfig, GenerativeSear
         elif self.config.url:
             kwargs['url'] = GenSearchRequest.UrlOption(url=self.config.url)
 
-        search_filters: list[GenSearchRequest.SearchFilter] | None = None
-        if raw_search_filters := kwargs.pop('search_filters', None):
-            search_filters = []
-            for filter_ in raw_search_filters:
-                if format_ := filter_.get('format'):
-                    filter_['format'] = format_to_proto(format_)
-                search_filters.append(
-                    GenSearchRequest.SearchFilter(**filter_)
-                )
-        kwargs['search_filters'] = search_filters
+        kwargs['search_filters'] = filters_to_proto(
+            kwargs.get('search_filters'),
+            GenSearchRequest.SearchFilter,
+        )
 
         req = GenSearchRequest(
             messages=messages,
@@ -156,6 +152,27 @@ class BaseGenerativeSearch(ModelSyncMixin[GenerativeSearchConfig, GenerativeSear
                 return GenerativeSearchResult._from_proto(proto=response, sdk=self._sdk)
 
         raise RuntimeError("call returned less then one result")
+
+    def as_tool(self, description: str) -> GenerativeSearchTool:
+        """
+        Converts generative search instance to :py:class:`~.GenerativeSearchTool` object
+        which is eligible to use as tools in LLMs/Assistants.
+
+        :param description: description of tool instance which also instructs model when to call it.
+        """
+        c = self.config
+        if c.fix_misspell is not None:
+            raise ValueError("Option fix_misspell doest not supported in GenSearchTool")
+
+        return GenerativeSearchTool(
+            description=description,
+            enable_nrfm_docs=c.enable_nrfm_docs,
+            search_filters=c.search_filters,
+            fix_misspell=None,
+            host=c.host,
+            site=c.site,
+            url=c.url,
+        )
 
 
 @doc_from(BaseGenerativeSearch)

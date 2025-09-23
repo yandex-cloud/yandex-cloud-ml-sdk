@@ -30,12 +30,15 @@ class BaseGenerativeSearchFunction(BaseModelFunction[GenerativeSearchTypeT]):
         """
         Creates generative search object which provides methods for invoking generative search.
 
+        Not to be confused with ``sdk.tools.generative_search``.
+        Tools domain is for creating tools for using in LLMs/Assistants and search_api domain
+        is for using Search API directly.
+
         To learn more about parameters and their formats and possible values,
         refer to
         `generative search documentation <https://yandex.cloud/docs/search-api/concepts/generative-response#body>`_
 
-        NB: All of the ``site``, ``host``, ``url`` parameters are mutually exclusive
-        and using one of them is mandatory.
+        NB: All of the ``site``, ``host``, ``url`` parameters are mutually exclusive.
 
         :param site: parameter for limiting search to specific location or list of sites.
         :param host: parameter for limiting search to specific location or list of hosts.
