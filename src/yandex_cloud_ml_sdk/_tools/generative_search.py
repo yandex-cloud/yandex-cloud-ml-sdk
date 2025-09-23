@@ -41,7 +41,8 @@ class GenerativeSearchTool(BaseTool[ProtoGenSearchTool], GenerativeSearchConfig)
                 return None
 
             if value := getattr(options, field_name):
-                return tuple(value)
+                real_value = getattr(value, field_name)
+                return tuple(real_value)
 
             return None
 
