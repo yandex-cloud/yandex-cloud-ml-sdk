@@ -108,7 +108,10 @@ class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
             >>> date_filter = {'date': '<20250101'}
             >>> format_filter = {'format': 'doc'}
             >>> lang_filter = {'lang': 'ru'}
-            >>> tool = sdk.tools.generative_search(search_filters=[date_filter, format_filter, lang_filter])
+            >>> tool = sdk.tools.generative_search(
+            ...     search_filters=[date_filter, format_filter, lang_filter],
+            ...     description="description when model should call a tool"
+            ... )
 
         """
 
