@@ -143,7 +143,7 @@ class BaseAssistants(BaseDomain, Generic[AssistantTypeT]):
         :param expiration_policy: Expiration policy for assistant
         :param response_format: A format of the response returned by the model. Could be a JsonSchema, a JSON string, or a pydantic model.
             Read more about possible response formats in the
-            `structured output documentation <https://yandex.cloud/docs/foundation-models/concepts/yandexgpt/#structured-output>`_.
+            `structured output documentation_BaseAssistants_Domain_URL <https://yandex.cloud/docs/ai-studio/concepts/generation/structured-output>`_.
         :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
         """
