@@ -17,7 +17,7 @@ from yandex_cloud_ml_sdk._utils.coerce import coerce_tuple
 class ChatFunctionResultMessageDict(TypedDict):
     """
     Function call result message in chat domain format.
-    
+
     Used to represent the result of a function/tool call in chat conversations.
     """
 
@@ -33,7 +33,7 @@ class ImageUrlDict(TypedDict):
     """
     Dictionary for passing image URL in multimodal messages.
     """
-    
+
     #: URL of the image
     url: str
 
@@ -41,7 +41,7 @@ class ImageUrlDict(TypedDict):
 class ImageUrlContent(TypedDict):
     """
     Image content type for multimodal messages.
-    
+
     Used to include image data in multimodal chat messages.
     """
 
@@ -54,7 +54,7 @@ class ImageUrlContent(TypedDict):
 class TextContent(TypedDict):
     """
     Text content type for multimodal messages.
-    
+
     Used to include text data in multimodal chat messages.
     """
 
@@ -67,10 +67,10 @@ class TextContent(TypedDict):
 class MultimodalMessageDict(TypedDict):
     """
     Multimodal message supporting both text and image content.
-    
+
     Allows passing multiple content types (text and images) in a single message.
     """
-    
+
     #: Role of the message (optional)
     role: NotRequired[str]
     #: Mixed content including text and/or images
