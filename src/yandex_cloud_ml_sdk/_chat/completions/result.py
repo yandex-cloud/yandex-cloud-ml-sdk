@@ -192,7 +192,7 @@ class ChatModelResult(BaseJsonResult, Sequence, HaveToolCalls[ToolCallTypeT]):
 
     @property
     def alternatives(self) -> tuple[ChatChoice[ToolCallTypeT], ...]:
-        """Synonym for choices attribute for compatibility with sdk.models.completions naming."""
+        """Synonym for choices attribute for compatibility with ``sdk.models.completions`` naming."""
         return self.choices
 
     @classmethod
