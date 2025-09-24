@@ -29,6 +29,9 @@ class BaseChatModel(
 ):
     """
     A class for working with chat models providing inference functionality.
+    
+    This class provides the foundation for chat model implementations,
+    handling configuration, request building, and response processing.
     """
 
     _config_type = ChatModelConfig
@@ -49,25 +52,22 @@ class BaseChatModel(
         extra_query: UndefinedOr[QueryType] = UNDEFINED,
     ) -> Self:
         """
-        Configures the model with specified parameters.
+        Configure the model with specified parameters.
 
-        :param temperature: a sampling temperature to use - higher values mean more random results. Should be a double number between 0 (inclusive) and 1 (inclusive).
-        :param max_tokens: a maximum number of tokens to generate in the response.
-        :param reasoning_mode: the mode of reasoning to apply during generation, allowing the model to perform internal reasoning before responding.
-        :param response_format: a format of the response returned by the model. Could be a JsonSchema, a JSON string, or a pydantic model.
-            Read more about possible response formats in the
-            `structured output documentation <https://yandex.cloud/docs/foundation-models/concepts/yandexgpt/#structured-output>`_.
-        :param tools: tools to use for completion. Can be a sequence or a single tool.
-        :param parallel_tool_calls: whether to allow parallel calls to tools during completion.
-            Defaults to ``true``.
-        :param tool_choice: the strategy for choosing tools.
+        :param temperature: Sampling temperature (0-1). Higher values produce more random results.
+        :param max_tokens: Maximum number of tokens to generate in the response.
+        :param reasoning_mode: Reasoning mode for internal processing before responding.
+        :param response_format: Format of the response (JsonSchema, JSON string, or pydantic model).
+            See `structured output documentation <https://yandex.cloud/docs/ai-studio/concepts/generation/structured-output>`_.
+        :param tools: Tools available for completion. Can be a sequence or single tool.
+        :param parallel_tool_calls: Whether to allow parallel tool calls.
+            Defaults to 'true'.
+        :param tool_choice: Strategy for tool selection.
             There are several ways to configure ``tool_choice`` for query processing:
             - no tools to call (``tool_choice='none'``);
             - required to call any tool (``tool_choice='required'``);
             - call a specific tool (``tool_choice={'type': 'function', 'function': {'name': 'another_calculator'}}`` or directly passing a tool object).
-        :param extra_query: dict with extra and experimental model parameters with could be
-            differ depending on the model_uri.
-        :returns: new model instance with provided configuration.
+        :param extra_query: Additional experimental model parameters.
         """
         return super().configure(
             temperature=temperature,
@@ -131,11 +131,11 @@ class BaseChatModel(
         """
         Executes the model with the provided messages.
 
-        :param messages: the input messages to process. Could be a string, a dictionary, or a result object.
+        :param messages: The input messages to process. Could be a string, a dictionary, or a result object.
             Read more about other possible message types in the
-            `corresponding documentation <https://yandex.cloud/docs/foundation-models/sdk/#usage>`_.
-        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
-            Defaults to 60 seconds.
+            `corresponding documentation <https://yandex.cloud/docs/ai-studio/sdk/#usage>`_.
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 180 seconds.
         """
 
         async with self._client.httpx_for_service('http_completions', timeout) as client:
@@ -160,9 +160,9 @@ class BaseChatModel(
         Executes the model with the provided messages
         and yields partial results as they become available.
 
-        :param messages: the input messages to process.
-        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
-            Defaults to 60 seconds.
+        :param messages: The input messages to process.
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 180 seconds.
         """
 
         role: str = ""

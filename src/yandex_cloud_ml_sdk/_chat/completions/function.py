@@ -16,9 +16,9 @@ class BaseChatCompletions(BaseModelFunction[ModelTypeT]):
     """
     A class for working with chat completions models.
 
-    It defines the core functionality for
-    creation "model" instances for
-    generate completions calls based on the provided model name and version.
+    This class provides the core functionality for creating chat model instances
+    and managing completions. It handles model URI construction and provides
+    methods for listing available models.
     """
 
     @override
@@ -29,15 +29,14 @@ class BaseChatCompletions(BaseModelFunction[ModelTypeT]):
         model_version: str = 'latest',
     ) -> ModelTypeT:
         """
-        Create a chat model object to call for generating completions.
+        Create a chat model instance for generating completions.
 
-        This method constructs the URI for the model based on the provided
-        name and version. If the name contains ``://``, it is
-        treated as a full URI.
-        Otherwise we construct a URI in the form ``gpt://<folder_id>/<model>/<version>``.
+        Constructs the model URI based on the provided name and version.
+        If the name contains '://', it is treated as a full URI.
+        Otherwise constructs a URI in the form 'gpt://<folder_id>/<model>/<version>'.
 
-        :param model_name: the name or URI of the model to call.
-        :param model_version: the version of the model to use.
+        :param model_name: The name or URI of the model.
+        :param model_version: The version of the model to use.
             Defaults to 'latest'.
         """
 
@@ -55,8 +54,7 @@ class BaseChatCompletions(BaseModelFunction[ModelTypeT]):
     async def _list(self, *, timeout) -> tuple[ModelTypeT, ...]:
         """Returns all available chat models.
 
-        :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
-        :returns: tuple of available chat model objects.
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
         """
 
         async with self._sdk._client.httpx_for_service('http_completions', timeout) as client:

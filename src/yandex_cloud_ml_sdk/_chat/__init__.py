@@ -8,8 +8,13 @@ from .completions.function import AsyncChatCompletions, BaseChatCompletions, Cha
 
 
 class BaseChat(DomainWithFunctions):
-    """Chat api domain for working with
-    `Yandex Cloud OpenAI Compatible API <https://yandex.cloud/ru/docs/foundation-models/concepts/openai-compatibility>`_."""
+    """
+    A class for Chat API domain operations.
+    
+    This class provides functionality for working with the
+    `Yandex Cloud OpenAI Compatible API <https://yandex.cloud/docs/ai-studio/concepts/openai-compatibility>`_.
+    It serves as the foundation for chat operations.
+    """
 
     #: Chat API subdomain for working with text-generation models
     completions: BaseChatCompletions
