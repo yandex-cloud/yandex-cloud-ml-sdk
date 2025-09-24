@@ -12,7 +12,7 @@ class BaseChat(DomainWithFunctions):
     A class for Chat API domain operations.
     
     This class provides functionality for working with the
-    `Yandex Cloud OpenAI Compatible API <https://yandex.cloud/docs/ai-studio/concepts/openai-compatibility>`_.
+    `Yandex Cloud OpenAI Compatible API_BaseChat_URL <https://yandex.cloud/docs/ai-studio/concepts/openai-compatibility>`_.
     It serves as the foundation for chat operations.
     """
 
