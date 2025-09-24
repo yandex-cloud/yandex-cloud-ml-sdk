@@ -29,7 +29,7 @@ class BaseChatModel(
 ):
     """
     A class for working with chat models providing inference functionality.
-    
+
     This class provides the foundation for chat model implementations,
     handling configuration, request building, and response processing.
     """

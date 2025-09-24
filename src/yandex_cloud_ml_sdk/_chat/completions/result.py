@@ -24,7 +24,7 @@ YCMLSDK_REASONING_TEXT = f'{YCMLSDK_PREFIX}_reasoning_text'
 class ChatUsage(Usage):
     """
     A class representing usage statistics for chat completion requests.
-    
+
     Extends the base Usage class with chat-specific convenience properties.
     """
 
@@ -37,7 +37,7 @@ class ChatUsage(Usage):
 class FinishReason(Enum):
     """
     Enumeration of possible completion request finish reasons.
-    
+
     Defines all possible reasons why a chat completion request was terminated.
     """
 
@@ -75,7 +75,7 @@ STATUS_TABLE = {
 class ChatChoice(TextMessage, HaveToolCalls[ToolCallTypeT], JsonBased):
     """
     A class representing one completion choice/alternative from a chat model.
-    
+
     Contains the generated text, tool calls, reasoning text, and metadata
     about how the completion was finished.
     """
@@ -174,7 +174,7 @@ class DeltaChatChoice(ChatChoice[ToolCallTypeT]):
 class ChatModelResult(BaseJsonResult, Sequence, HaveToolCalls[ToolCallTypeT]):
     """
     Result of a chat model completion request.
-    
+
     Contains all completion choices, usage statistics, and metadata
     from the chat completion API response.
     """

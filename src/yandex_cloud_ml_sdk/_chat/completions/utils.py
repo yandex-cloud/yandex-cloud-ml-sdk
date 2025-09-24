@@ -7,17 +7,17 @@ from yandex_cloud_ml_sdk._types.schemas import JsonObject
 class ToolCallsBuffer:
     """
     Buffer for accumulating tool calls from streaming responses.
-    
+
     Manages multiple ToolCallBuffer instances, one for each tool call index,
     and provides access to the complete list of tool calls.
     """
-    
+
     def __init__(self) -> None:
         self._buffer: dict[str, ToolCallBuffer] = {}
 
     def update(self, tool_calls_delta: JsonObject) -> None:
         """Update the buffer with new tool call delta data.
-        
+
         :param tool_calls_delta: List of tool call delta objects from stream
         """
         assert isinstance(tool_calls_delta, list)
@@ -39,11 +39,11 @@ class ToolCallsBuffer:
 class ToolCallBuffer:
     """
     Buffer for accumulating a single tool call from streaming responses.
-    
+
     Handles incremental updates to tool call data, building up the complete
     tool call object as delta information arrives from the stream.
     """
-    
+
     def __init__(self) -> None:
         self._buffer: dict[str, str] = {}
         self._function_buffer: dict[str, str] = {}
@@ -51,7 +51,7 @@ class ToolCallBuffer:
 
     def update(self, tool_call_delta: JsonObject) -> None:
         """Update the buffer with new tool call delta data.
-        
+
         :param tool_call_delta: Tool call delta object from stream
         """
         if type_ := tool_call_delta.get('type'):
