@@ -5,6 +5,7 @@ from yandex_cloud_ml_sdk._types.domain import DomainWithFunctions
 from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from .completions.function import AsyncChatCompletions, BaseChatCompletions, ChatCompletions
+from .text_embeddings.function import AsyncChatEmbeddings, BaseChatEmbeddings, ChatEmbeddings
 
 
 class BaseChat(DomainWithFunctions):
@@ -18,13 +19,16 @@ class BaseChat(DomainWithFunctions):
 
     #: Chat API subdomain for working with text-generation models
     completions: BaseChatCompletions
+    text_embeddings: BaseChatEmbeddings
 
 
 @doc_from(BaseChat)
 class AsyncChat(BaseChat):
     completions: AsyncChatCompletions
+    text_embeddings: AsyncChatEmbeddings
 
 
 @doc_from(BaseChat)
 class Chat(BaseChat):
     completions: ChatCompletions
+    text_embeddings: ChatEmbeddings

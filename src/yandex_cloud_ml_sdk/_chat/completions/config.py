@@ -5,11 +5,11 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Literal, Union
 
-from typing_extensions import Self, TypeAlias
+from typing_extensions import Self
 
 from yandex_cloud_ml_sdk._models.completions.config import CompletionTool, GPTModelConfig
 from yandex_cloud_ml_sdk._tools.tool import BaseTool
-from yandex_cloud_ml_sdk._types.schemas import JsonObject
+from yandex_cloud_ml_sdk._types.schemas import QueryType
 from yandex_cloud_ml_sdk._utils.coerce import coerce_tuple
 
 
@@ -37,15 +37,11 @@ class ChatReasoningMode(str, Enum):
         return cls(value.lower())
 
 
-#: type alias for reasoning mode representation
 ChatReasoningModeType = Union[
     Literal['low', 'medium', 'high'],
     Literal['LOW', 'MEDIUM', 'HIGH'],
-    ChatReasoningMode
+    ChatReasoningMode,
 ]
-#: type alias for model arguments
-QueryType: TypeAlias = JsonObject
-
 
 @dataclass(frozen=True)
 class ChatModelConfig(GPTModelConfig):
