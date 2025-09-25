@@ -15,8 +15,8 @@ def main() -> None:
     sdk.setup_default_logging()
 
     # This is how to create model object:
-    doc_model = sdk.chat.embeddings('text-search-doc')
-    query_model = sdk.chat.embeddings('text-search-query')
+    doc_model = sdk.chat.text_embeddings('text-search-doc')
+    query_model = sdk.chat.text_embeddings('text-search-query')
     # sdk.chat.embeddings.list() is also available;
 
     # Array of texts to search

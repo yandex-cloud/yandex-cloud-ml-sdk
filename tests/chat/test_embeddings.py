@@ -7,7 +7,7 @@ pytestmark = [pytest.mark.asyncio, pytest.mark.vcr]
 
 @pytest.fixture(name='model')
 def fixture_model(async_sdk):
-    return async_sdk.chat.embeddings('text-search-doc')
+    return async_sdk.chat.text_embeddings('text-search-doc')
 
 
 async def test_run(model):
