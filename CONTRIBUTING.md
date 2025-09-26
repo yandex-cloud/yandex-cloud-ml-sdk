@@ -73,7 +73,8 @@ On PR we are running `sphinx-build -W` which are failing in case of any warnings
 unresolved references or wrong rst syntaxt in docstrings.
 
 To install sphinx and other required for work with documentation, run
-`pip isntall -r docs/requirements.txt -e .` in the repo root.
+
+`pip install -r docs/requirements.txt -e .` in the repo root.
 
 To run sphinx locally to check if there are any errors or warnings,
 run `sphinx-build docs docs/_build -E -W` in the repo root.
