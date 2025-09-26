@@ -23,7 +23,9 @@ ProtoSearchIndexType = Union[TextSearchIndex, VectorSearchIndex, HybridSearchInd
 
 @dataclass(frozen=True)
 class BaseSearchIndexType(abc.ABC):
+    """A class for search index types."""
     _proto_field_name: ClassVar[str]
+    #: the strategy used for chunking the index
     chunking_strategy: BaseIndexChunkingStrategy | None = None
 
     @classmethod
@@ -64,6 +66,7 @@ class BaseSearchIndexType(abc.ABC):
 
 @dataclass(frozen=True)
 class TextSearchIndexType(BaseSearchIndexType):
+    """A class which represents a text search index type."""
     _proto_field_name: ClassVar[str] = 'text_search_index'
 
     @classmethod
@@ -81,10 +84,12 @@ class TextSearchIndexType(BaseSearchIndexType):
 
 @dataclass(frozen=True)
 class VectorSearchIndexType(BaseSearchIndexType):
+    """A class which represents a vector search index type."""
+
     _proto_field_name: ClassVar[str] = 'vector_search_index'
-
+    #: URI for the document embedder
     doc_embedder_uri: str | None = None
-
+    #: URI for the query embedder
     query_embedder_uri: str | None = None
 
     @classmethod
@@ -106,11 +111,16 @@ class VectorSearchIndexType(BaseSearchIndexType):
 
 @dataclass(frozen=True)
 class HybridSearchIndexType(BaseSearchIndexType):
-    _proto_field_name: ClassVar[str] = 'hybrid_search_index'
+    """A class which represents a hybrid search index type combining text and vector search indices."""
 
+    _proto_field_name: ClassVar[str] = 'hybrid_search_index'
+    #: the text search index associated with the hybrid index
     text_search_index: TextSearchIndexType | None = None
+    #: the vector search index associated with the hybrid index
     vector_search_index: VectorSearchIndexType | None = None
+    #: the strategy for normalizing index results
     normalization_strategy: IndexNormalizationStrategy | str | int | None = None
+    #: the strategy for combining results from different indices
     combination_strategy: BaseIndexCombinationStrategy | None = None
 
     @classmethod
