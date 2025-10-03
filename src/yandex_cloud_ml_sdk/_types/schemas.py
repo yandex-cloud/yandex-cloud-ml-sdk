@@ -22,6 +22,9 @@ JsonArray = list[JsonVal]
 JsonObject = dict[str, JsonVal]
 #: Type for json schema
 JsonSchemaType: TypeAlias = JsonObject
+#: Type alias for model arguments
+QueryType: TypeAlias = JsonObject
+
 
 class JsonSchemaResponseType(TypedDict):
     """

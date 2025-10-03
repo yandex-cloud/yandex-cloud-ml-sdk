@@ -20,6 +20,7 @@ class ToolCallsBuffer:
 
     @property
     def value(self) -> list[JsonObject]:
+        """Get the complete list of tool calls."""
         items = sorted(self._buffer.items())
         return [buffer.value for _, buffer in items]
 
