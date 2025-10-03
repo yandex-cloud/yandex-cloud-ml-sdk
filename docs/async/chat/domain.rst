@@ -8,3 +8,4 @@ Chat domain
    :hidden:
 
    completions
+   text_embeddings
