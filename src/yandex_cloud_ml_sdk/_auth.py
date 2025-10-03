@@ -60,6 +60,9 @@ class BaseAuth(ABC):
 
 
 class NoAuth(BaseAuth):
+    """
+    Specifies that no authentication data will be provided.
+    """
     @override
     async def get_auth_metadata(self, client: AsyncCloudClient, timeout: float, lock: asyncio.Lock) -> None:
         """:meta private:"""
@@ -149,7 +152,6 @@ class EnvIAMTokenAuth(BaseIAMTokenAuth):
     in order to be compatible with a Yandex DataSphere environment.
     Therefore, it is not recommended to use this environment variable
     when setting up a personal work environment.
-
     """
     default_env_var = 'YC_TOKEN'
 
