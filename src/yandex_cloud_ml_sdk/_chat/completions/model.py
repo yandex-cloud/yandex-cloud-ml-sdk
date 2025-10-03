@@ -13,6 +13,7 @@ from yandex_cloud_ml_sdk._types.model import ModelSyncMixin, ModelSyncStreamMixi
 from yandex_cloud_ml_sdk._types.schemas import ResponseType, http_schema_from_response_format
 from yandex_cloud_ml_sdk._types.tools.tool_choice import ToolChoiceType
 from yandex_cloud_ml_sdk._types.tools.tool_choice import coerce_to_json as coerce_tool_choice_to_json
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .config import ChatModelConfig, ChatReasoningModeType, QueryType
@@ -26,6 +27,13 @@ class BaseChatModel(
     ModelSyncMixin[ChatModelConfig, ChatModelResult[ToolCallTypeT]],
     ModelSyncStreamMixin[ChatModelConfig, ChatModelResult[ToolCallTypeT]],
 ):
+    """
+    A class for working with chat models providing inference functionality.
+
+    This class provides the foundation for chat model implementations,
+    handling configuration, request building, and response processing.
+    """
+
     _config_type = ChatModelConfig
     _result_type: type[ChatModelResult[ToolCallTypeT]]
     _proto_result_type = None
@@ -43,6 +51,24 @@ class BaseChatModel(
         tool_choice: UndefinedOr[ToolChoiceType] = UNDEFINED,
         extra_query: UndefinedOr[QueryType] = UNDEFINED,
     ) -> Self:
+        """
+        Configure the model with specified parameters.
+
+        :param temperature: Sampling temperature (0-1). Higher values produce more random results.
+        :param max_tokens: Maximum number of tokens to generate in the response.
+        :param reasoning_mode: Reasoning mode for internal processing before responding.
+        :param response_format: Format of the response (JsonSchema, JSON string, or pydantic model).
+            See `structured output documentation_BaseChatModel_URL <https://yandex.cloud/docs/ai-studio/concepts/generation/structured-output>`_.
+        :param tools: Tools available for completion. Can be a sequence or single tool.
+        :param parallel_tool_calls: Whether to allow parallel tool calls.
+            Defaults to 'true'.
+        :param tool_choice: Strategy for tool selection.
+            There are several ways to configure ``tool_choice`` for query processing:
+            - no tools to call (``tool_choice='none'``);
+            - required to call any tool (``tool_choice='required'``);
+            - call a specific tool (``tool_choice={'type': 'function', 'function': {'name': 'another_calculator'}}`` or directly passing a tool object).
+        :param extra_query: Additional experimental model parameters.
+        """
         return super().configure(
             temperature=temperature,
             max_tokens=max_tokens,
@@ -102,6 +128,16 @@ class BaseChatModel(
         *,
         timeout=180,
     ) -> ChatModelResult[ToolCallTypeT]:
+        """
+        Executes the model with the provided messages.
+
+        :param messages: The input messages to process. Could be a string, a dictionary, or a result object.
+            Read more about other possible message types in the
+            `corresponding documentation <https://yandex.cloud/docs/ai-studio/sdk/#usage>`_.
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 180 seconds.
+        """
+
         async with self._client.httpx_for_service('http_completions', timeout) as client:
             response = await client.post(
                 '/chat/completions',
@@ -120,6 +156,15 @@ class BaseChatModel(
         *,
         timeout=180,
     ) -> AsyncIterator[ChatModelResult[ToolCallTypeT]]:
+        """
+        Executes the model with the provided messages
+        and yields partial results as they become available.
+
+        :param messages: The input messages to process.
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 180 seconds.
+        """
+
         role: str = ""
         content_buffer: str | None = None
         reasoning_content_buffer: str | None = None
@@ -208,11 +253,13 @@ class BaseChatModel(
                 yield self._result_type._from_json(data=data, sdk=self._sdk)
 
 
+@doc_from(BaseChatModel)
 class AsyncChatModel(
     BaseChatModel[AsyncToolCall],
 ):
     _result_type = ChatModelResult[AsyncToolCall]
 
+    @doc_from(BaseChatModel._run)
     async def run(
         self,
         messages: ChatMessageInputType,
@@ -224,6 +271,7 @@ class AsyncChatModel(
             timeout=timeout
         )
 
+    @doc_from(BaseChatModel._run_stream)
     async def run_stream(
         self,
         messages: ChatMessageInputType,
@@ -237,6 +285,7 @@ class AsyncChatModel(
             yield result
 
 
+@doc_from(BaseChatModel)
 class ChatModel(
     BaseChatModel[ToolCall],
 ):
@@ -244,6 +293,7 @@ class ChatModel(
     __run = run_sync(BaseChatModel._run)
     __run_stream = run_sync_generator(BaseChatModel._run_stream)
 
+    @doc_from(BaseChatModel._run)
     def run(
         self,
         messages: ChatMessageInputType,
@@ -255,6 +305,7 @@ class ChatModel(
             timeout=timeout
         )
 
+    @doc_from(BaseChatModel._run_stream)
     def run_stream(
         self,
         messages: ChatMessageInputType,

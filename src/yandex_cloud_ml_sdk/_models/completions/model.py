@@ -111,15 +111,16 @@ class BaseGPTModel(
             `reasoning documentation <https://yandex.cloud/docs/foundation-models/text-generation/api-ref/TextGeneration/completion#yandex.cloud.ai.foundation_models.v1.ReasoningOptions>`_.
         :param response_format: a format of the response returned by the model. Could be a JsonSchema, a JSON string, or a pydantic model.
             Read more about possible response formats in the
-            `structured output documentation <https://yandex.cloud/docs/foundation-models/concepts/yandexgpt/#structured-output>`_.
+            `structured output documentation_BaseGPTModel_URL <https://yandex.cloud/docs/ai-studio/concepts/generation/structured-output>`_.
         :param tools: tools to use for completion. Can be a sequence or a single tool.
         :param parallel_tool_calls: whether to allow parallel calls to tools during completion.
             Defaults to ``true``.
         :param tool_choice: the strategy for choosing tools.
             There are several ways to configure ``tool_choice`` for query processing:
-            - no tools to call (tool_choice=``'none'``);
-            - required to call any tool (tool_choice=``'required'``);
-            - call a specific tool (tool_choice=``{'type': 'function', 'function': {'name': 'another_calculator'}}`` or directly passing a tool object).
+            - no tools to call (``tool_choice='none'``);
+            - required to call any tool (``tool_choice='required'``);
+            - call a specific tool (``tool_choice={'type': 'function', 'function': {'name': 'another_calculator'}}`` or directly passing a tool object).
+        :returns: new model instance with provided configuration.
         """
         return super().configure(
             temperature=temperature,

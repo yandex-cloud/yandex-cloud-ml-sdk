@@ -28,6 +28,12 @@ Embeddings
 .. autoclass:: yandex_cloud_ml_sdk._models.text_embeddings.result.TextEmbeddingsModelResult
    :undoc-members:
 
+.. autoclass:: yandex_cloud_ml_sdk._chat.text_embeddings.result.ChatEmbeddingsModelResult
+   :undoc-members:
+
+.. autoclass:: yandex_cloud_ml_sdk._chat.text_embeddings.result.EmbeddingsUsage
+   :undoc-members:
+
 Text classifiers
 ----------------
 
