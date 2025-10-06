@@ -1,0 +1,149 @@
+interactions:
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/rc","messages":[{"role":"user","content":"do
+      a SOMETHING and SPOONING with all the numbers from: 5, 4, a, 1"}],"stream":false,"tools":[{"function":{"name":"something","description":"Tool
+      which have to collect all the numbers from user message and do a SOMETHING with
+      it","parameters":{"properties":{"numbers":{"items":{"type":"integer"},"title":"Numbers","type":"array"}},"required":["numbers"],"title":"Numbers","type":"object"},"strict":null},"type":"function"},{"function":{"name":"spooning","description":"Tool
+      which have to collect all the numbers from user message and do a SPOONING with
+      it","parameters":{"properties":{"numbers":{"items":{"type":"integer"},"title":"Numbers","type":"array"}},"required":["numbers"],"title":"Numbers","type":"object"},"strict":null},"type":"function"}]}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      connection:
+      - keep-alive
+      content-length:
+      - '839'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - c9c46c56-0933-4c5f-a5ec-11394a87059c
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: '{"id":"1b90ba66-63d8-43cd-8006-957f5f5a1239","object":"chat.completion","created":1758047035,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/rc","choices":[{"index":0,"message":{"role":"assistant","content":"","tool_calls":[{"index":0,"id":"something","type":"function","function":{"name":"something","arguments":"{\"numbers\":[5,4,1]}"}},{"index":1,"id":"spooning","type":"function","function":{"name":"spooning","arguments":"{\"numbers\":[5,4,1]}"}}]},"finish_reason":"tool_calls"}],"usage":{"prompt_tokens":169,"total_tokens":198,"completion_tokens":29}}
+
+        '
+    headers:
+      content-length:
+      - '556'
+      content-type:
+      - application/json
+      date:
+      - Tue, 16 Sep 2025 18:23:55 GMT
+      server:
+      - ycalb
+      x-client-request-id:
+      - c9c46c56-0933-4c5f-a5ec-11394a87059c
+      x-request-id:
+      - 74c96db0-57e5-49a2-9d9d-320e90f6caa6
+      x-server-trace-id:
+      - ec72b6564abc849f:68fdd6f36859e155:ec72b6564abc849f:1
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/rc","messages":[{"role":"user","content":"do
+      a SOMETHING and SPOONING with all the numbers from: 5, 4, a, 1"}],"stream":false,"tools":[{"function":{"name":"something","description":"Tool
+      which have to collect all the numbers from user message and do a SOMETHING with
+      it","parameters":{"properties":{"numbers":{"items":{"type":"integer"},"title":"Numbers","type":"array"}},"required":["numbers"],"title":"Numbers","type":"object"},"strict":null},"type":"function"},{"function":{"name":"spooning","description":"Tool
+      which have to collect all the numbers from user message and do a SPOONING with
+      it","parameters":{"properties":{"numbers":{"items":{"type":"integer"},"title":"Numbers","type":"array"}},"required":["numbers"],"title":"Numbers","type":"object"},"strict":null},"type":"function"}],"parallel_tool_calls":true}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      connection:
+      - keep-alive
+      content-length:
+      - '866'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - ce3d7ae0-62ff-4602-b113-813aa898e7a2
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: '{"id":"42f7188a-0f8e-43f8-83e7-f6f790c86f13","object":"chat.completion","created":1758047036,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/rc","choices":[{"index":0,"message":{"role":"assistant","content":"","tool_calls":[{"index":0,"id":"something","type":"function","function":{"name":"something","arguments":"{\"numbers\":[5,4,1]}"}},{"index":1,"id":"spooning","type":"function","function":{"name":"spooning","arguments":"{\"numbers\":[5,4,1]}"}}]},"finish_reason":"tool_calls"}],"usage":{"prompt_tokens":169,"total_tokens":198,"completion_tokens":29}}
+
+        '
+    headers:
+      content-length:
+      - '556'
+      content-type:
+      - application/json
+      date:
+      - Tue, 16 Sep 2025 18:23:56 GMT
+      server:
+      - ycalb
+      x-client-request-id:
+      - ce3d7ae0-62ff-4602-b113-813aa898e7a2
+      x-request-id:
+      - e0f67b87-a79d-437c-ad50-c5a55e639de1
+      x-server-trace-id:
+      - 447c1dc6083e696:1cf72c0e57815c3b:447c1dc6083e696:1
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/rc","messages":[{"role":"user","content":"do
+      a SOMETHING and SPOONING with all the numbers from: 5, 4, a, 1"}],"stream":false,"tools":[{"function":{"name":"something","description":"Tool
+      which have to collect all the numbers from user message and do a SOMETHING with
+      it","parameters":{"properties":{"numbers":{"items":{"type":"integer"},"title":"Numbers","type":"array"}},"required":["numbers"],"title":"Numbers","type":"object"},"strict":null},"type":"function"},{"function":{"name":"spooning","description":"Tool
+      which have to collect all the numbers from user message and do a SPOONING with
+      it","parameters":{"properties":{"numbers":{"items":{"type":"integer"},"title":"Numbers","type":"array"}},"required":["numbers"],"title":"Numbers","type":"object"},"strict":null},"type":"function"}],"parallel_tool_calls":false}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      connection:
+      - keep-alive
+      content-length:
+      - '867'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - 6c3803bf-5eb7-4464-bb7a-021cb2b6fbc5
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: '{"id":"56ad5d20-b4fd-4761-95f6-8c0ad96cb4c0","object":"chat.completion","created":1758047036,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/rc","choices":[{"index":0,"message":{"role":"assistant","content":"","tool_calls":[{"index":0,"id":"something","type":"function","function":{"name":"something","arguments":"{\"numbers\":[5,4,1]}"}},{"index":1,"id":"spooning","type":"function","function":{"name":"spooning","arguments":"{\"numbers\":[5,4,1]}"}}]},"finish_reason":"tool_calls"}],"usage":{"prompt_tokens":169,"total_tokens":198,"completion_tokens":29}}
+
+        '
+    headers:
+      content-length:
+      - '556'
+      content-type:
+      - application/json
+      date:
+      - Tue, 16 Sep 2025 18:23:56 GMT
+      server:
+      - ycalb
+      x-client-request-id:
+      - 6c3803bf-5eb7-4464-bb7a-021cb2b6fbc5
+      x-request-id:
+      - ce117798-f932-4496-a296-24b9ed5c8a9e
+      x-server-trace-id:
+      - c2cf5a5df5356ca1:5949067557bd3925:c2cf5a5df5356ca1:1
+    status:
+      code: 200
+      message: OK
+version: 1

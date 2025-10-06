@@ -14,17 +14,14 @@ from yandex_cloud_ml_sdk._tools.tool_call_list import ProtoCompletionsToolCallLi
 from yandex_cloud_ml_sdk._types.message import TextMessage
 from yandex_cloud_ml_sdk._types.proto import ProtoBased, SDKType
 from yandex_cloud_ml_sdk._types.result import BaseProtoResult
+from yandex_cloud_ml_sdk._types.usage import BaseUsage
 
 
 @dataclass(frozen=True)
-class Usage:
+class Usage(BaseUsage):
     """A class representing usage statistics for a completion request."""
-    #: the number of tokens in the input text
-    input_text_tokens: int
     #: the number of tokens generated in the completion
     completion_tokens: int
-    #: the total number of tokens used (input + completion)
-    total_tokens: int
 
 
 @dataclass(frozen=True)
@@ -68,6 +65,10 @@ class AlternativeStatus(int, Enum):
     TOOL_CALLS = _s.ALTERNATIVE_STATUS_TOOL_CALLS
     #: represents an unknown status (-1)
     UNKNOWN = -1
+
+    #: special status for message with only usage data;
+    #: used in some SDK places
+    USAGE = -2
 
     @classmethod
     def _from_proto(cls, status: int):
