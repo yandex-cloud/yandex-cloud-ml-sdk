@@ -13,6 +13,7 @@ from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 from yandex_cloud_ml_sdk._logging import get_logger
 from yandex_cloud_ml_sdk._types.misc import PathLike, coerce_path
 from yandex_cloud_ml_sdk._types.operation import AsyncOperation, Operation, OperationTypeT, ReturnsOperationMixin
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
 from .dataset import AsyncDataset, Dataset, DatasetTypeT
@@ -32,16 +33,25 @@ logger = get_logger(__name__)
 
 @dataclass
 class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMixin[OperationTypeT]):
+    """
+    A class for handling operations with the dataset in a draft state."""
     _domain: BaseDatasets
     _dataset_impl: type[DatasetTypeT] = field(init=False)
-
+    #: the type of task associated with the dataset
     task_type: str | None = None
+    #: the file path to the dataset
     path: PathLike | None = None
+    #: the format in which the dataset will be uploaded
     upload_format: str | None = None
+    #: the name of the dataset
     name: str | None = None
+    #: a description of the dataset
     description: str | None = None
+    #: metadata associated with the dataset
     metadata: str | None = None
+    #: labels for categorizing the dataset
     labels: dict[str, str] | None = None
+    #: a flag indicating if iy\t is allowed to use the dataset to improve the models quality. Default false.
     allow_data_logging: bool | None = None
 
     @property
@@ -131,6 +141,20 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
         chunk_size: int = DEFAULT_CHUNK_SIZE,
         parallelism: int | None = None,
     ) -> OperationTypeT:
+        """
+        Upload data to a dataset in a deferred manner.
+
+        :param timeout: the time to wait for the dataset creation operation.
+            Defaults to 60 seconds.
+        :param upload_timeout: the time to wait for the upload operation.
+            Defaults to 360 seconds.
+        :param raise_on_validation_failure: a flag indicating whether to raise an error if validation fails after the upload.
+            Default is True.
+        :param chunk_size: the size of chunks to use when uploading data.
+            Default is defined by DEFAULT_CHUNK_SIZE.
+        :param parallelism: the level of parallelism for the upload.
+            Default is None, which means no limit.
+        """
         self.validate()
         assert self.task_type
         assert self.upload_format
@@ -185,6 +209,17 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
         poll_interval: float = 60,
         **kwargs,
     ) -> DatasetTypeT:
+        """
+        Upload data and wait for the operation to complete.
+
+        :param timeout: the time to wait for the upload operation.
+            Defaults to 60 seconds.
+        :param poll_timeout: the time to wait for polling the operation status.
+            Default is defined by DEFAULT_OPERATION_POLL_TIMEOUT.
+        :param poll_interval: the interval at which to poll for operation status
+            Defaults to 60 seconds).
+        :param kwargs: additional keyword arguments passed to ``_upload_deferred``.
+        """
         operation = await self._upload_deferred(
             **kwargs,
             timeout=timeout,
@@ -197,11 +232,12 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
         )
         return result
 
-
+@doc_from(BaseDatasetDraft)
 class AsyncDatasetDraft(BaseDatasetDraft[AsyncDataset, AsyncOperation[AsyncDataset]]):
     _dataset_impl = AsyncDataset
     _operation_impl = AsyncOperation[AsyncDataset]
 
+    @doc_from(BaseDatasetDraft._upload_deferred)
     async def upload_deferred(
         self,
         *,
@@ -219,6 +255,7 @@ class AsyncDatasetDraft(BaseDatasetDraft[AsyncDataset, AsyncOperation[AsyncDatas
             parallelism=parallelism,
         )
 
+    @doc_from(BaseDatasetDraft._upload)
     async def upload(
         self,
         *,
@@ -241,12 +278,14 @@ class AsyncDatasetDraft(BaseDatasetDraft[AsyncDataset, AsyncOperation[AsyncDatas
         )
 
 
+@doc_from(BaseDatasetDraft)
 class DatasetDraft(BaseDatasetDraft[Dataset, Operation[Dataset]]):
     _dataset_impl = Dataset
     _operation_impl = Operation[Dataset]
     __upload_deferred = run_sync(BaseDatasetDraft._upload_deferred)
     __upload = run_sync(BaseDatasetDraft._upload)
 
+    @doc_from(BaseDatasetDraft._upload_deferred)
     def upload_deferred(
         self,
         *,
@@ -264,6 +303,7 @@ class DatasetDraft(BaseDatasetDraft[Dataset, Operation[Dataset]]):
             parallelism=parallelism,
         )
 
+    @doc_from(BaseDatasetDraft._upload)
     def upload(
         self,
         *,
