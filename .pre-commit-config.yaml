@@ -29,6 +29,7 @@ repos:
     hooks:
       - id: pyupgrade
         args: [--py39-plus]
+        exclude: ^src/yandex_cloud_ml_sdk/_chat/completions/message.py$
 
   - repo: https://github.com/hadialqattan/pycln
     rev: v1.2.5
