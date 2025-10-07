@@ -91,7 +91,7 @@ class MeanIndexCombinationStrategy(BaseIndexCombinationStrategy):
 @dataclass(frozen=True)
 class ReciprocalRankFusionIndexCombinationStrategy(BaseIndexCombinationStrategy):
     """A class which describes reciprocal rank fusion index combination strategy. Reciprocal rank fusion is a method for combining multiple result sets with different relevance indicators into a single result set."""
-    #: the parameter used in reciprocal rank fusion
+    #: the parameter k for RRFscore. Default is 60.
     k: int | None = None
 
     @classmethod
