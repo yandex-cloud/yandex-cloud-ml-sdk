@@ -64,7 +64,8 @@ class BaseSearchIndex(
         expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
         timeout: float = 60,
     ) -> Self:
-        """Updates the search index with the provided parameters.
+        """
+        Updates the search index with the provided parameters.
 
         :param name: the name of the search index.
         :param description: a description for the search index.
@@ -119,7 +120,8 @@ class BaseSearchIndex(
         *,
         timeout: float = 60,
     ) -> None:
-        """Deletes the search index.
+        """
+        Deletes the search index.
 
         :param timeout: the time to wait for the delete request.
             Defaults to 60 seconds.
@@ -142,7 +144,8 @@ class BaseSearchIndex(
         *,
         timeout: float = 60
     ) -> SearchIndexFile:
-        """Retrieves a file associated with the search index.
+        """
+        Retrieves a file associated with the search index.
 
         :param file_id: the ID of the file to retrieve.
         :param timeout: the time to wait for the get request.
@@ -177,7 +180,8 @@ class BaseSearchIndex(
         *,
         timeout: float = 60,
     ) -> OperationTypeT:
-        """Adds files to the search index in a deferred manner.
+        """
+        Adds files to the search index in a deferred manner.
 
         :param files: the files to add to the search index.
         :param timeout: the time to wait for the add files request.
@@ -211,7 +215,8 @@ class BaseSearchIndex(
         page_size: UndefinedOr[int] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[SearchIndexFile]:
-        """Lists all files associated with the search index.
+        """
+        Lists all files associated with the search index.
 
         :param page_size: the number of files to retrieve per page.
         :param timeout: the time to wait for the list request.
