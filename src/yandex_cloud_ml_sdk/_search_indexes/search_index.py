@@ -64,7 +64,16 @@ class BaseSearchIndex(
         expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
         timeout: float = 60,
     ) -> Self:
-        """Updates the search index with the provided parameters."""
+        """Updates the search index with the provided parameters.
+
+        :param name: the name of the search index.
+        :param description: a description for the search index.
+        :param labels: a set of labels for the search index.
+        :param ttl_days: time-to-live in days for the search index.
+        :param expiration_policy: expiration policy for the search index.
+        :param timeout: the time to wait for the update request.
+            Defaults to 60 seconds.
+        """
         # pylint: disable=too-many-locals
         name_ = get_defined_value(name, '')
         description_ = get_defined_value(description, '')
@@ -110,7 +119,11 @@ class BaseSearchIndex(
         *,
         timeout: float = 60,
     ) -> None:
-        """Deletes the search index."""
+        """Deletes the search index.
+
+        :param timeout: the time to wait for the delete request.
+            Defaults to 60 seconds.
+        """
         request = DeleteSearchIndexRequest(search_index_id=self.id)
 
         async with self._client.get_service_stub(SearchIndexServiceStub, timeout=timeout) as stub:
@@ -129,7 +142,12 @@ class BaseSearchIndex(
         *,
         timeout: float = 60
     ) -> SearchIndexFile:
-        """Retrieves a file associated with the search index."""
+        """Retrieves a file associated with the search index.
+
+        :param file_id: the ID of the file to retrieve.
+        :param timeout: the time to wait for the get request.
+            Defaults to 60 seconds.
+        """
         request = GetSearchIndexFileRequest(
             file_id=file_id,
             search_index_id=self.id
@@ -147,7 +165,6 @@ class BaseSearchIndex(
 
     # pylint: disable=unused-argument
     async def _transform_add_files(self, proto: BatchCreateSearchIndexFileResponse, timeout: float) -> SearchIndexFileTuple:
-        """Transforms the response from a batch file creation operation."""
         return tuple(
             SearchIndexFile._from_proto(proto=f, sdk=self._sdk)
             for f in proto.files
@@ -160,7 +177,12 @@ class BaseSearchIndex(
         *,
         timeout: float = 60,
     ) -> OperationTypeT:
-        """Adds files to the search index in a deferred manner."""
+        """Adds files to the search index in a deferred manner.
+
+        :param files: the files to add to the search index.
+        :param timeout: the time to wait for the add files request.
+            Defaults to 60 seconds.
+        """
         file_ids = coerce_resource_ids(files, BaseFile)
         request = BatchCreateSearchIndexFileRequest(
             file_ids=file_ids,
@@ -189,7 +211,12 @@ class BaseSearchIndex(
         page_size: UndefinedOr[int] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[SearchIndexFile]:
-        """Lists all files associated with the search index."""
+        """Lists all files associated with the search index.
+
+        :param page_size: the number of files to retrieve per page.
+        :param timeout: the time to wait for the list request.
+            Defaults to 60 seconds.
+        """
         page_token_ = ''
         page_size_ = get_defined_value(page_size, 0)
 
