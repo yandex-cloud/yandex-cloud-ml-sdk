@@ -74,7 +74,7 @@ class MultimodalMessageDict(TypedDict):
     #: Role of the message (optional)
     role: NotRequired[str]
     #: Mixed content including text and/or images
-    content: Sequence[ImageUrlDict | TextContent]
+    content: Sequence[Union[ImageUrlDict, TextContent]]
 
 
 #: Message types allowed at the ``chat.completions`` domain as an input data
