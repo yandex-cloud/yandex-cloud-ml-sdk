@@ -48,7 +48,7 @@ class ValidationErrorInfo(ProtoBased[ProtoValidationError]):
     error: str
     #: a description of the error
     description: str
-    #: a tuple of row numbers assosiated with the error
+    #: a tuple of row numbers associated with the error
     rows: tuple[int, ...]
 
     # pylint: disable=unused-argument
@@ -84,7 +84,7 @@ class DatasetInfo:
     allow_data_logging: bool
     #: the current status of the dataset
     status: DatasetStatus
-    #: the type of task assosiated with the dataset
+    #: the type of task associated with the dataset
     task_type: str
     #: the number of rows in the dataset
     rows: int
