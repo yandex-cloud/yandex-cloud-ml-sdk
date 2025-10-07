@@ -33,8 +33,7 @@ logger = get_logger(__name__)
 
 @dataclass
 class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMixin[OperationTypeT]):
-    """
-    A class for handling operations with the dataset in a draft state."""
+    """A class for handling operations with the dataset in a draft state."""
     _domain: BaseDatasets
     _dataset_impl: type[DatasetTypeT] = field(init=False)
     #: the type of task associated with the dataset
@@ -218,7 +217,7 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
             Default is defined by DEFAULT_OPERATION_POLL_TIMEOUT.
         :param poll_interval: the interval at which to poll for operation status
             Defaults to 60 seconds).
-        :param kwargs: additional keyword arguments passed to ``_upload_deferred``.
+        :param kwargs: additional keyword arguments.
         """
         operation = await self._upload_deferred(
             **kwargs,
