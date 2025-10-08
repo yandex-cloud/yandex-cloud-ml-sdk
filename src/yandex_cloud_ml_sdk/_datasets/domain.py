@@ -325,7 +325,7 @@ class AsyncDatasets(BaseDatasets[AsyncDataset, AsyncDatasetDraft]):
     ) -> tuple[DatasetUploadSchema, ...]:
         return await self._list_upload_schemas(task_type=task_type, timeout=timeout)
 
-@doc_from(BaseDomain)
+@doc_from(BaseDatasets)
 class Datasets(BaseDatasets[Dataset, DatasetDraft]):
     _dataset_impl = Dataset
     _dataset_draft_impl = DatasetDraft
