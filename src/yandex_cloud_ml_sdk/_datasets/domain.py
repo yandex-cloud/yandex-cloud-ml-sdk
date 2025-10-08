@@ -15,6 +15,7 @@ from yandex.cloud.ai.dataset.v1.dataset_service_pb2_grpc import DatasetServiceSt
 from yandex_cloud_ml_sdk._logging import get_logger
 from yandex_cloud_ml_sdk._types.domain import BaseDomain
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, PathLike, UndefinedOr, get_defined_value
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .dataset import AsyncDataset, Dataset, DatasetTypeT
@@ -25,20 +26,30 @@ from .task_types import KnownTaskType, TaskTypeProxy
 
 logger = get_logger(__name__)
 
-
+#: type alias for a single dataset status
 SingleDatasetStatus: TypeAlias = Union[str, DatasetStatus]
+#: type alias for input that can represent one or more dataset statuses
 DatasetStatusInput: TypeAlias = Union[SingleDatasetStatus, Iterable[SingleDatasetStatus]]
 
 
 class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
+    """This class provides methods to create and manage datasets of a specific type."""
+    #: the implementation type for the dataset
     _dataset_impl: type[DatasetTypeT]
+    #: the implementation type for the dataset draft
     _dataset_draft_impl: type[DatasetDraftT]
 
+    #: proxy for text-to-text generation tasks
     completions = TaskTypeProxy(KnownTaskType.TextToTextGeneration)
+    #: proxy for multilabel text classification tasks
     text_classifiers_multilabel = TaskTypeProxy(KnownTaskType.TextClassificationMultilabel)
+    #: proxy for multiclass text classification tasks
     text_classifiers_multiclass = TaskTypeProxy(KnownTaskType.TextClassificationMulticlass)
+    #: proxy for binary text classification tasks
     text_classifiers_binary = TaskTypeProxy(KnownTaskType.TextClassificationMultilabel)
+    #: proxy for pairwise text embeddings tasks
     text_embeddings_pair = TaskTypeProxy(KnownTaskType.TextEmbeddingsPair)
+    #: proxy for triplet text embeddings tasks
     text_embeddings_triplet = TaskTypeProxy(KnownTaskType.TextEmbeddingsTriplet)
 
     def draft_from_path(
@@ -53,6 +64,17 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         allow_data_logging: UndefinedOr[bool] = UNDEFINED,
     ) -> DatasetDraftT:
+        """Create a new dataset draft from a specified path.
+
+        :param path: the path to the data file or directory.
+        :param task_type: the type of task for the dataset.
+        :param upload_format: the format in which the data should be uploaded.
+        :param name: the name of the dataset.
+        :param description: a description of the dataset.
+        :param metadata: metadata associated with the dataset.
+        :param labels: a set of labels for the dataset.
+        :param allow_data_logging: a flag indicating if data logging is allowed.
+        """
         logger.debug('Creating a new (local) dataset draft of type %s', task_type)
         return self._dataset_draft_impl(
             _domain=self,
@@ -109,6 +131,12 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
         *,
         timeout: float = 60,
     ) -> DatasetTypeT:
+        """Fetch a dataset from the server using its ID.
+
+        :param dataset_id: the unique identifier of the dataset to fetch.
+        :param timeout: the time to wait for the request.
+            Defaults to 60 seconds.
+        """
         logger.debug('Fetching dataset %s from server', dataset_id)
 
         request = DescribeDatasetRequest(
@@ -133,6 +161,14 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
         task_type: UndefinedOr[str] | Iterable[str] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[DatasetTypeT]:
+        """Fetch a list of datasets based on specified filters.
+
+        :param status: the status filter for datasets; can be a single status or an iterable of statuses.
+        :param name_pattern: a pattern to filter dataset names.
+        :param task_type: the type of task associated with the datasets; can be a single task type or an iterable of task types.
+        :param timeout: the time to wait for the request.
+            Defaults to 60 seconds.
+        """
         status_: DatasetStatusInput = get_defined_value(status, [])
         status_list: list[SingleDatasetStatus] = [status_] if isinstance(status_, (str, DatasetStatus)) else list(status_)
         coerced_status_list: list[DatasetStatus] = [
@@ -175,6 +211,12 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
         *,
         timeout: float = 60,
     ) -> tuple[str, ...]:
+        """Fetch available upload formats for a specified task type.
+
+        :param task_type: the type of task for which to fetch upload formats.
+        :param timeout: the time to wait for the request in seconds.
+            Defaults to 60 seconds.
+        """
         warnings.warn("dataset.list_upload_formats is deprecated", category=DeprecationWarning)
 
         logger.debug('Fetching available dataset upload formats for task_type=%s', task_type)
@@ -202,6 +244,12 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
         *,
         timeout: float = 60,
     ) -> tuple[DatasetUploadSchema, ...]:
+        """Fetch available upload schemas for a specified task type.
+
+        :param task_type: the type of task for which to fetch upload schemas.
+        :param timeout: the time to wait for the request in seconds.
+            Defaults to 60 seconds.
+        """
         logger.debug('Fetching available dataset upload schemas for task_type=%s', task_type)
         request = ListUploadSchemasRequest(
             task_type=task_type,
@@ -225,11 +273,12 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
             for schema in response.schemas
         )
 
-
+@doc_from(BaseDatasets)
 class AsyncDatasets(BaseDatasets[AsyncDataset, AsyncDatasetDraft]):
     _dataset_impl = AsyncDataset
     _dataset_draft_impl = AsyncDatasetDraft
 
+    @doc_from(BaseDatasets._get)
     async def get(
         self,
         dataset_id: str,
@@ -241,6 +290,7 @@ class AsyncDatasets(BaseDatasets[AsyncDataset, AsyncDatasetDraft]):
             timeout=timeout
         )
 
+    @doc_from(BaseDatasets._list)
     async def list(
         self,
         *,
@@ -257,6 +307,7 @@ class AsyncDatasets(BaseDatasets[AsyncDataset, AsyncDatasetDraft]):
         ):
             yield dataset
 
+    @doc_from(BaseDatasets._list_upload_formats)
     async def list_upload_formats(
         self,
         task_type: str,
@@ -265,6 +316,7 @@ class AsyncDatasets(BaseDatasets[AsyncDataset, AsyncDatasetDraft]):
     ) -> tuple[str, ...]:
         return await self._list_upload_formats(task_type=task_type, timeout=timeout)
 
+    @doc_from(BaseDatasets._list_upload_schemas)
     async def list_upload_schemas(
         self,
         task_type: str,
@@ -273,7 +325,7 @@ class AsyncDatasets(BaseDatasets[AsyncDataset, AsyncDatasetDraft]):
     ) -> tuple[DatasetUploadSchema, ...]:
         return await self._list_upload_schemas(task_type=task_type, timeout=timeout)
 
-
+@doc_from(BaseDomain)
 class Datasets(BaseDatasets[Dataset, DatasetDraft]):
     _dataset_impl = Dataset
     _dataset_draft_impl = DatasetDraft
@@ -283,6 +335,7 @@ class Datasets(BaseDatasets[Dataset, DatasetDraft]):
     __list_upload_formats = run_sync(BaseDatasets._list_upload_formats)
     __list_upload_schemas = run_sync(BaseDatasets._list_upload_schemas)
 
+    @doc_from(BaseDatasets._get)
     def get(
         self,
         dataset_id: str,
@@ -294,6 +347,7 @@ class Datasets(BaseDatasets[Dataset, DatasetDraft]):
             timeout=timeout
         )
 
+    @doc_from(BaseDatasets._list)
     def list(
         self,
         *,
@@ -309,6 +363,7 @@ class Datasets(BaseDatasets[Dataset, DatasetDraft]):
             timeout=timeout
         )
 
+    @doc_from(BaseDatasets._list_upload_formats)
     def list_upload_formats(
         self,
         task_type: str,
@@ -317,6 +372,7 @@ class Datasets(BaseDatasets[Dataset, DatasetDraft]):
     ) -> tuple[str, ...]:
         return self.__list_upload_formats(task_type=task_type, timeout=timeout)
 
+    @doc_from(BaseDatasets._list_upload_schemas)
     def list_upload_schemas(
         self,
         task_type: str,
