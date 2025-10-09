@@ -15,13 +15,16 @@ from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Tool as ProtoCo
 from yandex_cloud_ml_sdk._types.proto import ProtoBased, ProtoMessageTypeT, SDKType
 from yandex_cloud_ml_sdk._types.schemas import JsonObject, JsonSchemaType
 
-ProtoToolTypeT = TypeVar('ProtoToolTypeT', ProtoAssistantsTool, ProtoCompletionsTool)
 #: Type variable representing protobuf tool types.
+ProtoToolTypeT = TypeVar('ProtoToolTypeT', ProtoAssistantsTool, ProtoCompletionsTool)
 
 
 class BaseTool(ProtoBased[ProtoMessageTypeT]):
     """
-    Class for all tools in Yandex Cloud ML SDK.
+    Сlass for all tools.
+    
+    This class serves as the foundation for all tool implementations that can be used
+    with AI models.
     """
 
     @classmethod
@@ -58,15 +61,14 @@ class BaseTool(ProtoBased[ProtoMessageTypeT]):
     def _to_json(self) -> JsonObject:
         raise NotImplementedError(f'tools of type {self.__class__.__name__} are not supported in this part of the API')
 
-
-ProtoFunctionTool = Union[ProtoCompletionsFunctionTool, ProtoAssistantsFunctionTool]
 #: Union type for function tool protobuf messages.
+ProtoFunctionTool = Union[ProtoCompletionsFunctionTool, ProtoAssistantsFunctionTool]
 
 
 @dataclass(frozen=True)
 class FunctionTool(BaseTool[ProtoFunctionTool]):
     """
-    A function tool that can be called by AI models in Yandex Cloud ML SDK.
+    A function tool that can be called by AI models.
 
     This class represents a callable function that can be used by AI models
     for function calling capabilities. It encapsulates the function's metadata

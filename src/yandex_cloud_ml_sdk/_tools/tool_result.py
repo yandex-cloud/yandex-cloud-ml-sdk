@@ -14,25 +14,25 @@ from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import ToolResultList 
 
 from yandex_cloud_ml_sdk._utils.coerce import coerce_tuple
 
+#: Type variable representing protobuf tool result list types.
 ProtoToolResultListTypeT = TypeVar(
     'ProtoToolResultListTypeT',
     ProtoAssistantToolResultList,
     ProtoCompletionsToolResultList
 )
-#: Type variable representing protobuf tool result list types.
 
+#: Type variable representing protobuf tool result types.
 ProtoToolResultTypeT = TypeVar(
     'ProtoToolResultTypeT',
     ProtoAssistantToolResult,
     ProtoCompletionsToolResult,
 )
-#: Type variable representing protobuf tool result types.
 
-ProtoToolResultType = Union[ProtoAssistantToolResult, ProtoCompletionsToolResult]
 #: Union type for all supported protobuf tool result types.
+ProtoToolResultType = Union[ProtoAssistantToolResult, ProtoCompletionsToolResult]
 
-ProtoFunctionResultType = Union[ProtoAssistantFunctionResult, ProtoCompletionsFunctionResult]
 #: Union type for all supported protobuf function result types.
+ProtoFunctionResultType = Union[ProtoAssistantFunctionResult, ProtoCompletionsFunctionResult]
 
 
 class FunctionResultDict(TypedDict):
@@ -47,18 +47,17 @@ class FunctionResultDict(TypedDict):
     #: Optional result type (default: 'function')
     type: NotRequired[str]
 
-
-FunctionResultType: TypeAlias = FunctionResultDict
 #: Type alias for function result dictionary.
+FunctionResultType: TypeAlias = FunctionResultDict
 
-ToolResultType: TypeAlias = FunctionResultType
 #: Type alias for tool result dictionary.
+ToolResultType: TypeAlias = FunctionResultType
 
-ToolResultDictType: TypeAlias = FunctionResultDict
 #: Type alias for tool result dictionary (legacy name).
+ToolResultDictType: TypeAlias = FunctionResultDict
 
-ToolResultInputType: TypeAlias = Union[ToolResultType, Iterable[ToolResultType]]
 #: Input type for tool results (single or multiple).
+ToolResultInputType: TypeAlias = Union[ToolResultType, Iterable[ToolResultType]]
 
 
 def tool_result_to_proto(

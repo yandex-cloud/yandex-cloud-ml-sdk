@@ -18,7 +18,30 @@ from .search_index.tool import SearchIndexTool
 
 class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
     """
-    Сlass for tools functionality in Yandex Cloud ML SDK.
+    Class for tools functionality.
+
+    Tools are specialized utilities that extend the capabilities of language models and AI assistants
+    by providing access to external functions, data sources, and computational resources. They enable
+    models to perform actions beyond text generation, such as searching through knowledge bases,
+    executing custom functions, and processing structured data.
+
+    This class serves as the foundation for tool management in both synchronous and asynchronous
+    contexts, providing a unified interface for:
+
+    - **Function Tools**: Custom Python functions that can be called by AI models during completions
+    - **Search Index Tools**: Tools for querying and retrieving information from vector databases
+      and search indexes
+    - **Rephraser Tools**: Specialized models for query transformation and context enhancement
+
+    Tools are particularly useful in:
+
+    - **AI Assistants**: Extending conversational agents with external capabilities like web search,
+      database queries, or API calls
+    - **Completions**: Enabling language models to invoke functions during text generation for
+      dynamic content creation and problem-solving
+
+    The tools framework supports both streaming and non-streaming operations, making it suitable
+    for real-time applications and batch processing scenarios.
     """
     _functions_impl: type[FunctionToolsTypeT]
 
@@ -35,9 +58,9 @@ class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
     @cached_property
     def rephraser(self) -> RephraserFunction:
         """
-        Get the rephraser function for creating query transformation models.
+        Get the rephraser for creating query transformation models.
 
-        The rephraser function provides access to specialized language models designed to intelligently
+        The rephraser provides access to specialized language models designed to intelligently
         rewrite and enhance user search queries by incorporating conversational context. This is
         particularly useful in multi-turn conversations where the latest user message may lack context
         from previous exchanges.
@@ -48,7 +71,7 @@ class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
         - Improving search relevance by expanding abbreviated or ambiguous terms
         - Maintaining semantic intent while adding necessary context
 
-        This function returns a factory that can create Rephraser model instances with different
+        The rephraser returns a factory that can create Rephraser model instances with different
         configurations, supporting various model types including the default 'rephraser' model or
         custom rephrasing models.
         """

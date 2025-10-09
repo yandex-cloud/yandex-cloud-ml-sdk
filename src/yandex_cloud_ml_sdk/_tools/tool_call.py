@@ -32,7 +32,12 @@ class BaseToolCall(
     FunctionCallMixin[FunctionCallTypeT]
 ):
     """
-    Class representing a tool call in Yandex Cloud ML SDK.
+    A tool call returned by models as a result of server-side tool calls.
+
+    This class encapsulates the response from language models when they invoke tools
+    during conversation or completion. It contains information about the specific
+    tool that was called, including its unique identifier and the associated function
+    call with parameters and results.
     """
     #: Unique tool call identifier
     id: str | None
@@ -87,8 +92,8 @@ class ToolCall(BaseToolCall):
     _function_call_impl = FunctionCall
 
 
-ToolCallTypeT = TypeVar('ToolCallTypeT', bound=BaseToolCall)
 #: Type variable representing any tool call type.
+ToolCallTypeT = TypeVar('ToolCallTypeT', bound=BaseToolCall)
 
 
 class HaveToolCalls(Generic[ToolCallTypeT]):

@@ -9,32 +9,19 @@ from yandex.cloud.ai.assistants.v1.common_pb2 import CallStrategy as ProtoCallSt
 from yandex_cloud_ml_sdk._types.proto import ProtoBased, SDKType
 from yandex_cloud_ml_sdk._types.tools.function import FunctionDictType, validate_function_dict
 
+#: Type alias for string-based call strategy. Currently only supports 'always' value.
 CallStrategyStringType: TypeAlias = Literal['always']
-"""
-Type alias for string-based call strategy. Currently only supports 'always' value.
-"""
 
+#: Type alias for all supported call strategy types. Can be either: a string literal ('always') or a function dictionary with instruction
 CallStrategyType: TypeAlias = Union[CallStrategyStringType, FunctionDictType]
-"""
-Type alias for all supported call strategy types.
 
-Can be either:
-- A string literal ('always')
-- A function dictionary with instruction
-"""
+#: Type alias for call strategy input types. Can be either: a CallStrategyType (string or function dict) or existing CallStrategy instance
 CallStrategyInputType: TypeAlias = Union[CallStrategyType, 'CallStrategy']
-"""
-Type alias for call strategy input types.
-
-Can be either:
-- A CallStrategyType (string or function dict)
-- An existing CallStrategy instance
-"""
 
 
 class CallStrategy(ProtoBased[ProtoCallStrategy]):
     """
-    Implements call strategy for search index tools.
+    Represents call strategy for search index tools.
 
     The call strategy determines when a tool should be called:
     - 'always': call the tool on every request

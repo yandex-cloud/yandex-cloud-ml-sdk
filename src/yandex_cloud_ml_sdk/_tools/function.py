@@ -15,7 +15,7 @@ from .tool_call import AsyncToolCall, HaveToolCalls, ToolCall, ToolCallTypeT
 
 class BaseFunctionTools(BaseDomain, HaveToolCalls[ToolCallTypeT]):
     """
-    Class for function tools in Yandex Cloud ML SDK.
+    Class for function tools.
     """
     _call_impl: type[ToolCallTypeT]
 
@@ -78,6 +78,5 @@ class AsyncFunctionTools(BaseFunctionTools[AsyncToolCall]):
 class FunctionTools(BaseFunctionTools[ToolCall]):
     _call_impl = ToolCall
 
-
-FunctionToolsTypeT = TypeVar('FunctionToolsTypeT', bound=BaseFunctionTools)
 #: Type variable representing any function tools type.
+FunctionToolsTypeT = TypeVar('FunctionToolsTypeT', bound=BaseFunctionTools)
