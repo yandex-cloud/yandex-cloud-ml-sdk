@@ -7,7 +7,6 @@ T = TypeVar('T', bound=int)
 ProtoBasedEnumTypeT = TypeVar('ProtoBasedEnumTypeT', bound='ProtoBasedEnum')
 
 
-
 class EnumTypeWrapperProtocol(Protocol[T]):
     def Name(self, number: T) -> str: ...
     def Value(self, name: str) -> T: ...
@@ -59,10 +58,28 @@ class EnumWithUnknownType(EnumMeta):
     def __instancecheck__(cls, inst):
         if isinstance(inst, UnknownEnumValue):
             return inst.enum_type is cls
+
         return super().__instancecheck__(inst)
 
 
 class ProtoBasedEnum(IntEnum, metaclass=EnumWithUnknownType):
+    """
+    The ideas behind this special enums is following:
+    1) Its descentants mirrors __proto_enum_type__
+       with lack of metainformation and autocompletion for users;
+    2) Final enum is applicable for processing user's input:
+       user could pass a string, integer or enum value to our interface
+       and it will be verified and unambiguously translated into enum value,
+       which is suitable for gprc/http request using.
+    3) In case of ``__proto_enum_type__`` class will be updated in protobuf files,
+       we wants to give a way to live without an SDK upgrade to users:
+       if there are will appear a new ``ProtoEnum`` protobuf enum value,
+       users will be able to pass a string value in our interface as a workaround
+       and it will be transformed to
+       ``Enum.Unknown('new_enum_value_name', 'new_enum_value')`` value
+       which is suitable to use in our grpc/http requests.
+    """
+
     __common_prefix__: str
     __proto_enum_type__: EnumTypeWrapperProtocol
 
@@ -117,4 +134,6 @@ class ProtoBasedEnum(IntEnum, metaclass=EnumWithUnknownType):
         return UnknownEnumValue(cls, name, value)
 
 
+#: Enum type which is have a special Unknown value for values which is present
+#: in grpc api but not described in our python code
 EnumWithUnknownAlias = Union[ProtoBasedEnumTypeT, UnknownEnumValue[ProtoBasedEnumTypeT]]
