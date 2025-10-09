@@ -1,4 +1,4 @@
-# pylint: disable=protected-access,no-name-in-module
+# pylint: disable=no-name-in-module
 from __future__ import annotations
 
 from yandex.cloud.searchapi.v2.search_query_pb2 import SearchQuery as ProtoSearchQuery
