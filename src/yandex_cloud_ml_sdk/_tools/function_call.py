@@ -71,4 +71,3 @@ class FunctionCall(BaseFunctionCall):
 
 #: Type variable representing any function call type.
 FunctionCallTypeT = TypeVar('FunctionCallTypeT', bound=BaseFunctionCall)
-

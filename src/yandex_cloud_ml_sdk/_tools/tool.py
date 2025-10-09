@@ -22,7 +22,7 @@ ProtoToolTypeT = TypeVar('ProtoToolTypeT', ProtoAssistantsTool, ProtoCompletions
 class BaseTool(ProtoBased[ProtoMessageTypeT]):
     """
     Сlass for all tools.
-    
+
     This class serves as the foundation for all tool implementations that can be used
     with AI models.
     """

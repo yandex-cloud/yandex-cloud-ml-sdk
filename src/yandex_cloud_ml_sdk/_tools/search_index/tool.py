@@ -17,7 +17,7 @@ from .rephraser.model import Rephraser
 class SearchIndexTool(BaseTool[ProtoSearchIndexTool]):
     """
     Tool for working with search indexes.
-    
+
     A SearchIndexTool represents an executable tool that provides instructions on how to
     apply and interact with search indexes, as opposed to a SearchIndex which represents
     the data/resource itself — actual search index data and provides methods for managing
