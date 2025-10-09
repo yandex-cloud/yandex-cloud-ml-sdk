@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from yandex_cloud_ml_sdk._types.domain import DomainWithFunctions
-from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from .completions.function import AsyncCompletions, BaseCompletions, Completions
 from .image_generation.function import AsyncImageGeneration, BaseImageGeneration, ImageGeneration
@@ -26,7 +25,6 @@ class AsyncModels(BaseModels):
     image_generation: AsyncImageGeneration
 
 
-@doc_from(BaseModels, SDK='YCloudML')
 class Models(BaseModels):
     completions: Completions
     text_embeddings: TextEmbeddings

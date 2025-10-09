@@ -15,36 +15,77 @@ from yandex_cloud_ml_sdk._utils.coerce import coerce_tuple
 
 
 class ChatFunctionResultMessageDict(TypedDict):
+    """
+    Function call result message in chat domain format.
+
+    Used to represent the result of a function/tool call in chat conversations.
+    """
+
+    #: Role of the message (optional)
     role: NotRequired[str]
+    #: ID of the tool call this result corresponds to
     tool_call_id: Required[str]
+    #: Content/result of the function call
     content: Required[str]
 
 
 class ImageUrlDict(TypedDict):
+    """
+    Dictionary for passing image URL in multimodal messages.
+    """
+
+    #: URL of the image
     url: str
 
 
 class ImageUrlContent(TypedDict):
+    """
+    Image content type for multimodal messages.
+
+    Used to include image data in multimodal chat messages.
+    """
+
+    #: Content type identifier for images
     type: Literal['image_url']
+    #: Image URL information
     image_url: ImageUrlDict
 
 
 class TextContent(TypedDict):
+    """
+    Text content type for multimodal messages.
+
+    Used to include text data in multimodal chat messages.
+    """
+
+    #: Content type identifier for text
     type: Literal['text']
+    #: Text content
     text: str
 
 
 class MultimodalMessageDict(TypedDict):
+    """
+    Multimodal message supporting both text and image content.
+
+    Allows passing multiple content types (text and images) in a single message.
+    """
+
+    #: Role of the message (optional)
     role: NotRequired[str]
-    content: Sequence[ImageUrlDict | TextContent]
+    #: Mixed content including text and/or images
+    content: Sequence[Union[ImageUrlDict, TextContent]]
 
 
+#: Message types allowed at the ``chat.completions`` domain as an input data
 ChatCompletionsMessageType = Union[MessageType, ChatFunctionResultMessageDict, MessageInputType, MultimodalMessageDict]
+#: Data type allowed at the ``chat.completions`` domain as an input data
 ChatMessageInputType = Union[ChatCompletionsMessageType, Iterable[ChatCompletionsMessageType]]
 
 
 # pylint: disable-next=too-many-return-statements
 def message_to_json(message: ChatCompletionsMessageType, tool_name_ids: dict[str, str]) -> JsonObject | list[JsonObject]:
+    """:meta private:"""
     if isinstance(message, str):
         return {'role': 'user', 'content': message}
 

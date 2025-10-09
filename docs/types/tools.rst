@@ -22,3 +22,8 @@ Function tool
 
 .. autoclass:: yandex_cloud_ml_sdk._tools.tool.FunctionTool
    :undoc-members:
+
+Generative search tool
+----------------------
+
+.. autoclass:: yandex_cloud_ml_sdk._tools.generative_search.GenerativeSearchTool

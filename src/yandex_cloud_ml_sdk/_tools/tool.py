@@ -49,14 +49,29 @@ class BaseTool(ProtoBased[ProtoMessageTypeT]):
             hasattr(proto, 'search_index') and
             proto.HasField('search_index')  # type: ignore[arg-type]
         ):
-            # pylint: disable=import-outside-toplevel
+            # pylint: disable-next=import-outside-toplevel
             from .search_index.tool import SearchIndexTool
 
             return SearchIndexTool._from_proto(
                 proto=proto.search_index,
                 sdk=sdk
             )
-        raise NotImplementedError('tools other then search_index and function are not supported in this SDK version')
+
+        if (
+            hasattr(proto, 'gen_search') and
+            proto.HasField('gen_search')  # type: ignore[arg-type]
+        ):
+            # pylint: disable-next=import-outside-toplevel
+            from .generative_search import GenerativeSearchTool
+
+            return GenerativeSearchTool._from_proto(
+                proto=proto.gen_search,
+                sdk=sdk
+            )
+
+        raise NotImplementedError(
+            'tools other then search_index, function and gen_search are not supported in this SDK version'
+        )
 
     def _to_json(self) -> JsonObject:
         raise NotImplementedError(f'tools of type {self.__class__.__name__} are not supported in this part of the API')

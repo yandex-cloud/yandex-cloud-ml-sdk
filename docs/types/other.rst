@@ -93,6 +93,10 @@ Completions-related types
 
 .. autodata:: yandex_cloud_ml_sdk._chat.completions.config.ChatReasoningModeType
 
+.. py:class:: yandex_cloud_ml_sdk._chat.text_embeddings.config.EncodingFormatType
+
+.. autodata:: yandex_cloud_ml_sdk._chat.text_embeddings.config.EncodingFormatType
+
 .. py:class:: yandex_cloud_ml_sdk._chat.completions.config.QueryType
 
 .. py:class:: yandex_cloud_ml_sdk._models.completions.config.CompletionTool
