@@ -49,19 +49,7 @@ class BaseRuns(BaseDomain, Generic[RunTypeT]):
         timeout: float = 60,
     ) -> RunTypeT:
         """
-        Create a new run, allowing to override assistant parameters
-        for this specific run while keeping the original assistant configuration.
-
-        :param assistant: Assistant ID or instance
-        :param thread: Thread ID or instance
-        :param stream: Whether to stream the response
-        :param custom_temperature: Custom temperature value
-        :param custom_max_tokens: Custom max tokens value
-        :param custom_max_prompt_tokens: Custom max prompt tokens value
-        :param custom_prompt_truncation_strategy: Custom truncation strategy
-        :param custom_response_format: Custom response format
-        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
-            Defaults to 60 seconds.
+        :meta private
         """
         assistant_id: str
         if isinstance(assistant, str):
@@ -183,11 +171,13 @@ class BaseRuns(BaseDomain, Generic[RunTypeT]):
         timeout: float = 60
     ) -> AsyncIterator[RunTypeT]:
         """
-        List runs with pagination.
+        List runs. Returns an async iterator to retrieve all runs.
 
-        :param page_size: Number of items per page
-        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
-            Defaults to 60 seconds.
+        :param page_size: Number of items per page.
+            Larger values reduce the number of network calls but increase memory consumption per request.
+        :param timeout: The timeout, or the maximum time to wait for each network request
+            to complete in seconds. Defaults to 60 seconds. This affects the network
+            behavior but not the total time for iteration.
         """
         page_token_ = ''
         page_size_ = get_defined_value(page_size, 0)

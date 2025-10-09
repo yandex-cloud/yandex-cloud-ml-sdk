@@ -132,9 +132,9 @@ class RunResult(BaseRunResult[RunStatus, Message, ToolCallTypeT, ProtoRun]):
     @property
     def citations(self) -> tuple[Citation, ...]:
         """
-        Extract and return citations from the assistant's message if present.
+        Return citations from the assistant's message if present.
 
-        In Yandex ML SDK context, citations refer to references to external sources or documents
+        Citations refer to references to external sources or documents
         that the model used to generate its response. These typically include:
         - Source document IDs
         - Document titles or descriptions

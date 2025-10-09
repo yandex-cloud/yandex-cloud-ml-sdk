@@ -208,6 +208,16 @@ class BaseRun(BaseResource[ProtoRun], OperationInterface[RunResult[ToolCallTypeT
 class AsyncRun(AsyncOperationMixin[RunResult[AsyncToolCall], RunStatus], BaseRun[AsyncToolCall]):
     """
     Asynchronous implementation of Run operations.
+    
+    Represents a server-side Run object that has been started by an assistant
+    on a specific thread. It implements the Operation interface, allowing you to monitor
+    the Run's execution on the server, track its progress, and retrieve its results.
+    
+    The AsyncRun provides asynchronous methods to:
+    - Listen to real-time events from the running assistant
+    - Submit tool execution results back to continue the conversation
+    - Monitor the Run's status and retrieve final results
+    - Handle the complete lifecycle of an assistant conversation session
     """
     @doc_from(BaseRun._listen)
     async def listen(
@@ -237,6 +247,16 @@ class AsyncRun(AsyncOperationMixin[RunResult[AsyncToolCall], RunStatus], BaseRun
 class Run(SyncOperationMixin[RunResult[ToolCall], RunStatus], BaseRun[ToolCall]):
     """
     Synchronous implementation of Run operations.
+    
+    Represents a server-side Run object that has been started by an assistant
+    on a specific thread. It implements the Operation interface, allowing you to monitor
+    the Run's execution on the server, track its progress, and retrieve its results.
+    
+    The Run provides synchronous methods to:
+    - Listen to real-time events from the running assistant
+    - Submit tool execution results back to continue the conversation
+    - Monitor the Run's status and retrieve final results
+    - Handle the complete lifecycle of an assistant conversation session
     """
     __listen = run_sync_generator(BaseRun._listen)
     __iter__ = __listen
