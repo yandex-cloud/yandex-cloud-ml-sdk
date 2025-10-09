@@ -59,6 +59,6 @@ class DatasetValidationResult(BaseProtoResult[ValidateDatasetResponse]):
         )
 
     def raise_for_status(self) -> None:
-        """Raises a DatasetValidationError if the dataset is not valid."""
+        """Raises a DatasetValidationError if the dataset had any problems during creation and validation."""
         if not self.is_valid:
             raise DatasetValidationError(self)
