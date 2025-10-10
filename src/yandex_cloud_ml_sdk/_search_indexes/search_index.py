@@ -26,6 +26,7 @@ from yandex_cloud_ml_sdk._types.operation import AsyncOperation, Operation, Oper
 from yandex_cloud_ml_sdk._types.resource import ExpirableResource, safe_on_delete
 from yandex_cloud_ml_sdk._types.result import BaseProtoResult
 from yandex_cloud_ml_sdk._utils.coerce import ResourceType, coerce_resource_ids
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .file import SearchIndexFile
@@ -44,8 +45,9 @@ class BaseSearchIndex(
     BaseProtoResult[ProtoSearchIndex],
     ReturnsOperationMixin[OperationTypeT]
 ):
+    """This class represents a search index with associated operations."""
     @classmethod
-    def _kwargs_from_message(cls, proto: ProtoSearchIndex, sdk: BaseSDK) -> dict[str, Any]:
+    def _kwargs_from_message(cls, proto: ProtoSearchIndex, sdk: BaseSDK) -> dict[str, Any]:  # type: ignore[override]
         kwargs = super()._kwargs_from_message(proto, sdk=sdk)
         # pylint: disable=protected-access
         kwargs['index_type'] = BaseSearchIndexType._from_upper_proto(proto=proto, sdk=sdk)
@@ -62,6 +64,17 @@ class BaseSearchIndex(
         expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
         timeout: float = 60,
     ) -> Self:
+        """
+        Updates the search index with the provided parameters.
+
+        :param name: the name of the search index.
+        :param description: a description for the search index.
+        :param labels: a set of labels for the search index.
+        :param ttl_days: time-to-live in days for the search index.
+        :param expiration_policy: expiration policy for the search index.
+        :param timeout: the time to wait for the update request.
+            Defaults to 60 seconds.
+        """
         # pylint: disable=too-many-locals
         name_ = get_defined_value(name, '')
         description_ = get_defined_value(description, '')
@@ -107,6 +120,12 @@ class BaseSearchIndex(
         *,
         timeout: float = 60,
     ) -> None:
+        """
+        Deletes the search index.
+
+        :param timeout: the time to wait for the delete request.
+            Defaults to 60 seconds.
+        """
         request = DeleteSearchIndexRequest(search_index_id=self.id)
 
         async with self._client.get_service_stub(SearchIndexServiceStub, timeout=timeout) as stub:
@@ -125,6 +144,13 @@ class BaseSearchIndex(
         *,
         timeout: float = 60
     ) -> SearchIndexFile:
+        """
+        Retrieves a file associated with the search index.
+
+        :param file_id: the ID of the file to retrieve.
+        :param timeout: the time to wait for the get request.
+            Defaults to 60 seconds.
+        """
         request = GetSearchIndexFileRequest(
             file_id=file_id,
             search_index_id=self.id
@@ -154,6 +180,13 @@ class BaseSearchIndex(
         *,
         timeout: float = 60,
     ) -> OperationTypeT:
+        """
+        Adds files to the search index in a deferred manner.
+
+        :param files: the files to add to the search index.
+        :param timeout: the time to wait for the add files request.
+            Defaults to 60 seconds.
+        """
         file_ids = coerce_resource_ids(files, BaseFile)
         request = BatchCreateSearchIndexFileRequest(
             file_ids=file_ids,
@@ -182,6 +215,13 @@ class BaseSearchIndex(
         page_size: UndefinedOr[int] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[SearchIndexFile]:
+        """
+        Lists all files associated with the search index.
+
+        :param page_size: the number of files to retrieve per page.
+        :param timeout: the time to wait for the list request.
+            Defaults to 60 seconds.
+        """
         page_token_ = ''
         page_size_ = get_defined_value(page_size, 0)
 
@@ -207,24 +247,34 @@ class BaseSearchIndex(
 
                 page_token_ = response.next_page_token
 
-
 @dataclasses.dataclass(frozen=True)
 class RichSearchIndex(BaseSearchIndex[OperationTypeT]):
+    #: the ID of the folder
     folder_id: str
+    #: the new name for the search index
     name: str | None
+    #: the new description for the search index
     description: str | None
+    #: the user who created the search index
     created_by: str
+    #: the timestamp when the search index was created
     created_at: datetime
+    #: the user who last updated the search index
     updated_by: str
+    #: the timestamp when the search index was last updated
     updated_at: datetime
+    #: the expiration date and time of the search index
     expires_at: datetime
+    #: a dictionary of labels to associate with the search index
     labels: dict[str, str] | None
+    #: the type of the search index
     index_type: BaseSearchIndexType
 
 
 class AsyncSearchIndex(RichSearchIndex[AsyncOperation[SearchIndexFileTuple]]):
     _operation_impl = AsyncOperation[SearchIndexFileTuple]
 
+    @doc_from(BaseSearchIndex._update)
     async def update(
         self,
         *,
@@ -244,6 +294,7 @@ class AsyncSearchIndex(RichSearchIndex[AsyncOperation[SearchIndexFileTuple]]):
             timeout=timeout
         )
 
+    @doc_from(BaseSearchIndex._delete)
     async def delete(
         self,
         *,
@@ -251,6 +302,7 @@ class AsyncSearchIndex(RichSearchIndex[AsyncOperation[SearchIndexFileTuple]]):
     ) -> None:
         await self._delete(timeout=timeout)
 
+    @doc_from(BaseSearchIndex._get_file)
     async def get_file(
         self,
         file_id: str,
@@ -262,6 +314,7 @@ class AsyncSearchIndex(RichSearchIndex[AsyncOperation[SearchIndexFileTuple]]):
             timeout=timeout
         )
 
+    @doc_from(BaseSearchIndex._list_files)
     async def list_files(
         self,
         *,
@@ -274,6 +327,7 @@ class AsyncSearchIndex(RichSearchIndex[AsyncOperation[SearchIndexFileTuple]]):
         ):
             yield file
 
+    @doc_from(BaseSearchIndex._add_files_deferred)
     async def add_files_deferred(
         self,
         files: ResourceType[BaseFile],
@@ -295,6 +349,7 @@ class SearchIndex(RichSearchIndex[Operation[SearchIndexFileTuple]]):
     __list_files = run_sync_generator(RichSearchIndex._list_files)
     __add_files_deferred = run_sync(RichSearchIndex._add_files_deferred)
 
+    @doc_from(BaseSearchIndex._update)
     def update(
         self,
         *,
@@ -314,6 +369,7 @@ class SearchIndex(RichSearchIndex[Operation[SearchIndexFileTuple]]):
             timeout=timeout
         )
 
+    @doc_from(BaseSearchIndex._delete)
     def delete(
         self,
         *,
@@ -332,6 +388,7 @@ class SearchIndex(RichSearchIndex[Operation[SearchIndexFileTuple]]):
             timeout=timeout
         )
 
+    @doc_from(BaseSearchIndex._list_files)
     def list_files(
         self,
         *,
@@ -343,6 +400,7 @@ class SearchIndex(RichSearchIndex[Operation[SearchIndexFileTuple]]):
             timeout=timeout,
         )
 
+    @doc_from(BaseSearchIndex._add_files_deferred)
     def add_files_deferred(
         self,
         files: ResourceType[BaseFile],
