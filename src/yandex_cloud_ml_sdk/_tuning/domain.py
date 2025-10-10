@@ -25,9 +25,10 @@ logger = get_logger(__name__)
 
 class BaseTuning(BaseDomain, Generic[TuningTaskTypeT]):
     """
-    Class for model tuning operations in Yandex Cloud ML SDK.
-    This class serves as base for all model fine-tuning operations,
-    handling common tasks like dataset processing and parameter validation.
+    Class for model tuning operations.
+    
+    This class serves as the foundation for all model fine-tuning operations,
+    providing comprehensive functionality.    
     """
     _tuning_impl: type[TuningTaskTypeT]
 

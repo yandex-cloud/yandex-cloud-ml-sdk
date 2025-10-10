@@ -57,7 +57,7 @@ class TuningTaskStatusEnum(Enum):
 @dataclass(frozen=True)
 class TuningTaskInfo(BaseResource[TuningTaskProto]):
     """
-    Contains metadata and status information about a model tuning task in Yandex Cloud ML.
+    Contains metadata and status information about a model tuning task.
 
     This class represents the state and configuration of a fine-tuning operation for machine learning models.
     It tracks the task lifecycle through status updates and provides references to related resources.
