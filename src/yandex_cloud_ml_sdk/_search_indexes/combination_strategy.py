@@ -20,6 +20,7 @@ if TYPE_CHECKING:
 
 
 class BaseIndexCombinationStrategy(abc.ABC):
+    """A class for index combination strategies."""
     @classmethod
     @abc.abstractmethod
     def _from_proto(cls, proto: Any, sdk: BaseSDK) -> BaseIndexCombinationStrategy:
@@ -45,19 +46,26 @@ class BaseIndexCombinationStrategy(abc.ABC):
             'combination strategies other then Mean and RRF are not supported in this SDK version'
         )
 
-
 _orig = ProtoMeanCombinationStrategy.MeanEvaluationTechnique
 
 class MeanIndexEvaluationTechnique(ProtoEnumBase, enum.IntEnum):
+    """A class with enumeration for mean index evaluation techniques."""
+    #: an unspecified mean evaluation technique
     MEAN_EVALUATION_TECHNIQUE_UNSPECIFIED = _orig.MEAN_EVALUATION_TECHNIQUE_UNSPECIFIED
+    #: the arithmetic mean, calculated as the sum of values divided by the count of values
     ARITHMETIC = _orig.ARITHMETIC
+    #: the geometric mean, calculated as the n-th root of the product of n values
     GEOMETRIC = _orig.GEOMETRIC
+    #: the harmonic mean, calculated as the reciprocal of the arithmetic mean of the reciprocals of the values
     HARMONIC = _orig.HARMONIC
 
 
 @dataclass(frozen=True)
 class MeanIndexCombinationStrategy(BaseIndexCombinationStrategy):
+    """A class which contains mean index combination strategy with evaluation technique and weights."""
+    #: the technique used for mean evaluation
     mean_evaluation_technique: MeanIndexEvaluationTechnique | None
+    #: the weights associated with the evaluation technique
     weights: Collection[float] | None
 
     @classmethod
@@ -82,6 +90,8 @@ class MeanIndexCombinationStrategy(BaseIndexCombinationStrategy):
 
 @dataclass(frozen=True)
 class ReciprocalRankFusionIndexCombinationStrategy(BaseIndexCombinationStrategy):
+    """A class which describes reciprocal rank fusion index combination strategy. Reciprocal rank fusion is a method for combining multiple result sets with different relevance indicators into a single result set."""
+    #: the parameter k for RRFscore. Default is 60.
     k: int | None = None
 
     @classmethod
