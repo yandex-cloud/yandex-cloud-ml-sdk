@@ -26,9 +26,9 @@ logger = get_logger(__name__)
 class BaseTuning(BaseDomain, Generic[TuningTaskTypeT]):
     """
     Class for model tuning operations.
-    
+
     This class serves as the foundation for all model fine-tuning operations,
-    providing comprehensive functionality.    
+    providing comprehensive functionality.
     """
     _tuning_impl: type[TuningTaskTypeT]
 
