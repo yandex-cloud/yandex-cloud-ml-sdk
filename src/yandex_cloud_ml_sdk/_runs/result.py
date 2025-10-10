@@ -31,8 +31,11 @@ class BaseRunResult(
     HaveToolCalls[ToolCallTypeT],
     Generic[StatusTypeT, MessageTypeT, ToolCallTypeT, ProtoMessageTypeT_contra],
 ):
+    #: Run status
     status: StatusTypeT
+    #: Error message if run failed
     error: str | None
+    #: List of tool calls if any
     tool_calls: ToolCallList[ProtoAssistantToolCallList, ToolCallTypeT] | None
     _message: MessageTypeT | None
 
@@ -55,18 +58,27 @@ class BaseRunResult(
 
     @property
     def message(self) -> MessageTypeT | None:
+        """
+        Get the message result of the run. If run has failed this property raise error value.
+        """
         if self.is_failed:
             raise ValueError("run is failed and don't have a message result")
         return self._message
 
     @property
     def text(self) -> str | None:
+        """
+        Get the text content of the message if available, otherwise return nothing.
+        """
         if not self.message:
             return None
         return self.message.text
 
     @property
     def parts(self) -> tuple[Any, ...]:
+        """
+        Get message parts if available, otherwise return nothing.
+        """
         if not self.message:
             return ()
         return self.message.parts
@@ -74,6 +86,7 @@ class BaseRunResult(
 
 @dataclasses.dataclass(frozen=True)
 class RunResult(BaseRunResult[RunStatus, Message, ToolCallTypeT, ProtoRun]):
+    #: Token usage statistics
     usage: Usage | None
 
     @classmethod
@@ -118,6 +131,16 @@ class RunResult(BaseRunResult[RunStatus, Message, ToolCallTypeT, ProtoRun]):
 
     @property
     def citations(self) -> tuple[Citation, ...]:
+        """
+        Return citations from the assistant's message if present.
+
+        Citations refer to references to external sources or documents
+        that the model used to generate its response. These typically include:
+        - Source document IDs
+        - Document titles or descriptions
+        - Relevant snippets or passages
+        Returns None if no citations are present in the message.
+        """
         if not self.message:
             return ()
         return self.message.citations
@@ -125,6 +148,15 @@ class RunResult(BaseRunResult[RunStatus, Message, ToolCallTypeT, ProtoRun]):
 
 @dataclasses.dataclass(frozen=True)
 class RunStreamEvent(BaseRunResult[StreamEvent, BaseMessage[ProtoStreamEvent], ToolCallTypeT, ProtoStreamEvent]):
+    """
+    Represents a streaming event in a run execution process.
+
+    This class encapsulates all possible events that can occur during streaming execution
+    of a run, including:
+    - Partial and completed messages
+    - Errors that may occur during execution
+    - Tool calls initiated by the model
+    """
     @classmethod
     def _from_proto(cls, *, proto: ProtoStreamEvent, sdk: BaseSDK) -> RunStreamEvent:
         message: BaseMessage | None = None
