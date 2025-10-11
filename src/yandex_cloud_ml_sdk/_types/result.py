@@ -9,13 +9,13 @@ __all__ = ['ProtoMessage', 'BaseProtoResult', 'SDKType', 'BaseResult', 'BaseJson
 
 class BaseResult:
     """
-    Class for all SDK result objects.
+    Class for all result objects.
 
     This is the foundation class for all result types.
     It serves as a common interface for different types of results returned by
-    various SDK operations.
+    various operations.
     """
-    pass
+    ...
 
 
 class BaseProtoResult(BaseResult, ProtoBased[ProtoMessageTypeT_contra]):
@@ -28,7 +28,7 @@ class BaseProtoResult(BaseResult, ProtoBased[ProtoMessageTypeT_contra]):
 
     :param ProtoMessageTypeT_contra: The Protocol Buffers message type
     """
-    pass
+    ...
 
 
 class BaseJsonResult(BaseResult, JsonBased):
@@ -38,4 +38,4 @@ class BaseJsonResult(BaseResult, JsonBased):
     This class combines the base result functionality with JSON support,
     providing a foundation for results that handle JSON data structures.
     """
-    pass
+    ...

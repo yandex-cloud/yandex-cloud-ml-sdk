@@ -78,7 +78,7 @@ class EmptyProtoFormat(TypedDict):
     """
     Empty protocol format for responses with no specific format requirements.
     """
-    pass
+    ...
 
 
 class JsonSchemaResponseFormat(TypedDict):

@@ -176,21 +176,21 @@ class OperationInterface(abc.ABC, Generic[AnyResultTypeT_co, OperationStatusType
         """
         Get the current status of the operation.
         """
-        pass
+        ...
 
     @abc.abstractmethod
     async def _get_result(self, *, timeout: float = 60) -> AnyResultTypeT_co:
         """
         Get the result of the completed operation.
         """
-        pass
+        ...
 
     @abc.abstractmethod
     async def _cancel(self, *, timeout: float = 60) -> None:
         """
         Cancel the running operation.
         """
-        pass
+        ...
 
     async def _sleep_impl(self, delay: float) -> None:
         # method is created for patching it in a tests
@@ -467,7 +467,7 @@ class AsyncOperation(AsyncOperationMixin[ResultTypeT_co, OperationStatus], BaseO
     Combines AsyncOperationMixin and BaseOperation to provide a complete
     async operation implementation with public async interface.
     """
-    pass
+    ...
 
 
 class SyncOperationMixin(OperationInterface[AnyResultTypeT_co, OperationStatusTypeT]):
@@ -524,7 +524,7 @@ class Operation(SyncOperationMixin[ResultTypeT_co, OperationStatus], BaseOperati
     Combines SyncOperationMixin and BaseOperation to provide a complete
     synchronous operation implementation with public sync interface.
     """
-    pass
+    ...
 
 
 OperationTypeT = TypeVar('OperationTypeT', bound=BaseOperation)
