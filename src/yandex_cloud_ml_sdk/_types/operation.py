@@ -15,7 +15,7 @@ from yandex.cloud.operation.operation_service_pb2 import CancelOperationRequest,
 from yandex.cloud.operation.operation_service_pb2_grpc import OperationServiceStub
 
 from yandex_cloud_ml_sdk._logging import TRACE, get_logger
-# from yandex_cloud_ml_sdk._utils.doc import doc_from
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync_impl
 from yandex_cloud_ml_sdk.exceptions import RunError, WrongAsyncOperationStatusError
 
@@ -26,7 +26,10 @@ if TYPE_CHECKING:
 
 logger = get_logger(__name__)
 
+#: Variable for any operation result type.
 AnyResultTypeT_co = TypeVar('AnyResultTypeT_co', covariant=True)
+
+#: Variable for concrete operation result type.
 ResultTypeT_co = TypeVar('ResultTypeT_co', covariant=True)
 
 
@@ -427,19 +430,19 @@ class AsyncOperationMixin(OperationInterface[AnyResultTypeT_co, OperationStatusT
     Exposes the protected methods of OperationInterface as public async methods.
     """
 
-    # @doc_from(OperationInterface._get_status)
+    @doc_from(OperationInterface._get_status)
     async def get_status(self, *, timeout: float = 60) -> OperationStatusTypeT:
         return await self._get_status(timeout=timeout)
 
-    # @doc_from(OperationInterface._get_result)
+    @doc_from(OperationInterface._get_result)
     async def get_result(self, *, timeout: float = 60) -> AnyResultTypeT_co:
         return await self._get_result(timeout=timeout)
 
-    # @doc_from(OperationInterface._cancel)
+    @doc_from(OperationInterface._cancel)
     async def cancel(self, *, timeout: float = 60) -> None:
         await self._cancel(timeout=timeout)
 
-    # @doc_from(OperationInterface._wait)
+    @doc_from(OperationInterface._wait)
     async def wait(
         self,
         *,
@@ -475,28 +478,28 @@ class SyncOperationMixin(OperationInterface[AnyResultTypeT_co, OperationStatusTy
     using run_sync_impl to execute async operations in a synchronous context.
     """
 
-    # @doc_from(OperationInterface._get_status)
+    @doc_from(OperationInterface._get_status)
     def get_status(self, *, timeout: float = 60) -> OperationStatusTypeT:
         return run_sync_impl(
             self._get_status(timeout=timeout),
             self._sdk
         )
 
-    # @doc_from(OperationInterface._get_result)
+    @doc_from(OperationInterface._get_result)
     def get_result(self, *, timeout: float = 60) -> AnyResultTypeT_co:
         return run_sync_impl(
             self._get_result(timeout=timeout),
             self._sdk,
         )
 
-    # @doc_from(OperationInterface._cancel)
+    @doc_from(OperationInterface._cancel)
     def cancel(self, *, timeout: float = 60) -> None:
         run_sync_impl(
             self._cancel(timeout=timeout),
             self._sdk
         )
 
-    # @doc_from(OperationInterface._wait)
+    @doc_from(OperationInterface._wait)
     def wait(
         self,
         *,

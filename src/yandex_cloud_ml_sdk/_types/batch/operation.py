@@ -70,7 +70,8 @@ class BaseBatchTaskOperation(OperationInterface[ResultTypeT_co, BatchTaskStatus]
     async def _delete(self, *, timeout: float = 60) -> None:
         """Delete batch task from tasks history.
 
-        :param timeout: Timeout, or the maximum time to wait for the request to complete in seconds.
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
         """
 
         logger.debug('Going to delete batch task %s', self.task_id)
@@ -84,7 +85,8 @@ class BaseBatchTaskOperation(OperationInterface[ResultTypeT_co, BatchTaskStatus]
     async def _get_task_info(self, *, timeout: float = 60) -> BatchTaskInfo:
         """Get detailed batch task info.
 
-        :param timeout: Timeout, or the maximum time to wait for the request to complete in seconds.
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
         :return: task info object with a lot of info fields.
         """
 
