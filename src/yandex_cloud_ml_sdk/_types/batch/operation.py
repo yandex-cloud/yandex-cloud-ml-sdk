@@ -15,7 +15,7 @@ from yandex_cloud_ml_sdk._logging import TRACE, get_logger
 from yandex_cloud_ml_sdk._types.operation import (
     AsyncOperationMixin, OperationInterface, ResultTypeT_co, SyncOperationMixin
 )
-# from yandex_cloud_ml_sdk._utils.doc import doc_from
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
 from .status import BatchTaskStatus
@@ -29,6 +29,14 @@ logger = get_logger(__name__)
 
 
 class BaseBatchTaskOperation(OperationInterface[ResultTypeT_co, BatchTaskStatus]):
+    """Class for batch task operations.
+    
+    This class provides the core functionality for managing batch inference tasks,
+    including status monitoring, task cancellation, deletion, and result retrieval.
+    
+    The class implements the OperationInterface for batch tasks with a custom
+    polling timeout of 72 hours, suitable for long-running batch inference operations.
+    """
     _result_type: type[ResultTypeT_co]
     _custom_default_poll_timeout = 60 * 60 * 72  # 72h
 
@@ -117,32 +125,33 @@ class BaseBatchTaskOperation(OperationInterface[ResultTypeT_co, BatchTaskStatus]
             f'<{self._id}>'
         )
 
-
+@doc_from(BaseBatchTaskOperation)
 class AsyncBatchTaskOperation(AsyncOperationMixin[AsyncDataset, BatchTaskStatus], BaseBatchTaskOperation[AsyncDataset]):
     _result_type = AsyncDataset
 
-    # @doc_from(BaseBatchTaskOperation._delete)
+    @doc_from(BaseBatchTaskOperation._delete)
     async def delete(self, *, timeout: float = 60) -> None:
         return await self._delete(timeout=timeout)
 
-    # @doc_from(BaseBatchTaskOperation._get_task_info)
+    @doc_from(BaseBatchTaskOperation._get_task_info)
     async def get_task_info(self, *, timeout: float = 60) -> BatchTaskInfo:
         return await self._get_task_info(timeout=timeout)
 
-
+@doc_from(BaseBatchTaskOperation)
 class BatchTaskOperation(SyncOperationMixin[Dataset, BatchTaskStatus], BaseBatchTaskOperation[Dataset]):
     _result_type = Dataset
 
     __delete = run_sync(BaseBatchTaskOperation._delete)
     __get_task_info = run_sync(BaseBatchTaskOperation._get_task_info)
 
-    # @doc_from(BaseBatchTaskOperation._delete)
+    @doc_from(BaseBatchTaskOperation._delete)
     def delete(self, *, timeout: float = 60) -> None:
         return self.__delete(timeout=timeout)
 
-    # @doc_from(BaseBatchTaskOperation._get_task_info)
+    @doc_from(BaseBatchTaskOperation._get_task_info)
     def get_task_info(self, *, timeout: float = 60) -> BatchTaskInfo:
         return self.__get_task_info(timeout=timeout)
 
 
+#: Variable for batch task operation types.
 BatchTaskOperationTypeT = TypeVar('BatchTaskOperationTypeT', bound=BaseBatchTaskOperation)
