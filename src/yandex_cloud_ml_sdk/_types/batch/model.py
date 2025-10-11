@@ -16,7 +16,7 @@ from yandex_cloud_ml_sdk._types.model import BaseModel, ConfigTypeT, ResultTypeT
 
 from .domain import AsyncBatchSubdomain, BatchSubdomain, BatchSubdomainTypeT
 
-# from yandex_cloud_ml_sdk._utils.doc import doc_from
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 
 #: Type alias for batch service stub used in batch processing operations
@@ -70,7 +70,7 @@ class BaseModelBatchMixin(
 
 
 # pylint: disable=abstract-method
-# @doc_from(BaseModelBatchMixin)
+@doc_from(BaseModelBatchMixin)
 class AsyncModelBatchMixin(
     BaseModelBatchMixin[ConfigTypeT, ResultTypeT, AsyncBatchSubdomain],
     Generic[ConfigTypeT, ResultTypeT],
@@ -79,7 +79,7 @@ class AsyncModelBatchMixin(
 
 
 # pylint: disable=abstract-method
-# @doc_from(BaseModelBatchMixin)
+@doc_from(BaseModelBatchMixin)
 class ModelBatchMixin(
     BaseModelBatchMixin[ConfigTypeT, ResultTypeT, BatchSubdomain],
     Generic[ConfigTypeT, ResultTypeT],
