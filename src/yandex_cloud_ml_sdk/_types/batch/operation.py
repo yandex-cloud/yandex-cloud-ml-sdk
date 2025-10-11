@@ -30,10 +30,10 @@ logger = get_logger(__name__)
 
 class BaseBatchTaskOperation(OperationInterface[ResultTypeT_co, BatchTaskStatus]):
     """Class for batch task operations.
-    
+
     This class provides the core functionality for managing batch inference tasks,
     including status monitoring, task cancellation, deletion, and result retrieval.
-    
+
     The class implements the OperationInterface for batch tasks with a custom
     polling timeout of 72 hours, suitable for long-running batch inference operations.
     """
