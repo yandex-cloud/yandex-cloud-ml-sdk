@@ -33,9 +33,7 @@ ExpirationProtoTypeT_contra = TypeVar(
 class ExpirationPolicy(ProtoEnumBase, Enum):
     """
     Enumeration of available expiration policies.
-
-    This enum defines the different ways that resources can expire
-    in the Yandex Cloud ML SDK.
+    This enum defines the different ways that resources can expire.
     """
     #: Resource expires at a fixed time after creation.
     STATIC = ExpirationConfigProto.STATIC
@@ -56,9 +54,8 @@ ExpirationPolicyAlias = Union[
 class ExpirationConfig:
     """
     Configuration for resource expiration settings.
-
     This class encapsulates the configuration needed to set up expiration
-    for various resources in the Yandex Cloud ML SDK.
+    for various resources.
     """
     #: Time-to-live in days. If None, no TTL is set.
     ttl_days: int | None = None

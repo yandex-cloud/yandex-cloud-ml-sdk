@@ -20,13 +20,12 @@ ModelTypeT = TypeVar('ModelTypeT', bound=BaseModel)
 
 class BaseYandexModel(PydanticModel, Generic[ModelTypeT]):
     """
-    Class for Yandex Cloud ML SDK models with Langchain integration.
+    Class for models with Langchain integration.
 
     This class serves as a foundation for creating Langchain-compatible wrappers
-    around Yandex Cloud ML SDK models. It combines Pydantic's validation
-    capabilities with generic typing support.
+    around models. It combines Pydantic's validation capabilities with generic typing support.
 
-    :param ycmlsdk_model: The underlying Yandex Cloud ML SDK model instance.
+    :param ycmlsdk_model: The underlying model instance.
     :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
     """

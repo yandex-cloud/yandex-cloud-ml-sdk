@@ -13,9 +13,7 @@ if TYPE_CHECKING:
 
 class BaseDomain:
     """
-    Domain class for Yandex Cloud ML SDK.
-
-    This class provides the foundational structure for domain-specific functionality
+    Domain class — provides the foundational structure for domain-specific functionality
     within the SDK, maintaining references to the SDK instance and providing access
     to the underlying client and folder configuration.
 

@@ -8,7 +8,7 @@ from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 
 from yandex_cloud_ml_sdk._logging import get_logger
 from yandex_cloud_ml_sdk._types.datasets import DatasetType, coerce_dataset_id
-# from yandex_cloud_ml_sdk._utils.doc import doc_from
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
 from .operation import AsyncBatchTaskOperation, BatchTaskOperation, BatchTaskOperationTypeT
@@ -85,22 +85,22 @@ class BaseBatchSubdomain(Generic[BatchTaskOperationTypeT], metaclass=abc.ABCMeta
         )
 
 
-# @doc_from(BaseBatchSubdomain)
+@doc_from(BaseBatchSubdomain)
 class AsyncBatchSubdomain(BaseBatchSubdomain[AsyncBatchTaskOperation]):
     _operation_impl = AsyncBatchTaskOperation
 
-    # @doc_from(BaseBatchSubdomain._run_deferred)
+    @doc_from(BaseBatchSubdomain._run_deferred)
     async def run_deferred(self, dataset: DatasetType, *, timeout: float = 60) -> AsyncBatchTaskOperation:
         return await self._run_deferred(dataset=dataset, timeout=timeout)
 
 
-# @doc_from(BaseBatchSubdomain)
+@doc_from(BaseBatchSubdomain)
 class BatchSubdomain(BaseBatchSubdomain[BatchTaskOperation]):
     _operation_impl = BatchTaskOperation
 
     __run_deferred = run_sync(BaseBatchSubdomain[BatchTaskOperation]._run_deferred)
 
-    # @doc_from(BaseBatchSubdomain._run_deferred)
+    @doc_from(BaseBatchSubdomain._run_deferred)
     def run_deferred(self, dataset: DatasetType, *, timeout: float = 60) -> BatchTaskOperation:
         return cast(
             BatchTaskOperation,

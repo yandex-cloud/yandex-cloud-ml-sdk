@@ -23,9 +23,7 @@ if TYPE_CHECKING:
 @dataclasses.dataclass(frozen=True)
 class BaseResource(BaseProtoResult[ProtoMessageTypeT_contra]):
     """
-    Resource class for Yandex Cloud ML SDK.
-
-    This class provides common functionality for all cloud resources,
+    Resource class provides common functionality for all cloud resources,
     including serialization from protobuf messages and basic resource management.
     """
     #: Unique identifier of the resource

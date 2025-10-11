@@ -30,9 +30,7 @@ TuningParamsTypeT = TypeVar('TuningParamsTypeT', bound=BaseTuningParams)
 
 class BaseModel(Generic[ConfigTypeT, ResultTypeT], metaclass=abc.ABCMeta):
     """
-    Model class for Yandex Cloud ML SDK.
-
-    This class provides a foundation for all model types in the SDK,
+    Model class provides a foundation for all model types in the SDK,
     handling common functionality like configuration management and SDK integration.
 
     :param ConfigTypeT: Type parameter for model configuration class.

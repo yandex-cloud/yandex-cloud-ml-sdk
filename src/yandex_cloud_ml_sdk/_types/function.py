@@ -12,9 +12,7 @@ if TYPE_CHECKING:
 
 class BaseFunction(abc.ABC):
     """
-    Class for all function types in the Yandex Cloud ML SDK.
-
-    This class provides the foundation for implementing various function types
+    Class for all function types provides the foundation for implementing various function types
     that operate within the context of a domain and SDK instance.
 
     :param name: The name of the function.

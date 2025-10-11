@@ -11,7 +11,7 @@ class BaseResult:
     """
     Class for all SDK result objects.
 
-    This is the foundation class for all result types in the Yandex Cloud ML SDK.
+    This is the foundation class for all result types.
     It serves as a common interface for different types of results returned by
     various SDK operations.
     """
