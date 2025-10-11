@@ -13,11 +13,9 @@ from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_servic
 )
 
 from yandex_cloud_ml_sdk._types.model import BaseModel, ConfigTypeT, ResultTypeT
-
-from .domain import AsyncBatchSubdomain, BatchSubdomain, BatchSubdomainTypeT
-
 from yandex_cloud_ml_sdk._utils.doc import doc_from
 
+from .domain import AsyncBatchSubdomain, BatchSubdomain, BatchSubdomainTypeT
 
 #: Type alias for batch service stub used in batch processing operations
 BatchStubType: TypeAlias = TextGenerationBatchServiceStub
