@@ -17,7 +17,7 @@ from yandex.cloud.operation.operation_service_pb2_grpc import OperationServiceSt
 from yandex_cloud_ml_sdk._logging import TRACE, get_logger
 from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync_impl
-from yandex_cloud_ml_sdk.exceptions import RunError, WrongAsyncOperationStatusError
+from yandex_cloud_ml_sdk.exceptions import RunError
 
 from .proto import ProtoBasedType
 
@@ -385,10 +385,12 @@ class BaseOperation(Generic[ResultTypeT_co], OperationInterface[ResultTypeT_co, 
             raise RunError.from_proro_status(status.error, operation_id=self.id)
 
         if status.is_running:
+            from yandex_cloud_ml_sdk.exceptions import WrongAsyncOperationStatusError
             raise WrongAsyncOperationStatusError(
                 f"{self} is running and therefore can't return a result"
             )
 
+        from yandex_cloud_ml_sdk.exceptions import WrongAsyncOperationStatusError
         raise WrongAsyncOperationStatusError(
             f"{self} is done but response have result neither error fields set"
         )
