@@ -23,7 +23,7 @@ from yandex_cloud_ml_sdk._types.operation import (
 )
 from yandex_cloud_ml_sdk._types.resource import BaseResource
 from yandex_cloud_ml_sdk._utils.sync import run_sync
-from yandex_cloud_ml_sdk.exceptions import RunError
+from yandex_cloud_ml_sdk.exceptions import RunError, WrongAsyncOperationStatusError
 
 if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
@@ -220,7 +220,6 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co, TuningTaskStatus])
             status = await self._get_task_status()
 
         if not status:
-            from yandex_cloud_ml_sdk.exceptions import WrongAsyncOperationStatusError
             raise WrongAsyncOperationStatusError(
                 f'failed to get status for tuning task with {self._task_id=} and {self._operation_id=}'
             )
@@ -233,7 +232,6 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co, TuningTaskStatus])
         if status.is_succeeded:
             info = await self._get_task_info(timeout=timeout)
             if not info or not info.target_model_uri:
-                from yandex_cloud_ml_sdk.exceptions import WrongAsyncOperationStatusError
                 raise WrongAsyncOperationStatusError(
                     f"tuning task {self._task_id} have COMPLETED status but empty target_model_uri"
                 )
@@ -248,12 +246,10 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co, TuningTaskStatus])
             raise RunError.from_proro_status(status.error, operation_id=self.id)
 
         if status.is_running:
-            from yandex_cloud_ml_sdk.exceptions import WrongAsyncOperationStatusError
             raise WrongAsyncOperationStatusError(
                 f"tuning task {self.id} is running and therefore can't return a result"
             )
 
-        from yandex_cloud_ml_sdk.exceptions import WrongAsyncOperationStatusError
         raise WrongAsyncOperationStatusError(
             f"tuning task {self.id} is done but response have result neither error fields set"
         )
@@ -266,7 +262,6 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co, TuningTaskStatus])
         logger.debug('Cancelling %s', self)
         operation_id = await self._get_operation_id(timeout=timeout)
         if not operation_id:
-            from yandex_cloud_ml_sdk.exceptions import WrongAsyncOperationStatusError
             raise WrongAsyncOperationStatusError(
                 f"failed to cancel tuning task {self.id} because "
                 "it already gone from operations storage (few weeks)"
