@@ -36,10 +36,11 @@ ResultTypeT_co = TypeVar('ResultTypeT_co', covariant=True)
 # NB: it couldn't be ABC because it descendants can't inherit from ABC and Enum at the same time
 class BaseOperationStatus:
     """
-    Class for operation status.
+    Class for operation status management.
 
-    Provides a common interface for checking operation status states.
-    Cannot be an ABC because descendants can't inherit from ABC and Enum at the same time.
+    Represents common interface for checking operation status states and lifecycle management.
+    This class defines the contract for operation status implementations, allowing
+    clients to uniformly check whether operations are running, completed successfully, or failed.
     """
 
     @property
@@ -112,18 +113,18 @@ class OperationStatus(BaseOperationStatus):
     metadata: Any | None = field(repr=False)
 
     @property
-    # @doc_from(BaseOperationStatus.is_running)
+    @doc_from(BaseOperationStatus.is_running)
     def is_running(self) -> bool:
         return not self.done
 
     @property
-    # @doc_from(BaseOperationStatus.is_succeeded)
+    @doc_from(BaseOperationStatus.is_succeeded)
     def is_succeeded(self) -> bool:
         # NB: when failed, there is non-None response, but with error set
         return self.done and bool(self.response) and not self.is_failed
 
     @property
-    # @doc_from(BaseOperationStatus.is_failed)
+    @doc_from(BaseOperationStatus.is_failed)
     def is_failed(self) -> bool:
         # NB: when succeeded, there non-None error, but with code==0
         return bool(self.done and self.error and self.error.code > 0)

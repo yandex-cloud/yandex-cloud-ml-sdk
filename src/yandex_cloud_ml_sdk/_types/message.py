@@ -11,7 +11,7 @@ class TextMessage:
     """
     Immutable text message representation.
 
-    A frozen dataclass that represents a text message with a role and content.
+    Class represents a text message with a role and content.
     This is the primary message type used throughout the SDK.
     """
     #: The role of the message sender (e.g., 'user', 'assistant', 'system')
