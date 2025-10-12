@@ -36,7 +36,7 @@ class RunError(YCloudMLError):
         return message
 
     @classmethod
-    def from_proro_status(cls, status: OperationErrorInfo, operation_id: str):
+    def from_proro_status(cls, status: 'OperationErrorInfo', operation_id: str):
         return cls(
             code=status.code,
             message=status.message,
