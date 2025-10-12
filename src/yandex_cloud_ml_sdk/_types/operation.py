@@ -113,7 +113,7 @@ class OperationStatus(BaseOperationStatus):
     metadata: Any | None = field(repr=False)
 
     @property
-    @doc_from(BaseOperationStatus.is_running)
+    # @doc_from(BaseOperationStatus.is_running)
     def is_running(self) -> bool:
         return not self.done
 
