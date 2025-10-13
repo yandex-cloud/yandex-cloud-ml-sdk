@@ -1,14 +1,17 @@
 from __future__ import annotations
 
-from typing import Callable, Union
+from typing import Callable, TypeVar, Union
 
-from typing_extensions import TypeAlias
+from typing_extensions import ParamSpec, TypeAlias
 
-DocSourceType: TypeAlias = Union[type, Callable]
+P = ParamSpec('P')
+T = TypeVar('T')
+DocOutputType: TypeAlias = Callable[P, T]
+DocSourceType: TypeAlias = Union[DocOutputType, property]
 
 
-def doc_from(source: DocSourceType, **kwargs) -> Callable[[DocSourceType], DocSourceType]:
-    def decorator(destination: DocSourceType) -> DocSourceType:
+def doc_from(source: DocSourceType, **kwargs) -> Callable[[DocOutputType[P, T]], DocOutputType[P, T]]:
+    def decorator(destination: DocOutputType[P, T]) -> DocOutputType[P, T]:
         doc = source.__doc__
 
         assert doc, 'source docstring cannot be empty'
