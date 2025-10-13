@@ -118,7 +118,7 @@ class OperationStatus(BaseOperationStatus):
         return not self.done
 
     @property
-    # @doc_from(BaseOperationStatus.is_succeeded)
+    @doc_from(BaseOperationStatus.is_succeeded)
     def is_succeeded(self) -> bool:
         # NB: when failed, there is non-None response, but with error set
         return self.done and bool(self.response) and not self.is_failed
