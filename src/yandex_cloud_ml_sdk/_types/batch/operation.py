@@ -29,6 +29,14 @@ logger = get_logger(__name__)
 
 
 class BaseBatchTaskOperation(OperationInterface[ResultTypeT_co, BatchTaskStatus]):
+    """Class for batch task operations.
+
+    This class provides the core functionality for managing batch inference tasks,
+    including status monitoring, task cancellation, deletion, and result retrieval.
+
+    The class implements the OperationInterface for batch tasks with a custom
+    polling timeout of 72 hours, suitable for long-running batch inference operations.
+    """
     _result_type: type[ResultTypeT_co]
     _custom_default_poll_timeout = 60 * 60 * 72  # 72h
 
@@ -62,7 +70,8 @@ class BaseBatchTaskOperation(OperationInterface[ResultTypeT_co, BatchTaskStatus]
     async def _delete(self, *, timeout: float = 60) -> None:
         """Delete batch task from tasks history.
 
-        :param timeout: Timeout, or the maximum time to wait for the request to complete in seconds.
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
         """
 
         logger.debug('Going to delete batch task %s', self.task_id)
@@ -76,7 +85,8 @@ class BaseBatchTaskOperation(OperationInterface[ResultTypeT_co, BatchTaskStatus]
     async def _get_task_info(self, *, timeout: float = 60) -> BatchTaskInfo:
         """Get detailed batch task info.
 
-        :param timeout: Timeout, or the maximum time to wait for the request to complete in seconds.
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
         :return: task info object with a lot of info fields.
         """
 
@@ -117,7 +127,7 @@ class BaseBatchTaskOperation(OperationInterface[ResultTypeT_co, BatchTaskStatus]
             f'<{self._id}>'
         )
 
-
+@doc_from(BaseBatchTaskOperation)
 class AsyncBatchTaskOperation(AsyncOperationMixin[AsyncDataset, BatchTaskStatus], BaseBatchTaskOperation[AsyncDataset]):
     _result_type = AsyncDataset
 
@@ -129,7 +139,7 @@ class AsyncBatchTaskOperation(AsyncOperationMixin[AsyncDataset, BatchTaskStatus]
     async def get_task_info(self, *, timeout: float = 60) -> BatchTaskInfo:
         return await self._get_task_info(timeout=timeout)
 
-
+@doc_from(BaseBatchTaskOperation)
 class BatchTaskOperation(SyncOperationMixin[Dataset, BatchTaskStatus], BaseBatchTaskOperation[Dataset]):
     _result_type = Dataset
 
@@ -145,4 +155,5 @@ class BatchTaskOperation(SyncOperationMixin[Dataset, BatchTaskStatus], BaseBatch
         return self.__get_task_info(timeout=timeout)
 
 
+#: Variable for batch task operation types.
 BatchTaskOperationTypeT = TypeVar('BatchTaskOperationTypeT', bound=BaseBatchTaskOperation)
