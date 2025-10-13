@@ -127,7 +127,7 @@ class BaseBatch(BaseDomain, Generic[BatchTaskOperationTypeT]):
 
         page_size_ = get_defined_value(page_size, 0)
         page_token = ''
-        status_: ProtoEnumCoercible[BatchTaskStatus] = get_defined_value(status, 0)
+        status_: ProtoEnumCoercible[BatchTaskStatus] = get_defined_value(status, 0)  # type: ignore[assignment]
         status_int = BatchTaskStatus._coerce(status_)
 
         async with self._client.get_service_stub(
