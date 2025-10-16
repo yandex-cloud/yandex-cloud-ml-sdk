@@ -1,4 +1,4 @@
-# pylint: disable=no-name-in-module
+# pylint: disable=no-name-in-module,invalid-enum-extension
 from __future__ import annotations
 
 from yandex.cloud.searchapi.v2.img_search_service_pb2 import ImageSpec as ProtoImageSpec

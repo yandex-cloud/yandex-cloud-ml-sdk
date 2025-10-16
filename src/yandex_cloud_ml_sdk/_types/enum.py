@@ -3,6 +3,8 @@ from __future__ import annotations
 from enum import EnumMeta, IntEnum
 from typing import Generic, Protocol, TypeVar, Union
 
+from .misc import Undefined
+
 T = TypeVar('T', bound=int)
 ProtoBasedEnumTypeT = TypeVar('ProtoBasedEnumTypeT', bound='ProtoBasedEnum')
 
@@ -15,7 +17,10 @@ class EnumTypeWrapperProtocol(Protocol[T]):
     def values(self) -> list[T]: ...
 
 
-class UnknownEnumValue(Generic[ProtoBasedEnumTypeT]):
+class UnknownEnumValue(Generic[ProtoBasedEnumTypeT], int):
+    def __new__(cls, enum_type: type[ProtoBasedEnumTypeT], name: str, value: int):
+        return super().__new__(cls, value)
+
     def __init__(self, enum_type: type[ProtoBasedEnumTypeT], name: str, value: int):
         self._enum_type = enum_type
         self._name = name
@@ -82,11 +87,12 @@ class ProtoBasedEnum(IntEnum, metaclass=EnumWithUnknownType):
 
     __common_prefix__: str
     __proto_enum_type__: EnumTypeWrapperProtocol
+    __unspecified_name__: str = 'UNSPECIFIED'
 
     @classmethod
     def _coerce(
         cls: type[ProtoBasedEnumTypeT],
-        value: str | ProtoBasedEnumTypeT | int
+        value: EnumWithUnknownInput[ProtoBasedEnumTypeT],
     ) -> EnumWithUnknownAlias[ProtoBasedEnumTypeT]:
         common_prefix = cls.__common_prefix__
         proto_enum_type: EnumTypeWrapperProtocol = cls.__proto_enum_type__
@@ -125,7 +131,9 @@ class ProtoBasedEnum(IntEnum, metaclass=EnumWithUnknownType):
                 return cls.Unknown(short_name, proto_value)
             except ValueError:
                 # pylint: disable-next=raise-missing-from
-                raise ValueError(f'wrong value "{value}" for use as an alias for {cls}')
+                raise ValueError(
+                    f'wrong value "{value}" for use as an alias for {cls}; known values: {cls.get_available()}'
+                )
 
         raise TypeError(f'wrong type "{type(value)}" for use as an alias for {cls}')
 
@@ -133,7 +141,16 @@ class ProtoBasedEnum(IntEnum, metaclass=EnumWithUnknownType):
     def Unknown(cls, name: str, value: int):
         return UnknownEnumValue(cls, name, value)
 
+    @classmethod
+    def get_available(cls) -> tuple[str, ...]:
+        names = (
+            name.removeprefix(cls.__common_prefix__)
+            for name in cls.__proto_enum_type__.keys()  # pylint: disable=no-member
+        )
+        return tuple(name for name in names if name != cls.__unspecified_name__)
 
 #: Enum type which is have a special Unknown value for values which is present
 #: in grpc api but not described in our python code
 EnumWithUnknownAlias = Union[ProtoBasedEnumTypeT, UnknownEnumValue[ProtoBasedEnumTypeT]]
+EnumWithUnknownInput = Union[EnumWithUnknownAlias[ProtoBasedEnumTypeT], str, int]
+UndefinedOrEnumWithUnknownInput = Union[EnumWithUnknownInput[ProtoBasedEnumTypeT], Undefined]
