@@ -39,17 +39,17 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
     #: the implementation type for the dataset draft
     _dataset_draft_impl: type[DatasetDraftT]
 
-    #: proxy for text-to-text generation tasks
+    #: a helper for autocompletion text-to-text generation tasks
     completions = TaskTypeProxy(KnownTaskType.TextToTextGeneration)
-    #: proxy for multilabel text classification tasks
+    #: a helper for autocompletion multilabel text classification tasks
     text_classifiers_multilabel = TaskTypeProxy(KnownTaskType.TextClassificationMultilabel)
-    #: proxy for multiclass text classification tasks
+    #: a helper for autocompletion multiclass text classification tasks
     text_classifiers_multiclass = TaskTypeProxy(KnownTaskType.TextClassificationMulticlass)
-    #: proxy for binary text classification tasks
+    #: a helper for autocompletion binary text classification tasks
     text_classifiers_binary = TaskTypeProxy(KnownTaskType.TextClassificationMultilabel)
-    #: proxy for pairwise text embeddings tasks
+    #: a helper for autocompletion pairwise text embeddings tasks
     text_embeddings_pair = TaskTypeProxy(KnownTaskType.TextEmbeddingsPair)
-    #: proxy for triplet text embeddings tasks
+    #: a helper for autocompletion triplet text embeddings tasks
     text_embeddings_triplet = TaskTypeProxy(KnownTaskType.TextEmbeddingsTriplet)
 
     def draft_from_path(
@@ -161,6 +161,14 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
         task_type: UndefinedOr[str] | Iterable[str] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[DatasetTypeT]:
+        """Fetch a list of datasets based on specified filters.
+
+        :param status: the status filter for datasets; can be a single status or an iterable of statuses.
+        :param name_pattern: a pattern to filter dataset names.
+        :param task_type: the type of task associated with the datasets; can be a single task type or an iterable of task types.
+        :param timeout: the time to wait for the request.
+            Defaults to 60 seconds.
+        """
         status_: DatasetStatusInput = get_defined_value(status, [])  # type: ignore[assignment]
         status_list: list[SingleDatasetStatus] = [status_] if isinstance(status_, (str, DatasetStatus)) else list(status_)
         coerced_status_list: list[DatasetStatus] = [
