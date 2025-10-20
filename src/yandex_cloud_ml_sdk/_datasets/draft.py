@@ -36,11 +36,6 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
     """
     This class allows users to create a draft representation of a dataset without immediately interacting with the server.
     This draft serves as a structure for storing configuration settings, enabling users to edit the dataset's properties before finalizing the upload.
-
-    Example:
-        >>> draft = sdk.datasets.draft_from_path(path)
-        >>> draft = draft.configure(...)
-        >>> operation = draft.upload()
     """
     _domain: BaseDatasets
     _dataset_impl: type[DatasetTypeT] = field(init=False)
