@@ -161,15 +161,7 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
         task_type: UndefinedOr[str] | Iterable[str] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[DatasetTypeT]:
-        """Fetch a list of datasets based on specified filters.
-
-        :param status: the status filter for datasets; can be a single status or an iterable of statuses.
-        :param name_pattern: a pattern to filter dataset names.
-        :param task_type: the type of task associated with the datasets; can be a single task type or an iterable of task types.
-        :param timeout: the time to wait for the request.
-            Defaults to 60 seconds.
-        """
-        status_: DatasetStatusInput = get_defined_value(status, [])
+        status_: DatasetStatusInput = get_defined_value(status, [])  # type: ignore[assignment]
         status_list: list[SingleDatasetStatus] = [status_] if isinstance(status_, (str, DatasetStatus)) else list(status_)
         coerced_status_list: list[DatasetStatus] = [
             DatasetStatus._from_str(s) if isinstance(s, str) else s

@@ -19,7 +19,7 @@ class BaseTuningType(BaseTuningParameter):
 
     @property
     @abc.abstractmethod
-    def proto_type(self) -> ProtoTuningTypeLora | ProtoTuningTypePromptTune:
+    def proto_type(self) -> type[ProtoTuningTypeLora] | type[ProtoTuningTypePromptTune]:
         """:meta private:"""
 
 
