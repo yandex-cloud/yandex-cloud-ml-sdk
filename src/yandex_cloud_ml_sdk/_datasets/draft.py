@@ -33,7 +33,15 @@ logger = get_logger(__name__)
 
 @dataclass
 class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMixin[OperationTypeT]):
-    """A class for handling operations with the dataset in a draft state."""
+    """
+    This class allows users to create a draft representation of a dataset without immediately interacting with the server.
+    This draft serves as a structure for storing configuration settings, enabling users to edit the dataset's properties before finalizing the upload.
+
+    Example:
+        >>> draft = sdk.datasets.draft_from_path(path)
+        >>> draft = draft.configure(...)
+        >>> operation = draft.upload()
+    """
     _domain: BaseDatasets
     _dataset_impl: type[DatasetTypeT] = field(init=False)
     #: the type of task associated with the dataset
@@ -141,7 +149,7 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
         parallelism: int | None = None,
     ) -> OperationTypeT:
         """
-        Upload data to a dataset in a deferred manner.
+        Creates a dataset object on the server, uploads data to S3, triggers validation of the created dataset, and waits for its completion.
 
         :param timeout: the time to wait for the dataset creation operation.
             Defaults to 60 seconds.
@@ -209,7 +217,8 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
         **kwargs,
     ) -> DatasetTypeT:
         """
-        Upload data and wait for the operation to complete.
+        This method also performs the upload operation, but unlike :func:`._upload_deferred`, which returns an operation object,
+        it directly returns the result of the completed operation.
 
         :param timeout: the time to wait for the upload operation.
             Defaults to 60 seconds.
@@ -217,7 +226,7 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
             Default is defined by DEFAULT_OPERATION_POLL_TIMEOUT.
         :param poll_interval: the interval at which to poll for operation status
             Defaults to 60 seconds).
-        :param kwargs: additional keyword arguments.
+        :param kwargs: additional keyword arguments passed to ``_upload_deferred``.
         """
         operation = await self._upload_deferred(
             **kwargs,
