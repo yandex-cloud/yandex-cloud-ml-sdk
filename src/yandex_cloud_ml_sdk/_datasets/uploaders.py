@@ -27,9 +27,8 @@ MIN_CHUNK_SIZE_PRETTY = '5MB'
 
 
 class BaseUploader(abc.ABC):
-    """This class defines the interface for uploading datasets, allowing for
-    different implementations based on the size of the dataset and the
-    desired upload strategy.
+    """This class provides a blueprint for different implementations of dataset uploads,
+    accommodating various dataset sizes and upload strategies.
 
     :param _chunk_size: the size of chunks to upload.
     :param _parallelism: the level of parallelism for uploads.
