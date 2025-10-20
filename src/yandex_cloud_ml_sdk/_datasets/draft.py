@@ -212,7 +212,7 @@ class BaseDatasetDraft(Generic[DatasetTypeT, OperationTypeT], ReturnsOperationMi
         **kwargs,
     ) -> DatasetTypeT:
         """
-        This method also performs the upload operation, but unlike :func:`_upload_deferred`, which returns an operation object,
+        This method also performs the upload operation, but unlike ``_upload_deferred`` function, which returns an operation object,
         it directly returns the result of the completed operation.
 
         :param timeout: the time to wait for the upload operation.
