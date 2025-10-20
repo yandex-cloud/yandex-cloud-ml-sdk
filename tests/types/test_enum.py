@@ -7,6 +7,7 @@ from yandex.cloud.searchapi.v2.search_query_pb2 import SearchQuery as ProtoSearc
 from yandex_cloud_ml_sdk._types.enum import ProtoBasedEnum
 
 
+# pylint: disable=invalid-enum-extension
 class TestEnum(ProtoBasedEnum):
     __proto_enum_type__ = ProtoSearchQuery.SearchType
     __common_prefix__ = 'SEARCH_TYPE_'
