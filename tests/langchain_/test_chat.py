@@ -41,11 +41,11 @@ def test_invoke(model, chat_history):
 async def test_astream(model, chat_history):
     result = [_ async for _ in model.astream(chat_history)]
 
-    assert [r.content for r in result] == ["Me", "ow! Meow meow."]
+    assert [r.content for r in result if r.content] == ["Me", "ow! Meow meow."]
 
 
 @pytest.mark.allow_grpc
 def test_stream(model, chat_history):
     result = list(model.stream(chat_history))
 
-    assert [r.content for r in result] == ['Me', 'ow, meow!']
+    assert [r.content for r in result if r.content] == ['Me', 'ow, meow!']
