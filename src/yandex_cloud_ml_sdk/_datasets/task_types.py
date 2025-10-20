@@ -10,7 +10,12 @@ if TYPE_CHECKING:
 
 
 class KnownTaskType(str, Enum):
-    """Enumeration of known task types."""
+    """
+    Enumeration of known task types.
+
+    It is not an exhaustive list of task types, there might be more of them.
+    For details read the `documentation <https://yandex.cloud/docs/ai-studio/operations/resources/create-dataset#get-schema>`_.
+    """
     #: task type for text-to-text generation
     TextToTextGeneration = 'TextToTextGeneration'
     #: task type for multilabel text classification
@@ -35,7 +40,7 @@ class KnownTaskType(str, Enum):
 
 
 class TaskTypeProxy:
-    """Proxy class for handling task types."""
+    """A proxy/helper to create datasets interface with predefined ``task_type`` parameter."""
     def __init__(self, task_type: KnownTaskType):
         self._task_type = task_type
 
@@ -65,34 +70,34 @@ class TaskTypeProxy:
 
 
 class DatasetsWrapper:
-    """Wrapper class for managing datasets associated with a task type."""
+    """Wrapper which gives datasets interface but with predefined ``task_type`` parameter."""
     def __init__(self, task_type: str, domain: Datasets | AsyncDatasets):
         self._task_type = task_type
         self._domain = domain
 
     @property
     def task_type(self) -> str:
-        """A function for the task type managed by the wrapper."""
+        """A value of the ``task_type`` parameter."""
         return self._task_type
 
     @property
     def draft_from_path(self):
-        """A function for drafting from a path based on the task type."""
+        """Returns ``sdk.datasets.draft_from_path`` function with predefined ``task_type``."""
         return partial(self._domain.draft_from_path, task_type=self._task_type)
 
     @property
     def list_upload_formats(self):
-        """A function for listing upload formats based on the task type."""
+        """Returns ``sdk.datasets.list_upload_formats`` function with predefined ``task type``."""
         return partial(self._domain.list_upload_formats, task_type=self._task_type)
 
     @property
     def list_upload_schemas(self):
-        """A function for listing upload schemas based on the task type."""
+        """Returns ``sdk.datasets.list_upload_schemas`` function with predefined ``task type``."""
         return partial(self._domain.list_upload_schemas, task_type=self._task_type)
 
     @property
     def list(self):
-        """A function for listing datasets based on the task type."""
+        """Returns ``sdk.datasets.list`` function with predefined ``task type``."""
         return partial(self._domain.list, task_type=self._task_type)
 
     def __repr__(self) -> str:
