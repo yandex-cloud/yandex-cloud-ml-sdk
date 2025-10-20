@@ -48,7 +48,7 @@ class ValidationErrorInfo(ProtoBased[ProtoValidationError]):
     error: str
     #: a description of the error
     description: str
-    #: a tuple of row numbers associated with the error
+    #: a tuple of row numbers assosiated with the error
     rows: tuple[int, ...]
 
     # pylint: disable=unused-argument
@@ -84,7 +84,7 @@ class DatasetInfo:
     allow_data_logging: bool
     #: the current status of the dataset
     status: DatasetStatus
-    #: the type of task associated with the dataset
+    #: the type of task assosiated with the dataset
     task_type: str
     #: the number of rows in the dataset
     rows: int
@@ -200,7 +200,6 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource[ProtoDatasetInfo]):
         :param exist_ok: if ``True``, do not raise an error if files already exist.
             Defaults to False.
         :param max_parallel_downloads: the maximum number of concurrent downloads.
-            Defaults to DEFAULT_MAX_PARALLEL_DOWNLOADS.
         """
         logger.debug("Downloading dataset %s", self.id)
 
@@ -224,10 +223,10 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource[ProtoDatasetInfo]):
         timeout: float,
         batch_size: UndefinedOr[int],
     ) -> AsyncIterator[dict[Any, Any]]:
-        """Read dataset records in batches.
+        """Read dataset records; reading is implemented by batched process and requires RAM equal to the batch size.
 
         :param timeout: the maximum time to wait for the download operation.
-        :param batch_size: the size of each batch to read; if undefined, defaults to ``None``.
+        :param batch_size: the size of each batch to read in records; if undefined, defaults to ``None``.
         """
         batch_size_ = get_defined_value(batch_size, None)
 
