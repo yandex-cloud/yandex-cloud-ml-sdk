@@ -192,7 +192,7 @@ class BaseWebSearch(
 
         To change initial search settings use ``.configure`` method:
 
-        >>> search = sdk.search_api.web(search_type='BY')
+        >>> search = sdk.search_api.web(search_type='BE')
         >>> search = search.configure(search_type='RU')
 
         :param query: Search query text.
@@ -263,7 +263,7 @@ class BaseWebSearch(
 
         To change initial search settings use ``.configure`` method:
 
-        >>> search = sdk.search_api.web(search_type='BY')
+        >>> search = sdk.search_api.web(search_type='BE')
         >>> search = search.configure(search_type='RU')
 
         :param query: Search query text.
