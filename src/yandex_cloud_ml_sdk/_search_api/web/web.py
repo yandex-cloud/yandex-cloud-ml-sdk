@@ -1,4 +1,4 @@
-# pylint: disable=arguments-renamed,no-name-in-module,redefined-builtin
+# pylint: disable=arguments-renamed,no-name-in-module,redefined-builtin,protected-access
 from __future__ import annotations
 
 from collections.abc import Mapping
@@ -16,6 +16,7 @@ from yandex_cloud_ml_sdk._types.enum import EnumWithUnknownInput, UndefinedOrEnu
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr
 from yandex_cloud_ml_sdk._types.model import ModelAsyncMixin, ModelSyncMixin, OperationTypeT
 from yandex_cloud_ml_sdk._types.operation import AsyncOperation, BaseOperation, Operation
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
 from .config import FamilyMode, FixTypoMode, GroupMode, Localization, SearchType, SortMode, SortOrder, WebSearchConfig
@@ -33,6 +34,10 @@ class BaseWebSearch(
     ModelSyncMixin[WebSearchConfig, WebSearchResultTypeT],
     ModelAsyncMixin[WebSearchConfig, WebSearchResultTypeT, OperationTypeT],
 ):
+    """Web search class which provides concrete methods for working with Web Search API
+    and incapsulates search setting.
+    """
+
     _config_type = WebSearchConfig
     _result_type: type[WebSearchResultTypeT]
     _operation_type: type[OperationTypeT]
@@ -57,6 +62,31 @@ class BaseWebSearch(
         user_agent: UndefinedOr[str] | None = UNDEFINED,
         metadata: UndefinedOr[Mapping[str, str]] | None = UNDEFINED,
     ) -> Self:
+        """
+        Returns the new object with config fields overrode by passed values.
+
+        To learn more about parameters and their formats and possible values,
+        refer to
+        `web search documentation <https://yandex.cloud/ru/docs/search-api/concepts/web-search#parameters>`_
+
+        :param search_type: Search type.
+        :param family_mode: Results filtering.
+        :param fix_typo_mode: Search query typo correction setting
+        :param localization: Search response notifications language.
+            Affects the text in the ``found-docs-human`` tag and error messages
+        :param sort_mode: Search results sorting mode rule
+        :param sort_order: Search results sorting order
+        :param group_mode: Result grouping method.
+        :param groups_on_page: Maximum number of groups that can be returned per page.
+        :param docs_in_group: Maximum number of documents that can be returned per group.
+        :param max_passages: Maximum number of passages that can be used when generating
+            a document.
+        :param region: Search country or region ID that affects the document ranking rules.
+        :param user_agent: String containing the User-Agent header.
+            Use this parameter to have your search results optimized for a
+            specific device and browser, including mobile search results.
+        """
+
         return super().configure(
             search_type=search_type,
             family_mode=family_mode,
@@ -157,6 +187,22 @@ class BaseWebSearch(
         page: int = 0,
         timeout: float = 60,
     ):
+        """Run a search query with given ``query`` and search settings of this web search
+        object.
+
+        To change initial search settings use ``.configure`` method:
+
+        >>> search = sdk.search_api.web(search_type='BY')
+        >>> search = search.configure(search_type='RU')
+
+        :param query: Search query text.
+        :param format: With default ``parsed`` value call returns a parsed Yandex Cloud ML SDK
+            object; with other values method returns a raw bytes string.
+        :param page: Requested page number.
+        :param timeout: Timeout, or the maximum time to wait for the request to complete in seconds.
+        :returns: Parsed search results object or bytes string depending on ``format`` parameter.
+
+        """
         request_format = 'xml' if format == 'parsed' else format
         response = await self._run_impl(
             query=query,
@@ -212,6 +258,23 @@ class BaseWebSearch(
         page: int = 0,
         timeout: float = 60
     ):
+        """Run a deferred search query with given ``query`` and search settings of this
+        web search object.
+
+        To change initial search settings use ``.configure`` method:
+
+        >>> search = sdk.search_api.web(search_type='BY')
+        >>> search = search.configure(search_type='RU')
+
+        :param query: Search query text.
+        :param format: With default ``parsed`` value call returns an operation
+            with parsed Yandex Cloud ML SDK return;
+            with other values method returns an operation with raw bytes string return.
+        :param page: Requested page number.
+        :param timeout: Timeout, or the maximum time to wait for the request to complete in seconds.
+        :returns: Operation with parsed search results object or bytes string return depending on ``format`` parameter.
+
+        """
         request_format = 'xml' if format == 'parsed' else format
         response = await self._run_impl(
             query=query,
@@ -257,6 +320,7 @@ class BaseWebSearch(
         )
 
 
+@doc_from(BaseWebSearch)
 class AsyncWebSearch(
     BaseWebSearch[AsyncOperation[AsyncWebSearchResult], AsyncOperation[bytes], AsyncWebSearchResult]
 ):
@@ -286,6 +350,7 @@ class AsyncWebSearch(
     ) -> bytes:
         ...
 
+    @doc_from(BaseWebSearch._run)
     async def run(
         self,
         query: str,
@@ -318,6 +383,7 @@ class AsyncWebSearch(
     ) -> AsyncOperation[bytes]:
         ...
 
+    @doc_from(BaseWebSearch._run_deferred)
     async def run_deferred(
         self,
         query: str,
@@ -329,12 +395,12 @@ class AsyncWebSearch(
         return await self._run_deferred(query=query, format=format, page=page, timeout=timeout)
 
 
+@doc_from(BaseWebSearch)
 class WebSearch(BaseWebSearch[Operation[WebSearchResult], Operation[bytes], WebSearchResult]):
     _operation_type = Operation[WebSearchResult]
     _operation_type_raw = Operation[bytes]
     _result_type = WebSearchResult
 
-    # pylint: disable=protected-access
     __run = run_sync(BaseWebSearch._run)
     __run_deferred = run_sync(BaseWebSearch._run_deferred)
 
@@ -360,6 +426,7 @@ class WebSearch(BaseWebSearch[Operation[WebSearchResult], Operation[bytes], WebS
     ) -> bytes:
         ...
 
+    @doc_from(BaseWebSearch._run)
     def run(
         self,
         query: str,
@@ -392,6 +459,7 @@ class WebSearch(BaseWebSearch[Operation[WebSearchResult], Operation[bytes], WebS
     ) -> Operation[bytes]:
         ...
 
+    @doc_from(BaseWebSearch._run_deferred)
     def run_deferred(
         self,
         query: str,

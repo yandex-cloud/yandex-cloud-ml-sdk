@@ -14,31 +14,36 @@ from yandex_cloud_ml_sdk._types.model_config import BaseModelConfig
 
 @dataclass(frozen=True)
 class WebSearchConfig(BaseModelConfig):
+    #: Search type.
     search_type: EnumWithUnknownAlias[SearchType]
+    #: Results filtering.
     family_mode: EnumWithUnknownAlias[FamilyMode] | None = None
+    #: Search query typo correction setting
     fix_typo_mode: EnumWithUnknownAlias[FixTypoMode] | None = None
+    #: Search response notifications language.
+    #: Affects the text in the ``found-docs-human`` tag and error messages
     localization: EnumWithUnknownAlias[Localization] | None = None
 
+    #: Search results sorting order
     sort_order: EnumWithUnknownAlias[SortOrder] | None = None
+    #: Search results sorting mode rule
     sort_mode: EnumWithUnknownAlias[SortMode] | None = None
 
+    #: Result grouping method.
     group_mode: EnumWithUnknownAlias[GroupMode] | None = None
+    #: Maximum number of groups that can be returned per page.
     groups_on_page: int | None = None
+    #: Maximum number of documents that can be returned per group.
     docs_in_group: int | None = None
 
+    #: Maximum number of passages that can be used when generating a document
     max_passages: int | None = None
+    #: Search country or region ID that affects the document ranking rules.
     region: str | None = None
+    #: String containing the User-Agent header.
     user_agent: str | None = None
 
     metadata: dict[str, str] | None = None
-
-    @override
-    def _validate_configure(self) -> None:
-        pass
-
-    @override
-    def _validate_run(self) -> None:
-        pass
 
     @override
     def _replace(self, **kwargs: Any) -> Self:

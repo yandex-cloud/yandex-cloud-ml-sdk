@@ -14,6 +14,7 @@ class BaseSearchAPIDomain(DomainWithFunctions):
 
     #: API for `generative response <https://yandex.cloud/docs/search-api/concepts/generative-response>`_ service
     generative: BaseGenerativeSearchFunction
+    #: API for `web search <https://yandex.cloud/ru/docs/search-api/concepts/web-search>`_ service
     web: BaseWebSearchFunction
 
 

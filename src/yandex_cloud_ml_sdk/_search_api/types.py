@@ -11,6 +11,7 @@ from yandex_cloud_ml_sdk._types.enum import ProtoBasedEnum
 
 
 class SearchType(ProtoBasedEnum):
+    """Search type."""
     __proto_enum_type__ = ProtoSearchQuery.SearchType
     __common_prefix__ = 'SEARCH_TYPE_'
 
@@ -23,6 +24,7 @@ class SearchType(ProtoBasedEnum):
 
 
 class FamilyMode(ProtoBasedEnum):
+    """Results filtering."""
     __proto_enum_type__ = ProtoSearchQuery.FamilyMode
     __common_prefix__ = 'FAMILY_MODE_'
 
@@ -37,6 +39,7 @@ class FamilyMode(ProtoBasedEnum):
 
 
 class FixTypoMode(ProtoBasedEnum):
+    """Search query typo correction setting"""
     __proto_enum_type__ = ProtoSearchQuery.FixTypoMode
     __common_prefix__ = 'FIX_TYPO_MODE_'
 
@@ -47,6 +50,7 @@ class FixTypoMode(ProtoBasedEnum):
 
 
 class SortOrder(ProtoBasedEnum):
+    """Search results sorting order"""
     __proto_enum_type__ = ProtoSortSpec.SortOrder
     __common_prefix__ = 'SORT_ORDER_'
 
@@ -57,6 +61,7 @@ class SortOrder(ProtoBasedEnum):
 
 
 class SortMode(ProtoBasedEnum):
+    """Search results sorting mode rule"""
     __proto_enum_type__ = ProtoSortSpec.SortMode
     __common_prefix__ = 'SORT_MODE_'
 
@@ -67,6 +72,7 @@ class SortMode(ProtoBasedEnum):
 
 
 class GroupMode(ProtoBasedEnum):
+    """Result grouping method."""
     __proto_enum_type__ = ProtoGroupSpec.GroupMode
     __common_prefix__ = 'GROUP_MODE_'
 
@@ -77,6 +83,7 @@ class GroupMode(ProtoBasedEnum):
 
 
 class Localization(ProtoBasedEnum):
+    """Maximum number of groups that can be returned per page."""
     __proto_enum_type__ = ProtoWebSearchRequest.Localization
     __common_prefix__ = 'LOCALIZATION_'
 
@@ -89,6 +96,7 @@ class Localization(ProtoBasedEnum):
 
 
 class Format(ProtoBasedEnum):
+    """Search result format"""
     __proto_enum_type__ = ProtoWebSearchRequest.Format
     __common_prefix__ = 'FORMAT_'
 
