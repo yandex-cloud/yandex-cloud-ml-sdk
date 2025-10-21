@@ -71,7 +71,7 @@ def get_subelement_text(subroot: ET.Element | None, name: str) -> str | None:
     In case of lackage of such subelement returns None.
     """
 
-    if not subroot:
+    if subroot is None:
         return None
 
     element = subroot.find(name)
@@ -176,7 +176,7 @@ class BaseWebSearchResult(BaseProtoResult[WebSearchResponse], Sequence, Generic[
         tree_root = ET.fromstring(decoded)
 
         response_data = tree_root.find('response')
-        if response_data:
+        if response_data is not None:
             groups = tuple(
                 WebSearchGroup._from_xml(data=el, sdk=sdk)
                 for el in response_data.iter('group')

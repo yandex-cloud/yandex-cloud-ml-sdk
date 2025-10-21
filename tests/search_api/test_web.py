@@ -7,9 +7,8 @@ from yandex_cloud_ml_sdk.search_api import (
     FamilyMode, FixTypoMode, GroupMode, Localization, SearchType, SortMode, SortOrder
 )
 
-pytestmark = pytest.mark.asyncio
 
-
+@pytest.mark.asyncio
 @pytest.mark.allow_grpc
 async def test_web_search_simple_run(async_sdk: AsyncYCloudML) -> None:
     search = async_sdk.search_api.web('ru')
@@ -22,6 +21,7 @@ async def test_web_search_simple_run(async_sdk: AsyncYCloudML) -> None:
         assert len(group) >= 1
 
 
+@pytest.mark.asyncio
 @pytest.mark.allow_grpc
 @pytest.mark.parametrize(
     'format_,start',
@@ -35,6 +35,7 @@ async def test_web_search_simple_raw_run(async_sdk: AsyncYCloudML, format_, star
     assert result.startswith(start)
 
 
+@pytest.mark.asyncio
 @pytest.mark.allow_grpc
 async def test_web_search_simple_deferred_run(async_sdk: AsyncYCloudML) -> None:
     search = async_sdk.search_api.web('ru')
@@ -48,6 +49,7 @@ async def test_web_search_simple_deferred_run(async_sdk: AsyncYCloudML) -> None:
         assert len(group) >= 1
 
 
+@pytest.mark.asyncio
 @pytest.mark.allow_grpc
 @pytest.mark.parametrize(
     'format_,start',
