@@ -61,12 +61,12 @@ class BaseFunctionCall(JsonBased, ProtoBased[ProtoFunctionCall]):
 
 @doc_from(BaseFunctionCall)
 class AsyncFunctionCall(BaseFunctionCall):
-    ...
+    pass
 
 
 @doc_from(BaseFunctionCall)
 class FunctionCall(BaseFunctionCall):
-    ...
+    pass
 
 
 #: Type variable representing any function call type.

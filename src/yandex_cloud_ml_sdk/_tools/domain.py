@@ -29,12 +29,8 @@ class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
     executing custom functions, and processing structured data.
 
     This class serves as the foundation for tool management in both synchronous and asynchronous
-    contexts, providing a unified interface for:
-
-    - **Function Tools**: Custom Python functions that can be called by AI models during completions
-    - **Search Index Tools**: Tools for querying and retrieving information from vector databases
-      and search indexes
-    - **Rephraser Tools**: Specialized models for query transformation and context enhancement
+    contexts, providing a unified interface for tools. For more information see the description
+    of members of this class.
 
     Tools are particularly useful in:
 
@@ -122,7 +118,6 @@ class BaseTools(BaseDomain, Generic[FunctionToolsTypeT]):
             rephraser=rephraser_,
             call_strategy=call_strategy_,
         )
-
 
     def generative_search(
         self,
