@@ -108,13 +108,13 @@ class BaseSDK:
 
         self._client = AsyncCloudClient(
             endpoint=endpoint,
-            auth=get_defined_value(auth, None),
+            auth=get_defined_value(auth, None),  # type: ignore[arg-type]
             service_map=get_defined_value(service_map, {}),
             retry_policy=retry_policy,
             interceptors=get_defined_value(interceptors, None),
             yc_profile=get_defined_value(yc_profile, None),
             enable_server_data_logging=get_defined_value(enable_server_data_logging, None),
-            verify=get_defined_value(verify, None),
+            verify=get_defined_value(verify, None),  # type: ignore[arg-type]
         )
         self._folder_id = folder_id
 

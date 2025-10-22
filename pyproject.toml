@@ -243,6 +243,7 @@ exclude-protected=[
     "_folder_id",
     "_from_proto",
     "_from_json",
+    "_from_xml",
     "_from_upper_proto",
     "_to_proto",
     "_result_type",

@@ -54,6 +54,7 @@ class SearchQuery(ProtoBased[GenSearchResponse.SearchQuery]):
 
 @dataclass(frozen=True)
 class GenerativeSearchResult(BaseProtoResult[GenSearchResponse], TextMessage):
+    """A class representing the result of a generative search request."""
     #: Generative answer itself.
     #: Note that footnootes like ``[N]`` in the text refers to ``GenerativeSearchResult.sources[N]``
     #: source.
