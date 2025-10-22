@@ -133,7 +133,7 @@ class BaseDatasets(BaseDomain, Generic[DatasetTypeT, DatasetDraftT]):
         task_type: UndefinedOr[str] | Iterable[str] = UNDEFINED,
         timeout: float = 60
     ) -> AsyncIterator[DatasetTypeT]:
-        status_: DatasetStatusInput = get_defined_value(status, [])
+        status_: DatasetStatusInput = get_defined_value(status, [])  # type: ignore[assignment]
         status_list: list[SingleDatasetStatus] = [status_] if isinstance(status_, (str, DatasetStatus)) else list(status_)
         coerced_status_list: list[DatasetStatus] = [
             DatasetStatus._from_str(s) if isinstance(s, str) else s
