@@ -14,29 +14,49 @@ from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import ToolResultList 
 
 from yandex_cloud_ml_sdk._utils.coerce import coerce_tuple
 
+#: Type variable representing protobuf tool result list types.
 ProtoToolResultListTypeT = TypeVar(
     'ProtoToolResultListTypeT',
     ProtoAssistantToolResultList,
     ProtoCompletionsToolResultList
 )
+
+#: Type variable representing protobuf tool result types.
 ProtoToolResultTypeT = TypeVar(
     'ProtoToolResultTypeT',
     ProtoAssistantToolResult,
     ProtoCompletionsToolResult,
 )
+
+#: Union type for all supported protobuf tool result types.
 ProtoToolResultType = Union[ProtoAssistantToolResult, ProtoCompletionsToolResult]
+
+#: Union type for all supported protobuf function result types.
 ProtoFunctionResultType = Union[ProtoAssistantFunctionResult, ProtoCompletionsFunctionResult]
 
 
 class FunctionResultDict(TypedDict):
+    """
+    Dictionary structure for function results.
+    """
+
+    #: Name of the function
     name: Required[str]
+    #: Result content
     content: Required[str]
+    #: Optional result type (default: 'function')
     type: NotRequired[str]
 
-
+#: Type alias for function result dictionary.
 FunctionResultType: TypeAlias = FunctionResultDict
+
+#: Type alias for tool result dictionary.
 ToolResultType: TypeAlias = FunctionResultType
+
+#: Type alias for tool result dictionary (legacy name).
 ToolResultDictType: TypeAlias = FunctionResultDict
+
+#: Input type for tool results (single or multiple).
 ToolResultInputType: TypeAlias = Union[ToolResultType, Iterable[ToolResultType]]
 
 
@@ -44,6 +64,7 @@ def tool_result_to_proto(
     tool_result: ToolResultType,
     proto_type: type[ProtoToolResultTypeT]
 ) -> ProtoToolResultTypeT:
+    """:meta private:"""
     proto_function_result_type = cast(type[ProtoFunctionResultType], {
         ProtoAssistantToolResult: ProtoAssistantFunctionResult,
         ProtoCompletionsToolResult: ProtoCompletionsFunctionResult,
@@ -76,6 +97,7 @@ def tool_results_to_proto(
     tool_results: ToolResultInputType,
     proto_type: type[ProtoToolResultListTypeT]
 ) -> ProtoToolResultListTypeT:
+    """:meta private:"""
     proto_tool_result_type = cast(type[ProtoToolResultType], {
         ProtoAssistantToolResultList: ProtoAssistantToolResult,
         ProtoCompletionsToolResultList: ProtoCompletionsToolResult,
