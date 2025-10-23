@@ -26,6 +26,7 @@ from yandex_cloud_ml_sdk._logging import get_logger
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, PathLike, UndefinedOr, coerce_path, get_defined_value
 from yandex_cloud_ml_sdk._types.proto import ProtoBased
 from yandex_cloud_ml_sdk._types.resource import BaseDeleteableResource, safe_on_delete
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.packages import requires_package
 from yandex_cloud_ml_sdk._utils.pyarrow import read_dataset_records
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
@@ -42,8 +43,12 @@ DEFAULT_MAX_PARALLEL_DOWNLOADS: Final[int] = 16 # maximum number of files open f
 
 @dataclasses.dataclass(frozen=True)
 class ValidationErrorInfo(ProtoBased[ProtoValidationError]):
+    """This class represents information about a validation error."""
+    #: the error message
     error: str
+    #: a description of the error
     description: str
+    #: a tuple of row numbers associated with the error
     rows: tuple[int, ...]
 
     # pylint: disable=unused-argument
@@ -58,25 +63,41 @@ class ValidationErrorInfo(ProtoBased[ProtoValidationError]):
 
 @dataclasses.dataclass(frozen=True)
 class DatasetInfo:
+    """This class represents information about a dataset."""
+    #: the ID of the folder which contains the dataset
     folder_id: str
+    #: the name of the dataset
     name: str | None
+    #: a description of the dataset
     description: str | None
+    #: metadata associated with the dataset
     metadata: str | None
+    #: the user who created the dataset
     created_by: str
+    #: the timestamp when the dataset was created
     created_at: datetime
+    #: the timestamp when the dataset was last updated
     updated_at: datetime
+    #: a dictionary of labels associated with the dataset
     labels: dict[str, str] | None
+    #: indicates if data logging is allowed for this dataset
     allow_data_logging: bool
-
+    #: the current status of the dataset
     status: DatasetStatus
+    #: the type of task associated with the dataset
     task_type: str
+    #: the number of rows in the dataset
     rows: int
+    #: the size of the dataset in bytes
     size_bytes: int
+    #: a tuple of validation errors associated with the dataset
     validation_errors: tuple[ValidationErrorInfo, ...]
 
 
 @dataclasses.dataclass(frozen=True)
 class BaseDataset(DatasetInfo, BaseDeleteableResource[ProtoDatasetInfo]):
+    """This class represents methods for operating with datasets."""
+
     @classmethod
     def _kwargs_from_message(cls, proto: ProtoDatasetInfo, sdk: BaseSDK) -> dict[str, Any]:
         kwargs = super()._kwargs_from_message(proto, sdk=sdk)
@@ -98,6 +119,15 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource[ProtoDatasetInfo]):
         labels: UndefinedOr[dict[str, str]] = UNDEFINED,
         timeout: float = 60,
     ) -> Self:
+        """
+        Updates the dataset with the provided parameters.
+
+        :param name: the name for the dataset.
+        :param description: the description for the dataset.
+        :param labels: a set of labels for the dataset.
+        :param timeout: the timeout, or the maximum time to wait for the update request.
+            Defaults to 60 seconds.
+        """
         logger.debug("Updating dataset %s", self.id)
         request = UpdateDatasetRequest(
             dataset_id=self.id,
@@ -133,6 +163,12 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource[ProtoDatasetInfo]):
         *,
         timeout: float = 60,
     ) -> None:
+        """
+        Deletes the dataset.
+
+        :param timeout: the timeout, or maximum time to wait for the delete request.
+            Defaults to 60 seconds.
+        """
         logger.debug("Deleting dataset %s", self.id)
         request = DeleteDatasetRequest(dataset_id=self.id)
 
@@ -156,6 +192,15 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource[ProtoDatasetInfo]):
         exist_ok: bool = False,
         max_parallel_downloads: int = DEFAULT_MAX_PARALLEL_DOWNLOADS
     ) -> tuple[Path, ...]:
+        """Download a dataset to the specified path.
+
+        :param download_path: the path where the dataset will be downloaded.
+        :param timeout: the timeout, or maximum time to wait for the download.
+            Defaults to 60 seconds.
+        :param exist_ok: if ``True``, do not raise an error if files already exist.
+            Defaults to False.
+        :param max_parallel_downloads: the maximum number of concurrent downloads.
+        """
         logger.debug("Downloading dataset %s", self.id)
 
         base_path = coerce_path(download_path)
@@ -178,6 +223,11 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource[ProtoDatasetInfo]):
         timeout: float,
         batch_size: UndefinedOr[int],
     ) -> AsyncIterator[dict[Any, Any]]:
+        """Read dataset records; reading is implemented by batched process and requires RAM equal to the batch size.
+
+        :param timeout: the maximum time to wait for the download operation.
+        :param batch_size: the size of each batch to read in records; if undefined, defaults to ``None``.
+        """
         batch_size_ = get_defined_value(batch_size, None)
 
         urls = await self._get_download_urls(timeout=timeout)
@@ -273,6 +323,11 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource[ProtoDatasetInfo]):
         *,
         timeout: float = 60,
     ) -> tuple[str, ...]:
+        """Retrieve a list of upload formats for the dataset.
+
+        :param timeout: the maximum time to wait for the operation to complete.
+            Defaults to 60 seconds.
+        """
         # pylint: disable=protected-access
         return await self._sdk.datasets._list_upload_formats(
             task_type=self.task_type,
@@ -384,6 +439,8 @@ class BaseDataset(DatasetInfo, BaseDeleteableResource[ProtoDatasetInfo]):
 
 
 class AsyncDataset(BaseDataset):
+
+    @doc_from(BaseDataset._update)
     async def update(
         self,
         *,
@@ -399,6 +456,7 @@ class AsyncDataset(BaseDataset):
             timeout=timeout
         )
 
+    @doc_from(BaseDataset._delete)
     async def delete(
         self,
         *,
@@ -406,6 +464,7 @@ class AsyncDataset(BaseDataset):
     ) -> None:
         await self._delete(timeout=timeout)
 
+    @doc_from(BaseDataset._list_upload_formats)
     async def list_upload_formats(
         self,
         *,
@@ -413,6 +472,7 @@ class AsyncDataset(BaseDataset):
     ) -> tuple[str, ...]:
         return await self._list_upload_formats(timeout=timeout)
 
+    @doc_from(BaseDataset._download)
     async def download(
         self,
         *,
@@ -470,6 +530,7 @@ class Dataset(BaseDataset):
     __download = run_sync(BaseDataset._download)
     __read = run_sync_generator(BaseDataset._read)
 
+    @doc_from(BaseDataset._update)
     def update(
         self,
         *,
@@ -485,6 +546,7 @@ class Dataset(BaseDataset):
             timeout=timeout
         )
 
+    @doc_from(BaseDataset._delete)
     def delete(
         self,
         *,
@@ -492,6 +554,7 @@ class Dataset(BaseDataset):
     ) -> None:
         self.__delete(timeout=timeout)
 
+    @doc_from(BaseDataset._list_upload_formats)
     def list_upload_formats(
         self,
         *,
@@ -499,6 +562,7 @@ class Dataset(BaseDataset):
     ) -> tuple[str, ...]:
         return self.__list_upload_formats(timeout=timeout)
 
+    @doc_from(BaseDataset._download)
     def download(
         self,
         *,
