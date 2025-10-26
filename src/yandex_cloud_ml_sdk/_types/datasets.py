@@ -9,7 +9,7 @@ DatasetType = Union[str, BaseDataset]
 
 
 def coerce_dataset_id(dataset: DatasetType) -> str:
-    
+
     if isinstance(dataset, BaseDataset):
         return dataset.id
     if isinstance(dataset, str):
