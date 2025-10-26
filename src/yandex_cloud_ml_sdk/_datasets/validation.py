@@ -17,8 +17,12 @@ if TYPE_CHECKING:
 
 @dataclass(frozen=True)
 class ValidationErrorInfo(ProtoBased[ProtoValidationError]):
+    """A class which represents information about a validation error in a dataset."""
+    #: the error message indicating what went wrong
     error: str
+    #: a detailed description of the error
     description: str
+    #: the row numbers associated with the error
     rows: tuple[int, ...]
 
     # pylint: disable=unused-argument
@@ -33,9 +37,13 @@ class ValidationErrorInfo(ProtoBased[ProtoValidationError]):
 
 @dataclass(frozen=True)
 class DatasetValidationResult(BaseProtoResult[ValidateDatasetResponse]):
+    """A class which represents the result of validating a dataset."""
     _sdk: BaseSDK = field(repr=False)
+    #: the ID of the dataset being validated
     dataset_id: str
+    #: the parameter which indicates whether the dataset is valid
     is_valid: bool
+    #: a tuple of validation errors encountered during validation
     errors: tuple[ValidationErrorInfo, ...]
 
     @classmethod
@@ -51,5 +59,6 @@ class DatasetValidationResult(BaseProtoResult[ValidateDatasetResponse]):
         )
 
     def raise_for_status(self) -> None:
+        """Raises a DatasetValidationError if the dataset had any problems during creation and validation."""
         if not self.is_valid:
             raise DatasetValidationError(self)
