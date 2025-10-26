@@ -13,8 +13,12 @@ from yandex_cloud_ml_sdk._types.schemas import JsonSchemaType
 
 @dataclass(frozen=True)
 class DatasetUploadSchema(ProtoBased[ProtoDatasetUploadSchema]):
+    """This class represents the schema for uploading datasets."""
+    #: the type of task associated with the dataset
     task_type: str
+    #: the format in which the dataset is uploaded
     upload_format: str
+    #: the raw schema definition in string format
     raw_schema: str
 
     @classmethod
@@ -27,4 +31,5 @@ class DatasetUploadSchema(ProtoBased[ProtoDatasetUploadSchema]):
 
     @property
     def json(self) -> JsonSchemaType:
+        """Get the JSON representation of the raw schema."""
         return ast.literal_eval(self.raw_schema)

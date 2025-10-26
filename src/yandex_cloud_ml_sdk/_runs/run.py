@@ -19,6 +19,7 @@ from yandex_cloud_ml_sdk._tools.tool_result import (
 from yandex_cloud_ml_sdk._types.operation import AsyncOperationMixin, OperationInterface, SyncOperationMixin
 from yandex_cloud_ml_sdk._types.resource import BaseResource
 from yandex_cloud_ml_sdk._types.schemas import ResponseType
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.proto import get_google_value, proto_to_dict
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
@@ -31,15 +32,25 @@ if TYPE_CHECKING:
 
 @dataclasses.dataclass(frozen=True)
 class BaseRun(BaseResource[ProtoRun], OperationInterface[RunResult[ToolCallTypeT], RunStatus]):
+    #: Unique run identifier
     id: str
+    #: ID of the assistant used
     assistant_id: str
+    #: ID of the thread used
     thread_id: str
+    #: Creator of the run
     created_by: str
+    #: Creation timestamp
     created_at: datetime
+    #: Optional metadata labels
     labels: dict[str, str] | None
+    #: Custom temperature setting
     custom_temperature: float | None
+    #: Custom max tokens setting
     custom_max_tokens: int | None
+    #: Custom prompt truncation options
     custom_prompt_truncation_options: PromptTruncationOptions | None
+    #: Custom response format
     custom_response_format: ResponseType | None
 
     _default_poll_timeout: ClassVar[int] = 300
@@ -47,6 +58,9 @@ class BaseRun(BaseResource[ProtoRun], OperationInterface[RunResult[ToolCallTypeT
 
     @property
     def custom_max_prompt_tokens(self) -> int | None:
+        """
+        Get max prompt tokens from truncation options if set.
+        """
         if self.custom_prompt_truncation_options:
             return self.custom_prompt_truncation_options.max_prompt_tokens
         return None
@@ -80,6 +94,7 @@ class BaseRun(BaseResource[ProtoRun], OperationInterface[RunResult[ToolCallTypeT
         return kwargs
 
     async def _get_run(self, *, timeout: float = 60) -> ProtoRun:
+
         request = GetRunRequest(run_id=self.id)
 
         async with self._client.get_service_stub(RunServiceStub, timeout=timeout) as stub:
@@ -108,6 +123,13 @@ class BaseRun(BaseResource[ProtoRun], OperationInterface[RunResult[ToolCallTypeT
         events_start_idx: int = 0,
         timeout: float = 60,
     ) -> AsyncIterator[RunStreamEvent[ToolCallTypeT]]:
+        """
+        Listen to run events stream.
+
+        :param events_start_idx: Starting event index
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         request = ListenRunRequest(
             run_id=self.id,
             events_start_idx=Int64Value(value=events_start_idx),
@@ -147,6 +169,13 @@ class BaseRun(BaseResource[ProtoRun], OperationInterface[RunResult[ToolCallTypeT
         *,
         timeout: float = 60,
     ) -> None:
+        """
+        Submit tool execution results to continue the run.
+
+        :param tool_results: Tool call results to submit
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         proto_results = tool_results_to_proto(tool_results, proto_type=ProtoAssistantToolResultList)
         request = AttachRunRequest(
             run_id=self.id,
@@ -177,6 +206,20 @@ class BaseRun(BaseResource[ProtoRun], OperationInterface[RunResult[ToolCallTypeT
 
 
 class AsyncRun(AsyncOperationMixin[RunResult[AsyncToolCall], RunStatus], BaseRun[AsyncToolCall]):
+    """
+    Asynchronous implementation of Run operations.
+
+    Represents a server-side Run object that has been started by an assistant
+    on a specific thread. It implements the Operation interface, allowing you to monitor
+    the Run's execution on the server, track its progress, and retrieve its results.
+
+    The AsyncRun provides asynchronous methods to:
+    - Listen to real-time events from the running assistant
+    - Submit tool execution results back to continue the conversation
+    - Monitor the Run's status and retrieve final results
+    - Handle the complete lifecycle of an assistant conversation session
+    """
+    @doc_from(BaseRun._listen)
     async def listen(
         self,
         *,
@@ -191,6 +234,7 @@ class AsyncRun(AsyncOperationMixin[RunResult[AsyncToolCall], RunStatus], BaseRun
 
     __aiter__ = listen
 
+    @doc_from(BaseRun._submit_tool_results)
     async def submit_tool_results(
         self,
         tool_results: ToolResultInputType,
@@ -201,10 +245,24 @@ class AsyncRun(AsyncOperationMixin[RunResult[AsyncToolCall], RunStatus], BaseRun
 
 
 class Run(SyncOperationMixin[RunResult[ToolCall], RunStatus], BaseRun[ToolCall]):
+    """
+    Synchronous implementation of Run operations.
+
+    Represents a server-side Run object that has been started by an assistant
+    on a specific thread. It implements the Operation interface, allowing you to monitor
+    the Run's execution on the server, track its progress, and retrieve its results.
+
+    The Run provides synchronous methods to:
+    - Listen to real-time events from the running assistant
+    - Submit tool execution results back to continue the conversation
+    - Monitor the Run's status and retrieve final results
+    - Handle the complete lifecycle of an assistant conversation session
+    """
     __listen = run_sync_generator(BaseRun._listen)
     __iter__ = __listen
     __submit_tool_results = run_sync(BaseRun._submit_tool_results)
 
+    @doc_from(BaseRun._listen)
     def listen(
         self,
         *,
@@ -216,6 +274,7 @@ class Run(SyncOperationMixin[RunResult[ToolCall], RunStatus], BaseRun[ToolCall])
             timeout=timeout,
         )
 
+    @doc_from(BaseRun._submit_tool_results)
     def submit_tool_results(
         self,
         tool_results: ToolResultInputType,
