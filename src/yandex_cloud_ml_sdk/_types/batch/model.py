@@ -58,7 +58,6 @@ class BaseModelBatchMixin(
 
 
 # pylint: disable=abstract-method
-@doc_from(BaseModelBatchMixin)
 class AsyncModelBatchMixin(
     BaseModelBatchMixin[ConfigTypeT, ResultTypeT, AsyncBatchSubdomain],
     Generic[ConfigTypeT, ResultTypeT],
@@ -67,7 +66,6 @@ class AsyncModelBatchMixin(
 
 
 # pylint: disable=abstract-method
-@doc_from(BaseModelBatchMixin)
 class ModelBatchMixin(
     BaseModelBatchMixin[ConfigTypeT, ResultTypeT, BatchSubdomain],
     Generic[ConfigTypeT, ResultTypeT],
