@@ -10,6 +10,7 @@ import aiofiles
 
 from yandex_cloud_ml_sdk._logging import get_logger
 from yandex_cloud_ml_sdk._types.misc import PathLike, coerce_path, is_path_like
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 if TYPE_CHECKING:
     from .dataset import BaseDataset
@@ -26,16 +27,35 @@ MIN_CHUNK_SIZE_PRETTY = '5MB'
 
 
 class BaseUploader(abc.ABC):
+    """This class provides a blueprint for different implementations of dataset uploads,
+    accommodating various dataset sizes and upload strategies.
+
+    :param _chunk_size: the size of chunks to upload.
+    :param _parallelism: the level of parallelism for uploads.
+    """
     def __init__(self, chunk_size: int, parallelism: int):
         self._chunk_size = chunk_size
         self._parallelism = parallelism
 
     @abc.abstractmethod
     async def upload(self, path_or_iterator: PathLike, /, dataset: BaseDataset, timeout: float, upload_timeout: float) -> None:
+        """Upload the dataset to a specified location.
+
+        :param path_or_iterator: the path or iterator to the data to be uploaded.
+        :param dataset: the dataset object containing metadata and methods for upload.
+        :param timeout: the overall time to wait for the upload operation.
+        :param upload_timeout: the time to wait for individual upload requests.
+        """
         pass
 
 
 def create_uploader(path_or_iterator: PathLike, chunk_size: int, parallelism: int | None) -> BaseUploader:
+    """Create an appropriate uploader based on the provided parameters.
+
+    :param path_or_iterator: the path or iterator to the data to be uploaded.
+    :param chunk_size: the size of chunks to upload.
+    :param parallelism: the level of parallelism for uploads.
+    """
     if not is_path_like(path_or_iterator):
         raise NotImplementedError('only paths are supported yet')
 
@@ -65,7 +85,16 @@ def create_uploader(path_or_iterator: PathLike, chunk_size: int, parallelism: in
 
 
 class SingleUploader(BaseUploader):
+    """This class implements the upload method for datasets that can be uploaded in one go without needing to split into multiple parts."""
+
     async def upload(self, path: PathLike, /, dataset: BaseDataset, timeout: float, upload_timeout: float) -> None:
+        """Upload the dataset using a single request or a multipart upload.
+
+        :param path: the path to the data to be uploaded.
+        :param dataset: the dataset object containing metadata and methods for upload.
+        :param timeout: the overall time to wait for the upload operation.
+        :param upload_timeout: the time to wait for the individual upload request.
+        """
         path = coerce_path(path)
         size = path.stat().st_size
 
@@ -89,6 +118,13 @@ class SingleUploader(BaseUploader):
 
 
 class MultipartUploader(BaseUploader):
+    """This class implements the upload method for datasets that need to
+    be split into smaller parts (chunks) for upload. It allows for
+    concurrent uploads of these chunks to improve performance.
+
+    :param _semaphore: a semaphore to limit the number of concurrent uploads based on the specified parallelism.
+    """
+
     def __init__(self, chunk_size: int, parallelism: int):
         super().__init__(chunk_size=chunk_size, parallelism=parallelism)
         self._semaphore = asyncio.Semaphore(parallelism)
@@ -127,6 +163,7 @@ class MultipartUploader(BaseUploader):
 
             return response.headers['etag']
 
+    @doc_from(SingleUploader.upload)
     async def upload(self, path: PathLike, /, dataset: BaseDataset, timeout: float, upload_timeout: float) -> None:
         path = coerce_path(path)
         size = path.stat().st_size
