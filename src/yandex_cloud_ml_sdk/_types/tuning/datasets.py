@@ -23,19 +23,6 @@ got {}
 """.split('\n'))
 
 def coerce_datasets(datasets: TuningDatasetsType) -> tuple[tuple[str, float], ...]:
-    """
-    Coerce various dataset input formats into a standardized tuple format.
-
-    This function normalizes different types of dataset inputs into a consistent
-    format of tuples containing dataset IDs and their weights. It handles:
-
-    - Single datasets (strings or BaseDataset objects) - assigned weight 1.0
-    - Weighted datasets as tuples (dataset, weight)
-    - Collections of datasets (lists, iterables)
-    - Dictionaries mapping datasets to weights
-
-    :param datasets: Input datasets in various supported formats
-    """
     if (
         isinstance(datasets, (str, BaseDataset)) or
         isinstance(datasets, tuple) and len(datasets) == 2 and isinstance(datasets[1], Number)

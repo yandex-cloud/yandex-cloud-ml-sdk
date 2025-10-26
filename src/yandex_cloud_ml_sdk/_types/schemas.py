@@ -106,11 +106,6 @@ class JsonSchemaParameterType(TypedDict):
 
 
 def is_pydantic_model_class(response_format: ResponseType) -> TypeGuard[type[pydantic.BaseModel]]:
-    """
-    Check if the response format is a Pydantic model class.
-
-    :param response_format: The response format to check
-    """
     return (
         PYDANTIC and
         isinstance(response_format, type) and
@@ -120,14 +115,6 @@ def is_pydantic_model_class(response_format: ResponseType) -> TypeGuard[type[pyd
 
 
 def http_schema_from_response_format(response_format: ResponseType) -> JsonSchemaParameterType:
-    """
-    Convert a response format to HTTP JSON schema parameter type.
-
-    Transforms various response format types (string literals, dictionaries,
-    Pydantic models/dataclasses) into a standardized HTTP JSON schema format.
-
-    :param response_format: The response format to convert
-    """
     result: JsonSchemaParameterType
 
     if isinstance(response_format, str):
@@ -203,15 +190,6 @@ def http_schema_from_response_format(response_format: ResponseType) -> JsonSchem
 def make_response_format_kwargs(
     response_format: ResponseType | None
 ) -> JsonObjectProtoFormat | JsonSchemaProtoFormat | EmptyProtoFormat:
-    """
-    Create response format kwargs from response format specification.
-
-    Transforms response format into protocol buffer format kwargs by:
-    1) Converting response_format to http_schema via schema_from_response_format
-    2) Converting http_schema to grpc_schema format
-
-    :param response_format: The response format specification or None
-    """
     if response_format is None:
         return {}
 
@@ -225,14 +203,6 @@ def make_response_format_kwargs(
 
 
 def schema_from_parameters(parameters: ParametersType) -> JsonSchemaType:
-    """
-    Extract JSON schema from function call parameters.
-
-    Converts various parameter types (dictionaries, Pydantic models/dataclasses)
-    into a JSON schema representation.
-
-    :param parameters: The parameters to convert to JSON schema
-    """
     if isinstance(parameters, dict):
         result = dict(parameters)
     elif is_pydantic_model_class(parameters):

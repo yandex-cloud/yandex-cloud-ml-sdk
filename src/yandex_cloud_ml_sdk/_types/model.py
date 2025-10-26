@@ -30,11 +30,7 @@ TuningParamsTypeT = TypeVar('TuningParamsTypeT', bound=BaseTuningParams)
 
 class BaseModel(Generic[ConfigTypeT, ResultTypeT], metaclass=abc.ABCMeta):
     """
-    Model class provides a foundation for all model types, handling common
-    functionality like configuration management and integration.
-
-    :param ConfigTypeT: Type parameter for model configuration class.
-    :param ResultTypeT: Type parameter for model result class.
+    Class provides a foundation for all model types.
     """
     _config_type: type[ConfigTypeT]
     _result_type: type[ResultTypeT]
@@ -123,14 +119,7 @@ class ModelAsyncMixin(
     BaseModel[ConfigTypeT, ResultTypeT],
     Generic[ConfigTypeT, ResultTypeT, OperationTypeT]
 ):
-    """
-    Mixin class for models that support asynchronous/deferred execution.
 
-    This mixin provides the interface for models that can execute
-    operations asynchronously and return operation handles for later retrieval.
-
-    :param OperationTypeT: Type parameter for operation class.
-    """
     _operation_type: type[OperationTypeT]
     _proto_result_type: type[ProtoMessage]
 
@@ -152,15 +141,7 @@ class ModelTuneMixin(
     BaseModel[ConfigTypeT, ResultTypeT],
     Generic[ConfigTypeT, ResultTypeT, TuningParamsTypeT, TuningTaskTypeT]
 ):
-    """
-    Mixin class for models that support fine-tuning.
 
-    This mixin provides the interface for models that can be fine-tuned
-    with custom datasets and parameters.
-
-    :param TuningParamsTypeT: Type parameter for tuning parameters class
-    :param TuningTaskTypeT: Type parameter for tuning task class
-    """
     _tuning_params_type: type[TuningParamsTypeT]
     _tune_operation_type: type[TuningTaskTypeT]
 

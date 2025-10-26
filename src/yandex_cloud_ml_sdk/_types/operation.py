@@ -161,10 +161,8 @@ class OperationInterface(abc.ABC, Generic[AnyResultTypeT_co, OperationStatusType
     """
     Interface for long-running operations.
 
-    Provides a common interface for managing asynchronous operations including
+    Provides a common interface for managing operations including
     status checking, result retrieval, cancellation, and polling with timeout.
-
-    :param id: Unique operation identifier.
     """
     id: str
     _default_poll_timeout: ClassVar[int] = 3600
@@ -177,21 +175,18 @@ class OperationInterface(abc.ABC, Generic[AnyResultTypeT_co, OperationStatusType
         """
         Get the current status of the operation.
         """
-        ...
 
     @abc.abstractmethod
     async def _get_result(self, *, timeout: float = 60) -> AnyResultTypeT_co:
         """
         Get the result of the completed operation.
         """
-        ...
 
     @abc.abstractmethod
     async def _cancel(self, *, timeout: float = 60) -> None:
         """
         Cancel the running operation.
         """
-        ...
 
     async def _sleep_impl(self, delay: float) -> None:
         # method is created for patching it in a tests
@@ -223,6 +218,14 @@ class OperationInterface(abc.ABC, Generic[AnyResultTypeT_co, OperationStatusType
     ) -> AnyResultTypeT_co:
         """
         Wait for operation completion and return the result.
+        This method uses polling to periodically check the operation status
+        until it completes or times out.
+        
+        :param timeout: Maximum time to wait for operation completion (seconds).
+        :param poll_timeout: Maximum time for individual polling requests (seconds).
+               If None, uses default from operation or class configuration.
+        :param poll_interval: Time between polling requests (seconds).
+               If None, uses default from class configuration.
         """
 
         # poll_timeout got from user
@@ -255,7 +258,7 @@ class BaseOperation(Generic[ResultTypeT_co], OperationInterface[ResultTypeT_co, 
     Implementation for long-running operations.
 
     Provides concrete implementation of the OperationInterface for operations
-    that return results of type ResultTypeT_co and use OperationStatus for status.
+    that return results of type and use OperationStatus for status.
     """
     _last_known_status: OperationStatus | None
 
@@ -462,12 +465,6 @@ class AsyncOperationMixin(OperationInterface[AnyResultTypeT_co, OperationStatusT
 
 
 class AsyncOperation(AsyncOperationMixin[ResultTypeT_co, OperationStatus], BaseOperation[ResultTypeT_co]):
-    """
-    Concrete async operation implementation.
-
-    Combines AsyncOperationMixin and BaseOperation to provide a complete
-    async operation implementation with public async interface.
-    """
     ...
 
 

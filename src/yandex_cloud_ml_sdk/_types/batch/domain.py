@@ -23,13 +23,11 @@ logger = get_logger(__name__)
 
 class BaseBatchSubdomain(Generic[BatchTaskOperationTypeT], metaclass=abc.ABCMeta):
     """
-    Class for batch processing subdomains.
+    Provides batch processing functionality for ML models.
 
-    This class provides the core functionality for batch operations on ML models,
-    including creating deferred batch tasks and managing their execution.
-
-    :param model: The ML model that supports batch operations
-    :param sdk: The base SDK instance for API communication
+    This class enables batch operations on ML models, allowing you to process
+    datasets and manage long-running batch tasks. Access this functionality
+    through the model's batch attribute (e.g., model.batch.run_deferred()).
     """
 
     def __init__(self, model: BaseModelBatchMixin, sdk: BaseSDK):
@@ -44,12 +42,12 @@ class BaseBatchSubdomain(Generic[BatchTaskOperationTypeT], metaclass=abc.ABCMeta
         )
 
     async def _run_deferred(self, dataset: DatasetType, *, timeout: float = 60) -> BatchTaskOperationTypeT:
-        """Run a deferred batch task asynchronously.
+        """Run a deferred batch task.
 
         Creates and executes a batch processing task for the given dataset
-        and returns an async operation object to track its progress.
+        and returns an operation object to track its progress.
 
-        :param dataset: The dataset to process in batch mode
+        :param dataset: The dataset object or string dataset id.
         :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
         """

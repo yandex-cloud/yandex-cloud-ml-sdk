@@ -74,9 +74,7 @@ class BaseResource(BaseProtoResult[ProtoMessageTypeT_contra]):
 class BaseDeleteableResource(BaseResource[ProtoMessageTypeT_contra]):
     """
     Class for resources that can be deleted.
-
-    Extends BaseResource with deletion functionality and thread-safe operations.
-    Maintains deletion state and provides locking mechanism for safe concurrent access.
+    Extends BaseResource with deletion functionality.
     """
     _lock: asyncio.Lock = dataclasses.field(repr=False)
     _deleted: bool = dataclasses.field(repr=False)
@@ -120,15 +118,6 @@ R = TypeVar('R', bound=BaseDeleteableResource)
 def safe_on_delete(
     method: Callable[Concatenate[R, P], Awaitable[T]]
 ) -> Callable[Concatenate[R, P], Awaitable[T]]:
-    """
-    Decorator that ensures operations are safe to perform on deleteable resources.
-
-    This decorator wraps methods to prevent operations on deleted resources.
-    It acquires an async lock to ensure thread-safe access and checks if the
-    resource has been marked as deleted before allowing the operation to proceed.
-
-    :param method: The async method to wrap with deletion safety checks
-    """
     @functools.wraps(method)
     async def inner(self: R, *args: P.args, **kwargs: P.kwargs) -> T:
         async with self._lock:  # pylint: disable=protected-access

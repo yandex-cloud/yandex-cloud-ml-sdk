@@ -31,13 +31,12 @@ class TextMessageProtocol(Protocol):
     """
 
     @property
-    #: Get the role of the message sender.
-    def role(self) -> str: ...
+    def role(self) -> str:
+    """Get the role of the message sender."""
 
     @property
-    #: Get the text content of the message.
-    def text(self) -> str: ...
-
+    def text(self) -> str:
+    """Get the text content of the message."""
 
 class TextMessageDict(TypedDict):
     """
@@ -58,15 +57,7 @@ MessageType: TypeAlias = Union[TextMessage, TextMessageDict, TextMessageProtocol
 
 
 def coerce_to_text_message_dict(message: MessageType) -> TextMessageDict:
-    """
-    Convert any supported message type to TextMessageDict format.
-
-    This function provides a unified way to convert different message representations
-    into a standardized dictionary format. It handles various input types and ensures
-    consistent output format for further processing.
-
-    :param message: The message to convert, can be any supported message type
-    """
+    
     if isinstance(message, (TextMessage, TextMessageProtocol)):
         return {
             'text': message.text,

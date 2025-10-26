@@ -25,15 +25,6 @@ ProtoMessageTypeT = TypeVar('ProtoMessageTypeT', bound=ProtoMessage)
 
 @runtime_checkable
 class ProtoBasedType(Protocol[ProtoMessageTypeT_contra]):
-    """
-    Protocol for types that can be created from protobuf messages.
-
-    This protocol defines the interface for classes that can be instantiated
-    from Protocol Buffer messages using the SDK context.
-
-    :param ProtoMessageTypeT_contra: The protobuf message type (contravariant)
-    """
-
     @classmethod
     def _from_proto(cls, *, proto: ProtoMessageTypeT_contra, sdk: BaseSDK) -> Self:
         raise NotImplementedError()
@@ -41,13 +32,11 @@ class ProtoBasedType(Protocol[ProtoMessageTypeT_contra]):
 
 class ProtoBased(abc.ABC, ProtoBasedType[ProtoMessageTypeT_contra]):
     """
-    Abstract base class for types based on protobuf messages.
+    Class for types based on protobuf messages.
 
     This class provides a concrete implementation of the ProtoBasedType protocol
     and serves as a base class for SDK types that are derived from Protocol Buffer
     messages.
-
-    :param ProtoMessageTypeT_contra: The protobuf message type (contravariant)
     """
 
     @classmethod

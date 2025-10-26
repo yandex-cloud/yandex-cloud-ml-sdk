@@ -12,12 +12,8 @@ if TYPE_CHECKING:
 
 class BaseFunction(abc.ABC):
     """
-    Class for all function types provides the foundation for implementing various function types
+    Class for all function types provides the foundation for implementing various function
     that operate within the context of a domain and SDK instance.
-
-    :param name: The name of the function.
-    :param sdk: The SDK instance used for API communication.
-    :param parent_resource: The parent domain resource that owns this function.
     """
 
     def __init__(self, name: str, sdk: BaseSDK, parent_resource: BaseDomain):
@@ -33,8 +29,6 @@ class BaseModelFunction(BaseFunction, Generic[ModelTypeT]):
     This class extends BaseFunction to provide functionality for functions
     that work with specific model types. It uses generics to ensure type
     safety for the model instances returned by the function.
-
-    :param ModelTypeT: The type of model that this function works with.
     """
 
     _model_type: type[ModelTypeT]

@@ -36,14 +36,8 @@ class BaseDomain:
 
 class DomainWithFunctions(BaseDomain):
     """
-    Domain class that automatically initializes functions from type annotations.
-
-    This class extends BaseDomain to provide automatic initialization of functions
-    based on class type annotations. It scans for BaseModelFunction subclasses
-    in the type annotations and creates instances of them as attributes.
-
-    :param name: The name of the domain.
-    :param sdk: The base SDK instance.
+    Extends BaseDomain to automatically create function instances from annotated
+    BaseModelFunction subclasses.
     """
     def __init__(self, name: str, sdk: BaseSDK):
         super().__init__(name=name, sdk=sdk)

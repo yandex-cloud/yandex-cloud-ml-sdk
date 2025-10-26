@@ -57,7 +57,7 @@ class ExpirationConfig:
     This class encapsulates the configuration needed to set up expiration
     for various resources.
     """
-    #: Time-to-live in days. If None, no TTL is set.
+    #: Time-to-live in days. If None, no TTL is set. If None, using backend defaults.
     ttl_days: int | None = None
     #: The policy determining how expiration is calculated. If None, no expiration policy is set.
     expiration_policy: ExpirationPolicy | None = None
@@ -69,10 +69,7 @@ class ExpirationConfig:
         expiration_policy: UndefinedOr[ExpirationPolicyAlias]
     ) -> ExpirationConfig:
         """
-        Create an ExpirationConfig from potentially undefined values.
-
-        This class method handles the conversion of undefined or various formats
-        of expiration parameters into a properly typed ExpirationConfig instance.
+        :meta private:
         """
         #: Time-to-live in days, may be undefined.
         ttl_days_ = get_defined_value(ttl_days, None)
@@ -89,10 +86,7 @@ class ExpirationConfig:
 
     def to_proto(self) -> ExpirationConfigProto | None:
         """
-        Convert this configuration to the corresponding protobuf message.
-
-        Transforms the current ExpirationConfig instance into a protobuf
-        ExpirationConfigProto message that can be used in API calls.
+        :meta private:
         """
         if not self.expiration_policy and not self.ttl_days:
             return None
