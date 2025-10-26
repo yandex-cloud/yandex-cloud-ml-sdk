@@ -32,11 +32,13 @@ class TextMessageProtocol(Protocol):
 
     @property
     def role(self) -> str:
-    """Get the role of the message sender."""
+        """Get the role of the message sender."""
+        ...
 
     @property
     def text(self) -> str:
-    """Get the text content of the message."""
+        """Get the text content of the message."""
+        ...
 
 class TextMessageDict(TypedDict):
     """
