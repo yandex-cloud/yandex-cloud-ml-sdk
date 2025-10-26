@@ -57,7 +57,7 @@ MessageType: TypeAlias = Union[TextMessage, TextMessageDict, TextMessageProtocol
 
 
 def coerce_to_text_message_dict(message: MessageType) -> TextMessageDict:
-    
+
     if isinstance(message, (TextMessage, TextMessageProtocol)):
         return {
             'text': message.text,

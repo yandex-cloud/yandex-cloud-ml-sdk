@@ -220,7 +220,7 @@ class OperationInterface(abc.ABC, Generic[AnyResultTypeT_co, OperationStatusType
         Wait for operation completion and return the result.
         This method uses polling to periodically check the operation status
         until it completes or times out.
-        
+
         :param timeout: Maximum time to wait for operation completion (seconds).
         :param poll_timeout: Maximum time for individual polling requests (seconds).
                If None, uses default from operation or class configuration.
