@@ -1,9 +1,11 @@
+from __future__ import annotations
+
 import os
 from typing import Optional
 
 ENV_VAR = 'YC_FOLDER_ID'
 
-def get_folder_id(folder_id: Optional[str]) -> str:
+def get_folder_id(folder_id: str | None) -> str:
     """
     Returns the folder_id from the argument or environment variable.
     """
