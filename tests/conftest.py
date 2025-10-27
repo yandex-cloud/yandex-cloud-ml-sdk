@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from concurrent import futures
 from typing import AsyncIterator, Callable
 from unittest.mock import AsyncMock
@@ -69,7 +70,8 @@ def patch_operation(request, monkeypatch):
 
 @pytest.fixture(name='folder_id')
 def fixture_folder_id():
-    return 'b1ghsjum2v37c2un8h64'
+    default_folder_id = 'b1ghsjum2v37c2un8h64'
+    return os.environ.get('YC_FOLDER_ID', default_folder_id)
 
 
 @pytest.fixture(name='servicers')

@@ -14,6 +14,7 @@ from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from ._assistants.domain import Assistants, AsyncAssistants, BaseAssistants
 from ._auth import BaseAuth
+from ._authorization import get_folder_id
 from ._batch.domain import AsyncBatch, BaseBatch, Batch
 from ._chat import AsyncChat, BaseChat, Chat
 from ._client import AsyncCloudClient
@@ -66,7 +67,7 @@ class BaseSDK:
     def __init__(
         self,
         *,
-        folder_id: str,
+        folder_id: UndefinedOr[str] | None = UNDEFINED,
         endpoint: UndefinedOr[str] | None = UNDEFINED,
         auth: UndefinedOr[str | BaseAuth] = UNDEFINED,
         retry_policy: UndefinedOr[RetryPolicy] = UNDEFINED,
@@ -79,7 +80,8 @@ class BaseSDK:
         """Construct a new asynchronous sdk instance.
 
         :param folder_id: Yandex Cloud folder identifier which will be billed
-           for models usage.
+            for models usage. In case of default Undefined value, there will be a mechanism to get folder_id
+            from environment
         :type folder_id: str
         :param endpoint: domain:port pair for Yandex Cloud API or any other
             grpc compatible target.
@@ -116,7 +118,7 @@ class BaseSDK:
             enable_server_data_logging=get_defined_value(enable_server_data_logging, None),
             verify=get_defined_value(verify, None),  # type: ignore[arg-type]
         )
-        self._folder_id = folder_id
+        self._folder_id = get_folder_id(folder_id = get_defined_value(folder_id, None))
 
         self._init_domains()
 
