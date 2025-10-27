@@ -42,8 +42,8 @@ class BaseYandexLanguageModel(BaseYandexModel[ModelTypeT], BaseLanguageModel):
     Class for Yandex language models compatible with Langchain.
 
     This class extends BaseYandexModel with Langchain's BaseLanguageModel
-    interface, providing a complete foundation for implementing Yandex Cloud ML
-    language models that can be used within the Langchain ecosystem.
+    interface, providing a complete foundation for implementing language
+    models that can be used within the Langchain ecosystem.
 
     Inherits all parameters from BaseYandexModel.
     """
