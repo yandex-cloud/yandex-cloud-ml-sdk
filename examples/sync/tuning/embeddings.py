@@ -79,7 +79,7 @@ def main() -> None:
 
         # you can save model.uri somewhere and reuse it later
         tuned_uri = new_model.uri
-        model = sdk.models.completions(tuned_uri)
+        model = sdk.models.text_embeddings(tuned_uri)
         result = model.run("hi")
         print(f'posttrain model inference result: {result}')
 
