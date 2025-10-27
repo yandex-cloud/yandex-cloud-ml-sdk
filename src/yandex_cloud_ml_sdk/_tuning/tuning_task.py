@@ -123,7 +123,7 @@ class TuningTaskStatus(OperationStatus):
 
 class BaseTuningTask(OperationInterface[TuningResultTypeT_co, TuningTaskStatus]):
     """
-    Tuning task class that provides an Operation interface for tracking the tuning task and obtaining results in Yandex Cloud ML SDK.
+    Tuning task class that provides an Operation interface for tracking the tuning task and obtaining results.
     """
     _sdk: BaseSDK
 
@@ -146,9 +146,6 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co, TuningTaskStatus])
     def id(self):
         """
         Get fine-tuning task identifier.
-
-        Returns operation_id if set, otherwise task_id.
-        At least one of these identifiers must be provided when creating the task.
         """
         return self._operation_id or self._task_id
 
@@ -336,13 +333,10 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co, TuningTaskStatus])
         """
         Fetches metrics URL for the current tuning task.
 
-        Makes an async request to TuningService to get the metrics load URL.
-        Handles NOT_FOUND errors gracefully by returning None.
+        Returns None if the task has not yet generated metrics or if metrics are not available.
 
         :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
-
-        Raises: AioRpcError: For any gRPC errors except NOT_FOUND.
         """
         logger.debug('Fetching metrics url for %s', self)
         task_id = await self._get_task_id(timeout=timeout)
