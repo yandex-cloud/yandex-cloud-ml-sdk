@@ -2,22 +2,20 @@
 
 from __future__ import annotations
 
-import asyncio
-
-from yandex_cloud_ml_sdk import AsyncYCloudML
+from yandex_cloud_ml_sdk import YCloudML
 
 
-async def main() -> None:
-    sdk = AsyncYCloudML(folder_id='b1ghsjum2v37c2un8h64')
+def main() -> None:
+    sdk = YCloudML(folder_id='b1ghsjum2v37c2un8h64')
     sdk.setup_default_logging()
 
-    search = sdk.search_api.web('RU')
+    search = sdk.search_api.image('RU')
 
     search_query = input('Enter the search query: ')
     if not search_query.strip():
         search_query = 'Yandex Cloud'
 
-    search_result = await search.run(search_query)
+    search_result = search.run(search_query)
 
     # You could exam search_result structure via pprint to know how to work with it
     # pprint.pprint(search_result)
@@ -34,8 +32,8 @@ async def main() -> None:
         # search_result.next_page() is a shortcut for .run(search_query, page=page + 1)
         # with search configuration saved from initial run;
         # last page + 1 will return an "empty" search_result;
-        search_result = await search_result.next_page()
+        search_result = search_result.next_page()
 
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    main()
