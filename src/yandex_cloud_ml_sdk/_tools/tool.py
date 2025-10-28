@@ -15,10 +15,18 @@ from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Tool as ProtoCo
 from yandex_cloud_ml_sdk._types.proto import ProtoBased, ProtoMessageTypeT, SDKType
 from yandex_cloud_ml_sdk._types.schemas import JsonObject, JsonSchemaType
 
+#: Type variable representing protobuf tool types.
 ProtoToolTypeT = TypeVar('ProtoToolTypeT', ProtoAssistantsTool, ProtoCompletionsTool)
 
 
 class BaseTool(ProtoBased[ProtoMessageTypeT]):
+    """
+    Сlass for all tools.
+
+    This class serves as the foundation for all tool implementations that can be used
+    with AI models.
+    """
+
     @classmethod
     @abc.abstractmethod
     def _from_proto(cls, *, proto: ProtoMessageTypeT, sdk: SDKType) -> BaseTool:
@@ -68,15 +76,30 @@ class BaseTool(ProtoBased[ProtoMessageTypeT]):
     def _to_json(self) -> JsonObject:
         raise NotImplementedError(f'tools of type {self.__class__.__name__} are not supported in this part of the API')
 
-
+#: Union type for function tool protobuf messages.
 ProtoFunctionTool = Union[ProtoCompletionsFunctionTool, ProtoAssistantsFunctionTool]
 
 
 @dataclass(frozen=True)
 class FunctionTool(BaseTool[ProtoFunctionTool]):
+    """
+    A function tool that can be called by AI models.
+
+    This class represents a callable function that can be used by AI models
+    for function calling capabilities. It encapsulates the function's metadata
+    including its name, description, parameter schema, and validation settings.
+
+    The function tool can be used with both completions and assistants APIs,
+    providing a unified interface for defining external functions that models
+    can invoke during conversations or completion requests.
+    """
+    #: Name of the function
     name: str
+    #: Optional function description
     description: str | None
+    #: Function parameters schema
     parameters: JsonSchemaType
+    #: Whether to enforce strict parameter validation
     strict: bool | None
 
     # pylint: disable=unused-argument
