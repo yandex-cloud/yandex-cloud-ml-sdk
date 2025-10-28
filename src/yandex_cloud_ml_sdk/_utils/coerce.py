@@ -42,3 +42,12 @@ def coerce_tuple(value: Iterable[_T] | _T, value_type: type[_T]) -> tuple[_T, ..
         raise TypeError(f'{value} expected to be {value_type} or Iterable')
 
     return tuple(value)
+
+
+def coerce_optional_int(value: str | None) -> int | None:
+    if value is None:
+        return None
+    try:
+        return int(value)
+    except ValueError:
+        return None

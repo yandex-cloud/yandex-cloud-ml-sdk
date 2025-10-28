@@ -26,9 +26,8 @@ def main() -> None:
     # search result could be used in boolean context;
     while search_result:
         print(f'Page {search_result.page}:')
-        for group in search_result:
-            for document in group:
-                print(document)
+        for document in search_result:
+            print(document)
 
         # search_result.next_page() is a shortcut for .run(search_query, page=page + 1)
         # with search configuration saved from initial run;
