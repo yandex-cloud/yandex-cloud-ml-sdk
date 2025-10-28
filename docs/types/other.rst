@@ -66,6 +66,12 @@ Generic types
 .. py:class:: yandex_cloud_ml_sdk._search_api.web.web.WebSearchTypeT
 
 
+.. py:class:: yandex_cloud_ml_sdk._search_api.image.image.ImageSearchTypeT
+
+
+.. py:class:: yandex_cloud_ml_sdk._search_api.types.XMLSearchDocumentTypeT
+
+
 Miscellaneous types
 ~~~~~~~~~~~~~~~~~~~
 
@@ -88,6 +94,8 @@ Miscellaneous types
 .. py:class:: yandex_cloud_ml_sdk._tools.tool_call_list.HttpToolCallList
 
 .. py:class:: yandex_cloud_ml_sdk._types.enum.UnknownEnumValue
+
+.. py:class:: yandex_cloud_ml_sdk._search_api.utils.NestedDict
 
 
 Completions-related types

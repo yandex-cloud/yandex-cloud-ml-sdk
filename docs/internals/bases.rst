@@ -89,3 +89,5 @@ Base classes
 .. autoclass:: yandex_cloud_ml_sdk._chat.text_embeddings.model.BaseChatEmbeddingsModel
 
 .. autoclass:: yandex_cloud_ml_sdk._search_api.web.function.BaseWebSearchFunction
+
+.. autoclass:: yandex_cloud_ml_sdk._search_api.image.function.BaseImageSearchFunction

@@ -5,7 +5,7 @@ from typing import Any, Union, cast
 
 from typing_extensions import Self, override
 
-from yandex_cloud_ml_sdk._search_api.types import (
+from yandex_cloud_ml_sdk._search_api.enums import (
     FamilyMode, FixTypoMode, GroupMode, Localization, SearchType, SortMode, SortOrder
 )
 from yandex_cloud_ml_sdk._types.enum import EnumWithUnknownAlias, EnumWithUnknownInput, ProtoBasedEnum

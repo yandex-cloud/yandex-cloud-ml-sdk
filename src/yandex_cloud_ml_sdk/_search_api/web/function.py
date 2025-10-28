@@ -4,12 +4,15 @@ from collections.abc import Mapping
 
 from typing_extensions import override
 
+from yandex_cloud_ml_sdk._search_api.enums import (
+    FamilyMode, FixTypoMode, GroupMode, Localization, SearchType, SortMode, SortOrder
+)
 from yandex_cloud_ml_sdk._types.enum import EnumWithUnknownInput, UndefinedOrEnumWithUnknownInput
 from yandex_cloud_ml_sdk._types.function import BaseModelFunction
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr
 from yandex_cloud_ml_sdk._utils.doc import doc_from
 
-from .config import FamilyMode, FixTypoMode, GroupMode, Localization, SearchType, SortMode, SortOrder, WebSearchConfig
+from .config import WebSearchConfig
 from .web import AsyncWebSearch, WebSearch, WebSearchTypeT
 
 

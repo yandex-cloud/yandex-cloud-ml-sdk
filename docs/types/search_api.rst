@@ -20,17 +20,27 @@ Generative serch
 .. autodata:: yandex_cloud_ml_sdk._search_api.generative.config.FilterType
 
 
+General
+-------
+
+.. autoclass:: yandex_cloud_ml_sdk._search_api.types.SearchGroup
+
+
 Web search
 ----------
 
 .. autoclass:: yandex_cloud_ml_sdk._search_api.web.result.WebSearchDocument
    :undoc-members:
 
-.. autoclass:: yandex_cloud_ml_sdk._search_api.web.result.WebSearchGroup
+Image search
+------------
+
+.. autoclass:: yandex_cloud_ml_sdk._search_api.image.result.ImageSearchDocument
+   :undoc-members:
 
 Enum-like settings
 ------------------
 
-.. automodule:: yandex_cloud_ml_sdk._search_api.types
+.. automodule:: yandex_cloud_ml_sdk._search_api.enums
    :undoc-members:
    :exclude-members: to_bytes,from_bytes
