@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import xml.etree.ElementTree as ET
-from typing import Dict, Final, Union
+from typing import Final, Union
 
 MAX_RECURSION_DEPTH: Final = 255
 MAX_RECURSION_TEXT: Final = '<recursive parsing max depth reached>'
