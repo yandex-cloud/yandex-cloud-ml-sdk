@@ -25,8 +25,6 @@ General
 
 .. autoclass:: yandex_cloud_ml_sdk._search_api.types.SearchGroup
 
-.. autoclass:: yandex_cloud_ml_sdk._search_api.utils.NestedDict
-
 
 Web search
 ----------

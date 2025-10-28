@@ -1,0 +1,488 @@
+{
+    "interactions": [
+        {
+            "request": {
+                "cls": "ListApiEndpointsRequest",
+                "module": "yandex.cloud.endpoint.api_endpoint_service_pb2",
+                "message": {}
+            },
+            "response": {
+                "cls": "ListApiEndpointsResponse",
+                "module": "yandex.cloud.endpoint.api_endpoint_service_pb2",
+                "message": {
+                    "endpoints": [
+                        {
+                            "id": "ai-assistants",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-files",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-foundation-models",
+                            "address": "llm.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-llm",
+                            "address": "llm.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-speechkit",
+                            "address": "transcribe.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-stt",
+                            "address": "transcribe.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-stt-v3",
+                            "address": "stt.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-translate",
+                            "address": "translate.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-vision",
+                            "address": "vision.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-vision-ocr",
+                            "address": "ocr.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "alb",
+                            "address": "alb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "apigateway-connections",
+                            "address": "apigateway-connections.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "application-load-balancer",
+                            "address": "alb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "apploadbalancer",
+                            "address": "alb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "audittrails",
+                            "address": "audittrails.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "baas",
+                            "address": "backup.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "backup",
+                            "address": "backup.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "baremetal",
+                            "address": "baremetal.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "billing",
+                            "address": "billing.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "broker-data",
+                            "address": "iot-data.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cdn",
+                            "address": "cdn.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager",
+                            "address": "certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager-data",
+                            "address": "data.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager-private-ca",
+                            "address": "private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager-private-ca-data",
+                            "address": "data.private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cic",
+                            "address": "cic.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloud-registry",
+                            "address": "registry.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloudapps",
+                            "address": "cloudapps.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloudbackup",
+                            "address": "backup.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "clouddesktops",
+                            "address": "clouddesktops.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloudrouter",
+                            "address": "cloudrouter.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloudvideo",
+                            "address": "video.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "compute",
+                            "address": "compute.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "connection-manager",
+                            "address": "connectionmanager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "container-registry",
+                            "address": "container-registry.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "dataproc",
+                            "address": "dataproc.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "dataproc-manager",
+                            "address": "dataproc-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "datasphere",
+                            "address": "datasphere.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "datatransfer",
+                            "address": "datatransfer.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "dns",
+                            "address": "dns.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "endpoint",
+                            "address": "api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "fomo-dataset",
+                            "address": "fomo-dataset.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "fomo-tuning",
+                            "address": "fomo-tuning.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "gitlab",
+                            "address": "gitlab.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "iam",
+                            "address": "iam.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "iot-broker",
+                            "address": "iot-broker.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "iot-data",
+                            "address": "iot-data.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "iot-devices",
+                            "address": "iot-devices.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "k8s",
+                            "address": "mks.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "kms",
+                            "address": "kms.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "kms-crypto",
+                            "address": "kms.yandex:443"
+                        },
+                        {
+                            "id": "kspm",
+                            "address": "kspm.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "load-balancer",
+                            "address": "load-balancer.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "loadtesting",
+                            "address": "loadtesting.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "locator",
+                            "address": "locator.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "lockbox",
+                            "address": "lockbox.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "lockbox-payload",
+                            "address": "payload.lockbox.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "log-ingestion",
+                            "address": "ingester.logging.yandexcloud.net:443"
+                        },
+                        {
+                            "id": "log-reading",
+                            "address": "reader.logging.yandexcloud.net:443"
+                        },
+                        {
+                            "id": "logging",
+                            "address": "logging.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-airflow",
+                            "address": "airflow.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-clickhouse",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-elasticsearch",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-greenplum",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-kafka",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-kubernetes",
+                            "address": "mks.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-metastore",
+                            "address": "metastore.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-mongodb",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-mysql",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-opensearch",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-postgresql",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-redis",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-spark",
+                            "address": "spark.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-spqr",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-sqlserver",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-trino",
+                            "address": "trino.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-ytsaurus",
+                            "address": "ytsaurus.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "marketplace",
+                            "address": "marketplace.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "marketplace-pim",
+                            "address": "marketplace.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-clickhouse",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-mongodb",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-mysql",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-opensearch",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-postgresql",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-redis",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-spqr",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdbproxy",
+                            "address": "mdbproxy.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "monitoring",
+                            "address": "monitoring.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "operation",
+                            "address": "operation.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "organization-manager",
+                            "address": "organization-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "organizationmanager",
+                            "address": "organization-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quota-manager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quotamanager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "resource-manager",
+                            "address": "resource-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "resourcemanager",
+                            "address": "resource-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "searchapi",
+                            "address": "searchapi.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serialssh",
+                            "address": "serialssh.cloud.yandex.net:9600"
+                        },
+                        {
+                            "id": "serverless-apigateway",
+                            "address": "serverless-apigateway.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-containers",
+                            "address": "serverless-containers.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-eventrouter",
+                            "address": "serverless-eventrouter.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-functions",
+                            "address": "serverless-functions.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-gateway-connections",
+                            "address": "apigateway-connections.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-triggers",
+                            "address": "serverless-triggers.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-workflows",
+                            "address": "serverless-workflows.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverlesseventrouter-events",
+                            "address": "events.eventrouter.serverless.yandexcloud.net:443"
+                        },
+                        {
+                            "id": "smart-captcha",
+                            "address": "smartcaptcha.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "smart-web-security",
+                            "address": "smartwebsecurity.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "storage",
+                            "address": "storage.yandexcloud.net:443"
+                        },
+                        {
+                            "id": "storage-api",
+                            "address": "storage.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "video",
+                            "address": "video.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "vpc",
+                            "address": "vpc.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ydb",
+                            "address": "ydb.api.cloud.yandex.net:443"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "ImageSearchRequest",
+                "module": "yandex.cloud.searchapi.v2.img_search_service_pb2",
+                "message": {
+                    "query": {
+                        "searchType": "SEARCH_TYPE_RU",
+                        "queryText": "yandex cloud"
+                    },
+                    "imageSpec": {},
+                    "folderId": "b1ghsjum2v37c2un8h64"
+                }
+            },
+            "response": {
+                "cls": "ImageSearchResponse",
+                "module": "yandex.cloud.searchapi.v2.img_search_service_pb2",
+                "message": {
+                    "rawData": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHlhbmRleHNlYXJjaCB2ZXJzaW9uPSIxLjAiPgo8cmVxdWVzdD4KPHF1ZXJ5PnlhbmRleCBjbG91ZDwvcXVlcnk+CjxwYWdlPjA8L3BhZ2U+Cjxzb3J0Ynkgb3JkZXI9ImRlc2NlbmRpbmciIHByaW9yaXR5PSJubyI+cmx2PC9zb3J0Ynk+CjxtYXhwYXNzYWdlcz4xPC9tYXhwYXNzYWdlcz4KPGdyb3VwaW5ncz4KPGdyb3VwYnkgYXR0cj0iaWkiIG1vZGU9ImRlZXAiIGdyb3Vwcy1vbi1wYWdlPSIyMCIgZG9jcy1pbi1ncm91cD0iMSIgY3VyY2F0ZWc9Ii0xIi8+CjwvZ3JvdXBpbmdzPgo8L3JlcXVlc3Q+CjxyZXNwb25zZSBkYXRlPSIyMDI1MTAyOFQxNjUyMzQiPgo8cmVxaWQ+MTc2MTY3MDM1Mzk3NzkwNi0xMjMzODAxNDM4MzI4ODgzODc1My1iYWxhbmNlci1sN2xldmVsZXIta3Vici15cC12bGEtNTYtQkFMPC9yZXFpZD4KPGZvdW5kIHByaW9yaXR5PSJwaHJhc2UiPjI2MzM8L2ZvdW5kPgo8Zm91bmQgcHJpb3JpdHk9InN0cmljdCI+MjYzMzwvZm91bmQ+Cjxmb3VuZCBwcmlvcml0eT0iYWxsIj4yNjMzPC9mb3VuZD4KPGZvdW5kLWh1bWFuPtCd0LDRiNC70L7RgdGMIDMg0YLRi9GBLiDQvtGC0LLQtdGC0L7QsjwvZm91bmQtaHVtYW4+Cjxpcy1sb2NhbD5ubzwvaXMtbG9jYWw+CjxyZXN1bHRzPgo8Z3JvdXBpbmcgYXR0cj0iaWkiIG1vZGU9ImRlZXAiIGdyb3Vwcy1vbi1wYWdlPSIyMCIgZG9jcy1pbi1ncm91cD0iMSIgY3VyY2F0ZWc9Ii0xIj4KPHBhZ2UgZmlyc3Q9IjEiIGxhc3Q9IjIwIj4wPC9wYWdlPgo8Z3JvdXA+CjxjYXRlZyBhdHRyPSJpaSIgaWQ9IjUzNTY0NDgyNTMxNDk0Mzg4NyIvPgo8ZG9jY291bnQ+MTwvZG9jY291bnQ+CjxyZWxldmFuY2UgcHJpb3JpdHk9ImFsbCIvPgo8ZG9jIGlkPSJaQTY0QzE3RUQzOTk0OTk0MyI+CjxyZWxldmFuY2UgcHJpb3JpdHk9ImFsbCIvPgo8dXJsPmh0dHBzOi8vdXBsb2FkLndpa2ltZWRpYS5vcmcvd2lraXBlZGlhL2NvbW1vbnMvdGh1bWIvNC80OS9ZYW5kZXhfQ2xvdWRfd29yZG1hcmsuc3ZnLzEyMDBweC1ZYW5kZXhfQ2xvdWRfd29yZG1hcmsuc3ZnLnBuZzwvdXJsPgo8ZG9tYWluPnVwbG9hZC53aWtpbWVkaWEub3JnPC9kb21haW4+Cjxtb2R0aW1lPjIwMjUwOTIxVDA2MzEwMTwvbW9kdGltZT4KPHNpemU+MDwvc2l6ZT4KPGNoYXJzZXQ+dXRmLTg8L2NoYXJzZXQ+CjxpbWFnZS1wcm9wZXJ0aWVzPgo8aWQ+MDQ5MDhjNzkwNTY2MDk2ZWVkMDQ4OTI3OTY0Mjg2ODMyNDFmNmFiZi0xNjQ3MDMyMS1pbWFnZXMtdGh1bWJzPC9pZD4KPHNoYXJkPjA8L3NoYXJkPgo8dGh1bWJuYWlsLWxpbms+aHR0cDovL2F2YXRhcnMubWRzLnlhbmRleC5uZXQvaT9pZD0wNDkwOGM3OTA1NjYwOTZlZWQwNDg5Mjc5NjQyODY4MzI0MWY2YWJmLTE2NDcwMzIxLWltYWdlcy10aHVtYnM8L3RodW1ibmFpbC1saW5rPgo8dGh1bWJuYWlsLXdpZHRoPjE4MDwvdGh1bWJuYWlsLXdpZHRoPgo8dGh1bWJuYWlsLWhlaWdodD4zOTwvdGh1bWJuYWlsLWhlaWdodD4KPG9yaWdpbmFsLXdpZHRoPjE4MDwvb3JpZ2luYWwtd2lkdGg+CjxvcmlnaW5hbC1oZWlnaHQ+Mzk8L29yaWdpbmFsLWhlaWdodD4KPGh0bWwtbGluaz5odHRwczovL2NvbW1vbnMud2lraW1lZGlhLm9yZy93aWtpL0NhdGVnb3J5OllhbmRleF9DbG91ZF9sb2dvczwvaHRtbC1saW5rPgo8aW1hZ2UtbGluaz5odHRwczovL3VwbG9hZC53aWtpbWVkaWEub3JnL3dpa2lwZWRpYS9jb21tb25zL3RodW1iLzQvNDkvWWFuZGV4X0Nsb3VkX3dvcmRtYXJrLnN2Zy8xODBweC1ZYW5kZXhfQ2xvdWRfd29yZG1hcmsuc3ZnLnBuZzwvaW1hZ2UtbGluaz4KPGZpbGUtc2l6ZT4yMjIyPC9maWxlLXNpemU+CjxtaW1lLXR5cGU+cG5nPC9taW1lLXR5cGU+CjwvaW1hZ2UtcHJvcGVydGllcz4KPG1pbWUtdHlwZT50ZXh0L2h0bWw8L21pbWUtdHlwZT4KPHByb3BlcnRpZXMvPgo8L2RvYz4KPC9ncm91cD4KPGdyb3VwPgo8Y2F0ZWcgYXR0cj0iaWkiIGlkPSIxMTk4NzAyMjIzMTAxMDgzMTc2Ii8+Cjxkb2Njb3VudD4xPC9kb2Njb3VudD4KPHJlbGV2YW5jZSBwcmlvcml0eT0iYWxsIi8+Cjxkb2MgaWQ9IlpEMDY0RTU4Njk4ODY1MjlBIj4KPHJlbGV2YW5jZSBwcmlvcml0eT0iYWxsIi8+Cjx1cmw+aHR0cHM6Ly9jZG4xLnRlbmNoYXQucnUvc3RhdGljL3ZiYy1nb3N0aW5kZXIvMjAyNC0wOC0yNi9hMDc2ZTA2NS01MzVkLTQ4OGQtYjZlMy0xMjI2OWQ0ZDRhNDYucG5nP3dpZHRoPTEwMDgmYW1wO2hlaWdodD01MDQmYW1wO2ZtdD13ZWJwPC91cmw+Cjxkb21haW4+Y2RuMS50ZW5jaGF0LnJ1PC9kb21haW4+Cjxtb2R0aW1lPjIwMjIwNzA0VDIyNDcxODwvbW9kdGltZT4KPHNpemU+MDwvc2l6ZT4KPGNoYXJzZXQ+dXRmLTg8L2NoYXJzZXQ+CjxpbWFnZS1wcm9wZXJ0aWVzPgo8aWQ+ZTQ2MjQ2YjE4NTVkMjNlYjM4MTMzMzJhYzY1OGNlYTlhMzM2Zjg4NS0xMDg3MDYzMi1pbWFnZXMtdGh1bWJzPC9pZD4KPHNoYXJkPjA8L3NoYXJkPgo8dGh1bWJuYWlsLWxpbms+aHR0cDovL2F2YXRhcnMubWRzLnlhbmRleC5uZXQvaT9pZD1lNDYyNDZiMTg1NWQyM2ViMzgxMzMzMmFjNjU4Y2VhOWEzMzZmODg1LTEwODcwNjMyLWltYWdlcy10aHVtYnM8L3RodW1ibmFpbC1saW5rPgo8dGh1bWJuYWlsLXdpZHRoPjI1MDwvdGh1bWJuYWlsLXdpZHRoPgo8dGh1bWJuYWlsLWhlaWdodD4xMDA8L3RodW1ibmFpbC1oZWlnaHQ+CjxvcmlnaW5hbC13aWR0aD4yNTA8L29yaWdpbmFsLXdpZHRoPgo8b3JpZ2luYWwtaGVpZ2h0PjEwMDwvb3JpZ2luYWwtaGVpZ2h0Pgo8aHRtbC1saW5rPmh0dHBzOi8vcHJvbW9rb2RpLm5ldC9zdG9yZS95YW5kZXgtcGx1cy8/X19jZl9jaGxfY2FwdGNoYV90a19fPXBtZF9ZWFZ1SjBUSndIZ2Y4RFFLU2dTendaU0N1Rm9aSjdvUGZvVzFQSVJTRXYwLTE2MzU2NzU2OTUtMC1ncU50Wkd6TkExQ2pjbkJzelFpOTwvaHRtbC1saW5rPgo8aW1hZ2UtbGluaz5odHRwczovL2ltYWdlcy5wcm9tb2tvZGkubmV0L2libG9jay9lYzUvZWM1MmY5OTAwYTU1YWM1NjM1YjI3ZmJjZWZlZmQ5MWQvY2xvdWR5YW5kZXgucG5nPC9pbWFnZS1saW5rPgo8ZmlsZS1zaXplPjE0NjI1PC9maWxlLXNpemU+CjxtaW1lLXR5cGU+cG5nPC9taW1lLXR5cGU+CjwvaW1hZ2UtcHJvcGVydGllcz4KPG1pbWUtdHlwZT50ZXh0L2h0bWw8L21pbWUtdHlwZT4KPHByb3BlcnRpZXMvPgo8L2RvYz4KPC9ncm91cD4KPGdyb3VwPgo8Y2F0ZWcgYXR0cj0iaWkiIGlkPSIzMDQ4MTUzNzcwNzYzNTAzMTcwIi8+Cjxkb2Njb3VudD4xPC9kb2Njb3VudD4KPHJlbGV2YW5jZSBwcmlvcml0eT0iYWxsIi8+Cjxkb2MgaWQ9Ilo2QUFDNTI4ODJFMDcyM0NDIj4KPHJlbGV2YW5jZSBwcmlvcml0eT0iYWxsIi8+Cjx1cmw+aHR0cHM6Ly91cGxvYWQud2lraW1lZGlhLm9yZy93aWtpcGVkaWEvY29tbW9ucy90aHVtYi80LzQwL1lhbmRleF9DbG91ZF9sb2dvLnN2Zy80NDBweC1ZYW5kZXhfQ2xvdWRfbG9nby5zdmcucG5nPC91cmw+Cjxkb21haW4+dXBsb2FkLndpa2ltZWRpYS5vcmc8L2RvbWFpbj4KPG1vZHRpbWU+MjAyMjA0MDdUMTYxNzQwPC9tb2R0aW1lPgo8c2l6ZT4wPC9zaXplPgo8Y2hhcnNldD51dGYtODwvY2hhcnNldD4KPGltYWdlLXByb3BlcnRpZXM+CjxpZD5lNGYyYjgyODUzOTA2NGY1MDI2YTlkZjFmZDdiMWU4MmQ4YjRlMjQzLTU0MzY3MzUtaW1hZ2VzLXRodW1iczwvaWQ+CjxzaGFyZD4wPC9zaGFyZD4KPHRodW1ibmFpbC1saW5rPmh0dHA6Ly9hdmF0YXJzLm1kcy55YW5kZXgubmV0L2k/aWQ9ZTRmMmI4Mjg1MzkwNjRmNTAyNmE5ZGYxZmQ3YjFlODJkOGI0ZTI0My01NDM2NzM1LWltYWdlcy10aHVtYnM8L3RodW1ibmFpbC1saW5rPgo8dGh1bWJuYWlsLXdpZHRoPjQ4MDwvdGh1bWJuYWlsLXdpZHRoPgo8dGh1bWJuYWlsLWhlaWdodD43MjwvdGh1bWJuYWlsLWhlaWdodD4KPG9yaWdpbmFsLXdpZHRoPjg1Mzwvb3JpZ2luYWwtd2lkdGg+CjxvcmlnaW5hbC1oZWlnaHQ+MTI4PC9vcmlnaW5hbC1oZWlnaHQ+CjxodG1sLWxpbms+aHR0cHM6Ly9pbmZvc3RhcnQucnUvam91cm5hbC9uZXdzL21pci0xcy95YW5kZXgtY2xvdWQtb2JsYWNobnl5LXBhcnRuZXIta29uZmVyZW50c2lpLWluZm9zdGFydC1ldmVudC0yMDIxLXBvc3QtYXBvY2FseXBzZV8xNDM0NTk2LzwvaHRtbC1saW5rPgo8aW1hZ2UtbGluaz5odHRwczovL2luZm9zdGFydC5ydS91cGxvYWQvaWJsb2NrLzkyYy85MmMyOGI2ZGQyM2Q3NzQwMGQxZDFmMmNkZGE4NTdlMC5wbmc8L2ltYWdlLWxpbms+CjxmaWxlLXNpemU+MjE0ODE8L2ZpbGUtc2l6ZT4KPG1pbWUtdHlwZT5wbmc8L21pbWUtdHlwZT4KPC9pbWFnZS1wcm9wZXJ0aWVzPgo8bWltZS10eXBlPnRleHQvaHRtbDwvbWltZS10eXBlPgo8cHJvcGVydGllcy8+CjwvZG9jPgo8L2dyb3VwPgo8Z3JvdXA+CjxjYXRlZyBhdHRyPSJpaSIgaWQ9IjExODg2NjcxNDkxNTk3MjYzMTEiLz4KPGRvY2NvdW50PjE8L2RvY2NvdW50Pgo8cmVsZXZhbmNlIHByaW9yaXR5PSJhbGwiLz4KPGRvYyBpZD0iWjVBNDQ0NUQ5MjExQTc2QUEiPgo8cmVsZXZhbmNlIHByaW9yaXR5PSJhbGwiLz4KPHVybD5odHRwczovL3N0YXRpYy50aWxkYWNkbi5jb20vdGlsZDYzNjMtNjIzMi00NTYzLWEyMzYtMzYzNzY1MzYzNTYyL1lhbmRleF9DbG91ZF9jcm9wcF9sLnBuZzwvdXJsPgo8ZG9tYWluPnN0YXRpYy50aWxkYWNkbi5jb208L2RvbWFpbj4KPG1vZHRpbWU+MjAyMjEwMjdUMjMxMDQxPC9tb2R0aW1lPgo8c2l6ZT4wPC9zaXplPgo8Y2hhcnNldD51dGYtODwvY2hhcnNldD4KPGltYWdlLXByb3BlcnRpZXM+CjxpZD41YjcwNjFhZGIyODRhY2FhNWQxYWFmNjEzZTY1OWQ5MThmZTI3ZjNkLTQzMTQyOTktaW1hZ2VzLXRodW1iczwvaWQ+CjxzaGFyZD4wPC9zaGFyZD4KPHRodW1ibmFpbC1saW5rPmh0dHA6Ly9hdmF0YXJzLm1kcy55YW5kZXgubmV0L2k/aWQ9NWI3MDYxYWRiMjg0YWNhYTVkMWFhZjYxM2U2NTlkOTE4ZmUyN2YzZC00MzE0Mjk5LWltYWdlcy10aHVtYnM8L3RodW1ibmFpbC1saW5rPgo8dGh1bWJuYWlsLXdpZHRoPjMwMDwvdGh1bWJuYWlsLXdpZHRoPgo8dGh1bWJuYWlsLWhlaWdodD42NTwvdGh1bWJuYWlsLWhlaWdodD4KPG9yaWdpbmFsLXdpZHRoPjMwMDwvb3JpZ2luYWwtd2lkdGg+CjxvcmlnaW5hbC1oZWlnaHQ+NjU8L29yaWdpbmFsLWhlaWdodD4KPGh0bWwtbGluaz5odHRwczovL2NjLmd1cnUvZXZlbnRzLzE4MS9zcGVhY2tlcnM8L2h0bWwtbGluaz4KPGltYWdlLWxpbms+aHR0cHM6Ly9jYWxsY2VudGVyZXZlbnQucnUvY2Mtd2Vlay9maWxlcy8yMDIyLzA4L2xvZ29fZ3JhZF9zaG9ydC0zMDB4NjUucG5nPC9pbWFnZS1saW5rPgo8ZmlsZS1zaXplPjk3ODc8L2ZpbGUtc2l6ZT4KPG1pbWUtdHlwZT5wbmc8L21pbWUtdHlwZT4KPC9pbWFnZS1wcm9wZXJ0aWVzPgo8bWltZS10eXBlPnRleHQvaHRtbDwvbWltZS10eXBlPgo8cHJvcGVydGllcy8+CjwvZG9jPgo8L2dyb3VwPgo8Z3JvdXA+CjxjYXRlZyBhdHRyPSJpaSIgaWQ9Ijc5ODEwNzI4MTU1Njg1OTQ3MTQiLz4KPGRvY2NvdW50PjE8L2RvY2NvdW50Pgo8cmVsZXZhbmNlIHByaW9yaXR5PSJhbGwiLz4KPGRvYyBpZD0iWjkyNEFCN0YyOTZBOTgwM0QiPgo8cmVsZXZhbmNlIHByaW9yaXR5PSJhbGwiLz4KPHVybD5odHRwczovL3MucmJrLnJ1L3YxX2NvbXBhbmllc19zMy9tZWRpYS90cmFkZW1hcmtzL2IzMzIzMDZjLWI1MjctNDhjMC1hNTkyLWE3MDNiNjY0N2Y2MS5qcGc8L3VybD4KPGRvbWFpbj5zLnJiay5ydTwvZG9tYWluPgo8bW9kdGltZT4yMDI1MDQxMVQyMzQxNTQ8L21vZHRpbWU+CjxzaXplPjA8L3NpemU+CjxjaGFyc2V0PnV0Zi04PC9jaGFyc2V0Pgo8aW1hZ2UtcHJvcGVydGllcz4KPGlkPmY1MDc1ZDVkNWU1OWQxMjIwYzEzZmE5YzVhY2ZiZjI3MDg3ZGIxNDktNDk2MDQzOS1pbWFnZXMtdGh1bWJzPC9pZD4KPHNoYXJkPjA8L3NoYXJkPgo8dGh1bWJuYWlsLWxpbms+aHR0cDovL2F2YXRhcnMubWRzLnlhbmRleC5uZXQvaT9pZD1mNTA3NWQ1ZDVlNTlkMTIyMGMxM2ZhOWM1YWNmYmYyNzA4N2RiMTQ5LTQ5NjA0MzktaW1hZ2VzLXRodW1iczwvdGh1bWJuYWlsLWxpbms+Cjx0aHVtYm5haWwtd2lkdGg+NDgwPC90aHVtYm5haWwtd2lkdGg+Cjx0aHVtYm5haWwtaGVpZ2h0PjY4PC90aHVtYm5haWwtaGVpZ2h0Pgo8b3JpZ2luYWwtd2lkdGg+NTAwPC9vcmlnaW5hbC13aWR0aD4KPG9yaWdpbmFsLWhlaWdodD43MTwvb3JpZ2luYWwtaGVpZ2h0Pgo8aHRtbC1saW5rPmh0dHBzOi8va3JheW9uLW5ldy53ZWJmbG93LmlvL3BhcnRuZXJzL3lhbmRleC1jbG91ZDwvaHRtbC1saW5rPgo8aW1hZ2UtbGluaz5odHRwczovL2Nkbi5wcm9kLndlYnNpdGUtZmlsZXMuY29tLzY0NTAwZWE4M2FkNTNlNGI1NzQxZmM0NS82NDc1N2M1NTAzYTkwNGI0MmFmZDdjNzFfbG9nb19tb25vX2Z1bGwtcC01MDAucG5nPC9pbWFnZS1saW5rPgo8ZmlsZS1zaXplPjk3NTE8L2ZpbGUtc2l6ZT4KPG1pbWUtdHlwZT5wbmc8L21pbWUtdHlwZT4KPC9pbWFnZS1wcm9wZXJ0aWVzPgo8bWltZS10eXBlPnRleHQvaHRtbDwvbWltZS10eXBlPgo8cHJvcGVydGllcy8+CjwvZG9jPgo8L2dyb3VwPgo8Z3JvdXA+CjxjYXRlZyBhdHRyPSJpaSIgaWQ9IjIyNTY0NTgwMjQ3NTM5MTIyIi8+Cjxkb2Njb3VudD4xPC9kb2Njb3VudD4KPHJlbGV2YW5jZSBwcmlvcml0eT0iYWxsIi8+Cjxkb2MgaWQ9Ilo1NjcyQTkyNTNFQTg3NUZGIj4KPHJlbGV2YW5jZSBwcmlvcml0eT0iYWxsIi8+Cjx1cmw+aHR0cHM6Ly9iZWx0ZWwucnUvY29udGVudC91cGxvYWRzLzIwMjIvMDMveWMtbG9nby1tYWluLnBuZzwvdXJsPgo8ZG9tYWluPmJlbHRlbC5ydTwvZG9tYWluPgo8bW9kdGltZT4yMDIxMDcxMFQwODE1MDc8L21vZHRpbWU+CjxzaXplPjA8L3NpemU+CjxjaGFyc2V0PnV0Zi04PC9jaGFyc2V0Pgo8aW1hZ2UtcHJvcGVydGllcz4KPGlkPmRhOWM2N2NkZmUxYWYyOTIyYjMzNWM4MTUwODhlMDg4NWNmZGQ1OTktNTI2OTg1My1pbWFnZXMtdGh1bWJzPC9pZD4KPHNoYXJkPjA8L3NoYXJkPgo8dGh1bWJuYWlsLWxpbms+aHR0cDovL2F2YXRhcnMubWRzLnlhbmRleC5uZXQvaT9pZD1kYTljNjdjZGZlMWFmMjkyMmIzMzVjODE1MDg4ZTA4ODVjZmRkNTk5LTUyNjk4NTMtaW1hZ2VzLXRodW1iczwvdGh1bWJuYWlsLWxpbms+Cjx0aHVtYm5haWwtd2lkdGg+NDgwPC90aHVtYm5haWwtd2lkdGg+Cjx0aHVtYm5haWwtaGVpZ2h0Pjk0PC90aHVtYm5haWwtaGVpZ2h0Pgo8b3JpZ2luYWwtd2lkdGg+NTcwPC9vcmlnaW5hbC13aWR0aD4KPG9yaWdpbmFsLWhlaWdodD4xMTI8L29yaWdpbmFsLWhlaWdodD4KPGh0bWwtbGluaz5odHRwczovL2JlbHRlbC5ydS9wYXJ0bmVycy9wYWdlLzIvP2NoPXM8L2h0bWwtbGluaz4KPGltYWdlLWxpbms+aHR0cHM6Ly9iZWx0ZWwucnUvY29udGVudC91cGxvYWRzLzIwMjIvMDMveWMtbG9nby1tYWluLTU3MHgxMTIucG5nPC9pbWFnZS1saW5rPgo8ZmlsZS1zaXplPjE3MjU3PC9maWxlLXNpemU+CjxtaW1lLXR5cGU+cG5nPC9taW1lLXR5cGU+CjwvaW1hZ2UtcHJvcGVydGllcz4KPG1pbWUtdHlwZT50ZXh0L2h0bWw8L21pbWUtdHlwZT4KPHByb3BlcnRpZXMvPgo8L2RvYz4KPC9ncm91cD4KPGdyb3VwPgo8Y2F0ZWcgYXR0cj0iaWkiIGlkPSI2NDYzNTI5NzE0NzAxODk3MjI2Ii8+Cjxkb2Njb3VudD4xPC9kb2Njb3VudD4KPHJlbGV2YW5jZSBwcmlvcml0eT0iYWxsIi8+Cjxkb2MgaWQ9IlowQjFEREMzRDI2NEZFMEM4Ij4KPHJlbGV2YW5jZSBwcmlvcml0eT0iYWxsIi8+Cjx1cmw+aHR0cHM6Ly9jbG91ZGNsYW4ucnUvd3AtY29udGVudC91cGxvYWRzLzIwMjAvMDUveWEtY2wtMS5wbmc8L3VybD4KPGRvbWFpbj5jbG91ZGNsYW4ucnU8L2RvbWFpbj4KPG1vZHRpbWU+MjAyMDEyMDdUMDgyODA2PC9tb2R0aW1lPgo8c2l6ZT4wPC9zaXplPgo8Y2hhcnNldD51dGYtODwvY2hhcnNldD4KPGltYWdlLXByb3BlcnRpZXM+CjxpZD5mMmNmZjZmOGJjNTZlZmY2NGI4ZmQ1MGJjMTgwZjk3YmJmMDE3YjRhMmVmYzNjYzEtNTM4MTEzMy1pbWFnZXMtdGh1bWJzPC9pZD4KPHNoYXJkPjA8L3NoYXJkPgo8dGh1bWJuYWlsLWxpbms+aHR0cDovL2F2YXRhcnMubWRzLnlhbmRleC5uZXQvaT9pZD1mMmNmZjZmOGJjNTZlZmY2NGI4ZmQ1MGJjMTgwZjk3YmJmMDE3YjRhMmVmYzNjYzEtNTM4MTEzMy1pbWFnZXMtdGh1bWJzPC90aHVtYm5haWwtbGluaz4KPHRodW1ibmFpbC13aWR0aD4xNTA8L3RodW1ibmFpbC13aWR0aD4KPHRodW1ibmFpbC1oZWlnaHQ+NzU8L3RodW1ibmFpbC1oZWlnaHQ+CjxvcmlnaW5hbC13aWR0aD4xNTA8L29yaWdpbmFsLXdpZHRoPgo8b3JpZ2luYWwtaGVpZ2h0Pjc1PC9vcmlnaW5hbC1oZWlnaHQ+CjxodG1sLWxpbms+aHR0cHM6Ly9zdGVhbS1zdG9yZS5ydS9wcm9kdWN0LzMwOTI4MTU/bGFuZz1ydS1SVTwvaHRtbC1saW5rPgo8aW1hZ2UtbGluaz5odHRwczovL3d3dy5kaWdpc2VsbGVyLnJ1L3ByZXZpZXcvMTQ3NDY3L3AyXzMwOTI4MTVfMzllOWRmZGEucG5nPC9pbWFnZS1saW5rPgo8ZmlsZS1zaXplPjU3Njk8L2ZpbGUtc2l6ZT4KPG1pbWUtdHlwZT5wbmc8L21pbWUtdHlwZT4KPC9pbWFnZS1wcm9wZXJ0aWVzPgo8bWltZS10eXBlPnRleHQvaHRtbDwvbWltZS10eXBlPgo8cHJvcGVydGllcy8+CjwvZG9jPgo8L2dyb3VwPgo8Z3JvdXA+CjxjYXRlZyBhdHRyPSJpaSIgaWQ9Ijk0NzMyODU3ODAyMDQ3ODM3NSIvPgo8ZG9jY291bnQ+MTwvZG9jY291bnQ+CjxyZWxldmFuY2UgcHJpb3JpdHk9ImFsbCIvPgo8ZG9jIGlkPSJaQzdENzI3QkI2MTUzQ0FGOSI+CjxyZWxldmFuY2UgcHJpb3JpdHk9ImFsbCIvPgo8dXJsPmh0dHBzOi8vdXBsb2FkLndpa2ltZWRpYS5vcmcvd2lraXBlZGlhL2NvbW1vbnMvdGh1bWIvNi82OS9DbG91ZF9pY29uXzEyOHgxMjhweC5zdmcvMTIwMHB4LUNsb3VkX2ljb25fMTI4eDEyOHB4LnN2Zy5wbmc8L3VybD4KPGRvbWFpbj51cGxvYWQud2lraW1lZGlhLm9yZzwvZG9tYWluPgo8bW9kdGltZT4yMDE5MDkwM1QwMjExMzY8L21vZHRpbWU+CjxzaXplPjA8L3NpemU+CjxjaGFyc2V0PnV0Zi04PC9jaGFyc2V0Pgo8aW1hZ2UtcHJvcGVydGllcz4KPGlkPjJhOTYzZDEwZjA3YWVjOTg5NWU3NjU3NTNkZGYxNmQ0MTY4MmFjNjQtNTMxNTU3OC1pbWFnZXMtdGh1bWJzPC9pZD4KPHNoYXJkPjA8L3NoYXJkPgo8dGh1bWJuYWlsLWxpbms+aHR0cDovL2F2YXRhcnMubWRzLnlhbmRleC5uZXQvaT9pZD0yYTk2M2QxMGYwN2FlYzk4OTVlNzY1NzUzZGRmMTZkNDE2ODJhYzY0LTUzMTU1NzgtaW1hZ2VzLXRodW1iczwvdGh1bWJuYWlsLWxpbms+Cjx0aHVtYm5haWwtd2lkdGg+MTkyPC90aHVtYm5haWwtd2lkdGg+Cjx0aHVtYm5haWwtaGVpZ2h0PjE5MjwvdGh1bWJuYWlsLWhlaWdodD4KPG9yaWdpbmFsLXdpZHRoPjE5Mjwvb3JpZ2luYWwtd2lkdGg+CjxvcmlnaW5hbC1oZWlnaHQ+MTkyPC9vcmlnaW5hbC1oZWlnaHQ+CjxodG1sLWxpbms+aHR0cHM6Ly9yZXBvcnRzLmV4b2R1cy1wcml2YWN5LmV1Lm9yZy9lbi9yZXBvcnRzL3NlYXJjaC9ydS55YW5kZXguY2xvdWQvP3BhZ2U9MTwvaHRtbC1saW5rPgo8aW1hZ2UtbGluaz5odHRwczovL3JlcG9ydHMuZXhvZHVzLXByaXZhY3kuZXUub3JnL2VuL3JlcG9ydHMvMjE2ODk2L2ljb24vPC9pbWFnZS1saW5rPgo8ZmlsZS1zaXplPjE0NzQ0PC9maWxlLXNpemU+CjxtaW1lLXR5cGU+cG5nPC9taW1lLXR5cGU+CjwvaW1hZ2UtcHJvcGVydGllcz4KPG1pbWUtdHlwZT50ZXh0L2h0bWw8L21pbWUtdHlwZT4KPHByb3BlcnRpZXMvPgo8L2RvYz4KPC9ncm91cD4KPGdyb3VwPgo8Y2F0ZWcgYXR0cj0iaWkiIGlkPSI0NTg4MzYzNTMzMDE2ODUwODI2Ii8+Cjxkb2Njb3VudD4xPC9kb2Njb3VudD4KPHJlbGV2YW5jZSBwcmlvcml0eT0iYWxsIi8+Cjxkb2MgaWQ9Ilo4RUFGNUQ1REE2N0YxRTkyIj4KPHJlbGV2YW5jZSBwcmlvcml0eT0iYWxsIi8+Cjx1cmw+aHR0cHM6Ly9zdGF0aWMud2lraWEubm9jb29raWUubmV0L2xvZ29wZWRpYS9pbWFnZXMvYy9jYi9ZYW5kZXguQ2xvdWRfb2xkLnBuZy9yZXZpc2lvbi9sYXRlc3Qvc2NhbGUtdG8td2lkdGgtZG93bi8xMjAwP2NiPTIwMjEwNDEyMTg1NjU4PC91cmw+Cjxkb21haW4+c3RhdGljLndpa2lhLm5vY29va2llLm5ldDwvZG9tYWluPgo8bW9kdGltZT4yMDIzMDMxM1QxNzUwMjQ8L21vZHRpbWU+CjxzaXplPjA8L3NpemU+CjxjaGFyc2V0PnV0Zi04PC9jaGFyc2V0Pgo8aW1hZ2UtcHJvcGVydGllcz4KPGlkPjNhNzU4NWY2NjQ5ZmE4OGI4MjA0MTZkYTUxMzBlZjYwODBkMmIwMTEtMTIzMTQ2NDYtaW1hZ2VzLXRodW1iczwvaWQ+CjxzaGFyZD4wPC9zaGFyZD4KPHRodW1ibmFpbC1saW5rPmh0dHA6Ly9hdmF0YXJzLm1kcy55YW5kZXgubmV0L2k/aWQ9M2E3NTg1ZjY2NDlmYTg4YjgyMDQxNmRhNTEzMGVmNjA4MGQyYjAxMS0xMjMxNDY0Ni1pbWFnZXMtdGh1bWJzPC90aHVtYm5haWwtbGluaz4KPHRodW1ibmFpbC13aWR0aD4yNTA8L3RodW1ibmFpbC13aWR0aD4KPHRodW1ibmFpbC1oZWlnaHQ+NzI8L3RodW1ibmFpbC1oZWlnaHQ+CjxvcmlnaW5hbC13aWR0aD4yNTA8L29yaWdpbmFsLXdpZHRoPgo8b3JpZ2luYWwtaGVpZ2h0PjcyPC9vcmlnaW5hbC1oZWlnaHQ+CjxodG1sLWxpbms+aHR0cHM6Ly9hLWNvbXB1dGVycy5ydS8/cGFnZT0yPC9odG1sLWxpbms+CjxpbWFnZS1saW5rPmh0dHBzOi8vYS1jb21wdXRlcnMucnUvc3RhdGljL2FsYnVtcy9icmFuZHMvX3RodW1ibmFpbF8yNTB4MF8wMV95YW5kZXgucG5nPC9pbWFnZS1saW5rPgo8ZmlsZS1zaXplPjEwMTIyPC9maWxlLXNpemU+CjxtaW1lLXR5cGU+cG5nPC9taW1lLXR5cGU+CjwvaW1hZ2UtcHJvcGVydGllcz4KPG1pbWUtdHlwZT50ZXh0L2h0bWw8L21pbWUtdHlwZT4KPHByb3BlcnRpZXMvPgo8L2RvYz4KPC9ncm91cD4KPGdyb3VwPgo8Y2F0ZWcgYXR0cj0iaWkiIGlkPSI4MDc2NzIxNDE5ODg1NjQ1MDA1Ii8+Cjxkb2Njb3VudD4xPC9kb2Njb3VudD4KPHJlbGV2YW5jZSBwcmlvcml0eT0iYWxsIi8+Cjxkb2MgaWQ9Ilo1NjlCQTI4NDhCQzE1Q0E5Ij4KPHJlbGV2YW5jZSBwcmlvcml0eT0iYWxsIi8+Cjx1cmw+aHR0cHM6Ly9hc3NldHMtZ2xvYmFsLndlYnNpdGUtZmlsZXMuY29tLzYyYTI3MDc0YjY0YTZlMDAzNGM5ZTJkZC82MzJjMmI2YTc2OWYwYzk0MzdjZTBlMWFfMi5wbmc8L3VybD4KPGRvbWFpbj5hc3NldHMtZ2xvYmFsLndlYnNpdGUtZmlsZXMuY29tPC9kb21haW4+Cjxtb2R0aW1lPjIwMjIwNTIzVDA4MjE1NjwvbW9kdGltZT4KPHNpemU+MDwvc2l6ZT4KPGNoYXJzZXQ+dXRmLTg8L2NoYXJzZXQ+CjxpbWFnZS1wcm9wZXJ0aWVzPgo8aWQ+NTM5MGU0NjM0Y2FmYjE1NThlMjJjNTc2OTMxOWZhNmI3YjE5YTdhZS0xMzI4MTE2My1pbWFnZXMtdGh1bWJzPC9pZD4KPHNoYXJkPjA8L3NoYXJkPgo8dGh1bWJuYWlsLWxpbms+aHR0cDovL2F2YXRhcnMubWRzLnlhbmRleC5uZXQvaT9pZD01MzkwZTQ2MzRjYWZiMTU1OGUyMmM1NzY5MzE5ZmE2YjdiMTlhN2FlLTEzMjgxMTYzLWltYWdlcy10aHVtYnM8L3RodW1ibmFpbC1saW5rPgo8dGh1bWJuYWlsLXdpZHRoPjMwMDwvdGh1bWJuYWlsLXdpZHRoPgo8dGh1bWJuYWlsLWhlaWdodD4yMDA8L3RodW1ibmFpbC1oZWlnaHQ+CjxvcmlnaW5hbC13aWR0aD4zMDA8L29yaWdpbmFsLXdpZHRoPgo8b3JpZ2luYWwtaGVpZ2h0PjIwMDwvb3JpZ2luYWwtaGVpZ2h0Pgo8aHRtbC1saW5rPmh0dHBzOi8vdGVtb2ZlZXYucnUvaW5mby9hcnRpY2xlcy90ZWxlZ3JhbS1ib3QtbmEtYy1zLWlzcG9sem92YW5pZW0teWFuZGV4LWNsb3VkLWZ1bmN0aW9ucy88L2h0bWwtbGluaz4KPGltYWdlLWxpbms+aHR0cHM6Ly90ZW1vZmVldi5ydS91cGxvYWQvaWJsb2NrL2Q3MC9kNzAyNGE3NjAxZDQwZTQ2ZjgzYTM5MTFkZjNiOTc1Mi5wbmc8L2ltYWdlLWxpbms+CjxmaWxlLXNpemU+NDYwMDU8L2ZpbGUtc2l6ZT4KPG1pbWUtdHlwZT5wbmc8L21pbWUtdHlwZT4KPC9pbWFnZS1wcm9wZXJ0aWVzPgo8bWltZS10eXBlPnRleHQvaHRtbDwvbWltZS10eXBlPgo8cHJvcGVydGllcy8+CjwvZG9jPgo8L2dyb3VwPgo8Z3JvdXA+CjxjYXRlZyBhdHRyPSJpaSIgaWQ9IjU5NzkzNTM3NzQ3MzY5OTg1MjciLz4KPGRvY2NvdW50PjE8L2RvY2NvdW50Pgo8cmVsZXZhbmNlIHByaW9yaXR5PSJhbGwiLz4KPGRvYyBpZD0iWjU0NkNBMjAwQzk1M0YyMEIiPgo8cmVsZXZhbmNlIHByaW9yaXR5PSJhbGwiLz4KPHVybD5odHRwczovL3N0YXRpYy50aWxkYWNkbi5jb20vdGlsZDM5MzktMzczNy00MTMwLWI1NjItNjY2NjM1MzEzOTMzL2ltYWdlLnBuZzwvdXJsPgo8ZG9tYWluPnN0YXRpYy50aWxkYWNkbi5jb208L2RvbWFpbj4KPG1vZHRpbWU+MjAxOTEwMDJUMTI0MjQzPC9tb2R0aW1lPgo8c2l6ZT4wPC9zaXplPgo8Y2hhcnNldD51dGYtODwvY2hhcnNldD4KPGltYWdlLXByb3BlcnRpZXM+CjxpZD5mZTlhYTkxMDZlNDY4ZDU4ZjhmMjNkMTA0MjY3MDBkYTUyMGU4ODk2LTQ1OTE5MjEtaW1hZ2VzLXRodW1iczwvaWQ+CjxzaGFyZD4wPC9zaGFyZD4KPHRodW1ibmFpbC1saW5rPmh0dHA6Ly9hdmF0YXJzLm1kcy55YW5kZXgubmV0L2k/aWQ9ZmU5YWE5MTA2ZTQ2OGQ1OGY4ZjIzZDEwNDI2NzAwZGE1MjBlODg5Ni00NTkxOTIxLWltYWdlcy10aHVtYnM8L3RodW1ibmFpbC1saW5rPgo8dGh1bWJuYWlsLXdpZHRoPjMyMDwvdGh1bWJuYWlsLXdpZHRoPgo8dGh1bWJuYWlsLWhlaWdodD4zMjA8L3RodW1ibmFpbC1oZWlnaHQ+CjxvcmlnaW5hbC13aWR0aD4zMjA8L29yaWdpbmFsLXdpZHRoPgo8b3JpZ2luYWwtaGVpZ2h0PjMyMDwvb3JpZ2luYWwtaGVpZ2h0Pgo8aHRtbC1saW5rPmh0dHBzOi8vYW5kcm9pZGFwcHNhcGsuY28vZG93bmxvYWQvcnUueWFuZGV4LmNsb3VkLzI1NzI0YzQ5NTdiMDllNDM5ZjUyZWI2MDk3ZWJlNzg0LzwvaHRtbC1saW5rPgo8aW1hZ2UtbGluaz5odHRwczovL3BsYXktbGguZ29vZ2xldXNlcmNvbnRlbnQuY29tLzBWZndscUVUamJiU25XNXBhNXJSMHhTLUFlWjVuT1hNTlQtSDJhcGZ4TVczZlJOX0ZKYUFnb012NS1td2hYa0xRZz1zMzIwLXJ3PC9pbWFnZS1saW5rPgo8ZmlsZS1zaXplPjM4NDk2PC9maWxlLXNpemU+CjxtaW1lLXR5cGU+d2VicDwvbWltZS10eXBlPgo8L2ltYWdlLXByb3BlcnRpZXM+CjxtaW1lLXR5cGU+dGV4dC9odG1sPC9taW1lLXR5cGU+Cjxwcm9wZXJ0aWVzLz4KPC9kb2M+CjwvZ3JvdXA+Cjxncm91cD4KPGNhdGVnIGF0dHI9ImlpIiBpZD0iNDk3NTE4MjEzNjcxMjQzMDY0MCIvPgo8ZG9jY291bnQ+MTwvZG9jY291bnQ+CjxyZWxldmFuY2UgcHJpb3JpdHk9ImFsbCIvPgo8ZG9jIGlkPSJaMkEzM0IxNUY1MDRFRDM5QSI+CjxyZWxldmFuY2UgcHJpb3JpdHk9ImFsbCIvPgo8dXJsPmh0dHBzOi8vc3RhdGljLnRpbGRhY2RuLmNvbS90aWxkMzQ2My02MTYxLTQ5MzMtYjA2Ni02MjM2MzI2MjYxNjQvY2xvdWRfaWNvbl9sb2dvX3JnYjIucG5nPC91cmw+Cjxkb21haW4+c3RhdGljLnRpbGRhY2RuLmNvbTwvZG9tYWluPgo8bW9kdGltZT4yMDIxMDExMFQyMjIyNTk8L21vZHRpbWU+CjxzaXplPjA8L3NpemU+CjxjaGFyc2V0PnV0Zi04PC9jaGFyc2V0Pgo8aW1hZ2UtcHJvcGVydGllcz4KPGlkPmQyZWIyNDk2NDA1MDhmNGZjMDgyZjY1ZGE0ZDljMGNiYmEwOTcxZmYtMTAzOTE5MzEtaW1hZ2VzLXRodW1iczwvaWQ+CjxzaGFyZD4wPC9zaGFyZD4KPHRodW1ibmFpbC1saW5rPmh0dHA6Ly9hdmF0YXJzLm1kcy55YW5kZXgubmV0L2k/aWQ9ZDJlYjI0OTY0MDUwOGY0ZmMwODJmNjVkYTRkOWMwY2JiYTA5NzFmZi0xMDM5MTkzMS1pbWFnZXMtdGh1bWJzPC90aHVtYm5haWwtbGluaz4KPHRodW1ibmFpbC13aWR0aD4xODA8L3RodW1ibmFpbC13aWR0aD4KPHRodW1ibmFpbC1oZWlnaHQ+NzU8L3RodW1ibmFpbC1oZWlnaHQ+CjxvcmlnaW5hbC13aWR0aD4xODA8L29yaWdpbmFsLXdpZHRoPgo8b3JpZ2luYWwtaGVpZ2h0Pjc1PC9vcmlnaW5hbC1oZWlnaHQ+CjxodG1sLWxpbms+aHR0cHM6Ly9kY2F3YXJkcy5ydS9jb21wYW55L3lhbmRla3NvYmxha288L2h0bWwtbGluaz4KPGltYWdlLWxpbms+aHR0cHM6Ly9kY2F3YXJkcy5ydS9zaXRlcy9kZWZhdWx0L2ZpbGVzL2xvZ29feWFuZGV4X2Nsb3VkX2dvcl8xODB4NzUuZ2lmPC9pbWFnZS1saW5rPgo8ZmlsZS1zaXplPjIwNDA8L2ZpbGUtc2l6ZT4KPG1pbWUtdHlwZT5naWY8L21pbWUtdHlwZT4KPC9pbWFnZS1wcm9wZXJ0aWVzPgo8bWltZS10eXBlPnRleHQvaHRtbDwvbWltZS10eXBlPgo8cHJvcGVydGllcy8+CjwvZG9jPgo8L2dyb3VwPgo8Z3JvdXA+CjxjYXRlZyBhdHRyPSJpaSIgaWQ9IjQwMjczNjIyNTAwNDk4MTQwMTIiLz4KPGRvY2NvdW50PjE8L2RvY2NvdW50Pgo8cmVsZXZhbmNlIHByaW9yaXR5PSJhbGwiLz4KPGRvYyBpZD0iWkY5RTIxNEY2MjRGMzMwRjciPgo8cmVsZXZhbmNlIHByaW9yaXR5PSJhbGwiLz4KPHVybD5odHRwczovL2lhcHBsZS01OS5ydS84MDAvNjAwL2h0dHAvcy5yYmsucnUvdjFfY29tcGFuaWVzX3MzL3Jlc2l6ZWQvMTIwMHhIL21lZGlhL3RyYWRlbWFya3MvMTg2ZDcwNmYtMWRmYy00ZDJhLWFmNjAtYmZmOGQ4MGRlYjgwLmpwZzwvdXJsPgo8ZG9tYWluPmlhcHBsZS01OS5ydTwvZG9tYWluPgo8bW9kdGltZT4yMDI1MDIyM1QwNTI1NTg8L21vZHRpbWU+CjxzaXplPjA8L3NpemU+CjxjaGFyc2V0PnV0Zi04PC9jaGFyc2V0Pgo8aW1hZ2UtcHJvcGVydGllcz4KPGlkPjc4MzJkZDllMzZmMmJlNzg5MGI3YjY2N2E0MmE1ZjNjMmI4NTVkZGEtMTI3NTE5NTgtaW1hZ2VzLXRodW1iczwvaWQ+CjxzaGFyZD4wPC9zaGFyZD4KPHRodW1ibmFpbC1saW5rPmh0dHA6Ly9hdmF0YXJzLm1kcy55YW5kZXgubmV0L2k/aWQ9NzgzMmRkOWUzNmYyYmU3ODkwYjdiNjY3YTQyYTVmM2MyYjg1NWRkYS0xMjc1MTk1OC1pbWFnZXMtdGh1bWJzPC90aHVtYm5haWwtbGluaz4KPHRodW1ibmFpbC13aWR0aD4xNDQ8L3RodW1ibmFpbC13aWR0aD4KPHRodW1ibmFpbC1oZWlnaHQ+Mzg8L3RodW1ibmFpbC1oZWlnaHQ+CjxvcmlnaW5hbC13aWR0aD4xNDQ8L29yaWdpbmFsLXdpZHRoPgo8b3JpZ2luYWwtaGVpZ2h0PjM4PC9vcmlnaW5hbC1oZWlnaHQ+CjxodG1sLWxpbms+aHR0cHM6Ly9tYWpvcmRldi5ydS9jYXRhbG9nL3NvZnR3YXJlLzwvaHRtbC1saW5rPgo8aW1hZ2UtbGluaz5odHRwczovL21ham9yZGV2LnJ1L3dhLXVwbG9hZC95YW5kZXgveWFuZGV4LWNsb3VkLnN2ZzwvaW1hZ2UtbGluaz4KPGZpbGUtc2l6ZT4yNTUwPC9maWxlLXNpemU+CjxtaW1lLXR5cGU+anBnPC9taW1lLXR5cGU+CjwvaW1hZ2UtcHJvcGVydGllcz4KPG1pbWUtdHlwZT50ZXh0L2h0bWw8L21pbWUtdHlwZT4KPHByb3BlcnRpZXMvPgo8L2RvYz4KPC9ncm91cD4KPGdyb3VwPgo8Y2F0ZWcgYXR0cj0iaWkiIGlkPSI4MzY4Njg5NjgzODk3NjU2Mzk0Ii8+Cjxkb2Njb3VudD4xPC9kb2Njb3VudD4KPHJlbGV2YW5jZSBwcmlvcml0eT0iYWxsIi8+Cjxkb2MgaWQ9IlpBNTYxQjE0MUU2RjYwRUU2Ij4KPHJlbGV2YW5jZSBwcmlvcml0eT0iYWxsIi8+Cjx1cmw+aHR0cHM6Ly9zdGF0aWMudGlsZGFjZG4uY29tL3RpbGQ2NDYzLTY0MzMtNDMzNC1hMTM2LTM2Mzk2MjM0MzY2MS95Yy1sb2dvLWNvbXBsZW1lbnRhci5wbmc8L3VybD4KPGRvbWFpbj5zdGF0aWMudGlsZGFjZG4uY29tPC9kb21haW4+Cjxtb2R0aW1lPjIwMjQwODE0VDIwNTM0MTwvbW9kdGltZT4KPHNpemU+MDwvc2l6ZT4KPGNoYXJzZXQ+dXRmLTg8L2NoYXJzZXQ+CjxpbWFnZS1wcm9wZXJ0aWVzPgo8aWQ+ZGVmNGYyOTg5MDQyZmExZmYzYWY1YjQyYjdiZDBlMTIxYzI2Y2E4Ny01NjA0MTQ5LWltYWdlcy10aHVtYnM8L2lkPgo8c2hhcmQ+MDwvc2hhcmQ+Cjx0aHVtYm5haWwtbGluaz5odHRwOi8vYXZhdGFycy5tZHMueWFuZGV4Lm5ldC9pP2lkPWRlZjRmMjk4OTA0MmZhMWZmM2FmNWI0MmI3YmQwZTEyMWMyNmNhODctNTYwNDE0OS1pbWFnZXMtdGh1bWJzPC90aHVtYm5haWwtbGluaz4KPHRodW1ibmFpbC13aWR0aD40NTc8L3RodW1ibmFpbC13aWR0aD4KPHRodW1ibmFpbC1oZWlnaHQ+MjczPC90aHVtYm5haWwtaGVpZ2h0Pgo8b3JpZ2luYWwtd2lkdGg+NDU3PC9vcmlnaW5hbC13aWR0aD4KPG9yaWdpbmFsLWhlaWdodD4yNzM8L29yaWdpbmFsLWhlaWdodD4KPGh0bWwtbGluaz5odHRwczovL3JldGFpbHRlY2gucnUvZXZlbnQvYml6bmVzLXphdnRyYWsta2x1YmEtcHJvZGF0YS1ub3lhYnItMjAyMi88L2h0bWwtbGluaz4KPGltYWdlLWxpbms+aHR0cHM6Ly9yZXRhaWx0ZWNoLnJ1L3dwLWNvbnRlbnQvdXBsb2Fkcy8yMDIyLzEwL2xvZ28tZ3JhZC1iaWcuanBnPC9pbWFnZS1saW5rPgo8ZmlsZS1zaXplPjQyNTM2PC9maWxlLXNpemU+CjxtaW1lLXR5cGU+anBnPC9taW1lLXR5cGU+CjwvaW1hZ2UtcHJvcGVydGllcz4KPG1pbWUtdHlwZT50ZXh0L2h0bWw8L21pbWUtdHlwZT4KPHByb3BlcnRpZXMvPgo8L2RvYz4KPC9ncm91cD4KPGdyb3VwPgo8Y2F0ZWcgYXR0cj0iaWkiIGlkPSI0MTE3NTc0NTg2Njk3NzEzNzg3Ii8+Cjxkb2Njb3VudD4xPC9kb2Njb3VudD4KPHJlbGV2YW5jZSBwcmlvcml0eT0iYWxsIi8+Cjxkb2MgaWQ9IloxQzhFRDQwOEVERUNEMUU5Ij4KPHJlbGV2YW5jZSBwcmlvcml0eT0iYWxsIi8+Cjx1cmw+aHR0cHM6Ly9zdGF0aWMudGlsZGFjZG4uY29tL3RpbGQzODYxLTYzMzItNDEzOS1iNTM3LTM1NjM2NjY2MzAzNC9fLnBuZzwvdXJsPgo8ZG9tYWluPnN0YXRpYy50aWxkYWNkbi5jb208L2RvbWFpbj4KPG1vZHRpbWU+MjAyMzA1MDZUMTkxMzE2PC9tb2R0aW1lPgo8c2l6ZT4wPC9zaXplPgo8Y2hhcnNldD51dGYtODwvY2hhcnNldD4KPGltYWdlLXByb3BlcnRpZXM+CjxpZD42YzBmMzQyZjE4NDE3OTZiOTI1MzZmYjhhN2ExODliOWZiM2Y5MWM4LTU2NDM4MDUtaW1hZ2VzLXRodW1iczwvaWQ+CjxzaGFyZD4wPC9zaGFyZD4KPHRodW1ibmFpbC1saW5rPmh0dHA6Ly9hdmF0YXJzLm1kcy55YW5kZXgubmV0L2k/aWQ9NmMwZjM0MmYxODQxNzk2YjkyNTM2ZmI4YTdhMTg5YjlmYjNmOTFjOC01NjQzODA1LWltYWdlcy10aHVtYnM8L3RodW1ibmFpbC1saW5rPgo8dGh1bWJuYWlsLXdpZHRoPjIzNDwvdGh1bWJuYWlsLXdpZHRoPgo8dGh1bWJuYWlsLWhlaWdodD43MjwvdGh1bWJuYWlsLWhlaWdodD4KPG9yaWdpbmFsLXdpZHRoPjIzNDwvb3JpZ2luYWwtd2lkdGg+CjxvcmlnaW5hbC1oZWlnaHQ+NzI8L29yaWdpbmFsLWhlaWdodD4KPGh0bWwtbGluaz5odHRwczovL3d3dy5xdWJkYXRhLnJ1LzwvaHRtbC1saW5rPgo8aW1hZ2UtbGluaz5odHRwczovL3N0YXRpYy50aWxkYWNkbi5jb20vdGlsZDYxMzctMzQzNy00MjYxLWEyMzItMzYzNTM0NjEzMzY2L1lhbmRleC1DbG91ZC0tLXJ1LWxpLnN2ZzwvaW1hZ2UtbGluaz4KPGZpbGUtc2l6ZT4xNzYwMDwvZmlsZS1zaXplPgo8bWltZS10eXBlPnBuZzwvbWltZS10eXBlPgo8L2ltYWdlLXByb3BlcnRpZXM+CjxtaW1lLXR5cGU+dGV4dC9odG1sPC9taW1lLXR5cGU+Cjxwcm9wZXJ0aWVzLz4KPC9kb2M+CjwvZ3JvdXA+Cjxncm91cD4KPGNhdGVnIGF0dHI9ImlpIiBpZD0iMjY4MDgyNjM5NDE3MzM5MzM4NSIvPgo8ZG9jY291bnQ+MTwvZG9jY291bnQ+CjxyZWxldmFuY2UgcHJpb3JpdHk9ImFsbCIvPgo8ZG9jIGlkPSJaNkY4MzA0QTY4RkI0RkU4RSI+CjxyZWxldmFuY2UgcHJpb3JpdHk9ImFsbCIvPgo8dXJsPmh0dHBzOi8veG4tLXExYWNoLnhuLS1wMWFpL3dwLWNvbnRlbnQvdXBsb2Fkcy8yMDIzLzAyLyVEMCVBRiVEMCVCRCVEMCVCNCVEMCVCNSVEMCVCQSVEMSU4MSVEMCU5RSVEMCVCMSVEMCVCQiVEMCVCMCVEMCVCQSVEMCVCRS0lRDAlQTUlRDAlQjAlRDAlQjklRDElODElRDElODIlRDAlQjUlRDAlQkElRDElODEtJUQwJUJBJUQwJUI1JUQwJUI5JUQxJTgxLSVEMSU4MSVEMSU4MiVEMCVCMCVEMCVCNCVEMCVCOC5wbmc8L3VybD4KPGRvbWFpbj54bi0tcTFhY2gueG4tLXAxYWk8L2RvbWFpbj4KPG1vZHRpbWU+MjAyMjExMDhUMDgwMDQ3PC9tb2R0aW1lPgo8c2l6ZT4wPC9zaXplPgo8Y2hhcnNldD51dGYtODwvY2hhcnNldD4KPGltYWdlLXByb3BlcnRpZXM+CjxpZD43NDg4NTI5M2NiOWI2NzkxYTE0NjYxMjhjZGU2NTYwYWE0ZTlhOWQ4LTUxNzkxODQtaW1hZ2VzLXRodW1iczwvaWQ+CjxzaGFyZD4wPC9zaGFyZD4KPHRodW1ibmFpbC1saW5rPmh0dHA6Ly9hdmF0YXJzLm1kcy55YW5kZXgubmV0L2k/aWQ9NzQ4ODUyOTNjYjliNjc5MWExNDY2MTI4Y2RlNjU2MGFhNGU5YTlkOC01MTc5MTg0LWltYWdlcy10aHVtYnM8L3RodW1ibmFpbC1saW5rPgo8dGh1bWJuYWlsLXdpZHRoPjg4PC90aHVtYm5haWwtd2lkdGg+Cjx0aHVtYm5haWwtaGVpZ2h0Pjg4PC90aHVtYm5haWwtaGVpZ2h0Pgo8b3JpZ2luYWwtd2lkdGg+ODg8L29yaWdpbmFsLXdpZHRoPgo8b3JpZ2luYWwtaGVpZ2h0Pjg4PC9vcmlnaW5hbC1oZWlnaHQ+CjxodG1sLWxpbms+aHR0cHM6Ly9wbGF0aS5tYXJrZXQvaXRtL3lhbmRleC1jbG91ZC1hLXByb21vdGlvbmFsLWNvZGUtY291cG9uLWZvci00MDAwLzMwOTI4MTU/bGFuZz1lbi1VUzwvaHRtbC1saW5rPgo8aW1hZ2UtbGluaz5odHRwczovL2RpZ2lzZWxsZXIubXljZG4uaW5rL2ltZ3dlYnAuYXNoeD9pZHA9ODIzMDczNSZhbXA7ZGM9Nzk4Mjg5OTM5JmFtcDt3PTg4PC9pbWFnZS1saW5rPgo8ZmlsZS1zaXplPjE0MDg8L2ZpbGUtc2l6ZT4KPG1pbWUtdHlwZT53ZWJwPC9taW1lLXR5cGU+CjwvaW1hZ2UtcHJvcGVydGllcz4KPG1pbWUtdHlwZT50ZXh0L2h0bWw8L21pbWUtdHlwZT4KPHByb3BlcnRpZXMvPgo8L2RvYz4KPC9ncm91cD4KPGdyb3VwPgo8Y2F0ZWcgYXR0cj0iaWkiIGlkPSI0MTI0MzQ3NTk2NzU0NDA4MTEzIi8+Cjxkb2Njb3VudD4xPC9kb2Njb3VudD4KPHJlbGV2YW5jZSBwcmlvcml0eT0iYWxsIi8+Cjxkb2MgaWQ9IlpFQzI3NTQ1Mjg3NzM3MDIzIj4KPHJlbGV2YW5jZSBwcmlvcml0eT0iYWxsIi8+Cjx1cmw+aHR0cHM6Ly9pMC53cC5jb20vd3d3LnVuZGVyY29uc2lkZXJhdGlvbi5jb20vYnJhbmRuZXcvd3Avd3AtY29udGVudC91cGxvYWRzLzIwMjEvMDQveWFuZGV4X2Nsb3VkX2xvZ29fYmVmb3JlX2FmdGVyLnBuZzwvdXJsPgo8ZG9tYWluPmkwLndwLmNvbTwvZG9tYWluPgo8bW9kdGltZT4yMDIzMDYxMlQwMTQyNTQ8L21vZHRpbWU+CjxzaXplPjA8L3NpemU+CjxjaGFyc2V0PnV0Zi04PC9jaGFyc2V0Pgo8aW1hZ2UtcHJvcGVydGllcz4KPGlkPjhmZDJlMTc4NWQwYjdkNDJkN2E1YTMwMTcwZDA4OGIzMGY3YjM2OWMtNjQ5NzgzOC1pbWFnZXMtdGh1bWJzPC9pZD4KPHNoYXJkPjA8L3NoYXJkPgo8dGh1bWJuYWlsLWxpbms+aHR0cDovL2F2YXRhcnMubWRzLnlhbmRleC5uZXQvaT9pZD04ZmQyZTE3ODVkMGI3ZDQyZDdhNWEzMDE3MGQwODhiMzBmN2IzNjljLTY0OTc4MzgtaW1hZ2VzLXRodW1iczwvdGh1bWJuYWlsLWxpbms+Cjx0aHVtYm5haWwtd2lkdGg+NDgwPC90aHVtYm5haWwtd2lkdGg+Cjx0aHVtYm5haWwtaGVpZ2h0PjIyOTwvdGh1bWJuYWlsLWhlaWdodD4KPG9yaWdpbmFsLXdpZHRoPjc2ODwvb3JpZ2luYWwtd2lkdGg+CjxvcmlnaW5hbC1oZWlnaHQ+MzY3PC9vcmlnaW5hbC1oZWlnaHQ+CjxodG1sLWxpbms+aHR0cHM6Ly9kLXUtby1zLnJ1L25ldy9kZXNpZ2gtdHJlbmRzMjAyMi88L2h0bWwtbGluaz4KPGltYWdlLWxpbms+aHR0cHM6Ly9kLXUtby1zLnJ1L3dwLWNvbnRlbnQvdXBsb2Fkcy8yMDIyLzA3LzYyNjI5NDQ3NjkzZWRiZTA4ODRhNTI0Zl9ybXhJSVBvNHdWNERDYWpZRi03UEZsQW1uX3BpeFU2NVNZQko0TW55NWNnRF9VTjFPcVk5UURwbFpYWGxFd281YWVPTzAzOUxlNU1PVEI3NTluTm5IUnJhRmg4UXBzLWhjQ0Y0Mmw5TGhoWEtsVEFONzZWbmpPa1VBZHdHNnpZZEk0MHVXSWkwLTc2OHgzNjcucG5nPC9pbWFnZS1saW5rPgo8ZmlsZS1zaXplPjI5MTE4PC9maWxlLXNpemU+CjxtaW1lLXR5cGU+cG5nPC9taW1lLXR5cGU+CjwvaW1hZ2UtcHJvcGVydGllcz4KPG1pbWUtdHlwZT50ZXh0L2h0bWw8L21pbWUtdHlwZT4KPHByb3BlcnRpZXMvPgo8L2RvYz4KPC9ncm91cD4KPGdyb3VwPgo8Y2F0ZWcgYXR0cj0iaWkiIGlkPSI2Nzg5MjM3Nzg4NzE5Njk1NjEyIi8+Cjxkb2Njb3VudD4xPC9kb2Njb3VudD4KPHJlbGV2YW5jZSBwcmlvcml0eT0iYWxsIi8+Cjxkb2MgaWQ9IloxN0NGRTg0NTI0MjIxMkIxIj4KPHJlbGV2YW5jZSBwcmlvcml0eT0iYWxsIi8+Cjx1cmw+aHR0cHM6Ly9hdmF0YXJzLm1kcy55YW5kZXgubmV0L2dldC1scGMvNDAzMzQyL2MwNGVjOGM0LWNhMzEtNGJlOC1hNDYyLTE3NGVlOGM1NTk5OS9vcmlnPC91cmw+Cjxkb21haW4+YXZhdGFycy5tZHMueWFuZGV4Lm5ldDwvZG9tYWluPgo8bW9kdGltZT4yMDIwMTIwOFQxNDQ5MTA8L21vZHRpbWU+CjxzaXplPjA8L3NpemU+CjxjaGFyc2V0PnV0Zi04PC9jaGFyc2V0Pgo8aW1hZ2UtcHJvcGVydGllcz4KPGlkPjQ4NTM5MGQ4NTU5ZWU4YzM2MTljYmZiZDI4NjAzMjJhM2M5NGY5ZTItNTIxMTY0NC1pbWFnZXMtdGh1bWJzPC9pZD4KPHNoYXJkPjA8L3NoYXJkPgo8dGh1bWJuYWlsLWxpbms+aHR0cDovL2F2YXRhcnMubWRzLnlhbmRleC5uZXQvaT9pZD00ODUzOTBkODU1OWVlOGMzNjE5Y2JmYmQyODYwMzIyYTNjOTRmOWUyLTUyMTE2NDQtaW1hZ2VzLXRodW1iczwvdGh1bWJuYWlsLWxpbms+Cjx0aHVtYm5haWwtd2lkdGg+MzAwPC90aHVtYm5haWwtd2lkdGg+Cjx0aHVtYm5haWwtaGVpZ2h0PjIwMDwvdGh1bWJuYWlsLWhlaWdodD4KPG9yaWdpbmFsLXdpZHRoPjMwMDwvb3JpZ2luYWwtd2lkdGg+CjxvcmlnaW5hbC1oZWlnaHQ+MjAwPC9vcmlnaW5hbC1oZWlnaHQ+CjxodG1sLWxpbms+aHR0cHM6Ly9paGRkLnJ1L3BhZ2UvNDAxPC9odG1sLWxpbms+CjxpbWFnZS1saW5rPmh0dHBzOi8vaWhkZC5ydS93cC1jb250ZW50L3VwbG9hZHMvMjAxOS8xMS8yMzg5NDcyODM3NDcyODM5NDc4MzkyNzQ4MjkzNzQ4MjM5NzQxMTExMTExMTExLTMwMHgyMDAuanBnPC9pbWFnZS1saW5rPgo8ZmlsZS1zaXplPjMxMDk8L2ZpbGUtc2l6ZT4KPG1pbWUtdHlwZT5qcGc8L21pbWUtdHlwZT4KPC9pbWFnZS1wcm9wZXJ0aWVzPgo8bWltZS10eXBlPnRleHQvaHRtbDwvbWltZS10eXBlPgo8cHJvcGVydGllcy8+CjwvZG9jPgo8L2dyb3VwPgo8Z3JvdXA+CjxjYXRlZyBhdHRyPSJpaSIgaWQ9IjMyNzYzNzM2MTc5NjA3MTA2NTgiLz4KPGRvY2NvdW50PjE8L2RvY2NvdW50Pgo8cmVsZXZhbmNlIHByaW9yaXR5PSJhbGwiLz4KPGRvYyBpZD0iWjEwM0MwMjYwNkU4RDYyMDAiPgo8cmVsZXZhbmNlIHByaW9yaXR5PSJhbGwiLz4KPHVybD5odHRwczovL3N0YXRpYy50aWxkYWNkbi5jb20vdGlsZDMzNjYtNjEzMS00MjY1LWI0NjItNjEzMjM2NjIzNDY0L3Bob3RvLnBuZzwvdXJsPgo8ZG9tYWluPnN0YXRpYy50aWxkYWNkbi5jb208L2RvbWFpbj4KPG1vZHRpbWU+MjAxOTA2MjBUMTU0NzQ2PC9tb2R0aW1lPgo8c2l6ZT4wPC9zaXplPgo8Y2hhcnNldD51dGYtODwvY2hhcnNldD4KPGltYWdlLXByb3BlcnRpZXM+CjxpZD5iNmIyMTQzZTdhYjhmMWE0MjFkOGQ0NTc1Y2NmZWQ3MDgxNGVmNzk0LTgzNDg4ODgtaW1hZ2VzLXRodW1iczwvaWQ+CjxzaGFyZD4wPC9zaGFyZD4KPHRodW1ibmFpbC1saW5rPmh0dHA6Ly9hdmF0YXJzLm1kcy55YW5kZXgubmV0L2k/aWQ9YjZiMjE0M2U3YWI4ZjFhNDIxZDhkNDU3NWNjZmVkNzA4MTRlZjc5NC04MzQ4ODg4LWltYWdlcy10aHVtYnM8L3RodW1ibmFpbC1saW5rPgo8dGh1bWJuYWlsLXdpZHRoPjE4MDwvdGh1bWJuYWlsLXdpZHRoPgo8dGh1bWJuYWlsLWhlaWdodD42OTwvdGh1bWJuYWlsLWhlaWdodD4KPG9yaWdpbmFsLXdpZHRoPjE4MDwvb3JpZ2luYWwtd2lkdGg+CjxvcmlnaW5hbC1oZWlnaHQ+Njk8L29yaWdpbmFsLWhlaWdodD4KPGh0bWwtbGluaz5odHRwczovL2hpZ2hsb2FkLnJ1L21vc2Nvdy8yMDE4Lz9hbXAmYW1wO2FtcCZhbXA7YW1wPC9odG1sLWxpbms+CjxpbWFnZS1saW5rPmh0dHBzOi8vaGlnaGxvYWQucnUvdXBsb2Fkcy8yL2UxL2UwOGNhYjI4NTA0NTJiNTQ3M2E5MTM3NjA3ZjcyLWZpdC0xODB4LTAucG5nPC9pbWFnZS1saW5rPgo8ZmlsZS1zaXplPjY0NjI8L2ZpbGUtc2l6ZT4KPG1pbWUtdHlwZT5wbmc8L21pbWUtdHlwZT4KPC9pbWFnZS1wcm9wZXJ0aWVzPgo8bWltZS10eXBlPnRleHQvaHRtbDwvbWltZS10eXBlPgo8cHJvcGVydGllcy8+CjwvZG9jPgo8L2dyb3VwPgo8Z3JvdXA+CjxjYXRlZyBhdHRyPSJpaSIgaWQ9IjczMDYwNTUyNzcyODI4Nzk3NDkiLz4KPGRvY2NvdW50PjE8L2RvY2NvdW50Pgo8cmVsZXZhbmNlIHByaW9yaXR5PSJhbGwiLz4KPGRvYyBpZD0iWjJEQzBCMjUwOTNCNUE2OEQiPgo8cmVsZXZhbmNlIHByaW9yaXR5PSJhbGwiLz4KPHVybD5odHRwczovL3N0YXRpYy50aWxkYWNkbi5jb20vdGlsZDM2NjUtMzc2My00MTMzLWIzMzktMzk2NDYzMzIzMTY1L19fNy5wbmc8L3VybD4KPGRvbWFpbj5zdGF0aWMudGlsZGFjZG4uY29tPC9kb21haW4+Cjxtb2R0aW1lPjIwMjUwMzAyVDAwMDcwNjwvbW9kdGltZT4KPHNpemU+MDwvc2l6ZT4KPGNoYXJzZXQ+dXRmLTg8L2NoYXJzZXQ+CjxpbWFnZS1wcm9wZXJ0aWVzPgo8aWQ+YzcyN2VkMmZmMmM3MTI4Y2U1MmE2OTgyNmM3MGNmYmFmMDdmZGVhZC05NzAyMjQyLWltYWdlcy10aHVtYnM8L2lkPgo8c2hhcmQ+MDwvc2hhcmQ+Cjx0aHVtYm5haWwtbGluaz5odHRwOi8vYXZhdGFycy5tZHMueWFuZGV4Lm5ldC9pP2lkPWM3MjdlZDJmZjJjNzEyOGNlNTJhNjk4MjZjNzBjZmJhZjA3ZmRlYWQtOTcwMjI0Mi1pbWFnZXMtdGh1bWJzPC90aHVtYm5haWwtbGluaz4KPHRodW1ibmFpbC13aWR0aD40NzQ8L3RodW1ibmFpbC13aWR0aD4KPHRodW1ibmFpbC1oZWlnaHQ+MzIwPC90aHVtYm5haWwtaGVpZ2h0Pgo8b3JpZ2luYWwtd2lkdGg+NjQyPC9vcmlnaW5hbC13aWR0aD4KPG9yaWdpbmFsLWhlaWdodD40MzM8L29yaWdpbmFsLWhlaWdodD4KPGh0bWwtbGluaz5odHRwczovL2RpZ2l0YWwtY2FsZW5kYXIucnUvYWJvdXRfY2xvdWRfaW5mcmFzdHJ1Y3R1cmVfMjAyNS88L2h0bWwtbGluaz4KPGltYWdlLWxpbms+aHR0cHM6Ly9kaWdpdGFsLWNhbGVuZGFyLnJ1L3VwbG9hZC9pYmxvY2svNDBiL3N1cDkyMjVwcW1tZmg2dnJoODd1cGtpeG9rb2w0Zmh2LnBuZzwvaW1hZ2UtbGluaz4KPGZpbGUtc2l6ZT45MTQ4PC9maWxlLXNpemU+CjxtaW1lLXR5cGU+cG5nPC9taW1lLXR5cGU+CjwvaW1hZ2UtcHJvcGVydGllcz4KPG1pbWUtdHlwZT50ZXh0L2h0bWw8L21pbWUtdHlwZT4KPHByb3BlcnRpZXMvPgo8L2RvYz4KPC9ncm91cD4KPGZvdW5kIHByaW9yaXR5PSJwaHJhc2UiPjE3NzM8L2ZvdW5kPgo8Zm91bmQgcHJpb3JpdHk9InN0cmljdCI+MTc3MzwvZm91bmQ+Cjxmb3VuZCBwcmlvcml0eT0iYWxsIj4xNzczPC9mb3VuZD4KPGZvdW5kLWRvY3MgcHJpb3JpdHk9InBocmFzZSI+MTc3MzwvZm91bmQtZG9jcz4KPGZvdW5kLWRvY3MgcHJpb3JpdHk9InN0cmljdCI+MTc3MzwvZm91bmQtZG9jcz4KPGZvdW5kLWRvY3MgcHJpb3JpdHk9ImFsbCI+MTc3MzwvZm91bmQtZG9jcz4KPGZvdW5kLWRvY3MtaHVtYW4+0L3QsNGI0ZHQuyAyINGC0YvRgS4g0L7RgtCy0LXRgtC+0LI8L2ZvdW5kLWRvY3MtaHVtYW4+CjwvZ3JvdXBpbmc+CjwvcmVzdWx0cz4KPC9yZXNwb25zZT4KPHJlc291cmNlLXVzYWdlPgo8Y3B1LXRpbWUtc3VtPjkwMjA4MDwvY3B1LXRpbWUtc3VtPgo8Y3B1LXRpbWUtbWF4PjkxOTA8L2NwdS10aW1lLW1heD4KPC9yZXNvdXJjZS11c2FnZT4KPC95YW5kZXhzZWFyY2g+Cg=="
+                }
+            }
+        }
+    ]
+}
