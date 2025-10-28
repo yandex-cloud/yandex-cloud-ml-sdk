@@ -27,7 +27,13 @@ QueryType: TypeAlias = JsonObject
 
 
 class JsonSchemaResponseType(TypedDict):
-    """Dict with json schema response settings"""
+    """
+    Dictionary with JSON schema response settings.
+
+    :param json_schema: JSON schema that describes the response format
+    :param strict: Whether to enforce strict schema validation
+    :param name: Name identifier for the schema
+    """
 
     #: Field with json schema which describes response format
     json_schema: JsonSchemaType
@@ -51,24 +57,50 @@ except ImportError:
 
 
 class JsonObjectProtoFormat(TypedDict):
+    """
+    Protocol format for JSON object responses.
+
+    :param json_object: Flag indicating JSON object format
+    """
     json_object: Required[bool]
 
 
 class JsonSchemaProtoFormat(TypedDict):
+    """
+    Protocol format for JSON schema responses.
+
+    :param json_schema: The JSON schema definition
+    """
     json_schema: Required[JsonSchemaType]
 
 
 class EmptyProtoFormat(TypedDict):
-    pass
+    """
+    Empty protocol format for responses with no specific format requirements.
+    """
+    ...
 
 
 class JsonSchemaResponseFormat(TypedDict):
+    """
+    Response format configuration for JSON schema.
+
+    :param schema: The JSON schema definition
+    :param strict: Whether to enforce strict schema validation
+    :param name: Name identifier for the schema
+    """
     schema: Required[JsonSchemaType]
     strict: NotRequired[bool]
     name: NotRequired[str]
 
 
 class JsonSchemaParameterType(TypedDict):
+    """
+    Parameter type definition for JSON schema operations.
+
+    :param type: The parameter type, either 'json_object' or 'json_schema'
+    :param json_schema: JSON schema response format configuration
+    """
     type: Required[Literal['json_object', 'json_schema']]
     json_schema: NotRequired[JsonSchemaResponseFormat]
 
@@ -158,11 +190,6 @@ def http_schema_from_response_format(response_format: ResponseType) -> JsonSchem
 def make_response_format_kwargs(
     response_format: ResponseType | None
 ) -> JsonObjectProtoFormat | JsonSchemaProtoFormat | EmptyProtoFormat:
-    """
-    Here we are transforming
-    1) http_schema <- schema_from_response_format(response_format)
-    2) grpc_schema <- http_schema
-    """
     if response_format is None:
         return {}
 
