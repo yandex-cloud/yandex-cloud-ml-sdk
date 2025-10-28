@@ -59,6 +59,7 @@ class UnknownEnumValue(Generic[ProtoBasedEnumTypeT], int):
 class EnumWithUnknownType(EnumMeta):
     __common_prefix__: str
     __proto_enum_type__: EnumTypeWrapperProtocol
+    __aliases__: dict[str, str]
 
     def __instancecheck__(cls, inst):
         if isinstance(inst, UnknownEnumValue):
@@ -88,8 +89,10 @@ class ProtoBasedEnum(IntEnum, metaclass=EnumWithUnknownType):
     __common_prefix__: str
     __proto_enum_type__: EnumTypeWrapperProtocol
     __unspecified_name__: str = 'UNSPECIFIED'
+    __aliases__: dict[str, str] = {}
 
     @classmethod
+    # pylint: disable=too-many-return-statements
     def _coerce(
         cls: type[ProtoBasedEnumTypeT],
         value: EnumWithUnknownInput[ProtoBasedEnumTypeT],
@@ -130,6 +133,9 @@ class ProtoBasedEnum(IntEnum, metaclass=EnumWithUnknownType):
                 proto_value = proto_enum_type.Value(long_name)
                 return cls.Unknown(short_name, proto_value)
             except ValueError:
+                if alias := cls.__aliases__.get(short_name):  # pylint: disable=no-member
+                    return getattr(cls, alias)
+
                 # pylint: disable-next=raise-missing-from
                 raise ValueError(
                     f'wrong value "{value}" for use as an alias for {cls}; known values: {cls.get_available()}'

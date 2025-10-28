@@ -4,27 +4,31 @@ from __future__ import annotations
 from collections.abc import Mapping
 from typing import Generic, Literal, TypeVar, overload
 
-from typing_extensions import Self, override
+from typing_extensions import Self, TypeAlias, override
 from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 from yandex.cloud.searchapi.v2.search_query_pb2 import SearchMetadata, SearchQuery
 from yandex.cloud.searchapi.v2.search_service_pb2 import GroupSpec, SortSpec, WebSearchRequest, WebSearchResponse
 from yandex.cloud.searchapi.v2.search_service_pb2_grpc import WebSearchAsyncServiceStub, WebSearchServiceStub
 
 from yandex_cloud_ml_sdk._logging import get_logger
-from yandex_cloud_ml_sdk._search_api.types import Format
-from yandex_cloud_ml_sdk._types.enum import EnumWithUnknownInput, UndefinedOrEnumWithUnknownInput
+from yandex_cloud_ml_sdk._search_api.enums import (
+    FamilyMode, FixTypoMode, Format, GroupMode, Localization, SearchType, SortMode, SortOrder
+)
+from yandex_cloud_ml_sdk._search_api.types import RequestDetails
+from yandex_cloud_ml_sdk._types.enum import UndefinedOrEnumWithUnknownInput
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr
 from yandex_cloud_ml_sdk._types.model import ModelAsyncMixin, ModelSyncMixin, OperationTypeT
 from yandex_cloud_ml_sdk._types.operation import AsyncOperation, BaseOperation, Operation
 from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
-from .config import FamilyMode, FixTypoMode, GroupMode, Localization, SearchType, SortMode, SortOrder, WebSearchConfig
-from .result import AsyncWebSearchResult, RequestDetails, WebSearchResult, WebSearchResultTypeT
+from .config import WebSearchConfig
+from .result import AsyncWebSearchResult, WebSearchResult, WebSearchResultTypeT
 
 logger = get_logger(__name__)
 
 
+SearchFormat: TypeAlias = Literal['parsed', 'xml', 'html']
 AnotherOperationTypeT = TypeVar('AnotherOperationTypeT', bound=BaseOperation)
 ProtoResponseTypeT = TypeVar('ProtoResponseTypeT', ProtoOperation, WebSearchResponse)
 
@@ -115,7 +119,7 @@ class BaseWebSearch(
         page: int,
         query: str,
         timeout: float,
-        format: EnumWithUnknownInput[Format],
+        format: SearchFormat,
         stub_class: type[WebSearchServiceStub | WebSearchAsyncServiceStub],
         expected_type: type[ProtoResponseTypeT],
     ) -> ProtoResponseTypeT:
@@ -183,7 +187,7 @@ class BaseWebSearch(
         self,
         query: str,
         *,
-        format: Literal['parsed', 'xml', 'html'] = 'parsed',
+        format: SearchFormat = 'parsed',
         page: int = 0,
         timeout: float = 60,
     ):
@@ -254,7 +258,7 @@ class BaseWebSearch(
         self,
         query: str,
         *,
-        format: Literal['parsed', 'xml', 'html'] = 'parsed',
+        format: SearchFormat = 'parsed',
         page: int = 0,
         timeout: float = 60
     ):
@@ -355,7 +359,7 @@ class AsyncWebSearch(
         self,
         query: str,
         *,
-        format: Literal['parsed', 'xml', 'html'] = 'parsed',
+        format: SearchFormat = 'parsed',
         page: int = 0,
         timeout: float = 60
     ):
@@ -388,7 +392,7 @@ class AsyncWebSearch(
         self,
         query: str,
         *,
-        format: Literal['parsed', 'xml', 'html'] = 'parsed',
+        format: SearchFormat = 'parsed',
         page: int = 0,
         timeout: float = 60
     ):
@@ -431,7 +435,7 @@ class WebSearch(BaseWebSearch[Operation[WebSearchResult], Operation[bytes], WebS
         self,
         query: str,
         *,
-        format: Literal['parsed', 'xml', 'html'] = 'parsed',
+        format: SearchFormat = 'parsed',
         page: int = 0,
         timeout: float = 60
     ):
@@ -464,7 +468,7 @@ class WebSearch(BaseWebSearch[Operation[WebSearchResult], Operation[bytes], WebS
         self,
         query: str,
         *,
-        format: Literal['parsed', 'xml', 'html'] = 'parsed',
+        format: SearchFormat = 'parsed',
         page: int = 0,
         timeout: float = 60
     ):

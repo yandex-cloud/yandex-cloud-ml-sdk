@@ -11,7 +11,7 @@ async def main() -> None:
     sdk = AsyncYCloudML(folder_id='b1ghsjum2v37c2un8h64')
     sdk.setup_default_logging()
 
-    search = sdk.search_api.web('RU')
+    search = sdk.search_api.image('RU')
 
     search_query = input('Enter the search query: ')
     if not search_query.strip():
