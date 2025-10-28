@@ -17,7 +17,7 @@ async def test_web_search_simple_run(async_sdk: AsyncYCloudML) -> None:
 
     assert len(result) >= 1
 
-    for group in result:
+    for group in result.groups:
         assert len(group) >= 1
 
 
@@ -45,7 +45,7 @@ async def test_web_search_simple_deferred_run(async_sdk: AsyncYCloudML) -> None:
 
     assert len(result) >= 1
 
-    for group in result:
+    for group in result.groups:
         assert len(group) >= 1
 
 
