@@ -24,3 +24,15 @@ Web search
 
 .. autoclass:: yandex_cloud_ml_sdk._search_api.web.result.WebSearchResult
    :undoc-members:
+
+Image search
+------------
+
+.. autoclass:: yandex_cloud_ml_sdk._search_api.image.function.ImageSearchFunction
+   :undoc-members:
+
+.. autoclass:: yandex_cloud_ml_sdk._search_api.image.image.ImageSearch
+   :undoc-members:
+
+.. autoclass:: yandex_cloud_ml_sdk._search_api.image.result.ImageSearchResult
+   :undoc-members:
