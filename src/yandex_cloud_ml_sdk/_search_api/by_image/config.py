@@ -16,7 +16,8 @@ class ByImageSearchConfig(BaseModelConfig):
 
     @override
     def _replace(self, **kwargs: Any) -> Self:
-        if family_mode := kwargs.get('family_mode'):
+        family_mode = kwargs.get('family_mode')
+        if family_mode is not None:
             kwargs['family_mode'] = FamilyMode._coerce(family_mode)
 
         return super()._replace(**kwargs)

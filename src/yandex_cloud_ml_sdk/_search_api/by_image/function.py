@@ -21,6 +21,7 @@ class BaseByImageSearchFunction(BaseModelFunction[ByImageSearchTypeT]):
     # pylint: disable-next=too-many-locals
     def __call__(
         self,
+        *,
         family_mode: UndefinedOrEnumWithUnknownInput[FamilyMode] = UNDEFINED,
         site: UndefinedOr[str] = UNDEFINED,
     ) -> ByImageSearchTypeT:
@@ -37,6 +38,8 @@ class BaseByImageSearchFunction(BaseModelFunction[ByImageSearchTypeT]):
         search_api = self._model_type(sdk=self._sdk, uri='<search_api>')
 
         return search_api.configure(
+            family_mode=family_mode,
+            site=site,
         )
 
 
