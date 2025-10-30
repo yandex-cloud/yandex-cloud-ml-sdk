@@ -70,7 +70,7 @@ def patch_operation(request, monkeypatch):
 
 @pytest.fixture(name='folder_id')
 def fixture_folder_id():
-    default_folder_id = 'b1ghsjum2v37c2un8h64'
+    default_folder_id = '<not-set>'
     return os.environ.get('YC_FOLDER_ID', default_folder_id)
 
 
