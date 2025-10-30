@@ -11,9 +11,10 @@ async def main() -> None:
     # for example
     endpoint = 'api.cloud.yandex.net'
     path = 'ca/bundle/path.pem'
+    folder_id = '<your_folder_id>'
 
     sdk = AsyncYCloudML(
-        folder_id='b1ghsjum2v37c2un8h64',
+        folder_id=folder_id,
         endpoint=endpoint,
         verify=path,
     )
