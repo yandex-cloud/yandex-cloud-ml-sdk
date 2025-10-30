@@ -38,6 +38,13 @@ Image search
 .. autoclass:: yandex_cloud_ml_sdk._search_api.image.result.ImageSearchDocument
    :undoc-members:
 
+
+Search by image
+---------------
+
+.. autoclass:: yandex_cloud_ml_sdk._search_api.by_image.result.ByImageSearchDocument
+   :undoc-members:
+
 Enum-like settings
 ------------------
 
