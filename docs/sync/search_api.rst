@@ -36,3 +36,15 @@ Image search
 
 .. autoclass:: yandex_cloud_ml_sdk._search_api.image.result.ImageSearchResult
    :undoc-members:
+
+Search by image
+---------------
+
+.. autoclass:: yandex_cloud_ml_sdk._search_api.by_image.function.ByImageSearchFunction
+   :undoc-members:
+
+.. autoclass:: yandex_cloud_ml_sdk._search_api.by_image.by_image.ByImageSearch
+   :undoc-members:
+
+.. autoclass:: yandex_cloud_ml_sdk._search_api.by_image.result.ByImageSearchResult
+   :undoc-members:

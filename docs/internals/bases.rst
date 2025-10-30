@@ -91,3 +91,5 @@ Base classes
 .. autoclass:: yandex_cloud_ml_sdk._search_api.web.function.BaseWebSearchFunction
 
 .. autoclass:: yandex_cloud_ml_sdk._search_api.image.function.BaseImageSearchFunction
+
+.. autoclass:: yandex_cloud_ml_sdk._search_api.by_image.function.BaseByImageSearchFunction

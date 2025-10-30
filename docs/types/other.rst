@@ -69,6 +69,9 @@ Generic types
 .. py:class:: yandex_cloud_ml_sdk._search_api.image.image.ImageSearchTypeT
 
 
+.. py:class:: yandex_cloud_ml_sdk._search_api.by_image.by_image.ByImageSearchTypeT
+
+
 .. py:class:: yandex_cloud_ml_sdk._search_api.types.XMLSearchDocumentTypeT
 
 
