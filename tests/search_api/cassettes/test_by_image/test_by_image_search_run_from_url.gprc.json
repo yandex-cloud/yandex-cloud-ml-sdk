@@ -1,0 +1,1309 @@
+{
+    "interactions": [
+        {
+            "request": {
+                "cls": "ListApiEndpointsRequest",
+                "module": "yandex.cloud.endpoint.api_endpoint_service_pb2",
+                "message": {}
+            },
+            "response": {
+                "cls": "ListApiEndpointsResponse",
+                "module": "yandex.cloud.endpoint.api_endpoint_service_pb2",
+                "message": {
+                    "endpoints": [
+                        {
+                            "id": "ai-assistants",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-files",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-foundation-models",
+                            "address": "llm.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-llm",
+                            "address": "llm.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-speechkit",
+                            "address": "transcribe.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-stt",
+                            "address": "transcribe.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-stt-v3",
+                            "address": "stt.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-translate",
+                            "address": "translate.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-vision",
+                            "address": "vision.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-vision-ocr",
+                            "address": "ocr.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "alb",
+                            "address": "alb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "apigateway-connections",
+                            "address": "apigateway-connections.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "application-load-balancer",
+                            "address": "alb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "apploadbalancer",
+                            "address": "alb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "audittrails",
+                            "address": "audittrails.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "baas",
+                            "address": "backup.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "backup",
+                            "address": "backup.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "baremetal",
+                            "address": "baremetal.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "billing",
+                            "address": "billing.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "broker-data",
+                            "address": "iot-data.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cdn",
+                            "address": "cdn.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager",
+                            "address": "certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager-data",
+                            "address": "data.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager-private-ca",
+                            "address": "private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager-private-ca-data",
+                            "address": "data.private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cic",
+                            "address": "cic.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloud-registry",
+                            "address": "registry.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloudapps",
+                            "address": "cloudapps.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloudbackup",
+                            "address": "backup.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "clouddesktops",
+                            "address": "clouddesktops.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloudrouter",
+                            "address": "cloudrouter.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloudvideo",
+                            "address": "video.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "compute",
+                            "address": "compute.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "connection-manager",
+                            "address": "connectionmanager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "container-registry",
+                            "address": "container-registry.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "dataproc",
+                            "address": "dataproc.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "dataproc-manager",
+                            "address": "dataproc-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "datasphere",
+                            "address": "datasphere.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "datatransfer",
+                            "address": "datatransfer.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "dns",
+                            "address": "dns.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "endpoint",
+                            "address": "api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "fomo-dataset",
+                            "address": "fomo-dataset.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "fomo-tuning",
+                            "address": "fomo-tuning.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "gitlab",
+                            "address": "gitlab.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "iam",
+                            "address": "iam.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "iot-broker",
+                            "address": "iot-broker.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "iot-data",
+                            "address": "iot-data.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "iot-devices",
+                            "address": "iot-devices.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "k8s",
+                            "address": "mks.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "kms",
+                            "address": "kms.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "kms-crypto",
+                            "address": "kms.yandex:443"
+                        },
+                        {
+                            "id": "kspm",
+                            "address": "kspm.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "load-balancer",
+                            "address": "load-balancer.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "loadtesting",
+                            "address": "loadtesting.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "locator",
+                            "address": "locator.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "lockbox",
+                            "address": "lockbox.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "lockbox-payload",
+                            "address": "payload.lockbox.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "log-ingestion",
+                            "address": "ingester.logging.yandexcloud.net:443"
+                        },
+                        {
+                            "id": "log-reading",
+                            "address": "reader.logging.yandexcloud.net:443"
+                        },
+                        {
+                            "id": "logging",
+                            "address": "logging.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-airflow",
+                            "address": "airflow.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-clickhouse",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-elasticsearch",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-greenplum",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-kafka",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-kubernetes",
+                            "address": "mks.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-metastore",
+                            "address": "metastore.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-mongodb",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-mysql",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-opensearch",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-postgresql",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-redis",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-spark",
+                            "address": "spark.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-spqr",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-sqlserver",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-trino",
+                            "address": "trino.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-ytsaurus",
+                            "address": "ytsaurus.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "marketplace",
+                            "address": "marketplace.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "marketplace-pim",
+                            "address": "marketplace.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-clickhouse",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-mongodb",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-mysql",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-opensearch",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-postgresql",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-redis",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-spqr",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdbproxy",
+                            "address": "mdbproxy.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "monitoring",
+                            "address": "monitoring.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "operation",
+                            "address": "operation.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "organization-manager",
+                            "address": "organization-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "organizationmanager",
+                            "address": "organization-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quota-manager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quotamanager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "resource-manager",
+                            "address": "resource-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "resourcemanager",
+                            "address": "resource-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "searchapi",
+                            "address": "searchapi.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serialssh",
+                            "address": "serialssh.cloud.yandex.net:9600"
+                        },
+                        {
+                            "id": "serverless-apigateway",
+                            "address": "serverless-apigateway.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-containers",
+                            "address": "serverless-containers.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-eventrouter",
+                            "address": "serverless-eventrouter.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-functions",
+                            "address": "serverless-functions.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-gateway-connections",
+                            "address": "apigateway-connections.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-triggers",
+                            "address": "serverless-triggers.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-workflows",
+                            "address": "serverless-workflows.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverlesseventrouter-events",
+                            "address": "events.eventrouter.serverless.yandexcloud.net:443"
+                        },
+                        {
+                            "id": "smart-captcha",
+                            "address": "smartcaptcha.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "smart-web-security",
+                            "address": "smartwebsecurity.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "storage",
+                            "address": "storage.yandexcloud.net:443"
+                        },
+                        {
+                            "id": "storage-api",
+                            "address": "storage.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "video",
+                            "address": "video.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "vpc",
+                            "address": "vpc.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ydb",
+                            "address": "ydb.api.cloud.yandex.net:443"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "ImageSearchByImageRequest",
+                "module": "yandex.cloud.searchapi.v2.img_search_service_pb2",
+                "message": {
+                    "folderId": "b1ghsjum2v37c2un8h64",
+                    "url": "https://upload.wikimedia.org/wikipedia/commons/b/be/Leo_Tolstoy_1908_Portrait_%283x4_cropped%29.jpg"
+                }
+            },
+            "response": {
+                "cls": "ImageSearchByImageResponse",
+                "module": "yandex.cloud.searchapi.v2.img_search_service_pb2",
+                "message": {
+                    "images": [
+                        {
+                            "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Leo_Tolstoy_1908_Portrait_%283x4_cropped%29.jpg/250px-Leo_Tolstoy_1908_Portrait_%283x4_cropped%29.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "250",
+                            "height": "331",
+                            "passage": "Tolstoy with long white, whispy beard wearing a blue button-down shirt ",
+                            "host": "en.wikipedia.org",
+                            "pageTitle": "Leo Tolstoy - Wikipedia",
+                            "pageUrl": "https://en.wikipedia.org/?title=Leo_Tolstoy"
+                        },
+                        {
+                            "url": "https://books.e-libra.net/files/books/2019/02/27/491915/i_024.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "600",
+                            "height": "856",
+                            "passage": "\u0421\u0430\u043c... ",
+                            "host": "biography.wikireading.ru",
+                            "pageTitle": "\u0415\u0433\u043e \u0420\u043e\u0441\u0441\u0438\u044f. \u0415\u0433\u043e \u044d\u043c\u0438\u0433\u0440\u0430\u0446\u0438\u044f . \u0421\u0435\u0440\u0433\u0435\u0439 \u041f\u0440\u043e\u043a\u0443\u0434\u0438\u043d-\u0413\u043e\u0440\u0441\u043a\u0438\u0439",
+                            "pageUrl": "https://biography.wikireading.ru/hGFZkOgGT0"
+                        },
+                        {
+                            "url": "https://ucare.timepad.ru/6899817a-52b1-468b-9a53-3a01022f09a3/poster_event_2990501.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "2063",
+                            "height": "730",
+                            "passage": "\u0411\u043e\u043b\u044c\u0448\u043e\u0439 \u0440\u0430\u0437\u0433\u043e\u0432\u043e\u0440 \u043e \u0436\u0438\u0437\u043d\u0438 \u0430\u0432\u0442\u043e\u0440\u0430 \u043e\u0434\u043d\u043e\u0433\u043e \u0438\u0437 \u0433\u043b\u0430\u0432\u043d\u044b\u0445 \u043c\u0438\u0440\u043e\u0432\u044b\u0445 \u043f\u0440\u043e\u0438\u0437\u0432\u0435\u0434\u0435\u043d\u0438\u0439 \u043b\u0438\u0442\u0435\u0440\u0430\u0442\u0443\u0440\u044b \u2013 \u043e \u041b\u044c\u0432\u0435 \u0422\u043e\u043b\u0441\u0442\u043e\u043c ",
+                            "host": "mskcc.timepad.ru",
+                            "pageTitle": "\u041b\u0435\u0432 \u0422\u043e\u043b\u0441\u0442\u043e\u0439. \u0416\u0438\u0437\u043d\u044c - \u044d\u043f\u043e\u043f\u0435\u044f",
+                            "pageUrl": "https://mskcc.timepad.ru/event/2990501/"
+                        },
+                        {
+                            "url": "https://imwerden.de/pdf/Tolstoy_Lev.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "882",
+                            "height": "735",
+                            "passage": "\u041b\u0435\u0432 \u041d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u0438\u0447 \u0422\u043e\u043b\u0441\u0442\u043e\u0439 ",
+                            "host": "dzen.ru",
+                            "pageTitle": "\u0427\u0442\u043e \u0441\u043a\u0430\u0437\u0430\u043b \u0421\u0443\u0440\u0438\u043a\u043e\u0432 \u041b\u044c\u0432\u0443 \u0422\u043e\u043b\u0441\u0442\u043e\u043c\u0443, \u043a\u043e\u0433\u0434\u0430 \u0442\u043e\u0442 \u043f\u0440\u0438\u0448\u0451\u043b \u0441\u043c\u043e\u0442\u0440\u0435\u0442\u044c \u043d\u0430 \u0435\u0433\u043e \u0443\u043c\u0438\u0440\u0430\u044e\u0449\u0443\u044e \u0436\u0435\u043d\u0443 \u0418\u0441\u0442\u043e\u0440\u0438\u044f \u0432 \u041a\u0430\u0431\u043b\u0443\u0447\u043a\u0430\u0445 \u0438 \u041c\u0443\u043d\u0434\u0438\u0440\u0430\u0445 \u0414\u0437\u0435\u043d",
+                            "pageUrl": "https://dzen.ru/a/aE62twg-aVK3u9b5"
+                        },
+                        {
+                            "url": "https://stebel.ru/wp-content/uploads/2024/02/lev-tolstoy105017.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "1200",
+                            "height": "675",
+                            "passage": "\u041d\u043e \u043f\u043e\u0437\u0436\u0435 \u043c\u043d\u043e\u0433\u0438\u0435 \u0443\u0437\u043d\u0430\u044e\u0442, \u0447\u0442\u043e \u044d\u0442\u043e\u0442, \u043a\u043b\u0430\u0441\u0441\u0438\u0447\u0435\u0441\u043a\u0438\u0439, \u0432\u044b\u0433\u043b\u0430\u0436\u0435\u043d\u043d\u044b\u0439 \u043e\u0431\u0440\u0430\u0437 \u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e \u2014 \u0441\u043a\u043e\u0440\u0435\u0435, \u043c\u0438\u0444, \u0447\u0435\u043c \u043f\u0440\u0430\u0432\u0434\u0430. ",
+                            "host": "stebel.ru",
+                            "pageTitle": "\u0414\u0443\u044d\u043b\u044f\u043d\u0442, \u043a\u0430\u0440\u0442\u0435\u0436\u043d\u0438\u043a \u0438 \u0436\u0435\u043d\u043e\u043d\u0435\u043d\u0430\u0432\u0438\u0441\u0442\u043d\u0438\u043a: \u043a\u0430\u043a\u0438\u043c \u0431\u044b\u043b \u041b\u0435\u0432 \u0422\u043e\u043b\u0441\u0442\u043e\u0439 \u043d\u0430 \u0441\u0430\u043c\u043e\u043c \u0434\u0435\u043b\u0435",
+                            "pageUrl": "https://stebel.ru/stories/kakim-byl-lev-tolstoy-na-samom-dele-id67928-14-18024/"
+                        },
+                        {
+                            "url": "https://cf2.ppt-online.org/files2/slide/g/GrlT6qyjVbSfehXMKoIO2YcxAt9Q4dCsH0B3W7EUp/slide-0.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "1024",
+                            "height": "767",
+                            "passage": "\u041b\u0435\u0432 \u041d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u0438\u0447 \u0422\u043e\u043b\u0441\u0442\u043e\u0439 (1828-1910)- \u043f\u0438\u0441\u0430\u0442\u0435\u043b\u044c-\u0440\u043e\u043c\u0430\u043d\u0438\u0441\u0442, \u043c\u044b\u0441\u043b\u0438\u0442\u0435\u043b\u044c, \u0434\u0440\u0430\u043c\u0430\u0442\u0443\u0440\u0433, \u0444\u0438\u043b\u043e\u0441\u043e\u0444 ",
+                            "host": "ppt-online.org",
+                            "pageTitle": "\u041b\u0435\u0432 \u041d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u0438\u0447 \u0422\u043e\u043b\u0441\u0442\u043e\u0439 (1828-1910) - \u043f\u0438\u0441\u0430\u0442\u0435\u043b\u044c-\u0440\u043e\u043c\u0430\u043d\u0438\u0441\u0442, \u043c\u044b\u0441\u043b\u0438\u0442\u0435\u043b\u044c, \u0434\u0440\u0430\u043c\u0430\u0442\u0443\u0440\u0433, \u0444\u0438\u043b\u043e\u0441\u043e\u0444 - \u043f\u0440\u0435\u0437\u0435\u043d\u0442\u0430\u0446\u0438\u044f \u043e\u043d\u043b\u0430\u0439\u043d",
+                            "pageUrl": "https://ppt-online.org/419318"
+                        },
+                        {
+                            "url": "https://i.ytimg.com/vi/x3SWnehgjog/maxresdefault.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "1280",
+                            "height": "720",
+                            "passage": "\u0421\u0442\u0440\u0438\u043c \u043d\u0430 OstiumGame ",
+                            "host": "www.youtube.com",
+                            "pageTitle": "\u0421\u0442\u0440\u0438\u043c \u043d\u0430 OstiumGame - YouTube",
+                            "pageUrl": "https://www.youtube.com/watch?v=x3SWnehgjog"
+                        },
+                        {
+                            "url": "https://pp.userapi.com/c845523/v845523121/ea80a/3KLtitEfEg0.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "880",
+                            "height": "480",
+                            "passage": "\u0422\u043e\u043b\u0441\u0442\u043e\u0439 \u043a\u0443\u043b\u044c\u0442\u0443\u0440\u0430 \u0441\u043e\u0432\u0435\u0442\u043d\u0438\u043a ",
+                            "host": "wishescards.ru",
+                            "pageTitle": "\u0422\u043e\u043b\u0441\u0442\u043e\u0439 \u043a\u0443\u043b\u044c\u0442\u0443\u0440\u0430 \u0441\u043e\u0432\u0435\u0442\u043d\u0438\u043a",
+                            "pageUrl": "https://wishescards.ru/tolstoy/kultura/sovetnik/"
+                        },
+                        {
+                            "url": "https://sneg.top/uploads/posts/2023-04/1681435067_sneg-top-p-lev-nikolaevich-tolstoi-kartinki-instagram-23.png",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "760",
+                            "height": "1053",
+                            "passage": "\u041b\u0438\u0442\u0435\u0440\u0430\u0442\u0443\u0440\u043d\u044b\u0439 \u0447\u0430\u0441 \"\u0416\u0438\u0437\u043d\u044c \u0438 \u0442\u0432\u043e\u0440\u0447\u0435\u0441\u0442\u0432\u043e \u041b.\u041d. \u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e\", \u043f\u0440\u0438\u0443\u0440\u043e\u0447\u0435\u043d\u043d\u044b\u0439 \u043a 195-\u043b\u0435\u0442\u0438\u044e \u0441\u043e \u0434\u043d\u044f \u0440\u043e\u0436\u0434\u0435\u043d\u0438\u044f \u043f\u0438\u0441\u0430\u0442\u0435\u043b\u044f ",
+                            "host": "cpdvognema.gov35.ru",
+                            "pageTitle": "\u041b\u0438\u0442\u0435\u0440\u0430\u0442\u0443\u0440\u043d\u044b\u0439 \u0447\u0430\u0441 \"\u0416\u0438\u0437\u043d\u044c \u0438 \u0442\u0432\u043e\u0440\u0447\u0435\u0441\u0442\u0432\u043e \u041b.\u041d. \u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e\", \u043f\u0440\u0438\u0443\u0440\u043e\u0447\u0435\u043d\u043d\u044b\u0439 \u043a 195-\u043b\u0435\u0442\u0438\u044e \u0441\u043e \u0434\u043d\u044f \u0440\u043e\u0436\u0434\u0435\u043d\u0438\u044f \u043f\u0438\u0441\u0430\u0442\u0435\u043b\u044f",
+                            "pageUrl": "https://cpdvognema.gov35.ru/activity/news/sobytiya/aliteraturnyy_chas_zhizn_i_tvorchestvo_l_n_tolstogo_priurochennyy_k_195_letiyu_so_dnya_rozhdeniya_pi/"
+                        },
+                        {
+                            "url": "https://sun9-29.userapi.com/impg/pe2v8AqBKKu9PA5qWzwXO0tvzNlyicXCs9yiEA/gRRKAkjMgGg.jpg?size=604x428&quality=95&sign=2ddea75d935c417ea325b4f8cf122e99&c_uniq_tag=vbyfwxok1-jgJkqwe4R06Ug8-I_4rfBg-JV88oCWpJo&type=album",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "604",
+                            "height": "428",
+                            "passage": "\u041b\u0435\u0432 \u0442\u043e\u043b\u0441\u0442\u043e\u0439 \u043f\u0440\u043e\u0441\u0442\u043e\u0442\u0430 ",
+                            "host": "wishescards.ru",
+                            "pageTitle": "\u041b\u0435\u0432 \u0442\u043e\u043b\u0441\u0442\u043e\u0439 \u043f\u0440\u043e\u0441\u0442\u043e\u0442\u0430",
+                            "pageUrl": "https://wishescards.ru/lev/tolstoy/prostota/"
+                        },
+                        {
+                            "url": "https://author.today/content/2021/05/26/6eb27b08324849d2870c2b2f5aa393dd.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "2004",
+                            "height": "1124",
+                            "passage": "\u0422\u043e\u043b\u0441\u0442\u043e\u0432\u043a\u0438 \u0438 \u0442\u043e\u043d\u043a\u043e\u0441\u0442\u0438 ",
+                            "host": "author.today",
+                            "pageTitle": "\u0422\u043e\u043b\u0441\u0442\u043e\u0432\u043a\u0438 \u0438 \u0442\u043e\u043d\u043a\u043e\u0441\u0442\u0438 / \u0414\u043c\u0438\u0442\u0440\u0438\u0439 \"\u0414\u0438\u043a\u0438\" \u0421\u0435\u043c\u0451\u043d\u043e\u0432 @Dicky. \u041e\u043f\u0443\u0431\u043b\u0438\u043a\u043e\u0432\u0430\u043d\u043e: 26 \u043c\u0430\u0439. 2021 \u0432 17:10",
+                            "pageUrl": "https://author.today/post/170028?page=1"
+                        },
+                        {
+                            "url": "https://mospraz.ru/image/catalog/image/data/0_PORTRETY/PT-15-Tolstoy/port_15_2.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "387",
+                            "height": "550",
+                            "passage": "\u041f\u043e\u0440\u0442\u0440\u0435\u0442 \u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e \u041b.\u041d. \u041f\u0422-15-2 ",
+                            "host": "mospraz.ru",
+                            "pageTitle": "\u041a\u0443\u043f\u0438\u0442\u044c \u041f\u043e\u0440\u0442\u0440\u0435\u0442 \u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e \u041b.\u041d. \u041f\u0422-15-2 \u0437\u0430 \u2714 1 500 \u0440\u0443\u0431.",
+                            "pageUrl": "https://mospraz.ru/portreti/portrety-po-alfavity/portret-tolstoi-lev-nikolaevich/portret-tolstogo-l-n-pt-15-2/"
+                        },
+                        {
+                            "url": "https://i.okcdn.ru/i?r=BEH7dJIjJJO0pjyIf46vcZ9AtMrQ4fVHisFE1Gqo6VLxl7qy6zCTuHfgZvQrW9QO88G5CqdNleAEysdLnA60zUgQ&fn=external_8",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "480",
+                            "height": "360",
+                            "passage": "\u041f\u0435\u0442\u0440 \u0420\u044f\u0431\u043e\u0432: \"\u041b\u0435\u0432 \u0422\u043e\u043b\u0441\u0442\u043e\u0439 \u0438 \u0442\u043e\u043b\u0441\u0442\u043e\u0432\u0446\u044b: \u043c\u0438\u0440\u043d\u044b\u0439 \u0440\u0435\u043b\u0438\u0433\u0438\u043e\u0437\u043d\u044b\u0439 \u0430\u043d\u0430\u0440\u0445\u0438\u0437\u043c.\" ",
+                            "host": "www.youtube.com",
+                            "pageTitle": "\u041f\u0435\u0442\u0440 \u0420\u044f\u0431\u043e\u0432: \"\u041b\u0435\u0432 \u0422\u043e\u043b\u0441\u0442\u043e\u0439 \u0438 \u0442\u043e\u043b\u0441\u0442\u043e\u0432\u0446\u044b: \u043c\u0438\u0440\u043d\u044b\u0439 \u0440\u0435\u043b\u0438\u0433\u0438\u043e\u0437\u043d\u044b\u0439 \u0430\u043d\u0430\u0440\u0445\u0438\u0437\u043c.\" - YouTube",
+                            "pageUrl": "https://www.youtube.com/live/ZKm4wf-Q1gY?pp=0gcJCVEJAYcqIYzv"
+                        },
+                        {
+                            "url": "https://pic.rutubelist.ru/video/28/96/2896467e87f083ad74c061ffc298967f.jpg",
+                            "format": "IMAGE_FORMAT_PNG",
+                            "width": "800",
+                            "height": "400",
+                            "passage": "\u0417\u0430\u0434\u0430\u0447\u0430 \u043f\u0440\u043e \u0448\u0430\u043f\u043a\u0443 \u043e\u0442 \u041b\u044c\u0432\u0430 \u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e ",
+                            "host": "4brain.ru",
+                            "pageTitle": "\u0417\u0430\u0434\u0430\u0447\u0430 \u043f\u0440\u043e \u0448\u0430\u043f\u043a\u0443 \u043e\u0442 \u041b\u044c\u0432\u0430 \u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e \u0411\u043b\u043e\u0433 4brain",
+                            "pageUrl": "https://4brain.ru/blog/%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0-%D0%BF%D1%80%D0%BE-%D1%88%D0%B0%D0%BF%D0%BA%D1%83-%D0%BE%D1%82-%D0%BB%D1%8C%D0%B2%D0%B0-%D1%82%D0%BE%D0%BB%D1%81%D1%82%D0%BE%D0%B3%D0%BE/"
+                        },
+                        {
+                            "url": "https://www.grazia.ru/upload/img_cache/269/2694ba54fe855589ec897104f024d24f_ce_1323x697x0x336_cropped_1200x628.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "1200",
+                            "height": "628",
+                            "passage": "\u041e\u0431\u044a\u044f\u0441\u043d\u044f\u0435\u043c, \u043f\u043e\u0447\u0435\u043c\u0443 \u044d\u043a\u0441\u043f\u0435\u0440\u0442\u044b \u0437\u0430\u043f\u043e\u0434\u043e\u0437\u0440\u0438\u043b\u0438, \u0447\u0442\u043e \u0413\u043e\u0440\u044c\u043a\u0438\u0439 \u0438 \u0427\u0435\u0445\u043e\u0432 \u00ab\u0441\u043f\u0438\u0441\u0430\u043b\u0438\u00bb \u043f\u0435\u0440\u0441\u043e\u043d\u0430\u0436\u0435\u0439 \u0441 \u0432\u0435\u043b\u0438\u043a\u043e\u0433\u043e \u043a\u043b\u0430\u0441\u0441\u0438\u043a\u0430 ",
+                            "host": "www.grazia.ru",
+                            "pageTitle": "\u041d\u0430 \u0434\u043d\u0435\" \u0438\u043b\u0438 \"\u041f\u0430\u043b\u0430\u0442\u0430 \u2116 6\": \u0434\u0432\u0430 \u043f\u0440\u043e\u0442\u043e\u0442\u0438\u043f\u0430 \u041b\u044c\u0432\u0430 \u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e \u0432 \u0432\u0430\u0436\u043d\u044b\u0445 \u043a\u043d\u0438\u0433\u0430\u0445 \u0440\u0443\u0441\u0441\u043a\u043e\u0439 \u043b\u0438\u0442\u0435\u0440\u0430\u0442\u0443\u0440\u044b",
+                            "pageUrl": "https://www.grazia.ru/culture/na-dne-ili-palata-6-dva-prototipa-lva-tolstogo-v-vajnyh-knigah-russkoi-literatury/"
+                        },
+                        {
+                            "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/L.N.Tolstoy_Prokudin-Gorsky.jpg/100px-L.N.Tolstoy_Prokudin-Gorsky.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "100",
+                            "height": "138",
+                            "passage": "\u041d\u0435\u0431\u044b\u0432\u0430\u043b\u044b\u0439 \u0443\u0441\u043f\u0435\u0445 \u0432\u044b\u043f\u0430\u043b \u043d\u0430 \u0434\u043e\u043b\u044e \"\u0412\u043e\u0439\u043d\u044b \u0438 \u043c\u0438\u0440\u0430\". ",
+                            "host": "ru.wikipedia.org",
+                            "pageTitle": "\u041f\u043e\u0440\u0442\u0430\u043b:\u041b\u0438\u0442\u0435\u0440\u0430\u0442\u0443\u0440\u0430/\u0418\u0437\u0431\u0440\u0430\u043d\u043d\u0430\u044f \u0441\u0442\u0430\u0442\u044c\u044f/\u0410\u0440\u0445\u0438\u0432 - \u0412\u0438\u043a\u0438\u043f\u0435\u0434\u0438\u044f",
+                            "pageUrl": "https://ru.wikipedia.org/wiki/%D0%9F%D0%BE%D1%80%D1%82%D0%B0%D0%BB:%D0%9B%D0%B8%D1%82%D0%B5%D1%80%D0%B0%D1%82%D1%83%D1%80%D0%B0/%D0%98%D0%B7%D0%B1%D1%80%D0%B0%D0%BD%D0%BD%D0%B0%D1%8F_%D1%81%D1%82%D0%B0%D1%82%D1%8C%D1%8F/%D0%90%D1%80%D1%85%D0%B8%D0%B2?oldformat=true"
+                        },
+                        {
+                            "url": "https://nikon-bibl.pavkult.ru/unsafe/fit-in/1024x1024/smart/https://www.leocdn.ru/uploadsForSiteId/200501/content/969121da-189e-4c85-9793-ff538c086768.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "1024",
+                            "height": "768",
+                            "passage": "\u0421\u043f\u0438\u0441\u043e\u043a. ",
+                            "host": "nikon-bibl.pavkult.ru",
+                            "pageTitle": "\"\u041d\u0435\u0441\u0440\u0430\u0432\u043d\u0435\u043d\u043d\u044b\u0439 \u0445\u0443\u0434\u043e\u0436\u043d\u0438\u043a \u0436\u0438\u0437\u043d\u0438\" (195 \u043b\u0435\u0442 \u041b. \u0422\u043e\u043b\u0441\u0442\u043e\u043c\u0443) \u041c\u0411\u0423 \"\u041d\u043e\u0432\u043e\u043b\u0435\u0443\u0448\u043a\u043e\u0432\u0441\u043a\u0430\u044f \u0421\u0435\u043b\u044c\u0441\u043a\u0430\u044f \u0411\u0438\u0431\u043b\u0438\u043e\u0442\u0435\u043a\u0430 \u0438\u043c\u0435\u043d\u0438 \u0418.\u0418. \u041d\u0438\u043a\u043e\u043d\u043e\u0432\u0430\" \u041a\u0440\u0430\u0441\u043d\u043e\u0434\u0430\u0440\u0441\u043a\u0438\u0439",
+                            "pageUrl": "https://nikon-bibl.pavkult.ru/item/1634377"
+                        },
+                        {
+                            "url": "https://yt3.googleusercontent.com/ytc/AIdro_lpgYC7r5Wik1qzNS2g0Y2soxd8WUwryT90Se6ZamMfBA=s900-c-k-c0x00ffffff-no-rj",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "900",
+                            "height": "900",
+                            "passage": "\u0424\u0435\u043b\u0438\u043c\u043e\u043d \u041d\u0435\u0441\u0442\u0440\u0435\u043d\u043a\u043e - YouTube ",
+                            "host": "www.youtube.com",
+                            "pageTitle": "\u0424\u0435\u043b\u0438\u043c\u043e\u043d \u041d\u0435\u0441\u0442\u0440\u0435\u043d\u043a\u043e - YouTube",
+                            "pageUrl": "https://www.youtube.com/channel/UCtsRLO3Xf6Js0JNfFocqP-Q/videos"
+                        },
+                        {
+                            "url": "https://c8.alamy.com/comp/2TBNNWC/color-photograph-of-lev-nikolayevich-tolstoy-russian-9-september-os-28-august-1828-20-november-os-7-november-1910-usually-referred-to-in-english-as-leo-tolstoy-was-a-russian-writer-by-sergey-prokudin-gorsky-old-vintage-postcard-of-the-russian-empire-23-may-1908-2TBNNWC.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "1001",
+                            "height": "1390",
+                            "passage": "Lev Nikolayevich Tolstoy (Russian: \u041b\u0435\u0432 \u041d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u0438\u0447 \u0422\u043e\u043b\u0441\u0442\u043e\u0439; 9 September O.S. 28 August 1828 - 20 November O.S. 7 November 1910), usually referred to in English as Leo Tolstoy, was... ",
+                            "host": "www.alamy.com",
+                            "pageTitle": "Leo tolstoy 1828 1910 russian writer Cut Out Stock Images & Pictures - Alamy",
+                            "pageUrl": "https://www.alamy.com/stock-photo/leo-tolstoy-1828-1910-russian-writer.html?cutout=1"
+                        },
+                        {
+                            "url": "https://i.ytimg.com/vi/qrU4DAR8Pfs/mqdefault.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "320",
+                            "height": "180",
+                            "passage": "Tolstoy hayat\u0131 ",
+                            "host": "tr-cam.net",
+                            "pageTitle": "Tolstoy Hayat\u0131",
+                            "pageUrl": "https://tr-cam.net/tr/tolstoy+hayat%C4%B1/2"
+                        },
+                        {
+                            "url": "https://candlesbox.com/wp-content/uploads/2016/09/22.png",
+                            "format": "IMAGE_FORMAT_PNG",
+                            "width": "1024",
+                            "height": "1158",
+                            "passage": "\u041b\u0435\u0432 \u0442\u043e\u043b\u0441\u0442\u043e\u0439 \u0432 \u0436\u0438\u0437\u043d\u0438 ",
+                            "host": "wishescards.ru",
+                            "pageTitle": "\u041b\u0435\u0432 \u0442\u043e\u043b\u0441\u0442\u043e\u0439 \u0432 \u0436\u0438\u0437\u043d\u0438",
+                            "pageUrl": "https://wishescards.ru/lev/tolstoy/v/jizni/"
+                        },
+                        {
+                            "url": "https://c8.alamy.com/comp/2TBNNW6/color-photograph-of-lev-nikolayevich-tolstoy-russian-9-september-os-28-august-1828-20-november-os-7-november-1910-usually-referred-to-in-english-as-leo-tolstoy-was-a-russian-writer-by-sergey-prokudin-gorsky-old-vintage-postcard-of-the-russian-empire-23-may-1908-detail-2TBNNW6.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "1085",
+                            "height": "1390",
+                            "passage": "SAMARKAND: MOSQUE, c1910. /nView of the Shakh-i Zindeh mosque. ",
+                            "host": "www.alamy.com",
+                            "pageTitle": "Prokudin hi-res stock photography and images - Page 3 - Alamy",
+                            "pageUrl": "https://www.alamy.com/stock-photo/prokudin.html?page=3"
+                        },
+                        {
+                            "url": "https://fsd.multiurok.ru/html/2022/03/21/s_6238cf761c10a/img0.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "640",
+                            "height": "480",
+                            "passage": "\u041f\u0440\u043e\u0441\u043c\u043e\u0442\u0440 \u0441\u043e\u0434\u0435\u0440\u0436\u0438\u043c\u043e\u0433\u043e \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430 \"\u041f\u0440\u0435\u0437\u0435\u043d\u0442\u0430\u0446\u0438\u044f \u043f\u043e \u043b\u0438\u0442\u0435\u0440\u0430\u0442\u0443\u0440\u043d\u043e\u043c\u0443 \u0447\u0442\u0435\u043d\u0438\u044e \"\u0411\u0438\u043e\u0433\u0440\u0430\u0444\u0438\u044f \u041b.\u041d.\u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e ",
+                            "host": "multiurok.ru",
+                            "pageTitle": "\u041f\u0440\u0435\u0437\u0435\u043d\u0442\u0430\u0446\u0438\u044f \u043f\u043e \u043b\u0438\u0442\u0435\u0440\u0430\u0442\u0443\u0440\u043d\u043e\u043c\u0443 \u0447\u0442\u0435\u043d\u0438\u044e \"\u0411\u0438\u043e\u0433\u0440\u0430\u0444\u0438\u044f \u041b.\u041d.\u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e\"",
+                            "pageUrl": "https://multiurok.ru/index.php/files/prezentatsiia-po-literaturnomu-chteniiu-biografi-4.html"
+                        },
+                        {
+                            "url": "https://d2kchovjbwl1tk.cloudfront.net/vendor/4817/product/tolstoy_1699961533898.png",
+                            "format": "IMAGE_FORMAT_PNG",
+                            "width": "1080",
+                            "height": "1080",
+                            "passage": "Leo Tolstoy - Berdikari Book #PastiAda #PastiDiskon ",
+                            "host": "berdikaribook.red",
+                            "pageTitle": "Leo Tolstoy - Berdikari Book #PastiAda #PastiDiskon",
+                            "pageUrl": "https://berdikaribook.red/categories/17049/leo-tolstoy"
+                        },
+                        {
+                            "url": "https://c8.alamy.com/comp/2JHG6WG/lev-nikolayevich-tolstoy-russian-9-september-os-28-august-1828-20-november-os-7-november-1910-usually-referred-to-in-english-as-leo-tolstoy-was-a-russian-writer-detail-old-vintage-postcard-of-the-russian-empire-1910-2JHG6WG.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "650",
+                            "height": "571",
+                            "passage": "\u041b\u0435\u0432. ",
+                            "host": "www.eg.ru",
+                            "pageTitle": "\u041a\u0430\u043a \u041b\u0435\u0432 \u0422\u043e\u043b\u0441\u0442\u043e\u0439 \u043e\u0442\u043d\u043e\u0441\u0438\u043b\u0441\u044f \u043a \u043a\u0440\u0435\u043f\u043e\u0441\u0442\u043d\u044b\u043c - \u042d\u043a\u0441\u043f\u0440\u0435\u0441\u0441 \u0433\u0430\u0437\u0435\u0442\u0430",
+                            "pageUrl": "https://www.eg.ru/relax/2852932-kak-lev-tolstoy-otnosilsya-k-krepostnym/"
+                        },
+                        {
+                            "url": "https://prezentacii.org/upload/cloud/19/01/113178/images/screen23.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "800",
+                            "height": "600",
+                            "passage": "\u0411\u0438\u043e\u0433\u0440\u0430\u0444\u0438\u044f \u041b.\u041d. \u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e \u0412\u044b\u043f\u043e\u043b\u043d\u0438\u043b \u041a\u0440\u043e\u0442\u043e\u0432 \u0415\u0432\u0433\u0435\u043d\u0438\u0439 \u0412\u0438\u043a\u0442\u043e\u0440\u043e\u0432\u0438\u0447 \u0423\u0447\u0435\u043d\u0438\u043a 8 \"\u0411\" \u043a\u043b\u0430\u0441\u0441\u0430 \u0441\u0440\u0435\u0434\u043d\u0435\u0439 \u0448\u043a\u043e\u043b\u044b, \u0441\u043b\u0430\u0439\u0434 \u2116 23. ",
+                            "host": "mypresentation.ru",
+                            "pageTitle": "\u0411\u0438\u043e\u0433\u0440\u0430\u0444\u0438\u044f \u041b.\u041d. \u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e \u0412\u044b\u043f\u043e\u043b\u043d\u0438\u043b \u041a\u0440\u043e\u0442\u043e\u0432 \u0415\u0432\u0433\u0435\u043d\u0438\u0439 \u0412\u0438\u043a\u0442\u043e\u0440\u043e\u0432\u0438\u0447 \u0423\u0447\u0435\u043d\u0438\u043a 8 \"\u0411\" \u043a\u043b\u0430\u0441\u0441\u0430 \u0441\u0440\u0435\u0434\u043d\u0435\u0439 \u0448\u043a\u043e\u043b\u044b - \u0441\u043a\u0430\u0447\u0430\u0442\u044c \u043f\u0440\u0435\u0437\u0435\u043d\u0442\u0430\u0446\u0438\u044e",
+                            "pageUrl": "https://mypresentation.ru/presentation/biografiya_ln_tolstogo_vypolnil_krotov_evgenij_viktorovich_uchenik_8_b_klassa_srednej_shkoly"
+                        },
+                        {
+                            "url": "https://polinka.top/pics1/uploads/posts/2023-12/1701469900_polinka-top-p-lev-nikolaevich-tolstoi-kartinki-40.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "1920",
+                            "height": "1080",
+                            "passage": "\u0424\u043e\u0442\u043e: \u0422\u043e\u043b\u0441\u0442\u043e\u0439 \u0430\u0440\u0442\u044b ",
+                            "host": "polinka.top",
+                            "pageTitle": "\u041b\u0435\u0432 \u043d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u0438\u0447 \u0442\u043e\u043b\u0441\u0442\u043e\u0439 \u043a\u0430\u0440\u0442\u0438\u043d\u043a\u0438 - 50 \u0444\u043e\u0442\u043e",
+                            "pageUrl": "https://polinka.top/pics1/31326-lev-nikolaevich-tolstoj-kartinki.html"
+                        },
+                        {
+                            "url": "https://theslide.ru/img/thumbs/e9b256d80b82a34fb28eba6f3c7f7943-800x.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "800",
+                            "height": "600",
+                            "passage": "\u041d\u0438\u043a\u043e\u043b\u0430\u0301\u0435\u0432\u0438\u0447 \u0422\u043e\u043b\u0441\u0442\u043e\u0301\u0439. ",
+                            "host": "theslide.ru",
+                            "pageTitle": "\u041b.\u041d.\u0422\u043e\u043b\u0441\u0442\u043e\u0439 \u0432 \u044e\u043d\u043e\u0441\u0442\u0438, \u0437\u0440\u0435\u043b\u043e\u0441\u0442\u0438 \u0438 \u0441\u0442\u0430\u0440\u043e\u0441\u0442\u0438 \u043f\u0440\u0435\u0437\u0435\u043d\u0442\u0430\u0446\u0438\u044f, \u0434\u043e\u043a\u043b\u0430\u0434",
+                            "pageUrl": "https://theslide.ru/literatura/lntolstoy-v-yunosti-zrelosti-i-starosti"
+                        },
+                        {
+                            "url": "https://cdn.culture.ru/images/595ac8bc-3d64-5850-b942-3f555d1b5bf0",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "1920",
+                            "height": "1080",
+                            "passage": "\u0412\u0435\u0447\u0435\u0440-\u043f\u043e\u0440\u0442\u0440\u0435\u0442 \"\u041d\u0435 \u0437\u043d\u0430\u044f \u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e, \u043d\u0435\u043b\u044c\u0437\u044f \u0441\u0447\u0438\u0442\u0430\u0442\u044c \u0441\u0435\u0431\u044f \u043a\u0443\u043b\u044c\u0442\u0443\u0440\u043d\u044b\u043c \u0447\u0435\u043b\u043e\u0432\u0435\u043a\u043e\u043c!\" ",
+                            "host": "www.culture.ru",
+                            "pageTitle": "\u0412\u0435\u0447\u0435\u0440-\u043f\u043e\u0440\u0442\u0440\u0435\u0442 \"\u041d\u0435\u00a0\u0437\u043d\u0430\u044f \u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e, \u043d\u0435\u043b\u044c\u0437\u044f \u0441\u0447\u0438\u0442\u0430\u0442\u044c \u0441\u0435\u0431\u044f \u043a\u0443\u043b\u044c\u0442\u0443\u0440\u043d\u044b\u043c \u0447\u0435\u043b\u043e\u0432\u0435\u043a\u043e\u043c!\" 2024, \u0428\u0435\u043b\u043a\u043e\u0432\u0441\u043a\u043e\u0439 \u0440\u0430\u0439\u043e\u043d - \u0434\u0430\u0442\u0430 \u0438 \u043c\u0435\u0441\u0442\u043e \u043f\u0440\u043e\u0432\u0435\u0434\u0435\u043d\u0438\u044f, \u043f\u0440",
+                            "pageUrl": "https://www.culture.ru/events/4863925/vecher-portret-ne-znaya-tolstogo-nelzya-schitat-sebya-kulturnym-chelovekom?institute=29704"
+                        },
+                        {
+                            "url": "https://cf.ppt-online.org/files/slide/0/0lhxCzpERYW9vUIfHjorMTQ2n84kBVdybJmXSe/slide-9.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "800",
+                            "height": "600",
+                            "passage": "\u041b\u0435\u0432 \u041d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u0438\u0447 \u0422\u043e\u043b\u0441\u0442\u043e\u0439 (1828-1910) C\u043b\u0430\u0439\u0434 \u2116 10 ",
+                            "host": "myslide.ru",
+                            "pageTitle": "\u041b\u0435\u0432 \u041d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u0438\u0447 \u0422\u043e\u043b\u0441\u0442\u043e\u0439 (1828-1910)",
+                            "pageUrl": "https://myslide.ru/presentation/skachat-lev-nikolaevich-tolstoj-18281910"
+                        },
+                        {
+                            "url": "https://www.francesoir.fr/sites/default/files/2024-11/Capture%20d%27%C3%A9cran%202024-11-10%20085453.png",
+                            "format": "IMAGE_FORMAT_PNG",
+                            "width": "1263",
+                            "height": "810",
+                            "passage": "Il faut toujours prendre en consid\u00e9ration l'avis des imb\u00e9ciles, car ils sont la majorit\u00e9. ",
+                            "host": "www.francesoir.fr",
+                            "pageTitle": "Il faut toujours prendre en consid\u00e9ration l'avis des imb\u00e9ciles, car ils sont la majorit\u00e9. \" FranceSoir",
+                            "pageUrl": "https://www.francesoir.fr/opinions-editos/il-faut-toujours-prendre-en-consideration-l-avis-des-imbeciles-car-ils-sont-la"
+                        },
+                        {
+                            "url": "https://5literatura.net/datas/literatura/ZHizn-i-tvorchestvo-L.Tolstogo/0002-002-Lev-Nikolaevich-Tolstoj.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "960",
+                            "height": "720",
+                            "passage": "\u0418\u043d\u0442\u0435\u0440\u0435\u0441\u043d\u043e\u0435 \u0442\u0432\u043e\u0440\u0447\u0435\u0441\u0442\u0432\u043e \u0442\u043e\u043b\u0441\u0442\u043e\u0433\u043e ",
+                            "host": "wishescards.ru",
+                            "pageTitle": "\u0418\u043d\u0442\u0435\u0440\u0435\u0441\u043d\u043e\u0435 \u0442\u0432\u043e\u0440\u0447\u0435\u0441\u0442\u0432\u043e \u0442\u043e\u043b\u0441\u0442\u043e\u0433\u043e",
+                            "pageUrl": "https://wishescards.ru/interesnoe/tvorchestvo/tolstogo/"
+                        },
+                        {
+                            "url": "https://i.ytimg.com/vi/7OXmEL8zw4Y/hqdefault.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "480",
+                            "height": "360",
+                            "passage": "\u0422\u041e\u041f 5 \u0418\u041d\u0422\u0415\u0420\u0415\u0421\u041d\u042b\u0425 \u0424\u0410\u041a\u0422\u041e\u0412 \u041e \u041b\u042c\u0412\u0415 \u041d\u0418\u041a\u041e\u041b\u0410\u0415\u0412\u0418\u0427\u0415 \u0422\u041e\u041b\u0421\u0422\u041e\u041c//\u0421\u0422\u0410\u041d\u042c \u0423\u041c\u041d\u0415\u0415 \u0417\u0410 \u041c\u0418\u041d\u0423\u0422\u0423//\u041f\u0420\u041e\u041a\u0410\u0427\u0410\u0419 \u0421\u041e\u0412\u041e\u0418 \u0417\u041d\u0410\u041d\u0418\u042f - YouTube ",
+                            "host": "www.youtube.com",
+                            "pageTitle": "\u0422\u041e\u041f 5 \u0418\u041d\u0422\u0415\u0420\u0415\u0421\u041d\u042b\u0425 \u0424\u0410\u041a\u0422\u041e\u0412 \u041e \u041b\u042c\u0412\u0415 \u041d\u0418\u041a\u041e\u041b\u0410\u0415\u0412\u0418\u0427\u0415 \u0422\u041e\u041b\u0421\u0422\u041e\u041c//\u0421\u0422\u0410\u041d\u042c \u0423\u041c\u041d\u0415\u0415 \u0417\u0410 \u041c\u0418\u041d\u0423\u0422\u0423//\u041f\u0420\u041e\u041a\u0410\u0427\u0410\u0419 \u0421\u041e\u0412\u041e\u0418 \u0417\u041d\u0410\u041d\u0418\u042f - YouTube",
+                            "pageUrl": "https://www.youtube.com/watch?v=7OXmEL8zw4Y"
+                        },
+                        {
+                            "url": "https://cf.ppt-online.org/files1/slide/l/LkIMjgyneuoQ37dr0CiH8pxq5bJvFcOsWEAYBGwtTZ/slide-39.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "1024",
+                            "height": "767",
+                            "passage": "\u0421\u0442\u0435\u043a\u043b\u044f\u043d\u043d\u044b\u0435 \u043d\u0435\u0433\u0430\u0442\u0438\u0432\u044b ",
+                            "host": "ppt-online.org",
+                            "pageTitle": "\u0426\u0432\u0435\u0442\u043d\u0430\u044f \u0440\u0435\u0430\u043b\u044c\u043d\u043e\u0441\u0442\u044c \u041f\u0440\u043e\u043a\u0443\u0434\u0438\u043d\u0430-\u0413\u043e\u0440\u0441\u043a\u043e\u0433\u043e - \u043f\u0440\u0435\u0437\u0435\u043d\u0442\u0430\u0446\u0438\u044f \u043e\u043d\u043b\u0430\u0439\u043d",
+                            "pageUrl": "https://ppt-online.org/307882?"
+                        },
+                        {
+                            "url": "https://present5.com/presentation/3/171318799_159114202.pdf-img/171318799_159114202.pdf-1.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "720",
+                            "height": "540",
+                            "passage": "\u0413\u0434\u0435 \u0432 \u043e\u0441\u043d\u043e\u0432\u043d\u043e\u043c \u0436\u0438\u043b \u043b\u0435\u0432 \u043d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u0438\u0447 \u0442\u043e\u043b\u0441\u0442\u043e\u0439. ",
+                            "host": "wishescards.ru",
+                            "pageTitle": "\u0413\u0434\u0435 \u0432 \u043e\u0441\u043d\u043e\u0432\u043d\u043e\u043c \u0436\u0438\u043b \u043b\u0435\u0432 \u043d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u0438\u0447 \u0442\u043e\u043b\u0441\u0442\u043e\u0439",
+                            "pageUrl": "https://wishescards.ru/gde/v/osnovnom/jil/lev/nikolaevich/tolstoy/"
+                        },
+                        {
+                            "url": "https://cdn.culture.ru/images/24d6b6b3-78d7-5714-8d4a-12dec85af043",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "960",
+                            "height": "720",
+                            "passage": "\u041d\u0435\u0441\u0442\u0430\u0440\u0435\u044e\u0449\u0430\u044f \u0440\u0443\u0441\u0441\u043a\u0430\u044f \u043a\u043b\u0430\u0441\u0441\u0438\u043a\u0430: \u041b\u0435\u0432 \u0422\u043e\u043b\u0441\u0442\u043e\u0439\" 2021, \u041a\u0430\u043c\u0435\u043d\u0441\u043a\u0438\u0439 \u0440\u0430\u0439\u043e\u043d - \u0434\u0430\u0442\u0430 \u0438 \u043c\u0435\u0441\u0442\u043e \u043f\u0440\u043e\u0432\u0435\u0434\u0435\u043d\u0438\u044f, \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u0430 \u043c\u0435\u0440\u043e\u043f\u0440\u0438\u044f\u0442\u0438\u044f. ",
+                            "host": "www.culture.ru",
+                            "pageTitle": "\u041d\u0435\u0441\u0442\u0430\u0440\u0435\u044e\u0449\u0430\u044f \u0440\u0443\u0441\u0441\u043a\u0430\u044f \u043a\u043b\u0430\u0441\u0441\u0438\u043a\u0430: \u041b\u0435\u0432 \u0422\u043e\u043b\u0441\u0442\u043e\u0439\" 2021, \u041a\u0430\u043c\u0435\u043d\u0441\u043a\u0438\u0439 \u0440\u0430\u0439\u043e\u043d - \u0434\u0430\u0442\u0430 \u0438 \u043c\u0435\u0441\u0442\u043e \u043f\u0440\u043e\u0432\u0435\u0434\u0435\u043d\u0438\u044f, \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u0430 \u043c\u0435\u0440\u043e\u043f\u0440\u0438\u044f\u0442\u0438\u044f.",
+                            "pageUrl": "https://www.culture.ru/events/1319329/nestareyushaya-russkaya-klassika-lev-tolstoi"
+                        },
+                        {
+                            "url": "https://cdn1.ntv.com.tr/gorsel/dx7LFhWMUk29Nb0T9JklCw.jpg?width=952&height=540&mode=both&scale=both",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "952",
+                            "height": "540",
+                            "passage": "Tolstoy ve Dostoyevski'nin okul m\u00fcfredatlar\u0131ndan \u00e7\u0131kar\u0131lmas\u0131 g\u00fcndemde ",
+                            "host": "www.ntv.com.tr",
+                            "pageTitle": "Tolstoy ve Dostoyevski'nin okul m\u00fcfredatlar\u0131ndan \u00e7\u0131kar\u0131lmas\u0131 g\u00fcndemde - Son Dakika D\u00fcnya Haberleri NTV Haber",
+                            "pageUrl": "https://www.ntv.com.tr/dunya/tolstoy-ve-dostoyevskinin-okul-mufredatlarindan-cikarilmasi-gundemde,ZVd9c8o2zkiV0797fTwgIg"
+                        },
+                        {
+                            "url": "https://www.ilimvemedeniyet.com/uploads/2022/12/Tolstoy-4.png",
+                            "format": "IMAGE_FORMAT_PNG",
+                            "width": "689",
+                            "height": "420",
+                            "passage": "TOLSTOY \u0130SLAM VE PEYGAMBER-\u0130 Z\u0130\u015eAN \u0130lim ve Medeniyet ",
+                            "host": "mavink.com",
+                            "pageTitle": "\u041b.\u041d. \u0422\u043e\u043b\u0441\u0442\u043e\u0439 \u043a\u0440\u0430\u0442\u043a\u0430\u044f \u0431\u0438\u043e\u0433\u0440\u0430\u0444\u0438\u044f (\u0434\u043b\u044f \u0434\u0435\u0442\u0435\u0439 \u0438 \u0443\u0447\u0430\u0449\u0438\u0445\u0441\u044f \u0448\u043a\u043e\u043b\u044b) 827",
+                            "pageUrl": "https://mavink.com/post/22BAAEF79E4ADB9F8EF35D2CF52B344542AM8274AF/9E894E6E0CB8780D96F10CD52E04A14787AM842889"
+                        },
+                        {
+                            "url": "https://i.ytimg.com/vi/U_zbjFIXxgg/maxresdefault.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "1280",
+                            "height": "720",
+                            "passage": "\u0444\u0438\u043b\u043e\u0441\u043e\u0444\u0441\u043a\u0438\u0435 \u0440\u0430\u0437\u043c\u044b\u0448\u043b\u0435\u043d\u0438\u044f, \u0430\u0443\u0434\u0438\u043e\u043a\u043d\u0438\u0433\u0438 \u0441\u043b\u0443\u0448\u0430\u0442\u044c, \u043e\u0442\u0440\u044b\u0432\u043a\u0438 \u0438\u0437 \u043a\u043d\u0438\u0433\u0438, \u0441\u0442\u0430\u0442\u044c\u044f \u0432 \u0436\u0443\u0440\u043d\u0430\u043b\u0435, \u043b\u0435\u0432 \u0442\u043e\u043b\u0441\u0442\u043e\u0439, \u0444\u0438\u043b\u043e\u0441\u043e\u0444\u0441\u043a\u0438\u0435 \u0440\u0430\u0441\u0441\u043a\u0430\u0437\u044b, \u043f\u043e\u0443\u0447\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u0440\u0430\u0441\u0441\u043a\u0430\u0437\u044b ",
+                            "host": "www.youtube.com",
+                            "pageTitle": "\u041b.\u041d. \u0422\u043e\u043b\u0441\u0442\u043e\u0439. \"\u041e\u0434\u0443\u043c\u0430\u0439\u0442\u0435\u0441\u044c\". (\u043e\u0442\u0440\u044b\u0432\u043e\u043a \u0438\u0437 \u0441\u0442\u0430\u0442\u044c\u0438 \u043e \u0440\u0443\u0441\u0441\u043a\u043e-\u044f\u043f\u043e\u043d\u0441\u043a\u043e\u0439 \u0432\u043e\u0439\u043d\u0435 1904-1905 \u0433\u0433.) / \u0430\u0443\u0434\u0438\u043e\u043a\u043d\u0438\u0433\u0430 - YouTube",
+                            "pageUrl": "https://www.youtube.com/watch?v=U_zbjFIXxgg"
+                        },
+                        {
+                            "url": "https://sun9-71.userapi.com/_q31xQN0gtp96s0ZdJUvbQK7-d11UPW-Jm8CWw/Yv_zft11S5I.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "604",
+                            "height": "453",
+                            "passage": "\u041a\u0440\u0430\u0442\u043a\u0438\u0439 \u0440\u0430\u0441\u0441\u043a\u0430\u0437 \u043f\u0440\u043e \u0442\u043e\u043b\u0441\u0442\u043e\u0433\u043e ",
+                            "host": "wishescards.ru",
+                            "pageTitle": "\u041a\u0440\u0430\u0442\u043a\u0438\u0439 \u0440\u0430\u0441\u0441\u043a\u0430\u0437 \u043f\u0440\u043e \u0442\u043e\u043b\u0441\u0442\u043e\u0433\u043e",
+                            "pageUrl": "https://wishescards.ru/kratkiy/rasskaz/pro/tolstogo/"
+                        }
+                    ],
+                    "maxPage": "36",
+                    "id": "4463870/96DyrJwvBwvRAPHPHt1h1Q9959"
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "ImageSearchByImageRequest",
+                "module": "yandex.cloud.searchapi.v2.img_search_service_pb2",
+                "message": {
+                    "folderId": "b1ghsjum2v37c2un8h64",
+                    "id": "4463870/96DyrJwvBwvRAPHPHt1h1Q9959",
+                    "page": "1"
+                }
+            },
+            "response": {
+                "cls": "ImageSearchByImageResponse",
+                "module": "yandex.cloud.searchapi.v2.img_search_service_pb2",
+                "message": {
+                    "images": [
+                        {
+                            "url": "https://static.anumis.ru/global/images/photos/0105/huge/652465.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "1024",
+                            "height": "813",
+                            "passage": "\u041d\u0430\u0431\u043e\u0440 \u043e\u0442\u043a\u0440\u044b\u0442\u044b\u0445 \u043f\u0438\u0441\u0435\u043c \"\u041b.\u041d \u0422\u043e\u043b\u0441\u0442\u043e\u0439\". ",
+                            "host": "vnovgorod.anumis.ru",
+                            "pageTitle": "\u041d\u0430\u0431\u043e\u0440 \u043e\u0442\u043a\u0440\u044b\u0442\u044b\u0445 \u043f\u0438\u0441\u0435\u043c \"\u041b.\u041d \u0422\u043e\u043b\u0441\u0442\u043e\u0439\". \u0420\u043e\u0441\u0441\u0438\u0439\u0441\u043a\u0430\u044f \u0418\u043c\u043f\u0435\u0440\u0438\u044f. \u041b\u043e\u0442 \u2116 3531. \u0410\u0443\u043a\u0446\u0438\u043e\u043d \u2116 105. - ANUMIS",
+                            "pageUrl": "https://vnovgorod.anumis.ru/auc105/id325918/"
+                        },
+                        {
+                            "url": "https://i.ytimg.com/vi/NlkJZIwnXVE/maxresdefault.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "1280",
+                            "height": "720",
+                            "passage": "\u0432\u0438\u0434\u0435\u043e, \u043f\u043e\u0434\u0435\u043b\u0438\u0442\u044c\u0441\u044f, \u0442\u0435\u043b\u0435\u0444\u043e\u043d \u0441 \u043a\u0430\u043c\u0435\u0440\u043e\u0439, \u0442\u0435\u043b\u0435\u0444\u043e\u043d \u0441 \u0432\u0438\u0434\u0435\u043e, \u0431\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u043e, \u0437\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c. ",
+                            "host": "www.youtube.com",
+                            "pageTitle": "\u00dc\u00e7 \u00d6l\u00fcm-Tolstoy-\u00dccretsiz Sesli Kitap - YouTube",
+                            "pageUrl": "https://www.youtube.com/watch?app=desktop&v=NlkJZIwnXVE"
+                        },
+                        {
+                            "url": "https://fs.znanio.ru/d5af0e/5c/84/09394d2443ffe98a2b314a84b0a51d0da9.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "1150",
+                            "height": "864",
+                            "passage": "\u0421\u0441\u044b\u043b\u043a\u0430 \u043d\u0430 \u0441\u043d\u0438\u043c\u043e\u043a \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u0430: \u0421 \u044d\u0442\u043e\u0433\u043e \u0432\u0440\u0435\u043c\u0435\u043d\u0438 \u041f\u0440\u043e\u043a\u0443\u0434\u0438\u043d-\u0413\u043e\u0440\u0441\u043a\u0438\u0439 \u0434\u0435\u043b\u0430\u0435\u0442 \u0446\u0432\u0435\u0442\u043d\u044b\u0435 \u0444\u043e\u0442\u043e\u0433\u0440\u0430\u0444\u0438\u0438 ",
+                            "host": "znanio.ru",
+                            "pageTitle": "\u0418\u0441\u0442\u043e\u0440\u0438\u044f \u0420\u043e\u0441\u0441\u0438\u0438\u0438 \u0432 \u0446\u0432\u0435\u0442\u0435. \u041e\u0431\u043b\u0430\u0441\u0442\u044c \u0437\u043d\u0430\u043d\u0438\u0439: \u0438\u0441\u0442\u043e\u0440\u0438\u044f. \u0422\u0438\u043f \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u0430: \u0438\u043b\u043b\u044e\u0441\u0442\u0440\u0430\u0446\u0438\u0438. \u0424\u043e\u0440\u043c\u0430\u0442 pptx. \u041e\u043f\u0443\u0431\u043b\u0438\u043a\u043e\u0432\u0430\u043d\u043e 07.02.2020 \u0432 11:22:57. \u0410",
+                            "pageUrl": "https://znanio.ru/media/istoriya-rossiii-v-tsvete-2516281"
+                        },
+                        {
+                            "url": "https://yt3.googleusercontent.com/ytc/AIdro_khMDjdYGukWd9wxzdb5OxR2XGUzE_fHu-ObY1Yf46p7w=s900-c-k-c0x00ffffff-no-rj",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "900",
+                            "height": "900",
+                            "passage": "\u041b\u0435\u0432 \u0422\u043e\u043b\u0441\u0442\u043e\u0439 ",
+                            "host": "www.youtube.com",
+                            "pageTitle": "\u041b\u0435\u0432 \u0422\u043e\u043b\u0441\u0442\u043e\u0439 - YouTube",
+                            "pageUrl": "https://www.youtube.com/@%D0%9B%D0%B5%D0%B2%D0%A2%D0%BE%D0%BB%D1%81%D1%82%D0%BE%D0%B9-%D0%BE3%D1%89"
+                        },
+                        {
+                            "url": "https://fs03.metod-kopilka.ru/images/doc/15/8792/img3.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "960",
+                            "height": "720",
+                            "passage": "\u041f\u0440\u0435\u0437\u0435\u043d\u0442\u0430\u0446\u0438\u044f \u043e \u043b\u044c\u0432\u0435 \u0442\u043e\u043b\u0441\u0442\u043e\u043c \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0430 \u043d\u043e\u043c\u0435\u0440 \u0442\u0440\u0438\u043d\u0430\u0434\u0446\u0430\u0442\u044c ",
+                            "host": "logoslab.ru",
+                            "pageTitle": "\u041f\u0440\u0435\u0437\u0435\u043d\u0442\u0430\u0446\u0438\u044f \u043e \u043b\u044c\u0432\u0435 \u0442\u043e\u043b\u0441\u0442\u043e\u043c \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0430 \u043d\u043e\u043c\u0435\u0440 \u0442\u0440\u0438\u043d\u0430\u0434\u0446\u0430\u0442\u044c",
+                            "pageUrl": "https://logoslab.ru/full_img/prezentatsija-o-lve-tolstom/13"
+                        },
+                        {
+                            "url": "https://feb-web.ru/feb/tolstoy/pictures/ma3-065.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "600",
+                            "height": "910",
+                            "passage": "\u0422\u043e\u043b\u0441\u0442\u043e\u0439. ",
+                            "host": "feb-web.ru",
+                            "pageTitle": "\u0424\u042d\u0411: \u041c\u0430\u043a\u043e\u0432\u0438\u0446\u043a\u0438\u0439. \u0414\u043d\u0435\u0432\u043d\u0438\u043a, 1908. - 1979 (\u0442\u0435\u043a\u0441\u0442)",
+                            "pageUrl": "https://feb-web.ru/feb/tolstoy/critics/ma3/ma3-007-.htm?cmd=2"
+                        },
+                        {
+                            "url": "https://theslide.ru/img/tmb/2/182556/6d823647fadd62d2de2e06410b2c3f24-800x.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "800",
+                            "height": "600",
+                            "passage": "\u041a\u043e\u043d\u0435\u0446! ",
+                            "host": "mypresentation.ru",
+                            "pageTitle": "\u0422\u043e\u043b\u0441\u0442\u043e\u0439 \u041b\u0435\u0432 \u041d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u0438\u0447 (28 \u0430\u0432\u0433\u0443\u0441\u0442\u0430 (9 \u0441\u0435\u043d\u0442\u044f\u0431\u0440\u044f)\u00a01828\u00a0-\u00a07 (20) \u043d\u043e\u044f\u0431\u0440\u044f\u00a01910) - \u0441\u043a\u0430\u0447\u0430\u0442\u044c \u043f\u0440\u0435\u0437\u0435\u043d\u0442\u0430\u0446\u0438\u044e",
+                            "pageUrl": "https://mypresentation.ru/presentation/tolstoj_lev_nikolaevich_28_avgusta_9_sentyabryanbsp1828nbspnbsp7_20_noyabryanbsp1910"
+                        },
+                        {
+                            "url": "http://images.myshared.ru/40/1332220/slide_3.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "800",
+                            "height": "600",
+                            "passage": "\u0420\u0435\u0444\u0435\u0440\u0430\u0442: \u042f\u0441\u043d\u043e\u043f\u043e\u043b\u044f\u043d\u0441\u043a\u0430\u044f \u0448\u043a\u043e\u043b\u0430 \u0438 \u043f\u0435\u0434\u0430\u0433\u043e\u0433\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u0434\u0435\u044f\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c \u041b. \u041d. \u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e. ",
+                            "host": "telegra.ph",
+                            "pageTitle": "\u0420\u0435\u0444\u0435\u0440\u0430\u0442: \u042f\u0441\u043d\u043e\u043f\u043e\u043b\u044f\u043d\u0441\u043a\u0430\u044f \u0448\u043a\u043e\u043b\u0430 \u0438 \u043f\u0435\u0434\u0430\u0433\u043e\u0433\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u0434\u0435\u044f\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c \u041b. \u041d. \u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e. \u0421\u043a\u0430\u0447\u0430\u0442\u044c \u0431\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u043e \u0438 \u0431\u0435\u0437 \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u0438 - Telegraph",
+                            "pageUrl": "https://telegra.ph/Referat-YAsnopolyanskaya-shkola-i-pedagogicheskaya-deyatelnost-L-N-Tolstogo-Skachat-besplatno-i-bez-registracii-09-12"
+                        },
+                        {
+                            "url": "https://theslide.ru/img/thumbs/bc4026d6b749e4288a7529f19cb9440f-800x.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "800",
+                            "height": "450",
+                            "passage": "\u0421\u043b\u0430\u0439\u0434 27\u041b\u0435\u0432 ",
+                            "host": "theslide.ru",
+                            "pageTitle": "\u0420\u0443\u0441\u0441\u043a\u0430\u044f \u043a\u0443\u043b\u044c\u0442\u0443\u0440\u0430 \u0432\u043e \u0432\u0442\u043e\u0440\u043e\u0439 \u043f\u043e\u043b\u043e\u0432\u0438\u043d\u0435 XIX \u0432 \u043f\u0440\u0435\u0437\u0435\u043d\u0442\u0430\u0446\u0438\u044f, \u0434\u043e\u043a\u043b\u0430\u0434",
+                            "pageUrl": "https://theslide.ru/uncategorized/russkaya-kultura-vo-vtoroy-polovine-xix-1"
+                        },
+                        {
+                            "url": "https://pic.rutubelist.ru/video/2024-11-11/df/d6/dfd608aa67dbda3fb05b279fb05cb92a.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "1280",
+                            "height": "720",
+                            "passage": "Writers through the centuries \u043f\u043e\u0434\u0433\u043e\u0442\u043e\u0432\u0438\u043b \u0434\u043b\u044f \u0412\u0430\u0441 1 \u0432\u0438\u0434\u0435\u043e\u0440\u043e\u043b\u0438\u043a\u043e\u0432 - \u0441\u043c\u043e\u0442\u0440\u0438 \u043e\u043d\u043b\u0430\u0439\u043d \u0431\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u043e! ",
+                            "host": "rutube.ru",
+                            "pageTitle": "Writers through the centuries - \u0441\u043c\u043e\u0442\u0440\u0435\u0442\u044c \u043f\u043b\u0435\u0439\u043b\u0438\u0441\u0442, \u0432\u0441\u0435 1 \u0432\u0438\u0434\u0435\u043e \u043f\u043e\u0434\u0431\u043e\u0440\u043a\u0438 \u043e\u0442 \"Steven J Scott\" \u043e\u043d\u043b\u0430\u0439\u043d \u0432 \u0445\u043e\u0440\u043e\u0448\u0435\u043c \u043a\u0430\u0447\u0435\u0441\u0442\u0432\u0435 \u043d\u0430 RUTUBE",
+                            "pageUrl": "https://rutube.ru/plst/685142/"
+                        },
+                        {
+                            "url": "https://image1.slideserve.com/2358696/slide36-l.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "1024",
+                            "height": "768",
+                            "passage": "LeoTolstoy ",
+                            "host": "www.slideserve.com",
+                            "pageTitle": "PPT - RUSSIA PowerPoint Presentation, free download - ID:2358696",
+                            "pageUrl": "https://www.slideserve.com/donnan/russia"
+                        },
+                        {
+                            "url": "https://prezentacii.org/upload/cloud/18/10/90282/images/screen2.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "1024",
+                            "height": "768",
+                            "passage": "\u0413\u0440\u0430\u0444 \u041b\u0435\u0432 \u041d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u0438\u0447 \u0422\u043e\u043b\u0441\u0442\u043e\u0439 - \u043e\u0434\u0438\u043d \u0438\u0437 \u043d\u0430\u0438\u0431\u043e\u043b\u0435\u0435 \u0438\u0437\u0432\u0435\u0441\u0442\u043d\u044b\u0445 \u0440\u0443\u0441\u0441\u043a\u0438\u0445 \u043f\u0438\u0441\u0430\u0442\u0435\u043b\u0435\u0439 \u0438 \u043c\u044b\u0441\u043b\u0438\u0442\u0435\u043b\u0435\u0439, \u043e\u0434\u0438\u043d \u0438\u0437 \u0432\u0435\u043b\u0438\u0447\u0430\u0439\u0448\u0438\u0445 \u043f\u0438\u0441\u0430\u0442\u0435\u043b\u0435\u0439 \u043c\u0438\u0440\u0430. ",
+                            "host": "prezentacii.org",
+                            "pageTitle": "\u041f\u0440\u0435\u0437\u0435\u043d\u0442\u0430\u0446\u0438\u044f \"\u041b.\u041d. \u0422\u043e\u043b\u0441\u0442\u043e\u0439 \u0438 \u0424.\u041c. \u0414\u043e\u0441\u0442\u043e\u0435\u0432\u0441\u043a\u0438\u0439 \u043a\u0430\u043a \u0434\u0432\u0430 \u0442\u0438\u043f\u0430 \u0445\u0443\u0434\u043e\u0436\u0435\u0441\u0442\u0432\u0435\u043d\u043d\u043e\u0433\u043e \u0441\u043e\u0437\u043d\u0430\u043d\u0438\u044f\" \u043f\u043e \u043b\u0438\u0442\u0435\u0440\u0430\u0442\u0443\u0440\u0435 - \u0441\u043a\u0430\u0447\u0430\u0442\u044c \u043f\u0440\u043e\u0435\u043a\u0442",
+                            "pageUrl": "https://prezentacii.org/prezentacii/prezentacii-po-literature/90282-ln-tolstoj-i-fm-dostoevskij-kak-dva-tipa-hudozhestvennogo-soznanija.html?"
+                        },
+                        {
+                            "url": "https://www.kubsu.ru/sites/default/files/news/tolstoy.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "384",
+                            "height": "288",
+                            "passage": "\u041e\u0431\u0443\u0447\u0435\u043d\u0438\u0435 \u0438\u043d\u043e\u0441\u0442\u0440\u0430\u043d\u043d\u044b\u0445 \u0433\u0440\u0430\u0436\u0434\u0430\u043d \u0432 \u041a\u0443\u0431\u0413\u0423. ",
+                            "host": "kubsu.ru",
+                            "pageTitle": "\u041b\u0438\u0442\u0435\u0440\u0430\u0442\u0443\u0440\u043d\u0430\u044f \u0438\u0433\u0440\u0430 \"\u0427\u0438\u0442\u0430\u0435\u043c \u041b\u044c\u0432\u0430 \u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e\" \u041a\u0443\u0431\u0430\u043d\u0441\u043a\u0438\u0439 \u0433\u043e\u0441\u0443\u0434\u0430\u0440\u0441\u0442\u0432\u0435\u043d\u043d\u044b\u0439 \u0443\u043d\u0438\u0432\u0435\u0440\u0441\u0438\u0442\u0435\u0442",
+                            "pageUrl": "https://kubsu.ru/ru/node/20083"
+                        },
+                        {
+                            "url": "https://i.pinimg.com/originals/84/53/8f/84538f5fdafd4e370d7f9685d87baafb.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "1280",
+                            "height": "905",
+                            "passage": "an old man sitting on top of a wooden bench ",
+                            "host": "www.pinterest.com",
+                            "pageTitle": "9 \u0441\u0435\u043d\u0442\u044f\u0431\u0440\u044f \u0438\u0441\u043f\u043e\u043b\u043d\u0438\u043b\u043e\u0441\u044c 190 \u043b\u0435\u0442 \u0441\u043e \u0434\u043d\u044f \u0440\u043e\u0436\u0434\u0435\u043d\u0438\u044f \u041b\u044c\u0432\u0430 \u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e. \u041a \u0435\u0433\u043e \u044e\u0431\u0438\u043b\u0435\u044e \u043a\u043b\u0438\u043d\u0441\u043a\u0430\u044f \u0426\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u0430\u044f \u0433\u043e\u0440\u043e\u0434\u0441\u043a\u0430\u044f \u0431\u0438\u0431\u043b\u0438\u043e\u0442\u0435\u043a\u0430 \u043f\u043e\u0434\u0433\u043e\u0442\u043e\u0432\u0438\u043b\u0430",
+                            "pageUrl": "https://www.pinterest.com/pin/9-190--686658274412506903/"
+                        },
+                        {
+                            "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Leo_Tolstoy%2C_05.1908.ws.jpg/340px-Leo_Tolstoy%2C_05.1908.ws.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "640",
+                            "height": "810",
+                            "passage": "File:Leo Tolstoy, 05.1908.ws.jpg - Wikipedia ",
+                            "host": "en.wikipedia.org",
+                            "pageTitle": "File:Leo Tolstoy, 05.1908.ws.jpg - Wikipedia",
+                            "pageUrl": "https://en.wikipedia.org/wiki/File:Leo_Tolstoy,_05.1908.ws.jpg"
+                        },
+                        {
+                            "url": "https://shareslide.ru/img/thumbs/91c54e3e05bce5cc5537b5e39b850864-800x.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "800",
+                            "height": "600",
+                            "passage": "\u0423\u0440\u043e\u043a \u0442\u043e\u043b\u0441\u0442\u043e\u0439 \u043b\u0443\u0447\u0448\u0435 \u0432\u0441\u0435\u0445 ",
+                            "host": "wishescards.ru",
+                            "pageTitle": "\u0423\u0440\u043e\u043a \u0442\u043e\u043b\u0441\u0442\u043e\u0439 \u043b\u0443\u0447\u0448\u0435 \u0432\u0441\u0435\u0445",
+                            "pageUrl": "https://wishescards.ru/urok/tolstoy/luchshe/vsex/"
+                        },
+                        {
+                            "url": "https://www.haksozhaber.net/d/news/161214.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "880",
+                            "height": "440",
+                            "passage": "\u00e7\u00f6p,sanat,ele\u015ftiri,Gerici,lev tolstoy,sanat nedir ",
+                            "host": "www.haksozhaber.net",
+                            "pageTitle": "Siz o \u00e7\u00f6plere sanat m\u0131 diyorsunuz?",
+                            "pageUrl": "https://www.haksozhaber.net/siz-o-coplere-sanat-mi-diyorsunuz-153849h.htm"
+                        },
+                        {
+                            "url": "https://ajiba.net/wp-content/uploads/tolstoy.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "640",
+                            "height": "480",
+                            "passage": "Tolstoy ",
+                            "host": "ajiba.net",
+                            "pageTitle": "Y\u0131ld\u0131z Tilbe kimdir? Alb\u00fcmleri ve \u015fark\u0131lar\u0131 Ajiba AVM",
+                            "pageUrl": "https://ajiba.net/blog/yildiz-tilbe/"
+                        },
+                        {
+                            "url": "https://rgnp.ru/wp-content/uploads/9/4/6/946d57afe20faca19164b5ce3836bfd9.jpeg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "960",
+                            "height": "720",
+                            "passage": "9 \u0441\u0435\u043d\u0442\u044f\u0431\u0440\u044f 1828 \u0433\u043e\u0434\u0430 \u0440\u043e\u0434\u0438\u043b\u0441\u044f \u0432\u0435\u043b\u0438\u043a\u0438\u0439 \u0440\u0443\u0441\u0441\u043a\u0438\u0439 \u043f\u0438\u0441\u0430\u0442\u0435\u043b\u044c, \u043c\u044b\u0441\u043b\u0438\u0442\u0435\u043b\u044c, \u043f\u0435\u0434\u0430\u0433\u043e\u0433, \u043f\u0443\u0431\u043b\u0438\u0446\u0438\u0441\u0442 \u041b\u0435\u0432 \u041d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u0438\u0447 \u0422\u043e\u043b\u0441\u0442\u043e\u0439. ",
+                            "host": "bibkaraid.ru",
+                            "pageTitle": "9 \u0441\u0435\u043d\u0442\u044f\u0431\u0440\u044f 1828 \u0433\u043e\u0434\u0430 \u0440\u043e\u0434\u0438\u043b\u0441\u044f \u0432\u0435\u043b\u0438\u043a\u0438\u0439 \u0440\u0443\u0441\u0441\u043a\u0438\u0439 \u043f\u0438\u0441\u0430\u0442\u0435\u043b\u044c, \u043c\u044b\u0441\u043b\u0438\u0442\u0435\u043b\u044c, \u043f\u0435\u0434\u0430\u0433\u043e\u0433, \u043f\u0443\u0431\u043b\u0438\u0446\u0438\u0441\u0442 \u041b\u0435\u0432 \u041d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u0438\u0447 \u0422\u043e\u043b\u0441\u0442\u043e\u0439. - \u042e\u043d\u043e\u0448\u0435\u0441\u043a\u0430\u044f \u043c\u043e\u0434\u0435\u043b\u044c\u043d",
+                            "pageUrl": "https://bibkaraid.ru/%D0%BD%D0%BE%D0%B2%D0%BE%D1%81%D1%82%D0%B8/2024/09/4862/"
+                        },
+                        {
+                            "url": "https://mf.b37mrtl.ru/rbthmedia/images/2021.10/original/615d7afc85600a7ed06f190b.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "1920",
+                            "height": "1080",
+                            "passage": "Dieci libri di Tolstoj da leggere assolutamente ",
+                            "host": "it.russiaislove.com",
+                            "pageTitle": "Dieci libri di Tolstoj da leggere assolutamente - Russia Beyond - Italia",
+                            "pageUrl": "https://it.russiaislove.com/cultura/86472-dieci-libri-di-tolstoj-da-leggere"
+                        },
+                        {
+                            "url": "https://proza.ru/pics/2010/01/27/1190.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "458",
+                            "height": "649",
+                            "passage": "\u0412\u0435\u0440\u0443\u044e \u0432\u043e \u0415\u0434\u0438\u043d\u043e\u0433\u043e \u0412\u0441\u0435\u043c\u043e\u0433\u0443\u0449\u0435\u0433\u043e... ",
+                            "host": "proza.ru",
+                            "pageTitle": "\u0412\u0435\u0440\u0443\u044e \u0432\u043e \u0415\u0434\u0438\u043d\u043e\u0433\u043e \u0412\u0441\u0435\u043c\u043e\u0433\u0443\u0449\u0435\u0433\u043e... \u041b. \u0422\u043e\u043b\u0441\u0442\u043e\u0439 \u0438 \u041a\u0443\u043d\u0442\u0430 (\u041c\u0430\u0440\u044c\u044f\u043c \u0412\u0430\u0445\u0438\u0434\u043e\u0432\u0430) / \u041f\u0440\u043e\u0437\u0430.\u0440\u0443",
+                            "pageUrl": "https://proza.ru/2010/01/27/1190"
+                        },
+                        {
+                            "url": "https://mavecloud.s3mts.ru/storage/podcasts/07627dee-1a00-48dd-821f-6148a08cca47/images/1864fc16-83d6-4282-b0cc-0ec6c507cfcd.png",
+                            "format": "IMAGE_FORMAT_PNG",
+                            "width": "1000",
+                            "height": "1000",
+                            "passage": "\u041f\u0430\u0442\u0440\u0438\u043e\u0442\u0438\u0437\u043c \u0438 \u043f\u0440\u0430\u0432\u0438\u0442\u0435\u043b\u044c\u0441\u0442\u0432\u043e \u041b.\u041d. \u0422\u043e\u043b\u0441\u0442\u043e\u0439 ",
+                            "host": "music.yandex.ru",
+                            "pageTitle": "\u041f\u0430\u0442\u0440\u0438\u043e\u0442\u0438\u0437\u043c \u0438 \u043f\u0440\u0430\u0432\u0438\u0442\u0435\u043b\u044c\u0441\u0442\u0432\u043e \u041b.\u041d. \u0422\u043e\u043b\u0441\u0442\u043e\u0439 \u0441\u043b\u0443\u0448\u0430\u0442\u044c \u043e\u043d\u043b\u0430\u0439\u043d \u043d\u0430 \u042f\u043d\u0434\u0435\u043a\u0441 \u041c\u0443\u0437\u044b\u043a\u0435",
+                            "pageUrl": "https://music.yandex.ru/album/11780543/track/103303396"
+                        },
+                        {
+                            "url": "https://cdnn21.img.ria.ru/images/96103/24/961032403_0:0:1505:1506_1920x0_80_0_0_b48cebf9386620f11a7b6917e878640e.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "648",
+                            "height": "692",
+                            "passage": "an old man sitting on top of a wooden bench ",
+                            "host": "in.pinterest.com",
+                            "pageTitle": "28 TOLSTOI idei leo tolstoy, scriitori, personalit\u0103\u021bi",
+                            "pageUrl": "https://in.pinterest.com/raduk_c/tolstoi/"
+                        },
+                        {
+                            "url": "https://prezentacii.org/upload/cloud/18/09/66407/images/screen34.jpg",
+                            "format": "IMAGE_FORMAT_PNG",
+                            "width": "600",
+                            "height": "450",
+                            "passage": "\u041f\u0440\u0435\u0437\u0435\u043d\u0442\u0430\u0446\u0438\u044f \u043d\u0430 \u0442\u0435\u043c\u0443 \u041b\u0435\u0432 \u041d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u0438\u0447 \u0422\u043e\u043b\u0441\u0442\u043e\u0439 ",
+                            "host": "obrazovaka.ru",
+                            "pageTitle": "\u041f\u0440\u0435\u0437\u0435\u043d\u0442\u0430\u0446\u0438\u044f \u043d\u0430 \u0442\u0435\u043c\u0443 \u041b\u0435\u0432 \u041d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u0438\u0447 \u0422\u043e\u043b\u0441\u0442\u043e\u0439 - \u0441\u043a\u0430\u0447\u0430\u0442\u044c \u0431\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u043e pptx",
+                            "pageUrl": "https://obrazovaka.ru/prezentaciya/na-temu-lev-nikolaevich-tolstoj"
+                        },
+                        {
+                            "url": "https://sun9-64.userapi.com/impg/rZY29xBB2ZQ_InfG_xX5ZpmJPvwpGz964_HZtA/yxqB8yHflVA.jpg?size=604x317&quality=96&sign=8bb674d45af99609a5d2f191b3e639ff&type=album",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "604",
+                            "height": "316",
+                            "passage": "\u0426\u0438\u0442\u0430\u0442\u044b \u041b. \u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e \u043e \u0440\u043e\u0434\u0438\u043d\u0435 \u0438 \u0441\u0442\u0440\u0430\u043d\u0435 \u041a\u0430\u0434\u0440\u044b-\u0441\u043e\u0432\u0435\u0442\u0447\u0438\u043a\u0438 poliglotiki-babushkinskaya.ru ",
+                            "host": "poliglotiki-babushkinskaya.ru",
+                            "pageTitle": "\u0426\u0438\u0442\u0430\u0442\u044b \u041b. \u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e \u043e \u0440\u043e\u0434\u0438\u043d\u0435 \u0438 \u0441\u0442\u0440\u0430\u043d\u0435 \u041a\u0430\u0434\u0440\u044b-\u0441\u043e\u0432\u0435\u0442\u0447\u0438\u043a\u0438 poliglotiki-babushkinskaya.ru",
+                            "pageUrl": "https://poliglotiki-babushkinskaya.ru/kadri-sovetchiki/tsitati-l-tolstogo-o-strane.php"
+                        },
+                        {
+                            "url": "https://i.pinimg.com/originals/e6/10/39/e61039d946c2b7ffca0d8c2fcacdbbbf.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "2000",
+                            "height": "2000",
+                            "passage": "an old man sitting on top of a wooden chair in the woods with a quote above it ",
+                            "host": "pl.pinterest.com",
+                            "pageTitle": "\u015eikayet etti\u011finiz ya\u015fam, belki de ba\u015fkas\u0131n\u0131n hayalidir. -Tolstoy #motivasyon #g\u00fcn\u00fcns\u00f6z\u00fc #tolstoy",
+                            "pageUrl": "https://pl.pinterest.com/pin/ikayet-ettiiniz-yaam-belki-de-bakasnn-hayalidir-tolstoy-motivasyon-gnnsz-tolstoy--682225043540795363/"
+                        },
+                        {
+                            "url": "https://image2.slideserve.com/4059172/slide9-l.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "1024",
+                            "height": "768",
+                            "passage": "\u041d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u0438\u0447\u0430 \u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e, \u042f\u0441\u043d\u0430\u044f \u041f\u043e\u043b\u044f\u043d\u0430, 1908 \u0433\u043e\u0434 ",
+                            "host": "fr.slideserve.com",
+                            "pageTitle": "PPT - \u0418\u0441\u0442\u043e\u0440\u0438\u044f \u0446\u0432\u0435\u0442\u043d\u043e\u0439 \u0444\u043e\u0442\u043e\u0433\u0440\u0430\u0444\u0438\u0438 \u0432 \u0420\u043e\u0441\u0441\u0438\u0438. PowerPoint Presentation - ID:4059172",
+                            "pageUrl": "https://fr.slideserve.com/lorant/4059172"
+                        },
+                        {
+                            "url": "https://i01.fotocdn.net/s130/52ff2eb54a18d18a/public_pin_l/2935441341.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "1024",
+                            "height": "1024",
+                            "passage": "\u0414\u043d\u0435\u0432\u043d\u0438\u043a\u0438 \u043b\u044c\u0432\u0430 \u0442\u043e\u043b\u0441\u0442\u043e\u0433\u043e \u043a\u0440\u0430\u0442\u043a\u043e\u0435 \u0441\u043e\u0434\u0435\u0440\u0436\u0430\u043d\u0438\u0435 ",
+                            "host": "wishescards.ru",
+                            "pageTitle": "\u0414\u043d\u0435\u0432\u043d\u0438\u043a\u0438 \u043b\u044c\u0432\u0430 \u0442\u043e\u043b\u0441\u0442\u043e\u0433\u043e \u043a\u0440\u0430\u0442\u043a\u043e\u0435 \u0441\u043e\u0434\u0435\u0440\u0436\u0430\u043d\u0438\u0435",
+                            "pageUrl": "https://wishescards.ru/dnevniki/lva/tolstogo/kratkoe/soderjanie/"
+                        },
+                        {
+                            "url": "https://myslide.ru/documents_3/34a3fd530926db5036136f047851e593/img6.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "800",
+                            "height": "450",
+                            "passage": "\u041b\u0435\u0432 \u041d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u0438\u0447 \u0422\u043e\u043b\u0441\u0442\u043e\u0439 (1828-1910) \u0415\u0433\u043e \u0433\u0435\u043d\u0438\u0430\u043b\u044c\u043d\u044b\u0435 \u0440\u043e\u043c\u0430\u043d\u044b: \"\u0412\u043e\u0439\u043d\u0430 \u0438 \u043c\u0438\u0440\", \"\u0410\u043d\u043d\u0430. ",
+                            "host": "myslide.ru",
+                            "pageTitle": "\u041b\u0438\u0442\u0435\u0440\u0430\u0442\u0443\u0440\u0430 \u0432\u043e \u0432\u0442\u043e\u0440\u043e\u0439 \u043f\u043e\u043b\u043e\u0432\u0438\u043d\u0435 XIX \u0432\u0435\u043a\u0430",
+                            "pageUrl": "https://myslide.ru/presentation/skachat-literatura-vo-vtoroj-polovine-XIX-veka"
+                        },
+                        {
+                            "url": "https://cf4.ppt-online.org/files4/slide/s/SHKm8p9jAinNFqXzUkoW7tTMsgE6YOGrcdeZuB/slide-13.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "800",
+                            "height": "600",
+                            "passage": "\u0421\u043f\u0430\u0441\u0438\u0431\u043e \u041b\u0435\u0432 \u041d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u0438\u0447 \u0422\u043e\u043b\u0441\u0442\u043e\u0439. ",
+                            "host": "mypresentation.ru",
+                            "pageTitle": "\u0421\u043a\u0430\u0447\u0430\u0442\u044c \u043f\u0440\u0435\u0437\u0435\u043d\u0442\u0430\u0446\u0438\u044e \u0434\u043b\u044f \u043a\u043b\u0430\u0441\u0441\u0430 \u043a \u0440\u0430\u0441\u0441\u043a\u0430\u0437\u0443 \u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e \"\u041b\u0435\u0432 \u0438 \u0441\u043e\u0431\u0430\u0447\u043a\u0430\" \u0431\u0435\u0441\u043f\u043b\u0430\u0442\u043d\u043e",
+                            "pageUrl": "https://mypresentation.ru/presentation/8729-prezentaciya-na-temu-k-rasskazu-tolstogo-lev-i-sobachka"
+                        },
+                        {
+                            "url": "https://sun9-48.userapi.com/impf/c854528/v854528775/e6094/4vHz_TL4lOE.jpg?size=800x600&quality=96&sign=700af1b2279dc05fb0bb1198ddbc243a&c_uniq_tag=TkL6QhmSgu-02qJGPoQXxzM_CG7iv1dTSuTY7Wt36YM&type=album",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "640",
+                            "height": "480",
+                            "passage": "\u041f\u0440\u043e\u0441\u043c\u043e\u0442\u0440 \u0441\u043e\u0434\u0435\u0440\u0436\u0438\u043c\u043e\u0433\u043e \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430 \"\u041f\u0440\u0435\u0437\u0435\u043d\u0442\u0430\u0446\u0438\u044f \u043f\u043e \u043b\u0438\u0442\u0435\u0440\u0430\u0442\u0443\u0440\u043d\u043e\u043c\u0443 \u0447\u0442\u0435\u043d\u0438\u044e \"\u0411\u0438\u043e\u0433\u0440\u0430\u0444\u0438\u044f \u041b. \u041d. \u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e ",
+                            "host": "multiurok.ru",
+                            "pageTitle": "\u041f\u0440\u0435\u0437\u0435\u043d\u0442\u0430\u0446\u0438\u044f \u043f\u043e \u043b\u0438\u0442\u0435\u0440\u0430\u0442\u0443\u0440\u043d\u043e\u043c\u0443 \u0447\u0442\u0435\u043d\u0438\u044e \"\u0411\u0438\u043e\u0433\u0440\u0430\u0444\u0438\u044f \u041b. \u041d. \u0422\u043e\u043b\u0441\u0442\u043e\u0433\u043e\"",
+                            "pageUrl": "https://multiurok.ru/files/prezentatsiia-po-literaturnomu-chteniiu-biografiia.html"
+                        },
+                        {
+                            "url": "https://sun9-67.userapi.com/impg/m18ALJpxw5O09cSW4LTNxkH7ehRTuulkKYBHLQ/V992fMgKQfg.jpg?size=1280x572&quality=96&sign=5506d07f3884e997f23c4487a993ab65&c_uniq_tag=FOh-2moheKRNAbH3tBZeeQHVkY8znCJzXF5oejlnLR0&type=album",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "1280",
+                            "height": "572",
+                            "passage": "\u041e\u0434\u0443\u043c\u0430\u0439\u0442\u0435\u0441\u044c \u0442\u043e\u043b\u0441\u0442\u043e\u0439. ",
+                            "host": "wishescards.ru",
+                            "pageTitle": "1904 \u0442\u043e\u043b\u0441\u0442\u043e\u0439",
+                            "pageUrl": "https://wishescards.ru/1904/tolstoy/"
+                        },
+                        {
+                            "url": "https://cdn4.telesco.pe/file/FB67weEnhH7LPbe5gjVRiIy6Q-FCulo-1uRGhZQnGWrl-EO-04na9fe6rrmKTEEzdfkRoVulEENol49MtJiB9zgq7Kl7fBlHgIdHzp1c4k9MFupqWTbctYphplyjjdjx-i420byqZCACLxHSP8aGcyS8Te_2dRkOwhxPdHPT1NGLmZDSUDZtM_crDEfCJVQG0QFmbIXT5TKGCkATvBAin-6wcM386yUQJRE1rY1mijHQ1YuANgmtWR9AW5WX80bsN1cbNYuDj3oRo70ByYGLI_LBNrDyplDfQWyBW3G7Z1CtW55uW_LP_wpjE2wTarb1lb6A71V0FFXBW50HCQPEig.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "240",
+                            "height": "320",
+                            "passage": "\u0424\u043e\u0442\u043e\u043a\u0430\u043c\u0435\u0440\u0430. ",
+                            "host": "t.me",
+                            "pageTitle": "Strechina_Live - Telegram",
+                            "pageUrl": "https://t.me/s/strechinaangelina/2121"
+                        },
+                        {
+                            "url": "https://sun9-88.userapi.com/impg/XRhFA0jxJa6g7uR5JjYsqLwOo547cT6XJPTJPA/dXLcZQTInt8.jpg?size=320x240&quality=96&sign=076d73c84051b4f74d497d2652c72130&type=album",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "320",
+                            "height": "240",
+                            "passage": "\u041b\u0435\u0432 \u041d\u0438\u043a\u043e\u043b\u0430\u0439 \u0442\u043e\u043b\u0441\u0442\u043e\u0439. ",
+                            "host": "wishescards.ru",
+                            "pageTitle": "\u0413\u043e\u0434 \u043b\u0438\u0442\u0435\u0440\u0430\u0442\u0443\u0440\u044b \u043b \u0442\u043e\u043b\u0441\u0442\u043e\u0439",
+                            "pageUrl": "https://wishescards.ru/god/literaturiy/l/tolstoy/"
+                        },
+                        {
+                            "url": "https://sun9-31.userapi.com/impg/0g7C7wi_nW4HfjpZv9KwM1BzlR_ZdfuwzTSdYw/IPEwQQ-_FeY.jpg?size=604x340&quality=95&sign=be62499b51ed6ff96fe13d7b8c5d5f8c&c_uniq_tag=V1D8QhD6OQlYevVvhVXCECcf_DX6h0SXwvVw_APcOpQ&type=album",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "604",
+                            "height": "340",
+                            "passage": "\u0422\u043e\u043b\u0441\u0442\u043e\u0439 \u0436\u0438\u043b \u0432 \u043f\u0435\u0442\u0435\u0440\u0431\u0443\u0440\u0433\u0435 ",
+                            "host": "wishescards.ru",
+                            "pageTitle": "\u0422\u043e\u043b\u0441\u0442\u043e\u0439 \u0436\u0438\u043b \u0432 \u043f\u0435\u0442\u0435\u0440\u0431\u0443\u0440\u0433\u0435",
+                            "pageUrl": "https://wishescards.ru/tolstoy/jil/v/peterburge/"
+                        },
+                        {
+                            "url": "https://present5.com/presentation/-29813416_24721636/image-2.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "720",
+                            "height": "540",
+                            "passage": "\u0426\u0432\u0435\u0442\u043d\u0430\u044f \u0444\u043e\u0442\u043e\u0433\u0440\u0430\u0444\u0438\u044f \"\u041b\u0435\u0432 \u0422\u043e\u043b\u0441\u0442\u043e\u0439 \u0432 \u042f\u0441\u043d\u043e\u0439 \u041b. \u041d. \u0422\u043e\u043b\u0441\u0442\u043e\u0439 \u0432 \u044e\u043d\u043e\u0441\u0442\u0438, \u0437\u0440\u0435\u043b\u043e\u0441\u0442\u0438, \u0441\u0442\u0430\u0440\u043e\u0441\u0442\u0438 ",
+                            "host": "present5.com",
+                            "pageTitle": "\u041f\u043e \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0430\u043c \u0432\u0435\u043b\u0438\u043a\u043e\u0439 \u0436\u0438\u0437\u043d\u0438 \u041b\u0435\u0432 \u041d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u0438\u0447",
+                            "pageUrl": "https://present5.com/po-stranicam-velikoj-zhizni-lev-nikolaevich/"
+                        },
+                        {
+                            "url": "https://pic.rutubelist.ru/video/ae/b5/aeb5a31d900322737f751da64b6aad67.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "640",
+                            "height": "360",
+                            "passage": "\u0422\u043e\u043b\u0441\u0442\u043e\u0439 \u043b\u0435\u0432 \u043d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u0438\u0447 \u0430\u0443\u0434\u0438\u043e\u043a\u043d\u0438\u0433\u0438 ",
+                            "host": "wishescards.ru",
+                            "pageTitle": "\u0422\u043e\u043b\u0441\u0442\u043e\u0439 \u043b\u0435\u0432 \u043d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u0438\u0447 \u0430\u0443\u0434\u0438\u043e\u043a\u043d\u0438\u0433\u0438",
+                            "pageUrl": "https://wishescards.ru/tolstoy/lev/nikolaevich/audioknigi/"
+                        },
+                        {
+                            "url": "https://cf3.ppt-online.org/files3/slide/h/hvoZ812nbarsSkBELf7RG9z0NwUOxJgCjVqXyW/slide-0.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "1024",
+                            "height": "767",
+                            "passage": "\u041b.\u041d. \u0422\u043e\u043b\u0441\u0442\u043e\u0439 (1828-1910). ",
+                            "host": "en.ppt-online.org",
+                            "pageTitle": "\u041b.\u041d. \u0422\u043e\u043b\u0441\u0442\u043e\u0439 (1828-1910). \u0416\u0438\u0437\u043d\u044c \u0438 \u0442\u0432\u043e\u0440\u0447\u0435\u0441\u0442\u0432\u043e - online presentation",
+                            "pageUrl": "https://en.ppt-online.org/1097936"
+                        },
+                        {
+                            "url": "https://st.kashalot.com/img/club/2018/04/23/5-1a739d62-club.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "600",
+                            "height": "315",
+                            "passage": "6. 5. \u0442\u044f\u0436\u0435\u043b\u043e \u0440\u0435\u0448\u0430\u0442\u044c \u0437\u0430\u0434\u0430\u0447\u0443, \u0442\u043e \u0443\u043c\u0435\u0441\u0442\u043d\u043e \u043f\u043e\u0434\u0441\u043c\u043e\u0442\u0440\u0435\u0442\u044c \u0432 \u043e\u0442\u0432\u0435\u0442\u044b). ",
+                            "host": "kashalot.com",
+                            "pageTitle": "\u0414\u0443\u043c\u043a\u0430 \u0434\u043d\u044f - \u0441\u043f\u0456\u043b\u044c\u043d\u043e\u0442\u0438 - \u041a\u0430\u0448\u0430\u043b\u043e\u0442, \u0441\u0442\u043e\u0440 43",
+                            "pageUrl": "https://kashalot.com/club/mysl-dnya/page43/"
+                        },
+                        {
+                            "url": "https://1.bp.blogspot.com/-U69omkZAZ_I/WUX7VJkG1vI/AAAAAAAAADk/1ujfylHKqKQbBti8q52DBNpp9SHn2v9YwCLcBGAs/s1600/tolst1.jpg",
+                            "format": "IMAGE_FORMAT_JPEG",
+                            "width": "1000",
+                            "height": "525",
+                            "passage": "\u0410 \u044f \u0442\u043e\u043b\u0441\u0442\u043e\u0439 ",
+                            "host": "wishescards.ru",
+                            "pageTitle": "\u0410 \u044f \u0442\u043e\u043b\u0441\u0442\u043e\u0439",
+                            "pageUrl": "https://wishescards.ru/a/ya/tolstoy/"
+                        }
+                    ],
+                    "page": "1",
+                    "maxPage": "36",
+                    "id": "4463870/96DyrJwvBwvRAPHPHt1h1Q9959"
+                }
+            }
+        }
+    ]
+}

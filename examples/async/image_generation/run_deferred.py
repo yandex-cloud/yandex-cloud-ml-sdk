@@ -33,7 +33,8 @@ async def main() -> None:
         result = await operation
         path.write_bytes(result.image_bytes)
     finally:
-        path.unlink(missing_ok=True)
+        return
+        # path.unlink(missing_ok=True)
 
     # example of using yandexgpt and yandex-art models together
     gpt = sdk.models.completions('yandexgpt')
