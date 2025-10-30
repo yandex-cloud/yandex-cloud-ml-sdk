@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 import pytest
 
-from yandex_cloud_ml_sdk import YCloudML, AsyncYCloudML  # type: ignore
+from yandex_cloud_ml_sdk import AsyncYCloudML, YCloudML  # type: ignore
 
 
 def test_folder_id_from_env(monkeypatch, auth, interceptors, retry_policy, test_client_maker):
