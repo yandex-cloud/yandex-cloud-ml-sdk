@@ -81,7 +81,7 @@ class BaseSDK:
 
         :param folder_id: Yandex Cloud folder identifier which will be billed
             for models usage. In case of default Undefined value,
-            the parameter will be taken from the environment variable `YC_FOLDER_ID`.
+            the parameter will be taken from the environment variable ``YC_FOLDER_ID``.
         :type folder_id: str
         :param endpoint: domain:port pair for Yandex Cloud API or any other
             grpc compatible target.
@@ -90,7 +90,7 @@ class BaseSDK:
         :type endpoint: str
         :param auth: string with API Key, IAM token or one of yandex_cloud_ml_sdk.auth objects;
             in case of default Undefined value, the token will be taken from one of the
-            environment variables: `YC_OAUTH_TOKEN`, `YC_TOKEN`, `YC_IAM_TOKEN`, or `YC_API_KEY`.
+            environment variables: ``YC_OAUTH_TOKEN``, ``YC_TOKEN``, ``YC_IAM_TOKEN``, or ``YC_API_KEY``.
         :type api_key: BaseAuth | str
         :param service_map: a way to redefine endpoints for one or more cloud subservices
             with a format of dict ``{"service_name": "service_address"}``.
