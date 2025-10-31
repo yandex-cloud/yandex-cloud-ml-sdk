@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import pytest
-from yandex_cloud_ml_sdk import YCloudML, AsyncYCloudML
+
+from yandex_cloud_ml_sdk import AsyncYCloudML, YCloudML
+
 
 @pytest.mark.parametrize("sdk_class", [YCloudML, AsyncYCloudML])
 def test_folder_id_from_env(monkeypatch, sdk_class, auth, interceptors, retry_policy):
