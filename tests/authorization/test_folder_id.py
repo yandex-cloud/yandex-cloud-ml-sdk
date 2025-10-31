@@ -18,7 +18,7 @@ def test_folder_id_from_env(monkeypatch, sdk_class, auth, interceptors, retry_po
 @pytest.mark.parametrize("sdk_class", [YCloudML, AsyncYCloudML])
 def test_folder_id_missing_raises_error(sdk_class, auth, interceptors, retry_policy):
     with pytest.raises(ValueError) as exc_info:
-        sdk = sdk_class(
+        sdk_class(
             auth=auth,
             interceptors=interceptors,
             retry_policy=retry_policy
