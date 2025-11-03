@@ -16,7 +16,10 @@ from yandex_cloud_ml_sdk._types.model import BaseModel, ConfigTypeT, ResultTypeT
 
 from .domain import AsyncBatchSubdomain, BatchSubdomain, BatchSubdomainTypeT
 
+#: Type alias for batch service stub used in batch processing operations
 BatchStubType: TypeAlias = TextGenerationBatchServiceStub
+
+#: Type alias for batch completion metadata returned by batch operations
 BatchMetadataType: TypeAlias = BatchCompletionMetadata
 
 
@@ -25,6 +28,7 @@ class BaseModelBatchMixin(
     Generic[ConfigTypeT, ResultTypeT, BatchSubdomainTypeT],
     metaclass=abc.ABCMeta,
 ):
+
     _batch_impl: type[BatchSubdomainTypeT]
 
     @abc.abstractmethod
@@ -43,6 +47,12 @@ class BaseModelBatchMixin(
 
     @cached_property
     def batch(self) -> BatchSubdomainTypeT:
+        """
+        Get the batch subdomain instance for this model.
+
+        This property provides access to batch processing functionality through
+        a cached subdomain instance. The instance is created lazily on first access.
+        """
         return self._batch_impl(model=self, sdk=self._sdk)
 
 
@@ -62,4 +72,6 @@ class ModelBatchMixin(
     _batch_impl = BatchSubdomain
 
 
+#: Type variable for models that inherit from BaseModelBatchMixin, used to ensure
+#: type safety when working with batch-enabled models
 ModelWithBatchTypeT = TypeVar('ModelWithBatchTypeT', bound=BaseModelBatchMixin)
