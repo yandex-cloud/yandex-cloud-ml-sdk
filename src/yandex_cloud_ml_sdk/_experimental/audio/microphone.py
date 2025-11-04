@@ -35,7 +35,7 @@ class Sentinel:
 SENTINEL = Sentinel()
 
 
-class MicStreamer:
+class AsyncMicrophone:
     def __init__(
         self,
         microphone_id: str | None
@@ -141,7 +141,7 @@ async def main():
     can_stream_input = asyncio.Event()
     can_stream_input.set()
 
-    mic = MicStreamer(microphone_id)
+    mic = AsyncMicrophone(microphone_id)
 
     async def stop():
         await asyncio.sleep(2)
