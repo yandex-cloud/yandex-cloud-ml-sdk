@@ -20,7 +20,9 @@ import sounddevice as sd
 try:
     from .utils import SENTINEL, Sentinel, choose_audio_device, float_to_pcm16
 except ImportError:
-    from utils import SENTINEL, Sentinel, choose_audio_device, float_to_pcm16  # type: ignore[no-redef,import-not-found]
+    from utils import (  # type: ignore[no-redef,import-not-found,attr-defined]
+        SENTINEL, Sentinel, choose_audio_device, float_to_pcm16
+    )
 
 
 IN_RATE = 24000
@@ -28,7 +30,7 @@ FRAME_MS = 20
 IN_SAMPLES = int(IN_RATE * FRAME_MS / 1000)
 
 DTYPE = 'float32'
-QUEUE_ITEM_SIZE = np.dtype(DTYPE).itemsize * IN_SAMPLES
+QUEUE_ITEM_SIZE = IN_SAMPLES * 4  # size of float32 in queue
 MAX_QUEUE_SIZE_BYTES = 1024 ** 3  # 1 GB
 MAX_QUEUE_SIZE = MAX_QUEUE_SIZE_BYTES // QUEUE_ITEM_SIZE
 

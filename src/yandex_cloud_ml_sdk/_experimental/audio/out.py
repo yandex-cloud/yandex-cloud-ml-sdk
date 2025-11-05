@@ -21,14 +21,14 @@ import sounddevice as sd
 try:
     from .utils import choose_audio_device
 except ImportError:
-    from utils import choose_audio_device  # type: ignore[no-redef,import-not-found]
+    from utils import choose_audio_device  # type: ignore[no-redef,import-not-found,attr-defined]
 
 
 OUT_RATE = 44100
 OUT_BLOCK = int(OUT_RATE * 0.02)
 
 DTYPE = 'int16'
-QUEUE_ITEM_SIZE = np.dtype(DTYPE).itemsize * OUT_BLOCK
+QUEUE_ITEM_SIZE = OUT_BLOCK * 2  # size of int16 in queue
 MAX_QUEUE_SIZE_BYTES = 500 * 1024 ** 2  # 500 MB
 MAX_QUEUE_SIZE = MAX_QUEUE_SIZE_BYTES // QUEUE_ITEM_SIZE
 
@@ -134,7 +134,7 @@ class AsyncAudioOut:
         async with self._write_lock:
             for i in range(0, payload_size, chunk_size):
                 chunk = pcm_16[i:i + chunk_size]
-                array = np.frombuffer(chunk, dtype=DTYPE)
+                array = np.frombuffer(chunk, dtype=DTYPE)  # type: ignore[arg-type]
                 await queue.put(array.reshape(-1, 1))
 
 
@@ -143,7 +143,7 @@ async def main() -> None:
     try:
         from .microphone import AsyncMicrophone
     except ImportError:
-        from microphone import AsyncMicrophone  # type: ignore[no-redef,import-not-found]
+        from microphone import AsyncMicrophone  # type: ignore[no-redef,import-not-found,attr-defined]
 
     mic_id = choose_audio_device('in')
     out_id = choose_audio_device('out')
