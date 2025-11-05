@@ -6,46 +6,54 @@ To use it: ``pip install sounddevice numpy``
 At Ubuntu also: ``sudo apt install libportaudio2``
 At Windows and MacOS PortAudio will be installed automagically.
 
-NB: MicStreamer is not threadsafe!
+NB: AsyncMicrophone is not threadsafe!
 """
 from __future__ import annotations
 
 import asyncio
-import pathlib
 from collections.abc import AsyncIterator
 from typing import Any, cast
 
 import numpy as np
 import sounddevice as sd
 
+try:
+    from .utils import SENTINEL, Sentinel, choose_audio_device, float_to_pcm16
+except ImportError:
+    from utils import SENTINEL, Sentinel, choose_audio_device, float_to_pcm16  # type: ignore[no-redef,import-not-found]
+
+
 IN_RATE = 24000
 FRAME_MS = 20
 IN_SAMPLES = int(IN_RATE * FRAME_MS / 1000)
 
-
-def float_to_pcm16(data: np.ndarray) -> bytes:
-    data = np.clip(data, -1.0, 1.0)
-    return (data * 32767).astype(np.int16).tobytes()
-
-
-class Sentinel:
-    pass
-
-
-SENTINEL = Sentinel()
+DTYPE = 'float32'
+QUEUE_ITEM_SIZE = np.dtype(DTYPE).itemsize * IN_SAMPLES
+MAX_QUEUE_SIZE_BYTES = 1024 ** 3  # 1 GB
+MAX_QUEUE_SIZE = MAX_QUEUE_SIZE_BYTES // QUEUE_ITEM_SIZE
 
 
 class AsyncMicrophone:
     def __init__(
         self,
-        microphone_id: str | None
+        *,
+        device_id: int | None = None,
+        samplerate: int = IN_RATE,
+        blocksize: int = IN_SAMPLES,
     ):
-        self._microphone_id = microphone_id
+        self._device_id = device_id
+        self._samplerate = samplerate
+        self._blocksize = blocksize
 
         self._loop: asyncio.AbstractEventLoop | None = None
         self._queue: asyncio.Queue[np.ndarray | Sentinel] | None = None
         self._stream: sd.InputStream | None = None
         self._start_lock = asyncio.Lock()
+
+    @property
+    def queue_size(self) -> int:
+        assert self._queue
+        return self._queue.qsize()
 
     # pylint: disable=unused-argument
     def _callback(
@@ -56,6 +64,8 @@ class AsyncMicrophone:
         status: sd.CallbackFlags,
     ):
         if self._loop and self._queue:
+            # in case of full queue, it will generate a lot of errors into stderr
+            # but will not interrupt the program
             self._loop.call_soon_threadsafe(self._queue.put_nowait, indata.copy())
 
     async def _start(self) -> None:
@@ -63,14 +73,14 @@ class AsyncMicrophone:
             if self._loop:
                 raise RuntimeError('cannot iterate over one microphone simultaneously')
 
-            self._queue = asyncio.Queue()
+            self._queue = asyncio.Queue(MAX_QUEUE_SIZE)
             self._loop = asyncio.get_running_loop()
             self._stream = sd.InputStream(
-                device=self._microphone_id,
-                samplerate=IN_RATE,
+                device=self._device_id,
+                samplerate=self._samplerate,
                 channels=1,
-                dtype='float32',
-                blocksize=IN_SAMPLES,
+                dtype=DTYPE,
+                blocksize=self._blocksize,
                 callback=self._callback,
             )
             await self._loop.run_in_executor(None, self._stream.start)
@@ -113,50 +123,39 @@ class AsyncMicrophone:
         self._stream = None
 
 
-def choose_microphone() -> int | None:
-    microphones = [
-        mic_data for mic_data in sd.query_devices()
-        if mic_data.get('max_input_channels', 0) > 0
-    ]
-    if not microphones:
-        raise RuntimeError('No microphones found')
-    i = 0
-    for i, mic_data in enumerate(microphones):
-        print(f'[{i}] {mic_data["name"]}')
-
-    raw_microphone_number = input(f'Type number from 0 to {i} (Nothing for system default): ')
-    if not raw_microphone_number.strip():
-        return None
-
-    microphone_number = int(raw_microphone_number)
-    return microphones[microphone_number]['index']
-
-
 async def main():
     """
     Just checking some edge-cases here and giving example of using microphone
     """
-    microphone_id = choose_microphone()
+    # pylint: disable=import-outside-toplevel
+    import wave
+
+    device_id = choose_audio_device('in')
 
     can_stream_input = asyncio.Event()
     can_stream_input.set()
 
-    mic = AsyncMicrophone(microphone_id)
+    mic = AsyncMicrophone(device_id=device_id)
 
     async def stop():
         await asyncio.sleep(2)
         print('stop')
         await mic.stop()
 
-    with pathlib.Path('input.pcm').open('wb') as f_:
-        asyncio.create_task(stop())
-        async for pcm in mic:
-            print(len(pcm))
-            f_.write(pcm)
+    asyncio.create_task(stop())
+    # pylint: disable=no-member
+    with wave.open('input.wav', 'wb') as wf:
+        wf.setnchannels(1)
+        wf.setsampwidth(2)
+        wf.setframerate(IN_RATE)
 
         async for pcm in mic:
             print(len(pcm))
-            f_.write(pcm)
+            wf.writeframes(pcm)
+
+        async for pcm in mic:
+            print(len(pcm))
+            wf.writeframes(pcm)
 
 
 if __name__ == '__main__':

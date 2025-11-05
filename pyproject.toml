@@ -115,7 +115,6 @@ init-hook='import sys; sys.setrecursionlimit(8 * sys.getrecursionlimit())'
 jobs=0
 limit-inference-results=100
 persistent="yes"
-suggestion-mode="yes"
 unsafe-load-any-extension="no"
 disable = [
     'missing-module-docstring',
@@ -295,5 +294,6 @@ module = [
     "pydantic",
     "scipy.spatial.distance",
     "traitlets.utils.warnings",
+    "sounddevice",
 ]
 ignore_missing_imports = true
