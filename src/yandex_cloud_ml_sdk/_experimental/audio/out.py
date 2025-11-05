@@ -13,10 +13,11 @@ from __future__ import annotations
 
 import asyncio
 import types
-from typing import Any, Self
+from typing import Any
 
 import numpy as np
 import sounddevice as sd
+from typing_extensions import Self
 
 try:
     from .utils import choose_audio_device
