@@ -9,41 +9,41 @@ Yandex Cloud ML SDK offers a comprehensive set of high‑level abstractions that
 - [**Assistants**](https://yandex.cloud/docs/ai-studio/concepts/assistant/)
   - Create, list, update and delete AI assistants.
   - Create and track execution of assistant runs, retrieve logs and results.
-- [**Completions**](https://yandex.cloud/ru/docs/ai-studio/operations/generation/create-prompt)
+- [**Completions**](https://yandex.cloud/docs/ai-studio/operations/generation/create-prompt)
   - Text generation (completion) models with streaming support.
   - Chat usage tracking, tool calls (function calling for example).
-- [**Chat**](https://yandex.cloud/ru/docs/ai-studio/concepts/openai-compatibility)
+- [**Chat**](https://yandex.cloud/docs/ai-studio/concepts/openai-compatibility)
   - OpenAI‑compatible chat API (`sdk.chat`) designed to work seamlessly with the rest of the Yandex Cloud ML SDK.
   - Send and receive messages, stream responses, and work with tool calls in a unified way.
-- [**Image generation**](https://yandex.cloud/ru/docs/ai-studio/operations/generation/yandexart-request)
+- [**Image generation**](https://yandex.cloud/docs/ai-studio/operations/generation/yandexart-request)
   - Generate images via YandexART models.
-- [**Text embeddings**](https://yandex.cloud/ru/docs/ai-studio/concepts/embeddings)
+- [**Text embeddings**](https://yandex.cloud/docs/ai-studio/concepts/embeddings)
   - Compute dense vector embeddings for arbitrary text.
-- [**Text classifiers**](https://yandex.cloud/ru/docs/ai-studio/concepts/classifier/)
+- [**Text classifiers**](https://yandex.cloud/docs/ai-studio/concepts/classifier/)
   - Run multi‑class, multi‑label and binary classifiers.
-- [**Files**](https://yandex.cloud/ru/docs/ai-studio/concepts/assistant/files)
+- [**Files**](https://yandex.cloud/docs/ai-studio/concepts/assistant/files)
   - Upload, download, list and delete files stored in Yandex Cloud AI Studio.
-- [**Threads**](https://yandex.cloud/ru/docs/ai-studio/concepts/assistant/#content)
+- [**Threads**](https://yandex.cloud/docs/ai-studio/concepts/assistant/#content)
   - Organize conversations into threads, retrieve messages, and post new messages.
-- [**Search API**](https://yandex.cloud/ru/docs/search-api/)
+- [**Search API**](https://yandex.cloud/docs/search-api/)
   - Generative, web, image and by image search.
-- [**Search indexes**](https://yandex.cloud/ru/docs/ai-studio/concepts/assistant/search-index)
+- [**Search indexes**](https://yandex.cloud/docs/ai-studio/concepts/assistant/search-index)
   - Create, update, delete and query text, vector and hybrid search indexes.
 
 Also there is some cross-domain functionality for features above:
-- [**Batch processing**](https://yandex.cloud/ru/docs/ai-studio/concepts/generation/batch-processing)
+- [**Batch processing**](https://yandex.cloud/docs/ai-studio/concepts/generation/batch-processing)
   - Run long‑running batch tasks with automatic polling.
 - **Tools**
-  - Built‑in tools such as [Generative Search Tool](https://yandex.cloud/ru/docs/ai-studio/concepts/assistant/tools/web-search),
-    [Function Tool](https://yandex.cloud/ru/docs/ai-studio/concepts/generation/function-call)
+  - Built‑in tools such as [Generative Search Tool](https://yandex.cloud/docs/ai-studio/concepts/assistant/tools/web-search),
+    [Function Tool](https://yandex.cloud/docs/ai-studio/concepts/generation/function-call)
     and Search Index Tool that can be used in Assistants, Completions, and Chat, providing a unified way to extend functionality across the SDK.
-- [**Tuning**](https://yandex.cloud/ru/docs/ai-studio/concepts/tuning/)
+- [**Tuning**](https://yandex.cloud/docs/ai-studio/concepts/tuning/)
   - Fine‑tune models with configurable optimizers, schedulers and other hyper‑parameters.
-- [**Datasets**](https://yandex.cloud/ru/docs/ai-studio/concepts/resources/dataset)
+- [**Datasets**](https://yandex.cloud/docs/ai-studio/concepts/resources/dataset)
   - Manage dataset lifecycle, upload data, validate schemas, and perform task‑type specific operations.
 
 Additionally, Yandex Cloud ML SDK offers:
-- [**Authentication**](https://yandex.cloud/ru/docs/ai-studio/sdk/#authentication)
+- [**Authentication**](https://yandex.cloud/docs/ai-studio/sdk/#authentication)
   - Automatic selection of authentication method (API key, IAM token, OAuth token, CLI, metadata service, etc.).
 - **Error handling & retries**
   - Rich exception hierarchy, retry policies, and configurable gRPC interceptors.
@@ -62,7 +62,7 @@ pip install yandex-cloud-ml-sdk
 
 ## SDK Reference
 
-[https://yandex.cloud/ru/docs/ai-studio/sdk-ref/](https://yandex.cloud/ru/docs/ai-studio/sdk-ref/)
+[https://yandex.cloud/docs/ai-studio/sdk-ref/](https://yandex.cloud/docs/ai-studio/sdk-ref/)
 
 ## Usage
 
