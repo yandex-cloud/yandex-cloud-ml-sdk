@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import Iterable, TypeVar, Union
+from collections.abc import Iterable
+from typing import TypeVar, Union
 
 from yandex_cloud_ml_sdk._types.resource import BaseResource
 

@@ -3,8 +3,9 @@ from __future__ import annotations
 
 import abc
 import enum
+from collections.abc import Collection
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, Collection
+from typing import TYPE_CHECKING, Any
 
 from google.protobuf.wrappers_pb2 import Int64Value
 from yandex.cloud.ai.assistants.v1.searchindex.common_pb2 import CombinationStrategy as ProtoCombinationStrategy

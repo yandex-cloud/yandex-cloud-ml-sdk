@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Iterable, Protocol, TypedDict, Union, cast, runtime_checkable
+from typing import Protocol, TypedDict, Union, cast, runtime_checkable
 
 from typing_extensions import NotRequired
 # pylint: disable-next=no-name-in-module

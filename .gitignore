@@ -132,3 +132,4 @@ dmypy.json
 .*.sw*
 
 .changelog_generator.toml
+.aider*

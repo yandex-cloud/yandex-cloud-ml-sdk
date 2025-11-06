@@ -122,7 +122,7 @@ class AsyncWebSearchResult(BaseWebSearchResult[AsyncOperation['AsyncWebSearchRes
         return await self._next_page(timeout=timeout)
 
     @doc_from(BaseWebSearchResult._next_page_deferred)
-    async def next_page_deferred(self, *, timeout: float | None = None) -> AsyncOperation['AsyncWebSearchResult']:
+    async def next_page_deferred(self, *, timeout: float | None = None) -> AsyncOperation[AsyncWebSearchResult]:
         return await self._next_page_deferred(timeout=timeout)
 
 

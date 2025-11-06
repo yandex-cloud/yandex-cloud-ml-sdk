@@ -2,8 +2,9 @@
 from __future__ import annotations
 
 import dataclasses
+from collections.abc import AsyncIterator, Iterator
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, AsyncIterator, Iterator, TypeVar, cast
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from typing_extensions import Self, TypeAlias
 from yandex.cloud.ai.assistants.v1.searchindex.search_index_file_pb2 import SearchIndexFile as ProtoSearchIndexFile

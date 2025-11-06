@@ -4,7 +4,7 @@ import asyncio
 import inspect
 import os
 import threading
-from typing import Sequence
+from collections.abc import Sequence
 
 from get_annotations import get_annotations
 from grpc import aio

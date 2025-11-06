@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import AsyncIterator, Iterator
 from dataclasses import asdict
-from typing import Any, AsyncIterator, Iterator, TypeVar
+from typing import Any, TypeVar
 
 from langchain_core.callbacks import AsyncCallbackManagerForLLMRun, CallbackManagerForLLMRun
 from langchain_core.language_models.chat_models import BaseChatModel

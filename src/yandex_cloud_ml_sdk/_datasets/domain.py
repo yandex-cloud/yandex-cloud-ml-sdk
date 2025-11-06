@@ -2,7 +2,8 @@
 from __future__ import annotations
 
 import warnings
-from typing import AsyncIterator, Generic, Iterable, Iterator, Union
+from collections.abc import AsyncIterator, Iterable, Iterator
+from typing import Generic, Union
 
 from typing_extensions import TypeAlias
 from yandex.cloud.ai.dataset.v1.dataset_service_pb2 import (

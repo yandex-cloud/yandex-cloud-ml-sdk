@@ -2,8 +2,9 @@
 from __future__ import annotations
 
 import dataclasses
+from collections.abc import AsyncIterator, Iterator
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, AsyncIterator, ClassVar, Iterator, TypeVar
+from typing import TYPE_CHECKING, Any, ClassVar, TypeVar
 
 from google.protobuf.wrappers_pb2 import Int64Value
 from yandex.cloud.ai.assistants.v1.runs.run_pb2 import Run as ProtoRun
