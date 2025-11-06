@@ -4,10 +4,10 @@ from __future__ import annotations
 import asyncio
 import dataclasses
 import tempfile
-from collections.abc import AsyncIterator, Iterator
+from collections.abc import AsyncIterator, Iterable, Iterator
 from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Final, Iterable, TypeVar
+from typing import TYPE_CHECKING, Any, Final, TypeVar
 
 import aiofiles
 import httpx

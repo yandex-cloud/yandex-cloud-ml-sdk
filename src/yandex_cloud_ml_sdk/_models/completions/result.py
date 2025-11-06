@@ -1,9 +1,10 @@
 # pylint: disable=no-name-in-module
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
 from enum import Enum
-from typing import Sequence, overload
+from typing import overload
 
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Alternative as ProtoAlternative
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import ContentUsage as ProtoUsage

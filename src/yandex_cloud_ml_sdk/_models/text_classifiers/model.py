@@ -1,8 +1,9 @@
 # pylint: disable=arguments-renamed,no-name-in-module,protected-access
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import astuple
-from typing import Sequence, cast
+from typing import cast
 
 from typing_extensions import Self, override
 from yandex.cloud.ai.foundation_models.v1.text_classification.text_classification_pb2 import (
@@ -185,7 +186,7 @@ class AsyncTextClassifiersModel(BaseTextClassifiersModel[AsyncTuningTask['AsyncT
         scheduler: UndefinedOr[BaseScheduler] = UNDEFINED,
         optimizer: UndefinedOr[BaseOptimizer] = UNDEFINED,
         timeout: float = 60,
-    ) -> AsyncTuningTask['AsyncTextClassifiersModel']:
+    ) -> AsyncTuningTask[AsyncTextClassifiersModel]:
         """Initiate a deferred tuning process for the model.
 
         :param train_datasets: the dataset objects and/or dataset ids used for training of the model.
@@ -288,7 +289,7 @@ class AsyncTextClassifiersModel(BaseTextClassifiersModel[AsyncTuningTask['AsyncT
         task_id: str,
         *,
         timeout: float = 60
-    ) -> AsyncTuningTask['AsyncTextClassifiersModel']:
+    ) -> AsyncTuningTask[AsyncTextClassifiersModel]:
         """Attach a deferred tuning task using its task ID.
 
         :param task_id: the ID of the deferred tuning task to attach to.

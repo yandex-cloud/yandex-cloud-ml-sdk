@@ -2,8 +2,8 @@
 from __future__ import annotations
 
 import warnings
-from collections.abc import Sequence
-from typing import TYPE_CHECKING, Any, AsyncIterator, Generic, Iterator, Literal, cast
+from collections.abc import AsyncIterator, Iterator, Sequence
+from typing import TYPE_CHECKING, Any, Generic, Literal, cast
 
 from google.protobuf.wrappers_pb2 import BoolValue
 from typing_extensions import Self, override
@@ -421,7 +421,7 @@ class AsyncGPTModel(
         scheduler: UndefinedOr[BaseScheduler] = UNDEFINED,
         optimizer: UndefinedOr[BaseOptimizer] = UNDEFINED,
         timeout: float = 60,
-    ) -> AsyncTuningTask['AsyncGPTModel']:
+    ) -> AsyncTuningTask[AsyncGPTModel]:
         """Initiate a deferred tuning process for the model.
 
         :param train_datasets: the dataset objects and/or dataset ids used for training of the model.
@@ -514,7 +514,7 @@ class AsyncGPTModel(
             poll_interval=poll_interval,
         )
 
-    async def attach_tune_deferred(self, task_id: str, *, timeout: float = 60) -> AsyncTuningTask['AsyncGPTModel']:
+    async def attach_tune_deferred(self, task_id: str, *, timeout: float = 60) -> AsyncTuningTask[AsyncGPTModel]:
         """Attach a deferred tuning task using its task id.
 
         :param task_id: the id of the deferred tuning task to attach to.

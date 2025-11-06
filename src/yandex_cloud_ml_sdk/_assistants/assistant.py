@@ -2,9 +2,9 @@
 from __future__ import annotations
 
 import dataclasses
-from collections.abc import Iterable
+from collections.abc import AsyncIterator, Iterable, Iterator
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, AsyncIterator, Generic, Iterator, TypeVar
+from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
 from typing_extensions import Self
 from yandex.cloud.ai.assistants.v1.assistant_pb2 import Assistant as ProtoAssistant

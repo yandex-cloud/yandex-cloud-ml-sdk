@@ -2,9 +2,10 @@
 from __future__ import annotations
 
 import datetime
+from collections.abc import Sequence
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Sequence, overload
+from typing import Any, overload
 
 from yandex_cloud_ml_sdk._models.completions.result import AlternativeStatus, Usage
 from yandex_cloud_ml_sdk._tools.tool_call import HaveToolCalls, ToolCallTypeT

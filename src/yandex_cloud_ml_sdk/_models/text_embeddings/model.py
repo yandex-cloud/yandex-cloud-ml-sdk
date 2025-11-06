@@ -123,7 +123,7 @@ class AsyncTextEmbeddingsModel(BaseTextEmbeddingsModel):
         scheduler: UndefinedOr[BaseScheduler] = UNDEFINED,
         optimizer: UndefinedOr[BaseOptimizer] = UNDEFINED,
         timeout: float = 60,
-    ) -> AsyncTuningTask['AsyncTextEmbeddingsModel']:
+    ) -> AsyncTuningTask[AsyncTextEmbeddingsModel]:
         """Initiate a deferred tuning process for the model.
 
         :param train_datasets: the dataset objects and/or dataset ids used for training of the model.
@@ -231,7 +231,7 @@ class AsyncTextEmbeddingsModel(BaseTextEmbeddingsModel):
         task_id: str,
         *,
         timeout: float = 60
-    ) -> AsyncTuningTask['AsyncTextEmbeddingsModel']:
+    ) -> AsyncTuningTask[AsyncTextEmbeddingsModel]:
         """Attach a deferred tuning task using its task ID.
 
         :param task_id: the ID of the deferred tuning task to attach to.

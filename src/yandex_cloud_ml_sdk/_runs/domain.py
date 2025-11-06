@@ -1,7 +1,8 @@
 # pylint: disable=protected-access,no-name-in-module
 from __future__ import annotations
 
-from typing import AsyncIterator, Generic, Iterator
+from collections.abc import AsyncIterator, Iterator
+from typing import Generic
 
 from yandex.cloud.ai.assistants.v1.common_pb2 import ResponseFormat
 from yandex.cloud.ai.assistants.v1.runs.run_pb2 import Run as ProtoRun

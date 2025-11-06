@@ -2,8 +2,9 @@
 from __future__ import annotations
 
 import dataclasses
+from collections.abc import AsyncIterator, Iterator
 from datetime import datetime
-from typing import AsyncIterator, Iterator, TypeVar
+from typing import TypeVar
 
 from typing_extensions import Self
 from yandex.cloud.ai.assistants.v1.threads.thread_pb2 import Thread as ProtoThread
