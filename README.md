@@ -4,19 +4,50 @@ This Python library provides a simple and efficient software development kit (SD
 
 ## Features
 
-Yandex Cloud ML SDK provides an easy-to-use interface for accessing Yandex Cloud ML services. It currently supports:
+Yandex Cloud ML SDK offers a comprehensive set of high‑level abstractions that map directly to the capabilities exposed by Yandex Cloud. The current feature set (derived from the `src/` package) includes:
 
-- Text generation using any [supported model](https://yandex.cloud/docs/foundation-models/concepts/yandexgpt/models)
-- Image generation using [YandexART](https://yandex.cloud/docs/foundation-models/concepts/yandexart/models)
-- AI Assistants and file management
-- Working with [embeddings](https://yandex.cloud/docs/foundation-models/concepts/embeddings)
-- Classifier [models](https://yandex.cloud/docs/foundation-models/concepts/classifier/models)
-
-Additionally, Yandex Cloud ML SDK offers:
-
-- Automatic authentication management
-- Robust error handling and data validation
-- Asynchronous operation support
+- **Assistants**
+  - Create, list, update and delete AI assistants.
+  - Asynchronous (`AsyncAssistants`) and synchronous (`Assistants`) APIs.
+- **Batch processing**
+  - Run long‑running batch tasks with automatic polling.
+  - Async (`AsyncBatch`) and sync (`Batch`) interfaces.
+- **Chat & completions**
+  - Text generation (completion) models with streaming support.
+  - Chat usage tracking (`ChatUsage`), tool calls, and function calling.
+- **.chat domain**
+  - OpenAI‑compatible chat API (`sdk.chat`) designed to work seamlessly with the rest of the Yandex Cloud ML SDK.
+  - Manage threads, send and receive messages, stream responses, and work with tool calls in a unified way.
+- **Image generation**
+  - Generate images via YandexART models.
+- **Text embeddings**
+  - Compute dense vector embeddings for arbitrary text.
+- **Text classifiers**
+  - Train and run multi‑class, multi‑label and binary classifiers.
+- **Datasets**
+  - Manage dataset lifecycle, upload data, validate schemas, and perform task‑type specific operations.
+- **Files**
+  - Upload, download, list and delete files stored in Yandex Cloud.
+- **Runs**
+  - Track execution of model runs, retrieve logs and results.
+- **Threads**
+  - Organize conversations into threads, retrieve messages, and post new messages.
+- **Search API**
+  - Generative search, filters, and result handling.
+- **Search indexes**
+  - Create, update, delete and query text, vector and hybrid search indexes.
+- **Tools**
+  - Built‑in tools such as `GenerativeSearchTool`, `FunctionTool` and `SearchIndexTool` that can be used in assistants, completions, and the `.chat` domain, providing a unified way to extend functionality across the SDK.
+- **Tuning**
+  - Fine‑tune models with configurable optimizers, schedulers and other hyper‑parameters.
+- **Authentication**
+  - Automatic selection of authentication method (API key, IAM token, OAuth token, CLI, metadata service, etc.).
+- **Error handling & retries**
+  - Rich exception hierarchy, retry policies, and configurable gRPC interceptors.
+- **Async & sync support**
+  - Every high‑level service is available in both asynchronous and synchronous variants.
+- **LangChain integration**
+  - Ready‑to‑use wrappers for LangChain (`.langchain()`) with an optional extra installation.
 
 ## Installation
 
