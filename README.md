@@ -1,46 +1,49 @@
 # Yandex Cloud ML SDK
 
-This Python library provides a simple and efficient software development kit (SDK) for interacting with Yandex Cloud Machine Learning services. The SDK abstracts away the complexities of raw gRPC calls, making it easier for developers to integrate cloud functionality into their applications seamlessly.
+This Python library provides a simple and efficient software development kit (SDK) for interacting with Yandex Cloud AI Studio services. The SDK abstracts away the complexities of raw gRPC and REST calls, making it easier for developers to integrate cloud functionality into their applications seamlessly.
 
 ## Features
 
-Yandex Cloud ML SDK offers a comprehensive set of high‑level abstractions that map directly to the capabilities exposed by Yandex Cloud. The current feature set (derived from the `src/` package) includes:
+Yandex Cloud ML SDK offers a comprehensive set of high‑level abstractions that map directly to the capabilities exposed by Yandex Cloud. The current feature set includes:
 
-- **Assistants**
+- [**Assistants**](https://yandex.cloud/docs/ai-studio/concepts/assistant/)
   - Create, list, update and delete AI assistants.
-  - Asynchronous (`AsyncAssistants`) and synchronous (`Assistants`) APIs.
-- **Batch processing**
-  - Run long‑running batch tasks with automatic polling.
-  - Async (`AsyncBatch`) and sync (`Batch`) interfaces.
-- **Chat & completions**
+  - Create and track execution of assistant runs, retrieve logs and results.
+- [**Completions**](https://yandex.cloud/ru/docs/ai-studio/operations/generation/create-prompt)
   - Text generation (completion) models with streaming support.
-  - Chat usage tracking (`ChatUsage`), tool calls, and function calling.
-- **.chat domain**
+  - Chat usage tracking, tool calls (function calling for example).
+- [**Chat**](https://yandex.cloud/ru/docs/ai-studio/concepts/openai-compatibility)
   - OpenAI‑compatible chat API (`sdk.chat`) designed to work seamlessly with the rest of the Yandex Cloud ML SDK.
-  - Manage threads, send and receive messages, stream responses, and work with tool calls in a unified way.
-- **Image generation**
+  - Send and receive messages, stream responses, and work with tool calls in a unified way.
+- [**Image generation**](https://yandex.cloud/ru/docs/ai-studio/operations/generation/yandexart-request)
   - Generate images via YandexART models.
-- **Text embeddings**
+- [**Text embeddings**](https://yandex.cloud/ru/docs/ai-studio/concepts/embeddings)
   - Compute dense vector embeddings for arbitrary text.
-- **Text classifiers**
-  - Train and run multi‑class, multi‑label and binary classifiers.
-- **Datasets**
-  - Manage dataset lifecycle, upload data, validate schemas, and perform task‑type specific operations.
-- **Files**
-  - Upload, download, list and delete files stored in Yandex Cloud.
-- **Runs**
-  - Track execution of model runs, retrieve logs and results.
-- **Threads**
+- [**Text classifiers**](https://yandex.cloud/ru/docs/ai-studio/concepts/classifier/)
+  - Run multi‑class, multi‑label and binary classifiers.
+- [**Files**](https://yandex.cloud/ru/docs/ai-studio/concepts/assistant/files)
+  - Upload, download, list and delete files stored in Yandex Cloud AI Studio.
+- [**Threads**](https://yandex.cloud/ru/docs/ai-studio/concepts/assistant/#content)
   - Organize conversations into threads, retrieve messages, and post new messages.
-- **Search API**
-  - Generative search, filters, and result handling.
-- **Search indexes**
+- [**Search API**](https://yandex.cloud/ru/docs/search-api/)
+  - Generative, web, image and by image search.
+- [**Search indexes**](https://yandex.cloud/ru/docs/ai-studio/concepts/assistant/search-index)
   - Create, update, delete and query text, vector and hybrid search indexes.
+
+Also there is some cross-domain functionality for features above:
+- [**Batch processing**](https://yandex.cloud/ru/docs/ai-studio/concepts/generation/batch-processing)
+  - Run long‑running batch tasks with automatic polling.
 - **Tools**
-  - Built‑in tools such as `GenerativeSearchTool`, `FunctionTool` and `SearchIndexTool` that can be used in assistants, completions, and the `.chat` domain, providing a unified way to extend functionality across the SDK.
-- **Tuning**
+  - Built‑in tools such as [Generative Search Tool](https://yandex.cloud/ru/docs/ai-studio/concepts/assistant/tools/web-search),
+    [Function Tool](https://yandex.cloud/ru/docs/ai-studio/concepts/generation/function-call)
+    and Search Index Tool that can be used in Assistants, Completions, and Chat, providing a unified way to extend functionality across the SDK.
+- [**Tuning**](https://yandex.cloud/ru/docs/ai-studio/concepts/tuning/)
   - Fine‑tune models with configurable optimizers, schedulers and other hyper‑parameters.
-- **Authentication**
+- [**Datasets**](https://yandex.cloud/ru/docs/ai-studio/concepts/resources/dataset)
+  - Manage dataset lifecycle, upload data, validate schemas, and perform task‑type specific operations.
+
+Additionally, Yandex Cloud ML SDK offers:
+- [**Authentication**](https://yandex.cloud/ru/docs/ai-studio/sdk/#authentication)
   - Automatic selection of authentication method (API key, IAM token, OAuth token, CLI, metadata service, etc.).
 - **Error handling & retries**
   - Rich exception hierarchy, retry policies, and configurable gRPC interceptors.
@@ -56,6 +59,10 @@ You can install the library via pip:
 ```sh
 pip install yandex-cloud-ml-sdk
 ```
+
+## SDK Reference
+
+[https://yandex.cloud/ru/docs/ai-studio/sdk-ref/](https://yandex.cloud/ru/docs/ai-studio/sdk-ref/)
 
 ## Usage
 
