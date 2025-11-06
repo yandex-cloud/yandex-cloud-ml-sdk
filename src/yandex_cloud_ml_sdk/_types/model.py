@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import abc
-from typing import TYPE_CHECKING, AsyncIterator, Generic, TypeVar
+from collections.abc import AsyncIterator
+from typing import TYPE_CHECKING, Generic, TypeVar
 
 from yandex_cloud_ml_sdk._tuning.tuning_task import TuningTaskTypeT
 

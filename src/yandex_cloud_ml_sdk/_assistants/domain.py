@@ -1,7 +1,8 @@
 # pylint: disable=protected-access,no-name-in-module
 from __future__ import annotations
 
-from typing import Any, AsyncIterator, Generic, Iterable, Iterator
+from collections.abc import AsyncIterator, Iterable, Iterator
+from typing import Any, Generic
 
 from yandex.cloud.ai.assistants.v1.assistant_pb2 import Assistant as ProtoAssistant
 from yandex.cloud.ai.assistants.v1.assistant_service_pb2 import (

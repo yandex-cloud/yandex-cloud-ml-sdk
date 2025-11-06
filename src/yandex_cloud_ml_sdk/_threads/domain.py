@@ -1,7 +1,8 @@
 # pylint: disable=protected-access,no-name-in-module
 from __future__ import annotations
 
-from typing import AsyncIterator, Generic, Iterator
+from collections.abc import AsyncIterator, Iterator
+from typing import Generic
 
 from yandex.cloud.ai.assistants.v1.threads.thread_pb2 import Thread as ProtoThread
 from yandex.cloud.ai.assistants.v1.threads.thread_service_pb2 import (

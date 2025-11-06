@@ -4,9 +4,10 @@ import asyncio
 import random
 import time
 import uuid
+from collections.abc import AsyncIterable, Iterable
 from dataclasses import dataclass
 from enum import Enum
-from typing import TYPE_CHECKING, AsyncIterable, Iterable, Literal, cast
+from typing import TYPE_CHECKING, Literal, cast
 
 import grpc
 import grpc.aio
