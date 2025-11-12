@@ -38,7 +38,7 @@ class AsyncAudioOut:
     def __init__(
         self,
         *,
-        device_id: int | None,
+        device_id: int | None = None,
         samplerate: int = OUT_RATE,
         blocksize: int = OUT_BLOCK,
     ):
@@ -96,6 +96,9 @@ class AsyncAudioOut:
             outdata.fill(0)
         return
 
+    async def clear(self):
+        self._queue = asyncio.Queue()
+
     async def __aexit__(
         self,
         exc_type: type[BaseException] | None,
@@ -126,15 +129,11 @@ class AsyncAudioOut:
 
         chunk_size = 2 * self._blocksize
         payload_size = len(pcm_16)
-        if payload_size % chunk_size != 0:
-            raise RuntimeError(
-                f"chunk bytes size must be multiple of {chunk_size} "
-                "(AsyncAudioOut's blocksize * 2) to write"
-            )
 
         async with self._write_lock:
             for i in range(0, payload_size, chunk_size):
-                chunk = pcm_16[i:i + chunk_size]
+                end = min((len(pcm_16), i + chunk_size))
+                chunk = pcm_16[i:end].ljust(chunk_size, b'\x00')
                 array = np.frombuffer(chunk, dtype=DTYPE)  # type: ignore[arg-type]
                 await queue.put(array.reshape(-1, 1))
 
