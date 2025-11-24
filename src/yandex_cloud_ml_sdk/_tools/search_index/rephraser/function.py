@@ -12,8 +12,8 @@ RephraserInputType: TypeAlias = Union[str, Literal[True], Rephraser]
 
 
 class RephraserFunction(BaseCompletions[Rephraser]):
-    """Function for creating Rephraser object, which incapsulating
-    rephrasing settings.
+    """
+    Function for creating Rephraser object, which incapsulating rephrasing settings.
     """
 
     _model_type = Rephraser
@@ -25,7 +25,8 @@ class RephraserFunction(BaseCompletions[Rephraser]):
         *,
         model_version: str = 'latest',
     ) -> Rephraser:
-        """Creates a Rephraser object, which incapsulating rephrasing settings.
+        """
+        Creates a Rephraser object, which incapsulating rephrasing settings.
 
         :param model_name:
             Model ID used for model uri definition in a resulting Rephraser object.
@@ -45,7 +46,6 @@ class RephraserFunction(BaseCompletions[Rephraser]):
             refer to model_name parameter documentation for details.
 
         :returns: Rephraser object, which incapsulating rephrasing settings
-
         """
 
         name: str
