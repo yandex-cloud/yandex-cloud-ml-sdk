@@ -1,12 +1,11 @@
 import re
-from typing import Dict, Union
 
 NOT_AVAILABLE: str = 'N/A'
+URI_PATTERN: str = r'^\w+://[^/]+/(?P<name>[^/]+)/(?P<version>[^@/]+)(@(?P<fine_tune>[^/]+))?'
 
-def parse_uri(uri: str) -> Dict[str, Union[str, bool]]:
+def parse_uri(uri: str) -> dict:
     # Uri example: emb://source/model_name/version@fine_tune
-    pattern = r'^\w+://[^/]+/(?P<name>[^/]+)/(?P<version>[^@/]+)(@(?P<fine_tune>[^/]+))?'
-    match = re.match(pattern, uri)
+    match = re.match(URI_PATTERN, uri)
     if not match:
         return {'name': NOT_AVAILABLE, 'version': NOT_AVAILABLE, 'fine_tuned': False}
     groups = match.groupdict()
