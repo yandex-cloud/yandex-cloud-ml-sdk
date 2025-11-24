@@ -26,7 +26,7 @@ class BaseTextEmbeddings(BaseModelFunction[ModelTypeT]):
         model_name: str,
         *,
         model_version: str = 'latest',
-    ):
+    ) -> ModelTypeT:
         """
         Call the specified model for text embeddings.
         It returns an instance of the specified type of the model.
@@ -54,9 +54,9 @@ class BaseTextEmbeddings(BaseModelFunction[ModelTypeT]):
         )
 
 @doc_from(BaseTextEmbeddings)
-class TextEmbeddings(BaseTextEmbeddings):
+class TextEmbeddings(BaseTextEmbeddings[TextEmbeddingsModel]):
     _model_type = TextEmbeddingsModel
 
 @doc_from(BaseTextEmbeddings)
-class AsyncTextEmbeddings(BaseTextEmbeddings):
+class AsyncTextEmbeddings(BaseTextEmbeddings[AsyncTextEmbeddingsModel]):
     _model_type = AsyncTextEmbeddingsModel

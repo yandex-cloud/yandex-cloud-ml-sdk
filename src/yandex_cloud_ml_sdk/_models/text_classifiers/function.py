@@ -20,7 +20,7 @@ class BaseTextClassifiers(BaseModelFunction[ModelTypeT]):
         model_name: str,
         *,
         model_version: str = 'latest',
-    ):
+    ) -> ModelTypeT:
         """Call the text classification model.
 
         Constructs the URI for the model based on the provided model's name
@@ -46,9 +46,9 @@ class BaseTextClassifiers(BaseModelFunction[ModelTypeT]):
 
 
 @doc_from(BaseTextClassifiers)
-class TextClassifiers(BaseTextClassifiers):
+class TextClassifiers(BaseTextClassifiers[TextClassifiersModel]):
     _model_type = TextClassifiersModel
 
 @doc_from(BaseTextClassifiers)
-class AsyncTextClassifiers(BaseTextClassifiers):
+class AsyncTextClassifiers(BaseTextClassifiers[AsyncTextClassifiersModel]):
     _model_type = AsyncTextClassifiersModel

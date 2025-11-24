@@ -25,7 +25,7 @@ class BaseImageGeneration(BaseModelFunction[ModelTypeT]):
         model_name: str,
         *,
         model_version: str = 'latest',
-    ):
+    ) -> ModelTypeT:
         """
         Call the image generation model with the specified name and version.
 
@@ -51,9 +51,9 @@ class BaseImageGeneration(BaseModelFunction[ModelTypeT]):
         )
 
 @doc_from(BaseImageGeneration)
-class ImageGeneration(BaseImageGeneration):
+class ImageGeneration(BaseImageGeneration[ImageGenerationModel]):
     _model_type = ImageGenerationModel
 
 @doc_from(BaseImageGeneration)
-class AsyncImageGeneration(BaseImageGeneration):
+class AsyncImageGeneration(BaseImageGeneration[AsyncImageGenerationModel]):
     _model_type = AsyncImageGenerationModel
