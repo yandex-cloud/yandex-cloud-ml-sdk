@@ -113,7 +113,7 @@ class ChatChoice(TextMessage, HaveToolCalls[ToolCallTypeT], JsonBased):
         text = message['content']
         reasoning_text = message.get('reasoning_content')
 
-        tool_calls = None
+        tool_calls: HttpToolCallList | None = None
         if raw_tool_calls := message.get('tool_calls'):
             tool_calls = HttpToolCallList._from_json(data=raw_tool_calls, sdk=sdk)
 
@@ -154,7 +154,7 @@ class DeltaChatChoice(ChatChoice[ToolCallTypeT]):
         finish_reason = FinishReason._coerce(data.get('finish_reason'))
         status = STATUS_TABLE[finish_reason]
 
-        tool_calls = None
+        tool_calls: HttpToolCallList | None = None
         if raw_tool_calls := delta_dict.get(YCMLSDK_TOOL_CALLS):
             tool_calls = HttpToolCallList._from_json(data=raw_tool_calls, sdk=sdk)
 
