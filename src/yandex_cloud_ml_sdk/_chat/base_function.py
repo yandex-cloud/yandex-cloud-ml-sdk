@@ -4,9 +4,8 @@ from typing import Any, List
 
 from typing_extensions import override
 
-from yandex_cloud_ml_sdk._types.function import BaseModelFunction, ModelTypeT
-
 from yandex_cloud_ml_sdk._chat.utils import model_match
+from yandex_cloud_ml_sdk._types.function import BaseModelFunction, ModelTypeT
 
 
 class BaseChatFunction(BaseModelFunction[ModelTypeT]):
@@ -41,7 +40,7 @@ class BaseChatFunction(BaseModelFunction[ModelTypeT]):
             sdk=self._sdk,
             uri=uri,
         )
-    async def _fetch_raw_models(self, timeout: float) -> List[dict[str, Any]]:
+    async def _fetch_raw_models(self, timeout: float) -> list[dict[str, Any]]:
         """
         Returns raw data for all available models in selected subdomain.
         """

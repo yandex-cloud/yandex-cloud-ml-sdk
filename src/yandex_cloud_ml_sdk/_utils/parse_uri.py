@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import re
 
 URI_PATTERN: str = r'^\w+://(?P<folder_id>[^/]+)/(?P<name>[^/]+)/(?P<version>[^@/]+)(@(?P<fine_tune>[^/]+))?'

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
+
 def model_match(model: Any, filters: dict[str, Any] | None) -> bool:
     """
     Checks whether the given model object matches all specified attribute filters.

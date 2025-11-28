@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import cast, Any
+from typing import Any, cast
 
 from yandex_cloud_ml_sdk._chat.base_function import BaseChatFunction, ModelTypeT
 from yandex_cloud_ml_sdk._utils.sync import run_sync

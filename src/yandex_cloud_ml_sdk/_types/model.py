@@ -6,14 +6,14 @@ from typing import TYPE_CHECKING, Generic, TypeVar
 
 from yandex_cloud_ml_sdk._tuning.tuning_task import TuningTaskTypeT
 
+from .._client import AsyncCloudClient
+from .._utils.parse_uri import parse_uri
 from .misc import Undefined, UndefinedOr, get_defined_value
 from .model_config import BaseModelConfig
 from .operation import OperationTypeT
 from .result import BaseResult, ProtoMessage
 from .tuning.datasets import TuningDatasetsType
 from .tuning.params import BaseTuningParams
-from .._client import AsyncCloudClient
-from .._utils.parse_uri import parse_uri
 
 if TYPE_CHECKING:
     from typing_extensions import Self
