@@ -12,6 +12,8 @@ from .operation import OperationTypeT
 from .result import BaseResult, ProtoMessage
 from .tuning.datasets import TuningDatasetsType
 from .tuning.params import BaseTuningParams
+from .._client import AsyncCloudClient
+from .._utils.parse_uri import parse_uri
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -33,11 +35,19 @@ class BaseModel(Generic[ConfigTypeT, ResultTypeT], metaclass=abc.ABCMeta):
         *,
         sdk: BaseSDK,
         uri: str,
-        config: ConfigTypeT | None = None
+        config: ConfigTypeT | None = None,
+        owner: str | None = None
     ):
         self._sdk = sdk
         self._uri = uri
         self._config = config if config else self._config_type()
+        self._owner = owner
+
+        uri_parts = parse_uri(self._uri)
+
+        self._name = uri_parts['name']
+        self._version = uri_parts['version']
+        self._fine_tuned = uri_parts['fine_tuned']
 
     @property
     def uri(self) -> str:
@@ -48,8 +58,24 @@ class BaseModel(Generic[ConfigTypeT, ResultTypeT], metaclass=abc.ABCMeta):
         return self._config
 
     @property
-    def _client(self):
+    def _client(self) -> AsyncCloudClient:
         return self._sdk._client
+
+    @property
+    def owner(self) -> str | None:
+        return self._owner
+
+    @property
+    def name(self) -> str | None:
+        return self._name
+
+    @property
+    def version(self) -> str | None:
+        return self._version
+
+    @property
+    def fine_tuned(self) -> bool | None:
+        return self._fine_tuned
 
     def configure(self, **kwargs) -> Self:
         kwargs = {
@@ -65,7 +91,16 @@ class BaseModel(Generic[ConfigTypeT, ResultTypeT], metaclass=abc.ABCMeta):
         )
 
     def __repr__(self) -> str:
-        return f'{self.__class__.__name__}(uri={self._uri}, config={self._config})'
+        base = f'{self.__class__.__name__}(uri={self._uri}, config={self._config}'
+        optional_fields = [
+            ('owner', self._owner),
+            ('name', self._name),
+            ('version', self._version),
+            ('fine_tuned', self._fine_tuned),
+        ]
+        # Include optional fields only if they are not None
+        extras = [f', {k}={v!r}' for k, v in optional_fields if v is not None]
+        return f"{base}{''.join(extras)})"
 
 
 class ModelSyncMixin(BaseModel[ConfigTypeT, ResultTypeT]):
