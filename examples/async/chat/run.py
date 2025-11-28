@@ -25,38 +25,13 @@ async def main() -> None:
     # YC_OAUTH_TOKEN, YC_TOKEN, YC_IAM_TOKEN, or YC_API_KEY
     # You can also set 'folder_id' using the YC_FOLDER_ID environment variable
     sdk = AsyncYCloudML(
-        # folder_id="<YC_FOLDER_ID>",
-        # auth="<YC_API_KEY/YC_IAM_TOKEN>",
     )
-    sdk.setup_default_logging()
 
-    # This is how to create model object
-    model = sdk.chat.completions('qwen3-235b-a22b-fp8')
-    # But in this example we will get it via .list method
-    model = await get_model(sdk)
-
-    request = "How to calculate the Hirsch index in O(N)"
-
-    model = model.configure(temperature=0.5)
-
-    result = await model.run(request)
-
-    print('You could inspect the fields which have the result structure:')
-    pprint.pprint(result)
-    print('\n')
-
-    print('Or just access the "text/content" field')
-    print(result.text)
-
-    # NB: text and content is a synonyms
-    assert result.text == result.content
-
-    model = model.configure(max_tokens=10)
-    result = await model.run(request)
-    assert result.finish_reason.name == 'LENGTH'
-    # status field is a synonym for finish_reason, but with names consistent with
-    # another parts ofr yandex_cloud_ml_sdk
-    assert result.status.name == 'TRUNCATED_FINAL'
+    print(sdk._folder_id)
+    print(sdk._client._auth_provider)
+    # sdk.setup_default_logging()
+    # res = sdk.chat.completions.list()
+    # print(res)
 
 
 if __name__ == '__main__':

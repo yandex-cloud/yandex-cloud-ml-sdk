@@ -55,7 +55,6 @@ class BaseChatFunction(BaseModelFunction[ModelTypeT]):
         response.raise_for_status()
 
         raw_models = response.json()['data']
-        print(raw_models)
         return tuple(
             self._model_type(sdk=self._sdk, uri=raw_model['id'], owner=raw_model['owned_by'])
             for raw_model in raw_models

@@ -38,9 +38,10 @@ def fixture_auth(request, vcr):
         cassette_manager.allow_grpc and cassette_manager.mode == 'write' or
         vcr_mode in ('once', 'all', 'new_episodes')
     ):
+        print('CHOOSE PROVIDER!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         return UNDEFINED  # it will trigger choosing of auth provider at client
 
-    return NoAuth()
+    return None
 
 
 @pytest.fixture(name='interceptors')
