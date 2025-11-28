@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 from numbers import Number
-from typing import Union
+from typing import Union, SupportsFloat
 
 from yandex_cloud_ml_sdk._datasets.dataset import BaseDataset
 from yandex_cloud_ml_sdk._types.datasets import DatasetType
@@ -43,7 +43,7 @@ def coerce_datasets(datasets: TuningDatasetsType) -> tuple[tuple[str, float], ..
             if isinstance(id_, BaseDataset):
                 id_ = id_.id
 
-            if not isinstance(id_, str) or not isinstance(weight, Number):
+            if not isinstance(id_, str) or not isinstance(weight, SupportsFloat):
                 raise TypeError(ERROR_TEXT.format(dataset))
 
             coerced.append((id_, float(weight)))
