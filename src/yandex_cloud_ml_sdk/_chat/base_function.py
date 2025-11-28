@@ -53,7 +53,6 @@ class BaseChatFunction(BaseModelFunction[ModelTypeT]):
                 },
                 timeout=timeout,
             )
-
         response.raise_for_status()
         return response.json()['data']
 
