@@ -21,7 +21,7 @@ langchain_paths = [
     'src/yandex_cloud_ml_sdk/_models/completions/langchain.py',
 ]
 
-def pytest_ignore_collect(collection_path, path, config):  # pylint: disable=unused-argument
+def pytest_ignore_collect(collection_path, config):  # pylint: disable=unused-argument
     if sys.version_info > (3, 9):
         return None
 
