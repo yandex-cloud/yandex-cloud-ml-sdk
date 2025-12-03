@@ -4,6 +4,7 @@ from __future__ import annotations
 from typing import cast
 
 from yandex_cloud_ml_sdk._chat.base_function import BaseChatFunction, ModelTypeT
+from yandex_cloud_ml_sdk._chat.utils import ModelFilter
 from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
@@ -29,10 +30,15 @@ class ChatCompletions(BaseChatCompletions[ChatModel]):
     __list = run_sync(BaseChatCompletions[ChatModel]._list)
 
     @doc_from(BaseChatCompletions._list)
-    def list(self, *, timeout: float = 60) -> tuple[ChatModel, ...]:
+    def list(
+        self,
+        *,
+        timeout: float = 60,
+        filters: ModelFilter | None = None
+    ) -> tuple[ChatModel, ...]:
         return cast(
             tuple[ChatModel, ...],
-            self.__list(timeout=timeout)
+            self.__list(timeout=timeout, filters=filters)
         )
 
 
@@ -41,5 +47,10 @@ class AsyncChatCompletions(BaseChatCompletions[AsyncChatModel]):
     _model_type = AsyncChatModel
 
     @doc_from(BaseChatCompletions._list)
-    async def list(self, *, timeout: float = 60) -> tuple[AsyncChatModel, ...]:
-        return await self._list(timeout=timeout)
+    async def list(
+        self,
+        *,
+        timeout: float = 60,
+        filters: ModelFilter | None = None
+    ) -> tuple[AsyncChatModel, ...]:
+        return await self._list(timeout=timeout, filters=filters)

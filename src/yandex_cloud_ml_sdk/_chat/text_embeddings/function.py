@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import cast
 
 from yandex_cloud_ml_sdk._chat.base_function import BaseChatFunction, ModelTypeT
+from yandex_cloud_ml_sdk._chat.utils import ModelFilter
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
 from .model import AsyncChatEmbeddingsModel, ChatEmbeddingsModel
@@ -17,15 +18,25 @@ class ChatEmbeddings(BaseChatEmbeddings[ChatEmbeddingsModel]):
 
     __list = run_sync(BaseChatEmbeddings[ChatEmbeddingsModel]._list)
 
-    def list(self, *, timeout: float = 60) -> tuple[ChatEmbeddingsModel, ...]:
+    def list(
+        self,
+        *,
+        timeout: float = 60,
+        filters: ModelFilter | None = None
+    ) -> tuple[ChatEmbeddingsModel, ...]:
         return cast(
             tuple[ChatEmbeddingsModel, ...],
-            self.__list(timeout=timeout)
+            self.__list(timeout=timeout, filters=filters)
         )
 
 
 class AsyncChatEmbeddings(BaseChatEmbeddings[AsyncChatEmbeddingsModel]):
     _model_type = AsyncChatEmbeddingsModel
 
-    async def list(self, *, timeout: float = 60) -> tuple[AsyncChatEmbeddingsModel, ...]:
-        return await self._list(timeout=timeout)
+    async def list(
+        self,
+        *,
+        timeout: float = 60,
+        filters: ModelFilter | None = None
+    ) -> tuple[AsyncChatEmbeddingsModel, ...]:
+        return await self._list(timeout=timeout, filters=filters)
