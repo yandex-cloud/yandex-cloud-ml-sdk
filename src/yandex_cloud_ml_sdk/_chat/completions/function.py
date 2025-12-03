@@ -1,13 +1,14 @@
 # pylint: disable=protected-access
 from __future__ import annotations
 
-from typing import Any, cast
+from typing import cast
 
 from yandex_cloud_ml_sdk._chat.base_function import BaseChatFunction, ModelTypeT
 from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
 from .model import AsyncChatModel, ChatModel
+from ..utils import ModelFilter
 
 
 class BaseChatCompletions(BaseChatFunction[ModelTypeT]):
@@ -33,7 +34,7 @@ class ChatCompletions(BaseChatCompletions[ChatModel]):
             self,
             *,
             timeout: float = 60,
-            filters: dict[str, Any] | None = None
+            filters: ModelFilter | None = None
     ) -> tuple[ChatModel, ...]:
         return cast(
             tuple[ChatModel, ...],
@@ -47,9 +48,9 @@ class AsyncChatCompletions(BaseChatCompletions[AsyncChatModel]):
 
     @doc_from(BaseChatCompletions._list)
     async def list(
-            self,
-            *,
-            timeout: float = 60,
-            filters: dict[str, Any] | None = None
-            ) -> tuple[AsyncChatModel, ...]:
+        self,
+        *,
+        timeout: float = 60,
+        filters: ModelFilter | None = None
+    ) -> tuple[AsyncChatModel, ...]:
         return await self._list(timeout=timeout, filters=filters)

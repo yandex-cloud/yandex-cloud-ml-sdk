@@ -4,7 +4,7 @@ from typing import Any
 
 from typing_extensions import override
 
-from yandex_cloud_ml_sdk._chat.utils import model_match
+from yandex_cloud_ml_sdk._chat.utils import ModelFilter, model_match
 from yandex_cloud_ml_sdk._types.function import BaseModelFunction, ModelTypeT
 
 
@@ -56,10 +56,10 @@ class BaseChatFunction(BaseModelFunction[ModelTypeT]):
         return response.json()['data']
 
     async def _list(
-            self,
-            *,
-            timeout,
-            filters: dict[str, Any] | None
+        self,
+        *,
+        timeout,
+        filters: ModelFilter | None
     ) -> tuple[ModelTypeT, ...]:
         """
         Returns all available models in selected subdomain (completions, embeddings, etc)
@@ -67,13 +67,13 @@ class BaseChatFunction(BaseModelFunction[ModelTypeT]):
         :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
         :param filters: Optional dict with filters, where keys are model attribute names and values are the desired values.
 
-            >>> filters = {'owner': 'alice', 'version': 'v2', 'fine_tuned': True}
+        >>> filters = {'owner': 'alice', 'version': 'v2', 'fine_tuned': True}
 
         """
 
         raw_models = await self._fetch_raw_models(timeout)
 
-        models = tuple(
+        models = (
             self._model_type(sdk=self._sdk, uri=raw_model['id'], owner=raw_model['owned_by'])
             for raw_model in raw_models
             if raw_model['id'].startswith(self._prefix)

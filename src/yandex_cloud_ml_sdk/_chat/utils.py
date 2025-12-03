@@ -1,9 +1,14 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, TypedDict
 
 
-def model_match(model: Any, filters: dict[str, Any] | None) -> bool:
+class ModelFilter(TypedDict, total=False):
+    owner: str
+    version: str
+    fine_tuned: bool
+
+def model_match(model: Any, filters: ModelFilter | None) -> bool:
     """
     Checks whether the given model object matches all specified attribute filters.
     """
