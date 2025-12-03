@@ -31,10 +31,10 @@ class ChatCompletions(BaseChatCompletions[ChatModel]):
 
     @doc_from(BaseChatCompletions._list)
     def list(
-            self,
-            *,
-            timeout: float = 60,
-            filters: ModelFilter | None = None
+        self,
+        *,
+        timeout: float = 60,
+        filters: ModelFilter | None = None
     ) -> tuple[ChatModel, ...]:
         return cast(
             tuple[ChatModel, ...],
