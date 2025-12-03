@@ -4,6 +4,10 @@ from typing import Any, TypedDict
 
 
 class ModelFilter(TypedDict, total=False):
+    """
+    Options to filter models by owner, version, or fine-tuned status.
+    """
+
     owner: str
     version: str
     fine_tuned: bool
