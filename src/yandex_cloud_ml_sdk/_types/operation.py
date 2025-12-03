@@ -16,6 +16,7 @@ from yandex.cloud.operation.operation_service_pb2 import CancelOperationRequest,
 from yandex.cloud.operation.operation_service_pb2_grpc import OperationServiceStub
 
 from yandex_cloud_ml_sdk._logging import TRACE, get_logger
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync_impl
 from yandex_cloud_ml_sdk.exceptions import RunError, WrongAsyncOperationStatusError
 
@@ -26,12 +27,23 @@ if TYPE_CHECKING:
 
 logger = get_logger(__name__)
 
+#: Variable for any operation result type.
 AnyResultTypeT_co = TypeVar('AnyResultTypeT_co', covariant=True)
+
+#: Variable for concrete operation result type.
 ResultTypeT_co = TypeVar('ResultTypeT_co', covariant=True)
 
 
 # NB: it couldn't be ABC because it descendants can't inherit from ABC and Enum at the same time
 class BaseOperationStatus:
+    """
+    Class for operation status management.
+
+    Represents common interface for checking operation status states and lifecycle management.
+    This class defines the contract for operation status implementations, allowing
+    clients to uniformly check whether operations are running, completed successfully, or failed.
+    """
+
     @property
     def is_running(self) -> bool:
         """
@@ -74,28 +86,46 @@ class BaseOperationStatus:
 
 @dataclass(frozen=True)
 class OperationErrorInfo:
+    """
+    Information about an operation error.
+    """
+
+    #: Error code.
     code: int
+    #: Human-readable error message.
     message: str
+    #: Additional error details, if any.
     details: Iterable[str] | None
 
 
 @dataclass(frozen=True)
 class OperationStatus(BaseOperationStatus):
+    """
+    Status of a long-running operation.
+    """
+
+    #: Whether the operation has completed.
     done: bool
+    #: Error information if the operation failed.
     error: OperationErrorInfo | None  # TBD: google.rpc.Status
+    #: Operation response data when succeeded.
     response: Any | None = field(repr=False)
+    #: Operation metadata.
     metadata: Any | None = field(repr=False)
 
     @property
+    @doc_from(BaseOperationStatus.is_running)
     def is_running(self) -> bool:
         return not self.done
 
     @property
+    @doc_from(BaseOperationStatus.is_succeeded)
     def is_succeeded(self) -> bool:
         # NB: when failed, there is non-None response, but with error set
         return self.done and bool(self.response) and not self.is_failed
 
     @property
+    @doc_from(BaseOperationStatus.is_failed)
     def is_failed(self) -> bool:
         # NB: when succeeded, there non-None error, but with code==0
         return bool(self.done and self.error and self.error.code > 0)
@@ -129,6 +159,12 @@ OperationStatusTypeT = TypeVar('OperationStatusTypeT', bound=BaseOperationStatus
 
 
 class OperationInterface(abc.ABC, Generic[AnyResultTypeT_co, OperationStatusTypeT]):
+    """
+    Interface for long-running operations.
+
+    Provides a common interface for managing operations including
+    status checking, result retrieval, cancellation, and polling with timeout.
+    """
     id: str
     _default_poll_timeout: ClassVar[int] = 3600
     _default_poll_interval: ClassVar[float] = 10
@@ -137,15 +173,21 @@ class OperationInterface(abc.ABC, Generic[AnyResultTypeT_co, OperationStatusType
 
     @abc.abstractmethod
     async def _get_status(self, *, timeout: float = 60) -> OperationStatusTypeT:
-        pass
+        """
+        Get the current status of the operation.
+        """
 
     @abc.abstractmethod
     async def _get_result(self, *, timeout: float = 60) -> AnyResultTypeT_co:
-        pass
+        """
+        Get the result of the completed operation.
+        """
 
     @abc.abstractmethod
     async def _cancel(self, *, timeout: float = 60) -> None:
-        pass
+        """
+        Cancel the running operation.
+        """
 
     async def _sleep_impl(self, delay: float) -> None:
         # method is created for patching it in a tests
@@ -175,6 +217,18 @@ class OperationInterface(abc.ABC, Generic[AnyResultTypeT_co, OperationStatusType
         poll_timeout: int | None,
         poll_interval: float | None,
     ) -> AnyResultTypeT_co:
+        """
+        Wait for operation completion and return the result.
+        This method uses polling to periodically check the operation status
+        until it completes or times out.
+
+        :param timeout: Maximum time to wait for operation completion (seconds).
+        :param poll_timeout: Maximum time for individual polling requests (seconds).
+               If None, uses default from operation or class configuration.
+        :param poll_interval: Time between polling requests (seconds).
+               If None, uses default from class configuration.
+        """
+
         # poll_timeout got from user
         # custom_default_poll_timeout - from operation __init__
         # default_poll_timeout - from class
@@ -201,6 +255,12 @@ class OperationInterface(abc.ABC, Generic[AnyResultTypeT_co, OperationStatusType
 
 
 class BaseOperation(Generic[ResultTypeT_co], OperationInterface[ResultTypeT_co, OperationStatus]):
+    """
+    Implementation for long-running operations.
+
+    Provides concrete implementation of the OperationInterface for operations
+    that return results of type and use OperationStatus for status.
+    """
     _last_known_status: OperationStatus | None
 
     def __init__(
@@ -261,6 +321,9 @@ class BaseOperation(Generic[ResultTypeT_co], OperationInterface[ResultTypeT_co, 
 
     @property
     def id(self):
+        """
+        Get operation ID.
+        """
         return self._id
 
     @property
@@ -366,15 +429,25 @@ class BaseOperation(Generic[ResultTypeT_co], OperationInterface[ResultTypeT_co, 
 
 
 class AsyncOperationMixin(OperationInterface[AnyResultTypeT_co, OperationStatusTypeT]):
+    """
+    Mixin providing public async interface for operations.
+
+    Exposes the protected methods of OperationInterface as public async methods.
+    """
+
+    @doc_from(OperationInterface._get_status)
     async def get_status(self, *, timeout: float = 60) -> OperationStatusTypeT:
         return await self._get_status(timeout=timeout)
 
+    @doc_from(OperationInterface._get_result)
     async def get_result(self, *, timeout: float = 60) -> AnyResultTypeT_co:
         return await self._get_result(timeout=timeout)
 
+    @doc_from(OperationInterface._cancel)
     async def cancel(self, *, timeout: float = 60) -> None:
         await self._cancel(timeout=timeout)
 
+    @doc_from(OperationInterface._wait)
     async def wait(
         self,
         *,
@@ -393,28 +466,39 @@ class AsyncOperationMixin(OperationInterface[AnyResultTypeT_co, OperationStatusT
 
 
 class AsyncOperation(AsyncOperationMixin[ResultTypeT_co, OperationStatus], BaseOperation[ResultTypeT_co]):
-    pass
+    ...
 
 
 class SyncOperationMixin(OperationInterface[AnyResultTypeT_co, OperationStatusTypeT]):
+    """
+    Mixin providing public synchronous interface for operations.
+
+    Wraps the async methods of OperationInterface to provide synchronous equivalents
+    using run_sync_impl to execute async operations in a synchronous context.
+    """
+
+    @doc_from(OperationInterface._get_status)
     def get_status(self, *, timeout: float = 60) -> OperationStatusTypeT:
         return run_sync_impl(
             self._get_status(timeout=timeout),
             self._sdk
         )
 
+    @doc_from(OperationInterface._get_result)
     def get_result(self, *, timeout: float = 60) -> AnyResultTypeT_co:
         return run_sync_impl(
             self._get_result(timeout=timeout),
             self._sdk,
         )
 
+    @doc_from(OperationInterface._cancel)
     def cancel(self, *, timeout: float = 60) -> None:
         run_sync_impl(
             self._cancel(timeout=timeout),
             self._sdk
         )
 
+    @doc_from(OperationInterface._wait)
     def wait(
         self,
         *,
@@ -433,11 +517,24 @@ class SyncOperationMixin(OperationInterface[AnyResultTypeT_co, OperationStatusTy
 
 
 class Operation(SyncOperationMixin[ResultTypeT_co, OperationStatus], BaseOperation[ResultTypeT_co]):
-    pass
+    """
+    Concrete synchronous operation implementation.
+
+    Combines SyncOperationMixin and BaseOperation to provide a complete
+    synchronous operation implementation with public sync interface.
+    """
+    ...
 
 
 OperationTypeT = TypeVar('OperationTypeT', bound=BaseOperation)
 
 # this is needed to be able to declare Generic[OperationTypeT] in a dataclasses
 class ReturnsOperationMixin(Generic[OperationTypeT]):
+    """
+    Mixin for classes that return operations.
+
+    Provides a way to declare Generic[OperationTypeT] in dataclasses.
+    This is needed to maintain type information about the specific operation type
+    being returned by various methods.
+    """
     _operation_impl: type[OperationTypeT]

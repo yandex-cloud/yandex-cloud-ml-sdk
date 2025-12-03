@@ -7,8 +7,11 @@ from typing import SupportsFloat, Union
 from yandex_cloud_ml_sdk._datasets.dataset import BaseDataset
 from yandex_cloud_ml_sdk._types.datasets import DatasetType
 
+#: Type alias for a dataset with an associated weight.
 WeightedDatasetType = tuple[DatasetType, float]
+#: Type alias for a single tuning dataset input.
 TuningDatasetType = Union[DatasetType, WeightedDatasetType]
+#: Type alias for multiple tuning datasets input.
 TuningDatasetsType = Union[TuningDatasetType, Iterable[TuningDatasetType], dict[DatasetType, float]]
 
 ERROR_TEXT = ' '.join("""datasets must contain

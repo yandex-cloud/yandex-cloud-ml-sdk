@@ -21,12 +21,20 @@ if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
 
+#: Type variable for configuration types bounded by BaseModelConfig.
 ConfigTypeT = TypeVar('ConfigTypeT', bound=BaseModelConfig)
+
+#: Type variable for result types bounded by BaseResult.
 ResultTypeT = TypeVar('ResultTypeT', bound=BaseResult)
+
+#: Type variable for tuning parameter types bounded by BaseTuningParams.
 TuningParamsTypeT = TypeVar('TuningParamsTypeT', bound=BaseTuningParams)
 
 
 class BaseModel(Generic[ConfigTypeT, ResultTypeT], metaclass=abc.ABCMeta):
+    """
+    Class provides a foundation for all model types.
+    """
     _config_type: type[ConfigTypeT]
     _result_type: type[ResultTypeT]
 
@@ -51,10 +59,16 @@ class BaseModel(Generic[ConfigTypeT, ResultTypeT], metaclass=abc.ABCMeta):
 
     @property
     def uri(self) -> str:
+        """
+        Get the model URI.
+        """
         return self._uri
 
     @property
     def config(self) -> ConfigTypeT:
+        """
+        Get the model configuration.
+        """
         return self._config
 
     @property
@@ -78,6 +92,11 @@ class BaseModel(Generic[ConfigTypeT, ResultTypeT], metaclass=abc.ABCMeta):
         return self._fine_tuned
 
     def configure(self, **kwargs) -> Self:
+        """
+        Create a new instance with updated configuration.
+
+        :param kwargs: Configuration parameters to update.
+        """
         kwargs = {
             k: v for k, v in kwargs.items()
             if not isinstance(v, Undefined)
@@ -104,12 +123,26 @@ class BaseModel(Generic[ConfigTypeT, ResultTypeT], metaclass=abc.ABCMeta):
 
 
 class ModelSyncMixin(BaseModel[ConfigTypeT, ResultTypeT]):
+    """
+    Mixin class for models that support synchronous execution.
+
+    This mixin provides the interface for models that can execute
+    operations and return results directly.
+    """
+
     @abc.abstractmethod
     async def _run(self, *args, **kwargs) -> ResultTypeT:
         pass
 
 
 class ModelSyncStreamMixin(BaseModel[ConfigTypeT, ResultTypeT]):
+    """
+    Mixin class for models that support streaming execution.
+
+    This mixin provides the interface for models that can execute
+    operations and return results as an async stream.
+    """
+
     @abc.abstractmethod
     async def _run_stream(self, *args, **kwargs) -> AsyncIterator[ResultTypeT]:
         raise NotImplementedError()
@@ -122,6 +155,7 @@ class ModelAsyncMixin(
     BaseModel[ConfigTypeT, ResultTypeT],
     Generic[ConfigTypeT, ResultTypeT, OperationTypeT]
 ):
+
     _operation_type: type[OperationTypeT]
     _proto_result_type: type[ProtoMessage]
 
@@ -143,6 +177,7 @@ class ModelTuneMixin(
     BaseModel[ConfigTypeT, ResultTypeT],
     Generic[ConfigTypeT, ResultTypeT, TuningParamsTypeT, TuningTaskTypeT]
 ):
+
     _tuning_params_type: type[TuningParamsTypeT]
     _tune_operation_type: type[TuningTaskTypeT]
 
@@ -206,4 +241,5 @@ class ModelTuneMixin(
         )
 
 
+#: Type variable for model types bounded by BaseModel.
 ModelTypeT = TypeVar('ModelTypeT', bound=BaseModel)
