@@ -4,11 +4,11 @@ from __future__ import annotations
 from typing import cast
 
 from yandex_cloud_ml_sdk._chat.base_function import BaseChatFunction, ModelTypeT
+from yandex_cloud_ml_sdk._chat.utils import ModelFilter
 from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
 from .model import AsyncChatModel, ChatModel
-from ..utils import ModelFilter
 
 
 class BaseChatCompletions(BaseChatFunction[ModelTypeT]):

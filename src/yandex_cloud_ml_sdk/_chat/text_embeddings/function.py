@@ -3,10 +3,10 @@ from __future__ import annotations
 from typing import cast
 
 from yandex_cloud_ml_sdk._chat.base_function import BaseChatFunction, ModelTypeT
+from yandex_cloud_ml_sdk._chat.utils import ModelFilter
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
 from .model import AsyncChatEmbeddingsModel, ChatEmbeddingsModel
-from ..utils import ModelFilter
 
 
 class BaseChatEmbeddings(BaseChatFunction[ModelTypeT]):

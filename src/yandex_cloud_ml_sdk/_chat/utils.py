@@ -2,10 +2,13 @@ from __future__ import annotations
 
 from typing import Any, TypedDict
 
-
 class ModelFilter(TypedDict, total=False):
     """
     Options to filter models by owner, version, or fine-tuned status.
+
+    Example:
+
+    >>> filters = {'owner': 'alice', 'version': 'v2', 'fine_tuned': True}
     """
 
     owner: str
