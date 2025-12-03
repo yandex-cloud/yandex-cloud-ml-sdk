@@ -7,6 +7,7 @@ from typing_extensions import override
 from yandex_cloud_ml_sdk._chat.utils import ModelFilter, model_match
 from yandex_cloud_ml_sdk._types.function import BaseModelFunction, ModelTypeT
 
+
 class BaseChatFunction(BaseModelFunction[ModelTypeT]):
     _prefix: str
 

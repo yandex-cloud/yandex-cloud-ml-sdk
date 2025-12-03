@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 from numbers import Number
-from typing import Union, SupportsFloat
+from typing import SupportsFloat, Union
 
 from yandex_cloud_ml_sdk._datasets.dataset import BaseDataset
 from yandex_cloud_ml_sdk._types.datasets import DatasetType

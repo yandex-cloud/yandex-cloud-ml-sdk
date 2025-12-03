@@ -121,3 +121,5 @@ Completions-related types
 .. py:class:: yandex_cloud_ml_sdk._types.tools.tool_choice.ToolChoiceType
 
 .. autodata:: yandex_cloud_ml_sdk._types.tools.tool_choice.ToolChoiceType
+
+.. autotypeddict:: yandex_cloud_ml_sdk._chat.utils.ModelFilter
