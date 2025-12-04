@@ -1,0 +1,37 @@
+from __future__ import annotations
+
+import pytest
+
+from yandex_cloud_ml_sdk._speechkit.enums import PCM16, AudioFormat
+
+
+@pytest.mark.parametrize(
+    'input_,etalon', [
+        ('mp3', AudioFormat.MP3),
+        ('MP3', AudioFormat.MP3),
+        ('wav', AudioFormat.WAV),
+        ('OGG_OPUS', AudioFormat.OGG_OPUS),
+        ('OPUS', AudioFormat.OGG_OPUS),
+        ('PCM16(100)', PCM16(100, 1)),
+        ('PCM16(200, 2)', PCM16(200, 2)),
+        ('PCM16(300,3)', PCM16(300, 3)),
+        ('LINEAR16_PCM(400,4)', PCM16(400, 4)),
+        (AudioFormat.MP3, AudioFormat.MP3),
+        (AudioFormat.PCM16(400), PCM16(400, 1)),
+])
+def test_audio_format_coerce(input_, etalon):
+    assert AudioFormat._coerce(input_) == etalon
+
+
+@pytest.mark.parametrize(
+    'input_,exc_type', [
+        ('mp4', ValueError),
+        ('PCM16', ValueError),
+        ('PCM16()', ValueError),
+        ('PCM16(1,  2)', ValueError),
+        ('PCM16(100, 200, 300)', ValueError),
+        ({}, TypeError),
+])
+def test_audio_format_exception(input_, exc_type):
+    with pytest.raises(exc_type):
+        AudioFormat._coerce(input_)
