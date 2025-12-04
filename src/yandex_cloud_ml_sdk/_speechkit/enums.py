@@ -2,8 +2,8 @@
 from __future__ import annotations
 
 import re
-from typing import Never
 
+from typing_extensions import Never
 from yandex.cloud.ai.tts.v3.tts_pb2 import ContainerAudio
 
 from yandex_cloud_ml_sdk._types.enum import EnumWithUnknownAlias, EnumWithUnknownInput, ProtoBasedEnum, UnknownEnumValue
