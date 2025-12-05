@@ -124,9 +124,11 @@ class ProtoBasedEnum(IntEnum, metaclass=EnumWithUnknownType):
             long_name = name if name.startswith(common_prefix) else common_prefix + name
 
             if result := getattr(cls, name, None):
-                return result
+                if isinstance(result, cls):
+                    return result
             if result := getattr(cls, short_name, None):
-                return result
+                if isinstance(result, cls):
+                    return result
 
             try:
                 # pylint: disable-next=no-member
@@ -138,7 +140,7 @@ class ProtoBasedEnum(IntEnum, metaclass=EnumWithUnknownType):
 
                 # pylint: disable-next=raise-missing-from
                 raise ValueError(
-                    f'wrong value "{value}" for use as an alias for {cls}; known values: {cls.get_available()}'
+                    f'wrong value "{value}" for use as an alias for {cls}; known values: {cls._get_available()}'
                 )
 
         raise TypeError(f'wrong type "{type(value)}" for use as an alias for {cls}')
@@ -148,7 +150,7 @@ class ProtoBasedEnum(IntEnum, metaclass=EnumWithUnknownType):
         return UnknownEnumValue(cls, name, value)
 
     @classmethod
-    def get_available(cls) -> tuple[str, ...]:
+    def _get_available(cls) -> tuple[str, ...]:
         names = (
             name.removeprefix(cls.__common_prefix__)
             for name in cls.__proto_enum_type__.keys()  # pylint: disable=no-member
