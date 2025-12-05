@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import re
-from enum import StrEnum
+from enum import Enum
 from typing import Union
 
 from typing_extensions import Never, TypeAlias
@@ -125,7 +125,7 @@ class EouSensitivity(ProtoBasedEnum):
     HIGH = DefaultEouClassifier.EouSensitivity.HIGH
 
 
-class LanguageCode(StrEnum):
+class LanguageCode(str, Enum):
     __language_code_re__ = re.compile(r'([a-zA-Z]+)[-_]([a-zA-Z]+)$')
 
     #: `Automatic language detection <https://yandex.cloud/docs/speechkit/stt/models#language-labels>`_
