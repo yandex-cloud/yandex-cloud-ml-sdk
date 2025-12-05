@@ -2,9 +2,12 @@
 from __future__ import annotations
 
 import re
+from enum import StrEnum
+from typing import Union
 
-from typing_extensions import Never
-from yandex.cloud.ai.tts.v3.tts_pb2 import ContainerAudio
+from typing_extensions import Never, TypeAlias
+from yandex.cloud.ai.stt.v3.stt_pb2 import DefaultEouClassifier
+from yandex.cloud.ai.tts.v3.tts_pb2 import ContainerAudio, LoudnessNormalizationType
 
 from yandex_cloud_ml_sdk._types.enum import EnumWithUnknownAlias, EnumWithUnknownInput, ProtoBasedEnum, UnknownEnumValue
 
@@ -67,12 +70,16 @@ class AudioFormat(ProtoBasedEnum):
         'OPUS': 'OGG_OPUS',
     }
 
+    #: Data is encoded using MPEG-1/2 Layer III and compressed using the MP3 container format
     MP3 = ContainerAudio.ContainerAudioType.MP3
+    #: Audio bit depth 16-bit signed little-endian (Linear PCM) paked into WAV container format
     WAV = ContainerAudio.ContainerAudioType.WAV
+    #: Data is encoded using the OPUS audio codec and compressed using the OGG container format
     OGG_OPUS = ContainerAudio.ContainerAudioType.OGG_OPUS
 
     @classmethod
     def PCM16(cls, sample_rate_hertz: int, channels: int = 1) -> PCM16:
+        """Audio bit depth 16-bit signed little-endian (Linear PCM)."""
         return PCM16(sample_rate_hertz, channels)
 
     @classmethod
@@ -94,3 +101,84 @@ class AudioFormat(ProtoBasedEnum):
     @classmethod
     def _get_available(cls) -> tuple[str, ...]:
         return super()._get_available() + ('PCM16(<int>)', 'PCM16(<int>, <int>)')
+
+
+class LoudnessNormalization(ProtoBasedEnum):
+    __proto_enum_type__ = LoudnessNormalizationType
+    __common_prefix__ = ''
+    __unspecified_name__ = 'LOUDNESS_NORMALIZATION_TYPE_UNSPECIFIED'
+
+    #: The type of normalization, wherein the gain is changed to bring the highest PCM sample value or analog signal peak to a given level.
+    MAX_PEAK = LoudnessNormalizationType.MAX_PEAK
+    #: The type of normalization based on EBU R 128 recommendation
+    LUFS = LoudnessNormalizationType.LUFS
+
+
+class EouSensitivity(ProtoBasedEnum):
+    __proto_enum_type__ = DefaultEouClassifier.EouSensitivity
+    __common_prefix__ = ''
+    __unspecified_name__ = 'EOU_SENSITIVITY_UNSPECIFIED'
+
+    #: Default and more conservative EOU detector.
+    DEFAULT = DefaultEouClassifier.EouSensitivity.DEFAULT
+    #: A high-sensitive and fast EOU detector, which may produce more false positives
+    HIGH = DefaultEouClassifier.EouSensitivity.HIGH
+
+
+class LanguageCode(StrEnum):
+    __language_code_re__ = re.compile(r'([a-zA-Z]+)[-_]([a-zA-Z]+)$')
+
+    #: `Automatic language detection <https://yandex.cloud/docs/speechkit/stt/models#language-labels>`_
+    auto = 'auto'
+    #: German
+    de_DE = "de-DE"
+    #: English
+    en_US = "en-US"
+    #: Spanish
+    es_ES = "es-ES"
+    #: Finnish
+    fi_FI = "fi-FI"
+    #: French
+    fr_FR = "fr-FR"
+    #: Hebrew
+    he_IL = "he-IL"
+    #: Italian
+    it_IT = "it-IT"
+    #: Kazakh
+    kk_KZ = "kk-KZ"
+    #: Dutch
+    nl_NL = "nl-NL"
+    #: Polish
+    pl_PL = "pl-PL"
+    #: Portuguese
+    pt_PT = "pt-PT"
+    #: Brazilian Portuguese
+    pt_BR = "pt-BR"
+    #: Russian (default)
+    ru_RU = "ru-RU"
+    #: Swedish
+    sv_SE = "sv-SE"
+    #: Turkish
+    tr_TR = "tr-TR"
+    #: Uzbek (Latin script)
+    uz_UZ = "uz-UZ"
+
+    @classmethod
+    def _coerce_to_str(
+        cls: type[LanguageCode],
+        value: LanguageCodeInputType,
+    ) -> str:
+        if isinstance(value, LanguageCode):
+            return value.value
+
+        if not isinstance(value, str):
+            raise TypeError(f'{value=} for language code is not a string nor LanguageCode enum value')
+        # pylint: disable-next=no-member
+        if match := cls.__language_code_re__.match(value):
+            first, second = match.groups()
+            return f'{first.lower()}-{second.upper()}'
+
+        raise ValueError(f'failed to parse language code string {value!r}')
+
+
+LanguageCodeInputType: TypeAlias = Union[str, LanguageCode]
