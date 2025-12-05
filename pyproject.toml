@@ -249,6 +249,7 @@ exclude-protected=[
     "_proto_result_type",
     "_proto_field_name",
     "_coerce",
+    "_coerce_to_str",
     "_validate_configure",
     "_validate_run",
     "_canonize",
