@@ -15,7 +15,9 @@ class BaseModelConfig:
         pass
 
     def _replace(self, **kwargs: Any) -> Self:
-        return replace(self, **kwargs)
+        new_config = replace(self, **kwargs)
+        new_config._validate_configure()
+        return new_config
 
     def _asdict(self):
         return asdict(self)

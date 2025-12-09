@@ -83,7 +83,6 @@ class BaseModel(Generic[ConfigTypeT, ResultTypeT], metaclass=abc.ABCMeta):
             if not isinstance(v, Undefined)
         }
         new_config = self._config._replace(**kwargs)
-        new_config._validate_configure()
         return self.__class__(
             sdk=self._sdk,
             uri=self._uri,

@@ -10,12 +10,77 @@ from yandex_cloud_ml_sdk._types.result import BaseProtoResult, SDKType
 
 
 @dataclass(frozen=True)
+class TextToSpeechChunk:
+    data: bytes
+    text: str
+    start_ms: int
+    length_ms: int
+
+    @property
+    def end_ms(self) -> int:
+        return self.start_ms + self.length_ms
+
+    @property
+    def size_bytes(self) -> int:
+        return len(self.data)
+
+    def __str__(self) -> str:
+        return (
+            f'{self.__class__.__name__}'
+            '<'
+            f'data=b"...", '
+            f'text={self.text!r}, '
+            f'segment=[{self.start_ms}, {self.end_ms}], '
+            f'length_ms={self.length_ms}, '
+            f'size_bytes={self.size_bytes}'
+            '>'
+        )
+
+    def __repr__(self) -> str:
+        return self.__str__()
+
+
+@dataclass(frozen=True)
 class TextToSpeechResult(BaseProtoResult[None]):
     """A class representing the partially parsed result of a Web search request
     with XML format.
     """
 
+    chunks: tuple[TextToSpeechResult]
+
     @override
     @classmethod
     def _from_proto(cls, *, proto: UtteranceSynthesisResponse, sdk: SDKType) -> Self:
-        return cls()
+        chunk = TextToSpeechChunk(
+            data=proto.audio_chunk.data,
+            text=proto.text_chunk.text,
+            start_ms=proto.start_ms,
+            length_ms=proto.length_ms,
+        )
+        return cls(
+            chunks=(chunk, )
+        )
+
+    @property
+    def data(self) -> bytes:
+        return b''.join(chunk.data for chunk in self.chunks)
+
+    @property
+    def text(self) -> str:
+        return ' '.join(chunk.text for chunk in self.chunks)
+
+    @property
+    def start_ms(self) -> int:
+        return self.chunks[0].start_ms
+
+    @property
+    def length_ms(self) -> int:
+        return sum(chunk.length_ms for chunk in self.chunks)
+
+    @property
+    def end_ms(self) -> int:
+        return self.start_ms + self.length_ms
+
+    @property
+    def size_bytes(self) -> int:
+        return sum(chunk.size_bytes for chunk in self.chunks)
