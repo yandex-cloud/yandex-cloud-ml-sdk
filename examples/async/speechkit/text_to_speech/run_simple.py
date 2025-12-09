@@ -20,23 +20,20 @@ async def main() -> None:
     sdk.setup_default_logging()
 
     output_device_id = choose_audio_device('out')
-    audio_out = AsyncAudioOut(device_id=output_device_id, samplerate=22050)
 
     tts = sdk.speechkit.text_to_speech(
         voice='kirill',
-        audio_format='PCM16(22050)'
+        audio_format='PCM16(44100)'
     )
 
     query = input('Enter the text to synthesize: ')
     if not query.strip():
         query = 'Yandex Cloud'
 
-    async with audio_out:
+    async with AsyncAudioOut(device_id=output_device_id, samplerate=44100) as out:
         async for chunk in tts.run_chunked(query):
-            await audio_out.write(chunk.data)
+            await out.write(chunk.data)
             print(chunk)
-
-    await asyncio.sleep(10)
 
 
 if __name__ == '__main__':
