@@ -1,13 +1,16 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from typing_extensions import Self, override
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.ai.tts.v3.tts_pb2 import UtteranceSynthesisResponse
 
-from yandex_cloud_ml_sdk._types.result import BaseProtoResult, SDKType
+from yandex_cloud_ml_sdk._types.request import RequestDetails
+from yandex_cloud_ml_sdk._types.result import BaseProtoModelResult, SDKType
+
+from .config import TextToSpeechConfig
 
 
 @dataclass(frozen=True)
@@ -42,18 +45,19 @@ class TextToSpeechChunk:
 
 
 @dataclass(frozen=True)
-class TextToSpeechResult(BaseProtoResult[UtteranceSynthesisResponse]):
+class TextToSpeechResult(BaseProtoModelResult[UtteranceSynthesisResponse, RequestDetails[TextToSpeechConfig]]):
     """A class representing the partially parsed result of a Web search request
     with XML format.
     """
 
     chunks: tuple[TextToSpeechChunk, ...]
+    _request_details: RequestDetails[TextToSpeechConfig] = field(repr=False)
 
     # NB: classmethod and override in opposite order breaking Jedi autocompletion
     @classmethod
     @override
     # pylint: disable-next=unused-argument
-    def _from_proto(cls, *, proto: UtteranceSynthesisResponse, sdk: SDKType) -> Self:
+    def _from_proto(cls, *, proto: UtteranceSynthesisResponse, sdk: SDKType, ctx: RequestDetails[TextToSpeechConfig]) -> Self:
         chunk = TextToSpeechChunk(
             data=proto.audio_chunk.data,
             text=proto.text_chunk.text,
@@ -61,12 +65,19 @@ class TextToSpeechResult(BaseProtoResult[UtteranceSynthesisResponse]):
             length_ms=proto.length_ms,
         )
         return cls(
-            chunks=(chunk, )
+            chunks=(chunk, ),
+            _request_details=ctx,
         )
 
     @classmethod
-    # pylint: disable-next=unused-argument
-    def _from_proto_iterable(cls, *, proto: Iterable[UtteranceSynthesisResponse], sdk: SDKType) -> Self:
+    def _from_proto_iterable(
+        cls,
+        *,
+        proto: Iterable[UtteranceSynthesisResponse],
+        # pylint: disable-next=unused-argument
+        sdk: SDKType,
+        ctx: RequestDetails[TextToSpeechConfig]
+    ) -> Self:
         chunks = (
             TextToSpeechChunk(
                 data=p.audio_chunk.data,
@@ -76,7 +87,8 @@ class TextToSpeechResult(BaseProtoResult[UtteranceSynthesisResponse]):
             ) for p in proto
         )
         return cls(
-            chunks=tuple(chunks)
+            chunks=tuple(chunks),
+            _request_details=ctx
         )
 
 

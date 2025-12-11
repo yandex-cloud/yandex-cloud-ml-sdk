@@ -22,7 +22,7 @@ from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
 from .config import TextToSpeechConfig
-from .result import TextToSpeechResult
+from .result import RequestDetails, TextToSpeechResult
 
 logger = get_logger(__name__)
 
@@ -134,6 +134,7 @@ class BaseTextToSpeech(
         return self._result_type._from_proto_iterable(
             proto=chunks,
             sdk=self._sdk,
+            ctx=RequestDetails(model_config=self.config, timeout=timeout)
         )
 
     @override
@@ -156,7 +157,11 @@ class BaseTextToSpeech(
         """
 
         async for proto in self._run_impl(input=input, timeout=timeout):
-            yield self._result_type._from_proto(proto=proto, sdk=self._sdk)
+            yield self._result_type._from_proto(
+                proto=proto,
+                sdk=self._sdk,
+                ctx=RequestDetails(model_config=self.config, timeout=timeout),
+            )
 
     async def _run_impl(
         self,
