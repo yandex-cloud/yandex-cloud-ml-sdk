@@ -9,9 +9,10 @@ class ModelFilter(TypedDict, total=False):
 
     Example:
 
-    >>> filters = {'owner': 'alice', 'version': 'v2', 'fine_tuned': True}
+    >>> filters = {'name': 'my-model', 'owner': 'alice', 'version': 'v2', 'fine_tuned': True}
     """
 
+    name: str
     owner: str
     version: str
     fine_tuned: bool
