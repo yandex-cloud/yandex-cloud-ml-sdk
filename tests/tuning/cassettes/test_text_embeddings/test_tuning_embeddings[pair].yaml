@@ -1,0 +1,48 @@
+interactions:
+- request:
+    body: '{"anchor": "hello", "positive": "hi"}
+
+      '
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '38'
+      Host:
+      - storage.yandexcloud.net
+      User-Agent:
+      - yandex-cloud-ml-sdk/0.17.1 python/3.10
+      x-client-request-id:
+      - 8f954679-2453-475a-97f6-88eebeb07649
+    method: PUT
+    uri: https://storage.yandexcloud.net/ai-fomo-drafts-prod/b1ge6b3ojkeeciv997a8/fdshp9a6b8oe8k4b4t36?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20251211T021854Z&X-Amz-SignedHeaders=content-length%3Bhost&X-Amz-Expires=86400&X-Amz-Credential=YCAJE_WuJJ9D1r6huCoc8I3yO%2F20251211%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=568521b5256f723577265316ce648065fd9a517dd6157fd9949952dc9b3ef2b2
+  response:
+    body:
+      string: ''
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/octet-stream
+      Date:
+      - Thu, 11 Dec 2025 02:18:54 GMT
+      Etag:
+      - '"cd29bc09a2b0429ebcb1caa85bac97d2"'
+      Keep-Alive:
+      - timeout=60
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Amz-Expiration:
+      - expiry-date="Sun, 11 Jan 2026 00:00:00 GMT", rule-id="DatasetDraftLifecycleRule"
+      X-Amz-Request-Id:
+      - ccab76181ffc9e27
+    status:
+      code: 200
+      message: OK
+version: 1

@@ -4,6 +4,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 from typing import cast
 
+from google.protobuf.wrappers_pb2 import Int64Value
 from typing_extensions import Self, override
 from yandex.cloud.ai.foundation_models.v1.embedding.embedding_service_pb2 import (
     TextEmbeddingRequest, TextEmbeddingResponse
@@ -11,7 +12,7 @@ from yandex.cloud.ai.foundation_models.v1.embedding.embedding_service_pb2 import
 from yandex.cloud.ai.foundation_models.v1.embedding.embedding_service_pb2_grpc import EmbeddingsServiceStub
 
 from yandex_cloud_ml_sdk._tuning.tuning_task import AsyncTuningTask, TuningTask, TuningTaskTypeT
-from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr
+from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_cloud_ml_sdk._types.model import ModelSyncMixin, ModelTuneMixin
 from yandex_cloud_ml_sdk._types.tuning.datasets import TuningDatasetsType
 from yandex_cloud_ml_sdk._types.tuning.optimizers import BaseOptimizer
@@ -46,21 +47,29 @@ class BaseTextEmbeddingsModel(
     # pylint: disable=useless-parent-delegation,arguments-differ
     def configure(  # type: ignore[override]
         self,
+        *,
+        dimensions: UndefinedOr[int] = UNDEFINED,
     ) -> Self:
         """
         This method calls the parent class's configure method and
         returns the configured model instance.
+
+        :param dimensions: the dimensions of output vector
         """
-        return super().configure()
+        return super().configure(dimensions=dimensions)
 
     def _make_request(
         self,
         *,
         text: str,
+        dimensions: UndefinedOr[int],
     ) -> TextEmbeddingRequest:
+        dim = get_defined_value(dimensions, self._config.dimensions)
+        dim_msg = Int64Value(value=dim) if dim is not None else None
         return TextEmbeddingRequest(
             model_uri=self._uri,
             text=text,
+            dim=dim_msg,
         )
 
     @override
@@ -69,10 +78,12 @@ class BaseTextEmbeddingsModel(
         self,
         text: str,
         *,
-        timeout=60,
+        timeout,
+        dimensions: UndefinedOr[int]
     ) -> TextEmbeddingsModelResult:
         request = self._make_request(
             text=text,
+            dimensions=dimensions
         )
         async with self._client.get_service_stub(EmbeddingsServiceStub, timeout=timeout) as stub:
             response = await self._client.call_service(
@@ -92,16 +103,19 @@ class AsyncTextEmbeddingsModel(BaseTextEmbeddingsModel):
         text: str,
         *,
         timeout=60,
+        dimensions: UndefinedOr[int] = UNDEFINED,
     ) -> TextEmbeddingsModelResult:
         """Run the model to generate text embeddings.
 
         :param text: the input text for which embeddings are to be generated.
         :param timeout: the timeout, or the maximum time to wait for the request to complete in seconds.
             Defaults to 60 seconds.
+        :param dimensions: the dimensions of output vector
         """
         return await self._run(
             text=text,
-            timeout=timeout
+            timeout=timeout,
+            dimensions=dimensions
         )
 
     # pylint: disable=too-many-locals
@@ -255,10 +269,12 @@ class TextEmbeddingsModel(BaseTextEmbeddingsModel):
         text: str,
         *,
         timeout=60,
+        dimensions: UndefinedOr[int] = UNDEFINED,
     ) -> TextEmbeddingsModelResult:
         return self.__run(
             text=text,
-            timeout=timeout
+            timeout=timeout,
+            dimensions=dimensions
         )
 
     # pylint: disable=too-many-locals
