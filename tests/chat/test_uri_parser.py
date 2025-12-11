@@ -46,7 +46,7 @@ async def test_filter(async_sdk, monkeypatch, models):
         return models
 
     monkeypatch.setattr(completions, "_fetch_raw_models", fake_fetch_raw_models.__get__(completions))
-    filters = {'owner': 'alice', 'version': 'v2', 'fine_tuned': True}
+    filters = {'name': 'alice-model', 'owner': 'alice', 'version': 'v2', 'fine_tuned': True}
 
     res = await completions.list(filters=filters)
 
