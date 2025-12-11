@@ -48,7 +48,7 @@ class AsyncAudioOut:
 
         self._stopped = asyncio.Event()
         self._loop: asyncio.AbstractEventLoop | None = None
-        self._queue: asyncio.Queue[np.ndarray] | None = None
+        self._queue: asyncio.Queue[np.ndarray | None] | None = None
         self._stream: sd.OutputStream | None = None
         self._write_lock = asyncio.Lock()
         self._start_lock = asyncio.Lock()
@@ -91,6 +91,7 @@ class AsyncAudioOut:
             outdata.fill(0)
             return
 
+        assert self._loop
         try:
             chunk = queue.get_nowait()
             if chunk is None:
@@ -111,8 +112,10 @@ class AsyncAudioOut:
         exc_value: BaseException | None,
         traceback: types.TracebackType | None
     ) -> bool | None:
+        queue = self._queue
         async with self._start_lock:
-            await self._queue.put(None)
+            if queue:
+                await queue.put(None)
             try:
                 await self._stopped.wait()
             finally:
@@ -144,7 +147,7 @@ class AsyncAudioOut:
             for i in range(0, payload_size, chunk_size):
                 end = min((payload_size, i + chunk_size))
                 chunk = pcm_16[i:end].ljust(chunk_size, b'\x00')
-                array = np.frombuffer(chunk, dtype=DTYPE)  # type: ignore[arg-type]\
+                array = np.frombuffer(chunk, dtype=DTYPE)  # type: ignore[arg-type]
                 await queue.put(array.reshape(-1, 1))
 
 

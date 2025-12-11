@@ -1,7 +1,7 @@
 # pylint: disable=arguments-renamed,no-name-in-module,protected-access,redefined-builtin
 from __future__ import annotations
 
-from collections.abc import AsyncGenerator, Generator
+from collections.abc import AsyncIterator, Iterator
 from typing import TypeVar
 
 from typing_extensions import Self, override
@@ -12,10 +12,12 @@ from yandex.cloud.ai.tts.v3.tts_pb2 import (
 from yandex.cloud.ai.tts.v3.tts_service_pb2_grpc import SynthesizerStub
 
 from yandex_cloud_ml_sdk._logging import get_logger
-from yandex_cloud_ml_sdk._speechkit.enums import PCM16, AudioFormat, LoudnessNormalization
+from yandex_cloud_ml_sdk._speechkit.enums import PCM16
+from yandex_cloud_ml_sdk._speechkit.enums import AudioFormat as AudioFormat_
+from yandex_cloud_ml_sdk._speechkit.enums import LoudnessNormalization as LoudnessNormalization_
 from yandex_cloud_ml_sdk._types.enum import UndefinedOrEnumWithUnknownInput
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr
-from yandex_cloud_ml_sdk._types.model import ModelSyncMixin
+from yandex_cloud_ml_sdk._types.model import ModelSyncMixin, ModelSyncStreamMixin
 from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
@@ -27,10 +29,14 @@ logger = get_logger(__name__)
 
 class BaseTextToSpeech(
     ModelSyncMixin[TextToSpeechConfig, TextToSpeechResult],
+    ModelSyncStreamMixin[TextToSpeechConfig, TextToSpeechResult],
 ):
     """Text to Speech class which provides concrete methods for working with SpeechKit TTS API
     and incapsulates sintesis setting.
     """
+
+    AudioFormat = AudioFormat_
+    LoudnessNormalization = LoudnessNormalization_
 
     _config_type = TextToSpeechConfig
     _result_type = TextToSpeechResult
@@ -40,8 +46,8 @@ class BaseTextToSpeech(
     def configure(  # type: ignore[override]
         self,
         *,
-        loudness_normalization: UndefinedOrEnumWithUnknownInput[LoudnessNormalization] | None = UNDEFINED,
-        audio_format: UndefinedOrEnumWithUnknownInput[AudioFormat] | None = UNDEFINED,
+        loudness_normalization: UndefinedOrEnumWithUnknownInput[LoudnessNormalization_] | None = UNDEFINED,
+        audio_format: UndefinedOrEnumWithUnknownInput[AudioFormat_] | None = UNDEFINED,
         model: UndefinedOr[str] | None = UNDEFINED,
         voice: UndefinedOr[str] | None = UNDEFINED,
         role: UndefinedOr[str] | None = UNDEFINED,
@@ -51,6 +57,7 @@ class BaseTextToSpeech(
         duration_ms: UndefinedOr[int] | None = UNDEFINED,
         duration_min_ms: UndefinedOr[int] | None = UNDEFINED,
         duration_max_ms: UndefinedOr[int] | None = UNDEFINED,
+        single_chunk_mode: UndefinedOr[bool] | None = UNDEFINED,
     ) -> Self:
         """
         Returns the new object with config fields overrode by passed values.
@@ -76,7 +83,10 @@ class BaseTextToSpeech(
         :param pitch_shift: Pitch adjustment, in Hz, range [-1000, 1000], default 0.
         :param duration_ms: Limit audio duration to exact value.
         :param duration_min_ms: Limit the minimum audio duration.
-        :param duration_max_ms: Limit the maximum audio duration
+        :param duration_max_ms: Limit the maximum audio duration.
+        :param single_chunk_mode: Automatically split long text to several utterances and bill accordingly.
+            Some degradation in service quality is possible
+
         """
 
         return super().configure(
@@ -91,6 +101,7 @@ class BaseTextToSpeech(
             duration_ms=duration_ms,
             duration_min_ms=duration_min_ms,
             duration_max_ms=duration_max_ms,
+            single_chunk_mode=single_chunk_mode,
         )
 
     @override
@@ -118,17 +129,20 @@ class BaseTextToSpeech(
         :returns: synthesis result; joined in case of >1 chunks in synthesis response.
         """
 
-        return self._result_type._from_proto(
-            proto=None,
+        chunks = [chunk async for chunk in self._run_impl(input=input, timeout=timeout)]
+
+        return self._result_type._from_proto_iterable(
+            proto=chunks,
             sdk=self._sdk,
         )
 
-    async def _run_chunked(
+    @override
+    async def _run_stream(
         self,
         input: str,
         *,
         timeout: float = 60,
-    ) -> AsyncGenerator[TextToSpeechResult]:
+    ) -> AsyncIterator[TextToSpeechResult]:
         """Run a speech synthesis for given text at `input`; method have an iterator return.
 
         To change initial search settings use ``.configure`` method:
@@ -141,6 +155,15 @@ class BaseTextToSpeech(
         :returns: synthesis result; joined in case of >1 chunks in synthesis response.
         """
 
+        async for proto in self._run_impl(input=input, timeout=timeout):
+            yield self._result_type._from_proto(proto=proto, sdk=self._sdk)
+
+    async def _run_impl(
+        self,
+        *,
+        input: str,
+        timeout: float,
+    ) -> AsyncIterator[UtteranceSynthesisResponse]:
         c = self._config
         c._validate_run()
 
@@ -183,13 +206,13 @@ class BaseTextToSpeech(
         # NB: audio_template hint is not used
 
         request = UtteranceSynthesisRequest(
-            model=c.model,
+            model=c.model or '',
             text=input,
             text_template=None,
             loudness_normalization_type=c.loudness_normalization,  # type: ignore[arg-type]
             hints=hints,
             output_audio_spec=output_audio_spec,
-            unsafe_mode=False,
+            unsafe_mode=not c.single_chunk_mode,
         )
         async with self._client.get_service_stub(SynthesizerStub, timeout=timeout) as stub:
             async for response in self._client.call_service_stream(
@@ -198,10 +221,9 @@ class BaseTextToSpeech(
                 timeout=timeout,
                 expected_type=UtteranceSynthesisResponse,
             ):
-                yield self._result_type._from_proto(proto=response, sdk=self._sdk)
+                yield response
 
 
-@doc_from(BaseTextToSpeech)
 class AsyncTextToSpeech(BaseTextToSpeech):
     @doc_from(BaseTextToSpeech._run)
     async def run(
@@ -212,21 +234,20 @@ class AsyncTextToSpeech(BaseTextToSpeech):
     ) -> TextToSpeechResult:
         return await self._run(input=input, timeout=timeout)
 
-    @doc_from(BaseTextToSpeech._run_chunked)
-    async def run_chunked(
+    async def run_stream(
         self,
         input: str,
         *,
         timeout: float = 60
-    ) -> AsyncGenerator[TextToSpeechResult]:
-        async for chunk in self._run_chunked(input=input, timeout=timeout):
+    ) -> AsyncIterator[TextToSpeechResult]:
+        async for chunk in self._run_stream(input=input, timeout=timeout):
             yield chunk
 
 
 @doc_from(BaseTextToSpeech)
 class TextToSpeech(BaseTextToSpeech):
     __run = run_sync(BaseTextToSpeech._run)
-    __run_chunked = run_sync_generator(BaseTextToSpeech._run_chunked)
+    __run_stream = run_sync_generator(BaseTextToSpeech._run_stream)
 
     @doc_from(BaseTextToSpeech._run)
     def run(
@@ -237,14 +258,14 @@ class TextToSpeech(BaseTextToSpeech):
     ):
         return self.__run(input=input, timeout=timeout)
 
-    @doc_from(BaseTextToSpeech._run_chunked)
-    def run_chunked(
+    @doc_from(BaseTextToSpeech._run_stream)
+    def run_stream(
         self,
         input: str,
         *,
         timeout: float = 60
-    ) -> Generator[TextToSpeechResult, None]:
-        yield from self.__run_chunked(input=input, timeout=timeout)
+    ) -> Iterator[TextToSpeechResult]:
+        yield from self.__run_stream(input=input, timeout=timeout)
 
 
 TextToSpeechTypeT = TypeVar('TextToSpeechTypeT', bound=BaseTextToSpeech)

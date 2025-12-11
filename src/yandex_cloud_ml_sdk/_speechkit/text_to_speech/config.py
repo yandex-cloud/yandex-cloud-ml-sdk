@@ -38,6 +38,11 @@ class TextToSpeechConfig(BaseModelConfig):
     #: Limit the maximum audio duration
     duration_max_ms: int | None = None
 
+    #: :meta private:
+    #: Automatically split long text to several utterances and bill accordingly.
+    #: Some degradation in service quality is possible
+    single_chunk_mode: bool = False
+
     @override
     def _replace(self, **kwargs: Any) -> Self:
         enum: type[ProtoBasedEnum]

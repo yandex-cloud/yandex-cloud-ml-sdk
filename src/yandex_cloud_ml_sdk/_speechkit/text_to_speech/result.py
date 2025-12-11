@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass
 
 from typing_extensions import Self, override
@@ -41,15 +42,17 @@ class TextToSpeechChunk:
 
 
 @dataclass(frozen=True)
-class TextToSpeechResult(BaseProtoResult[None]):
+class TextToSpeechResult(BaseProtoResult[UtteranceSynthesisResponse]):
     """A class representing the partially parsed result of a Web search request
     with XML format.
     """
 
-    chunks: tuple[TextToSpeechResult]
+    chunks: tuple[TextToSpeechChunk, ...]
 
-    @override
+    # NB: classmethod and override in opposite order breaking Jedi autocompletion
     @classmethod
+    @override
+    # pylint: disable-next=unused-argument
     def _from_proto(cls, *, proto: UtteranceSynthesisResponse, sdk: SDKType) -> Self:
         chunk = TextToSpeechChunk(
             data=proto.audio_chunk.data,
@@ -60,6 +63,22 @@ class TextToSpeechResult(BaseProtoResult[None]):
         return cls(
             chunks=(chunk, )
         )
+
+    @classmethod
+    # pylint: disable-next=unused-argument
+    def _from_proto_iterable(cls, *, proto: Iterable[UtteranceSynthesisResponse], sdk: SDKType) -> Self:
+        chunks = (
+            TextToSpeechChunk(
+                data=p.audio_chunk.data,
+                text=p.text_chunk.text,
+                start_ms=p.start_ms,
+                length_ms=p.length_ms,
+            ) for p in proto
+        )
+        return cls(
+            chunks=tuple(chunks)
+        )
+
 
     @property
     def data(self) -> bytes:

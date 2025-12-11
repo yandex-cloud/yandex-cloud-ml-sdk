@@ -32,6 +32,7 @@ class BaseTextToSpeechFunction(BaseModelFunction[TextToSpeechTypeT]):
         duration_ms: UndefinedOr[int] = UNDEFINED,
         duration_min_ms: UndefinedOr[int] = UNDEFINED,
         duration_max_ms: UndefinedOr[int] = UNDEFINED,
+        single_chunk_mode: UndefinedOr[bool] = UNDEFINED,
     ) -> TextToSpeechTypeT:
         """
         Creates TextToSpeech object with provides methods for voice synthesizing.
@@ -56,6 +57,8 @@ class BaseTextToSpeechFunction(BaseModelFunction[TextToSpeechTypeT]):
         :param duration_ms: Limit audio duration to exact value.
         :param duration_min_ms: Limit the minimum audio duration.
         :param duration_max_ms: Limit the maximum audio duration
+        :param single_chunk_mode: Automatically split long text to several utterances and bill accordingly.
+            Some degradation in service quality is possible
         """
 
         tts = self._model_type(sdk=self._sdk, uri='<speechkit>')
@@ -72,6 +75,7 @@ class BaseTextToSpeechFunction(BaseModelFunction[TextToSpeechTypeT]):
             duration_ms=duration_ms,
             duration_min_ms=duration_min_ms,
             duration_max_ms=duration_max_ms,
+            single_chunk_mode=single_chunk_mode,
         )
 
 
