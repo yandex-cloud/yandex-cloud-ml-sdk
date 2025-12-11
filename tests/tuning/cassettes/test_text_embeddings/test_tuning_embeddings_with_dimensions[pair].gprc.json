@@ -473,7 +473,7 @@
                 "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
                 "message": {
                     "name": "pair",
-                    "folderId": "b1ge6b3ojkeeciv997a8",
+                    "folderId": "yc.fomo.storage.prod.service",
                     "taskType": "TextEmbeddingsPair",
                     "uploadFormat": "jsonlines"
                 }
@@ -482,17 +482,17 @@
                 "cls": "CreateDatasetResponse",
                 "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
                 "message": {
-                    "datasetId": "fdslf6nramsq5d3teqp8",
+                    "datasetId": "fdsgk8h7f8gul1orm6m1",
                     "dataset": {
-                        "datasetId": "fdslf6nramsq5d3teqp8",
-                        "folderId": "b1ge6b3ojkeeciv997a8",
+                        "datasetId": "fdsgk8h7f8gul1orm6m1",
+                        "folderId": "yc.fomo.storage.prod.service",
                         "name": "pair",
                         "status": "DRAFT",
                         "taskType": "TextEmbeddingsPair",
-                        "createdAt": "2025-12-11T05:32:08Z",
-                        "updatedAt": "2025-12-11T05:32:08Z",
-                        "createdById": "ajehag94oj1rgiu9sm5n",
-                        "createdBy": "ajehag94oj1rgiu9sm5n"
+                        "createdAt": "2025-12-11T07:52:21Z",
+                        "updatedAt": "2025-12-11T07:52:21Z",
+                        "createdById": "ajeu5kkmrehvehhli02e",
+                        "createdBy": "ajeu5kkmrehvehhli02e"
                     }
                 }
             }
@@ -502,7 +502,7 @@
                 "cls": "GetUploadDraftUrlRequest",
                 "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
                 "message": {
-                    "datasetId": "fdslf6nramsq5d3teqp8",
+                    "datasetId": "fdsgk8h7f8gul1orm6m1",
                     "sizeBytes": "38"
                 }
             },
@@ -510,8 +510,8 @@
                 "cls": "GetUploadDraftUrlResponse",
                 "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
                 "message": {
-                    "datasetId": "fdslf6nramsq5d3teqp8",
-                    "uploadUrl": "https://storage.yandexcloud.net/ai-fomo-drafts-prod/b1ge6b3ojkeeciv997a8/fdslf6nramsq5d3teqp8?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20251211T053208Z&X-Amz-SignedHeaders=content-length%3Bhost&X-Amz-Expires=86400&X-Amz-Credential=YCAJE_WuJJ9D1r6huCoc8I3yO%2F20251211%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=a2b66e7428f2a736ef430f82544410b57c6e6917e87a3b6040facbcf9fc2abcb"
+                    "datasetId": "fdsgk8h7f8gul1orm6m1",
+                    "uploadUrl": "https://storage.yandexcloud.net/ai-fomo-drafts-prod/yc.fomo.storage.prod.service/fdsgk8h7f8gul1orm6m1?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20251211T075222Z&X-Amz-SignedHeaders=content-length%3Bhost&X-Amz-Expires=86399&X-Amz-Credential=YCAJE_WuJJ9D1r6huCoc8I3yO%2F20251211%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=b24d0090226eb8852a40faa7a1fca6d7228b9698089e35e1e5003d84e902d68c"
                 }
             }
         },
@@ -520,16 +520,16 @@
                 "cls": "ValidateDatasetRequest",
                 "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
                 "message": {
-                    "datasetId": "fdslf6nramsq5d3teqp8"
+                    "datasetId": "fdsgk8h7f8gul1orm6m1"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fdso6aujrdnngr557pmj",
-                    "createdAt": "2025-12-11T05:32:08Z",
-                    "modifiedAt": "2025-12-11T05:32:08Z"
+                    "id": "fdsvaef2s72kfom6cnfe",
+                    "createdAt": "2025-12-11T07:52:22Z",
+                    "modifiedAt": "2025-12-11T07:52:22Z"
                 }
             }
         },
@@ -538,16 +538,16 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fdso6aujrdnngr557pmj"
+                    "operationId": "fdsvaef2s72kfom6cnfe"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fdso6aujrdnngr557pmj",
-                    "createdAt": "2025-12-11T05:32:08Z",
-                    "modifiedAt": "2025-12-11T05:32:09Z"
+                    "id": "fdsvaef2s72kfom6cnfe",
+                    "createdAt": "2025-12-11T07:52:22Z",
+                    "modifiedAt": "2025-12-11T07:52:22Z"
                 }
             }
         },
@@ -556,19 +556,19 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fdso6aujrdnngr557pmj"
+                    "operationId": "fdsvaef2s72kfom6cnfe"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fdso6aujrdnngr557pmj",
-                    "createdAt": "2025-12-11T05:32:08Z",
-                    "modifiedAt": "2025-12-11T05:32:43Z",
+                    "id": "fdsvaef2s72kfom6cnfe",
+                    "createdAt": "2025-12-11T07:52:22Z",
+                    "modifiedAt": "2025-12-11T07:52:56Z",
                     "metadata": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.dataset.v1.ValidateDatasetMetadata",
-                        "datasetId": "fdslf6nramsq5d3teqp8",
+                        "datasetId": "fdsgk8h7f8gul1orm6m1",
                         "validRows": "1",
                         "processedRows": "1",
                         "totalRows": "1"
@@ -581,27 +581,27 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "fdso6aujrdnngr557pmj"
+                    "operationId": "fdsvaef2s72kfom6cnfe"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "fdso6aujrdnngr557pmj",
-                    "createdAt": "2025-12-11T05:32:08Z",
-                    "modifiedAt": "2025-12-11T05:33:47Z",
+                    "id": "fdsvaef2s72kfom6cnfe",
+                    "createdAt": "2025-12-11T07:52:22Z",
+                    "modifiedAt": "2025-12-11T07:53:34Z",
                     "done": true,
                     "metadata": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.dataset.v1.ValidateDatasetMetadata",
-                        "datasetId": "fdslf6nramsq5d3teqp8",
+                        "datasetId": "fdsgk8h7f8gul1orm6m1",
                         "validRows": "1",
                         "processedRows": "1",
                         "totalRows": "1"
                     },
                     "response": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.dataset.v1.ValidateDatasetResponse",
-                        "datasetId": "fdslf6nramsq5d3teqp8",
+                        "datasetId": "fdsgk8h7f8gul1orm6m1",
                         "isValid": true
                     }
                 }
@@ -612,7 +612,7 @@
                 "cls": "DescribeDatasetRequest",
                 "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
                 "message": {
-                    "datasetId": "fdslf6nramsq5d3teqp8"
+                    "datasetId": "fdsgk8h7f8gul1orm6m1"
                 }
             },
             "response": {
@@ -620,17 +620,17 @@
                 "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
                 "message": {
                     "dataset": {
-                        "datasetId": "fdslf6nramsq5d3teqp8",
-                        "folderId": "b1ge6b3ojkeeciv997a8",
+                        "datasetId": "fdsgk8h7f8gul1orm6m1",
+                        "folderId": "yc.fomo.storage.prod.service",
                         "name": "pair",
                         "status": "READY",
                         "taskType": "TextEmbeddingsPair",
-                        "createdAt": "2025-12-11T05:32:08Z",
-                        "updatedAt": "2025-12-11T05:32:44Z",
+                        "createdAt": "2025-12-11T07:52:21Z",
+                        "updatedAt": "2025-12-11T07:52:57Z",
                         "rows": "1",
                         "sizeBytes": "2017",
-                        "createdById": "ajehag94oj1rgiu9sm5n",
-                        "createdBy": "ajehag94oj1rgiu9sm5n"
+                        "createdById": "ajeu5kkmrehvehhli02e",
+                        "createdBy": "ajeu5kkmrehvehhli02e"
                     }
                 }
             }
@@ -640,16 +640,16 @@
                 "cls": "TuningRequest",
                 "module": "yandex.cloud.ai.tuning.v1.tuning_service_pb2",
                 "message": {
-                    "baseModelUri": "emb://b1ge6b3ojkeeciv997a8/text-embeddings/latest",
+                    "baseModelUri": "emb://yc.fomo.storage.prod.service/text-embeddings/latest",
                     "trainDatasets": [
                         {
-                            "datasetId": "fdslf6nramsq5d3teqp8",
+                            "datasetId": "fdsgk8h7f8gul1orm6m1",
                             "weight": 1.0
                         }
                     ],
                     "validationDatasets": [
                         {
-                            "datasetId": "fdslf6nramsq5d3teqp8",
+                            "datasetId": "fdsgk8h7f8gul1orm6m1",
                             "weight": 1.0
                         }
                     ],
@@ -666,12 +666,12 @@
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "ftn18ngvettel41mm7r9",
-                    "createdAt": "2025-12-11T05:34:10Z",
-                    "modifiedAt": "2025-12-11T05:34:10Z",
+                    "id": "ftnuodeguc5vo45h1ni1",
+                    "createdAt": "2025-12-11T07:54:24Z",
+                    "modifiedAt": "2025-12-11T07:54:24Z",
                     "metadata": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.tuning.v1.TuningMetadata",
-                        "tuningTaskId": "ftn18ngvettel41mm7r9",
+                        "tuningTaskId": "ftnuodeguc5vo45h1ni1",
                         "status": "CREATED"
                     }
                 }
@@ -682,19 +682,19 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "ftn18ngvettel41mm7r9"
+                    "operationId": "ftnuodeguc5vo45h1ni1"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "ftn18ngvettel41mm7r9",
-                    "createdAt": "2025-12-11T05:34:10Z",
-                    "modifiedAt": "2025-12-11T05:34:10Z",
+                    "id": "ftnuodeguc5vo45h1ni1",
+                    "createdAt": "2025-12-11T07:54:24Z",
+                    "modifiedAt": "2025-12-11T07:54:24Z",
                     "metadata": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.tuning.v1.TuningMetadata",
-                        "tuningTaskId": "ftn18ngvettel41mm7r9",
+                        "tuningTaskId": "ftnuodeguc5vo45h1ni1",
                         "status": "CREATED"
                     }
                 }
@@ -705,25 +705,20 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "ftn18ngvettel41mm7r9"
+                    "operationId": "ftnuodeguc5vo45h1ni1"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "ftn18ngvettel41mm7r9",
-                    "createdAt": "2025-12-11T05:34:10Z",
-                    "modifiedAt": "2025-12-11T05:34:14Z",
-                    "done": true,
+                    "id": "ftnuodeguc5vo45h1ni1",
+                    "createdAt": "2025-12-11T07:54:24Z",
+                    "modifiedAt": "2025-12-11T07:54:30Z",
                     "metadata": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.tuning.v1.TuningMetadata",
-                        "tuningTaskId": "ftn18ngvettel41mm7r9",
-                        "status": "FAILED"
-                    },
-                    "error": {
-                        "code": 8,
-                        "message": "Quota fomo.tunings.count.per.hour exhausted for cloud b1g0mnem0r1s93givq6n"
+                        "tuningTaskId": "ftnuodeguc5vo45h1ni1",
+                        "status": "PENDING"
                     }
                 }
             }
@@ -733,26 +728,412 @@
                 "cls": "GetOperationRequest",
                 "module": "yandex.cloud.operation.operation_service_pb2",
                 "message": {
-                    "operationId": "ftn18ngvettel41mm7r9"
+                    "operationId": "ftnuodeguc5vo45h1ni1"
                 }
             },
             "response": {
                 "cls": "Operation",
                 "module": "yandex.cloud.operation.operation_pb2",
                 "message": {
-                    "id": "ftn18ngvettel41mm7r9",
-                    "createdAt": "2025-12-11T05:34:10Z",
-                    "modifiedAt": "2025-12-11T05:34:14Z",
+                    "id": "ftnuodeguc5vo45h1ni1",
+                    "createdAt": "2025-12-11T07:54:24Z",
+                    "modifiedAt": "2025-12-11T07:54:30Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.tuning.v1.TuningMetadata",
+                        "tuningTaskId": "ftnuodeguc5vo45h1ni1",
+                        "status": "PENDING"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "ftnuodeguc5vo45h1ni1"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "ftnuodeguc5vo45h1ni1",
+                    "createdAt": "2025-12-11T07:54:24Z",
+                    "modifiedAt": "2025-12-11T07:54:30Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.tuning.v1.TuningMetadata",
+                        "tuningTaskId": "ftnuodeguc5vo45h1ni1",
+                        "status": "PENDING"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "ftnuodeguc5vo45h1ni1"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "ftnuodeguc5vo45h1ni1",
+                    "createdAt": "2025-12-11T07:54:24Z",
+                    "modifiedAt": "2025-12-11T07:54:30Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.tuning.v1.TuningMetadata",
+                        "tuningTaskId": "ftnuodeguc5vo45h1ni1",
+                        "status": "PENDING"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "ftnuodeguc5vo45h1ni1"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "ftnuodeguc5vo45h1ni1",
+                    "createdAt": "2025-12-11T07:54:24Z",
+                    "modifiedAt": "2025-12-11T07:54:30Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.tuning.v1.TuningMetadata",
+                        "tuningTaskId": "ftnuodeguc5vo45h1ni1",
+                        "status": "PENDING"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "ftnuodeguc5vo45h1ni1"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "ftnuodeguc5vo45h1ni1",
+                    "createdAt": "2025-12-11T07:54:24Z",
+                    "modifiedAt": "2025-12-11T08:00:19Z",
                     "done": true,
                     "metadata": {
                         "@type": "type.googleapis.com/yandex.cloud.ai.tuning.v1.TuningMetadata",
-                        "tuningTaskId": "ftn18ngvettel41mm7r9",
-                        "status": "FAILED"
+                        "tuningTaskId": "ftnuodeguc5vo45h1ni1",
+                        "status": "COMPLETED"
                     },
-                    "error": {
-                        "code": 8,
-                        "message": "Quota fomo.tunings.count.per.hour exhausted for cloud b1g0mnem0r1s93givq6n"
+                    "response": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.tuning.v1.TuningResponse",
+                        "tuningTaskId": "ftnuodeguc5vo45h1ni1",
+                        "status": "COMPLETED",
+                        "targetModelUri": "emb://yc.fomo.storage.prod.service/text-embeddings/latest@tamr2f9kd0df91hk68vtq"
                     }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "ftnuodeguc5vo45h1ni1"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "ftnuodeguc5vo45h1ni1",
+                    "createdAt": "2025-12-11T07:54:24Z",
+                    "modifiedAt": "2025-12-11T08:00:19Z",
+                    "done": true,
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.tuning.v1.TuningMetadata",
+                        "tuningTaskId": "ftnuodeguc5vo45h1ni1",
+                        "status": "COMPLETED"
+                    },
+                    "response": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.tuning.v1.TuningResponse",
+                        "tuningTaskId": "ftnuodeguc5vo45h1ni1",
+                        "status": "COMPLETED",
+                        "targetModelUri": "emb://yc.fomo.storage.prod.service/text-embeddings/latest@tamr2f9kd0df91hk68vtq"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "ftnuodeguc5vo45h1ni1"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "ftnuodeguc5vo45h1ni1",
+                    "createdAt": "2025-12-11T07:54:24Z",
+                    "modifiedAt": "2025-12-11T08:00:19Z",
+                    "done": true,
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.tuning.v1.TuningMetadata",
+                        "tuningTaskId": "ftnuodeguc5vo45h1ni1",
+                        "status": "COMPLETED"
+                    },
+                    "response": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.tuning.v1.TuningResponse",
+                        "tuningTaskId": "ftnuodeguc5vo45h1ni1",
+                        "status": "COMPLETED",
+                        "targetModelUri": "emb://yc.fomo.storage.prod.service/text-embeddings/latest@tamr2f9kd0df91hk68vtq"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeTuningRequest",
+                "module": "yandex.cloud.ai.tuning.v1.tuning_service_pb2",
+                "message": {
+                    "tuningTaskId": "ftnuodeguc5vo45h1ni1"
+                }
+            },
+            "response": {
+                "cls": "DescribeTuningResponse",
+                "module": "yandex.cloud.ai.tuning.v1.tuning_service_pb2",
+                "message": {
+                    "tuningTask": {
+                        "taskId": "ftnuodeguc5vo45h1ni1",
+                        "operationId": "ftnuodeguc5vo45h1ni1",
+                        "status": "COMPLETED",
+                        "folderId": "yc.fomo.storage.prod.service",
+                        "createdBy": "ajeu5kkmrehvehhli02e",
+                        "createdAt": "2025-12-11T07:54:24.306348Z",
+                        "startedAt": "2025-12-11T07:55:38.751136Z",
+                        "finishedAt": "2025-12-11T08:00:17.478137Z",
+                        "sourceModelUri": "emb://text-embeddings/latest",
+                        "targetModelUri": "emb://yc.fomo.storage.prod.service/text-embeddings/latest@tamr2f9kd0df91hk68vtq",
+                        "name": "test"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "TextEmbeddingRequest",
+                "module": "yandex.cloud.ai.foundation_models.v1.embedding.embedding_service_pb2",
+                "message": {
+                    "modelUri": "emb://yc.fomo.storage.prod.service/text-embeddings/latest@tamr2f9kd0df91hk68vtq",
+                    "text": "hi"
+                }
+            },
+            "response": {
+                "cls": "TextEmbeddingResponse",
+                "module": "yandex.cloud.ai.foundation_models.v1.embedding.embedding_service_pb2",
+                "message": {
+                    "embedding": [
+                        0.14643961191177368,
+                        -0.190331369638443,
+                        -0.020782388746738434,
+                        -0.06499511003494263,
+                        -0.044092364609241486,
+                        -0.12028107792139053,
+                        0.17829523980617523,
+                        -0.0005030726897530258,
+                        0.08465413004159927,
+                        0.056208737194538116,
+                        0.01922772079706192,
+                        0.0707724541425705,
+                        0.09845556318759918,
+                        -0.148846834897995,
+                        0.048625972121953964,
+                        -0.05560693144798279,
+                        -0.035787433385849,
+                        -0.03287870064377785,
+                        0.10214664041996002,
+                        -0.024453409016132355,
+                        0.09925796836614609,
+                        0.013420287519693375,
+                        0.008074238896369934,
+                        0.10367121547460556,
+                        0.036068275570869446,
+                        -0.0056569818407297134,
+                        0.05636921897530556,
+                        -0.03721170872449875,
+                        -0.015045165084302425,
+                        0.024533649906516075,
+                        -0.19209666550159454,
+                        0.09179556369781494,
+                        -0.025195635855197906,
+                        0.13239745795726776,
+                        0.03285863995552063,
+                        0.12413264065980911,
+                        0.016860615462064743,
+                        0.12565721571445465,
+                        -0.058575842529535294,
+                        -0.010792397893965244,
+                        -0.11017072945833206,
+                        0.055887773633003235,
+                        -0.00516550661996007,
+                        -0.09965917468070984,
+                        -0.03626887872815132,
+                        -0.12244758009910583,
+                        0.07093293964862823,
+                        0.11209651082754135,
+                        -0.017763324081897736,
+                        0.06535619497299194,
+                        0.1417856365442276,
+                        -0.13464419543743134,
+                        0.013299926184117794,
+                        0.18278872966766357,
+                        -0.033721230924129486,
+                        -0.06347053498029709,
+                        -0.05877644568681717,
+                        -0.015787392854690552,
+                        -0.11482469737529755,
+                        -0.006705128587782383,
+                        -0.02641930989921093,
+                        -0.020351093262434006,
+                        -0.011825500056147575,
+                        -0.005105325952172279,
+                        -0.0824073851108551,
+                        -0.048625972121953964,
+                        -0.043691158294677734,
+                        0.050190672278404236,
+                        0.020621906965970993,
+                        -0.07791389524936676,
+                        -0.05556681007146835,
+                        -0.041243813931941986,
+                        -0.082969069480896,
+                        0.08553677797317505,
+                        -0.0,
+                        0.06002017855644226,
+                        0.14483478665351868,
+                        -0.04922778159379959,
+                        -0.17749282717704773,
+                        -0.08906737715005875,
+                        0.06126391142606735,
+                        -0.029809486120939255,
+                        -0.14812466502189636,
+                        -0.07309944182634354,
+                        0.18936847150325775,
+                        0.09933821111917496,
+                        -0.06639932841062546,
+                        -0.0738617330789566,
+                        -0.005902719683945179,
+                        -0.0009610099368728697,
+                        0.088666170835495,
+                        0.013239745050668716,
+                        -0.026900755241513252,
+                        -0.2744238078594208,
+                        0.07719172537326813,
+                        -0.07963906973600388,
+                        0.04790380597114563,
+                        -0.15502537786960602,
+                        -0.026539670303463936,
+                        0.037833575159311295,
+                        -0.05885668471455574,
+                        -0.0282648503780365,
+                        0.0046314033679664135,
+                        0.08393196016550064,
+                        0.024854613468050957,
+                        0.09043147414922714,
+                        0.1276632398366928,
+                        -0.06250764429569244,
+                        -0.006895700469613075,
+                        0.01756272278726101,
+                        0.06130403280258179,
+                        -0.18615883588790894,
+                        0.006795399356633425,
+                        0.21504555642604828,
+                        -0.0673622190952301,
+                        -0.07675040513277054,
+                        -0.041685137897729874,
+                        -0.08489485085010529,
+                        -0.03787369653582573,
+                        -0.05059187486767769,
+                        -0.018826516345143318,
+                        -0.20862628519535065,
+                        -0.0787564218044281,
+                        0.12678058445453644,
+                        -0.012276854366064072,
+                        0.004112345166504383,
+                        0.025957925245165825,
+                        -0.05777343362569809
+                    ],
+                    "numTokens": "2",
+                    "modelVersion": "29.08.2024"
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "TextEmbeddingRequest",
+                "module": "yandex.cloud.ai.foundation_models.v1.embedding.embedding_service_pb2",
+                "message": {
+                    "modelUri": "emb://yc.fomo.storage.prod.service/text-embeddings/latest@tamr2f9kd0df91hk68vtq",
+                    "text": "hi",
+                    "dim": "35"
+                }
+            },
+            "response": {
+                "cls": "TextEmbeddingResponse",
+                "module": "yandex.cloud.ai.foundation_models.v1.embedding.embedding_service_pb2",
+                "message": {
+                    "embedding": [
+                        0.28230923414230347,
+                        -0.3669246733188629,
+                        -0.04006470739841461,
+                        -0.1252989023923874,
+                        -0.08500215411186218,
+                        -0.2318803071975708,
+                        0.3437211811542511,
+                        -0.0009698337526060641,
+                        0.16319794952869415,
+                        0.10836034268140793,
+                        0.03706759214401245,
+                        0.1364365816116333,
+                        0.18980462849140167,
+                        -0.28694993257522583,
+                        0.09374213963747025,
+                        -0.10720016807317734,
+                        -0.06899173557758331,
+                        -0.06338422745466232,
+                        0.19692036509513855,
+                        -0.047141775488853455,
+                        0.1913515329360962,
+                        0.02587190270423889,
+                        0.015565681271255016,
+                        0.19985947012901306,
+                        0.06953315436840057,
+                        -0.010905644856393337,
+                        0.1086697205901146,
+                        -0.07173748314380646,
+                        -0.029004374518990517,
+                        0.047296468168497086,
+                        -0.3703278601169586,
+                        0.1769653558731079,
+                        -0.048572659492492676,
+                        0.25523850321769714,
+                        0.06334555149078369
+                    ],
+                    "numTokens": "2",
+                    "modelVersion": "29.08.2024"
                 }
             }
         }

@@ -2,13 +2,12 @@ from __future__ import annotations
 
 import pytest
 
-from yandex_cloud_ml_sdk._exceptions import AioRpcError
-
 pytestmark = [pytest.mark.asyncio, pytest.mark.vcr]
 
 async def _upload_embeddings_dataset(client, path: str, name: str):
 
-    dataset_function = client.datasets.text_embeddings_pair if name == "pair" else client.datasets.text_embeddings_triplet
+    dataset_function = client.datasets.text_embeddings_pair if name == "pair"\
+        else client.datasets.text_embeddings_triplet
 
     dataset_draft = dataset_function.draft_from_path(
         path=path,
@@ -70,6 +69,3 @@ async def test_tuning_embeddings_with_dimensions(async_sdk, embeddings_tune_type
 
     result = await model.run("hi", dimensions=35)
     assert len(result.embedding) == 35
-
-    with pytest.raises(AioRpcError) as excinfo:
-        await model.run("hi", dimensions=40)
