@@ -7,4 +7,5 @@ from yandex_cloud_ml_sdk._types.model_config import BaseModelConfig
 
 @dataclass(frozen=True)
 class TextEmbeddingsModelConfig(BaseModelConfig):
+    #: dimensions of output vector
     dimensions: int | None = None
