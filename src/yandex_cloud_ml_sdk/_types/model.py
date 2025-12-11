@@ -9,7 +9,7 @@ from yandex_cloud_ml_sdk._tuning.tuning_task import TuningTaskTypeT
 from .._client import AsyncCloudClient
 from .._utils.parse_uri import parse_uri
 from .misc import Undefined, UndefinedOr, get_defined_value
-from .model_config import BaseModelConfig
+from .model_config import ConfigTypeT
 from .operation import OperationTypeT
 from .result import BaseResult, ProtoMessage
 from .tuning.datasets import TuningDatasetsType
@@ -21,7 +21,6 @@ if TYPE_CHECKING:
     from yandex_cloud_ml_sdk._sdk import BaseSDK
 
 
-ConfigTypeT = TypeVar('ConfigTypeT', bound=BaseModelConfig)
 ResultTypeT = TypeVar('ResultTypeT', bound=BaseResult)
 TuningParamsTypeT = TypeVar('TuningParamsTypeT', bound=BaseTuningParams)
 

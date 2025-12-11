@@ -16,7 +16,8 @@ from yandex.cloud.searchapi.v2.img_search_service_pb2 import ImageSearchResponse
 from yandex.cloud.searchapi.v2.search_service_pb2 import WebSearchResponse
 
 from yandex_cloud_ml_sdk._types.model import BaseModel, ConfigTypeT
-from yandex_cloud_ml_sdk._types.result import BaseProtoResult, ProtoMessageTypeT_contra, SDKType
+from yandex_cloud_ml_sdk._types.request import RequestDetails
+from yandex_cloud_ml_sdk._types.result import BaseProtoModelResult, ProtoMessageTypeT_contra, SDKType
 from yandex_cloud_ml_sdk._types.xml import XMLBased
 
 from .utils import get_subelement_text
@@ -56,16 +57,14 @@ XMLSearchDocumentTypeT = TypeVar('XMLSearchDocumentTypeT', bound=XMLSearchDocume
 
 
 @dataclass(frozen=True)
-class RequestDetails(Generic[ConfigTypeT]):
+class SearchRequestDetails(RequestDetails[ConfigTypeT]):
     """:meta private:
 
     Object to incapsulate search settings into search result
     to make possible .next_page methods"""
 
-    model_config: ConfigTypeT
     page: int
     query: str
-    timeout: float
 
 
 @dataclass(frozen=True)
@@ -106,12 +105,12 @@ class SearchGroup(XMLBased, Sequence, Generic[XMLSearchDocumentTypeT]):
 @dataclass(frozen=True)
 class BaseSearchResult(
     Generic[ProtoMessageTypeT_contra, SearchDocumentTypeT, ConfigTypeT],
-    BaseProtoResult[ProtoMessageTypeT_contra],
+    BaseProtoModelResult[ProtoMessageTypeT_contra, SearchRequestDetails[ConfigTypeT]],
     Sequence[SearchDocumentTypeT],
     ABC
 ):
     _sdk: SDKType = field(repr=False)
-    _request_details: RequestDetails[ConfigTypeT] = field(repr=False)
+    _request_details: SearchRequestDetails[ConfigTypeT] = field(repr=False)
 
     #: Returned search page number.
     page: int
@@ -164,10 +163,8 @@ class XMLBaseSearchResult(
         *,
         proto: XMLSearchProtoMessageTypeT_contra,
         sdk: SDKType,
-        request_details: RequestDetails[ConfigTypeT] | None = None
+        ctx: SearchRequestDetails[ConfigTypeT],
     ) -> Self:
-        assert request_details
-
         decoded = proto.raw_data.decode('utf-8')
         tree_root = ET.fromstring(decoded)
 
@@ -184,9 +181,9 @@ class XMLBaseSearchResult(
 
         return cls(
             _sdk=sdk,
-            _request_details=request_details,
+            _request_details=ctx,
             groups=groups,
-            page=request_details.page,
+            page=ctx.page,
             xml=proto.raw_data
         )
 

@@ -8,7 +8,7 @@ from typing_extensions import Self, override
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.searchapi.v2.img_search_service_pb2 import ImageSearchByImageResponse
 
-from yandex_cloud_ml_sdk._search_api.types import BaseSearchResult, RequestDetails, SearchDocument
+from yandex_cloud_ml_sdk._search_api.types import BaseSearchResult, SearchDocument, SearchRequestDetails
 from yandex_cloud_ml_sdk._types.proto import ProtoMirrored
 from yandex_cloud_ml_sdk._types.result import SDKType
 from yandex_cloud_ml_sdk._utils.doc import doc_from
@@ -64,18 +64,16 @@ class BaseByImageSearchResult(
         *,
         proto: ImageSearchByImageResponse,
         sdk: SDKType,
-        request_details: RequestDetails[ByImageSearchConfig] | None = None
+        ctx: SearchRequestDetails[ByImageSearchConfig],
     ) -> Self:
-        assert request_details
-
         return cls(
             _sdk=sdk,
-            _request_details=request_details,
+            _request_details=ctx,
             images=tuple(
                 ByImageSearchDocument._from_proto(proto=image_data, sdk=sdk)
                 for image_data in proto.images
             ),
-            page=request_details.page,
+            page=ctx.page,
             cbir_id=proto.id,
         )
 

@@ -22,7 +22,7 @@ from typing_extensions import Self
 try:
     from .utils import choose_audio_device
 except ImportError:
-    from utils import choose_audio_device  # type: ignore[no-redef,import-not-found,attr-defined]
+    from utils import choose_audio_device  # type: ignore[no-redef,import-not-found,attr-defined,import-not-found]
 
 
 OUT_RATE = 44100

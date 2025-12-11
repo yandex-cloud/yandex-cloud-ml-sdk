@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, replace
-from typing import Any
+from typing import Any, TypeVar
 
 from typing_extensions import Self
 
@@ -21,3 +21,6 @@ class BaseModelConfig:
 
     def _asdict(self):
         return asdict(self)
+
+
+ConfigTypeT = TypeVar('ConfigTypeT', bound=BaseModelConfig)

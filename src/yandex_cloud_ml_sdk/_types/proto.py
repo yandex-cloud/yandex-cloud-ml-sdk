@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import abc
 import dataclasses
-from typing import TYPE_CHECKING, Any, Protocol, TypeVar, runtime_checkable
+from typing import TYPE_CHECKING, Any, Generic, Protocol, TypeVar, runtime_checkable
 
 from google.protobuf.message import Message as ProtoMessage
 from typing_extensions import Self, TypeAlias
@@ -17,8 +17,13 @@ else:
     SDKType: TypeAlias = Any
 
 
+class Context:
+    pass
+
+
 ProtoMessageTypeT_contra = TypeVar('ProtoMessageTypeT_contra', bound=ProtoMessage, contravariant=True)
 ProtoMessageTypeT = TypeVar('ProtoMessageTypeT', bound=ProtoMessage)
+ContextTypeT = TypeVar('ContextTypeT', bound=Context)
 
 
 @runtime_checkable
@@ -32,6 +37,13 @@ class ProtoBased(abc.ABC, ProtoBasedType[ProtoMessageTypeT_contra]):
     @classmethod
     @abc.abstractmethod
     def _from_proto(cls, *, proto: ProtoMessageTypeT_contra, sdk: BaseSDK) -> Self:
+        raise NotImplementedError()
+
+
+class ProtoBasedWithCtx(abc.ABC, Generic[ProtoMessageTypeT_contra, ContextTypeT]):
+    @classmethod
+    @abc.abstractmethod
+    def _from_proto(cls, *, proto: ProtoMessageTypeT_contra, sdk: BaseSDK, ctx: ContextTypeT) -> Self:
         raise NotImplementedError()
 
 

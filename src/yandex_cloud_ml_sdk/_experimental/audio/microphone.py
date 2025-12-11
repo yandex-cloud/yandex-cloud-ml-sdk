@@ -20,7 +20,7 @@ import sounddevice as sd
 try:
     from .utils import SENTINEL, Sentinel, choose_audio_device, float_to_pcm16
 except ImportError:
-    from utils import (  # type: ignore[no-redef,import-not-found,attr-defined]
+    from utils import (  # type: ignore[no-redef,import-not-found,attr-defined,import-not-found]
         SENTINEL, Sentinel, choose_audio_device, float_to_pcm16
     )
 

@@ -18,8 +18,7 @@ async def main() -> None:
     sdk = AsyncYCloudML(
         # folder_id="<YC_FOLDER_ID>",
         # auth="<YC_API_KEY/YC_IAM_TOKEN>",
-    )
-    sdk.setup_default_logging()
+    ).setup_default_logging()
 
     output_device_id = choose_audio_device('out')
 
