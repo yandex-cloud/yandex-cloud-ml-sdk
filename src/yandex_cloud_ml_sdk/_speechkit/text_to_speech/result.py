@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 from collections.abc import Iterable
 from dataclasses import dataclass, field
 
@@ -7,6 +8,8 @@ from typing_extensions import Self, override
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.ai.tts.v3.tts_pb2 import UtteranceSynthesisResponse
 
+from yandex_cloud_ml_sdk._speechkit.enums import PCM16, AudioFormat
+from yandex_cloud_ml_sdk._speechkit.utils import pcm16_to_wav
 from yandex_cloud_ml_sdk._types.request import RequestDetails
 from yandex_cloud_ml_sdk._types.result import BaseProtoModelResult, SDKType
 
@@ -115,3 +118,33 @@ class TextToSpeechResult(BaseProtoModelResult[UtteranceSynthesisResponse, Reques
     @property
     def size_bytes(self) -> int:
         return sum(chunk.size_bytes for chunk in self.chunks)
+
+    @property
+    def audio_format(self) -> AudioFormat:
+        return self._request_details.model_config.audio_format
+
+    def _repr_html_(self) -> str | None:
+        data = self.data
+        mime_type: str
+        if isinstance(self.audio_format, PCM16):
+            sample_rate = self.audio_format.sample_rate_hertz
+            data = pcm16_to_wav(self.data, sample_rate)
+            mime_type = 'audio/wav'
+        else:
+            mime_type = {
+                AudioFormat.WAV: 'audio/wav',
+                AudioFormat.MP3: 'audio/mpeg',
+                AudioFormat.OGG_OPUS: 'audio/ogg'
+            }.get(self.audio_format)
+            if not mime_type:
+                return None
+
+        b64 = base64.b64encode(data).decode('ascii')
+
+        html = f'''
+        <audio controls style="width: 100%;">
+          <source src="data:{mime_type};base64,{b64}" type="{mime_type}">
+          Your browser does not support the audio element..
+        </audio>
+        '''
+        return html
