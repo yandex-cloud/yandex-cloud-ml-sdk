@@ -15,10 +15,23 @@ from .rephraser.model import Rephraser
 
 @dataclass(frozen=True)
 class SearchIndexTool(BaseTool[ProtoSearchIndexTool]):
-    search_index_ids: tuple[str, ...]
+    """
+    Tool for working with search indexes.
 
+    A SearchIndexTool represents an executable tool that provides instructions on how to
+    apply and interact with search indexes, as opposed to a SearchIndex which represents
+    the data/resource itself — actual search index data and provides methods for managing
+    the index (adding files, updating metadata, etc.).
+    A SearchIndexTool encapsulates the configuration and behavior for performing search operations
+    across one or more search indexes.
+    """
+    #: Tuple of search index IDs to use with this tool
+    search_index_ids: tuple[str, ...]
+    #: Maximum number of results to return from search, optional
     max_num_results: int | None = None
+    #: Rephraser instance for query rephrasing, optional
     rephraser: Rephraser | None = None
+    #: Strategy for calling the search index, optional
     call_strategy: CallStrategy | None = None
 
     @classmethod

@@ -10,6 +10,7 @@ from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import ToolCall as Pro
 
 from yandex_cloud_ml_sdk._types.json import JsonBased, JsonObject
 from yandex_cloud_ml_sdk._types.proto import ProtoBased, SDKType
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from .function_call import AsyncFunctionCall, FunctionCall, FunctionCallTypeT
 
@@ -18,6 +19,9 @@ ProtoToolCall = Union[ProtoAssistantToolCall, ProtoCompletionsToolCall]
 
 # We need this class to separate _function_call_impl from dataclass
 class FunctionCallMixin(Generic[FunctionCallTypeT]):
+    """
+    Mixin class providing function call implementation type.
+    """
     _function_call_impl: type[FunctionCallTypeT]
 
 
@@ -27,7 +31,17 @@ class BaseToolCall(
     ProtoBased[ProtoToolCall],
     FunctionCallMixin[FunctionCallTypeT]
 ):
+    """
+    A tool call returned by models as a result of server-side tool calls.
+
+    This class encapsulates the response from language models when they invoke tools
+    during conversation or completion. It contains information about the specific
+    tool that was called, including its unique identifier and the associated function
+    call with parameters and results.
+    """
+    #: Unique tool call identifier
     id: str | None
+    #: Function call associated with this tool call
     function: FunctionCallTypeT | None
     _proto_origin: ProtoToolCall | None = field(repr=False)
     _json_origin: JsonObject | None = field(repr=False)
@@ -69,17 +83,20 @@ class BaseToolCall(
             _json_origin=data,
         )
 
-
+@doc_from(BaseToolCall)
 class AsyncToolCall(BaseToolCall):
     _function_call_impl = AsyncFunctionCall
 
-
+@doc_from(BaseToolCall)
 class ToolCall(BaseToolCall):
     _function_call_impl = FunctionCall
 
 
+#: Type variable representing any tool call type.
 ToolCallTypeT = TypeVar('ToolCallTypeT', bound=BaseToolCall)
 
 
 class HaveToolCalls(Generic[ToolCallTypeT]):
-    pass
+    """
+    Interface for objects that can have tool calls.
+    """

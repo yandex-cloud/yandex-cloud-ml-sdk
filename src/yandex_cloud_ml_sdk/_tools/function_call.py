@@ -13,13 +13,22 @@ from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import FunctionCall as
 from yandex_cloud_ml_sdk._types.json import JsonBased
 from yandex_cloud_ml_sdk._types.proto import ProtoBased, SDKType
 from yandex_cloud_ml_sdk._types.schemas import JsonObject
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 ProtoFunctionCall = Union[ProtoAssistantFunctionCall, ProtoCompletionsFunctionCall]
 
 
 @dataclass(frozen=True)
 class BaseFunctionCall(JsonBased, ProtoBased[ProtoFunctionCall]):
+    """
+    Represents a function call returned by models as a result of server-side tool calls.
+
+    This class encapsulates the details of a function call that was invoked by the model
+    during processing, including the function name and the arguments passed to it.
+    """
+    #: Name of the function being called
     name: str
+    #: Arguments passed to the function
     arguments: JsonObject
     _proto_origin: ProtoFunctionCall | None = field(repr=False)
 
@@ -50,12 +59,15 @@ class BaseFunctionCall(JsonBased, ProtoBased[ProtoFunctionCall]):
         )
 
 
+@doc_from(BaseFunctionCall)
 class AsyncFunctionCall(BaseFunctionCall):
     pass
 
 
+@doc_from(BaseFunctionCall)
 class FunctionCall(BaseFunctionCall):
     pass
 
 
+#: Type variable representing any function call type.
 FunctionCallTypeT = TypeVar('FunctionCallTypeT', bound=BaseFunctionCall)
