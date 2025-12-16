@@ -12,6 +12,14 @@ if TYPE_CHECKING:
 
 
 class BaseDomain:
+    """
+    Domain class — provides the foundational structure for domain-specific functionality
+    within the SDK, maintaining references to the SDK instance and providing access
+    to the underlying client and folder configuration.
+
+    :param name: The name of the domain.
+    :param sdk: The base SDK instance.
+    """
     # TODO: add some repr, description and such
     def __init__(self, name: str, sdk: BaseSDK):
         self._name = name
@@ -27,6 +35,10 @@ class BaseDomain:
 
 
 class DomainWithFunctions(BaseDomain):
+    """
+    Extends BaseDomain to automatically create function instances from annotated
+    BaseModelFunction subclasses.
+    """
     def __init__(self, name: str, sdk: BaseSDK):
         super().__init__(name=name, sdk=sdk)
         self._init_functions()

@@ -8,6 +8,7 @@ from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 
 from yandex_cloud_ml_sdk._logging import get_logger
 from yandex_cloud_ml_sdk._types.datasets import DatasetType, coerce_dataset_id
+from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync
 
 from .operation import AsyncBatchTaskOperation, BatchTaskOperation, BatchTaskOperationTypeT
@@ -21,6 +22,14 @@ logger = get_logger(__name__)
 
 
 class BaseBatchSubdomain(Generic[BatchTaskOperationTypeT], metaclass=abc.ABCMeta):
+    """
+    Provides batch processing functionality for ML models.
+
+    This class enables batch operations on ML models, allowing you to process
+    datasets and manage long-running batch tasks. Access this functionality
+    through the model's batch attribute (e.g., model.batch.run_deferred()).
+    """
+
     def __init__(self, model: BaseModelBatchMixin, sdk: BaseSDK):
         self._model = model
         self._sdk = sdk
@@ -33,6 +42,15 @@ class BaseBatchSubdomain(Generic[BatchTaskOperationTypeT], metaclass=abc.ABCMeta
         )
 
     async def _run_deferred(self, dataset: DatasetType, *, timeout: float = 60) -> BatchTaskOperationTypeT:
+        """Run a deferred batch task.
+
+        Creates and executes a batch processing task for the given dataset
+        and returns an operation object to track its progress.
+
+        :param dataset: The dataset object or string dataset id.
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
         dataset_id = coerce_dataset_id(dataset)
 
         m = self._model
@@ -65,18 +83,22 @@ class BaseBatchSubdomain(Generic[BatchTaskOperationTypeT], metaclass=abc.ABCMeta
         )
 
 
+@doc_from(BaseBatchSubdomain)
 class AsyncBatchSubdomain(BaseBatchSubdomain[AsyncBatchTaskOperation]):
     _operation_impl = AsyncBatchTaskOperation
 
+    @doc_from(BaseBatchSubdomain._run_deferred)
     async def run_deferred(self, dataset: DatasetType, *, timeout: float = 60) -> AsyncBatchTaskOperation:
         return await self._run_deferred(dataset=dataset, timeout=timeout)
 
 
+@doc_from(BaseBatchSubdomain)
 class BatchSubdomain(BaseBatchSubdomain[BatchTaskOperation]):
     _operation_impl = BatchTaskOperation
 
     __run_deferred = run_sync(BaseBatchSubdomain[BatchTaskOperation]._run_deferred)
 
+    @doc_from(BaseBatchSubdomain._run_deferred)
     def run_deferred(self, dataset: DatasetType, *, timeout: float = 60) -> BatchTaskOperation:
         return cast(
             BatchTaskOperation,
@@ -84,4 +106,6 @@ class BatchSubdomain(BaseBatchSubdomain[BatchTaskOperation]):
         )
 
 
+#: Type variable for batch subdomain types, bound to BaseBatchSubdomain.
+#: Used for generic typing of batch subdomain implementations.
 BatchSubdomainTypeT = TypeVar('BatchSubdomainTypeT', bound=BaseBatchSubdomain)

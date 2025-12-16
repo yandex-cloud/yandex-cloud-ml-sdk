@@ -5,6 +5,7 @@ from typing import Union
 
 from typing_extensions import TypeAlias
 
+#: Type alias for values that can be either a single string or a sequence of strings
 SmartStringSequence: TypeAlias = Union[str, Sequence[str]]
 
 

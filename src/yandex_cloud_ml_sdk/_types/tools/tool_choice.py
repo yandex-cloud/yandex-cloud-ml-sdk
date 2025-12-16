@@ -11,18 +11,23 @@ from yandex_cloud_ml_sdk._types.json import JsonObject
 
 from .function import FunctionDictType, validate_function_dict
 
+#: Type alias for protocol buffer ToolChoice message
 ProtoToolChoice: TypeAlias = ProtoCompletionsToolChoice
+#: Type variable bound to protocol buffer ToolChoice for generic functions
 ProtoToolChoiceTypeT = TypeVar('ProtoToolChoiceTypeT', bound=ProtoToolChoice)
 
+#: String literals representing tool choice modes.
 ToolChoiceStringType: TypeAlias = Literal[
     'none', 'None', 'NONE',
     'auto', 'Auto', 'AUTO',
     'required', 'Required', 'REQUIRED'
 ]
 
+#: Union type for all supported tool choice formats
 ToolChoiceType: TypeAlias = Union[ToolChoiceStringType, FunctionDictType, FunctionTool]
 
 
+#: Tuple of valid uppercase string tool choice values
 STRING_TOOL_CHOICES = ('NONE', 'AUTO', 'REQUIRED')
 
 

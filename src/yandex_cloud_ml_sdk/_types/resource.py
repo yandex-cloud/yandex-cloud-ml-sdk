@@ -23,6 +23,11 @@ if TYPE_CHECKING:
 # TODO: rework it to inherit yandex_cloud_ml_sdk._types.proto.ProtoMirrored
 @dataclasses.dataclass(frozen=True)
 class BaseResource(BaseProtoResult[ProtoMessageTypeT_contra]):
+    """
+    Resource class provides common functionality for all cloud resources,
+    including serialization from protobuf messages and basic resource management.
+    """
+    #: Unique identifier of the resource
     id: str
 
     _sdk: BaseSDK = dataclasses.field(repr=False)
@@ -68,6 +73,10 @@ class BaseResource(BaseProtoResult[ProtoMessageTypeT_contra]):
 
 @dataclasses.dataclass(frozen=True)
 class BaseDeleteableResource(BaseResource[ProtoMessageTypeT_contra]):
+    """
+    Class for resources that can be deleted.
+    Extends BaseResource with deletion functionality.
+    """
     _lock: asyncio.Lock = dataclasses.field(repr=False)
     _deleted: bool = dataclasses.field(repr=False)
 
@@ -83,6 +92,13 @@ class BaseDeleteableResource(BaseResource[ProtoMessageTypeT_contra]):
 
 @dataclasses.dataclass(frozen=True)
 class ExpirableResource(BaseDeleteableResource[ExpirationProtoTypeT_contra]):
+    """
+    Resource that can expire based on TTL or expiration policy.
+
+    Extends BaseDeleteableResource with expiration functionality.
+    Resources of this type have a configurable expiration policy and time-to-live.
+    """
+    #: Configuration for resource expiration
     expiration_config: ExpirationConfig
 
     @classmethod

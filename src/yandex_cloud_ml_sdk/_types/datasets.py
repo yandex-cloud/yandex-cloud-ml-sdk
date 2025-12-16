@@ -4,10 +4,12 @@ from typing import Union
 
 from yandex_cloud_ml_sdk._datasets.dataset import BaseDataset
 
+#: Type alias for dataset inputs.
 DatasetType = Union[str, BaseDataset]
 
 
 def coerce_dataset_id(dataset: DatasetType) -> str:
+
     if isinstance(dataset, BaseDataset):
         return dataset.id
     if isinstance(dataset, str):
