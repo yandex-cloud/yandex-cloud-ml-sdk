@@ -16,3 +16,4 @@ Types
    search_indexes
    other
    batch
+   speechkit

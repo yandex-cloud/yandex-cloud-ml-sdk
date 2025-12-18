@@ -20,3 +20,4 @@
    tuning
    batch
    chat/domain
+   speechkit/domain

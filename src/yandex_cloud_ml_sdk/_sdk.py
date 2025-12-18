@@ -63,7 +63,7 @@ class BaseSDK:
     #: `Yandex Cloud OpenAI Compatible API_BaseSDK_URL <https://yandex.cloud/docs/ai-studio/concepts/openai-compatibility>`_.
     chat: BaseChat
     #: Domain for working with
-    #: `Yandex Speechkit <https://yandex.cloud/docs/speechkit>`_ services.
+    #: `Yandex SpeechKit <https://yandex.cloud/docs/speechkit>`_ services.
     speechkit: BaseSpeechKitDomain
 
     _messages: BaseMessages

@@ -93,3 +93,10 @@ Base classes
 .. autoclass:: yandex_cloud_ml_sdk._search_api.image.function.BaseImageSearchFunction
 
 .. autoclass:: yandex_cloud_ml_sdk._search_api.by_image.function.BaseByImageSearchFunction
+
+.. autoclass:: yandex_cloud_ml_sdk._speechkit.domain.BaseSpeechKitDomain
+
+.. autoclass:: yandex_cloud_ml_sdk._speechkit.text_to_speech.function.BaseTextToSpeechFunction
+
+.. autoclass:: yandex_cloud_ml_sdk._speechkit.text_to_speech.tts.BaseTextToSpeech
+   :exclude-members: to_bytes,from_bytes

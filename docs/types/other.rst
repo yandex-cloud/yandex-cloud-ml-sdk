@@ -75,6 +75,15 @@ Generic types
 .. py:class:: yandex_cloud_ml_sdk._search_api.types.XMLSearchDocumentTypeT
 
 
+.. py:class:: yandex_cloud_ml_sdk._types.model_config.ConfigTypeT
+
+
+.. py:class:: yandex_cloud_ml_sdk._speechkit.text_to_speech.tts.TextToSpeechTypeT
+
+
+.. py:class:: yandex_cloud_ml_sdk._types.enum.ProtoBasedEnumTypeT
+
+
 Miscellaneous types
 ~~~~~~~~~~~~~~~~~~~
 

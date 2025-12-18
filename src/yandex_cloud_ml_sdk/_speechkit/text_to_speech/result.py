@@ -10,6 +10,7 @@ from yandex.cloud.ai.tts.v3.tts_pb2 import UtteranceSynthesisResponse
 
 from yandex_cloud_ml_sdk._speechkit.enums import PCM16, AudioFormat
 from yandex_cloud_ml_sdk._speechkit.utils import pcm16_to_wav
+from yandex_cloud_ml_sdk._types.enum import EnumWithUnknownAlias
 from yandex_cloud_ml_sdk._types.request import RequestDetails
 from yandex_cloud_ml_sdk._types.result import BaseProtoModelResult, SDKType
 
@@ -120,12 +121,12 @@ class TextToSpeechResult(BaseProtoModelResult[UtteranceSynthesisResponse, Reques
         return sum(chunk.size_bytes for chunk in self.chunks)
 
     @property
-    def audio_format(self) -> AudioFormat:
-        return self._request_details.model_config.audio_format
+    def audio_format(self) -> EnumWithUnknownAlias[AudioFormat]:
+        return self._request_details.model_config.audio_format or AudioFormat.WAV
 
     def _repr_html_(self) -> str | None:
         data = self.data
-        mime_type: str
+        mime_type: str | None
         if isinstance(self.audio_format, PCM16):
             sample_rate = self.audio_format.sample_rate_hertz
             data = pcm16_to_wav(self.data, sample_rate)
@@ -135,7 +136,7 @@ class TextToSpeechResult(BaseProtoModelResult[UtteranceSynthesisResponse, Reques
                 AudioFormat.WAV: 'audio/wav',
                 AudioFormat.MP3: 'audio/mpeg',
                 AudioFormat.OGG_OPUS: 'audio/ogg'
-            }.get(self.audio_format)
+            }.get(self.audio_format)  # type: ignore[arg-type]
             if not mime_type:
                 return None
 
