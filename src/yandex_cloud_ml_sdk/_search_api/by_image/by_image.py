@@ -9,7 +9,7 @@ from yandex.cloud.searchapi.v2.img_search_service_pb2_grpc import ImageSearchSer
 
 from yandex_cloud_ml_sdk._logging import get_logger
 from yandex_cloud_ml_sdk._search_api.enums import FamilyMode
-from yandex_cloud_ml_sdk._search_api.types import RequestDetails
+from yandex_cloud_ml_sdk._search_api.types import SearchRequestDetails
 from yandex_cloud_ml_sdk._types.enum import UndefinedOrEnumWithUnknownInput
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr
 from yandex_cloud_ml_sdk._types.model import ModelSyncMixin
@@ -98,7 +98,7 @@ class BaseByImageSearch(
         return self._result_type._from_proto(
             proto=response,
             sdk=self._sdk,
-            request_details=RequestDetails(
+            ctx=SearchRequestDetails(
                 model_config=self._config,
                 page=page,
                 query='<not-needed>',

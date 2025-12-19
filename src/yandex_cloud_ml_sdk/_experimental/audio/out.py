@@ -22,7 +22,7 @@ from typing_extensions import Self
 try:
     from .utils import choose_audio_device
 except ImportError:
-    from utils import choose_audio_device  # type: ignore[no-redef,import-not-found,attr-defined]
+    from utils import choose_audio_device  # type: ignore[no-redef,import-not-found,attr-defined,import-not-found]
 
 
 OUT_RATE = 44100
@@ -46,8 +46,9 @@ class AsyncAudioOut:
         self._samplerate = samplerate
         self._blocksize = blocksize
 
+        self._stopped = asyncio.Event()
         self._loop: asyncio.AbstractEventLoop | None = None
-        self._queue: asyncio.Queue[np.ndarray] | None = None
+        self._queue: asyncio.Queue[np.ndarray | None] | None = None
         self._stream: sd.OutputStream | None = None
         self._write_lock = asyncio.Lock()
         self._start_lock = asyncio.Lock()
@@ -71,6 +72,7 @@ class AsyncAudioOut:
                 blocksize=self._blocksize,
                 callback=self._callback
             )
+            self._stopped.clear()
             await self._loop.run_in_executor(None, self._stream.start)
             return self
 
@@ -89,8 +91,13 @@ class AsyncAudioOut:
             outdata.fill(0)
             return
 
+        assert self._loop
         try:
             chunk = queue.get_nowait()
+            if chunk is None:
+                self._loop.call_soon_threadsafe(self._stopped.set)
+                return
+
             outdata[:] = chunk
         except asyncio.QueueEmpty:
             outdata.fill(0)
@@ -105,18 +112,24 @@ class AsyncAudioOut:
         exc_value: BaseException | None,
         traceback: types.TracebackType | None
     ) -> bool | None:
+        queue = self._queue
         async with self._start_lock:
+            if queue:
+                await queue.put(None)
             try:
-                if self._stream and self._loop and self._stream.active:
-                    await self._loop.run_in_executor(None, self._stream.stop)
-            except:
-                if self._stream and self._loop and self._stream.active:
-                    await self._loop.run_in_executor(None, self._stream.abort)
-                raise
+                await self._stopped.wait()
             finally:
-                self._queue = None
-                self._loop = None
-                self._stream = None
+                try:
+                    if self._stream and self._loop and self._stream.active:
+                        await self._loop.run_in_executor(None, self._stream.stop)
+                except:
+                    if self._stream and self._loop and self._stream.active:
+                        await self._loop.run_in_executor(None, self._stream.abort)
+                    raise
+                finally:
+                    self._queue = None
+                    self._loop = None
+                    self._stream = None
 
         return None
 
@@ -132,7 +145,7 @@ class AsyncAudioOut:
 
         async with self._write_lock:
             for i in range(0, payload_size, chunk_size):
-                end = min((len(pcm_16), i + chunk_size))
+                end = min((payload_size, i + chunk_size))
                 chunk = pcm_16[i:end].ljust(chunk_size, b'\x00')
                 array = np.frombuffer(chunk, dtype=DTYPE)  # type: ignore[arg-type]
                 await queue.put(array.reshape(-1, 1))

@@ -20,3 +20,4 @@ Async SDK
    tuning
    batch
    chat/domain
+   speechkit/domain

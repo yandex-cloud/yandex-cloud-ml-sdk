@@ -14,7 +14,7 @@ from yandex_cloud_ml_sdk._logging import get_logger
 from yandex_cloud_ml_sdk._search_api.enums import (
     FamilyMode, FixTypoMode, Format, GroupMode, Localization, SearchType, SortMode, SortOrder
 )
-from yandex_cloud_ml_sdk._search_api.types import RequestDetails
+from yandex_cloud_ml_sdk._search_api.types import SearchRequestDetails
 from yandex_cloud_ml_sdk._types.enum import UndefinedOrEnumWithUnknownInput
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED, UndefinedOr
 from yandex_cloud_ml_sdk._types.model import ModelAsyncMixin, ModelSyncMixin, OperationTypeT
@@ -223,7 +223,7 @@ class BaseWebSearch(
         return self._result_type._from_proto(
             proto=response,
             sdk=self._sdk,
-            request_details=RequestDetails(
+            ctx=SearchRequestDetails(
                 model_config=self._config,
                 page=page,
                 query=query,
@@ -294,7 +294,7 @@ class BaseWebSearch(
                 return self._result_type._from_proto(
                     proto=proto,
                     sdk=self._sdk,
-                    request_details=RequestDetails(
+                    ctx=SearchRequestDetails(
                         model_config=self._config,
                         page=page,
                         query=query,

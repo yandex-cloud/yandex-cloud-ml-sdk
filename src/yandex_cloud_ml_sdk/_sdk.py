@@ -27,6 +27,7 @@ from ._retry import RetryPolicy
 from ._runs.domain import AsyncRuns, BaseRuns, Runs
 from ._search_api.domain import AsyncSearchAPIDomain, BaseSearchAPIDomain, SearchAPIDomain
 from ._search_indexes.domain import AsyncSearchIndexes, BaseSearchIndexes, SearchIndexes
+from ._speechkit.domain import AsyncSpeechKitDomain, BaseSpeechKitDomain, SpeechKitDomain
 from ._threads.domain import AsyncThreads, BaseThreads, Threads
 from ._tools.domain import AsyncTools, BaseTools, Tools
 from ._tuning.domain import AsyncTuning, BaseTuning, Tuning
@@ -61,6 +62,9 @@ class BaseSDK:
     #: Domain for working with
     #: `Yandex Cloud OpenAI Compatible API_BaseSDK_URL <https://yandex.cloud/docs/ai-studio/concepts/openai-compatibility>`_.
     chat: BaseChat
+    #: Domain for working with
+    #: `Yandex SpeechKit <https://yandex.cloud/docs/speechkit>`_ services.
+    speechkit: BaseSpeechKitDomain
 
     _messages: BaseMessages
 
@@ -240,6 +244,7 @@ class AsyncYCloudML(BaseSDK):
     tuning: AsyncTuning
     batch: AsyncBatch
     chat: AsyncChat
+    speechkit: AsyncSpeechKitDomain
     _messages: AsyncMessages
 
 
@@ -257,4 +262,5 @@ class YCloudML(BaseSDK):
     tuning: Tuning
     batch: Batch
     chat: Chat
+    speechkit: SpeechKitDomain
     _messages: Messages

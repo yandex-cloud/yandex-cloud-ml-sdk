@@ -32,6 +32,14 @@ class StubType(Protocol):
 _T = TypeVar('_T', bound=StubType)
 _D = TypeVar('_D', bound=Message)
 
+TEMPORARY_ADDITIONAL_SERVICE_MAP = {
+    'api.cloud.yandex.net:443': {
+       'ai-tts-v3': 'tts.api.cloud.yandex.net:443'
+    },
+    'api.cloud-preprod.yandex.net:443': {
+        'ai-tts-v3': 'tts-api.ml.cloud-preprod.yandex.net:443'
+    }
+}
 
 def _get_user_agent() -> str:
     from . import __version__  # pylint: disable=import-outside-toplevel,cyclic-import
@@ -130,6 +138,16 @@ class AsyncCloudClient:
 
         if endpoint := self._service_map.get(service_name):
             return endpoint
+
+        # NB: Problem is, tts-v3 service is not added to endpoints service
+        # (I hope not added YET).
+        # So, we are hardcoding this service into additional map.
+        # Idea is:
+        # 1) user could override it via service_map
+        # 2) if and when it will appear at endpoints service, it will make this brunch unreachable
+        if endpoints := TEMPORARY_ADDITIONAL_SERVICE_MAP.get(self._endpoint):
+            if endpoint := endpoints.get(service_name):
+                return endpoint
 
         raise UnknownEndpointError(f'failed to find endpoint for {service_name=} and {stub_class=}')
 
