@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import pathlib
 import uuid
+from typing import Literal
 
 from yandex_cloud_ml_sdk import YCloudML
 
@@ -56,10 +57,11 @@ def main() -> None:
     sdk.setup_default_logging()
     base_model = sdk.models.text_embeddings('text-embeddings')
 
-    for name, tune_type, dataset_function in [
+    tune_configs: list[tuple[str, Literal['pair', 'triplet'], object]] = [
         ('embeddings_pair', 'pair', sdk.datasets.text_embeddings_pair),
         ('embeddings_triplet', 'triplet', sdk.datasets.text_embeddings_triplet),
-    ]:
+    ]
+    for name, tune_type, dataset_function in tune_configs:
         train_dataset, validation_dataset = get_datasets(sdk, name, dataset_function)
         result = base_model.run("hi")
         print(f'pretrain model inference result: {result}')

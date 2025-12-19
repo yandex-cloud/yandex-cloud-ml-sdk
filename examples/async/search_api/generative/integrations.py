@@ -29,7 +29,7 @@ async def main() -> None:
 
     # 3) We are passing search result to a yandex-art with an extra instruction
     image_model = sdk.models.image_generation('yandex-art')
-    operation = await image_model.run_deferred(["Draw a character by next instruction:", search_result])
+    operation = await image_model.run_deferred(["Draw a character by next instruction:", search_result.text])
     image_result = await operation
     try:
         pathlib.Path('image.jpeg').write_bytes(image_result.image_bytes)

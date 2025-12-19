@@ -27,12 +27,13 @@ def main() -> None:
     )
     sdk.setup_default_logging()
     query_model = sdk.models.text_embeddings('query')
-    query_embedding = query_model.run("когда день рождения Пушкина?")
+    query_result = query_model.run("когда день рождения Пушкина?")
 
     doc_model = sdk.models.text_embeddings('doc')
-    doc_embeddings = [doc_model.run(text) for text in doc_texts]
+    doc_results = [doc_model.run(text) for text in doc_texts]
 
-    query_embedding = np.array(query_embedding.embedding)
+    query_embedding = np.array(query_result.embedding)
+    doc_embeddings = [np.array(doc_result.embedding) for doc_result in doc_results]
 
     dist = cdist([query_embedding], doc_embeddings, metric='cosine')
     sim = 1 - dist
