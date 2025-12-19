@@ -1,12 +1,17 @@
 # pylint: disable=protected-access
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from yandex_cloud_ml_sdk._types.domain import DomainWithFunctions
 
 from .completions.function import AsyncCompletions, BaseCompletions, Completions
 from .image_generation.function import AsyncImageGeneration, BaseImageGeneration, ImageGeneration
 from .text_classifiers.function import AsyncTextClassifiers, BaseTextClassifiers, TextClassifiers
 from .text_embeddings.function import AsyncTextEmbeddings, BaseTextEmbeddings, TextEmbeddings
+
+if TYPE_CHECKING:
+    from yandex_cloud_ml_sdk._sdk import BaseSDK
 
 
 class BaseModels(DomainWithFunctions):
@@ -24,9 +29,15 @@ class AsyncModels(BaseModels):
     text_classifiers: AsyncTextClassifiers
     image_generation: AsyncImageGeneration
 
+    def __init__(self, name: str, sdk: BaseSDK) -> None:
+        super().__init__(name=name, sdk=sdk)
+
 
 class Models(BaseModels):
     completions: Completions
     text_embeddings: TextEmbeddings
     text_classifiers: TextClassifiers
     image_generation: ImageGeneration
+
+    def __init__(self, name: str, sdk: BaseSDK) -> None:
+        super().__init__(name=name, sdk=sdk)

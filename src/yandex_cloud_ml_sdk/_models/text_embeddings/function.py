@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing_extensions import override
 
 from yandex_cloud_ml_sdk._types.function import BaseModelFunction, ModelTypeT
-from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from .model import AsyncTextEmbeddingsModel, TextEmbeddingsModel
 
@@ -26,7 +25,7 @@ class BaseTextEmbeddings(BaseModelFunction[ModelTypeT]):
         model_name: str,
         *,
         model_version: str = 'latest',
-    ):
+    ) -> ModelTypeT:
         """
         Call the specified model for text embeddings.
         It returns an instance of the specified type of the model.
@@ -53,10 +52,14 @@ class BaseTextEmbeddings(BaseModelFunction[ModelTypeT]):
             uri=uri,
         )
 
-@doc_from(BaseTextEmbeddings)
-class TextEmbeddings(BaseTextEmbeddings):
+
+class TextEmbeddings(BaseTextEmbeddings[TextEmbeddingsModel]):
+    __doc__ = BaseTextEmbeddings.__doc__
+
     _model_type = TextEmbeddingsModel
 
-@doc_from(BaseTextEmbeddings)
-class AsyncTextEmbeddings(BaseTextEmbeddings):
+
+class AsyncTextEmbeddings(BaseTextEmbeddings[AsyncTextEmbeddingsModel]):
+    __doc__ = BaseTextEmbeddings.__doc__
+
     _model_type = AsyncTextEmbeddingsModel

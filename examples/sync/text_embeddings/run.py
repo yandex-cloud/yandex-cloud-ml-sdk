@@ -26,7 +26,6 @@ def main() -> None:
         # auth="<YC_API_KEY/YC_IAM_TOKEN>",
     )
     sdk.setup_default_logging()
-
     query_model = sdk.models.text_embeddings('query')
     query_embedding = query_model.run("когда день рождения Пушкина?")
 
