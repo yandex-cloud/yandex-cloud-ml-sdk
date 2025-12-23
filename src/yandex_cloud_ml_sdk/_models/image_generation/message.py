@@ -8,6 +8,7 @@ from typing_extensions import NotRequired
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.ai.foundation_models.v1.image_generation.image_generation_pb2 import Message as ProtoMessage
 
+from yandex_cloud_ml_sdk._types.message import TextMessage
 from yandex_cloud_ml_sdk._utils.coerce import coerce_tuple
 
 
@@ -37,10 +38,11 @@ class AnyMessage(Protocol):
     The class with a protocol which defines an object with a text field.
     The protocol can be used to check if an object has a text attribute.
     """
-    text: str
+    @property
+    def text(self) -> str: ...
 
 #: type alias for different types of messages that can be processed by image generation models
-ImageMessageType = Union[ImageMessage, ImageMessageDict, AnyMessage, str]
+ImageMessageType = Union[ImageMessage, ImageMessageDict, TextMessage, AnyMessage, str]
 #: type alias for input types accepted by the `messages_to_proto` function
 ImageMessageInputType = Union[ImageMessageType, Iterable[ImageMessageType]]
 
@@ -48,8 +50,8 @@ ImageMessageInputType = Union[ImageMessageType, Iterable[ImageMessageType]]
 def messages_to_proto(messages: ImageMessageInputType) -> list[ProtoMessage]:
     """:meta private:"""
     msgs: tuple[ImageMessageType] = coerce_tuple(  # type: ignore[assignment]
-        messages,
-        (dict, str, ImageMessage, AnyMessage)  # type: ignore[arg-type]
+        messages,  # type: ignore[arg-type]
+        (dict, str, ImageMessage, TextMessage, AnyMessage)  # type: ignore[arg-type]
     )
 
     result: list[ProtoMessage] = []
@@ -58,6 +60,9 @@ def messages_to_proto(messages: ImageMessageInputType) -> list[ProtoMessage]:
         kwargs: ImageMessageDict
         if isinstance(message, str):
             kwargs = {'text': message}
+        elif isinstance(message, TextMessage):
+            # TextMessage has 'text' and 'role', but image generation only uses 'text'
+            kwargs = {'text': message.text}
         elif isinstance(message, AnyMessage):
             kwargs =  {'text': message.text}
             if weight := getattr(message, 'weight', None):
