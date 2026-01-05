@@ -30,15 +30,16 @@ async def main() -> None:
     sdk.setup_default_logging()
 
     query_model = sdk.models.text_embeddings('query')
-    query_embedding = await query_model.run("когда день рождения Пушкина?")
+    query_result = await query_model.run("когда день рождения Пушкина?")
 
     doc_model = sdk.models.text_embeddings('doc')
     coros = (doc_model.run(text) for text in doc_texts)
-    doc_embeddings = await asyncio.gather(*coros)
+    doc_results = await asyncio.gather(*coros)
 
-    query_embedding = np.array(query_embedding.embedding)
+    query_embedding = np.array(query_result.embedding)
+    doc_embeddings = [np.array(doc_result.embedding) for doc_result in doc_results]
 
-    dist = cdist([query_embedding], list(doc_embeddings), metric='cosine')
+    dist = cdist([query_embedding], doc_embeddings, metric='cosine')
     sim = 1 - dist
     result = doc_texts[np.argmax(sim)]
     print(result)

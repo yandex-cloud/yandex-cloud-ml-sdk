@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing_extensions import override
 
 from yandex_cloud_ml_sdk._types.function import BaseModelFunction, ModelTypeT
-from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from .model import AsyncTextClassifiersModel, TextClassifiersModel
 
@@ -20,7 +19,7 @@ class BaseTextClassifiers(BaseModelFunction[ModelTypeT]):
         model_name: str,
         *,
         model_version: str = 'latest',
-    ):
+    ) -> ModelTypeT:
         """Call the text classification model.
 
         Constructs the URI for the model based on the provided model's name
@@ -45,10 +44,13 @@ class BaseTextClassifiers(BaseModelFunction[ModelTypeT]):
         )
 
 
-@doc_from(BaseTextClassifiers)
-class TextClassifiers(BaseTextClassifiers):
+class TextClassifiers(BaseTextClassifiers[TextClassifiersModel]):
+    __doc__ = BaseTextClassifiers.__doc__
+
     _model_type = TextClassifiersModel
 
-@doc_from(BaseTextClassifiers)
-class AsyncTextClassifiers(BaseTextClassifiers):
+
+class AsyncTextClassifiers(BaseTextClassifiers[AsyncTextClassifiersModel]):
+    __doc__ = BaseTextClassifiers.__doc__
+
     _model_type = AsyncTextClassifiersModel

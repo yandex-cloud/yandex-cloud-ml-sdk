@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing_extensions import override
 
 from yandex_cloud_ml_sdk._types.function import BaseModelFunction, ModelTypeT
-from yandex_cloud_ml_sdk._utils.doc import doc_from
 
 from .model import AsyncImageGenerationModel, ImageGenerationModel
 
@@ -25,7 +24,7 @@ class BaseImageGeneration(BaseModelFunction[ModelTypeT]):
         model_name: str,
         *,
         model_version: str = 'latest',
-    ):
+    ) -> ModelTypeT:
         """
         Call the image generation model with the specified name and version.
 
@@ -50,10 +49,14 @@ class BaseImageGeneration(BaseModelFunction[ModelTypeT]):
             uri=uri,
         )
 
-@doc_from(BaseImageGeneration)
-class ImageGeneration(BaseImageGeneration):
+
+class ImageGeneration(BaseImageGeneration[ImageGenerationModel]):
+    __doc__ = BaseImageGeneration.__doc__
+
     _model_type = ImageGenerationModel
 
-@doc_from(BaseImageGeneration)
-class AsyncImageGeneration(BaseImageGeneration):
+
+class AsyncImageGeneration(BaseImageGeneration[AsyncImageGenerationModel]):
+    __doc__ = BaseImageGeneration.__doc__
+
     _model_type = AsyncImageGenerationModel
