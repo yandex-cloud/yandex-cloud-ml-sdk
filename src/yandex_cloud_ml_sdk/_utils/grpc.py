@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import AsyncIterator, Awaitable
-from typing import Callable, Generic, Tuple, TypeVar, Union
+from typing import Callable, Generic, TypeVar, Union
 
 import grpc
 import grpc.aio

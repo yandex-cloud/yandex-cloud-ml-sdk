@@ -7,7 +7,7 @@ import uuid
 from collections.abc import AsyncIterator, Iterable
 from dataclasses import dataclass
 from enum import Enum
-from typing import TYPE_CHECKING, Literal, Tuple, TypeVar, cast
+from typing import TYPE_CHECKING, Literal, TypeVar, cast
 
 import grpc
 import grpc.aio
