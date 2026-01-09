@@ -98,11 +98,15 @@ class AioRpcError(BaseAioRpcError):
         ):
             self._client_request_id = "grpc metadata was replaced with non-Metadata object"
         else:
-            self._client_request_id = (
+            client_request_id = (
                 initial and initial.get('x-client-request-id') or
                 trailing and trailing.get('x-client-request-id') or
                 ""
             )
+            if isinstance(client_request_id, bytes):
+                self._client_request_id = client_request_id.decode('utf-8')
+            else:
+                self._client_request_id = client_request_id
 
     @classmethod
     def from_base_rpc_error(
