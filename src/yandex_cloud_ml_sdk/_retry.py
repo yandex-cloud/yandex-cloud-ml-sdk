@@ -4,19 +4,30 @@ import asyncio
 import random
 import time
 import uuid
-from collections.abc import AsyncIterable, Iterable
+from collections.abc import AsyncIterator, Iterable
 from dataclasses import dataclass
 from enum import Enum
-from typing import TYPE_CHECKING, Literal, cast
+from typing import TYPE_CHECKING, Literal, TypeVar, cast
 
 import grpc
 import grpc.aio
-from grpc.aio._typing import RequestType, ResponseType
 from typing_extensions import TypeAlias, overload
 
+from ._utils.grpc import (
+    UnaryStreamCallResponseIterator, UnaryStreamCallType, UnaryStreamContinuationType, UnaryUnaryContinuationType
+)
+
 if TYPE_CHECKING:
-    from collections.abc import Awaitable
-    from typing import Callable
+    from grpc.aio import _TRequest as RequestType
+    from grpc.aio import _TResponse as ResponseType
+else:
+    from grpc.aio._typing import RequestType, ResponseType
+
+
+
+CallTypeT = TypeVar('CallTypeT', bound=grpc.aio.Call)
+RetrierYieldType: TypeAlias = tuple[CallTypeT, ResponseType]
+RetrierReturnType: TypeAlias = AsyncIterator[RetrierYieldType]
 
 
 class RetryKind(Enum):
@@ -28,106 +39,6 @@ class RetryKind(Enum):
 
 
 RETRY_KIND_METADATA_KEY = 'yc-ml-sdk-retry'
-
-UnaryUnaryCallType: TypeAlias = grpc.aio.UnaryUnaryCall[RequestType, ResponseType]
-UnaryStreamCallType: TypeAlias = grpc.aio.UnaryStreamCall[RequestType, ResponseType]
-UnaryUnaryContinuationType: TypeAlias = (
-    'Callable[[grpc.aio.ClientCallDetails, RequestType], Awaitable[UnaryUnaryCallType]]'
-)
-# NB: I am really believe that there are wrong typing hints in grpc itself:
-# there are noted that continuation returning UnaryStreamCallType, but it is not true,
-# because in real life it returning a coroutine which returning UnaryStreamCallType
-UnaryStreamContinuationType: TypeAlias = (
-    'Callable[[grpc.aio.ClientCallDetails, RequestType], Awaitable[UnaryStreamCallType]]'
-)
-RetrierYieldType: TypeAlias = 'tuple[grpc.aio.Call, ResponseType]'
-RetrierReturnType: TypeAlias = 'AsyncIterable[RetrierYieldType]'
-
-
-class UnaryStreamCallResponseIterator(grpc.aio.UnaryStreamCall):
-    """
-    UnaryStreamCall wrapper for a AsyncIterable produced by UnaryStreamRetryInterceptor.
-
-    This class is "inspired" by grpc.aio._interceptors.UnaryStreamCallResponseIterator,
-    but we can't inherit it becaise it is not part of gprc api.
-
-    So, global problem is, in case if user are using only one grpc.aio.UnaryStreamInterceptor,
-    and this interceptor is returning AsyncIterator instead of UnaryStreamCall, everything
-    breaks in this place:
-    https://github.com/grpc/grpc/blob/b0e5f3b59886c16ad9277c11e7cfcb68713e3c86/src/python/grpcio/grpc/aio/_interceptor.py#L790
-    so we are compelled to use our own UnaryStreamCall-wrapper, like this class.
-
-    Also, this class is adapted to work with retries, and it will change underlying call object
-    in case of retry, and it will send all required calls like cancel to a proper underlying call object.
-
-    """
-
-    def __init__(
-        self,
-        response_iterator: AsyncIterable[ResponseType],
-    ) -> None:
-        self._response_iterator = response_iterator
-        self._call: grpc.aio.UnaryStreamCall | None = None
-
-    def cancel(self) -> bool:
-        if self._call:
-            return self._call.cancel()
-        return True
-
-    def cancelled(self) -> bool:
-        if self._call:
-            return self._call.cancelled()
-        return True
-
-    def done(self) -> bool:
-        if self._call:
-            return self._call.done()
-        return True
-
-    def add_done_callback(self, callback) -> None:
-        raise NotImplementedError()
-
-    def time_remaining(self) -> float | None:
-        if self._call:
-            return self._call.time_remaining()
-        return None
-
-    # NB: this method returning Optional[Metadata] in original
-    # grpc.aio._interceptors.UnaryStreamCallResponseIterator, despite it is
-    # not-optional in grpc.aio.UnaryStreamCall, so I guess it is okay
-    # to ignore mypy-override here
-    async def initial_metadata(self) -> grpc.aio.Metadata | None:  # type: ignore[override]
-        if self._call:
-            return await self._call.initial_metadata()
-        return None
-
-    async def trailing_metadata(self) -> grpc.aio.Metadata | None:  # type: ignore[override]
-        if self._call:
-            return await self._call.trailing_metadata()
-        return None
-
-    async def code(self) -> grpc.StatusCode:
-        if self._call:
-            return await self._call.code()
-        return grpc.StatusCode.UNKNOWN
-
-    async def details(self) -> str:
-        if self._call:
-            return await self._call.details()
-        return ''
-
-    async def __aiter__(self):  # pylint: disable=invalid-overridden-method
-        async for call, value in self._response_iterator:
-            self._call = call
-            yield value
-
-    async def wait_for_connection(self) -> None:
-        if self._call:
-            return await self._call.wait_for_connection()
-        return None
-
-    async def read(self) -> ResponseType:
-        raise NotImplementedError()
 
 
 class RetrierBase:
@@ -245,7 +156,7 @@ class RetrierBase:
             if deadline is not None:
                 new_timeout = max((deadline - time.time(), 0))
 
-                # client_call_details isthe namedtuple but apparently this nuance is lacking from
+                # client_call_details is the namedtuple but apparently this nuance is lacking from
                 # grpc-stubs package
                 client_call_details = client_call_details._replace(timeout=new_timeout)  # type: ignore[attr-defined]
 
@@ -293,7 +204,7 @@ class UnaryStreamRetryInterceptor(grpc.aio.UnaryStreamClientInterceptor, Retrier
         continuation: UnaryStreamContinuationType,  # type: ignore[override]
         client_call_details: grpc.aio.ClientCallDetails,
         request: RequestType,
-    ) -> UnaryStreamCallType | AsyncIterable[ResponseType]:
+    ) -> UnaryStreamCallType | AsyncIterator[ResponseType]:
         assert client_call_details.metadata is not None  # it is always is not None because of our client
 
         # metadata on a client_call_details is mutable, and there should be a problem
@@ -306,7 +217,7 @@ class UnaryStreamRetryInterceptor(grpc.aio.UnaryStreamClientInterceptor, Retrier
 
         elif retry_type == RetryKind.SINGLE.name:
             raw_stream = self._retry_single(continuation, client_call_details, request, is_async_gen=True)
-            stream = UnaryStreamCallResponseIterator(raw_stream)
+            stream = UnaryStreamCallResponseIterator(None, raw_stream)
 
         elif retry_type == RetryKind.CONTINUATION:
             raise NotImplementedError()

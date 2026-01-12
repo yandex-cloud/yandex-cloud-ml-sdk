@@ -90,6 +90,7 @@ async def fixture_test_server():
         thread_pool=thread_pool,
         options=(
             ('grpc.max_concurrent_streams', -1),
+            ('groc.verbosity', 'DEBUG'),
         )
     )
     port = server.add_insecure_port('[::]:0')

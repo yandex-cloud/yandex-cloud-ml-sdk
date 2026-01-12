@@ -17,6 +17,7 @@ from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServi
 
 from ._auth import BaseAuth, get_auth_provider
 from ._exceptions import AioRpcError, HttpSseError, UnknownEndpointError
+from ._logging.interceptors import get_log_interceprtors
 from ._retry import RETRY_KIND_METADATA_KEY, RetryKind, RetryPolicy
 from ._types.misc import PathLike, coerce_path
 from ._utils.http import HTTPServiceName, get_http_service_endpoint
@@ -74,7 +75,8 @@ class AsyncCloudClient:
 
         self._interceptors = (
             (tuple(interceptors) if interceptors else ()) +
-            retry_policy.get_interceptors()
+            retry_policy.get_interceptors() +
+            get_log_interceprtors()
         )
 
         self._channels: dict[type[StubType], grpc.aio.Channel] = {}

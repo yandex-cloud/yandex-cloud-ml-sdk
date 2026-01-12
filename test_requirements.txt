@@ -1,7 +1,5 @@
 certifi
 data-science-types
-googleapis-common-protos-stubs
-grpc-stubs
 mypy
 psutil
 pyarrow-stubs
@@ -17,6 +15,8 @@ pytest-pylint
 pytest-recording
 tqdm
 types-aiofiles
+types-grpcio
+types-protobuf
 types-protobuf
 types-psutil
 types-tqdm
