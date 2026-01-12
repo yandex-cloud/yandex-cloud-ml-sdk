@@ -233,14 +233,17 @@ class BaseGPTModel(
         *,
         timeout=180,
     ) -> GPTModelResult[ToolCallTypeT]:
-        async for result in self._run_sync_impl(
+        result: GPTModelResult[ToolCallTypeT] | None = None
+        async for res in self._run_sync_impl(
             messages=messages,
             timeout=timeout,
             stream=False
         ):
-            return result
+            result = res
 
-        raise RuntimeError("call returned less then one result")
+        if result is None:
+            raise RuntimeError("call returned less then one result")
+        return result
 
     @override
     # pylint: disable-next=arguments-differ

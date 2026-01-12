@@ -35,11 +35,13 @@ def servicers():
                 context.abort(
                     grpc.StatusCode.UNAVAILABLE, "foo"
                 )
+                return None
 
             if self.i == 2:
                 context.abort(
                     grpc.StatusCode.RESOURCE_EXHAUSTED, "bar"
                 )
+                return None
 
             if self.i == 3:
                 yield CompletionResponse(
@@ -47,10 +49,12 @@ def servicers():
                     usage=None,
                     model_version='111'
                 )
+                return None
 
             context.abort(
                 grpc.StatusCode.CANCELLED, "special error"
             )
+            return None
 
     class TokenizerService(TokenizerServiceServicer):
         def __init__(self):
@@ -64,11 +68,13 @@ def servicers():
                 context.abort(
                     grpc.StatusCode.UNAVAILABLE, "foo"
                 )
+                return None
 
             if self.i == 2:
                 context.abort(
                     grpc.StatusCode.RESOURCE_EXHAUSTED, "bar"
                 )
+                return None
 
             if self.i == 3:
                 return TokenizeResponse(
@@ -79,8 +85,7 @@ def servicers():
             context.abort(
                 grpc.StatusCode.CANCELLED, "special error"
             )
-            # to please pylint, because abort will raise a error
-            return TokenizeResponse()
+            return None
 
     return [
         (TextGenerationServicer(), add_TextGenerationServiceServicer_to_server),

@@ -72,12 +72,10 @@ async def _log_from_call(
             trailing = None
 
     if trailing:
-        metadata = {
-            key: value if key.endswith('id') else '<hidden-by-sdk>'
-            for key, value in trailing
-        }
+        # pylint: disable-next=unnecessary-comprehension
+        metadata = {key: value for key, value in trailing}
 
-    logger.info(
+    logger.debug(
         "grpc client %s call service=%s method=%s code=%s details=%r metadata=%r",
         method_type,
         service,
@@ -138,7 +136,10 @@ class StreamReturnCallProxy(Generic[RequestType, ResponseType]):
     async def _gen(self) -> WrappedStreamReturnCallType[StreamReturnCallType[RequestType, ResponseType], ResponseType]:
         err = None
         try:
+            i = 0
             async for item in self._call:
+                print(i)
+                i += 1
                 yield self._call, item
         except BaseException as e:
             err = e
