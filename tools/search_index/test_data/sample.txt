@@ -1,0 +1,16 @@
+Sample Text File for Search Index Testing
+==========================================
+
+This is a simple text file used to test the search index uploader.
+
+It contains multiple lines of text to ensure that file content
+is properly read and uploaded to Yandex Cloud.
+
+Key features being tested:
+- File reading from local filesystem
+- MIME type detection (text/plain)
+- Content upload to Yandex Cloud Files API
+- Search index creation from uploaded files
+
+This file should be successfully processed by the LocalFileSource
+and uploaded via the SearchIndexUploader.
