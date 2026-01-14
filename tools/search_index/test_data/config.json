@@ -1,0 +1,30 @@
+{
+  "name": "Test Configuration",
+  "description": "Sample JSON file for search index testing",
+  "settings": {
+    "upload": {
+      "batch_size": 50,
+      "max_workers": 4,
+      "skip_on_error": true
+    },
+    "index": {
+      "type": "text",
+      "chunking": {
+        "max_chunk_size_tokens": 2000,
+        "chunk_overlap_tokens": 400
+      }
+    },
+    "files": {
+      "ttl_days": 30,
+      "expiration_policy": "static",
+      "max_file_size": 10485760
+    }
+  },
+  "sources": [
+    "local",
+    "s3",
+    "confluence",
+    "wiki"
+  ],
+  "version": "0.1.0"
+}
