@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, TypeVar, cast
 
 import grpc.aio
 from yandex.cloud.ai.tts.v3.tts_pb2 import (
-    StreamSynthesisRequest, StreamSynthesisResponse, SynthesisInput, SynthesisOptions
+    ForceSynthesisEvent, StreamSynthesisRequest, StreamSynthesisResponse, SynthesisInput, SynthesisOptions
 )
 from yandex.cloud.ai.tts.v3.tts_service_pb2_grpc import SynthesizerStub
 
@@ -147,6 +147,16 @@ class BaseTTSBiderectionalStream:
             with self._client.with_sdk_error(SynthesizerStub):
                 await call.done_writing()
 
+    async def _flush(self) -> None:
+        """Send message to server to force synthesis with already given input"""
+
+        call = await self._get_call()
+        with self._client.with_sdk_error(SynthesizerStub):
+            request = StreamSynthesisRequest(
+                force_synthesis=ForceSynthesisEvent()
+            )
+            await call.write(request)
+
 
 class AsyncTTSBidirectionalStream(BaseTTSBiderectionalStream, AsyncIterator[TextToSpeechResult]):
     __doc__ = BaseTTSBiderectionalStream.__doc__
@@ -177,6 +187,10 @@ class AsyncTTSBidirectionalStream(BaseTTSBiderectionalStream, AsyncIterator[Text
     async def done_writing(self) -> None:
         await self._done_writing()
 
+    @doc_from(BaseTTSBiderectionalStream._flush)
+    async def flush(self) -> None:
+        await self._flush()
+
     def __aiter__(self) -> AsyncIterator[TextToSpeechResult]:
         return self
 
@@ -187,6 +201,7 @@ class TTSBidirectionalStream(BaseTTSBiderectionalStream, Iterator[TextToSpeechRe
     __read = run_sync(BaseTTSBiderectionalStream._read)
     __gen = run_sync_generator(BaseTTSBiderectionalStream._gen)
     __done_writing = run_sync(BaseTTSBiderectionalStream._done_writing)
+    __flush = run_sync(BaseTTSBiderectionalStream._flush)
 
     @doc_from(BaseTTSBiderectionalStream._write)
     def write(self, input: str) -> None:
@@ -213,6 +228,10 @@ class TTSBidirectionalStream(BaseTTSBiderectionalStream, Iterator[TextToSpeechRe
     @doc_from(BaseTTSBiderectionalStream._done_writing)
     def done_writing(self) -> None:
         self.__done_writing()
+
+    @doc_from(BaseTTSBiderectionalStream._flush)
+    def flush(self) -> None:
+        self.__flush()
 
     def __iter__(self) -> Iterator[TextToSpeechResult]:
         return self

@@ -11,12 +11,12 @@ def servicers():
     class SynthesizerServicerImpl(SynthesizerServicer):
         def StreamSynthesis(self, request_iterator, context):
             requests = list(request_iterator)
-            first, second = requests
+            assert all(isinstance(r, StreamSynthesisRequest) for r in requests)
+            first, second, third = requests
 
-            assert isinstance(first, StreamSynthesisRequest)
-            assert isinstance(second, StreamSynthesisRequest)
             assert first.HasField('options')
             assert second.HasField('synthesis_input')
+            assert third.HasField('force_synthesis')
 
             yield StreamSynthesisResponse(
                 audio_chunk=AudioChunk(data=b'foo'),
@@ -36,6 +36,7 @@ async def test_bistream(async_sdk):
     stream = tts.create_bistream()
 
     await stream.write('foo')
+    await stream.flush()
     await stream.done_writing()
     results = [r async for r in stream]
     result = results[0]
