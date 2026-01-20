@@ -2,20 +2,29 @@
 
 from __future__ import annotations
 
-import asyncio
+import threading
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk._experimental.audio.out import AsyncAudioOut
+import numpy as np
+from sounddevice import OutputStream
+
+from yandex_cloud_ml_sdk import YCloudML
 from yandex_cloud_ml_sdk._experimental.audio.utils import choose_audio_device
 
 SAMPLERATE = 44100
 
 
-async def main() -> None:
+def convert(data: bytes):
+    audio_int16 = np.frombuffer(data, dtype=np.int16)
+    audio_normalized = audio_int16.astype(np.float32) / 32768.0
+    return audio_normalized
+
+
+
+def main() -> None:
     # You can set authentication using environment variables instead of the 'auth' argument:
     # YC_OAUTH_TOKEN, YC_TOKEN, YC_IAM_TOKEN, or YC_API_KEY
     # You can also set 'folder_id' using the YC_FOLDER_ID environment variable
-    sdk = AsyncYCloudML(
+    sdk = YCloudML(
         # folder_id="<YC_FOLDER_ID>",
         # auth="<YC_API_KEY/YC_IAM_TOKEN>",
     ).setup_default_logging()
@@ -37,40 +46,38 @@ async def main() -> None:
     gpt = sdk.chat.completions('aliceai-llm')
     gpt = gpt.configure(max_tokens=100)
 
-    async def make_input_stream(writer):
-        async for chunk in gpt.run_stream(
+    def make_input_stream(writer):
+        for chunk in gpt.run_stream(
             "Сгенерируй сказку на 1000 символов про Yandex Cloud AI Studio, без служебных символов"
         ):
             if delta := chunk[0].delta:
-                await writer.write(delta)
+                writer.write(delta)
                 print(f"Generated {len(delta)} characters chunk")
 
         # We need to tell to a server that we are finished writing;
         # Server will send the rest of output and finish the stream, which
-        # will release async for loop at bottom of this file
-        await writer.done_writing()
+        # will release for loop at bottom of this file
+        writer.done_writing()
 
     bistream = tts.create_bistream(timeout=60 * 10)
 
-    # we are creating asyncio task which whill call bistream.write in the background
-    input_task = asyncio.create_task(make_input_stream(bistream))
+    # we are creating io task which whill call bistream.write in the background
+    input_thread = threading.Thread(
+        target=make_input_stream,
+        kwargs={'writer': bistream}
+    )
+    input_thread.start()
 
     try:
-        async with AsyncAudioOut(device_id=output_device_id, samplerate=SAMPLERATE) as out:
-            # Here we are consuming TTS output via async iterator interface:
-            async for partial_result in bistream:
+        with OutputStream(samplerate=SAMPLERATE, device=output_device_id, channels=1) as out:
+            # Here we are consuming TTS output via iterator interface:
+            for partial_result in bistream:
                 print(f'Chunk [{partial_result.start_ms}, {partial_result.end_ms}] ms: {partial_result.text}')
-                await out.write(partial_result.data)
-
-        await input_task
-    except asyncio.CancelledError:
-        # processing graceful exit with KeyboardInterrupt
-        pass
+                out.write(convert(partial_result.data))
     finally:
-        # if not finished, we are cancelling writer task and clearing audio out buffer
-        input_task.cancel()
-        await out.clear()
+        input_thread.join(5)
+        out.stop()
 
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    main()
