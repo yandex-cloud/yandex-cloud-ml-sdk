@@ -100,3 +100,5 @@ Base classes
 
 .. autoclass:: yandex_cloud_ml_sdk._speechkit.text_to_speech.tts.BaseTextToSpeech
    :exclude-members: to_bytes,from_bytes
+
+.. autoclass:: yandex_cloud_ml_sdk._speechkit.text_to_speech.bistream.BaseTTSBiderectionalStream
