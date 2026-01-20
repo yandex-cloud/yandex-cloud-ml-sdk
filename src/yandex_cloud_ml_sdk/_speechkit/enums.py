@@ -112,6 +112,9 @@ class AudioFormat(ProtoBasedEnum):
                 )
             )
 
+        if value is None:
+            return AudioFormatOptions()
+
         return AudioFormatOptions(
             container_audio=ContainerAudio(
                 container_audio_type=int(value)  # type: ignore[arg-type]
