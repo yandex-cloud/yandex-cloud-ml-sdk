@@ -158,6 +158,11 @@ class StreamStreamCallResponseIterator(
         assert self._call
         await self._call.done_writing()
 
+    @property
+    def _done_writing_flag(self) -> bool:
+        assert self._call
+        return self._call._done_writing_flag  # pylint: disable=protected-access
+
     async def write(self, request: RequestType) -> None:
         assert self._call
         await self._call.write(request)

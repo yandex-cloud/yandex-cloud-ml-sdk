@@ -7,7 +7,7 @@ from typing import Union
 
 from typing_extensions import Never, TypeAlias
 from yandex.cloud.ai.stt.v3.stt_pb2 import DefaultEouClassifier
-from yandex.cloud.ai.tts.v3.tts_pb2 import ContainerAudio, LoudnessNormalizationType
+from yandex.cloud.ai.tts.v3.tts_pb2 import AudioFormatOptions, ContainerAudio, LoudnessNormalizationType, RawAudio
 
 from yandex_cloud_ml_sdk._types.enum import EnumWithUnknownAlias, EnumWithUnknownInput, ProtoBasedEnum, UnknownEnumValue
 
@@ -101,6 +101,22 @@ class AudioFormat(ProtoBasedEnum):
     @classmethod
     def _get_available(cls) -> tuple[str, ...]:
         return super()._get_available() + ('PCM16(<int>)', 'PCM16(<int>, <int>)')
+
+    @staticmethod
+    def _to_proto(value: EnumWithUnknownAlias[AudioFormat] | None) -> AudioFormatOptions | None:
+        if isinstance(value, PCM16):
+            return AudioFormatOptions(
+                raw_audio=RawAudio(
+                    audio_encoding=RawAudio.AudioEncoding.LINEAR16_PCM,
+                    sample_rate_hertz=value.sample_rate_hertz,
+                )
+            )
+
+        return AudioFormatOptions(
+            container_audio=ContainerAudio(
+                container_audio_type=int(value)  # type: ignore[arg-type]
+            )
+        )
 
 
 class LoudnessNormalization(ProtoBasedEnum):
