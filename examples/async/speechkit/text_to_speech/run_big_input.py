@@ -33,28 +33,27 @@ async def main() -> None:
         loudness_normalization=tts.LoudnessNormalization.LUFS,
         speed=1.5,
     )
+    # we need to use bistream because tts.run/run_stream have limitations on input length
+    # NB: bistream timeout is defining max lifetime for WHOLE STREAM
+    bistream = tts.create_bistream(timeout=60 * 10)
 
     gpt = sdk.chat.completions('aliceai-llm')
     gpt = gpt.configure(max_tokens=100)
 
-    async def make_input_stream(writer):
-        async for chunk in gpt.run_stream(
-            "Сгенерируй сказку на 1000 символов про Yandex Cloud AI Studio, без служебных символов"
-        ):
-            if delta := chunk[0].delta:
-                await writer.write(delta)
-                print(f"Generated {len(delta)} characters chunk")
+    async for chunk in gpt.run_stream(
+        "Сгенерируй сказку на 1000 символов про Yandex Cloud AI Studio, без служебных символов"
+    ):
+        if delta := chunk[0].delta:  # type: ignore[attr-defined]
+            await bistream.write(delta)
+            print(f"Generated {len(delta)} characters chunk")
 
-        # We need to tell to a server that we are finished writing;
-        # Server will send the rest of output and finish the stream, which
-        # will release async for loop at bottom of this file
-        await writer.done_writing()
+    # in this case .flush is redundant because we will call .done_writing afterwards
+    await bistream.flush()
 
-    # NB: bistream timeout is defining max lifetime for WHOLE STREAM
-    bistream = tts.create_bistream(timeout=60 * 10)
-
-    # we are creating asyncio task which whill call bistream.write in the background
-    input_task = asyncio.create_task(make_input_stream(bistream))
+    # We need to tell to a server that we are finished writing;
+    # Server will send the rest of output and finish the stream, which
+    # will release async for loop at bottom of this file
+    await bistream.done_writing()
 
     try:
         async with AsyncAudioOut(device_id=output_device_id, samplerate=SAMPLERATE) as out:
@@ -63,13 +62,11 @@ async def main() -> None:
                 print(f'Chunk [{partial_result.start_ms}, {partial_result.end_ms}] ms: {partial_result.text}')
                 await out.write(partial_result.data)
 
-        await input_task
     except asyncio.CancelledError:
         # processing graceful exit with KeyboardInterrupt
         pass
     finally:
-        # if not finished, we are cancelling writer task and clearing audio out buffer
-        input_task.cancel()
+        # if not finished, we are clearing audio out buffer
         await out.clear()
 
 
