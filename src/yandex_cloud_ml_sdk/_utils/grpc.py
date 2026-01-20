@@ -161,7 +161,11 @@ class StreamStreamCallResponseIterator(
     @property
     def _done_writing_flag(self) -> bool:
         assert self._call
-        return self._call._done_writing_flag  # pylint: disable=protected-access
+
+        # this attribute exists in grpc and USED inside of interceptors usage grpc code.
+        # HOWEVER this attribute does not exists inside of typeshed grpc type stubs.
+        # pylint: disable-next=protected-access
+        return self._call._done_writing_flag  # type: ignore[attr-defined]
 
     async def write(self, request: RequestType) -> None:
         assert self._call

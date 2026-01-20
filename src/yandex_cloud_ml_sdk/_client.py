@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import sys
 import uuid
-from collections.abc import AsyncIterator, Sequence
+from collections.abc import AsyncIterator, Iterator, Sequence
 from contextlib import asynccontextmanager, contextmanager
 from typing import Any, Literal, Protocol, TypeVar, cast
 
@@ -259,8 +259,8 @@ class AsyncCloudClient:
     @contextmanager
     def with_sdk_error(
         self,
-        stub_class: StubType,
-    ) -> AsyncIterator[None]:
+        stub_class: type[StubType],
+    ) -> Iterator[None]:
         try:
             yield
         except grpc.aio.AioRpcError as original:
@@ -358,11 +358,14 @@ class AsyncCloudClient:
 
     async def stream_stream_call(
         self,
-        service: grpc.aio.StreamStreamMultiCallable | grpc.StreamStreamMultiCallable,
+        service: grpc.aio.StreamStreamMultiCallable,
         timeout: float,
     ) -> grpc.aio.StreamStreamCall:
         metadata = await self._get_metadata(auth_required=True, timeout=timeout)
-        call = service(metadata=metadata, timeout=timeout)
+        call = service(
+            metadata=metadata,
+            timeout=timeout,
+        )
         return call
 
     @asynccontextmanager

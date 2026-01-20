@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import asyncio
 from collections.abc import AsyncGenerator, AsyncIterator, Generator, Iterator
-from typing import TypeVar
+from typing import TYPE_CHECKING, TypeVar, cast
 
 import grpc.aio
 from yandex.cloud.ai.tts.v3.tts_pb2 import (
@@ -20,8 +20,13 @@ from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 from .config import TextToSpeechConfig
 from .result import RequestDetails, TextToSpeechResult
 
-EOF = grpc.aio.EOF
-EOFType = type(EOF)
+if TYPE_CHECKING:
+    # because grpc have a very funny type stubs which are not 100% synced with grpc itself
+    EOFType = grpc.aio._EOFType
+    EOF = EOFType()
+else:
+    EOF = grpc.aio.EOF
+    EOFType = type(EOF)
 
 
 class BaseTTSBiderectionalStream:
@@ -63,7 +68,7 @@ class BaseTTSBiderectionalStream:
         c = self._config
 
         options = SynthesisOptions(
-            loudness_normalization_type=c.loudness_normalization,  # type: ignore[arg-type],
+            loudness_normalization_type=c.loudness_normalization,  # type: ignore[arg-type]
             model=c.model or "",
             output_audio_spec=AudioFormat._to_proto(c.audio_format),
             pitch_shift=c.pitch_shift,
@@ -115,7 +120,7 @@ class BaseTTSBiderectionalStream:
                 return None
 
             return TextToSpeechResult._from_proto(
-                proto=response,
+                proto=cast(StreamSynthesisResponse, response),
                 sdk=self._sdk,
                 ctx=RequestDetails(model_config=self._config, timeout=self._timeout)
             )
