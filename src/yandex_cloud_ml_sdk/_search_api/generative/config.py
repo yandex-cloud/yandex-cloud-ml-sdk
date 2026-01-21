@@ -8,6 +8,7 @@ from typing_extensions import Self, TypeAlias, override
 # pylint: disable=no-name-in-module
 from yandex.cloud.searchapi.v2.gen_search_service_pb2 import GenSearchRequest
 
+from yandex_cloud_ml_sdk._exceptions import YCloudMLConfigurationError
 from yandex_cloud_ml_sdk._types.model_config import BaseModelConfig
 from yandex_cloud_ml_sdk._types.string import SmartStringSequence, coerce_string_sequence
 from yandex_cloud_ml_sdk._utils.coerce import coerce_tuple
@@ -85,7 +86,7 @@ class GenerativeSearchConfig(BaseModelConfig):
     @override
     def _validate_configure(self) -> None:
         if self._url_score > 1:
-            raise ValueError('GenerativeSearch fields site, host and url are mutually exclusive')
+            raise YCloudMLConfigurationError('GenerativeSearch fields site, host and url are mutually exclusive')
 
         for filter_ in self.search_filters or ():
             if (
@@ -93,19 +94,19 @@ class GenerativeSearchConfig(BaseModelConfig):
                 or len(filter_) != 1
                 or list(filter_)[0] not in ('format', 'lang', 'date')
             ):
-                raise ValueError(
+                raise YCloudMLConfigurationError(
                     "Filter must be a dict with one and only one key from a list 'format', 'lang', 'date'"
                 )
 
             if format_ := filter_.get('format'):
                 format_ = cast(str, format_)
                 if format_.lower() not in AVAILABLE_FORMATS_INPUTS:
-                    raise ValueError(f"Unknown format '{format_}', use one of {AVAILABLE_FORMATS}")
+                    raise YCloudMLConfigurationError(f"Unknown format '{format_}', use one of {AVAILABLE_FORMATS}")
 
     @override
     def _validate_run(self) -> None:
         if not self._url_score:
-            raise ValueError('GenerativeSearch must have one of the site, host or url fields set')
+            raise YCloudMLConfigurationError('GenerativeSearch must have one of the site, host or url fields set')
 
     @override
     def _replace(self, **kwargs: dict) -> Self:

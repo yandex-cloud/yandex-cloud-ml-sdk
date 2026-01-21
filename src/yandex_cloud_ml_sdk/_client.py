@@ -3,8 +3,8 @@ from __future__ import annotations
 
 import sys
 import uuid
-from collections.abc import AsyncIterator, Sequence
-from contextlib import asynccontextmanager
+from collections.abc import AsyncIterator, Iterator, Sequence
+from contextlib import asynccontextmanager, contextmanager
 from typing import Any, Literal, Protocol, TypeVar, cast
 
 import grpc
@@ -256,19 +256,13 @@ class AsyncCloudClient:
             channel = self._channels[stub_class] = self._new_channel(endpoint)
             return channel
 
-    @asynccontextmanager
-    async def get_service_stub(
+    @contextmanager
+    def with_sdk_error(
         self,
-        stub_class: type[_T],
-        timeout: float,
-        service_name: str | None = None
-    ) -> AsyncIterator[_T]:
-        # NB: right now get_service_stub is asynccontextmanager and it is unnecessary,
-        # but in future if we will make some ChannelPool, it could be handy to know,
-        # when "user" releases resource
-        channel = await self._get_channel(stub_class, timeout, service_name=service_name)
+        stub_class: type[StubType],
+    ) -> Iterator[None]:
         try:
-            yield stub_class(channel)
+            yield
         except grpc.aio.AioRpcError as original:
             # .with_traceback(...) from None allows to mimic
             # original exception without increasing traceback with an
@@ -281,6 +275,20 @@ class AsyncCloudClient:
                 auth=self._auth_provider,
                 stub_class=stub_class,
             ).with_traceback(original.__traceback__) from None
+
+    @asynccontextmanager
+    async def get_service_stub(
+        self,
+        stub_class: type[_T],
+        timeout: float,
+        service_name: str | None = None
+    ) -> AsyncIterator[_T]:
+        # NB: right now get_service_stub is asynccontextmanager and it is unnecessary,
+        # but in future if we will make some ChannelPool, it could be handy to know,
+        # when "user" releases resource
+        channel = await self._get_channel(stub_class, timeout, service_name=service_name)
+        with self.with_sdk_error(stub_class):
+            yield stub_class(channel)
 
     async def call_service_stream(
         self,
@@ -347,6 +355,18 @@ class AsyncCloudClient:
 
         async for response in call:
             yield cast(_D, response)
+
+    async def stream_stream_call(
+        self,
+        service: grpc.aio.StreamStreamMultiCallable,
+        timeout: float,
+    ) -> grpc.aio.StreamStreamCall:
+        metadata = await self._get_metadata(auth_required=True, timeout=timeout)
+        call = service(
+            metadata=metadata,
+            timeout=timeout,
+        )
+        return call
 
     @asynccontextmanager
     async def httpx(

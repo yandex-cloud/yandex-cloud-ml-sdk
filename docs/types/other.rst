@@ -84,6 +84,9 @@ Generic types
 .. py:class:: yandex_cloud_ml_sdk._types.enum.ProtoBasedEnumTypeT
 
 
+.. py:class:: yandex_cloud_ml_sdk._speechkit.text_to_speech.bistream.TTSBidirectionalStreamTypeT
+
+
 Miscellaneous types
 ~~~~~~~~~~~~~~~~~~~
 

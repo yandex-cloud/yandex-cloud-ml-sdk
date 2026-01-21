@@ -3,10 +3,11 @@ from __future__ import annotations
 import base64
 from collections.abc import Iterable
 from dataclasses import dataclass, field
+from typing import Union
 
 from typing_extensions import Self, override
 # pylint: disable-next=no-name-in-module
-from yandex.cloud.ai.tts.v3.tts_pb2 import UtteranceSynthesisResponse
+from yandex.cloud.ai.tts.v3.tts_pb2 import StreamSynthesisResponse, UtteranceSynthesisResponse
 
 from yandex_cloud_ml_sdk._speechkit.enums import PCM16, AudioFormat
 from yandex_cloud_ml_sdk._speechkit.utils import pcm16_to_wav
@@ -15,6 +16,8 @@ from yandex_cloud_ml_sdk._types.request import RequestDetails
 from yandex_cloud_ml_sdk._types.result import BaseProtoModelResult, SDKType
 
 from .config import TextToSpeechConfig
+
+SynthesisResponse = Union[UtteranceSynthesisResponse, StreamSynthesisResponse]
 
 
 @dataclass(frozen=True)
@@ -49,7 +52,7 @@ class TextToSpeechChunk:
 
 
 @dataclass(frozen=True)
-class TextToSpeechResult(BaseProtoModelResult[UtteranceSynthesisResponse, RequestDetails[TextToSpeechConfig]]):
+class TextToSpeechResult(BaseProtoModelResult[SynthesisResponse, RequestDetails[TextToSpeechConfig]]):
     """A class representing the partially parsed result of a Web search request
     with XML format.
     """
@@ -61,7 +64,7 @@ class TextToSpeechResult(BaseProtoModelResult[UtteranceSynthesisResponse, Reques
     @classmethod
     @override
     # pylint: disable-next=unused-argument
-    def _from_proto(cls, *, proto: UtteranceSynthesisResponse, sdk: SDKType, ctx: RequestDetails[TextToSpeechConfig]) -> Self:
+    def _from_proto(cls, *, proto: SynthesisResponse, sdk: SDKType, ctx: RequestDetails[TextToSpeechConfig]) -> Self:
         chunk = TextToSpeechChunk(
             data=proto.audio_chunk.data,
             text=proto.text_chunk.text,
@@ -77,7 +80,7 @@ class TextToSpeechResult(BaseProtoModelResult[UtteranceSynthesisResponse, Reques
     def _from_proto_iterable(
         cls,
         *,
-        proto: Iterable[UtteranceSynthesisResponse],
+        proto: Iterable[SynthesisResponse],
         # pylint: disable-next=unused-argument
         sdk: SDKType,
         ctx: RequestDetails[TextToSpeechConfig]

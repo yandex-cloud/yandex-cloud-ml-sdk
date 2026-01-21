@@ -18,6 +18,7 @@ if TYPE_CHECKING:
 class YCloudMLError(Exception):
     pass
 
+
 class UnknownEndpointError(YCloudMLError):
     pass
 
@@ -168,3 +169,7 @@ class HttpSseError(YCloudMLError):
 
     def __str__(self) -> str:
         return f"{self.__class__.__name__}({self._event!r}, {self._message!r}, {self._error!r})"
+
+
+class YCloudMLConfigurationError(YCloudMLError):
+    pass

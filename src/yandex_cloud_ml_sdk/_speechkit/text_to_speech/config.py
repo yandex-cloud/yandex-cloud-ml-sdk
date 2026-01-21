@@ -5,6 +5,7 @@ from typing import Any, Union, cast
 
 from typing_extensions import Self, override
 
+from yandex_cloud_ml_sdk._exceptions import YCloudMLConfigurationError
 from yandex_cloud_ml_sdk._speechkit.enums import PCM16, AudioFormat, LoudnessNormalization
 from yandex_cloud_ml_sdk._types.enum import EnumWithUnknownAlias, EnumWithUnknownInput, ProtoBasedEnum
 from yandex_cloud_ml_sdk._types.model_config import BaseModelConfig
@@ -66,10 +67,30 @@ class TextToSpeechConfig(BaseModelConfig):
                 self.duration_min_ms is not None
             )
         ):
-            raise ValueError(
+            raise YCloudMLConfigurationError(
                 'it is forbidden to use duration_ms config option '
                 'with duration_max_ms or duration_min_ms'
             )
 
         if isinstance(self.audio_format, PCM16) and self.audio_format.channels != 1:
-            raise ValueError("PCM16 audio format can't have channels number other than 1 in text_to_speech")
+            raise YCloudMLConfigurationError(
+                "PCM16 audio format can't have channels number other than 1 in text_to_speech"
+            )
+
+    def _validate_bistream(self) -> None:
+        unsupported_options = [
+            "duration_max_ms",
+            "duration_min_ms",
+            "duration_ms",
+            "single_chunk_mode"
+        ]
+        defined_unsupported_options = [
+            option_name
+            for option_name in unsupported_options
+            if getattr(self, option_name)
+        ]
+        if defined_unsupported_options:
+            raise YCloudMLConfigurationError(
+                f"bistream doesn't support config options {unsupported_options}, "
+                f"but you have {defined_unsupported_options} installed"
+            )

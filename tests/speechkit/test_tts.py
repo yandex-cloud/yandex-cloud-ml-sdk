@@ -5,6 +5,7 @@ import pytest
 from yandex_cloud_ml_sdk import AsyncYCloudML
 from yandex_cloud_ml_sdk._speechkit.enums import PCM16
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED
+from yandex_cloud_ml_sdk.exceptions import YCloudMLConfigurationError
 
 
 @pytest.mark.asyncio
@@ -70,7 +71,7 @@ async def test_tts_configure(async_sdk: AsyncYCloudML) -> None:
     async_sdk.speechkit.text_to_speech(duration_max_ms=1, duration_min_ms=2)
     async_sdk.speechkit.text_to_speech(duration_ms=10)
 
-    with pytest.raises(ValueError):
+    with pytest.raises(YCloudMLConfigurationError):
         async_sdk.speechkit.text_to_speech(duration_ms=10, duration_max_ms=123)
 
     format_ = async_sdk.speechkit.text_to_speech(audio_format='PCM16(10)').config.audio_format

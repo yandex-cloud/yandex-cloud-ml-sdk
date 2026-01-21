@@ -138,7 +138,6 @@ class StreamReturnCallProxy(Generic[RequestType, ResponseType]):
         try:
             i = 0
             async for item in self._call:
-                print(i)
                 i += 1
                 yield self._call, item
         except BaseException as e:

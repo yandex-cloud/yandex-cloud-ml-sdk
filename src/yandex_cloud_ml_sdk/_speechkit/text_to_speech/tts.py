@@ -2,17 +2,13 @@
 from __future__ import annotations
 
 from collections.abc import AsyncIterator, Iterator
-from typing import TypeVar
+from typing import Generic, TypeVar
 
 from typing_extensions import Self, override
-from yandex.cloud.ai.tts.v3.tts_pb2 import (
-    AudioFormatOptions, ContainerAudio, DurationHint, Hints, RawAudio, UtteranceSynthesisRequest,
-    UtteranceSynthesisResponse
-)
+from yandex.cloud.ai.tts.v3.tts_pb2 import DurationHint, Hints, UtteranceSynthesisRequest, UtteranceSynthesisResponse
 from yandex.cloud.ai.tts.v3.tts_service_pb2_grpc import SynthesizerStub
 
 from yandex_cloud_ml_sdk._logging import get_logger
-from yandex_cloud_ml_sdk._speechkit.enums import PCM16
 from yandex_cloud_ml_sdk._speechkit.enums import AudioFormat as AudioFormat_
 from yandex_cloud_ml_sdk._speechkit.enums import LoudnessNormalization as LoudnessNormalization_
 from yandex_cloud_ml_sdk._types.enum import UndefinedOrEnumWithUnknownInput
@@ -21,6 +17,7 @@ from yandex_cloud_ml_sdk._types.model import ModelSyncMixin, ModelSyncStreamMixi
 from yandex_cloud_ml_sdk._utils.doc import doc_from
 from yandex_cloud_ml_sdk._utils.sync import run_sync, run_sync_generator
 
+from .bistream import AsyncTTSBidirectionalStream, TTSBidirectionalStream, TTSBidirectionalStreamTypeT
 from .config import TextToSpeechConfig
 from .result import RequestDetails, TextToSpeechResult
 
@@ -28,6 +25,7 @@ logger = get_logger(__name__)
 
 
 class BaseTextToSpeech(
+    Generic[TTSBidirectionalStreamTypeT],
     ModelSyncMixin[TextToSpeechConfig, TextToSpeechResult],
     ModelSyncStreamMixin[TextToSpeechConfig, TextToSpeechResult],
 ):
@@ -40,6 +38,7 @@ class BaseTextToSpeech(
 
     _config_type = TextToSpeechConfig
     _result_type = TextToSpeechResult
+    _bistream_type: type[TTSBidirectionalStreamTypeT]
 
     # pylint: disable=useless-parent-delegation,arguments-differ
     @override
@@ -172,21 +171,7 @@ class BaseTextToSpeech(
         c = self._config
         c._validate_run()
 
-        format_ = c.audio_format
-        output_audio_spec: AudioFormatOptions | None = None
-        if isinstance(format_, PCM16):
-            output_audio_spec = AudioFormatOptions(
-                raw_audio=RawAudio(
-                    audio_encoding=RawAudio.AudioEncoding.LINEAR16_PCM,
-                    sample_rate_hertz=format_.sample_rate_hertz,
-                )
-            )
-        elif format_:
-            output_audio_spec = AudioFormatOptions(
-                container_audio=ContainerAudio(
-                   container_audio_type=c.audio_format  # type: ignore[arg-type]
-                )
-            )
+        output_audio_spec =  AudioFormat_._to_proto(c.audio_format)
 
         hints: list[Hints] = []
         _p = DurationHint.DurationHintPolicy
@@ -228,8 +213,27 @@ class BaseTextToSpeech(
             ):
                 yield response
 
+    def create_bistream(self, *, timeout: float = 10 * 60) -> TTSBidirectionalStreamTypeT:
+        """Creates a bidirectional stream object for using
+        `Yandex SpeechKit Streaming synthesis <https://yandex.cloud/en/docs/speechkit/tts/api/tts-streaming>`_.
 
-class AsyncTextToSpeech(BaseTextToSpeech):
+        :param timeout: GRPC timeout in seconds that defines the maximum lifetime of the entire stream.
+            The timeout countdown begins from the moment of the first stream interaction.
+        """
+
+        self._config._validate_bistream()
+
+        return self._bistream_type(
+            sdk=self._sdk,
+            config=self._config,
+            timeout=timeout
+        )
+
+
+
+class AsyncTextToSpeech(BaseTextToSpeech[AsyncTTSBidirectionalStream]):
+    _bistream_type = AsyncTTSBidirectionalStream
+
     @doc_from(BaseTextToSpeech._run)
     async def run(
         self,
@@ -250,7 +254,8 @@ class AsyncTextToSpeech(BaseTextToSpeech):
 
 
 @doc_from(BaseTextToSpeech)
-class TextToSpeech(BaseTextToSpeech):
+class TextToSpeech(BaseTextToSpeech[TTSBidirectionalStream]):
+    _bistream_type = TTSBidirectionalStream
     __run = run_sync(BaseTextToSpeech._run)
     __run_stream = run_sync_generator(BaseTextToSpeech._run_stream)
 
