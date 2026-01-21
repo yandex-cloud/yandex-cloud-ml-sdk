@@ -62,7 +62,7 @@ def main() -> None:
     # NB: bistream timeout is defining max lifetime for WHOLE STREAM
     bistream = tts.create_bistream(timeout=60 * 10)
 
-    # we are creating io task which whill call bistream.write in the background
+    # we are creating io task which will call bistream.write in the background
     input_thread = threading.Thread(
         target=make_input_stream,
         kwargs={'writer': bistream}

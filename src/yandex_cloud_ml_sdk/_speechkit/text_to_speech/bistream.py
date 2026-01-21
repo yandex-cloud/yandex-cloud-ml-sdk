@@ -29,7 +29,7 @@ else:
     EOFType = type(EOF)
 
 
-class BaseTTSBiderectionalStream:
+class BaseTTSBidirectionalStream:
     """Bidirectional SpeechKit TTS API which allows to write requests and read synthesized result
     in realtime"""
 
@@ -158,14 +158,14 @@ class BaseTTSBiderectionalStream:
             await call.write(request)
 
 
-class AsyncTTSBidirectionalStream(BaseTTSBiderectionalStream, AsyncIterator[TextToSpeechResult]):
-    __doc__ = BaseTTSBiderectionalStream.__doc__
+class AsyncTTSBidirectionalStream(BaseTTSBidirectionalStream, AsyncIterator[TextToSpeechResult]):
+    __doc__ = BaseTTSBidirectionalStream.__doc__
 
-    @doc_from(BaseTTSBiderectionalStream._write)
+    @doc_from(BaseTTSBidirectionalStream._write)
     async def write(self, input: str) -> None:
         await self._write(input)
 
-    @doc_from(BaseTTSBiderectionalStream._read)
+    @doc_from(BaseTTSBidirectionalStream._read)
     async def read(self) -> TextToSpeechResult | None:
         return await self._read()
 
@@ -178,16 +178,16 @@ class AsyncTTSBidirectionalStream(BaseTTSBiderectionalStream, AsyncIterator[Text
             raise StopAsyncIteration
         return result
 
-    @doc_from(BaseTTSBiderectionalStream._gen)
+    @doc_from(BaseTTSBidirectionalStream._gen)
     async def gen(self) -> AsyncGenerator[TextToSpeechResult]:
         async for chunk in self._gen():
             yield chunk
 
-    @doc_from(BaseTTSBiderectionalStream._done_writing)
+    @doc_from(BaseTTSBidirectionalStream._done_writing)
     async def done_writing(self) -> None:
         await self._done_writing()
 
-    @doc_from(BaseTTSBiderectionalStream._flush)
+    @doc_from(BaseTTSBidirectionalStream._flush)
     async def flush(self) -> None:
         await self._flush()
 
@@ -195,19 +195,19 @@ class AsyncTTSBidirectionalStream(BaseTTSBiderectionalStream, AsyncIterator[Text
         return self
 
 
-class TTSBidirectionalStream(BaseTTSBiderectionalStream, Iterator[TextToSpeechResult]):
-    __doc__ = BaseTTSBiderectionalStream.__doc__
-    __write = run_sync(BaseTTSBiderectionalStream._write)
-    __read = run_sync(BaseTTSBiderectionalStream._read)
-    __gen = run_sync_generator(BaseTTSBiderectionalStream._gen)
-    __done_writing = run_sync(BaseTTSBiderectionalStream._done_writing)
-    __flush = run_sync(BaseTTSBiderectionalStream._flush)
+class TTSBidirectionalStream(BaseTTSBidirectionalStream, Iterator[TextToSpeechResult]):
+    __doc__ = BaseTTSBidirectionalStream.__doc__
+    __write = run_sync(BaseTTSBidirectionalStream._write)
+    __read = run_sync(BaseTTSBidirectionalStream._read)
+    __gen = run_sync_generator(BaseTTSBidirectionalStream._gen)
+    __done_writing = run_sync(BaseTTSBidirectionalStream._done_writing)
+    __flush = run_sync(BaseTTSBidirectionalStream._flush)
 
-    @doc_from(BaseTTSBiderectionalStream._write)
+    @doc_from(BaseTTSBidirectionalStream._write)
     def write(self, input: str) -> None:
         self.__write(input)
 
-    @doc_from(BaseTTSBiderectionalStream._read)
+    @doc_from(BaseTTSBidirectionalStream._read)
     def read(self) -> TextToSpeechResult | None:
         return self.__read()
 
@@ -221,15 +221,15 @@ class TTSBidirectionalStream(BaseTTSBiderectionalStream, Iterator[TextToSpeechRe
 
         return result
 
-    @doc_from(BaseTTSBiderectionalStream._gen)
+    @doc_from(BaseTTSBidirectionalStream._gen)
     def gen(self) -> Generator[TextToSpeechResult]:
         yield from self.__gen()
 
-    @doc_from(BaseTTSBiderectionalStream._done_writing)
+    @doc_from(BaseTTSBidirectionalStream._done_writing)
     def done_writing(self) -> None:
         self.__done_writing()
 
-    @doc_from(BaseTTSBiderectionalStream._flush)
+    @doc_from(BaseTTSBidirectionalStream._flush)
     def flush(self) -> None:
         self.__flush()
 
@@ -237,4 +237,4 @@ class TTSBidirectionalStream(BaseTTSBiderectionalStream, Iterator[TextToSpeechRe
         return self
 
 
-TTSBidirectionalStreamTypeT = TypeVar('TTSBidirectionalStreamTypeT', bound=BaseTTSBiderectionalStream)
+TTSBidirectionalStreamTypeT = TypeVar('TTSBidirectionalStreamTypeT', bound=BaseTTSBidirectionalStream)

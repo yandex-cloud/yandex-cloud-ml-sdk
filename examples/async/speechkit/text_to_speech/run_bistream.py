@@ -53,7 +53,7 @@ async def main() -> None:
     # NB: bistream timeout is defining max lifetime for WHOLE STREAM
     bistream = tts.create_bistream(timeout=60 * 10)
 
-    # we are creating asyncio task which whill call bistream.write in the background
+    # we are creating asyncio task which will call bistream.write in the background
     input_task = asyncio.create_task(make_input_stream(bistream))
 
     try:
