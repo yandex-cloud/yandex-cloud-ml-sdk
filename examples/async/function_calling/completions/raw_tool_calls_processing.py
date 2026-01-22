@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import asyncio
 
-from yandex_ai_studio_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk import AsyncAIStudio
 
 
 def calculator(expression: str) -> str:
@@ -46,7 +46,7 @@ async def main() -> None:
     # You can set authentication using environment variables instead of the 'auth' argument:
     # YC_OAUTH_TOKEN, YC_TOKEN, YC_IAM_TOKEN, or YC_API_KEY
     # You can also set 'folder_id' using the YC_FOLDER_ID environment variable
-    sdk = AsyncYCloudML(
+    sdk = AsyncAIStudio(
         # folder_id="<YC_FOLDER_ID>",
         # auth="<YC_API_KEY/YC_IAM_TOKEN>",
     )

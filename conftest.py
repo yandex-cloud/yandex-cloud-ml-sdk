@@ -36,4 +36,4 @@ def pytest_ignore_collect(collection_path, config):  # pylint: disable=unused-ar
 
 @pytest.fixture(autouse=True)
 def add_np(doctest_namespace):
-    doctest_namespace["sdk"] = yandex_ai_studio_sdk.YCloudML(folder_id='<doctest>', auth='<none>')
+    doctest_namespace["sdk"] = yandex_ai_studio_sdk.AIStudio(folder_id='<doctest>', auth='<none>')

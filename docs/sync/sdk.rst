@@ -2,7 +2,7 @@
  SDK
 =========
 
-.. autoclass:: yandex_ai_studio_sdk::YCloudML
+.. autoclass:: yandex_ai_studio_sdk::AIStudio
    :members:
    :exclude-members:
 

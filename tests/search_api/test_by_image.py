@@ -4,7 +4,7 @@ import pathlib
 
 import pytest
 
-from yandex_ai_studio_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk import AsyncAIStudio
 from yandex_ai_studio_sdk.search_api import FamilyMode
 
 URL = "https://upload.wikimedia.org/wikipedia/commons/b/be/Leo_Tolstoy_1908_Portrait_%283x4_cropped%29.jpg"
@@ -17,7 +17,7 @@ def image_fixture() -> pathlib.Path:
 
 @pytest.mark.asyncio
 @pytest.mark.allow_grpc
-async def test_by_image_search_simple_run(async_sdk: AsyncYCloudML, image: pathlib.Path) -> None:
+async def test_by_image_search_simple_run(async_sdk: AsyncAIStudio, image: pathlib.Path) -> None:
     search = async_sdk.search_api.by_image()
     data = image.read_bytes()
 
@@ -36,7 +36,7 @@ async def test_by_image_search_simple_run(async_sdk: AsyncYCloudML, image: pathl
 
 @pytest.mark.asyncio
 @pytest.mark.allow_grpc
-async def test_by_image_search_run_from_url(async_sdk: AsyncYCloudML) -> None:
+async def test_by_image_search_run_from_url(async_sdk: AsyncAIStudio) -> None:
     search = async_sdk.search_api.by_image()
 
     result = await search.run_from_url(URL)
@@ -48,7 +48,7 @@ async def test_by_image_search_run_from_url(async_sdk: AsyncYCloudML) -> None:
     assert len(result) >= 1
 
 
-def test_by_image_search_settings(async_sdk: AsyncYCloudML) -> None:
+def test_by_image_search_settings(async_sdk: AsyncAIStudio) -> None:
     # pylint: disable=protected-access
     search = async_sdk.search_api.by_image()
 
@@ -65,7 +65,7 @@ def test_by_image_search_settings(async_sdk: AsyncYCloudML) -> None:
     assert search1._config == search2._config
 
 
-def test_by_image_search_validation(async_sdk: AsyncYCloudML) -> None:
+def test_by_image_search_validation(async_sdk: AsyncAIStudio) -> None:
     with pytest.raises(TypeError):
         async_sdk.search_api.by_image(family_mode={})  # type: ignore[arg-type]
 

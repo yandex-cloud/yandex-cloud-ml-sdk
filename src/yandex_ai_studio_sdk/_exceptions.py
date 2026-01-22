@@ -15,15 +15,15 @@ if TYPE_CHECKING:
     from ._types.operation import OperationErrorInfo
 
 
-class YCloudMLError(Exception):
+class AIStudioError(Exception):
     pass
 
 
-class UnknownEndpointError(YCloudMLError):
+class UnknownEndpointError(AIStudioError):
     pass
 
 
-class RunError(YCloudMLError):
+class RunError(AIStudioError):
     def __init__(self, code: int, message: str, details: list[Any] | None, operation_id: str):
         self.code = code
         self.message = message
@@ -46,7 +46,7 @@ class RunError(YCloudMLError):
         )
 
 
-class AsyncOperationError(YCloudMLError):
+class AsyncOperationError(AIStudioError):
     pass
 
 
@@ -156,7 +156,7 @@ class TuningError(RunError):
         return f'Tuning task {self.operation_id} failed'
 
 
-class HttpSseError(YCloudMLError):
+class HttpSseError(AIStudioError):
     def __init__(
         self,
         event: str,
@@ -171,5 +171,5 @@ class HttpSseError(YCloudMLError):
         return f"{self.__class__.__name__}({self._event!r}, {self._message!r}, {self._error!r})"
 
 
-class YCloudMLConfigurationError(YCloudMLError):
+class AIStudioConfigurationError(AIStudioError):
     pass

@@ -5,7 +5,7 @@ from __future__ import annotations
 import pathlib
 import uuid
 
-from yandex_ai_studio_sdk import YCloudML
+from yandex_ai_studio_sdk import AIStudio
 from yandex_ai_studio_sdk.tuning import optimizers as to
 from yandex_ai_studio_sdk.tuning import schedulers as ts
 from yandex_ai_studio_sdk.tuning import types as tt
@@ -51,7 +51,7 @@ def main() -> None:
     # You can set authentication using environment variables instead of the 'auth' argument:
     # YC_OAUTH_TOKEN, YC_TOKEN, YC_IAM_TOKEN, or YC_API_KEY
     # You can also set 'folder_id' using the YC_FOLDER_ID environment variable
-    sdk = YCloudML(
+    sdk = AIStudio(
         # folder_id="<YC_FOLDER_ID>",
         # auth="<YC_API_KEY/YC_IAM_TOKEN>",
     )

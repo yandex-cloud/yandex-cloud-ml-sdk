@@ -69,9 +69,9 @@ pip install yandex-ai-studio-sdk
 Here's a basic example of how to use the SDK:
 
 ```python
-from yandex_ai_studio_sdk import YCloudML
+from yandex_ai_studio_sdk import AIStudio
 
-sdk = YCloudML(folder_id="...", auth="<APIKey/IAMToken/SomethingElse>")
+sdk = AIStudio(folder_id="...", auth="<APIKey/IAMToken/SomethingElse>")
 
 model = sdk.models.completions('yandexgpt')
 model = model.configure(temperature=0.5)
@@ -94,10 +94,10 @@ pip install yandex-ai-studio-sdk[langchain]
 Usage example:
 
 ```python
-from yandex_ai_studio_sdk import YCloudML
+from yandex_ai_studio_sdk import AIStudio
 from langchain_core.messages import AIMessage, HumanMessage
 
-sdk = YCloudML(folder_id="...", auth="<APIKey/IAMToken/SomethingElse>")
+sdk = AIStudio(folder_id="...", auth="<APIKey/IAMToken/SomethingElse>")
 
 model = sdk.models.completions('yandexgpt').langchain()
 

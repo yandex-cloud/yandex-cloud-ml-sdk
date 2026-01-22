@@ -22,7 +22,7 @@ from yandex.cloud.endpoint.api_endpoint_service_pb2 import ListApiEndpointsReque
 from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServiceStub
 
 import yandex_ai_studio_sdk._client
-from yandex_ai_studio_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk import AsyncAIStudio
 from yandex_ai_studio_sdk._client import AsyncCloudClient, _get_user_agent
 from yandex_ai_studio_sdk._types.misc import UNDEFINED
 from yandex_ai_studio_sdk.auth import NoAuth
@@ -72,7 +72,7 @@ def fixture_servicers():
 @pytest.mark.require_env('internet')
 @pytest.mark.asyncio
 async def test_multiple_requests(folder_id):
-    async_sdk = AsyncYCloudML(folder_id=folder_id)
+    async_sdk = AsyncAIStudio(folder_id=folder_id)
     test_client = async_sdk._client
 
     stubs = []
@@ -231,18 +231,18 @@ async def test_x_data_logging(interceptors, retry_policy):
 
 @pytest.mark.asyncio
 async def test_channel_credentials(folder_id):
-    sdk = AsyncYCloudML(folder_id=folder_id)
+    sdk = AsyncAIStudio(folder_id=folder_id)
     assert sdk._client._verify is True
     sdk._client._new_channel('foo')
 
     path = certifi.where()
-    sdk = AsyncYCloudML(folder_id=folder_id, verify=path)
+    sdk = AsyncAIStudio(folder_id=folder_id, verify=path)
     assert sdk._client._verify is path
     sdk._client._new_channel('foo')
 
     # this test checks if passed grpc_credentials is really used in
     # channel creation
-    sdk = AsyncYCloudML(folder_id=folder_id, verify=1)
+    sdk = AsyncAIStudio(folder_id=folder_id, verify=1)
     with pytest.raises(TypeError):
         sdk._client._new_channel('foo')
 
@@ -264,7 +264,7 @@ async def test_httpx_credentials(folder_id, monkeypatch):
     # I coulnd't improvise any other easy way to make sure our cert is actually passing to
     # httpx at the moment
     monkeypatch.setattr(httpx._transports.default, 'create_ssl_context', create_ssl_context)
-    sdk = AsyncYCloudML(folder_id=folder_id, verify=path)
+    sdk = AsyncAIStudio(folder_id=folder_id, verify=path)
     async with sdk._client.httpx(timeout=10, auth=False) as client:
         assert client
         assert called
@@ -394,7 +394,7 @@ async def test_grpc_request_id_wrong_metadata_exception(async_sdk, monkeypatch):
 @pytest.mark.asyncio
 @pytest.mark.parametrize('endpoint', [None, UNDEFINED])
 async def test_client_custom_map(folder_id, forbid_grpc_call, endpoint) -> None:
-    sdk = AsyncYCloudML(
+    sdk = AsyncAIStudio(
         folder_id=folder_id,
         endpoint=endpoint,
         service_map={'ai-foundation-models': 'ya.ru'}
@@ -414,7 +414,7 @@ async def test_client_custom_map(folder_id, forbid_grpc_call, endpoint) -> None:
 
 @pytest.mark.asyncio
 async def test_client_endpoint(folder_id, forbid_grpc_call) -> None:
-    sdk = AsyncYCloudML(
+    sdk = AsyncAIStudio(
         folder_id=folder_id,
         endpoint=None,
     )
@@ -425,7 +425,7 @@ async def test_client_endpoint(folder_id, forbid_grpc_call) -> None:
     ):
         await sdk.files.get('123')
 
-    sdk = AsyncYCloudML(folder_id=folder_id, endpoint="yandex.cloud:999")
+    sdk = AsyncAIStudio(folder_id=folder_id, endpoint="yandex.cloud:999")
     with pytest.raises(
         NewChannelException,
         match='yandex.cloud:999'

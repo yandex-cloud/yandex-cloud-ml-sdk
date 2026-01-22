@@ -186,7 +186,7 @@ class BaseTuningTask(OperationInterface[TuningResultTypeT_co, TuningTaskStatus])
 
     async def _get_task_info(self, *, timeout: float = 60) -> TuningTaskInfo | None:
         """
-        Retrieves tuning task information from the Yandex Cloud ML service.
+        Retrieves tuning task information from the Yandex AI Studio service.
 
         Makes an async gRPC call to the TuningService to get detailed information
         about the current tuning task. The method first obtains the task ID and

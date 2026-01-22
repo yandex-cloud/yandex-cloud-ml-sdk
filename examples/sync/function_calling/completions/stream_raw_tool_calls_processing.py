@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from yandex_ai_studio_sdk import YCloudML
+from yandex_ai_studio_sdk import AIStudio
 
 
 def calculator(expression: str) -> str:
@@ -40,7 +40,7 @@ def process_tool_calls(tool_calls) -> dict[str, list[dict]]:
     return {'tool_results': result}
 
 
-def create_tools(sdk: YCloudML):
+def create_tools(sdk: AIStudio):
     # it is imported inside only because yandex-ai-studio-sdk does not require pydantic by default
     # pylint: disable=import-outside-toplevel
     from pydantic import BaseModel, Field
@@ -77,7 +77,7 @@ def main() -> None:
     # You can set authentication using environment variables instead of the 'auth' argument:
     # YC_OAUTH_TOKEN, YC_TOKEN, YC_IAM_TOKEN, or YC_API_KEY
     # You can also set 'folder_id' using the YC_FOLDER_ID environment variable
-    sdk = YCloudML(
+    sdk = AIStudio(
         # folder_id="<YC_FOLDER_ID>",
         # auth="<YC_API_KEY/YC_IAM_TOKEN>",
     )

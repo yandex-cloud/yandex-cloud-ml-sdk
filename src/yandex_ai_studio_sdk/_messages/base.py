@@ -9,7 +9,7 @@ from yandex_ai_studio_sdk._types.result import BaseProtoResult, ProtoMessageType
 @dataclasses.dataclass(frozen=True)
 class BaseMessage(BaseProtoResult[ProtoMessageTypeT_contra]):
     """
-    Abstract class for messages in Yandex Cloud ML Assistant service.
+    Abstract class for messages in Yandex AI Studio Assistant service.
 
     Provides core functionality for all message types including:
     - Storage and processing of message parts (text, citations, etc.)

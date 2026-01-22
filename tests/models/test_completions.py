@@ -5,7 +5,7 @@ from typing import cast
 
 import pytest
 
-from yandex_ai_studio_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk import AsyncAIStudio
 from yandex_ai_studio_sdk._models.completions.message import ProtoMessage, messages_to_proto
 from yandex_ai_studio_sdk._models.completions.result import AlternativeStatus
 from yandex_ai_studio_sdk._models.completions.token import Token
@@ -277,7 +277,7 @@ async def test_structured_output_json_schema(async_sdk):
 
 
 @pytest.mark.allow_grpc
-async def test_function_call(async_sdk: AsyncYCloudML, tool) -> None:
+async def test_function_call(async_sdk: AsyncAIStudio, tool) -> None:
     model = async_sdk.models.completions('yandexgpt', model_version='rc')
     model = model.configure(tools=tool)
 
@@ -307,7 +307,7 @@ async def test_function_call(async_sdk: AsyncYCloudML, tool) -> None:
 
 
 @pytest.mark.allow_grpc
-async def test_parallel_function_call(async_sdk: AsyncYCloudML, tool, schema) -> None:
+async def test_parallel_function_call(async_sdk: AsyncAIStudio, tool, schema) -> None:
     # pylint: disable=too-many-locals
     tool2 = async_sdk.tools.function(
         schema,  # type: ignore[arg-type]
@@ -363,7 +363,7 @@ async def test_parallel_function_call(async_sdk: AsyncYCloudML, tool, schema) ->
 
 
 @pytest.mark.allow_grpc
-async def test_tool_choice(async_sdk: AsyncYCloudML, tool, schema) -> None:
+async def test_tool_choice(async_sdk: AsyncAIStudio, tool, schema) -> None:
     tool2 = async_sdk.tools.function(
         schema,  # type: ignore[arg-type]
         name='something_else',

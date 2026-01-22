@@ -4,14 +4,14 @@ import pathlib
 
 import pytest
 
-from yandex_ai_studio_sdk._sdk import AsyncYCloudML
+from yandex_ai_studio_sdk._sdk import AsyncAIStudio
 
 pytestmark = pytest.mark.asyncio
 
 
 @pytest.mark.allow_grpc
 async def test_rephraser_base(
-    async_sdk: AsyncYCloudML,
+    async_sdk: AsyncAIStudio,
     test_file_path: pathlib.Path,
     clear_deleteable_resources,  # pylint: disable=unused-argument
 ) -> None:
@@ -42,7 +42,7 @@ async def test_rephraser_base(
     assert result.text == "My mystery is my secret number 997."
 
 
-async def test_rephraser_types(async_sdk: AsyncYCloudML) -> None:
+async def test_rephraser_types(async_sdk: AsyncAIStudio) -> None:
     rephraser = async_sdk.tools.rephraser(True)
     assert rephraser.uri == async_sdk.tools.rephraser('rephraser').uri
     assert rephraser.uri == async_sdk.tools.rephraser(rephraser).uri

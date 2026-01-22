@@ -11,7 +11,7 @@ import pytest
 import pytest_asyncio
 
 import yandex_ai_studio_sdk._types.resource
-from yandex_ai_studio_sdk import AsyncYCloudML, YCloudML
+from yandex_ai_studio_sdk import AIStudio, AsyncAIStudio
 from yandex_ai_studio_sdk._auth import BaseAuth, NoAuth
 from yandex_ai_studio_sdk._client import AsyncCloudClient, _get_user_agent
 from yandex_ai_studio_sdk._retry import NoRetryPolicy, RetryPolicy
@@ -142,9 +142,9 @@ def fixture_sdk_maker(
     auth: BaseAuth,
     retry_policy: RetryPolicy,
     test_client_maker,
-) -> Callable[[], YCloudML]:
-    def maker() -> YCloudML:
-        sdk = YCloudML(folder_id=folder_id, interceptors=interceptors, auth=auth, retry_policy=retry_policy)
+) -> Callable[[], AIStudio]:
+    def maker() -> AIStudio:
+        sdk = AIStudio(folder_id=folder_id, interceptors=interceptors, auth=auth, retry_policy=retry_policy)
         if test_client_maker:
             sdk._client = test_client_maker()
         return sdk
@@ -153,7 +153,7 @@ def fixture_sdk_maker(
 
 
 @pytest.fixture(name='sdk')
-def fixture_sdk(sdk_maker) -> YCloudML:
+def fixture_sdk(sdk_maker) -> AIStudio:
     return sdk_maker()
 
 
@@ -164,8 +164,8 @@ def fixture_async_sdk(
     auth: BaseAuth,
     retry_policy: RetryPolicy,
     test_client: MockClient | None,
-) -> AsyncYCloudML:
-    sdk = AsyncYCloudML(
+) -> AsyncAIStudio:
+    sdk = AsyncAIStudio(
         folder_id=folder_id,
         interceptors=interceptors,
         auth=auth,

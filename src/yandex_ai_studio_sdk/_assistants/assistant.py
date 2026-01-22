@@ -112,7 +112,7 @@ class BaseAssistant(ExpirableResource[ProtoAssistant], Generic[RunTypeT, ThreadT
         """
         Update the assistant's configuration with new parameters.
 
-        This method sends an update request to Yandex Cloud ML API to modify the assistant's
+        This method sends an update request to Yandex AI Studio API to modify the assistant's
         configuration. Only specified parameters will be updated, others remain unchanged.
 
         :param model: New model URI or BaseGPTModel instance to use
@@ -196,9 +196,9 @@ class BaseAssistant(ExpirableResource[ProtoAssistant], Generic[RunTypeT, ThreadT
         timeout: float = 60,
     ) -> None:
         """
-        Delete the assistant from Yandex Cloud ML.
+        Delete the assistant from Yandex AI Studio.
 
-        Sends a delete request to the Yandex Cloud ML API to remove the assistant.
+        Sends a delete request to the Yandex AI Studio API to remove the assistant.
         After successful deletion, marks the assistant as deleted internally.
 
         :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
@@ -361,9 +361,9 @@ class BaseAssistant(ExpirableResource[ProtoAssistant], Generic[RunTypeT, ThreadT
 @dataclasses.dataclass(frozen=True)
 class ReadOnlyAssistant(BaseAssistant[RunTypeT, ThreadTypeT]):
     """
-    Base class providing read-only access to Yandex Cloud ML Assistant configuration and metadata.
+    Base class providing read-only access to Yandex AI Studio Assistant configuration and metadata.
 
-    This class implements the core interface for interacting with Yandex Cloud ML Assistant API
+    This class implements the core interface for interacting with Yandex AI Studio Assistant API
     in a read-only manner. It serves as the parent class for both synchronous (Assistant)
     and asynchronous (AsyncAssistant) implementations.
     """

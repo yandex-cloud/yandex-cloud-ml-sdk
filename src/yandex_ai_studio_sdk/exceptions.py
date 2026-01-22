@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 from ._exceptions import (
-    AioRpcError, AsyncOperationError, DatasetValidationError, HttpSseError, RunError, TuningError, UnknownEndpointError,
-    WrongAsyncOperationStatusError, YCloudMLConfigurationError, YCloudMLError
+    AioRpcError, AIStudioConfigurationError, AIStudioError, AsyncOperationError, DatasetValidationError, HttpSseError,
+    RunError, TuningError, UnknownEndpointError, WrongAsyncOperationStatusError
 )
 
 __all__ = [
@@ -12,8 +12,8 @@ __all__ = [
     'RunError',
     'TuningError',
     'WrongAsyncOperationStatusError',
-    'YCloudMLError',
+    'AIStudioError',
     'UnknownEndpointError',
     'HttpSseError',
-    'YCloudMLConfigurationError',
+    'AIStudioConfigurationError',
 ]

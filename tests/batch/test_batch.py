@@ -5,14 +5,14 @@ import uuid
 
 import pytest
 
-from yandex_ai_studio_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk import AsyncAIStudio
 
 pytestmark = pytest.mark.asyncio
 
 
 @pytest.mark.allow_grpc
 @pytest.mark.vcr
-async def test_batch_list(async_sdk: AsyncYCloudML, completions_jsonlines: pathlib.Path) -> None:
+async def test_batch_list(async_sdk: AsyncAIStudio, completions_jsonlines: pathlib.Path) -> None:
     name = uuid.uuid4()
     dataset_draft = async_sdk.datasets.draft_from_path(
         task_type="TextToTextGenerationRequest",

@@ -2,7 +2,7 @@
 Async SDK
 =========
 
-.. autoclass:: yandex_ai_studio_sdk::AsyncYCloudML
+.. autoclass:: yandex_ai_studio_sdk::AsyncAIStudio
    :members:
    :exclude-members:
 

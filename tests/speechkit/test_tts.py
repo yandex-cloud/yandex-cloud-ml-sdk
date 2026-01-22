@@ -2,15 +2,15 @@ from __future__ import annotations
 
 import pytest
 
-from yandex_ai_studio_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk import AsyncAIStudio
 from yandex_ai_studio_sdk._speechkit.enums import PCM16
 from yandex_ai_studio_sdk._types.misc import UNDEFINED
-from yandex_ai_studio_sdk.exceptions import YCloudMLConfigurationError
+from yandex_ai_studio_sdk.exceptions import AIStudioConfigurationError
 
 
 @pytest.mark.asyncio
 @pytest.mark.allow_grpc
-async def test_tts_run(async_sdk: AsyncYCloudML) -> None:
+async def test_tts_run(async_sdk: AsyncAIStudio) -> None:
     tts = async_sdk.speechkit.text_to_speech(
         voice='kirill',
         audio_format='PCM16(44100)',
@@ -33,7 +33,7 @@ async def test_tts_run(async_sdk: AsyncYCloudML) -> None:
 
 @pytest.mark.asyncio
 @pytest.mark.allow_grpc
-async def test_tts_long_run(async_sdk: AsyncYCloudML) -> None:
+async def test_tts_long_run(async_sdk: AsyncAIStudio) -> None:
     tts = async_sdk.speechkit.text_to_speech(
         voice='kirill',
         audio_format='PCM16(44100)',
@@ -57,7 +57,7 @@ async def test_tts_long_run(async_sdk: AsyncYCloudML) -> None:
 
 @pytest.mark.asyncio
 @pytest.mark.allow_grpc
-async def test_tts_stream_run(async_sdk: AsyncYCloudML) -> None:
+async def test_tts_stream_run(async_sdk: AsyncAIStudio) -> None:
     tts = async_sdk.speechkit.text_to_speech()
     query = 'test ' * 100
 
@@ -67,11 +67,11 @@ async def test_tts_stream_run(async_sdk: AsyncYCloudML) -> None:
 
 
 @pytest.mark.asyncio
-async def test_tts_configure(async_sdk: AsyncYCloudML) -> None:
+async def test_tts_configure(async_sdk: AsyncAIStudio) -> None:
     async_sdk.speechkit.text_to_speech(duration_max_ms=1, duration_min_ms=2)
     async_sdk.speechkit.text_to_speech(duration_ms=10)
 
-    with pytest.raises(YCloudMLConfigurationError):
+    with pytest.raises(AIStudioConfigurationError):
         async_sdk.speechkit.text_to_speech(duration_ms=10, duration_max_ms=123)
 
     format_ = async_sdk.speechkit.text_to_speech(audio_format='PCM16(10)').config.audio_format
@@ -84,7 +84,7 @@ async def test_tts_configure(async_sdk: AsyncYCloudML) -> None:
 @pytest.mark.asyncio
 @pytest.mark.allow_grpc
 async def test_tts_result_repr(
-    async_sdk: AsyncYCloudML,
+    async_sdk: AsyncAIStudio,
     audio_format: str,
 ) -> None:
     tts = async_sdk.speechkit.text_to_speech(

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from yandex_ai_studio_sdk._sdk import AsyncYCloudML
+from yandex_ai_studio_sdk._sdk import AsyncAIStudio
 from yandex_ai_studio_sdk._tools.generative_search import GenerativeSearchTool
 
 pytestmark = pytest.mark.asyncio
@@ -10,7 +10,7 @@ pytestmark = pytest.mark.asyncio
 
 @pytest.mark.allow_grpc
 async def test_base_gen_search(
-    async_sdk: AsyncYCloudML,
+    async_sdk: AsyncAIStudio,
     clear_deleteable_resources,  # pylint: disable=unused-argument
 ) -> None:
     """

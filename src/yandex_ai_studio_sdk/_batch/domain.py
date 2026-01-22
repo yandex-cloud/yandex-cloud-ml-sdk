@@ -27,7 +27,7 @@ logger = get_logger(__name__)
 
 class BaseBatch(BaseDomain, Generic[BatchTaskOperationTypeT]):
     """
-    Сlass for managing batch operations in Yandex Cloud ML SDK.
+    Сlass for managing batch operations in Yandex AI Studio SDK.
 
     For usage examples see `batch example <https://github.com/yandex-cloud/yandex-cloud-ml-sdk/blob/master/examples/{link}/completions/batch.py>`_.
     """

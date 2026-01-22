@@ -231,7 +231,7 @@ class BaseSDK:
 
 
 @doc_from(BaseSDK)
-class AsyncYCloudML(BaseSDK):
+class AsyncAIStudio(BaseSDK):
     tools: AsyncTools
     models: AsyncModels
     files: AsyncFiles
@@ -249,7 +249,7 @@ class AsyncYCloudML(BaseSDK):
 
 
 @doc_from(BaseSDK)
-class YCloudML(BaseSDK):
+class AIStudio(BaseSDK):
     tools: Tools
     models: Models
     files: Files

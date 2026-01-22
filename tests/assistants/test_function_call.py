@@ -3,13 +3,13 @@ from __future__ import annotations
 
 import pytest
 
-from yandex_ai_studio_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk import AsyncAIStudio
 
 pytestmark = pytest.mark.asyncio
 
 
 @pytest.fixture(name='tool')
-def fixture_tool(async_sdk: AsyncYCloudML):
+def fixture_tool(async_sdk: AsyncAIStudio):
     schema = {
         "properties": {
             "numbers": {
@@ -30,7 +30,7 @@ def fixture_tool(async_sdk: AsyncYCloudML):
 
 @pytest.mark.skip(reason="bidirectional streams is not supported with our system of cassetes")
 @pytest.mark.allow_grpc
-async def test_sync_function_call(async_sdk: AsyncYCloudML, tool):
+async def test_sync_function_call(async_sdk: AsyncAIStudio, tool):
     assistant = await async_sdk.assistants.create('yandexgpt', tools=tool)
     thread = await async_sdk.threads.create()
     await thread.write('do a FOO with all the numbers from: 5, 4, a, 1')
@@ -61,7 +61,7 @@ async def test_sync_function_call(async_sdk: AsyncYCloudML, tool):
 
 @pytest.mark.skip("TODO: run.listen is somewhy is not working in this example")
 @pytest.mark.allow_grpc
-async def test_stream_function_call(async_sdk: AsyncYCloudML, tool):
+async def test_stream_function_call(async_sdk: AsyncAIStudio, tool):
     model = async_sdk.models.completions('yandexgpt', model_version='rc')
     assistant = await async_sdk.assistants.create(model, tools=tool)
     thread = await async_sdk.threads.create()

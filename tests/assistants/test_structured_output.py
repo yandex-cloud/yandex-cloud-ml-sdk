@@ -6,7 +6,7 @@ import json
 import pytest
 import pytest_asyncio
 
-from yandex_ai_studio_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk import AsyncAIStudio
 from yandex_ai_studio_sdk._models.completions.model import BaseGPTModel
 from yandex_ai_studio_sdk._threads.thread import AsyncThread
 
@@ -19,12 +19,12 @@ def fixture_text() -> str:
 
 
 @pytest.fixture(name='model')
-def fixture_model(async_sdk: AsyncYCloudML) -> BaseGPTModel:
+def fixture_model(async_sdk: AsyncAIStudio) -> BaseGPTModel:
     return async_sdk.models.completions('yandexgpt', model_version='latest')
 
 
 @pytest_asyncio.fixture(name='thread')
-async def fixture_thread(async_sdk: AsyncYCloudML, text: str) -> AsyncThread:
+async def fixture_thread(async_sdk: AsyncAIStudio, text: str) -> AsyncThread:
     thread = await async_sdk.threads.create()
     await thread.write(text)
     return thread
@@ -32,7 +32,7 @@ async def fixture_thread(async_sdk: AsyncYCloudML, text: str) -> AsyncThread:
 
 @pytest.mark.allow_grpc
 async def test_structured_output_simple_json(
-    async_sdk: AsyncYCloudML, thread: AsyncThread, model: BaseGPTModel
+    async_sdk: AsyncAIStudio, thread: AsyncThread, model: BaseGPTModel
 ) -> None:
     assistant = await async_sdk.assistants.create(model, response_format='json')
 
@@ -48,7 +48,7 @@ async def test_structured_output_simple_json(
 @pytest.mark.require_env('pydantic')
 @pytest.mark.allow_grpc
 async def test_structured_output_pydantic_model(
-    async_sdk: AsyncYCloudML, thread: AsyncThread, model: BaseGPTModel
+    async_sdk: AsyncAIStudio, thread: AsyncThread, model: BaseGPTModel
 ) -> None:
     import pydantic  # pylint: disable=import-outside-toplevel
 
@@ -65,7 +65,7 @@ async def test_structured_output_pydantic_model(
 @pytest.mark.require_env('pydantic')
 @pytest.mark.allow_grpc
 async def test_structured_output_pydantic_dataclass(
-    async_sdk: AsyncYCloudML, thread: AsyncThread, model: BaseGPTModel
+    async_sdk: AsyncAIStudio, thread: AsyncThread, model: BaseGPTModel
 ) -> None:
     import pydantic  # pylint: disable=import-outside-toplevel
 
@@ -81,7 +81,7 @@ async def test_structured_output_pydantic_dataclass(
 
 @pytest.mark.allow_grpc
 async def test_structured_output_json_schema(
-    async_sdk: AsyncYCloudML, thread: AsyncThread, model: BaseGPTModel
+    async_sdk: AsyncAIStudio, thread: AsyncThread, model: BaseGPTModel
 ) -> None:
     schema = {
         "properties": {
@@ -106,7 +106,7 @@ async def test_structured_output_json_schema(
 
 @pytest.mark.allow_grpc
 async def test_custom_structured_output_json_schema(
-    async_sdk: AsyncYCloudML, thread: AsyncThread, model: BaseGPTModel, text: str
+    async_sdk: AsyncAIStudio, thread: AsyncThread, model: BaseGPTModel, text: str
 ) -> None:
     schema = {
         "properties": {

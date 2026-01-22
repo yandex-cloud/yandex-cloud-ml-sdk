@@ -135,7 +135,7 @@ class BaseImageSearch(
         >>> search = search.configure(search_type='RU')
 
         :param query: Search query text.
-        :param format: With default ``parsed`` value call returns a parsed Yandex Cloud ML SDK
+        :param format: With default ``parsed`` value call returns a parsed Yandex AI Studio SDK
             object; with other values method returns a raw bytes string.
         :param page: Requested page number.
         :param timeout: Timeout, or the maximum time to wait for the request to complete in seconds.
