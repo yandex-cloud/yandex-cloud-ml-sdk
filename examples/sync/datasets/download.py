@@ -5,7 +5,7 @@ from __future__ import annotations
 import pathlib
 from tempfile import TemporaryDirectory
 
-from yandex_cloud_ml_sdk import YCloudML
+from yandex_ai_studio_sdk import YCloudML
 
 PATH = pathlib.Path(__file__)
 NAME = f'example-{PATH.parent.name}-{PATH.name}'
@@ -16,7 +16,7 @@ def local_path(path: str) -> pathlib.Path:
 
 
 def main() -> None:
-    # Because it is optional requirenment for a yandex-cloud-ml-sdk, we import it inside
+    # Because it is optional requirenment for a yandex-ai-studio-sdk, we import it inside
     import pyarrow.parquet as pq  # pylint: disable=import-outside-toplevel
 
     # You can set authentication using environment variables instead of the 'auth' argument:

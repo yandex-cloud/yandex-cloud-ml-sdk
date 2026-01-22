@@ -6,7 +6,7 @@ import asyncio
 import base64
 import pathlib
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk import AsyncYCloudML
 
 
 def get_image_base64():

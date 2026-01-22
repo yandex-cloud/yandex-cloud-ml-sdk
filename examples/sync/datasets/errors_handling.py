@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pathlib
 
-from yandex_cloud_ml_sdk import YCloudML
-from yandex_cloud_ml_sdk.exceptions import DatasetValidationError
+from yandex_ai_studio_sdk import YCloudML
+from yandex_ai_studio_sdk.exceptions import DatasetValidationError
 
 PATH = pathlib.Path(__file__)
 NAME = f'example-{PATH.parent.name}-{PATH.name}'

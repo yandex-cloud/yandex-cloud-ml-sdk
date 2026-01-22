@@ -1,10 +1,10 @@
 Domain
 ------
 
-.. autoclass:: yandex_cloud_ml_sdk._chat.text_embeddings.function.AsyncChatEmbeddings
+.. autoclass:: yandex_ai_studio_sdk._chat.text_embeddings.function.AsyncChatEmbeddings
 
 Model
 -----
 
-.. autoclass:: yandex_cloud_ml_sdk._chat.text_embeddings.model.AsyncChatEmbeddingsModel
+.. autoclass:: yandex_ai_studio_sdk._chat.text_embeddings.model.AsyncChatEmbeddingsModel
    :undoc-members:

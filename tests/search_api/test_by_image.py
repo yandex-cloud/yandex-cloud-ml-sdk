@@ -4,8 +4,8 @@ import pathlib
 
 import pytest
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk.search_api import FamilyMode
+from yandex_ai_studio_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk.search_api import FamilyMode
 
 URL = "https://upload.wikimedia.org/wikipedia/commons/b/be/Leo_Tolstoy_1908_Portrait_%283x4_cropped%29.jpg"
 

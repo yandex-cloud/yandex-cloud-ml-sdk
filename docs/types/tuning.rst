@@ -4,19 +4,19 @@ Tuning
 Tuning settings types
 ---------------------
 
-.. automodule:: yandex_cloud_ml_sdk._types.tuning.tuning_types
+.. automodule:: yandex_ai_studio_sdk._types.tuning.tuning_types
    :undoc-members:
 
-.. automodule:: yandex_cloud_ml_sdk._types.tuning.schedulers
+.. automodule:: yandex_ai_studio_sdk._types.tuning.schedulers
    :undoc-members:
 
-.. automodule:: yandex_cloud_ml_sdk._types.tuning.optimizers
+.. automodule:: yandex_ai_studio_sdk._types.tuning.optimizers
    :undoc-members:
 
 Tuning task operation
 ---------------------
 
-.. currentmodule:: yandex_cloud_ml_sdk._tuning.tuning_task
+.. currentmodule:: yandex_ai_studio_sdk._tuning.tuning_task
 
 .. autoclass:: AsyncTuningTask
    :members:

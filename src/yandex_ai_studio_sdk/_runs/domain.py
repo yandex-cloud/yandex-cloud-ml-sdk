@@ -1,0 +1,293 @@
+# pylint: disable=protected-access,no-name-in-module
+from __future__ import annotations
+
+from collections.abc import AsyncIterator, Iterator
+from typing import Generic
+
+from yandex.cloud.ai.assistants.v1.common_pb2 import ResponseFormat
+from yandex.cloud.ai.assistants.v1.runs.run_pb2 import Run as ProtoRun
+from yandex.cloud.ai.assistants.v1.runs.run_service_pb2 import (
+    CreateRunRequest, GetLastRunByThreadRequest, GetRunRequest, ListRunsRequest, ListRunsResponse
+)
+from yandex.cloud.ai.assistants.v1.runs.run_service_pb2_grpc import RunServiceStub
+
+from yandex_ai_studio_sdk._assistants.assistant import BaseAssistant
+from yandex_ai_studio_sdk._assistants.prompt_truncation_options import (
+    PromptTruncationOptions, PromptTruncationStrategyType
+)
+from yandex_ai_studio_sdk._assistants.utils import get_completion_options
+from yandex_ai_studio_sdk._threads.thread import BaseThread
+from yandex_ai_studio_sdk._types.domain import BaseDomain
+from yandex_ai_studio_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined
+from yandex_ai_studio_sdk._types.schemas import ResponseType, make_response_format_kwargs
+from yandex_ai_studio_sdk._utils.doc import doc_from
+from yandex_ai_studio_sdk._utils.sync import run_sync, run_sync_generator
+
+from .run import AsyncRun, Run, RunTypeT
+
+
+class BaseRuns(BaseDomain, Generic[RunTypeT]):
+    """
+    Class for Runs operations.
+    Provides core functionality for managing assistant execution in streams.
+
+    For usage examples see `runs example <https://github.com/yandex-cloud/yandex-cloud-ml-sdk/blob/master/examples/{link}/assistants/runs.py>`_.
+    """
+    _run_impl: type[RunTypeT]
+
+    # pylint: disable=too-many-locals
+    async def _create(
+        self,
+        assistant: str | BaseAssistant,
+        thread: str | BaseThread,
+        *,
+        stream: bool,
+        custom_temperature: UndefinedOr[float] = UNDEFINED,
+        custom_max_tokens: UndefinedOr[int] = UNDEFINED,
+        custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        custom_prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
+        custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
+        timeout: float = 60,
+    ) -> RunTypeT:
+        """
+        :meta private
+        """
+        assistant_id: str
+        if isinstance(assistant, str):
+            assistant_id = assistant
+        elif isinstance(assistant, BaseAssistant):
+            assistant_id = assistant.id
+        else:
+            raise TypeError('assistant parameter must be a str either Assistant instance')
+
+        thread_id: str
+        if isinstance(thread, str):
+            thread_id = thread
+        elif isinstance(thread, BaseThread):
+            thread_id = thread.id
+        else:
+            raise TypeError('thread parameter must be a str either Thread instance')
+
+        custom_completion_options = get_completion_options(
+            temperature=get_defined_value(custom_temperature, None),
+            max_tokens=get_defined_value(custom_max_tokens, None),
+        )
+        custom_prompt_truncation_options = PromptTruncationOptions._coerce(
+            max_prompt_tokens=custom_max_prompt_tokens,
+            strategy=custom_prompt_truncation_strategy,
+        )
+        if custom_prompt_truncation_options._get_update_paths():
+            proto_custom_prompt_truncation_options = custom_prompt_truncation_options._to_proto()
+        else:
+            proto_custom_prompt_truncation_options = None
+
+        custom_response_format_: ResponseFormat | None = None
+        if is_defined(custom_response_format):
+            response_format_kwargs = make_response_format_kwargs(custom_response_format)
+            custom_response_format_ = ResponseFormat(**response_format_kwargs)
+
+        request = CreateRunRequest(
+            assistant_id=assistant_id,
+            thread_id=thread_id,
+            custom_completion_options=custom_completion_options,
+            custom_prompt_truncation_options=proto_custom_prompt_truncation_options,
+            custom_response_format=custom_response_format_,
+            stream=stream,
+        )
+
+        async with self._client.get_service_stub(RunServiceStub, timeout=timeout) as stub:
+            response = await self._client.call_service(
+                stub.Create,
+                request,
+                timeout=timeout,
+                expected_type=ProtoRun,
+            )
+
+        return self._run_impl._from_proto(proto=response, sdk=self._sdk)
+
+    async def _get(
+        self,
+        run_id: str,
+        *,
+        timeout: float = 60,
+    ) -> RunTypeT:
+        # TODO: we need a global per-sdk cache on ids to rule out
+        # possibility we have two Runs with same ids but different fields
+        """
+        Get a run by ID.
+
+        :param run_id: Run ID
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
+        request = GetRunRequest(run_id=run_id)
+
+        async with self._client.get_service_stub(RunServiceStub, timeout=timeout) as stub:
+            response = await self._client.call_service(
+                stub.Get,
+                request,
+                timeout=timeout,
+                expected_type=ProtoRun,
+            )
+
+        return self._run_impl._from_proto(proto=response, sdk=self._sdk)
+
+    async def _get_last_by_thread(
+        self,
+        thread: str | BaseThread,
+        *,
+        timeout: float = 60
+    ) -> RunTypeT:
+        """
+        Get the last run for a thread.
+
+        :param thread: Thread ID or instance
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
+        thread_id: str
+        if isinstance(thread, str):
+            thread_id = thread
+        elif isinstance(thread, BaseThread):
+            thread_id = thread.id
+        else:
+            raise TypeError('thread parameter must be a str either Thread instance')
+
+        request = GetLastRunByThreadRequest(thread_id=thread_id)
+
+        async with self._client.get_service_stub(RunServiceStub, timeout=timeout) as stub:
+            response = await self._client.call_service(
+                stub.GetLastByThread,
+                request,
+                timeout=timeout,
+                expected_type=ProtoRun,
+            )
+
+        return self._run_impl._from_proto(proto=response, sdk=self._sdk)
+
+    async def _list(
+        self,
+        *,
+        page_size: UndefinedOr[int] = UNDEFINED,
+        timeout: float = 60
+    ) -> AsyncIterator[RunTypeT]:
+        """
+        List runs. Returns an async iterator to retrieve all runs.
+
+        :param page_size: Number of items per page.
+            Larger values reduce the number of network calls but increase memory consumption per request.
+        :param timeout: The timeout, or the maximum time to wait for each network request
+            to complete in seconds. Defaults to 60 seconds. This affects the network
+            behavior but not the total time for iteration.
+        """
+        page_token_ = ''
+        page_size_ = get_defined_value(page_size, 0)
+
+        async with self._client.get_service_stub(RunServiceStub, timeout=timeout) as stub:
+            while True:
+                request = ListRunsRequest(
+                    folder_id=self._folder_id,
+                    page_size=page_size_,
+                    page_token=page_token_,
+                )
+
+                response = await self._client.call_service(
+                    stub.List,
+                    request,
+                    timeout=timeout,
+                    expected_type=ListRunsResponse,
+                )
+                for run_proto in response.runs:
+                    yield self._run_impl._from_proto(proto=run_proto, sdk=self._sdk)
+
+                if not response.runs:
+                    return
+
+                page_token_ = response.next_page_token
+
+@doc_from(BaseRuns, link="async")
+class AsyncRuns(BaseRuns[AsyncRun]):
+    # NB: there is no public 'create'
+    _run_impl = AsyncRun
+
+    @doc_from(BaseRuns._get)
+    async def get(
+        self,
+        run_id: str,
+        *,
+        timeout: float = 60,
+    ) -> AsyncRun:
+        return await self._get(
+            run_id=run_id,
+            timeout=timeout,
+        )
+
+    @doc_from(BaseRuns._get_last_by_thread)
+    async def get_last_by_thread(
+        self,
+        thread: str | BaseThread,
+        *,
+        timeout: float = 60
+    ) -> AsyncRun:
+        return await self._get_last_by_thread(
+            thread=thread,
+            timeout=timeout,
+        )
+
+    @doc_from(BaseRuns._list)
+    async def list(
+        self,
+        *,
+        page_size: UndefinedOr[int] = UNDEFINED,
+        timeout: float = 60
+    ) -> AsyncIterator[AsyncRun]:
+        async for run in self._list(
+            page_size=page_size,
+            timeout=timeout,
+        ):
+            yield run
+
+@doc_from(BaseRuns, link="sync")
+class Runs(BaseRuns[Run]):
+    _run_impl = Run
+
+    # NB: there is no public 'create'
+    __get = run_sync(BaseRuns._get)
+    __get_last_by_thread = run_sync(BaseRuns._get_last_by_thread)
+    __list = run_sync_generator(BaseRuns._list)
+
+    @doc_from(BaseRuns._get)
+    def get(
+        self,
+        run_id: str,
+        *,
+        timeout: float = 60,
+    ) -> Run:
+        return self.__get(
+            run_id=run_id,
+            timeout=timeout,
+        )
+
+    @doc_from(BaseRuns._get_last_by_thread)
+    def get_last_by_thread(
+        self,
+        thread: str | BaseThread,
+        *,
+        timeout: float = 60
+    ) -> Run:
+        return self.__get_last_by_thread(
+            thread=thread,
+            timeout=timeout,
+        )
+
+    @doc_from(BaseRuns._list)
+    def list(
+        self,
+        *,
+        page_size: UndefinedOr[int] = UNDEFINED,
+        timeout: float = 60
+    ) -> Iterator[Run]:
+        yield from self.__list(
+            page_size=page_size,
+            timeout=timeout,
+        )

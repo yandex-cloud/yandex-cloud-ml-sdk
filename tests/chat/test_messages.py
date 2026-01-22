@@ -5,13 +5,13 @@ import datetime
 
 import pytest
 
-from yandex_cloud_ml_sdk._chat.completions.message import message_to_json, messages_to_json
-from yandex_cloud_ml_sdk._chat.completions.result import (
+from yandex_ai_studio_sdk._chat.completions.message import message_to_json, messages_to_json
+from yandex_ai_studio_sdk._chat.completions.result import (
     AlternativeStatus, ChatChoice, ChatModelResult, DeltaChatChoice, FinishReason, HttpToolCallList
 )
-from yandex_cloud_ml_sdk._tools.function_call import AsyncFunctionCall
-from yandex_cloud_ml_sdk._tools.tool_call import AsyncToolCall
-from yandex_cloud_ml_sdk._types.message import TextMessage
+from yandex_ai_studio_sdk._tools.function_call import AsyncFunctionCall
+from yandex_ai_studio_sdk._tools.tool_call import AsyncToolCall
+from yandex_ai_studio_sdk._types.message import TextMessage
 
 RESULT: ChatModelResult = ChatModelResult(
     choices=(

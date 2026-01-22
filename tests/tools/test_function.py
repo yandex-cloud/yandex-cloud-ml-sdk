@@ -7,9 +7,9 @@ import pytest
 from yandex.cloud.ai.assistants.v1.common_pb2 import Tool as ProtoAssistantsTool
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Tool as ProtoCompletionsTool
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk._tools.function import ParametersType
-from yandex_cloud_ml_sdk._tools.tool import FunctionTool
+from yandex_ai_studio_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk._tools.function import ParametersType
+from yandex_ai_studio_sdk._tools.tool import FunctionTool
 
 
 @pytest.mark.require_env('pydantic')

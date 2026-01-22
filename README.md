@@ -1,10 +1,10 @@
-# Yandex Cloud ML SDK
+# Yandex AI Studio
 
 This Python library provides a simple and efficient software development kit (SDK) for interacting with Yandex Cloud AI Studio services. The SDK abstracts away the complexities of raw gRPC and REST calls, making it easier for developers to integrate cloud functionality into their applications seamlessly.
 
 ## Features
 
-Yandex Cloud ML SDK offers a comprehensive set of high‑level abstractions that map directly to the capabilities exposed by Yandex Cloud. The current feature set includes:
+Yandex AI Studio SDK offers a comprehensive set of high‑level abstractions that map directly to the capabilities exposed by Yandex Cloud. The current feature set includes:
 
 - [**Assistants**](https://yandex.cloud/docs/ai-studio/concepts/assistant/)
   - Create, list, update and delete AI assistants.
@@ -13,7 +13,7 @@ Yandex Cloud ML SDK offers a comprehensive set of high‑level abstractions that
   - Text generation (completion) models with streaming support.
   - Chat usage tracking, tool calls (function calling for example).
 - [**Chat**](https://yandex.cloud/docs/ai-studio/concepts/openai-compatibility)
-  - OpenAI‑compatible chat API (`sdk.chat`) designed to work seamlessly with the rest of the Yandex Cloud ML SDK.
+  - OpenAI‑compatible chat API (`sdk.chat`) designed to work seamlessly with the rest of the Yandex AI Studio SDK.
   - Send and receive messages, stream responses, and work with tool calls in a unified way.
 - [**Image generation**](https://yandex.cloud/docs/ai-studio/operations/generation/yandexart-request)
   - Generate images via YandexART models.
@@ -42,7 +42,7 @@ Also there is some cross-domain functionality for features above:
 - [**Datasets**](https://yandex.cloud/docs/ai-studio/concepts/resources/dataset)
   - Manage dataset lifecycle, upload data, validate schemas, and perform task‑type specific operations.
 
-Additionally, Yandex Cloud ML SDK offers:
+Additionally, Yandex AI Studio SDK offers:
 - [**Authentication**](https://yandex.cloud/docs/ai-studio/sdk/#authentication)
   - Automatic selection of authentication method (API key, IAM token, OAuth token, CLI, metadata service, etc.).
 - **Error handling & retries**
@@ -57,7 +57,7 @@ Additionally, Yandex Cloud ML SDK offers:
 You can install the library via pip:
 
 ```sh
-pip install yandex-cloud-ml-sdk
+pip install yandex-ai-studio-sdk
 ```
 
 ## SDK Reference
@@ -69,7 +69,7 @@ pip install yandex-cloud-ml-sdk
 Here's a basic example of how to use the SDK:
 
 ```python
-from yandex_cloud_ml_sdk import YCloudML
+from yandex_ai_studio_sdk import YCloudML
 
 sdk = YCloudML(folder_id="...", auth="<APIKey/IAMToken/SomethingElse>")
 
@@ -85,16 +85,16 @@ For more usage examples look into `examples` folder.
 
 ## LangChain integration
 
-To use LangChain integration, install `yandex-cloud-ml-sdk` package with a `langchain` extra:
+To use LangChain integration, install `yandex-ai-studio-sdk` package with a `langchain` extra:
 
 ```sh
-pip install yandex-cloud-ml-sdk[langchain]
+pip install yandex-ai-studio-sdk[langchain]
 ```
 
 Usage example:
 
 ```python
-from yandex_cloud_ml_sdk import YCloudML
+from yandex_ai_studio_sdk import YCloudML
 from langchain_core.messages import AIMessage, HumanMessage
 
 sdk = YCloudML(folder_id="...", auth="<APIKey/IAMToken/SomethingElse>")

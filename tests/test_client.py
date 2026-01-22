@@ -21,12 +21,12 @@ from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_servic
 from yandex.cloud.endpoint.api_endpoint_service_pb2 import ListApiEndpointsRequest, ListApiEndpointsResponse
 from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServiceStub
 
-import yandex_cloud_ml_sdk._client
-from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk._client import AsyncCloudClient, _get_user_agent
-from yandex_cloud_ml_sdk._types.misc import UNDEFINED
-from yandex_cloud_ml_sdk.auth import NoAuth
-from yandex_cloud_ml_sdk.exceptions import AioRpcError, UnknownEndpointError
+import yandex_ai_studio_sdk._client
+from yandex_ai_studio_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk._client import AsyncCloudClient, _get_user_agent
+from yandex_ai_studio_sdk._types.misc import UNDEFINED
+from yandex_ai_studio_sdk.auth import NoAuth
+from yandex_ai_studio_sdk.exceptions import AioRpcError, UnknownEndpointError
 
 
 class NewChannelException(Exception):
@@ -107,7 +107,7 @@ def forbid_grpc_call_fixure(monkeypatch):
 
         raise NewChannelException(endpoint)
 
-    monkeypatch.setattr(yandex_cloud_ml_sdk._client.AsyncCloudClient, '_new_channel', raise_)
+    monkeypatch.setattr(yandex_ai_studio_sdk._client.AsyncCloudClient, '_new_channel', raise_)
 
 
 @pytest.mark.asyncio
@@ -284,7 +284,7 @@ async def test_grpc_base_exception(async_sdk, monkeypatch, test_server):
             debug_error_string="some debug"
         )
 
-    monkeypatch.setattr(yandex_cloud_ml_sdk._client.AsyncCloudClient, 'call_service', raise_call_service)
+    monkeypatch.setattr(yandex_ai_studio_sdk._client.AsyncCloudClient, 'call_service', raise_call_service)
 
     with pytest.raises(AioRpcError) as exc_info:
         await async_sdk.models.completions('foo').tokenize("bar")
@@ -313,7 +313,7 @@ async def test_grpc_unauth_exception(async_sdk, monkeypatch, auth):
             debug_error_string="some debug"
         )
 
-    monkeypatch.setattr(yandex_cloud_ml_sdk._client.AsyncCloudClient, 'call_service', raise_call_service_unauth)
+    monkeypatch.setattr(yandex_ai_studio_sdk._client.AsyncCloudClient, 'call_service', raise_call_service_unauth)
 
     with pytest.raises(AioRpcError) as exc_info:
         await async_sdk.models.completions('foo').tokenize("bar")
@@ -335,7 +335,7 @@ async def test_grpc_request_id_in_initial_metadata_exception(async_sdk, monkeypa
             debug_error_string="some debug"
         )
 
-    monkeypatch.setattr(yandex_cloud_ml_sdk._client.AsyncCloudClient, 'call_service', raise_call_service_initial)
+    monkeypatch.setattr(yandex_ai_studio_sdk._client.AsyncCloudClient, 'call_service', raise_call_service_initial)
 
     with pytest.raises(AioRpcError) as exc_info:
         await async_sdk.models.completions('foo').tokenize("bar")
@@ -357,7 +357,7 @@ async def test_grpc_request_id_in_trailing_metadata_exception(async_sdk, monkeyp
             debug_error_string="some debug"
         )
 
-    monkeypatch.setattr(yandex_cloud_ml_sdk._client.AsyncCloudClient, 'call_service', raise_call_service_trailing)
+    monkeypatch.setattr(yandex_ai_studio_sdk._client.AsyncCloudClient, 'call_service', raise_call_service_trailing)
 
     with pytest.raises(AioRpcError) as exc_info:
         await async_sdk.models.completions('foo').tokenize("bar")
@@ -379,7 +379,7 @@ async def test_grpc_request_id_wrong_metadata_exception(async_sdk, monkeypatch):
             debug_error_string="some debug"
         )
 
-    monkeypatch.setattr(yandex_cloud_ml_sdk._client.AsyncCloudClient, 'call_service', raise_call_service_wrong)
+    monkeypatch.setattr(yandex_ai_studio_sdk._client.AsyncCloudClient, 'call_service', raise_call_service_wrong)
 
     with pytest.raises(AioRpcError) as exc_info:
         await async_sdk.models.completions('foo').tokenize("bar")

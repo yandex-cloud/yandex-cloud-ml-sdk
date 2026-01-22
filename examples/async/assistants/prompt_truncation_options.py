@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import asyncio
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk.assistants import AutoPromptTruncationStrategy, LastMessagesPromptTruncationStrategy
+from yandex_ai_studio_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk.assistants import AutoPromptTruncationStrategy, LastMessagesPromptTruncationStrategy
 
 LABEL_KEY = 'yc-ml-sdk-example'
 LABEL_VALUE = 'prompt-truncation-options'

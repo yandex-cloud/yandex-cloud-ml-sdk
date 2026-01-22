@@ -6,7 +6,7 @@ import os
 import pathlib
 import tempfile
 
-from yandex_cloud_ml_sdk import YCloudML
+from yandex_ai_studio_sdk import YCloudML
 
 MULT_FACTOR = 15000
 

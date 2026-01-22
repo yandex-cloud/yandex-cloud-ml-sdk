@@ -7,7 +7,7 @@ import pathlib
 import uuid
 from typing import Literal
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk import AsyncYCloudML
 
 
 def local_path(path: str) -> pathlib.Path:

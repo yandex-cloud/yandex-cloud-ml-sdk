@@ -1,8 +1,8 @@
 Threads domain
 ==============
 
-.. autoclass:: yandex_cloud_ml_sdk._threads.domain.AsyncThreads
+.. autoclass:: yandex_ai_studio_sdk._threads.domain.AsyncThreads
    :undoc-members:
 
-.. autoclass:: yandex_cloud_ml_sdk._threads.thread.AsyncThread
+.. autoclass:: yandex_ai_studio_sdk._threads.thread.AsyncThread
    :undoc-members:

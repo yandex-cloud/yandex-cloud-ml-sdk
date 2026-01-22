@@ -5,7 +5,7 @@ from __future__ import annotations
 import asyncio
 import pprint
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk import AsyncYCloudML
 
 
 async def get_model(sdk: AsyncYCloudML):
@@ -55,7 +55,7 @@ async def main() -> None:
     result = await model.run(request)
     assert result.finish_reason.name == 'LENGTH'
     # status field is a synonym for finish_reason, but with names consistent with
-    # another parts ofr yandex_cloud_ml_sdk
+    # another parts ofr yandex_ai_studio_sdk
     assert result.status.name == 'TRUNCATED_FINAL'
 
 

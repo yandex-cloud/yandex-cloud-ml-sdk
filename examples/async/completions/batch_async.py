@@ -7,7 +7,7 @@ import itertools
 
 import tqdm
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk import AsyncYCloudML
 
 
 def chunker(it, size):

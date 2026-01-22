@@ -5,8 +5,8 @@ from __future__ import annotations
 import pathlib
 import pprint
 
-from yandex_cloud_ml_sdk import YCloudML
-from yandex_cloud_ml_sdk.search_indexes import (
+from yandex_ai_studio_sdk import YCloudML
+from yandex_ai_studio_sdk.search_indexes import (
     HybridSearchIndexType, ReciprocalRankFusionIndexCombinationStrategy, StaticIndexChunkingStrategy,
     TextSearchIndexType, VectorSearchIndexType
 )

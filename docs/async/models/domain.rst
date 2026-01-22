@@ -1,7 +1,7 @@
 Models domain
 =============
 
-.. autoclass:: yandex_cloud_ml_sdk._models.AsyncModels
+.. autoclass:: yandex_ai_studio_sdk._models.AsyncModels
    :undoc-members:
 
 .. toctree::

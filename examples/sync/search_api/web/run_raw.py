@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Literal, cast
 
-from yandex_cloud_ml_sdk import YCloudML
+from yandex_ai_studio_sdk import YCloudML
 
 
 def main() -> None:

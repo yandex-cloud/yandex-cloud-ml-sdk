@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import asyncio
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk import AsyncYCloudML
 
 
 def clear():
@@ -61,7 +61,7 @@ async def main() -> None:
     # There is very important difference between choice.text and
     # choice.delta:
     # * choice.text contains a constantly increasing PREFIX of generated text,
-    #   like in other parts of yandex-cloud-ml-sdk
+    #   like in other parts of yandex-ai-studio-sdk
     # * choice.delta contains only newly generated text delta in openai-streaming style
     clear()
     print(f"{request}:")
@@ -82,7 +82,7 @@ async def main() -> None:
 
     assert chunk.finish_reason.name == 'LENGTH'
     # status field is a synonym for finish_reason, but with names consistent with
-    # another parts of yandex_cloud_ml_sdk
+    # another parts of yandex_ai_studio_sdk
     assert chunk.status.name == 'TRUNCATED_FINAL'
 
 

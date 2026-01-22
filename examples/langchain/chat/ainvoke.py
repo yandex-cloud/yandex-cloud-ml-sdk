@@ -6,7 +6,7 @@ import asyncio
 
 from langchain_core.messages import AIMessage, HumanMessage
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk import AsyncYCloudML
 
 
 async def main() -> None:

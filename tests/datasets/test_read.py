@@ -14,8 +14,8 @@ import pytest
 from pytest_httpx import HTTPXMock
 from yandex.cloud.ai.dataset.v1.dataset_pb2 import DatasetInfo
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk._datasets.dataset import AsyncDataset
+from yandex_ai_studio_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk._datasets.dataset import AsyncDataset
 
 pytestmark = [pytest.mark.asyncio, pytest.mark.require_env('pyarrow')]
 

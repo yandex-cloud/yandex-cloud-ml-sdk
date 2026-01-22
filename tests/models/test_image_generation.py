@@ -2,11 +2,11 @@ from __future__ import annotations
 
 import pytest
 
-from yandex_cloud_ml_sdk._messages.message import Message as AssistantMessage
-from yandex_cloud_ml_sdk._messages.message import PartialMessage
-from yandex_cloud_ml_sdk._models.completions.result import Alternative, GPTModelResult
-from yandex_cloud_ml_sdk._models.image_generation.message import ImageMessage, ProtoMessage, messages_to_proto
-from yandex_cloud_ml_sdk._types.message import TextMessage
+from yandex_ai_studio_sdk._messages.message import Message as AssistantMessage
+from yandex_ai_studio_sdk._messages.message import PartialMessage
+from yandex_ai_studio_sdk._models.completions.result import Alternative, GPTModelResult
+from yandex_ai_studio_sdk._models.image_generation.message import ImageMessage, ProtoMessage, messages_to_proto
+from yandex_ai_studio_sdk._types.message import TextMessage
 
 
 @pytest.fixture(name='model')

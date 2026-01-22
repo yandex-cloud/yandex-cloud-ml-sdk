@@ -5,7 +5,7 @@ import uuid
 
 import pytest
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk import AsyncYCloudML
 
 pytestmark = pytest.mark.asyncio
 

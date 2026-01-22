@@ -1,8 +1,8 @@
 Assistants domain
 =================
 
-.. autoclass:: yandex_cloud_ml_sdk._assistants.domain.AsyncAssistants
+.. autoclass:: yandex_ai_studio_sdk._assistants.domain.AsyncAssistants
    :undoc-members:
 
-.. autoclass:: yandex_cloud_ml_sdk._assistants.assistant.AsyncAssistant
+.. autoclass:: yandex_ai_studio_sdk._assistants.assistant.AsyncAssistant
    :undoc-members:

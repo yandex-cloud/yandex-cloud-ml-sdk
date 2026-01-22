@@ -5,10 +5,10 @@ from __future__ import annotations
 import pathlib
 import uuid
 
-from yandex_cloud_ml_sdk import YCloudML
-from yandex_cloud_ml_sdk.tuning import optimizers as to
-from yandex_cloud_ml_sdk.tuning import schedulers as ts
-from yandex_cloud_ml_sdk.tuning import types as tt
+from yandex_ai_studio_sdk import YCloudML
+from yandex_ai_studio_sdk.tuning import optimizers as to
+from yandex_ai_studio_sdk.tuning import schedulers as ts
+from yandex_ai_studio_sdk.tuning import types as tt
 
 
 def local_path(path: str) -> pathlib.Path:

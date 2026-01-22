@@ -1,19 +1,19 @@
 Run types
 =========
 
-.. autoclass:: yandex_cloud_ml_sdk._runs.status.BaseRunStatus
+.. autoclass:: yandex_ai_studio_sdk._runs.status.BaseRunStatus
    :undoc-members:
 
-.. autoclass:: yandex_cloud_ml_sdk._runs.status.RunStatus
-   :undoc-members:
-   :no-inherited-members:
-
-.. autoclass:: yandex_cloud_ml_sdk._runs.status.StreamEvent
+.. autoclass:: yandex_ai_studio_sdk._runs.status.RunStatus
    :undoc-members:
    :no-inherited-members:
 
-.. autoclass:: yandex_cloud_ml_sdk._runs.result.RunResult
+.. autoclass:: yandex_ai_studio_sdk._runs.status.StreamEvent
+   :undoc-members:
+   :no-inherited-members:
+
+.. autoclass:: yandex_ai_studio_sdk._runs.result.RunResult
    :undoc-members:
 
-.. autoclass:: yandex_cloud_ml_sdk._runs.result.RunStreamEvent
+.. autoclass:: yandex_ai_studio_sdk._runs.result.RunStreamEvent
    :undoc-members:

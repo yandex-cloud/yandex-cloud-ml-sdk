@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-from yandex_cloud_ml_sdk import YCloudML
+from yandex_ai_studio_sdk import YCloudML
 
 
 def create_tools(sdk: YCloudML):
-    # it is imported inside only because yandex-cloud-ml-sdk does not require pydantic by default
+    # it is imported inside only because yandex-ai-studio-sdk does not require pydantic by default
     # pylint: disable=import-outside-toplevel
     from pydantic import BaseModel, Field
 

@@ -8,10 +8,10 @@ from typing import Any
 import pytest
 from typing_extensions import override
 
-from yandex_cloud_ml_sdk._auth import RefresheableIAMTokenAuth
-from yandex_cloud_ml_sdk._testing.client import MockClient
-from yandex_cloud_ml_sdk._utils.contextlib import nullcontext
-from yandex_cloud_ml_sdk._utils.sync import run_sync
+from yandex_ai_studio_sdk._auth import RefresheableIAMTokenAuth
+from yandex_ai_studio_sdk._testing.client import MockClient
+from yandex_ai_studio_sdk._utils.contextlib import nullcontext
+from yandex_ai_studio_sdk._utils.sync import run_sync
 
 
 class RefresheableMockAuth(RefresheableIAMTokenAuth):

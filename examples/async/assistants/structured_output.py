@@ -8,7 +8,7 @@ import pathlib
 
 import pydantic
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk import AsyncYCloudML
 
 PATH = pathlib.Path(__file__)
 LABEL_KEY = 'yc-ml-sdk-example'

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pprint
 
-from yandex_cloud_ml_sdk import YCloudML
+from yandex_ai_studio_sdk import YCloudML
 
 
 def get_model(sdk: YCloudML):
@@ -54,7 +54,7 @@ def main() -> None:
     result = model.run(request)
     assert result.finish_reason.name == 'LENGTH'
     # status field is a synonym for finish_reason, but with names consistent with
-    # another parts ofr yandex_cloud_ml_sdk
+    # another parts ofr yandex_ai_studio_sdk
     assert result.status.name == 'TRUNCATED_FINAL'
 
 

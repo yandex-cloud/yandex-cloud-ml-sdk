@@ -5,20 +5,20 @@ import sys
 
 import pytest
 
-import yandex_cloud_ml_sdk
+import yandex_ai_studio_sdk
 
 pytest_plugins = [
     'pytest_asyncio',
     'pytest_recording',
-    'yandex_cloud_ml_sdk._testing.plugin',
+    'yandex_ai_studio_sdk._testing.plugin',
 ]
 
 langchain_paths = [
     'examples/langchain/',
     'tests/langchain_',
-    'src/yandex_cloud_ml_sdk/_types/langchain.py',
-    'src/yandex_cloud_ml_sdk/_utils/langchain.py',
-    'src/yandex_cloud_ml_sdk/_models/completions/langchain.py',
+    'src/yandex_ai_studio_sdk/_types/langchain.py',
+    'src/yandex_ai_studio_sdk/_utils/langchain.py',
+    'src/yandex_ai_studio_sdk/_models/completions/langchain.py',
 ]
 
 def pytest_ignore_collect(collection_path, config):  # pylint: disable=unused-argument
@@ -36,4 +36,4 @@ def pytest_ignore_collect(collection_path, config):  # pylint: disable=unused-ar
 
 @pytest.fixture(autouse=True)
 def add_np(doctest_namespace):
-    doctest_namespace["sdk"] = yandex_cloud_ml_sdk.YCloudML(folder_id='<doctest>', auth='<none>')
+    doctest_namespace["sdk"] = yandex_ai_studio_sdk.YCloudML(folder_id='<doctest>', auth='<none>')

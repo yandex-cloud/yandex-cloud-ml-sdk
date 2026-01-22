@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pathlib
 
-from yandex_cloud_ml_sdk import YCloudML
+from yandex_ai_studio_sdk import YCloudML
 
 PATH = pathlib.Path(__file__)
 NAME = f'example-{PATH.parent.name}-{PATH.name}'
@@ -94,7 +94,7 @@ def main() -> None:
         for line in json_dataset.read():
             print(line)
     except ImportError:
-        print('skipping dataset read; install yandex-cloud-ml-sdk[datasets] to be able to read')
+        print('skipping dataset read; install yandex-ai-studio-sdk[datasets] to be able to read')
 
     # Removing all the data to not to increase chaos.
     resulting_dataset.delete()

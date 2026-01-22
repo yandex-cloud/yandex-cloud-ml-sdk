@@ -7,7 +7,7 @@ import json
 
 import pydantic
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk import AsyncYCloudML
 
 
 class Venue(pydantic.BaseModel):

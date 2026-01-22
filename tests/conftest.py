@@ -10,16 +10,16 @@ import grpc.aio
 import pytest
 import pytest_asyncio
 
-import yandex_cloud_ml_sdk._types.resource
-from yandex_cloud_ml_sdk import AsyncYCloudML, YCloudML
-from yandex_cloud_ml_sdk._auth import BaseAuth, NoAuth
-from yandex_cloud_ml_sdk._client import AsyncCloudClient, _get_user_agent
-from yandex_cloud_ml_sdk._retry import NoRetryPolicy, RetryPolicy
-from yandex_cloud_ml_sdk._testing.client import MockClient
-from yandex_cloud_ml_sdk._testing.interceptor import (
+import yandex_ai_studio_sdk._types.resource
+from yandex_ai_studio_sdk import AsyncYCloudML, YCloudML
+from yandex_ai_studio_sdk._auth import BaseAuth, NoAuth
+from yandex_ai_studio_sdk._client import AsyncCloudClient, _get_user_agent
+from yandex_ai_studio_sdk._retry import NoRetryPolicy, RetryPolicy
+from yandex_ai_studio_sdk._testing.client import MockClient
+from yandex_ai_studio_sdk._testing.interceptor import (
     AsyncUnaryStreamClientInterceptor, AsyncUnaryUnaryClientInterceptor, CassetteManager
 )
-from yandex_cloud_ml_sdk._types.misc import UNDEFINED
+from yandex_ai_studio_sdk._types.misc import UNDEFINED
 
 
 @pytest.fixture(scope="module")
@@ -60,10 +60,10 @@ def patch_operation(request, monkeypatch):
     if not allow_grpc_test or generate or regenerate:
         return
 
-    import yandex_cloud_ml_sdk._types.operation  # pylint: disable=import-outside-toplevel,redefined-outer-name
+    import yandex_ai_studio_sdk._types.operation  # pylint: disable=import-outside-toplevel,redefined-outer-name
 
     monkeypatch.setattr(
-        yandex_cloud_ml_sdk._types.operation.OperationInterface,  # pylint: disable=protected-access
+        yandex_ai_studio_sdk._types.operation.OperationInterface,  # pylint: disable=protected-access
         '_sleep_impl',
         AsyncMock()
     )
@@ -186,12 +186,12 @@ async def clear_deleteable_resources(monkeypatch):
     # pylint: disable=protected-access
     created_resources = []
 
-    class PatchedDeleteableResource(yandex_cloud_ml_sdk._types.resource.BaseDeleteableResource):
+    class PatchedDeleteableResource(yandex_ai_studio_sdk._types.resource.BaseDeleteableResource):
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
             created_resources.append(self)
 
-    monkeypatch.setattr(yandex_cloud_ml_sdk._types.resource, 'BaseDeleteableResource', PatchedDeleteableResource)
+    monkeypatch.setattr(yandex_ai_studio_sdk._types.resource, 'BaseDeleteableResource', PatchedDeleteableResource)
 
     try:
         yield

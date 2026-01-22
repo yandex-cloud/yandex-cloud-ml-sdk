@@ -4,7 +4,7 @@ from __future__ import annotations
 import pytest
 from yandex.cloud.searchapi.v2.search_query_pb2 import SearchQuery as ProtoSearchQuery
 
-from yandex_cloud_ml_sdk._types.enum import ProtoBasedEnum
+from yandex_ai_studio_sdk._types.enum import ProtoBasedEnum
 
 
 # pylint: disable=invalid-enum-extension

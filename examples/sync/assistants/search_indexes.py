@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pathlib
 
-from yandex_cloud_ml_sdk import YCloudML
-from yandex_cloud_ml_sdk.search_indexes import StaticIndexChunkingStrategy, TextSearchIndexType
+from yandex_ai_studio_sdk import YCloudML
+from yandex_ai_studio_sdk.search_indexes import StaticIndexChunkingStrategy, TextSearchIndexType
 
 
 def local_path(path: str) -> pathlib.Path:

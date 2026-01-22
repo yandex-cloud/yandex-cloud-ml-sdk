@@ -5,14 +5,14 @@ from typing import cast
 
 import pytest
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk._models.completions.message import ProtoMessage, messages_to_proto
-from yandex_cloud_ml_sdk._models.completions.result import AlternativeStatus
-from yandex_cloud_ml_sdk._models.completions.token import Token
-from yandex_cloud_ml_sdk._types.message import TextMessage
-from yandex_cloud_ml_sdk._types.misc import UNDEFINED
-from yandex_cloud_ml_sdk._types.tools.function import FunctionDictType
-from yandex_cloud_ml_sdk._types.tools.tool_choice import ToolChoiceType
+from yandex_ai_studio_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk._models.completions.message import ProtoMessage, messages_to_proto
+from yandex_ai_studio_sdk._models.completions.result import AlternativeStatus
+from yandex_ai_studio_sdk._models.completions.token import Token
+from yandex_ai_studio_sdk._types.message import TextMessage
+from yandex_ai_studio_sdk._types.misc import UNDEFINED
+from yandex_ai_studio_sdk._types.tools.function import FunctionDictType
+from yandex_ai_studio_sdk._types.tools.tool_choice import ToolChoiceType
 
 pytestmark = pytest.mark.asyncio
 

@@ -4,8 +4,8 @@ from dataclasses import fields
 
 import pytest
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk.search_indexes import (
+from yandex_ai_studio_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk.search_indexes import (
     HybridSearchIndexType, IndexNormalizationStrategy, MeanIndexCombinationStrategy, MeanIndexEvaluationTechnique,
     ReciprocalRankFusionIndexCombinationStrategy, StaticIndexChunkingStrategy, TextSearchIndexType,
     VectorSearchIndexType

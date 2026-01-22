@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import asyncio
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk import AsyncYCloudML
 
 
 def calculator(expression: str) -> str:
@@ -43,7 +43,7 @@ def process_tool_calls(tool_calls) -> dict[str, list[dict]]:
 
 
 def create_tools(sdk: AsyncYCloudML):
-    # it is imported inside only because yandex-cloud-ml-sdk does not require pydantic by default
+    # it is imported inside only because yandex-ai-studio-sdk does not require pydantic by default
     # pylint: disable=import-outside-toplevel
     from pydantic import BaseModel, Field
 

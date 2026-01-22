@@ -5,7 +5,7 @@ from __future__ import annotations
 import asyncio
 import pathlib
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk import AsyncYCloudML
 
 
 def local_path(path: str) -> pathlib.Path:

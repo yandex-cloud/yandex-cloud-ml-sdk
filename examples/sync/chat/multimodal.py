@@ -5,7 +5,7 @@ from __future__ import annotations
 import base64
 import pathlib
 
-from yandex_cloud_ml_sdk import YCloudML
+from yandex_ai_studio_sdk import YCloudML
 
 
 def get_image_base64():

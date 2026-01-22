@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import asyncio
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk._experimental.audio.out import AsyncAudioOut
-from yandex_cloud_ml_sdk._experimental.audio.utils import choose_audio_device
+from yandex_ai_studio_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk._experimental.audio.out import AsyncAudioOut
+from yandex_ai_studio_sdk._experimental.audio.utils import choose_audio_device
 
 SAMPLERATE = 44100
 

@@ -4,7 +4,7 @@ import pathlib
 
 import pytest
 
-from yandex_cloud_ml_sdk._sdk import AsyncYCloudML
+from yandex_ai_studio_sdk._sdk import AsyncYCloudML
 
 pytestmark = pytest.mark.asyncio
 

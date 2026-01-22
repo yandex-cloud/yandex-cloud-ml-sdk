@@ -6,9 +6,9 @@ import json
 import pytest
 import pytest_asyncio
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk._models.completions.model import BaseGPTModel
-from yandex_cloud_ml_sdk._threads.thread import AsyncThread
+from yandex_ai_studio_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk._models.completions.model import BaseGPTModel
+from yandex_ai_studio_sdk._threads.thread import AsyncThread
 
 pytestmark = pytest.mark.asyncio
 

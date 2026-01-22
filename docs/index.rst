@@ -1,4 +1,4 @@
-yandex-cloud-ml-sdk documentation
+yandex-ai-studio-sdk documentation
 =================================
 
 Current package version: |version|

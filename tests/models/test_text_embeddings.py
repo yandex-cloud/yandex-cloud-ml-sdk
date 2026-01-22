@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from yandex_cloud_ml_sdk._models.text_embeddings.result import TextEmbeddingsModelResult
+from yandex_ai_studio_sdk._models.text_embeddings.result import TextEmbeddingsModelResult
 
 
 @pytest.fixture(name='model')

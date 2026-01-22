@@ -6,7 +6,7 @@ import pathlib
 import time
 import uuid
 
-from yandex_cloud_ml_sdk import YCloudML
+from yandex_ai_studio_sdk import YCloudML
 
 
 def local_path(path: str) -> pathlib.Path:

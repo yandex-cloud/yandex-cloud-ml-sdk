@@ -6,8 +6,8 @@ import asyncio
 import pathlib
 import pprint
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk.search_indexes import (
+from yandex_ai_studio_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk.search_indexes import (
     HybridSearchIndexType, ReciprocalRankFusionIndexCombinationStrategy, StaticIndexChunkingStrategy,
     TextSearchIndexType, VectorSearchIndexType
 )

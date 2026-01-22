@@ -1,7 +1,7 @@
 Operation
 =========
 
-.. currentmodule:: yandex_cloud_ml_sdk._types.operation
+.. currentmodule:: yandex_ai_studio_sdk._types.operation
 
 .. autoclass:: AsyncOperation
    :members:

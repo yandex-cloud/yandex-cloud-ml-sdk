@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import inspect
 
-from yandex_cloud_ml_sdk._types.function import BaseFunction
-from yandex_cloud_ml_sdk._types.operation import Operation
+from yandex_ai_studio_sdk._types.function import BaseFunction
+from yandex_ai_studio_sdk._types.operation import Operation
 
 
 def check_object_is_sync(obj):

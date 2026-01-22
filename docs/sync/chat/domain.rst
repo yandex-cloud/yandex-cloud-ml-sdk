@@ -1,7 +1,7 @@
 Chat domain
 ===========
 
-.. autoclass:: yandex_cloud_ml_sdk._chat.Chat
+.. autoclass:: yandex_ai_studio_sdk._chat.Chat
    :undoc-members:
 
 .. toctree::

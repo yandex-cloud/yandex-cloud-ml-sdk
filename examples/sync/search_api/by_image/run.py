@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pathlib
 
-from yandex_cloud_ml_sdk import YCloudML
-from yandex_cloud_ml_sdk.search_api import FamilyMode
+from yandex_ai_studio_sdk import YCloudML
+from yandex_ai_studio_sdk.search_api import FamilyMode
 
 EXAMPLE_FILE = pathlib.Path(__file__).parent / 'image.jpeg'
 

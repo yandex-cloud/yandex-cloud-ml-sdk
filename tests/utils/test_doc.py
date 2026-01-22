@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from yandex_cloud_ml_sdk._utils.doc import doc_from
+from yandex_ai_studio_sdk._utils.doc import doc_from
 
 
 def test_doc_from_class() -> None:

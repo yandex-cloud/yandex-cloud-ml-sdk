@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from yandex_cloud_ml_sdk import AsyncYCloudML, YCloudML
+from yandex_ai_studio_sdk import AsyncYCloudML, YCloudML
 
 
 @pytest.mark.parametrize("sdk_class", [YCloudML, AsyncYCloudML])

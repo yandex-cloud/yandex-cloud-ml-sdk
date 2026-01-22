@@ -14,7 +14,7 @@ from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_servic
     add_TokenizerServiceServicer_to_server
 )
 
-from yandex_cloud_ml_sdk.retry import RetryPolicy
+from yandex_ai_studio_sdk.retry import RetryPolicy
 
 
 @pytest.fixture(name='retry_policy')

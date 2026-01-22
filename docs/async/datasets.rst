@@ -1,11 +1,11 @@
 Datasets domain
 ===============
 
-.. autoclass:: yandex_cloud_ml_sdk._datasets.domain.AsyncDatasets
+.. autoclass:: yandex_ai_studio_sdk._datasets.domain.AsyncDatasets
    :undoc-members:
 
-.. autoclass:: yandex_cloud_ml_sdk._datasets.dataset.AsyncDataset
+.. autoclass:: yandex_ai_studio_sdk._datasets.dataset.AsyncDataset
    :undoc-members:
 
-.. autoclass:: yandex_cloud_ml_sdk._datasets.draft.AsyncDatasetDraft
+.. autoclass:: yandex_ai_studio_sdk._datasets.draft.AsyncDatasetDraft
    :undoc-members:
