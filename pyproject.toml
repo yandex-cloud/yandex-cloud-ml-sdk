@@ -40,7 +40,9 @@ dependencies = [
     "httpx-sse>=0.4.1",
     "typing-extensions>=4",
     "aiofiles>=24.1.0",
-    "packaging>=24"
+    "packaging>=24",
+    "click>=8.0.0",
+    "tqdm>=4.0.0",
 ]
 
 [project.optional-dependencies]
@@ -58,6 +60,9 @@ pydantic = [
 datasets = [
     "pyarrow>=19"
 ]
+
+[project.scripts]
+vector_stores = "yandex_cloud_ml_sdk.cli.search_index:main"
 
 [project.urls]
 Documentation = "https://yandex.cloud/ru/docs/foundation-models/"
