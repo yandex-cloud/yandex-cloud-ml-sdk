@@ -1,4 +1,4 @@
-# pylint: disable=no-name-in-module
+# pylint: disable=no-name-in-module,import-outside-toplevel
 from __future__ import annotations
 
 import asyncio
@@ -100,7 +100,6 @@ async def test_multiple_requests(folder_id):
 
 @pytest.fixture(name='forbid_grpc_call')
 def forbid_grpc_call_fixure(monkeypatch):
-    # pylint: disable-next=import-outside-toplevel
     import yandex_ai_studio_sdk._client
 
     def raise_(*args, **kwargs):
@@ -273,6 +272,8 @@ async def test_httpx_credentials(folder_id, monkeypatch):
 
 @pytest.mark.asyncio
 async def test_grpc_base_exception(async_sdk, monkeypatch, test_server):
+    import yandex_ai_studio_sdk._client
+
     result = await async_sdk.models.completions('foo').tokenize("bar")
     assert result
 
@@ -302,6 +303,8 @@ async def test_grpc_base_exception(async_sdk, monkeypatch, test_server):
 
 @pytest.mark.asyncio
 async def test_grpc_unauth_exception(async_sdk, monkeypatch, auth):
+    import yandex_ai_studio_sdk._client
+
     result = await async_sdk.models.completions('foo').tokenize("bar")
     assert result
 
@@ -327,6 +330,8 @@ async def test_grpc_unauth_exception(async_sdk, monkeypatch, auth):
 
 @pytest.mark.asyncio
 async def test_grpc_request_id_in_initial_metadata_exception(async_sdk, monkeypatch):
+    import yandex_ai_studio_sdk._client
+
     def raise_call_service_initial(*args, **kwargs):
         raise grpc.aio.AioRpcError(
             code=grpc.StatusCode.INTERNAL,
@@ -349,6 +354,8 @@ async def test_grpc_request_id_in_initial_metadata_exception(async_sdk, monkeypa
 
 @pytest.mark.asyncio
 async def test_grpc_request_id_in_trailing_metadata_exception(async_sdk, monkeypatch):
+    import yandex_ai_studio_sdk._client
+
     def raise_call_service_trailing(*args, **kwargs):
         raise grpc.aio.AioRpcError(
             code=grpc.StatusCode.INTERNAL,
@@ -371,6 +378,8 @@ async def test_grpc_request_id_in_trailing_metadata_exception(async_sdk, monkeyp
 
 @pytest.mark.asyncio
 async def test_grpc_request_id_wrong_metadata_exception(async_sdk, monkeypatch):
+    import yandex_ai_studio_sdk._client
+
     def raise_call_service_wrong(*args, **kwargs):
         raise grpc.aio.AioRpcError(
             code=grpc.StatusCode.INTERNAL,
