@@ -9,7 +9,6 @@ from collections.abc import Sequence
 from get_annotations import get_annotations
 from grpc import aio
 from typing_extensions import Self
-
 from yandex_ai_studio_sdk._utils.doc import doc_from
 
 from ._assistants.domain import Assistants, AsyncAssistants, BaseAssistants
@@ -20,7 +19,8 @@ from ._chat import AsyncChat, BaseChat, Chat
 from ._client import AsyncCloudClient
 from ._datasets.domain import AsyncDatasets, BaseDatasets, Datasets
 from ._files.domain import AsyncFiles, BaseFiles, Files
-from ._logging import DEFAULT_DATE_FORMAT, DEFAULT_LOG_FORMAT, DEFAULT_LOG_LEVEL, LogLevel, setup_default_logging
+from ._logging import DEFAULT_DATE_FORMAT, DEFAULT_LOG_FORMAT, DEFAULT_LOG_LEVEL, LogLevel
+from ._logging.utils import setup_default_logging_impl
 from ._messages.domain import AsyncMessages, BaseMessages, Messages
 from ._models import AsyncModels, BaseModels, Models
 from ._retry import RetryPolicy
@@ -67,6 +67,8 @@ class BaseSDK:
     speechkit: BaseSpeechKitDomain
 
     _messages: BaseMessages
+
+    _logger_name: str = 'yandex_ai_studio_sdk'
 
     def __init__(
         self,
@@ -142,10 +144,11 @@ class BaseSDK:
         :return: The instance of the SDK with logging configured.
         """
 
-        setup_default_logging(
+        setup_default_logging_impl(
             log_level=log_level,
             log_format=log_format,
             date_format=date_format,
+            logger_name=self._logger_name,
         )
         return self
 
@@ -155,7 +158,14 @@ class BaseSDK:
         This method inspects the class for any members that are subclasses of
         BaseDomain and initializes them.
         """
-        members: dict[str, type] = get_annotations(self.__class__, eval_str=True)
+
+        members: dict[str, type] = {}
+        for kls in reversed(self.__class__.__mro__):
+            if kls in (BaseSDK, object):
+                continue
+            kls_members = get_annotations(kls, eval_str=True)
+            members.update(kls_members)
+
         for member_name, member in members.items():
             if inspect.isclass(member) and issubclass(member, BaseDomain):
                 resource = member(name=member_name, sdk=self)

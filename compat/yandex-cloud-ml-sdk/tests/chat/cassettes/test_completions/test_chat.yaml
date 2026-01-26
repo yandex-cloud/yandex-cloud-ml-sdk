@@ -1,0 +1,132 @@
+interactions:
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/qwen3-235b-a22b-fp8/latest","messages":[{"content":"Your
+      name is Arkadiy","role":"system"},{"role":"user","content":"Hello! how is your
+      name?"}],"stream":false}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      connection:
+      - keep-alive
+      content-length:
+      - '197'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - ca26e2bd-4512-4f84-9ff3-dddeccdc19cc
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: '{"id":"chatcmpl-85657f30-f241-4ca7-8c7d-997847da8d14","object":"chat.completion","created":1758047032,"model":"gpt://qwen3-235b-a22b-fp8/latest","choices":[{"index":0,"message":{"role":"assistant","content":"Hello!
+        My name is Arkadiy. How can I assist you today?"},"finish_reason":"stop"}],"usage":{"prompt_tokens":26,"total_tokens":43,"completion_tokens":17}}
+
+        '
+    headers:
+      content-length:
+      - '361'
+      content-type:
+      - application/json
+      date:
+      - Tue, 16 Sep 2025 18:23:52 GMT
+      server:
+      - ycalb
+      x-server-trace-id:
+      - f8fee64327159451:5b33a7935c9b62d3:f8fee64327159451:1
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/qwen3-235b-a22b-fp8/latest","messages":[{"content":"Your
+      name is Arkadiy","role":"system"},{"role":"user","content":"Hello! how is your
+      name?"},{"content":"Hello! My name is Arkadiy. How can I assist you today?","role":"assistant"},{"role":"user","content":"My
+      name is Andrew"}],"stream":false}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      connection:
+      - keep-alive
+      content-length:
+      - '331'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - 9c6306a9-0642-44ce-966e-73d2780cc99d
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: "{\"id\":\"chatcmpl-42a8ab7f-5815-4057-b7a3-7ee83ab24cfc\",\"object\":\"chat.completion\",\"created\":1758047032,\"model\":\"gpt://qwen3-235b-a22b-fp8/latest\",\"choices\":[{\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":\"Nice
+        to meet you, Andrew! How can I help you today? \U0001F60A\"},\"finish_reason\":\"stop\"}],\"usage\":{\"prompt_tokens\":56,\"total_tokens\":73,\"completion_tokens\":17}}\n"
+    headers:
+      content-length:
+      - '363'
+      content-type:
+      - application/json
+      date:
+      - Tue, 16 Sep 2025 18:23:52 GMT
+      server:
+      - ycalb
+      x-server-trace-id:
+      - ad23b0344dc1e85a:33ae397b3a763541:ad23b0344dc1e85a:1
+    status:
+      code: 200
+      message: OK
+- request:
+    body: "{\"model\":\"gpt://b1ghsjum2v37c2un8h64/qwen3-235b-a22b-fp8/latest\",\"messages\":[{\"content\":\"Your
+      name is Arkadiy\",\"role\":\"system\"},{\"role\":\"user\",\"content\":\"Hello!
+      how is your name?\"},{\"content\":\"Hello! My name is Arkadiy. How can I assist
+      you today?\",\"role\":\"assistant\"},{\"role\":\"user\",\"content\":\"My name
+      is Andrew\"},{\"content\":\"Nice to meet you, Andrew! How can I help you today?
+      \U0001F60A\",\"role\":\"assistant\"},{\"role\":\"user\",\"content\":\"What is
+      my name?\"}],\"stream\":false}"
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      connection:
+      - keep-alive
+      content-length:
+      - '466'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - 617fa32a-c623-4044-a464-513f7e646c52
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: "{\"id\":\"chatcmpl-a4b0ce9a-03e8-46e9-a073-8470c8e6be08\",\"object\":\"chat.completion\",\"created\":1758047033,\"model\":\"gpt://qwen3-235b-a22b-fp8/latest\",\"choices\":[{\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":\"Your
+        name is Andrew! \U0001F60A\"},\"finish_reason\":\"stop\"}],\"usage\":{\"prompt_tokens\":87,\"total_tokens\":95,\"completion_tokens\":8}}\n"
+    headers:
+      content-length:
+      - '331'
+      content-type:
+      - application/json
+      date:
+      - Tue, 16 Sep 2025 18:23:53 GMT
+      server:
+      - ycalb
+      x-server-trace-id:
+      - 167e3770605d425e:7472ec987c168542:167e3770605d425e:1
+    status:
+      code: 200
+      message: OK
+version: 1

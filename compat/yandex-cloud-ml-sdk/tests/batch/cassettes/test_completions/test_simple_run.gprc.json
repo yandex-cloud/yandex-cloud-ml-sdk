@@ -1,0 +1,1638 @@
+{
+    "interactions": [
+        {
+            "request": {
+                "cls": "ListApiEndpointsRequest",
+                "module": "yandex.cloud.endpoint.api_endpoint_service_pb2",
+                "message": {}
+            },
+            "response": {
+                "cls": "ListApiEndpointsResponse",
+                "module": "yandex.cloud.endpoint.api_endpoint_service_pb2",
+                "message": {
+                    "endpoints": [
+                        {
+                            "id": "ai-assistants",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-files",
+                            "address": "assistant.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-foundation-models",
+                            "address": "llm.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-llm",
+                            "address": "llm.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-speechkit",
+                            "address": "transcribe.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-stt",
+                            "address": "transcribe.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-stt-v3",
+                            "address": "stt.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-translate",
+                            "address": "translate.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-vision",
+                            "address": "vision.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ai-vision-ocr",
+                            "address": "ocr.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "alb",
+                            "address": "alb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "apigateway-connections",
+                            "address": "apigateway-connections.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "application-load-balancer",
+                            "address": "alb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "apploadbalancer",
+                            "address": "alb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "audittrails",
+                            "address": "audittrails.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "baas",
+                            "address": "backup.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "backup",
+                            "address": "backup.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "baremetal",
+                            "address": "baremetal.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "billing",
+                            "address": "billing.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "broker-data",
+                            "address": "iot-data.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cdn",
+                            "address": "cdn.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager",
+                            "address": "certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager-data",
+                            "address": "data.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager-private-ca",
+                            "address": "private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "certificate-manager-private-ca-data",
+                            "address": "data.private-ca.certificate-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cic",
+                            "address": "cic.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloud-registry",
+                            "address": "registry.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloudapps",
+                            "address": "cloudapps.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloudbackup",
+                            "address": "backup.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "clouddesktops",
+                            "address": "clouddesktops.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloudrouter",
+                            "address": "cloudrouter.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "cloudvideo",
+                            "address": "video.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "compute",
+                            "address": "compute.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "connection-manager",
+                            "address": "connectionmanager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "container-registry",
+                            "address": "container-registry.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "dataproc",
+                            "address": "dataproc.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "dataproc-manager",
+                            "address": "dataproc-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "datasphere",
+                            "address": "datasphere.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "datatransfer",
+                            "address": "datatransfer.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "dns",
+                            "address": "dns.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "endpoint",
+                            "address": "api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "fomo-dataset",
+                            "address": "fomo-dataset.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "fomo-tuning",
+                            "address": "fomo-tuning.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "gitlab",
+                            "address": "gitlab.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "iam",
+                            "address": "iam.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "iot-broker",
+                            "address": "iot-broker.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "iot-data",
+                            "address": "iot-data.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "iot-devices",
+                            "address": "iot-devices.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "k8s",
+                            "address": "mks.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "kms",
+                            "address": "kms.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "kms-crypto",
+                            "address": "kms.yandex:443"
+                        },
+                        {
+                            "id": "kspm",
+                            "address": "kspm.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "load-balancer",
+                            "address": "load-balancer.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "loadtesting",
+                            "address": "loadtesting.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "locator",
+                            "address": "locator.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "lockbox",
+                            "address": "lockbox.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "lockbox-payload",
+                            "address": "payload.lockbox.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "log-ingestion",
+                            "address": "ingester.logging.yandexcloud.net:443"
+                        },
+                        {
+                            "id": "log-reading",
+                            "address": "reader.logging.yandexcloud.net:443"
+                        },
+                        {
+                            "id": "logging",
+                            "address": "logging.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-airflow",
+                            "address": "airflow.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-clickhouse",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-elasticsearch",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-greenplum",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-kafka",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-kubernetes",
+                            "address": "mks.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-metastore",
+                            "address": "metastore.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-mongodb",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-mysql",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-opensearch",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-postgresql",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-redis",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-spark",
+                            "address": "spark.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-spqr",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-sqlserver",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-trino",
+                            "address": "trino.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "managed-ytsaurus",
+                            "address": "ytsaurus.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "marketplace",
+                            "address": "marketplace.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "marketplace-pim",
+                            "address": "marketplace.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-clickhouse",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-mongodb",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-mysql",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-opensearch",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-postgresql",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-redis",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdb-spqr",
+                            "address": "mdb.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "mdbproxy",
+                            "address": "mdbproxy.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "monitoring",
+                            "address": "monitoring.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "operation",
+                            "address": "operation.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "organization-manager",
+                            "address": "organization-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "organizationmanager",
+                            "address": "organization-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quota-manager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "quotamanager",
+                            "address": "quota-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "resource-manager",
+                            "address": "resource-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "resourcemanager",
+                            "address": "resource-manager.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "searchapi",
+                            "address": "searchapi.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serialssh",
+                            "address": "serialssh.cloud.yandex.net:9600"
+                        },
+                        {
+                            "id": "serverless-apigateway",
+                            "address": "serverless-apigateway.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-containers",
+                            "address": "serverless-containers.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-eventrouter",
+                            "address": "serverless-eventrouter.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-functions",
+                            "address": "serverless-functions.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-gateway-connections",
+                            "address": "apigateway-connections.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-triggers",
+                            "address": "serverless-triggers.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverless-workflows",
+                            "address": "serverless-workflows.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "serverlesseventrouter-events",
+                            "address": "events.eventrouter.serverless.yandexcloud.net:443"
+                        },
+                        {
+                            "id": "smart-captcha",
+                            "address": "smartcaptcha.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "smart-web-security",
+                            "address": "smartwebsecurity.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "storage",
+                            "address": "storage.yandexcloud.net:443"
+                        },
+                        {
+                            "id": "storage-api",
+                            "address": "storage.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "video",
+                            "address": "video.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "vpc",
+                            "address": "vpc.api.cloud.yandex.net:443"
+                        },
+                        {
+                            "id": "ydb",
+                            "address": "ydb.api.cloud.yandex.net:443"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "CreateDatasetRequest",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {
+                    "name": "43327620-deca-4f8c-840a-4d874df618ea",
+                    "folderId": "b1ghsjum2v37c2un8h64",
+                    "taskType": "TextToTextGenerationRequest",
+                    "uploadFormat": "jsonlines"
+                }
+            },
+            "response": {
+                "cls": "CreateDatasetResponse",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {
+                    "datasetId": "fds3dei2ej0kmd50ab2e",
+                    "dataset": {
+                        "datasetId": "fds3dei2ej0kmd50ab2e",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "name": "43327620-deca-4f8c-840a-4d874df618ea",
+                        "status": "DRAFT",
+                        "taskType": "TextToTextGenerationRequest",
+                        "createdAt": "2025-08-04T12:54:57Z",
+                        "updatedAt": "2025-08-04T12:54:57Z",
+                        "createdById": "aje6euqn63oa635coh28",
+                        "createdBy": "aje6euqn63oa635coh28"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetUploadDraftUrlRequest",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {
+                    "datasetId": "fds3dei2ej0kmd50ab2e",
+                    "sizeBytes": "2367"
+                }
+            },
+            "response": {
+                "cls": "GetUploadDraftUrlResponse",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {
+                    "datasetId": "fds3dei2ej0kmd50ab2e",
+                    "uploadUrl": "https://storage.yandexcloud.net/ai-fomo-drafts-prod/b1ghsjum2v37c2un8h64/fds3dei2ej0kmd50ab2e?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250804T125457Z&X-Amz-SignedHeaders=content-length%3Bhost&X-Amz-Expires=86399&X-Amz-Credential=YCAJE_WuJJ9D1r6huCoc8I3yO%2F20250804%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=7b629e2f35ee83a90c0a959e51489572077940bd2e95afb0a7124dd074c4a881"
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "ValidateDatasetRequest",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {
+                    "datasetId": "fds3dei2ej0kmd50ab2e"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fdsa5bq0ki7n3hhsodjm",
+                    "createdAt": "2025-08-04T12:54:57Z",
+                    "modifiedAt": "2025-08-04T12:54:57Z"
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fdsa5bq0ki7n3hhsodjm"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fdsa5bq0ki7n3hhsodjm",
+                    "createdAt": "2025-08-04T12:54:57Z",
+                    "modifiedAt": "2025-08-04T12:54:57Z"
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fdsa5bq0ki7n3hhsodjm"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fdsa5bq0ki7n3hhsodjm",
+                    "createdAt": "2025-08-04T12:54:57Z",
+                    "modifiedAt": "2025-08-04T12:54:58Z"
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fdsa5bq0ki7n3hhsodjm"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fdsa5bq0ki7n3hhsodjm",
+                    "createdAt": "2025-08-04T12:54:57Z",
+                    "modifiedAt": "2025-08-04T12:56:07Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.dataset.v1.ValidateDatasetMetadata",
+                        "datasetId": "fds3dei2ej0kmd50ab2e",
+                        "validRows": "3",
+                        "processedRows": "3",
+                        "totalRows": "3"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "GetOperationRequest",
+                "module": "yandex.cloud.operation.operation_service_pb2",
+                "message": {
+                    "operationId": "fdsa5bq0ki7n3hhsodjm"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fdsa5bq0ki7n3hhsodjm",
+                    "createdAt": "2025-08-04T12:54:57Z",
+                    "modifiedAt": "2025-08-04T12:57:13Z",
+                    "done": true,
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.dataset.v1.ValidateDatasetMetadata",
+                        "datasetId": "fds3dei2ej0kmd50ab2e",
+                        "validRows": "3",
+                        "processedRows": "3",
+                        "totalRows": "3"
+                    },
+                    "response": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.dataset.v1.ValidateDatasetResponse",
+                        "datasetId": "fds3dei2ej0kmd50ab2e",
+                        "isValid": true
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeDatasetRequest",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {
+                    "datasetId": "fds3dei2ej0kmd50ab2e"
+                }
+            },
+            "response": {
+                "cls": "DescribeDatasetResponse",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {
+                    "dataset": {
+                        "datasetId": "fds3dei2ej0kmd50ab2e",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "name": "43327620-deca-4f8c-840a-4d874df618ea",
+                        "status": "READY",
+                        "taskType": "TextToTextGenerationRequest",
+                        "createdAt": "2025-08-04T12:54:57Z",
+                        "updatedAt": "2025-08-04T12:56:07Z",
+                        "rows": "3",
+                        "sizeBytes": "3919",
+                        "createdById": "aje6euqn63oa635coh28",
+                        "createdBy": "aje6euqn63oa635coh28"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "BatchCompletionRequest",
+                "module": "yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2",
+                "message": {
+                    "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                    "completionOptions": {},
+                    "sourceDatasetId": "fds3dei2ej0kmd50ab2e"
+                }
+            },
+            "response": {
+                "cls": "Operation",
+                "module": "yandex.cloud.operation.operation_pb2",
+                "message": {
+                    "id": "fbi7nieaejnkimmdhdia",
+                    "createdAt": "2025-08-04T12:57:58Z",
+                    "modifiedAt": "2025-08-04T12:57:58Z",
+                    "metadata": {
+                        "@type": "type.googleapis.com/yandex.cloud.ai.foundation_models.v1.BatchCompletionMetadata",
+                        "taskId": "fbi0lliaben2rvd22sp2"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "CREATED",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "PENDING",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "PENDING",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "PENDING",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "PENDING",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "PENDING",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "PENDING",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z",
+                        "errors": {
+                            "status": {}
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "IN_PROGRESS",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z",
+                        "errors": {
+                            "status": {}
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "COMPLETED",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z",
+                        "finishedAt": "2025-08-04T13:02:16.947191Z",
+                        "errors": {
+                            "status": {}
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeBatchInferenceRequest",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "taskId": "fbi0lliaben2rvd22sp2"
+                }
+            },
+            "response": {
+                "cls": "DescribeBatchInferenceResponse",
+                "module": "yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2",
+                "message": {
+                    "task": {
+                        "taskId": "fbi0lliaben2rvd22sp2",
+                        "operationId": "fbi7nieaejnkimmdhdia",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                        "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                        "completionRequest": {
+                            "modelUri": "gpt://b1ghsjum2v37c2un8h64/gemma-3-12b-it/latest",
+                            "sourceDatasetId": "fds3dei2ej0kmd50ab2e",
+                            "completionOptions": {}
+                        },
+                        "status": "COMPLETED",
+                        "resultDatasetId": "fds54eahbh8tbd2en619",
+                        "createdBy": "aje6euqn63oa635coh28",
+                        "createdAt": "2025-08-04T12:57:58.627Z",
+                        "startedAt": "2025-08-04T12:59:07.445881Z",
+                        "finishedAt": "2025-08-04T13:02:16.947191Z",
+                        "errors": {
+                            "status": {}
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DescribeDatasetRequest",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {
+                    "datasetId": "fds54eahbh8tbd2en619"
+                }
+            },
+            "response": {
+                "cls": "DescribeDatasetResponse",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {
+                    "dataset": {
+                        "datasetId": "fds54eahbh8tbd2en619",
+                        "folderId": "b1ghsjum2v37c2un8h64",
+                        "name": "Batch inference fbi0lliaben2rvd22sp2 result",
+                        "status": "READY",
+                        "taskType": "TextToTextGeneration",
+                        "createdAt": "2025-08-04T12:58:06Z",
+                        "updatedAt": "2025-08-04T13:01:57Z",
+                        "sizeBytes": "4054",
+                        "createdById": "aje6euqn63oa635coh28",
+                        "labels": {
+                            "foundation_models_batch_task_id": "fbi0lliaben2rvd22sp2",
+                            "foundation_models_source_dataset": "fds3dei2ej0kmd50ab2e"
+                        },
+                        "createdBy": "aje6euqn63oa635coh28"
+                    }
+                }
+            }
+        },
+        {
+            "request": {
+                "cls": "DeleteDatasetRequest",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {
+                    "datasetId": "fds54eahbh8tbd2en619"
+                }
+            },
+            "response": {
+                "cls": "DeleteDatasetResponse",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {}
+            }
+        },
+        {
+            "request": {
+                "cls": "DeleteDatasetRequest",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {
+                    "datasetId": "fds3dei2ej0kmd50ab2e"
+                }
+            },
+            "response": {
+                "cls": "DeleteDatasetResponse",
+                "module": "yandex.cloud.ai.dataset.v1.dataset_service_pb2",
+                "message": {}
+            }
+        }
+    ]
+}

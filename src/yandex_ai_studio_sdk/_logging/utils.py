@@ -5,7 +5,6 @@ import os
 import typing
 
 from google.protobuf.message import Message
-
 from yandex_ai_studio_sdk._utils.proto import proto_to_dict
 
 UpperLogLevel = typing.Literal['CRITICAL', 'FATAL', 'ERROR', 'WARN', 'WARNING', 'INFO', 'DEBUG', 'TRACE']
@@ -21,10 +20,11 @@ DEFAULT_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 TRACE = 5
 
 
-def setup_default_logging(
-    log_level: LogLevel = DEFAULT_LOG_LEVEL,
-    log_format: str = DEFAULT_LOG_FORMAT,
-    date_format: str= DEFAULT_DATE_FORMAT,
+def setup_default_logging_impl(
+    log_level: LogLevel,
+    log_format: str,
+    date_format: str,
+    logger_name: str,
 ) -> None:
     if isinstance(log_level, str):
         log_level = typing.cast(UpperLogLevel, log_level.upper())
@@ -32,7 +32,7 @@ def setup_default_logging(
         if log_level == 'TRACE':
             log_level = TRACE
 
-    logger = logging.getLogger('yandex_ai_studio_sdk')
+    logger = logging.getLogger(logger_name)
     if logger.handlers:
         return
 
@@ -47,7 +47,23 @@ def setup_default_logging(
     logger.addHandler(handler)
 
 
-def setup_default_logging_from_env() -> None:
+def setup_default_logging(
+    log_level: LogLevel = DEFAULT_LOG_LEVEL,
+    log_format: str = DEFAULT_LOG_FORMAT,
+    date_format: str = DEFAULT_DATE_FORMAT,
+):
+    setup_default_logging_impl(
+        log_level=log_level,
+        log_format=log_format,
+        date_format=date_format,
+        logger_name='yandex_ai_studio_sdk'
+    )
+
+
+def setup_default_logging_from_env(logger_name: str) -> None:
+    if '_YANDEX_AI_STUDIO_NO_LOGGING_SETUP' in os.environ:
+        return
+
     level_name: str | int | None
     for env_name in LOG_LEVEL_ENV_VARS:
         if level_name := os.getenv(env_name):
@@ -55,8 +71,12 @@ def setup_default_logging_from_env() -> None:
                 level_name = int(level_name)
             # I can ignore arg-type here because anyway underlying logging code
             # will validate level_name anyway
-            setup_default_logging(level_name)  # type: ignore[arg-type]
-            return
+            setup_default_logging_impl(
+                log_level=level_name,  # type: ignore[arg-type]
+                log_format=DEFAULT_LOG_FORMAT,
+                date_format=DEFAULT_DATE_FORMAT,
+                logger_name=logger_name,
+            )
 
 
 class ProtobufMessageFilter(logging.Filter):

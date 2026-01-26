@@ -1,0 +1,114 @@
+interactions:
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/llama/rc","messages":[{"role":"user","content":"How
+      much it would be 7@8?"}],"stream":true,"tools":[{"function":{"name":"calculator","description":"A
+      simple calculator that performs basic arithmetic and @ operations; call it on
+      ANY arithmetic questions","parameters":{"type":"object","properties":{"expression":{"type":"string","description":"The
+      mathematical expression to evaluate (e.g., ''2 + 3 * 4'')."}},"required":["expression"]},"strict":true},"type":"function"}]}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      connection:
+      - keep-alive
+      content-length:
+      - '506'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - 9aa4abd6-630e-4058-b1cf-9acd8ef9b519
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: 'data: {"id":"2e8b8719-050a-43f2-a141-3c3f3dc0c658","object":"chat.completion.chunk","created":1758299822,"model":"gpt://b1ghsjum2v37c2un8h64/llama/rc","choices":[{"index":0,"delta":{"role":"assistant","tool_calls":[{"index":0,"id":"calculator","type":"function","function":{"name":"calculator","arguments":"{\"expression\":\"7@8\"}"}}]},"finish_reason":"tool_calls"}]}
+
+
+        data: [DONE]
+
+
+        '
+    headers:
+      cache-control:
+      - no-cache
+      content-type:
+      - text/event-stream
+      date:
+      - Fri, 19 Sep 2025 16:37:02 GMT
+      server:
+      - ycalb
+      transfer-encoding:
+      - chunked
+      x-client-request-id:
+      - 9aa4abd6-630e-4058-b1cf-9acd8ef9b519
+      x-request-id:
+      - 080eda68-21b0-44f8-8143-f887c721acc6
+      x-server-trace-id:
+      - b0d432c3228b2ec9:c6f66af660816fd9:b0d432c3228b2ec9:1
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/llama/rc","messages":[{"role":"user","content":"How
+      much it would be 7@8?"},{"role":"assistant","tool_calls":[{"function":{"name":"calculator","arguments":"{\"expression\":\"7@8\"}"},"index":0,"id":"calculator","type":"function"}]},{"role":"tool","content":"-5","tool_call_id":"calculator"}],"stream":true,"tools":[{"function":{"name":"calculator","description":"A
+      simple calculator that performs basic arithmetic and @ operations; call it on
+      ANY arithmetic questions","parameters":{"type":"object","properties":{"expression":{"type":"string","description":"The
+      mathematical expression to evaluate (e.g., ''2 + 3 * 4'')."}},"required":["expression"]},"strict":true},"type":"function"}]}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      connection:
+      - keep-alive
+      content-length:
+      - '721'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - f3e6efd0-666c-4a88-94f1-56f143014b67
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: 'data: {"id":"04922f3b-37b8-43d4-b2bf-80d809ac1821","object":"chat.completion.chunk","created":1758299822,"model":"gpt://b1ghsjum2v37c2un8h64/llama/rc","choices":[{"index":0,"delta":{"role":"assistant","content":"The"}}]}
+
+
+        data: {"id":"04922f3b-37b8-43d4-b2bf-80d809ac1821","object":"chat.completion.chunk","created":1758299822,"model":"gpt://b1ghsjum2v37c2un8h64/llama/rc","choices":[{"index":0,"delta":{"content":"
+        result of 7@8 is -5"},"finish_reason":"stop"}]}
+
+
+        data: [DONE]
+
+
+        '
+    headers:
+      cache-control:
+      - no-cache
+      content-type:
+      - text/event-stream
+      date:
+      - Fri, 19 Sep 2025 16:37:03 GMT
+      server:
+      - ycalb
+      transfer-encoding:
+      - chunked
+      x-client-request-id:
+      - f3e6efd0-666c-4a88-94f1-56f143014b67
+      x-request-id:
+      - 1693bbcf-6e5f-4427-9932-83063c5f1078
+      x-server-trace-id:
+      - 4dc44b728b541f5c:22ea5d017e1dfd0b:4dc44b728b541f5c:1
+    status:
+      code: 200
+      message: OK
+version: 1

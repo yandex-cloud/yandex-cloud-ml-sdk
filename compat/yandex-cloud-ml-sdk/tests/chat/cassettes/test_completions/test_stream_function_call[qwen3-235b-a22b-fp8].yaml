@@ -1,0 +1,176 @@
+interactions:
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/qwen3-235b-a22b-fp8/latest","messages":[{"role":"user","content":"How
+      much it would be 7@8?"}],"stream":true,"tools":[{"function":{"name":"calculator","description":"A
+      simple calculator that performs basic arithmetic and @ operations; call it on
+      ANY arithmetic questions","parameters":{"type":"object","properties":{"expression":{"type":"string","description":"The
+      mathematical expression to evaluate (e.g., ''2 + 3 * 4'')."}},"required":["expression"]},"strict":true},"type":"function"}]}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      connection:
+      - keep-alive
+      content-length:
+      - '524'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - e3e3498a-8824-46ec-a91e-0c054da1de80
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: 'data: {"id":"chatcmpl-d787ace8-65e7-41b0-9fca-cb6ce952be95","object":"chat.completion.chunk","created":1758299823,"model":"gpt://qwen3-235b-a22b-fp8/latest","choices":[{"index":0,"delta":{"role":"assistant"}}]}
+
+
+        data: {"id":"chatcmpl-d787ace8-65e7-41b0-9fca-cb6ce952be95","object":"chat.completion.chunk","created":1758299823,"model":"gpt://qwen3-235b-a22b-fp8/latest","choices":[{"index":0,"delta":{"tool_calls":[{"index":0,"id":"chatcmpl-tool-ac80b103abf04365affb7135287855a6","type":"function","function":{"name":"calculator","arguments":""}}]}}]}
+
+
+        data: {"id":"chatcmpl-d787ace8-65e7-41b0-9fca-cb6ce952be95","object":"chat.completion.chunk","created":1758299823,"model":"gpt://qwen3-235b-a22b-fp8/latest","choices":[{"index":0,"delta":{"tool_calls":[{"index":0,"id":"","type":"","function":{"name":"","arguments":"{\"expression\":
+        \""}}]}}]}
+
+
+        data: {"id":"chatcmpl-d787ace8-65e7-41b0-9fca-cb6ce952be95","object":"chat.completion.chunk","created":1758299823,"model":"gpt://qwen3-235b-a22b-fp8/latest","choices":[{"index":0,"delta":{"tool_calls":[{"index":0,"id":"","type":"","function":{"name":"","arguments":"7"}}]}}]}
+
+
+        data: {"id":"chatcmpl-d787ace8-65e7-41b0-9fca-cb6ce952be95","object":"chat.completion.chunk","created":1758299823,"model":"gpt://qwen3-235b-a22b-fp8/latest","choices":[{"index":0,"delta":{"tool_calls":[{"index":0,"id":"","type":"","function":{"name":"","arguments":"@"}}]}}]}
+
+
+        data: {"id":"chatcmpl-d787ace8-65e7-41b0-9fca-cb6ce952be95","object":"chat.completion.chunk","created":1758299823,"model":"gpt://qwen3-235b-a22b-fp8/latest","choices":[{"index":0,"delta":{"tool_calls":[{"index":0,"id":"","type":"","function":{"name":"","arguments":"8"}}]}}]}
+
+
+        data: {"id":"chatcmpl-d787ace8-65e7-41b0-9fca-cb6ce952be95","object":"chat.completion.chunk","created":1758299823,"model":"gpt://qwen3-235b-a22b-fp8/latest","choices":[{"index":0,"delta":{"tool_calls":[{"index":0,"id":"","type":"","function":{"name":"","arguments":"\"}"}}]}}]}
+
+
+        data: {"id":"chatcmpl-d787ace8-65e7-41b0-9fca-cb6ce952be95","object":"chat.completion.chunk","created":1758299823,"model":"gpt://qwen3-235b-a22b-fp8/latest","choices":[{"index":0,"delta":{},"finish_reason":"tool_calls"}]}
+
+
+        data: {"id":"chatcmpl-d787ace8-65e7-41b0-9fca-cb6ce952be95","object":"chat.completion.chunk","created":1758299823,"model":"gpt://qwen3-235b-a22b-fp8/latest","choices":[],"usage":{"prompt_tokens":190,"total_tokens":211,"completion_tokens":21}}
+
+
+        data: [DONE]
+
+
+        '
+    headers:
+      access-control-allow-origin:
+      - '*'
+      cache-control:
+      - no-cache
+      content-type:
+      - text/event-stream
+      date:
+      - Fri, 19 Sep 2025 16:37:03 GMT
+      server:
+      - ycalb
+      transfer-encoding:
+      - chunked
+      x-server-trace-id:
+      - e2a6087a4e6e5446:4db3ce5e4a8c969a:e2a6087a4e6e5446:1
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/qwen3-235b-a22b-fp8/latest","messages":[{"role":"user","content":"How
+      much it would be 7@8?"},{"role":"assistant","tool_calls":[{"function":{"name":"calculator","arguments":"{\"expression\":
+      \"7@8\"}"},"index":0,"id":"chatcmpl-tool-ac80b103abf04365affb7135287855a6","type":"function"}]},{"role":"tool","content":"-5","tool_call_id":"chatcmpl-tool-ac80b103abf04365affb7135287855a6"}],"stream":true,"tools":[{"function":{"name":"calculator","description":"A
+      simple calculator that performs basic arithmetic and @ operations; call it on
+      ANY arithmetic questions","parameters":{"type":"object","properties":{"expression":{"type":"string","description":"The
+      mathematical expression to evaluate (e.g., ''2 + 3 * 4'')."}},"required":["expression"]},"strict":true},"type":"function"}]}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      connection:
+      - keep-alive
+      content-length:
+      - '812'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - 8afed314-e654-4cd9-96fd-a648d86df761
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: 'data: {"id":"chatcmpl-0cfdd3aa-1391-4b61-993f-f6bfb1503d71","object":"chat.completion.chunk","created":1758299824,"model":"gpt://qwen3-235b-a22b-fp8/latest","choices":[{"index":0,"delta":{"role":"assistant"}}]}
+
+
+        data: {"id":"chatcmpl-0cfdd3aa-1391-4b61-993f-f6bfb1503d71","object":"chat.completion.chunk","created":1758299824,"model":"gpt://qwen3-235b-a22b-fp8/latest","choices":[{"index":0,"delta":{"content":"The"}}]}
+
+
+        data: {"id":"chatcmpl-0cfdd3aa-1391-4b61-993f-f6bfb1503d71","object":"chat.completion.chunk","created":1758299824,"model":"gpt://qwen3-235b-a22b-fp8/latest","choices":[{"index":0,"delta":{"content":"
+        result"}}]}
+
+
+        data: {"id":"chatcmpl-0cfdd3aa-1391-4b61-993f-f6bfb1503d71","object":"chat.completion.chunk","created":1758299824,"model":"gpt://qwen3-235b-a22b-fp8/latest","choices":[{"index":0,"delta":{"content":"
+        of"}}]}
+
+
+        data: {"id":"chatcmpl-0cfdd3aa-1391-4b61-993f-f6bfb1503d71","object":"chat.completion.chunk","created":1758299824,"model":"gpt://qwen3-235b-a22b-fp8/latest","choices":[{"index":0,"delta":{"content":"
+        "}}]}
+
+
+        data: {"id":"chatcmpl-0cfdd3aa-1391-4b61-993f-f6bfb1503d71","object":"chat.completion.chunk","created":1758299824,"model":"gpt://qwen3-235b-a22b-fp8/latest","choices":[{"index":0,"delta":{"content":"7"}}]}
+
+
+        data: {"id":"chatcmpl-0cfdd3aa-1391-4b61-993f-f6bfb1503d71","object":"chat.completion.chunk","created":1758299824,"model":"gpt://qwen3-235b-a22b-fp8/latest","choices":[{"index":0,"delta":{"content":"@"}}]}
+
+
+        data: {"id":"chatcmpl-0cfdd3aa-1391-4b61-993f-f6bfb1503d71","object":"chat.completion.chunk","created":1758299824,"model":"gpt://qwen3-235b-a22b-fp8/latest","choices":[{"index":0,"delta":{"content":"8"}}]}
+
+
+        data: {"id":"chatcmpl-0cfdd3aa-1391-4b61-993f-f6bfb1503d71","object":"chat.completion.chunk","created":1758299824,"model":"gpt://qwen3-235b-a22b-fp8/latest","choices":[{"index":0,"delta":{"content":"
+        is"}}]}
+
+
+        data: {"id":"chatcmpl-0cfdd3aa-1391-4b61-993f-f6bfb1503d71","object":"chat.completion.chunk","created":1758299824,"model":"gpt://qwen3-235b-a22b-fp8/latest","choices":[{"index":0,"delta":{"content":"
+        -"}}]}
+
+
+        data: {"id":"chatcmpl-0cfdd3aa-1391-4b61-993f-f6bfb1503d71","object":"chat.completion.chunk","created":1758299824,"model":"gpt://qwen3-235b-a22b-fp8/latest","choices":[{"index":0,"delta":{"content":"5"}}]}
+
+
+        data: {"id":"chatcmpl-0cfdd3aa-1391-4b61-993f-f6bfb1503d71","object":"chat.completion.chunk","created":1758299824,"model":"gpt://qwen3-235b-a22b-fp8/latest","choices":[{"index":0,"delta":{"content":"."}}]}
+
+
+        data: {"id":"chatcmpl-0cfdd3aa-1391-4b61-993f-f6bfb1503d71","object":"chat.completion.chunk","created":1758299824,"model":"gpt://qwen3-235b-a22b-fp8/latest","choices":[{"index":0,"delta":{},"finish_reason":"stop"}]}
+
+
+        data: {"id":"chatcmpl-0cfdd3aa-1391-4b61-993f-f6bfb1503d71","object":"chat.completion.chunk","created":1758299824,"model":"gpt://qwen3-235b-a22b-fp8/latest","choices":[],"usage":{"prompt_tokens":226,"total_tokens":238,"completion_tokens":12}}
+
+
+        data: [DONE]
+
+
+        '
+    headers:
+      access-control-allow-origin:
+      - '*'
+      cache-control:
+      - no-cache
+      content-type:
+      - text/event-stream
+      date:
+      - Fri, 19 Sep 2025 16:37:05 GMT
+      server:
+      - ycalb
+      transfer-encoding:
+      - chunked
+      x-server-trace-id:
+      - 3793b5a4aa8738ba:34e1a62326728c1d:3793b5a4aa8738ba:1
+    status:
+      code: 200
+      message: OK
+version: 1
