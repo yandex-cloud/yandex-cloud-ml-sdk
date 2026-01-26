@@ -29,6 +29,7 @@ classifiers = [
     "Operating System :: Microsoft :: Windows",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Development Status :: 7 - Inactive",
 ]
 requires-python = ">=3.9"
 dynamic = ["version"]
@@ -54,8 +55,8 @@ datasets = [
 
 [project.urls]
 Documentation = "https://yandex.cloud/ru/docs/foundation-models/"
-Source = "https://github.com/yandex-cloud/yandex-cloud-ml-sdk"
-Tracker = "https://github.com/yandex-cloud/yandex-cloud-ml-sdk/issues"
+Source = "https://github.com/yandex-cloud/yandex-ai-studio-sdk"
+Tracker = "https://github.com/yandex-cloud/yandex-ai-studio-sdk/issues"
 
 [tool.flit.module]
 name = "yandex_cloud_ml_sdk"
