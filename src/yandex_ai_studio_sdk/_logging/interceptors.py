@@ -6,7 +6,6 @@ from typing import Any, Generic, cast
 
 import grpc
 import grpc.aio
-
 from yandex_ai_studio_sdk._utils.grpc import (
     RequestType, ResponseType, StreamReturnCallType, StreamStreamCallResponseIterator, UnaryReturnCallType,
     UnaryStreamCallResponseIterator, WrappedStreamReturnCallType

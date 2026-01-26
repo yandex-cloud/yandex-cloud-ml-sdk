@@ -9,7 +9,6 @@ from typing_extensions import Self
 from yandex.cloud.ai.dataset.v1.dataset_service_pb2 import ValidateDatasetRequest, ValidateDatasetResponse
 from yandex.cloud.ai.dataset.v1.dataset_service_pb2_grpc import DatasetServiceStub
 from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
-
 from yandex_ai_studio_sdk._logging import get_logger
 from yandex_ai_studio_sdk._types.misc import PathLike, coerce_path
 from yandex_ai_studio_sdk._types.operation import AsyncOperation, Operation, OperationTypeT, ReturnsOperationMixin

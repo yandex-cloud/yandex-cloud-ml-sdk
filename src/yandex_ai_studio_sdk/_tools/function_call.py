@@ -9,7 +9,6 @@ from google.protobuf.json_format import MessageToDict
 from typing_extensions import Self
 from yandex.cloud.ai.assistants.v1.common_pb2 import FunctionCall as ProtoAssistantFunctionCall
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import FunctionCall as ProtoCompletionsFunctionCall
-
 from yandex_ai_studio_sdk._types.json import JsonBased
 from yandex_ai_studio_sdk._types.proto import ProtoBased, SDKType
 from yandex_ai_studio_sdk._types.schemas import JsonObject

@@ -7,7 +7,6 @@ from typing import TYPE_CHECKING, overload
 from typing_extensions import Self
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.ai.foundation_models.v1.embedding.embedding_service_pb2 import TextEmbeddingResponse
-
 from yandex_ai_studio_sdk._types.result import BaseProtoResult
 
 if TYPE_CHECKING:

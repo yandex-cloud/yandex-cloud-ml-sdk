@@ -9,7 +9,6 @@ from yandex.cloud.ai.tuning.v1.tuning_service_pb2 import (
 )
 from yandex.cloud.ai.tuning.v1.tuning_service_pb2_grpc import TuningServiceStub
 from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
-
 from yandex_ai_studio_sdk._logging import get_logger
 from yandex_ai_studio_sdk._types.domain import BaseDomain
 from yandex_ai_studio_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value

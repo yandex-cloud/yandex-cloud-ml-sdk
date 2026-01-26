@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import pytest
-
 from yandex_ai_studio_sdk._utils.doc import doc_from
 
 

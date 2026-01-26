@@ -11,7 +11,6 @@ from yandex.cloud.ai.assistants.v1.common_pb2 import FunctionTool as ProtoAssist
 from yandex.cloud.ai.assistants.v1.common_pb2 import Tool as ProtoAssistantsTool
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import FunctionTool as ProtoCompletionsFunctionTool
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Tool as ProtoCompletionsTool
-
 from yandex_ai_studio_sdk._types.proto import ProtoBased, ProtoMessageTypeT, SDKType
 from yandex_ai_studio_sdk._types.schemas import JsonObject, JsonSchemaType
 

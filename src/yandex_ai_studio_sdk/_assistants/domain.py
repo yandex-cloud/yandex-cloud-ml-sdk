@@ -11,7 +11,6 @@ from yandex.cloud.ai.assistants.v1.assistant_service_pb2 import (
 from yandex.cloud.ai.assistants.v1.assistant_service_pb2_grpc import AssistantServiceStub
 from yandex.cloud.ai.assistants.v1.common_pb2 import ResponseFormat
 from yandex.cloud.ai.assistants.v1.common_pb2 import Tool as ProtoAssistantsTool
-
 from yandex_ai_studio_sdk._models.completions.model import BaseGPTModel
 from yandex_ai_studio_sdk._tools.tool import BaseTool
 from yandex_ai_studio_sdk._types.domain import BaseDomain

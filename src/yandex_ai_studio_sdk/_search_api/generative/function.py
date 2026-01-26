@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from typing_extensions import override
-
 from yandex_ai_studio_sdk._types.function import BaseModelFunction
 from yandex_ai_studio_sdk._types.misc import UNDEFINED, UndefinedOr
 from yandex_ai_studio_sdk._types.string import SmartStringSequence

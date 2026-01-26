@@ -7,7 +7,6 @@ import json
 import pathlib
 
 import pydantic
-
 from yandex_ai_studio_sdk import AsyncAIStudio
 
 PATH = pathlib.Path(__file__)

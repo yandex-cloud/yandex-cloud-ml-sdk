@@ -5,7 +5,6 @@ from collections.abc import Sequence
 from typing import Any, Union
 
 from typing_extensions import Self, override
-
 from yandex_ai_studio_sdk._types.misc import UNDEFINED, UndefinedOr
 from yandex_ai_studio_sdk._types.model import ModelSyncMixin
 from yandex_ai_studio_sdk._types.schemas import QueryType

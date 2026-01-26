@@ -16,7 +16,6 @@ from yandex.cloud.ai.foundation_models.v1.text_classification.text_classificatio
 from yandex.cloud.ai.foundation_models.v1.text_classification.text_classification_service_pb2_grpc import (
     TextClassificationServiceStub
 )
-
 from yandex_ai_studio_sdk._tuning.tuning_task import AsyncTuningTask, TuningTask, TuningTaskTypeT
 from yandex_ai_studio_sdk._types.misc import UNDEFINED, UndefinedOr
 from yandex_ai_studio_sdk._types.model import ModelSyncMixin, ModelTuneMixin

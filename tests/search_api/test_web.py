@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import pytest
-
 from yandex_ai_studio_sdk import AsyncAIStudio
 from yandex_ai_studio_sdk.search_api import (
     FamilyMode, FixTypoMode, GroupMode, Localization, SearchType, SortMode, SortOrder

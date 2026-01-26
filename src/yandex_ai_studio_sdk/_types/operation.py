@@ -14,7 +14,6 @@ from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.operation.operation_service_pb2 import CancelOperationRequest, GetOperationRequest
 from yandex.cloud.operation.operation_service_pb2_grpc import OperationServiceStub
-
 from yandex_ai_studio_sdk._logging import TRACE, get_logger
 from yandex_ai_studio_sdk._utils.sync import run_sync_impl
 from yandex_ai_studio_sdk.exceptions import RunError, WrongAsyncOperationStatusError

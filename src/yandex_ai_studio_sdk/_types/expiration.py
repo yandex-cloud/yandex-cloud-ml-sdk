@@ -10,7 +10,6 @@ from yandex.cloud.ai.assistants.v1.searchindex.search_index_pb2 import SearchInd
 from yandex.cloud.ai.assistants.v1.threads.thread_pb2 import Thread
 from yandex.cloud.ai.common.common_pb2 import ExpirationConfig as ExpirationConfigProto
 from yandex.cloud.ai.files.v1.file_pb2 import File
-
 from yandex_ai_studio_sdk._utils.proto import ProtoEnumBase
 
 from .misc import UndefinedOr, get_defined_value

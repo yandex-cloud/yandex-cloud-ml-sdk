@@ -4,7 +4,6 @@ from dataclasses import dataclass
 from typing import Any
 
 from typing_extensions import Self, override
-
 from yandex_ai_studio_sdk._search_api.enums import FamilyMode
 from yandex_ai_studio_sdk._types.model_config import BaseModelConfig
 

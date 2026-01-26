@@ -3,7 +3,6 @@ from __future__ import annotations
 from collections.abc import Mapping
 
 from typing_extensions import override
-
 from yandex_ai_studio_sdk._search_api.enums import (
     FamilyMode, FixTypoMode, GroupMode, Localization, SearchType, SortMode, SortOrder
 )

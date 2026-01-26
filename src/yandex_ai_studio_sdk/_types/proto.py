@@ -6,7 +6,6 @@ from typing import TYPE_CHECKING, Any, Generic, Protocol, TypeVar, runtime_check
 
 from google.protobuf.message import Message as ProtoMessage
 from typing_extensions import Self, TypeAlias
-
 from yandex_ai_studio_sdk._utils.proto import proto_to_dict
 
 if TYPE_CHECKING:

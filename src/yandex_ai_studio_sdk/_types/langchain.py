@@ -6,7 +6,6 @@ from typing import Generic, TypeVar
 from langchain_core.language_models.base import BaseLanguageModel
 from pydantic import BaseModel as PydanticModel
 from pydantic import ConfigDict
-
 from yandex_ai_studio_sdk._types.model import BaseModel
 
 ModelTypeT = TypeVar('ModelTypeT', bound=BaseModel)

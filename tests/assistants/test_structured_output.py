@@ -5,7 +5,6 @@ import json
 
 import pytest
 import pytest_asyncio
-
 from yandex_ai_studio_sdk import AsyncAIStudio
 from yandex_ai_studio_sdk._models.completions.model import BaseGPTModel
 from yandex_ai_studio_sdk._threads.thread import AsyncThread

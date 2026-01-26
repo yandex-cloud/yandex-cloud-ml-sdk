@@ -6,7 +6,6 @@ from typing import Generic, TypeVar
 from typing_extensions import Self, override
 from yandex.cloud.searchapi.v2.img_search_service_pb2 import ImageSearchByImageRequest, ImageSearchByImageResponse
 from yandex.cloud.searchapi.v2.img_search_service_pb2_grpc import ImageSearchServiceStub
-
 from yandex_ai_studio_sdk._logging import get_logger
 from yandex_ai_studio_sdk._search_api.enums import FamilyMode
 from yandex_ai_studio_sdk._search_api.types import SearchRequestDetails

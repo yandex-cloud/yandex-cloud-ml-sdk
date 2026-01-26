@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import Any
 
 from typing_extensions import override
-
 from yandex_ai_studio_sdk._chat.utils import ModelFilter, model_match
 from yandex_ai_studio_sdk._types.function import BaseModelFunction, ModelTypeT
 

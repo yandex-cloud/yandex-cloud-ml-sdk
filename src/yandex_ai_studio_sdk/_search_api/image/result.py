@@ -8,7 +8,6 @@ from typing import TYPE_CHECKING, TypeVar
 from typing_extensions import Self, override
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.searchapi.v2.img_search_service_pb2 import ImageSearchResponse
-
 from yandex_ai_studio_sdk._search_api.types import XMLBaseSearchResult, XMLSearchDocument
 from yandex_ai_studio_sdk._search_api.utils import NestedDict, get_element_text_dict, get_subelement_text
 from yandex_ai_studio_sdk._types.result import SDKType

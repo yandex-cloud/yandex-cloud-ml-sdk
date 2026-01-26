@@ -6,7 +6,6 @@ from yandex.cloud.searchapi.v2.search_query_pb2 import SearchQuery as ProtoSearc
 from yandex.cloud.searchapi.v2.search_service_pb2 import GroupSpec as ProtoGroupSpec
 from yandex.cloud.searchapi.v2.search_service_pb2 import SortSpec as ProtoSortSpec
 from yandex.cloud.searchapi.v2.search_service_pb2 import WebSearchRequest as ProtoWebSearchRequest
-
 from yandex_ai_studio_sdk._types.enum import ProtoBasedEnum
 
 

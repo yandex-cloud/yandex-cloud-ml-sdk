@@ -5,7 +5,6 @@ from collections.abc import AsyncIterator, Iterator, Sequence
 from typing import Any, Generic
 
 from typing_extensions import Self, override
-
 from yandex_ai_studio_sdk._models.completions.config import CompletionTool
 from yandex_ai_studio_sdk._tools.tool_call import AsyncToolCall, ToolCall, ToolCallTypeT
 from yandex_ai_studio_sdk._types.misc import UNDEFINED, UndefinedOr

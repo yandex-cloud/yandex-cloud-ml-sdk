@@ -7,7 +7,6 @@ from typing import TypedDict, Union, cast
 from typing_extensions import Self, TypeAlias, override
 # pylint: disable=no-name-in-module
 from yandex.cloud.searchapi.v2.gen_search_service_pb2 import GenSearchRequest
-
 from yandex_ai_studio_sdk._exceptions import AIStudioConfigurationError
 from yandex_ai_studio_sdk._types.model_config import BaseModelConfig
 from yandex_ai_studio_sdk._types.string import SmartStringSequence, coerce_string_sequence

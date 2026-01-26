@@ -7,7 +7,6 @@ import pathlib
 from typing import TYPE_CHECKING
 
 import aiofiles
-
 from yandex_ai_studio_sdk._logging import get_logger
 from yandex_ai_studio_sdk._types.misc import PathLike, coerce_path, is_path_like
 from yandex_ai_studio_sdk._utils.doc import doc_from

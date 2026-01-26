@@ -9,7 +9,6 @@ from yandex.cloud.ai.assistants.v1.threads.thread_service_pb2 import (
     CreateThreadRequest, GetThreadRequest, ListThreadsRequest, ListThreadsResponse
 )
 from yandex.cloud.ai.assistants.v1.threads.thread_service_pb2_grpc import ThreadServiceStub
-
 from yandex_ai_studio_sdk._types.domain import BaseDomain
 from yandex_ai_studio_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
 from yandex_ai_studio_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value, is_defined

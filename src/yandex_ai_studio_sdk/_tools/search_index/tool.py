@@ -5,7 +5,6 @@ from dataclasses import dataclass
 
 from google.protobuf.wrappers_pb2 import Int64Value
 from yandex.cloud.ai.assistants.v1.common_pb2 import SearchIndexTool as ProtoSearchIndexTool
-
 from yandex_ai_studio_sdk._tools.tool import BaseTool, ProtoAssistantsTool, ProtoToolTypeT
 from yandex_ai_studio_sdk._types.proto import SDKType
 

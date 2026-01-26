@@ -13,7 +13,6 @@ from yandex.cloud.ai.assistants.v1.searchindex.common_pb2 import MeanCombination
 from yandex.cloud.ai.assistants.v1.searchindex.common_pb2 import (
     ReciprocalRankFusionCombinationStrategy as ProtoReciprocalRankFusionCombinationStrategy
 )
-
 from yandex_ai_studio_sdk._utils.proto import ProtoEnumBase
 
 if TYPE_CHECKING:

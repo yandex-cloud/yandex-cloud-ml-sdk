@@ -10,7 +10,6 @@ from yandex.cloud.ai.foundation_models.v1.embedding.embedding_service_pb2 import
     TextEmbeddingRequest, TextEmbeddingResponse
 )
 from yandex.cloud.ai.foundation_models.v1.embedding.embedding_service_pb2_grpc import EmbeddingsServiceStub
-
 from yandex_ai_studio_sdk._tuning.tuning_task import AsyncTuningTask, TuningTask, TuningTaskTypeT
 from yandex_ai_studio_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_ai_studio_sdk._types.model import ModelSyncMixin, ModelTuneMixin

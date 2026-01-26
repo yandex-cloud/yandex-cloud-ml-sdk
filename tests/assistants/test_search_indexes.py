@@ -3,7 +3,6 @@ from __future__ import annotations
 from dataclasses import fields
 
 import pytest
-
 from yandex_ai_studio_sdk import AsyncAIStudio
 from yandex_ai_studio_sdk.search_indexes import (
     HybridSearchIndexType, IndexNormalizationStrategy, MeanIndexCombinationStrategy, MeanIndexEvaluationTechnique,

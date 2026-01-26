@@ -8,7 +8,6 @@ from typing import Union
 from typing_extensions import Never, TypeAlias
 from yandex.cloud.ai.stt.v3.stt_pb2 import DefaultEouClassifier
 from yandex.cloud.ai.tts.v3.tts_pb2 import AudioFormatOptions, ContainerAudio, LoudnessNormalizationType, RawAudio
-
 from yandex_ai_studio_sdk._types.enum import (
     EnumWithUnknownAlias, EnumWithUnknownInput, ProtoBasedEnum, UnknownEnumValue
 )

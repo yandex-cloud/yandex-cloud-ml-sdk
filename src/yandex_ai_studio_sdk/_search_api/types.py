@@ -14,7 +14,6 @@ from typing_extensions import Self, TypeAlias, override
 from yandex.cloud.searchapi.v2.img_search_service_pb2 import ImageSearchResponse
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.searchapi.v2.search_service_pb2 import WebSearchResponse
-
 from yandex_ai_studio_sdk._types.model import BaseModel, ConfigTypeT
 from yandex_ai_studio_sdk._types.request import RequestDetails
 from yandex_ai_studio_sdk._types.result import BaseProtoModelResult, ProtoMessageTypeT_contra, SDKType

@@ -6,7 +6,6 @@ from typing import TYPE_CHECKING
 from typing_extensions import Self
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.ai.foundation_models.v1.image_generation.image_generation_service_pb2 import ImageGenerationResponse
-
 from yandex_ai_studio_sdk._types.result import BaseProtoResult
 
 if TYPE_CHECKING:

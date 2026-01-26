@@ -9,7 +9,6 @@ from yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2 import (
     DeleteBatchInferenceResponse, DescribeBatchInferenceRequest, DescribeBatchInferenceResponse
 )
 from yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2_grpc import BatchInferenceServiceStub
-
 from yandex_ai_studio_sdk._datasets.dataset import AsyncDataset, Dataset
 from yandex_ai_studio_sdk._logging import TRACE, get_logger
 from yandex_ai_studio_sdk._types.operation import (

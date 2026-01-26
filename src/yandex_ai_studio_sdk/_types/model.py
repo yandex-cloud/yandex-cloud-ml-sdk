@@ -17,7 +17,6 @@ from .tuning.params import BaseTuningParams
 
 if TYPE_CHECKING:
     from typing_extensions import Self
-
     from yandex_ai_studio_sdk._sdk import BaseSDK
 
 

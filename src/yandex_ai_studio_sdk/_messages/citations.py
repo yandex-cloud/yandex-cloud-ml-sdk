@@ -8,7 +8,6 @@ from typing import TYPE_CHECKING
 
 from yandex.cloud.ai.assistants.v1.threads.message_pb2 import Citation as ProtoCitation
 from yandex.cloud.ai.assistants.v1.threads.message_pb2 import Source as ProtoSource
-
 from yandex_ai_studio_sdk._files.file import BaseFile
 from yandex_ai_studio_sdk._search_indexes.search_index import BaseSearchIndex
 from yandex_ai_studio_sdk._types.result import BaseProtoResult

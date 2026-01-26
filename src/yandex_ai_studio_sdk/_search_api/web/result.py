@@ -9,7 +9,6 @@ from typing import TYPE_CHECKING, ClassVar, Generic, TypeVar
 from typing_extensions import Self
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.searchapi.v2.search_service_pb2 import WebSearchResponse
-
 from yandex_ai_studio_sdk._search_api.types import XMLBaseSearchResult, XMLSearchDocument
 from yandex_ai_studio_sdk._search_api.utils import (
     NestedDict, get_element_text, get_element_text_dict, get_subelement_text

@@ -6,7 +6,6 @@ from typing import Protocol, TypedDict, Union, cast, runtime_checkable
 from typing_extensions import NotRequired, Required
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Message as ProtoMessage
-
 from yandex_ai_studio_sdk._tools.tool_call_list import ProtoCompletionsToolCallList, ToolCallList
 from yandex_ai_studio_sdk._tools.tool_result import (
     ProtoCompletionsToolResultList, ToolResultDictType, tool_results_to_proto

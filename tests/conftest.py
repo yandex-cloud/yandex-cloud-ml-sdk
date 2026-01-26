@@ -9,7 +9,6 @@ from unittest.mock import AsyncMock
 import grpc.aio
 import pytest
 import pytest_asyncio
-
 import yandex_ai_studio_sdk._types.resource
 from yandex_ai_studio_sdk import AIStudio, AsyncAIStudio
 from yandex_ai_studio_sdk._auth import BaseAuth, NoAuth

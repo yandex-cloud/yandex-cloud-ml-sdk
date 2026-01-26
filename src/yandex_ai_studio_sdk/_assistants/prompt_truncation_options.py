@@ -8,7 +8,6 @@ from typing import Literal, Union
 from google.protobuf.wrappers_pb2 import Int64Value
 from typing_extensions import TypeAlias
 from yandex.cloud.ai.assistants.v1.common_pb2 import PromptTruncationOptions as ProtoPromptTruncationOptions
-
 from yandex_ai_studio_sdk._types.misc import Undefined, get_defined_value, is_defined
 from yandex_ai_studio_sdk._types.proto import ProtoBased, SDKType
 

@@ -10,7 +10,6 @@ from yandex.cloud.ai.tts.v3.tts_pb2 import (
     ForceSynthesisEvent, StreamSynthesisRequest, StreamSynthesisResponse, SynthesisInput, SynthesisOptions
 )
 from yandex.cloud.ai.tts.v3.tts_service_pb2_grpc import SynthesizerStub
-
 from yandex_ai_studio_sdk._client import AsyncCloudClient
 from yandex_ai_studio_sdk._speechkit.enums import AudioFormat
 from yandex_ai_studio_sdk._types.proto import SDKType

@@ -6,7 +6,6 @@ from enum import Enum
 from typing import Any, Literal, Union
 
 from typing_extensions import Self
-
 from yandex_ai_studio_sdk._models.completions.config import CompletionTool, GPTModelConfig
 from yandex_ai_studio_sdk._tools.tool import BaseTool
 from yandex_ai_studio_sdk._types.schemas import QueryType

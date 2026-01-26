@@ -10,7 +10,6 @@ from yandex.cloud.ai.assistants.v1.runs.run_service_pb2 import (
     CreateRunRequest, GetLastRunByThreadRequest, GetRunRequest, ListRunsRequest, ListRunsResponse
 )
 from yandex.cloud.ai.assistants.v1.runs.run_service_pb2_grpc import RunServiceStub
-
 from yandex_ai_studio_sdk._assistants.assistant import BaseAssistant
 from yandex_ai_studio_sdk._assistants.prompt_truncation_options import (
     PromptTruncationOptions, PromptTruncationStrategyType

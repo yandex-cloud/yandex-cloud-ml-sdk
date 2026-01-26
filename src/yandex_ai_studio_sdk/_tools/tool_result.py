@@ -11,7 +11,6 @@ from yandex.cloud.ai.assistants.v1.common_pb2 import ToolResultList as ProtoAssi
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import FunctionResult as ProtoCompletionsFunctionResult
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import ToolResult as ProtoCompletionsToolResult
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import ToolResultList as ProtoCompletionsToolResultList
-
 from yandex_ai_studio_sdk._utils.coerce import coerce_tuple
 
 #: Type variable representing protobuf tool result list types.

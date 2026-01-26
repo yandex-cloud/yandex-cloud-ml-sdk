@@ -4,7 +4,6 @@ import dataclasses
 import datetime
 
 import pytest
-
 from yandex_ai_studio_sdk._chat.completions.message import message_to_json, messages_to_json
 from yandex_ai_studio_sdk._chat.completions.result import (
     AlternativeStatus, ChatChoice, ChatModelResult, DeltaChatChoice, FinishReason, HttpToolCallList

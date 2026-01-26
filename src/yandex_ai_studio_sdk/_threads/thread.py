@@ -12,7 +12,6 @@ from yandex.cloud.ai.assistants.v1.threads.thread_service_pb2 import (
     DeleteThreadRequest, DeleteThreadResponse, UpdateThreadRequest
 )
 from yandex.cloud.ai.assistants.v1.threads.thread_service_pb2_grpc import ThreadServiceStub
-
 from yandex_ai_studio_sdk._messages.message import Message
 from yandex_ai_studio_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
 from yandex_ai_studio_sdk._types.message import MessageType

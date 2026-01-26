@@ -9,7 +9,6 @@ from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 from yandex.cloud.searchapi.v2.search_query_pb2 import SearchMetadata, SearchQuery
 from yandex.cloud.searchapi.v2.search_service_pb2 import GroupSpec, SortSpec, WebSearchRequest, WebSearchResponse
 from yandex.cloud.searchapi.v2.search_service_pb2_grpc import WebSearchAsyncServiceStub, WebSearchServiceStub
-
 from yandex_ai_studio_sdk._logging import get_logger
 from yandex_ai_studio_sdk._search_api.enums import (
     FamilyMode, FixTypoMode, Format, GroupMode, Localization, SearchType, SortMode, SortOrder

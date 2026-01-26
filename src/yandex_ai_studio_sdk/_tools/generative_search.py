@@ -6,7 +6,6 @@ from typing import Literal
 
 from yandex.cloud.ai.assistants.v1.common_pb2 import GenSearchOptions as ProtoGenSearchOptions
 from yandex.cloud.ai.assistants.v1.common_pb2 import GenSearchTool as ProtoGenSearchTool
-
 from yandex_ai_studio_sdk._search_api.generative.config import GenerativeSearchConfig
 from yandex_ai_studio_sdk._search_api.generative.utils import filters_from_proto, filters_to_proto
 from yandex_ai_studio_sdk._tools.tool import BaseTool, ProtoAssistantsTool, ProtoToolTypeT

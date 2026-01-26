@@ -8,7 +8,6 @@ from typing import TYPE_CHECKING, Any
 
 from yandex.cloud.ai.assistants.v1.threads.message_pb2 import Message as ProtoMessage
 from yandex.cloud.ai.assistants.v1.threads.message_pb2 import MessageContent
-
 from yandex_ai_studio_sdk._types.resource import BaseResource
 from yandex_ai_studio_sdk._utils.proto import ProtoEnumBase
 

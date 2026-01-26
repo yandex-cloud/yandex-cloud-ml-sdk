@@ -11,7 +11,6 @@ from yandex.cloud.ai.files.v1.file_service_pb2 import (
     DeleteFileRequest, DeleteFileResponse, GetFileUrlRequest, GetFileUrlResponse, UpdateFileRequest
 )
 from yandex.cloud.ai.files.v1.file_service_pb2_grpc import FileServiceStub
-
 from yandex_ai_studio_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
 from yandex_ai_studio_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
 from yandex_ai_studio_sdk._types.resource import ExpirableResource, safe_on_delete

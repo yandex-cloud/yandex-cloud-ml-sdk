@@ -4,7 +4,6 @@ from typing import TYPE_CHECKING, Any
 from unittest.mock import MagicMock
 
 from typing_extensions import override
-
 from yandex_ai_studio_sdk._auth import BaseAuth
 from yandex_ai_studio_sdk._client import AsyncCloudClient
 from yandex_ai_studio_sdk.retry import NoRetryPolicy, RetryPolicy

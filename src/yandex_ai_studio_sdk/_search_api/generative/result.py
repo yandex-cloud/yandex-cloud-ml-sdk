@@ -5,7 +5,6 @@ from dataclasses import dataclass
 from typing_extensions import Self, override
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.searchapi.v2.gen_search_service_pb2 import GenSearchResponse, Role
-
 from yandex_ai_studio_sdk._types.message import TextMessage
 from yandex_ai_studio_sdk._types.proto import ProtoBased
 from yandex_ai_studio_sdk._types.result import BaseProtoResult, SDKType

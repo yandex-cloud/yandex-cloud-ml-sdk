@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from typing_extensions import override
-
 from yandex_ai_studio_sdk._types.function import BaseModelFunction, ModelTypeT
 
 from .model import AsyncGPTModel, GPTModel

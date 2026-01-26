@@ -13,7 +13,6 @@ from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_servic
     TextGenerationServiceServicer, TokenizerServiceServicer, add_TextGenerationServiceServicer_to_server,
     add_TokenizerServiceServicer_to_server
 )
-
 from yandex_ai_studio_sdk.retry import RetryPolicy
 
 

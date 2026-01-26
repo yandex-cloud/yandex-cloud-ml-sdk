@@ -3,7 +3,6 @@ from __future__ import annotations
 
 from typing_extensions import Self
 from yandex.cloud.ai.assistants.v1.common_pb2 import RephraserOptions as ProtoRephraserOptions
-
 from yandex_ai_studio_sdk._types.model import BaseModel
 from yandex_ai_studio_sdk._types.model_config import BaseModelConfig
 from yandex_ai_studio_sdk._types.proto import ProtoBased, SDKType

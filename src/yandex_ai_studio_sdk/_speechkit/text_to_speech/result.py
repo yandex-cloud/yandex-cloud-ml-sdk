@@ -8,7 +8,6 @@ from typing import Union
 from typing_extensions import Self, override
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.ai.tts.v3.tts_pb2 import StreamSynthesisResponse, UtteranceSynthesisResponse
-
 from yandex_ai_studio_sdk._speechkit.enums import PCM16, AudioFormat
 from yandex_ai_studio_sdk._speechkit.utils import pcm16_to_wav
 from yandex_ai_studio_sdk._types.enum import EnumWithUnknownAlias

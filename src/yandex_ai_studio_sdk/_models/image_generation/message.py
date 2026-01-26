@@ -7,7 +7,6 @@ from typing import Protocol, TypedDict, Union, cast, runtime_checkable
 from typing_extensions import NotRequired
 # pylint: disable-next=no-name-in-module
 from yandex.cloud.ai.foundation_models.v1.image_generation.image_generation_pb2 import Message as ProtoMessage
-
 from yandex_ai_studio_sdk._types.message import TextMessage
 from yandex_ai_studio_sdk._utils.coerce import coerce_tuple
 

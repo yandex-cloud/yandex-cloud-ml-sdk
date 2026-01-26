@@ -11,7 +11,6 @@ from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_servic
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2_grpc import (
     TextGenerationBatchServiceStub
 )
-
 from yandex_ai_studio_sdk._types.model import BaseModel, ConfigTypeT, ResultTypeT
 
 from .domain import AsyncBatchSubdomain, BatchSubdomain, BatchSubdomainTypeT

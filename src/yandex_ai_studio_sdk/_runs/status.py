@@ -5,7 +5,6 @@ from enum import IntEnum
 
 from yandex.cloud.ai.assistants.v1.runs.run_pb2 import RunState as ProtoRunState
 from yandex.cloud.ai.assistants.v1.runs.run_service_pb2 import StreamEvent as ProtoStreamEvent
-
 from yandex_ai_studio_sdk._types.operation import BaseOperationStatus
 from yandex_ai_studio_sdk._utils.doc import doc_from
 from yandex_ai_studio_sdk._utils.proto import ProtoEnumBase

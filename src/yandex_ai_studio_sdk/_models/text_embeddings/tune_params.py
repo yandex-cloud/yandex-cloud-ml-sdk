@@ -6,7 +6,6 @@ from typing import Literal, cast
 
 # pylint: disable=no-name-in-module
 from yandex.cloud.ai.tuning.v1.tuning_service_pb2 import TextEmbeddingPairParams, TextEmbeddingTripletParams
-
 from yandex_ai_studio_sdk._types.tuning.params import BaseTuningParams
 
 EmbeddingsTuneType = Literal['pair', 'triplet']

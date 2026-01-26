@@ -16,7 +16,6 @@ from yandex.cloud.ai.tuning.v1.tuning_task_pb2 import TuningTask as TuningTaskPr
 from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
 from yandex.cloud.operation.operation_service_pb2 import CancelOperationRequest, GetOperationRequest
 from yandex.cloud.operation.operation_service_pb2_grpc import OperationServiceStub
-
 from yandex_ai_studio_sdk._logging import TRACE, get_logger
 from yandex_ai_studio_sdk._types.operation import (
     AsyncOperationMixin, OperationErrorInfo, OperationInterface, OperationStatus, SyncOperationMixin

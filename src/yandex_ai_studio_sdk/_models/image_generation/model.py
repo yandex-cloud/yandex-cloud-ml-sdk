@@ -14,7 +14,6 @@ from yandex.cloud.ai.foundation_models.v1.image_generation.image_generation_serv
     ImageGenerationAsyncServiceStub
 )
 from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
-
 from yandex_ai_studio_sdk._types.misc import UNDEFINED, UndefinedOr
 from yandex_ai_studio_sdk._types.model import ModelAsyncMixin, OperationTypeT
 from yandex_ai_studio_sdk._types.operation import AsyncOperation, Operation

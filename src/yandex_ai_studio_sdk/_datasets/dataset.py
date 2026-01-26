@@ -21,7 +21,6 @@ from yandex.cloud.ai.dataset.v1.dataset_service_pb2 import (
     UploadedPartInfo
 )
 from yandex.cloud.ai.dataset.v1.dataset_service_pb2_grpc import DatasetServiceStub
-
 from yandex_ai_studio_sdk._logging import get_logger
 from yandex_ai_studio_sdk._types.misc import UNDEFINED, PathLike, UndefinedOr, coerce_path, get_defined_value
 from yandex_ai_studio_sdk._types.proto import ProtoBased

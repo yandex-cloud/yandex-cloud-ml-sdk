@@ -13,7 +13,6 @@ from yandex.cloud.ai.assistants.v1.assistant_service_pb2 import (
     UpdateAssistantRequest
 )
 from yandex.cloud.ai.assistants.v1.assistant_service_pb2_grpc import AssistantServiceStub
-
 from yandex_ai_studio_sdk._models.completions.model import BaseGPTModel
 from yandex_ai_studio_sdk._runs.run import AsyncRun, Run, RunTypeT
 from yandex_ai_studio_sdk._threads.thread import AsyncThread, Thread, ThreadTypeT

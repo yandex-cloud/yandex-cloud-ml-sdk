@@ -9,7 +9,6 @@ from yandex.cloud.ai.files.v1.file_service_pb2 import (
     CreateFileRequest, GetFileRequest, ListFilesRequest, ListFilesResponse
 )
 from yandex.cloud.ai.files.v1.file_service_pb2_grpc import FileServiceStub
-
 from yandex_ai_studio_sdk._types.domain import BaseDomain
 from yandex_ai_studio_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
 from yandex_ai_studio_sdk._types.misc import (

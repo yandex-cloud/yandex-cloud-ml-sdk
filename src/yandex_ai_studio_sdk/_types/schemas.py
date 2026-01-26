@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import Literal, TypedDict, Union
 
 from typing_extensions import NotRequired, Required, TypeAlias, TypeGuard
-
 from yandex_ai_studio_sdk._logging import get_logger
 
 logger = get_logger(__name__)

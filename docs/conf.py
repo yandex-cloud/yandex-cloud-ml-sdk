@@ -1,9 +1,8 @@
 from __future__ import annotations
 
-from sphinx.domains.python import PythonDomain
-
 import yandex_ai_studio_sdk
 import yandex_ai_studio_sdk._sdk
+from sphinx.domains.python import PythonDomain
 
 # -- Project information -----------------------------------------------------
 

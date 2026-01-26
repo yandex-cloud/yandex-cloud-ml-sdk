@@ -7,7 +7,6 @@ from typing_extensions import Self, TypeAlias, override
 from yandex.cloud.searchapi.v2.img_search_service_pb2 import ImageSearchRequest, ImageSearchResponse, ImageSpec
 from yandex.cloud.searchapi.v2.img_search_service_pb2_grpc import ImageSearchServiceStub
 from yandex.cloud.searchapi.v2.search_query_pb2 import SearchQuery
-
 from yandex_ai_studio_sdk._logging import get_logger
 from yandex_ai_studio_sdk._search_api.enums import (
     FamilyMode, FixTypoMode, ImageColor, ImageFormat, ImageOrientation, ImageSize, SearchType

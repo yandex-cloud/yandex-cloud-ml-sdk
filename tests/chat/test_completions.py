@@ -7,7 +7,6 @@ from typing import cast
 
 import httpx._client
 import pytest
-
 from yandex_ai_studio_sdk import AsyncAIStudio
 from yandex_ai_studio_sdk._chat.completions.result import AlternativeStatus, FinishReason
 from yandex_ai_studio_sdk._types.misc import UNDEFINED

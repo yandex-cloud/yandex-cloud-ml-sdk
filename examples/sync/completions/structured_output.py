@@ -5,7 +5,6 @@ from __future__ import annotations
 import json
 
 import pydantic
-
 from yandex_ai_studio_sdk import AIStudio
 
 

@@ -4,7 +4,6 @@ from __future__ import annotations
 import enum
 
 from yandex.cloud.ai.assistants.v1.searchindex.common_pb2 import NormalizationStrategy
-
 from yandex_ai_studio_sdk._utils.proto import ProtoEnumBase
 
 

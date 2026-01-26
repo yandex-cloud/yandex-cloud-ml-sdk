@@ -6,7 +6,6 @@ from typing import TypeVar
 from typing_extensions import Self, override
 from yandex.cloud.searchapi.v2.gen_search_service_pb2 import GenSearchRequest, GenSearchResponse
 from yandex.cloud.searchapi.v2.gen_search_service_pb2_grpc import GenSearchServiceStub
-
 from yandex_ai_studio_sdk._logging import get_logger
 from yandex_ai_studio_sdk._tools.generative_search import GenerativeSearchTool
 from yandex_ai_studio_sdk._types.misc import UNDEFINED, UndefinedOr

@@ -6,7 +6,6 @@ import asyncio
 import itertools
 
 import tqdm
-
 from yandex_ai_studio_sdk import AsyncAIStudio
 
 

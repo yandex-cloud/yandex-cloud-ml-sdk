@@ -7,7 +7,6 @@ from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
 from yandex.cloud.ai.assistants.v1.runs.run_pb2 import Run as ProtoRun
 from yandex.cloud.ai.assistants.v1.runs.run_service_pb2 import StreamEvent as ProtoStreamEvent
-
 from yandex_ai_studio_sdk._messages.citations import Citation
 from yandex_ai_studio_sdk._messages.message import BaseMessage, Message, PartialMessage
 from yandex_ai_studio_sdk._models.completions.result import Usage

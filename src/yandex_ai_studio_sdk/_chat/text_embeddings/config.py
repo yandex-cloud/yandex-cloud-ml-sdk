@@ -5,7 +5,6 @@ from dataclasses import dataclass
 from typing import Any, Literal
 
 from typing_extensions import Self
-
 from yandex_ai_studio_sdk._models.text_embeddings.config import TextEmbeddingsModelConfig
 from yandex_ai_studio_sdk._types.schemas import QueryType
 

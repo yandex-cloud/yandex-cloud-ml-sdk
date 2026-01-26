@@ -9,7 +9,6 @@ from typing_extensions import Self
 from yandex.cloud.ai.foundation_models.v1.text_classification.text_classification_service_pb2 import (
     FewShotTextClassificationResponse, TextClassificationResponse
 )
-
 from yandex_ai_studio_sdk._types.result import BaseProtoResult
 
 from .types import TextClassificationLabel

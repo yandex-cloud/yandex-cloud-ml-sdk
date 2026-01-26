@@ -4,7 +4,6 @@ from dataclasses import dataclass
 from typing import Any, Union, cast
 
 from typing_extensions import Self, override
-
 from yandex_ai_studio_sdk._exceptions import AIStudioConfigurationError
 from yandex_ai_studio_sdk._speechkit.enums import PCM16, AudioFormat, LoudnessNormalization
 from yandex_ai_studio_sdk._types.enum import EnumWithUnknownAlias, EnumWithUnknownInput, ProtoBasedEnum

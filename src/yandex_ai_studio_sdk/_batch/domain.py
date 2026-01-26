@@ -9,7 +9,6 @@ from yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2 import (
 )
 from yandex.cloud.ai.batch_inference.v1.batch_inference_service_pb2_grpc import BatchInferenceServiceStub
 from yandex.cloud.ai.batch_inference.v1.batch_inference_task_pb2 import BatchInferenceTask as ProtoBatchInferenceTask
-
 from yandex_ai_studio_sdk._logging import get_logger
 from yandex_ai_studio_sdk._types.batch.operation import (
     AsyncBatchTaskOperation, BatchTaskOperation, BatchTaskOperationTypeT

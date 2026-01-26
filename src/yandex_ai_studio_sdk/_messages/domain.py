@@ -10,7 +10,6 @@ from yandex.cloud.ai.assistants.v1.threads.message_service_pb2 import (
     CreateMessageRequest, GetMessageRequest, ListMessagesRequest
 )
 from yandex.cloud.ai.assistants.v1.threads.message_service_pb2_grpc import MessageServiceStub
-
 from yandex_ai_studio_sdk._types.domain import BaseDomain
 from yandex_ai_studio_sdk._types.message import MessageType, coerce_to_text_message_dict
 from yandex_ai_studio_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value

@@ -8,7 +8,6 @@ from typing import TYPE_CHECKING, Any, Callable, TypeVar
 
 from google.protobuf.field_mask_pb2 import FieldMask  # pylint: disable=no-name-in-module
 from typing_extensions import Concatenate, ParamSpec, Self
-
 from yandex_ai_studio_sdk._utils.proto import proto_to_dict
 
 from .expiration import ExpirationConfig, ExpirationProtoTypeT_contra

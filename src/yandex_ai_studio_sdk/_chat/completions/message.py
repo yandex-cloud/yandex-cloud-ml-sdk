@@ -4,7 +4,6 @@ from collections.abc import Iterable, Sequence
 from typing import Literal, TypedDict, Union, cast
 
 from typing_extensions import NotRequired, Required
-
 from yandex_ai_studio_sdk._models.completions.message import (
     FunctionResultMessageDict, MessageInputType, MessageType, TextMessageWithToolCallsProtocol
 )

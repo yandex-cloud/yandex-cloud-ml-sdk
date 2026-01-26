@@ -6,7 +6,6 @@ import sys
 import typing
 
 import pytest
-
 import yandex_ai_studio_sdk._types.schemas
 from yandex_ai_studio_sdk._types.schemas import http_schema_from_response_format
 

@@ -17,7 +17,6 @@ from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_servic
     TextGenerationAsyncServiceStub, TextGenerationBatchServiceStub, TextGenerationServiceStub, TokenizerServiceStub
 )
 from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
-
 from yandex_ai_studio_sdk._tools.tool import BaseTool
 from yandex_ai_studio_sdk._tools.tool_call import AsyncToolCall, ToolCall, ToolCallTypeT
 from yandex_ai_studio_sdk._tuning.tuning_task import AsyncTuningTask, TuningTask, TuningTaskTypeT

@@ -6,7 +6,6 @@ from typing import TYPE_CHECKING
 
 from yandex.cloud.ai.dataset.v1.dataset_pb2 import ValidationError as ProtoValidationError
 from yandex.cloud.ai.dataset.v1.dataset_service_pb2 import ValidateDatasetResponse
-
 from yandex_ai_studio_sdk._types.proto import ProtoBased
 from yandex_ai_studio_sdk._types.result import BaseProtoResult
 from yandex_ai_studio_sdk.exceptions import DatasetValidationError

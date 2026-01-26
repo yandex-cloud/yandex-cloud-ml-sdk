@@ -6,7 +6,6 @@ from dataclasses import dataclass
 
 from typing_extensions import Self
 from yandex.cloud.ai.dataset.v1.dataset_pb2 import DatasetUploadSchema as ProtoDatasetUploadSchema
-
 from yandex_ai_studio_sdk._types.proto import ProtoBased, SDKType
 from yandex_ai_studio_sdk._types.schemas import JsonSchemaType
 

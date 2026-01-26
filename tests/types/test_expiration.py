@@ -3,7 +3,6 @@ from __future__ import annotations
 import inspect
 
 import pytest
-
 from yandex_ai_studio_sdk._types.expiration import ExpirationConfig, ExpirationConfigProto, ExpirationPolicy
 from yandex_ai_studio_sdk._types.misc import UNDEFINED
 

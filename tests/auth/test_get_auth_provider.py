@@ -6,7 +6,6 @@ import unittest.mock
 
 import httpx
 import pytest
-
 from yandex_ai_studio_sdk._auth import get_auth_provider
 from yandex_ai_studio_sdk.auth import (
     APIKeyAuth, EnvIAMTokenAuth, IAMTokenAuth, MetadataAuth, NoAuth, OAuthTokenAuth, YandexCloudCLIAuth

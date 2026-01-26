@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import pytest
-
 from yandex_ai_studio_sdk import AsyncAIStudio
 from yandex_ai_studio_sdk._models.completions.result import Alternative, GPTModelResult
 from yandex_ai_studio_sdk._search_api.generative.message import GenSearchMessage, messages_to_proto

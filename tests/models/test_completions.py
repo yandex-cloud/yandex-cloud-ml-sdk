@@ -4,7 +4,6 @@ import json
 from typing import cast
 
 import pytest
-
 from yandex_ai_studio_sdk import AsyncAIStudio
 from yandex_ai_studio_sdk._models.completions.message import ProtoMessage, messages_to_proto
 from yandex_ai_studio_sdk._models.completions.result import AlternativeStatus

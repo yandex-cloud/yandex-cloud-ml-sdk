@@ -5,7 +5,6 @@ import abc
 from typing import TYPE_CHECKING, Generic, TypeVar, cast
 
 from yandex.cloud.operation.operation_pb2 import Operation as ProtoOperation
-
 from yandex_ai_studio_sdk._logging import get_logger
 from yandex_ai_studio_sdk._types.datasets import DatasetType, coerce_dataset_id
 from yandex_ai_studio_sdk._utils.sync import run_sync
