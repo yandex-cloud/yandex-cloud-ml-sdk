@@ -10,7 +10,6 @@ import grpc
 import grpc.aio
 import httpx._transports.default
 import pytest
-import yandex_ai_studio_sdk._client
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Token
 from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_service_pb2 import (
     CompletionResponse, TokenizeResponse
@@ -21,6 +20,7 @@ from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_servic
 )
 from yandex.cloud.endpoint.api_endpoint_service_pb2 import ListApiEndpointsRequest, ListApiEndpointsResponse
 from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServiceStub
+
 from yandex_ai_studio_sdk import AsyncAIStudio
 from yandex_ai_studio_sdk._client import AsyncCloudClient, _get_user_agent
 from yandex_ai_studio_sdk._types.misc import UNDEFINED
@@ -101,6 +101,9 @@ async def test_multiple_requests(folder_id):
 
 @pytest.fixture(name='forbid_grpc_call')
 def forbid_grpc_call_fixure(monkeypatch):
+    # pylint: disable-next=import-outside-toplevel
+    import yandex_ai_studio_sdk._client
+
     def raise_(*args, **kwargs):
         endpoint = args[1] if len(args) > 1 else kwargs['endpoint']
 
