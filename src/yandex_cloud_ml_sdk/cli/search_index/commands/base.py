@@ -16,6 +16,8 @@ from yandex_cloud_ml_sdk.search_indexes import (
 
 from ..constants import LOG_DATE_FORMAT, LOG_FORMAT
 from ..file_sources.base import BaseFileSource
+from ..legacy_mapper import LegacyYandexMapper
+from ..openai_types import OpenAIFileCreateParams, OpenAIVectorStoreCreateParams
 from ..uploader import AsyncSearchIndexUploader, UploadConfig
 
 logger = logging.getLogger(__name__)
@@ -40,54 +42,51 @@ class BaseCommand(abc.ABC):
         auth: str | None,
         endpoint: str | None,
         verbose: int,
-        # Index options
-        index_name: str | None,
-        index_description: str | None,
-        index_labels: tuple[str, ...],
-        index_ttl_days: int | None,
-        index_expiration_policy: str | None,
-        index_type: str,
+        # Vector store options (OpenAI-compatible)
+        name: str | None,
+        metadata: tuple[str, ...],
+        expires_after_days: int | None,
+        expires_after_anchor: str | None,
         max_chunk_size_tokens: int,
         chunk_overlap_tokens: int,
-        # File options
-        file_ttl_days: int | None,
-        file_expiration_policy: str | None,
-        file_labels: tuple[str, ...],
-        batch_size: int,
+        # File options (OpenAI-compatible)
+        file_purpose: str,
+        file_expires_after_seconds: int | None,
+        file_expires_after_anchor: str | None,
         max_concurrent_uploads: int,
         skip_on_error: bool,
         # Output options
         output_format: str,
     ):
-        """Initialize base command with common parameters."""
+        """Initialize base command with OpenAI-compatible parameters."""
         # SDK options
         self.folder_id = folder_id
         self.auth = auth
         self.endpoint = endpoint
         self.verbose = verbose
 
-        # Index options
-        self.index_name = index_name
-        self.index_description = index_description
-        self.index_labels = index_labels
-        self.index_ttl_days = index_ttl_days
-        self.index_expiration_policy = index_expiration_policy
-        self.index_type = index_type
-        self.max_chunk_size_tokens = max_chunk_size_tokens
-        self.chunk_overlap_tokens = chunk_overlap_tokens
+        self.openai_file_create_params = OpenAIFileCreateParams(
+            name=None,
+            purpose=file_purpose,
+            expires_after_seconds=file_expires_after_seconds,
+            expires_after_anchor=file_expires_after_anchor,  # type: ignore[arg-type]
+        )
 
-        # File options
-        self.file_ttl_days = file_ttl_days
-        self.file_expiration_policy = file_expiration_policy
-        self.file_labels = file_labels
-        self.batch_size = batch_size
+        self.openai_vector_store_create_params = OpenAIVectorStoreCreateParams(
+            name=name,
+            metadata=self.parse_labels(metadata) if metadata else None,
+            expires_after_days=expires_after_days,
+            expires_after_anchor=expires_after_anchor,  # type: ignore[arg-type]
+            chunking_strategy=self.create_search_index_type(
+                max_chunk_size_tokens,
+                chunk_overlap_tokens
+            ),
+        )
+
         self.max_concurrent_uploads = max_concurrent_uploads
         self.skip_on_error = skip_on_error
-
-        # Output options
         self.output_format = output_format
 
-        # Initialize SDK
         self.setup_logging()
         self.sdk = self.create_sdk()
 
@@ -134,56 +133,39 @@ class BaseCommand(abc.ABC):
 
     def create_search_index_type(
         self,
-    ) -> TextSearchIndexType | VectorSearchIndexType | HybridSearchIndexType | None:
-        """Create search index type configuration."""
-        if self.index_type == "text":
-            return TextSearchIndexType(
-                chunking_strategy=StaticIndexChunkingStrategy(
-                    max_chunk_size_tokens=self.max_chunk_size_tokens,
-                    chunk_overlap_tokens=self.chunk_overlap_tokens,
-                )
-            )
-        if self.index_type == "vector":
-            return VectorSearchIndexType(
-                chunking_strategy=StaticIndexChunkingStrategy(
-                    max_chunk_size_tokens=self.max_chunk_size_tokens,
-                    chunk_overlap_tokens=self.chunk_overlap_tokens,
-                )
-            )
-        if self.index_type == "hybrid":
-            return HybridSearchIndexType(
-                text_search_index=TextSearchIndexType(
-                    chunking_strategy=StaticIndexChunkingStrategy(
-                        max_chunk_size_tokens=self.max_chunk_size_tokens,
-                        chunk_overlap_tokens=self.chunk_overlap_tokens,
-                    )
-                ),
-                vector_search_index=VectorSearchIndexType(
-                    chunking_strategy=StaticIndexChunkingStrategy(
-                        max_chunk_size_tokens=self.max_chunk_size_tokens,
-                        chunk_overlap_tokens=self.chunk_overlap_tokens,
-                    )
-                ),
-            )
-        return None
+        max_chunk_size_tokens: int,
+        chunk_overlap_tokens: int,
+    ) -> HybridSearchIndexType:
+        """
+        Create search index type configuration.
+
+        For OpenAI compatibility, we always use hybrid index (vector store).
+        OpenAI vector stores are always vector-based with chunking.
+        """
+        chunking_strategy = StaticIndexChunkingStrategy(
+            max_chunk_size_tokens=max_chunk_size_tokens,
+            chunk_overlap_tokens=chunk_overlap_tokens,
+        )
+
+        return HybridSearchIndexType(
+            text_search_index=TextSearchIndexType(
+                chunking_strategy=chunking_strategy
+            ),
+            vector_search_index=VectorSearchIndexType(
+                chunking_strategy=chunking_strategy
+            ),
+        )
 
     def create_upload_config(self) -> UploadConfig:
-        """Create upload configuration from CLI parameters."""
-        return UploadConfig(
-            # File settings
-            file_ttl_days=self.file_ttl_days,
-            file_expiration_policy=self.file_expiration_policy,
-            file_labels=self.parse_labels(self.file_labels) if self.file_labels else None,
-            # Index settings
-            index_name=self.index_name,
-            index_description=self.index_description,
-            index_labels=self.parse_labels(self.index_labels) if self.index_labels else None,
-            index_ttl_days=self.index_ttl_days,
-            index_expiration_policy=self.index_expiration_policy,
-            index_type=self.create_search_index_type(),
-            # Upload behavior
-            batch_size=self.batch_size,
-            delete_files_after_indexing=False,  # Removed dangerous option
+        """
+        Create upload configuration from OpenAI-compatible CLI parameters.
+
+        TODO: Remove this method when migrating to native OpenAI API.
+        Uses LegacyYandexMapper to convert OpenAI params to Yandex SDK format.
+        """
+        return LegacyYandexMapper.create_legacy_upload_config(
+            file_create_params=self.openai_file_create_params,
+            vector_store_create_params=self.openai_vector_store_create_params,
             skip_on_error=self.skip_on_error,
             max_concurrent_uploads=self.max_concurrent_uploads,
         )
@@ -203,7 +185,7 @@ class BaseCommand(abc.ABC):
             asyncio.run(self._execute_async())
         except KeyboardInterrupt:
             self._output_error("Upload interrupted by user")
-            sys.exit(130)  # Standard exit code for SIGINT
+            sys.exit(130)
         except asyncio.CancelledError:
             self._output_error("Upload cancelled")
             sys.exit(1)
@@ -214,17 +196,12 @@ class BaseCommand(abc.ABC):
 
     async def _execute_async(self) -> None:
         """Async implementation of execute."""
-        # Create file source
         file_source = self.create_file_source()
-
-        # Create upload configuration
         config = self.create_upload_config()
 
-        # Execute upload
         uploader = AsyncSearchIndexUploader(self.sdk, config)
         search_index = await uploader.upload_from_source(file_source)
 
-        # Output results
         self._output_success(search_index)
 
     def _output_success(self, search_index) -> None:
@@ -232,6 +209,7 @@ class BaseCommand(abc.ABC):
         if self.output_format == "json":
             result = {
                 "status": "success",
+                "folder_id": self.folder_id,
                 "search_index": {
                     "id": search_index.id,
                     "name": search_index.name,
@@ -243,6 +221,8 @@ class BaseCommand(abc.ABC):
             click.echo(f"Search Index ID: {search_index.id}")
             if search_index.name:
                 click.echo(f"Name: {search_index.name}")
+            if self.folder_id:
+                click.echo(f"Folder ID: {self.folder_id}")
 
     def _output_error(self, message: str) -> None:
         """Output error message in the configured format."""

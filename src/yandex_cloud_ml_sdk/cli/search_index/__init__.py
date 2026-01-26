@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import click
+from dotenv import load_dotenv
 
 from .commands.confluence_command import confluence_command
 from .commands.local_command import local_command
@@ -37,8 +38,5 @@ __all__ = [
 
 
 def main():
+    load_dotenv()
     cli()
-
-
-if __name__ == "__main__":
-    main()

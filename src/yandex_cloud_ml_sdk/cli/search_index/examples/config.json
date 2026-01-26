@@ -1,0 +1,28 @@
+{
+  "vector_store": {
+    "name": "documentation-index",
+    "chunking_strategy": {
+      "type": "static",
+      "max_chunk_size_tokens": 800,
+      "chunk_overlap_tokens": 400
+    },
+    "metadata": {
+      "project": "ml-platform",
+      "version": "1.0",
+      "environment": "production"
+    },
+    "expires_after": {
+      "anchor": "last_active_at",
+      "days": 30
+    }
+  },
+  "upload_settings": {
+    "max_concurrent_uploads": 10,
+    "skip_on_error": true,
+    "file_filters": {
+      "include": ["*.md", "*.txt", "*.pdf"],
+      "exclude": ["**/node_modules/**", "**/.git/**"],
+      "max_file_size_mb": 10
+    }
+  }
+}

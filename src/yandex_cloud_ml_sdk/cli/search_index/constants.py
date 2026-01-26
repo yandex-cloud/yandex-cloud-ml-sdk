@@ -1,24 +1,18 @@
 from __future__ import annotations
 
 # Upload configuration defaults
-DEFAULT_BATCH_SIZE = 50
-"""Default number of files to upload in each batch"""
-
 DEFAULT_MAX_WORKERS = 4
 """Default maximum number of parallel upload workers"""
 
 DEFAULT_SKIP_ON_ERROR = True
 """Default behavior for handling upload errors"""
 
-# Index configuration defaults
-DEFAULT_INDEX_TYPE = "text"
-"""Default search index type"""
+# Chunking strategy defaults (OpenAI-compatible)
+DEFAULT_MAX_CHUNK_SIZE_TOKENS = 800
+"""Default maximum chunk size in tokens (OpenAI uses 800 for auto strategy)"""
 
-DEFAULT_MAX_CHUNK_SIZE_TOKENS = 700
-"""Default maximum chunk size in tokens"""
-
-DEFAULT_CHUNK_OVERLAP_TOKENS = 300
-"""Default chunk overlap in tokens"""
+DEFAULT_CHUNK_OVERLAP_TOKENS = 400
+"""Default chunk overlap in tokens (OpenAI uses 400 for auto strategy)"""
 
 # File source defaults
 DEFAULT_FILE_PATTERN = "**/*"
