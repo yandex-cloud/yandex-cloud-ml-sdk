@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import warnings
 from logging import Handler, LogRecord, getLogger
 
 from yandex_ai_studio_sdk._logging.utils import (
@@ -42,3 +43,13 @@ def setup_log_relay():
     logger = getLogger('yandex_ai_studio_sdk')
     logger.setLevel(TRACE)
     logger.addHandler(RelayWithRenameHandler())
+
+
+def usage_warning():
+    warnings.warn(
+        "yandex-cloud-ml-sdk package is deprecated; "
+        "use yandex-ai-studio-sdk package instead "
+        "and refer to "
+        "https://github.com/yandex-cloud/yandex-ai-studio-sdk/blob/master/compat/yandex-cloud-ml-sdk/MIGRATION.md",
+        stacklevel=3
+    )

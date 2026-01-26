@@ -12,12 +12,13 @@ from yandex_ai_studio_sdk import (
 from yandex_ai_studio_sdk._logging.utils import (
     setup_default_logging_from_env as _setup_default_logging_from_env,
 )
-from ._logging import setup_default_logging, setup_log_relay as _setup_log_relay
+from ._logging import setup_default_logging, setup_log_relay as _setup_log_relay, usage_warning as _usage_warning
 
 os.unsetenv('_YANDEX_AI_STUDIO_NO_LOGGING_SETUP')
 
 _setup_default_logging_from_env('yandex_cloud_ml_sdk')
 _setup_log_relay()
+_usage_warning()
 
 
 class YCloudML(_AIStudio):
