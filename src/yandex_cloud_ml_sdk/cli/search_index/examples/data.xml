@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vector_stores>
+    <store id="vs_001">
+        <name>Product Documentation</name>
+        <created_at>2024-01-15T10:30:00Z</created_at>
+        <status>active</status>
+        <metadata>
+            <entry key="department">engineering</entry>
+            <entry key="visibility">public</entry>
+            <entry key="version">2.1</entry>
+        </metadata>
+        <files count="127">
+            <file id="file_001" type="markdown">readme.md</file>
+            <file id="file_002" type="pdf">api_guide.pdf</file>
+            <file id="file_003" type="text">changelog.txt</file>
+        </files>
+        <chunking_strategy>
+            <type>static</type>
+            <max_chunk_size_tokens>800</max_chunk_size_tokens>
+            <chunk_overlap_tokens>400</chunk_overlap_tokens>
+        </chunking_strategy>
+    </store>
+
+    <store id="vs_002">
+        <name>Customer Support KB</name>
+        <created_at>2024-01-18T14:20:00Z</created_at>
+        <status>active</status>
+        <metadata>
+            <entry key="department">support</entry>
+            <entry key="visibility">internal</entry>
+        </metadata>
+        <files count="53">
+            <file id="file_101" type="markdown">faq.md</file>
+            <file id="file_102" type="html">troubleshooting.html</file>
+        </files>
+        <chunking_strategy>
+            <type>auto</type>
+        </chunking_strategy>
+    </store>
+</vector_stores>

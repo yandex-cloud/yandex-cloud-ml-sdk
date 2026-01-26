@@ -4,8 +4,7 @@ from __future__ import annotations
 import click
 
 from ..constants import (
-    DEFAULT_BATCH_SIZE, DEFAULT_CHUNK_OVERLAP_TOKENS, DEFAULT_INDEX_TYPE, DEFAULT_MAX_CHUNK_SIZE_TOKENS,
-    DEFAULT_MAX_WORKERS, DEFAULT_SKIP_ON_ERROR
+    DEFAULT_CHUNK_OVERLAP_TOKENS, DEFAULT_MAX_CHUNK_SIZE_TOKENS, DEFAULT_MAX_WORKERS, DEFAULT_SKIP_ON_ERROR
 )
 
 
@@ -53,100 +52,81 @@ def common_options(func):
 
 def index_options(func):
     """
-    Decorator to add search index configuration options.
+    Decorator to add vector store configuration options (OpenAI-compatible).
 
     Adds:
-    - --index-name: Name for the search index
-    - --index-description: Description
-    - --index-label: Labels (multiple)
-    - --index-ttl-days: TTL in days
-    - --index-expiration-policy: Expiration policy
-    - --index-type: Index type (text/vector/hybrid)
+    - --name: Name for the vector store
+    - --metadata: Metadata key-value pairs (multiple)
+    - --expires-after-days: TTL in days
+    - --expires-after-anchor: Expiration anchor point
     - --max-chunk-size-tokens: Chunk size
     - --chunk-overlap-tokens: Chunk overlap
     """
     func = click.option(
-        "--index-name",
-        help="Name for the search index",
+        "--name",
+        help="Name for the vector store",
     )(func)
     func = click.option(
-        "--index-description",
-        help="Description for the search index",
-    )(func)
-    func = click.option(
-        "--index-label",
-        "index_labels",
+        "--metadata",
+        "metadata",
         multiple=True,
-        help="Labels for the index in format KEY=VALUE (can be specified multiple times)",
+        help="Metadata for the vector store in format KEY=VALUE (can be specified multiple times, max 16 pairs)",
     )(func)
     func = click.option(
-        "--index-ttl-days",
+        "--expires-after-days",
         type=int,
-        help="Time-to-live for the search index in days",
+        help="Time-to-live for the vector store in days",
     )(func)
     func = click.option(
-        "--index-expiration-policy",
-        type=click.Choice(["static", "since_last_active"]),
-        help="Expiration policy for the search index",
-    )(func)
-    func = click.option(
-        "--index-type",
-        type=click.Choice(["text", "vector", "hybrid"]),
-        default=DEFAULT_INDEX_TYPE,
-        show_default=True,
-        help="Type of search index to create",
+        "--expires-after-anchor",
+        type=click.Choice(["created_at", "last_active_at"]),
+        help="When to start counting expiration: 'created_at' or 'last_active_at'",
     )(func)
     func = click.option(
         "--max-chunk-size-tokens",
         type=int,
         default=DEFAULT_MAX_CHUNK_SIZE_TOKENS,
         show_default=True,
-        help="Maximum chunk size in tokens (for text/hybrid indexes)",
+        help="Maximum chunk size in tokens for chunking strategy",
     )(func)
     func = click.option(
         "--chunk-overlap-tokens",
         type=int,
         default=DEFAULT_CHUNK_OVERLAP_TOKENS,
         show_default=True,
-        help="Chunk overlap in tokens (for text/hybrid indexes)",
+        help="Chunk overlap in tokens for chunking strategy",
     )(func)
     return func
 
 
 def file_options(func):
     """
-    Decorator to add file upload configuration options.
+    Decorator to add file upload configuration options (OpenAI-compatible).
 
     Adds:
-    - --file-ttl-days: TTL for files
-    - --file-expiration-policy: Expiration policy for files
-    - --file-label: Labels for files (multiple)
-    - --batch-size: Batch size for uploads
+    - --file-purpose: Purpose of the file
+    - --file-expires-after-seconds: TTL for files in seconds
+    - --file-expires-after-anchor: Expiration anchor for files
     - --max-concurrent-uploads: Number of concurrent uploads
     - --skip-on-error: Skip failed files
+
+    Note: MIME types are auto-detected by the server, no need to specify.
     """
     func = click.option(
-        "--file-ttl-days",
-        type=int,
-        help="Time-to-live for uploaded files in days",
-    )(func)
-    func = click.option(
-        "--file-expiration-policy",
-        type=click.Choice(["static", "since_last_active"]),
-        help="Expiration policy for uploaded files",
-    )(func)
-    func = click.option(
-        "--file-label",
-        "file_labels",
-        multiple=True,
-        help="Labels for files in format KEY=VALUE (can be specified multiple times)",
-    )(func)
-    func = click.option(
-        "--batch-size",
-        type=int,
-        default=DEFAULT_BATCH_SIZE,
+        "--file-purpose",
+        default="assistants",
         show_default=True,
-        help="Number of files to upload in each batch (currently unused)",
+        help="Purpose of the file (always 'assistants' for vector stores)",
+    )(func)
+    func = click.option(
+        "--file-expires-after-seconds",
+        type=int,
+        help="Time-to-live for uploaded files in seconds",
+    )(func)
+    func = click.option(
+        "--file-expires-after-anchor",
+        type=click.Choice(["created_at", "last_active_at"]),
+        help="When to start counting file expiration: 'created_at' or 'last_active_at'",
     )(func)
     func = click.option(
         "--max-concurrent-uploads",

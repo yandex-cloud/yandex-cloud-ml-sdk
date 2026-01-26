@@ -3,17 +3,17 @@ from __future__ import annotations
 import asyncio
 import logging
 from dataclasses import dataclass
-from typing import cast
+from typing import Literal
 
 from tqdm.asyncio import tqdm
 
 from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk._files.file import File
+from yandex_cloud_ml_sdk._files.file import AsyncFile, File
 from yandex_cloud_ml_sdk._search_indexes.index_type import BaseSearchIndexType
 from yandex_cloud_ml_sdk._search_indexes.search_index import AsyncSearchIndex
 from yandex_cloud_ml_sdk._types.misc import UNDEFINED
 
-from .constants import BYTES_PER_MB, DEFAULT_BATCH_SIZE, DEFAULT_MAX_WORKERS, DEFAULT_SKIP_ON_ERROR
+from .constants import BYTES_PER_MB, DEFAULT_MAX_WORKERS, DEFAULT_SKIP_ON_ERROR
 from .file_sources.base import BaseFileSource, FileMetadata
 
 logger = logging.getLogger(__name__)
@@ -21,44 +21,43 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class UploadConfig:
-    """Configuration for file upload and search index creation."""
+    """
+    Configuration for file upload and search index creation.
+
+    This config is used by the legacy Yandex SDK uploader.
+    TODO: Replace with OpenAI API client when migrating.
+    """
 
     # File upload settings
     file_ttl_days: int | None = None
     """Time-to-live for uploaded files in days"""
 
-    file_expiration_policy: str | None = None
+    file_expiration_policy: Literal["static", "since_last_active"] | None = None
     """Expiration policy for files ('static' or 'since_last_active')"""
 
     file_labels: dict[str, str] | None = None
-    """Labels to attach to all uploaded files"""
+    """Labels to attach to all uploaded files (not in OpenAI API)"""
 
     # Search index settings
     index_name: str | None = None
     """Name for the search index"""
 
     index_description: str | None = None
-    """Description for the search index"""
+    """Description for the search index (not in OpenAI API)"""
 
     index_labels: dict[str, str] | None = None
-    """Labels to attach to the search index"""
+    """Labels to attach to the search index (metadata in OpenAI)"""
 
     index_ttl_days: int | None = None
     """Time-to-live for the search index in days"""
 
-    index_expiration_policy: str | None = None
+    index_expiration_policy: Literal["static", "since_last_active"] | None = None
     """Expiration policy for the index ('static' or 'since_last_active')"""
 
     index_type: BaseSearchIndexType | None = None
-    """Type of search index to create (text, vector, or hybrid)"""
+    """Type of search index to create (chunking_strategy in OpenAI)"""
 
     # Upload behavior settings
-    batch_size: int = DEFAULT_BATCH_SIZE
-    """Number of files to upload before adding them to the index (currently unused)"""
-
-    delete_files_after_indexing: bool = False
-    """Whether to delete uploaded files after adding them to the index"""
-
     skip_on_error: bool = DEFAULT_SKIP_ON_ERROR
     """Whether to skip files that fail to upload instead of stopping"""
 
@@ -107,7 +106,7 @@ class AsyncSearchIndexUploader:
         self.sdk = sdk
         self.config = config or UploadConfig()
         self.stats = UploadStats()
-        self._uploaded_files: list[File] = []
+        self._uploaded_files: list[File | AsyncFile] = []
 
     async def upload_from_source(
         self,
@@ -121,7 +120,6 @@ class AsyncSearchIndexUploader:
         """
         logger.info("Starting upload from source: %s", source.__class__.__name__)
 
-
         # Upload files
         uploaded_files = await self._upload_files(source)
         if not uploaded_files:
@@ -131,16 +129,11 @@ class AsyncSearchIndexUploader:
         # Create search index
         search_index = await self._create_search_index(uploaded_files)
 
-        # Cleanup (if requested)
-        if self.config.delete_files_after_indexing:
-            await self._cleanup_files(uploaded_files)
-
         logger.info("Search index created successfully: %s", search_index.id)
         self._log_stats()
         return search_index
 
-
-    async def _upload_files(self, source: BaseFileSource) -> list[File]:
+    async def _upload_files(self, source: BaseFileSource) -> list[File | AsyncFile]:
         """
         Upload all files from the source with concurrent execution.
 
@@ -174,16 +167,14 @@ class AsyncSearchIndexUploader:
             logger.warning("No files to upload")
             return []
 
-        # Create semaphore to limit concurrent uploads
         semaphore = asyncio.Semaphore(self.config.max_concurrent_uploads)
 
-        # Upload files concurrently with progress bar
         tasks = [
             self._upload_single_file_with_semaphore(file_metadata, content, semaphore)
             for file_metadata, content in files_to_upload
         ]
 
-        results_to_process: list[File | BaseException | None]
+        results_to_process: list[File | AsyncFile | BaseException | None]
         if self.config.show_progress:
             results_raw = await tqdm.gather(
                 *tasks,
@@ -195,8 +186,7 @@ class AsyncSearchIndexUploader:
         else:
             results_to_process = list(await asyncio.gather(*tasks, return_exceptions=True))
 
-        # Process results
-        uploaded_files: list[File] = []
+        uploaded_files: list[File | AsyncFile] = []
         for i, result in enumerate(results_to_process):
             file_metadata, _ = files_to_upload[i]
 
@@ -206,8 +196,10 @@ class AsyncSearchIndexUploader:
                 if not self.config.skip_on_error:
                     raise result
             elif result is not None:
-                # result is File here
-                assert isinstance(result, File)
+                # result is File or AsyncFile here
+                assert isinstance(result, (File, AsyncFile)), (
+                    f"Expected File or AsyncFile, got {type(result)}: {result}"
+                )
                 uploaded_files.append(result)
                 self._uploaded_files.append(result)
                 self.stats.uploaded_files += 1
@@ -228,7 +220,7 @@ class AsyncSearchIndexUploader:
         file_metadata: FileMetadata,
         content: bytes,
         semaphore: asyncio.Semaphore,
-    ) -> File | None:
+    ) -> File | AsyncFile | None:
         """
         Upload a single file with semaphore control for concurrency limiting.
 
@@ -240,7 +232,7 @@ class AsyncSearchIndexUploader:
         async with semaphore:
             return await self._upload_single_file(file_metadata, content)
 
-    async def _upload_single_file(self, file_metadata: FileMetadata, content: bytes) -> File | None:
+    async def _upload_single_file(self, file_metadata: FileMetadata, content: bytes) -> File | AsyncFile | None:
         """
         Upload a single file to Yandex Cloud.
 
@@ -249,25 +241,25 @@ class AsyncSearchIndexUploader:
             content: File content as bytes
         """
         try:
-            # Merge file labels from config and metadata
             labels = {}
             if self.config.file_labels:
                 labels.update(self.config.file_labels)
             if file_metadata.labels:
                 labels.update(file_metadata.labels)
 
-            # Upload file using SDK
             uploaded_file = await self.sdk.files.upload_bytes(
                 content,
                 name=file_metadata.name if file_metadata.name else UNDEFINED,
                 mime_type=file_metadata.mime_type if file_metadata.mime_type else UNDEFINED,
                 ttl_days=self.config.file_ttl_days if self.config.file_ttl_days is not None else UNDEFINED,
-                expiration_policy=cast(str, self.config.file_expiration_policy) if self.config.file_expiration_policy else UNDEFINED,  # type: ignore[arg-type]
+                expiration_policy=(
+                    self.config.file_expiration_policy if self.config.file_expiration_policy else UNDEFINED
+                ),
                 labels=labels if labels else UNDEFINED,
             )
 
             logger.debug("Successfully uploaded file: %s (id: %s)", file_metadata.name, uploaded_file.id)
-            return cast(File, uploaded_file)
+            return uploaded_file
 
         except Exception as e:
             logger.error("Failed to upload file %s: %s", file_metadata.name, e)
@@ -275,7 +267,7 @@ class AsyncSearchIndexUploader:
                 raise
             return None
 
-    async def _create_search_index(self, files: list[File]) -> AsyncSearchIndex:
+    async def _create_search_index(self, files: list[File | AsyncFile]) -> AsyncSearchIndex:
         """
         Create a search index from uploaded files.
 
@@ -292,44 +284,15 @@ class AsyncSearchIndexUploader:
             description=self.config.index_description if self.config.index_description else UNDEFINED,
             labels=self.config.index_labels if self.config.index_labels else UNDEFINED,
             ttl_days=self.config.index_ttl_days if self.config.index_ttl_days is not None else UNDEFINED,
-            expiration_policy=cast(str, self.config.index_expiration_policy) if self.config.index_expiration_policy else UNDEFINED,  # type: ignore[arg-type]
+            expiration_policy=self.config.index_expiration_policy if self.config.index_expiration_policy else UNDEFINED,
         )
 
         logger.info("Search index creation started, waiting for completion...")
 
-        # Wait for operation to complete
         search_index = await operation.wait()
 
         logger.info("Search index created successfully: %s", search_index.id)
         return search_index
-
-    async def _cleanup_files(self, files: list[File]) -> None:
-        """
-        Delete uploaded files after they've been added to the index.
-
-        Args:
-            files: List of File objects to delete
-        """
-        if not files:
-            return
-
-        logger.info("Cleaning up %d uploaded files...", len(files))
-
-        async def delete_file(file: File) -> bool:
-            try:
-                file.delete()
-                logger.debug("Deleted file: %s", file.id)
-                return True
-            except Exception as e:
-                logger.warning("Failed to delete file %s: %s", file.id, e)
-                return False
-
-        results = await asyncio.gather(*[delete_file(file) for file in files], return_exceptions=False)
-
-        deleted_count = sum(1 for r in results if r)
-        failed_count = len(results) - deleted_count
-
-        logger.info("Cleanup completed: %d deleted, %d failed", deleted_count, failed_count)
 
     def _log_stats(self) -> None:
         """Log upload statistics."""

@@ -43,6 +43,7 @@ dependencies = [
     "packaging>=24",
     "click>=8.0.0",
     "tqdm>=4.0.0",
+    "python-dotenv>=1.0.0",
 ]
 
 [project.optional-dependencies]

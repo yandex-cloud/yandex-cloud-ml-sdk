@@ -31,9 +31,9 @@ class LocalCommand(BaseCommand):
         self.max_file_size = max_file_size
         self.recursive = recursive
 
-        # Set default index name to directory name if not provided
-        if not kwargs.get("index_name"):
-            kwargs["index_name"] = directory.name
+        # Set default vector store name to directory name if not provided
+        if not kwargs.get("name"):
+            kwargs["name"] = directory.name
 
         # Initialize base command
         super().__init__(**kwargs)
