@@ -60,6 +60,11 @@ Tracker = "https://github.com/yandex-cloud/yandex-ai-studio-sdk/issues"
 [tool.flit.module]
 name = "yandex_cloud_ml_sdk"
 
+[tool.flit.sdist]
+exclude = [
+    "tests/",
+]
+
 [tool.bandit]
 exclude_dirs = ["build","dist","tests","scripts"]
 number = 4

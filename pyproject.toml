@@ -67,6 +67,21 @@ Tracker = "https://github.com/yandex-cloud/yandex-ai-studio-sdk/issues"
 [tool.flit.module]
 name = "yandex_ai_studio_sdk"
 
+[tool.flit.sdist]
+exclude = [
+    "compat/",
+    "tests/",
+    "examples/",
+    "docs/",
+    ".github/",
+    ".gitignore",
+    ".pre-commit-config.yaml",
+    "conftest.py",
+    "tox.ini",
+    "test_requirements.txt",
+    "test_requirements_extra.txt",
+]
+
 [tool.bandit]
 exclude_dirs = ["build","dist","tests","scripts"]
 number = 4
