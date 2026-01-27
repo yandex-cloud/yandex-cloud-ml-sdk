@@ -137,6 +137,8 @@ class AsyncSearchIndexUploader:
         """
         Upload all files from the source with concurrent execution.
 
+        Note: Files are read on-demand during upload to avoid loading all files into memory.
+
         Args:
             source: File source to upload from
         """
@@ -145,33 +147,23 @@ class AsyncSearchIndexUploader:
         if file_count:
             logger.info("Estimated files to process: %d", file_count)
 
-        # Collect all files and their content
-        files_to_upload: list[tuple[FileMetadata, bytes]] = []
+        # Collect file metadata only (not content)
+        files_metadata: list[FileMetadata] = []
 
         for file_metadata in source.list_files():
             self.stats.total_files += 1
+            files_metadata.append(file_metadata)
 
-            # Read file content
-            try:
-                content = source.get_file_content(file_metadata)
-                self.stats.total_bytes += len(content)
-                files_to_upload.append((file_metadata, content))
-            except Exception as e:
-                logger.error("Failed to read file %s: %s", file_metadata.path, e)
-                self.stats.failed_files += 1
-                if not self.config.skip_on_error:
-                    raise
-                continue
-
-        if not files_to_upload:
+        if not files_metadata:
             logger.warning("No files to upload")
             return []
 
         semaphore = asyncio.Semaphore(self.config.max_concurrent_uploads)
 
+        # Create upload tasks that will read file content on-demand
         tasks = [
-            self._upload_single_file_with_semaphore(file_metadata, content, semaphore)
-            for file_metadata, content in files_to_upload
+            self._upload_single_file_on_demand(file_metadata, source, semaphore)
+            for file_metadata in files_metadata
         ]
 
         results_to_process: list[File | AsyncFile | BaseException | None]
@@ -188,7 +180,7 @@ class AsyncSearchIndexUploader:
 
         uploaded_files: list[File | AsyncFile] = []
         for i, result in enumerate(results_to_process):
-            file_metadata, _ = files_to_upload[i]
+            file_metadata = files_metadata[i]
 
             if isinstance(result, BaseException):
                 logger.error("Upload failed for %s: %s", file_metadata.path, result)
@@ -207,7 +199,7 @@ class AsyncSearchIndexUploader:
                     "Uploaded file %s (%d/%d)",
                     file_metadata.name,
                     self.stats.uploaded_files,
-                    len(files_to_upload),
+                    len(files_metadata),
                 )
             else:
                 self.stats.failed_files += 1
@@ -215,21 +207,41 @@ class AsyncSearchIndexUploader:
         logger.info("Upload completed: %d succeeded, %d failed", self.stats.uploaded_files, self.stats.failed_files)
         return uploaded_files
 
-    async def _upload_single_file_with_semaphore(
+    async def _upload_single_file_on_demand(
         self,
         file_metadata: FileMetadata,
-        content: bytes,
+        source: BaseFileSource,
         semaphore: asyncio.Semaphore,
     ) -> File | AsyncFile | None:
         """
-        Upload a single file with semaphore control for concurrency limiting.
+        Upload a single file by reading its content on-demand.
 
         Args:
             file_metadata: Metadata about the file
-            content: File content as bytes
+            source: File source to read content from
             semaphore: Semaphore to limit concurrent uploads
+
+        Returns:
+            Uploaded file object or None if upload failed
         """
         async with semaphore:
+            # Read file content on-demand (inside semaphore to limit concurrent reads)
+            try:
+                # Run file reading in executor to avoid blocking async loop
+                loop = asyncio.get_event_loop()
+                content = await loop.run_in_executor(
+                    None,
+                    source.get_file_content,
+                    file_metadata
+                )
+                self.stats.total_bytes += len(content)
+            except Exception as e:
+                logger.error("Failed to read file %s: %s", file_metadata.path, e)
+                if not self.config.skip_on_error:
+                    raise
+                return None
+
+            # Upload the file
             return await self._upload_single_file(file_metadata, content)
 
     async def _upload_single_file(self, file_metadata: FileMetadata, content: bytes) -> File | AsyncFile | None:

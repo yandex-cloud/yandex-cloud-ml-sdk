@@ -3,25 +3,9 @@ from __future__ import annotations
 import click
 
 from ..file_sources.base import BaseFileSource
+from ..file_sources.s3 import S3FileSource
 from ..utils import all_common_options, create_command_executor
 from .base import BaseCommand
-
-
-# Placeholder - S3FileSource not yet implemented
-class S3FileSource(BaseFileSource):
-    """Placeholder for S3 file source (not yet implemented)."""
-
-    def __init__(self, **kwargs):
-        raise NotImplementedError("S3FileSource is not yet implemented")
-
-    def list_files(self):
-        raise NotImplementedError("S3FileSource is not yet implemented")
-
-    def get_file_content(self, file_metadata):
-        raise NotImplementedError("S3FileSource is not yet implemented")
-
-    def get_file_count_estimate(self):
-        return None
 
 
 class S3Command(BaseCommand):

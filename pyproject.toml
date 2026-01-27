@@ -44,6 +44,7 @@ dependencies = [
     "click>=8.0.0",
     "tqdm>=4.0.0",
     "python-dotenv>=1.0.0",
+    "boto3>=1.26.0",
 ]
 
 [project.optional-dependencies]
@@ -317,5 +318,8 @@ module = [
     "scipy.spatial.distance",
     "traitlets.utils.warnings",
     "sounddevice",
+    "boto3",
+    "botocore",
+    "botocore.exceptions",
 ]
 ignore_missing_imports = true
