@@ -1,4 +1,4 @@
-# Migration from Yandex Cloud ML SDK to Yandex Cloud AI Studio
+# Migration from Yandex Cloud ML SDK to Yandex Cloud AI Studio SDK
 
 `yandex-cloud-ml-sdk` release is a compatibility wrapper package for `yandex-ai-studio-sdk`,
 making possible for users to get their updates without changing their code.

@@ -1,4 +1,4 @@
-# Yandex AI Studio
+# Yandex AI Studio SDK
 
 This Python library provides a simple and efficient software development kit (SDK) for interacting with Yandex Cloud AI Studio services. The SDK abstracts away the complexities of raw gRPC and REST calls, making it easier for developers to integrate cloud functionality into their applications seamlessly.
 
