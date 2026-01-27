@@ -26,13 +26,6 @@ logger = logging.getLogger(__name__)
 class BaseCommand(abc.ABC):
     """
     Base class for all CLI commands.
-
-    This class provides common functionality for:
-    - SDK initialization
-    - Upload configuration creation
-    - File source creation (abstract)
-    - Upload execution
-    - Error handling
     """
 
     def __init__(
@@ -140,7 +133,6 @@ class BaseCommand(abc.ABC):
         Create search index type configuration.
 
         For OpenAI compatibility, we always use hybrid index (vector store).
-        OpenAI vector stores are always vector-based with chunking.
         """
         chunking_strategy = StaticIndexChunkingStrategy(
             max_chunk_size_tokens=max_chunk_size_tokens,
@@ -183,12 +175,6 @@ class BaseCommand(abc.ABC):
         """Execute the command: create file source, upload files, create index."""
         try:
             asyncio.run(self._execute_async())
-        except KeyboardInterrupt:
-            self._output_error("Upload interrupted by user")
-            sys.exit(130)
-        except asyncio.CancelledError:
-            self._output_error("Upload cancelled")
-            sys.exit(1)
         except Exception as e:
             self._output_error(f"Error during upload: {e}")
             logger.exception("Upload failed")

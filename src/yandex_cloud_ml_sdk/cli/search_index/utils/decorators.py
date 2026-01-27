@@ -1,4 +1,3 @@
-"""Decorators for CLI options that are shared across commands."""
 from __future__ import annotations
 
 import click
