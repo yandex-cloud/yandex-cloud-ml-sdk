@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import logging
-import mimetypes
 from collections.abc import Iterator
 from pathlib import Path
 
@@ -48,16 +47,13 @@ class LocalFileSource(BaseFileSource):
         logger.info("Scanning directory: %s with pattern: %s", self.directory, self.pattern)
 
         for file_path in self.directory.glob(self.pattern):
-            # Skip if not a file
             if not file_path.is_file():
                 continue
 
-            # Check exclusion patterns
             if self._is_excluded(file_path):
                 logger.debug("Skipping excluded file: %s", file_path)
                 continue
 
-            # Check file size
             try:
                 file_size = file_path.stat().st_size
                 if self.max_file_size and file_size > self.max_file_size:
@@ -72,18 +68,14 @@ class LocalFileSource(BaseFileSource):
                 logger.error("Cannot access file: %s - %s", file_path, e)
                 continue
 
-            # Detect MIME type
-            mime_type, _ = mimetypes.guess_type(str(file_path))
-
-            # Create metadata
             metadata = FileMetadata(
                 path=file_path,
                 name=file_path.name,
-                mime_type=mime_type,
+                mime_type=None,  # Let SDK auto-detect MIME type
                 labels={"source": "local", "directory": str(self.directory.name)},
             )
 
-            logger.debug("Found file: %s (size: %d, mime: %s)", file_path, file_size, mime_type)
+            logger.debug("Found file: %s (size: %d)", file_path, file_size)
             yield metadata
 
     def get_file_content(self, file_metadata: FileMetadata) -> bytes:
