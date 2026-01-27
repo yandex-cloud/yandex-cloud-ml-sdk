@@ -1,7 +1,3 @@
-"""
-OpenAI-compatible parameter types.
-These will stay when we migrate to native OpenAI API.
-"""
 from __future__ import annotations
 
 from dataclasses import dataclass
