@@ -29,7 +29,7 @@ class AsyncYCloudML(_AsyncAIStudio):
     _logger_name = 'yandex_cloud_ml_sdk'
 
 
-__version__ = '0.19.0'
+__version__ = '0.19.1'
 
 __all__ = [
     '__version__',
