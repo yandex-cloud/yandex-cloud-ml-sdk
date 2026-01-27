@@ -2,16 +2,15 @@
 from __future__ import annotations
 
 import pytest
-
-from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk.assistants import AutoPromptTruncationStrategy, LastMessagesPromptTruncationStrategy
+from yandex_ai_studio_sdk import AsyncAIStudio
+from yandex_ai_studio_sdk.assistants import AutoPromptTruncationStrategy, LastMessagesPromptTruncationStrategy
 
 pytestmark = pytest.mark.asyncio
 
 
 @pytest.mark.allow_grpc
 @pytest.mark.vcr
-async def test_run(async_sdk: AsyncYCloudML):
+async def test_run(async_sdk: AsyncAIStudio):
     assistant = await async_sdk.assistants.create('yandexgpt')
     thread = await async_sdk.threads.create()
     await thread.write('hey!')
@@ -126,7 +125,7 @@ async def test_run_fail(async_sdk):
 
 @pytest.mark.allow_grpc
 @pytest.mark.vcr
-async def test_custom_run_options(async_sdk: AsyncYCloudML):
+async def test_custom_run_options(async_sdk: AsyncAIStudio):
     assistant = await async_sdk.assistants.create('yandexgpt')
     thread = await async_sdk.threads.create()
     await thread.write('hey!')

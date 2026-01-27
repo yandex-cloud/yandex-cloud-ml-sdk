@@ -9,8 +9,7 @@ from yandex.cloud.iam.v1.iam_token_service_pb2 import CreateIamTokenResponse  # 
 from yandex.cloud.iam.v1.iam_token_service_pb2_grpc import (
     IamTokenServiceServicer, add_IamTokenServiceServicer_to_server
 )
-
-from yandex_cloud_ml_sdk.auth import OAuthTokenAuth
+from yandex_ai_studio_sdk.auth import OAuthTokenAuth
 
 pytestmark = pytest.mark.asyncio
 

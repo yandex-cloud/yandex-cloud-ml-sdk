@@ -38,7 +38,7 @@ http requests to a local test cassetes to not to use network in future runs and 
 of test runs (with the assupmtion that backend will not break contract and will not make any breaking changes).
 
 But pytest-recording supports only http/https cassetes so we have something like this for grpc requests
-[written by us](src/yandex_cloud_ml_sdk/_testing/interceptor.py).
+[written by us](src/yandex_ai_studio_sdk/_testing/interceptor.py).
 
 It is not so convenient to use and have it's problems, but basically to use it you need to:
 

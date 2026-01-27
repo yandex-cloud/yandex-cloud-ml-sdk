@@ -9,5 +9,5 @@ And here -- how SDK will work if you pass a string to SDK auth param
 Authentication methods classes
 ------------------------------
 
-.. automodule:: yandex_cloud_ml_sdk.auth
+.. automodule:: yandex_ai_studio_sdk.auth
    :no-undoc-members:

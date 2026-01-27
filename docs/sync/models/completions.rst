@@ -1,10 +1,10 @@
 Domain
 ------
 
-.. autoclass:: yandex_cloud_ml_sdk._models.completions.function.Completions
+.. autoclass:: yandex_ai_studio_sdk._models.completions.function.Completions
 
 Model
 -----
 
-.. autoclass:: yandex_cloud_ml_sdk._models.completions.model.GPTModel
+.. autoclass:: yandex_ai_studio_sdk._models.completions.model.GPTModel
    :undoc-members:

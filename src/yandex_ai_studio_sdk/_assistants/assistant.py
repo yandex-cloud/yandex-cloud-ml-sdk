@@ -1,0 +1,610 @@
+# pylint: disable=no-name-in-module,protected-access
+from __future__ import annotations
+
+import dataclasses
+from collections.abc import AsyncIterator, Iterable, Iterator
+from datetime import datetime
+from typing import TYPE_CHECKING, Any, Generic, TypeVar
+
+from typing_extensions import Self
+from yandex.cloud.ai.assistants.v1.assistant_pb2 import Assistant as ProtoAssistant
+from yandex.cloud.ai.assistants.v1.assistant_service_pb2 import (
+    DeleteAssistantRequest, DeleteAssistantResponse, ListAssistantVersionsRequest, ListAssistantVersionsResponse,
+    UpdateAssistantRequest
+)
+from yandex.cloud.ai.assistants.v1.assistant_service_pb2_grpc import AssistantServiceStub
+from yandex_ai_studio_sdk._models.completions.model import BaseGPTModel
+from yandex_ai_studio_sdk._runs.run import AsyncRun, Run, RunTypeT
+from yandex_ai_studio_sdk._threads.thread import AsyncThread, Thread, ThreadTypeT
+from yandex_ai_studio_sdk._tools.tool import BaseTool
+from yandex_ai_studio_sdk._types.expiration import ExpirationConfig, ExpirationPolicyAlias
+from yandex_ai_studio_sdk._types.misc import UNDEFINED, UndefinedOr, get_defined_value
+from yandex_ai_studio_sdk._types.resource import ExpirableResource, safe_on_delete
+from yandex_ai_studio_sdk._types.schemas import ResponseType
+from yandex_ai_studio_sdk._utils.doc import doc_from
+from yandex_ai_studio_sdk._utils.proto import proto_to_dict
+from yandex_ai_studio_sdk._utils.sync import run_sync_generator_impl, run_sync_impl
+
+from .prompt_truncation_options import PromptTruncationOptions, PromptTruncationStrategyType
+
+if TYPE_CHECKING:
+    from yandex_ai_studio_sdk._sdk import BaseSDK
+
+
+@dataclasses.dataclass(frozen=True)
+class BaseAssistant(ExpirableResource[ProtoAssistant], Generic[RunTypeT, ThreadTypeT]):
+    #: Expiration configuration for the assistant.
+    expiration_config: ExpirationConfig
+    #: The GPT model used by the assistant.
+    model: BaseGPTModel
+    #: Instructions or guidelines that the assistant should follow. These instructions guide the assistant's behavior and responses.
+    instruction: str | None
+    #: Options for truncating thread messages. Controls how messages are truncated when forming the prompt.
+    prompt_truncation_options: PromptTruncationOptions
+    #: Tools available to the assistant. Can be a sequence or a single tool. Tools must implement BaseTool interface.
+    tools: tuple[BaseTool, ...]
+    #: A format of the response returned by the model. Could be a JsonSchema, a JSON string, or a pydantic model
+    response_format: ResponseType | None
+
+    @property
+    def max_prompt_tokens(self) -> int | None:
+        """
+        Returns the maximum number of prompt tokens allowed for the assistant.
+        """
+        return self.prompt_truncation_options.max_prompt_tokens
+
+    @classmethod
+    def _kwargs_from_message(cls, proto: ProtoAssistant, sdk: BaseSDK) -> dict[str, Any]:  # type: ignore[override]
+        kwargs = super()._kwargs_from_message(proto, sdk=sdk)
+
+        if proto.HasField('response_format'):
+            response_format = proto.response_format
+            if response_format.HasField("json_schema"):
+                kwargs['response_format'] = {
+                    'json_schema': proto_to_dict(response_format.json_schema.schema)
+                }
+            elif response_format.HasField('json_object'):
+                if response_format.json_object:
+                    kwargs['response_format'] = 'json'
+            else:
+                raise RuntimeError(f'Unknown {response_format=}, try to upgrade yandex-ai-studio-sdk')
+
+        model = sdk.models.completions(proto.model_uri)
+        completion_options = proto.completion_options
+        if completion_options.HasField('max_tokens'):
+            model = model.configure(max_tokens=completion_options.max_tokens.value)
+        if completion_options.HasField('temperature'):
+            model = model.configure(temperature=completion_options.temperature.value)
+        kwargs['model'] = model
+
+        kwargs['tools'] = tuple(
+            BaseTool._from_upper_proto(tool, sdk=sdk)
+            for tool in proto.tools
+        )
+        kwargs['prompt_truncation_options'] = PromptTruncationOptions._from_proto(
+            proto=proto.prompt_truncation_options,
+            sdk=sdk
+        )
+
+        return kwargs
+
+    # pylint: disable=too-many-arguments
+    @safe_on_delete
+    async def _update(
+        self,
+        *,
+        model: UndefinedOr[str | BaseGPTModel] = UNDEFINED,
+        temperature: UndefinedOr[float] = UNDEFINED,
+        max_tokens: UndefinedOr[int] = UNDEFINED,
+        instruction: UndefinedOr[str] = UNDEFINED,
+        max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
+        name: UndefinedOr[str] = UNDEFINED,
+        description: UndefinedOr[str] = UNDEFINED,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        tools: UndefinedOr[Iterable[BaseTool]] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
+        response_format: UndefinedOr[ResponseType] = UNDEFINED,
+        timeout: float = 60,
+    ) -> Self:
+        """
+        Update the assistant's configuration with new parameters.
+
+        This method sends an update request to Yandex AI Studio API to modify the assistant's
+        configuration. Only specified parameters will be updated, others remain unchanged.
+
+        :param model: New model URI or BaseGPTModel instance to use
+        :param temperature: A sampling temperature to use - higher values mean more random results. Should be a double number between 0 (inclusive) and 1 (inclusive).
+        :param max_tokens: Maximum number of tokens to generate
+        :param instruction: New instructions for the assistant
+        :param max_prompt_tokens: Maximum tokens allowed in the prompt
+        :param prompt_truncation_strategy: Strategy for truncating long prompts
+        :param name: New name for the assistant
+        :param description: New description for the assistant
+        :param labels: New key-value labels for the assistant
+        :param ttl_days: Time-to-live in days before automatic deletion
+        :param tools: Tools to use for completion. Can be a sequence or a single tool.
+        :param expiration_policy: Policy for handling expiration
+        :param response_format: A format of the response returned by the model. Could be a JsonSchema, a JSON string, or a pydantic model.
+            Read more about possible response formats in the
+            `structured output documentation_BaseAssistant_URL <https://yandex.cloud/docs/ai-studio/concepts/generation/structured-output>`_.
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
+        # pylint: disable=too-many-locals
+        prompt_truncation_options = PromptTruncationOptions._coerce(
+            max_prompt_tokens=max_prompt_tokens,
+            strategy=prompt_truncation_strategy
+        )
+
+        request_kwargs = self._sdk.assistants._make_request_kwargs(
+            model=model,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            instruction=instruction,
+            max_prompt_tokens=max_prompt_tokens,
+            prompt_truncation_strategy=prompt_truncation_strategy,
+            name=name,
+            description=description,
+            labels=labels,
+            ttl_days=ttl_days,
+            tools=tools,
+            expiration_policy=expiration_policy,
+            response_format=response_format
+        )
+
+        request = UpdateAssistantRequest(
+            assistant_id=self.id,
+            **request_kwargs,
+        )
+        model_uri = request_kwargs.get('model_uri', UNDEFINED)
+
+        self._fill_update_mask(
+            request.update_mask,
+            {
+                'name': name,
+                'description': description,
+                'labels': labels,
+                'expiration_config.ttl_days': ttl_days,
+                'expiration_config.expiration_policy': expiration_policy,
+                'instruction': instruction,
+                'model_uri': model_uri,
+                'completion_options.temperature': temperature,
+                'completion_options.max_tokens': max_tokens,
+                'tools': tools,
+                'response_format': response_format,
+            } | prompt_truncation_options._get_update_paths()
+        )
+
+        async with self._client.get_service_stub(AssistantServiceStub, timeout=timeout) as stub:
+            response = await self._client.call_service(
+                stub.Update,
+                request,
+                timeout=timeout,
+                expected_type=ProtoAssistant,
+            )
+        self._update_from_proto(response)
+
+        return self
+
+    @safe_on_delete
+    async def _delete(
+        self,
+        *,
+        timeout: float = 60,
+    ) -> None:
+        """
+        Delete the assistant from Yandex AI Studio.
+
+        Sends a delete request to the Yandex AI Studio API to remove the assistant.
+        After successful deletion, marks the assistant as deleted internally.
+
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
+        request = DeleteAssistantRequest(assistant_id=self.id)
+
+        async with self._client.get_service_stub(AssistantServiceStub, timeout=timeout) as stub:
+            await self._client.call_service(
+                stub.Delete,
+                request,
+                timeout=timeout,
+                expected_type=DeleteAssistantResponse,
+            )
+            object.__setattr__(self, '_deleted', True)
+
+    async def _list_versions(
+        self,
+        page_size: UndefinedOr[int] = UNDEFINED,
+        page_token: UndefinedOr[str] = UNDEFINED,
+        timeout: float = 60
+    ) -> AsyncIterator[AssistantVersion]:
+        """
+        List all versions of the assistant.
+
+        This method retrieves historical versions of the assistant in a paginated manner.
+
+        :param page_size: Maximum number of versions to return per page
+        :param page_token: Token for pagination
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
+        page_token_ = get_defined_value(page_token, '')
+        page_size_ = get_defined_value(page_size, 0)
+
+        async with self._client.get_service_stub(AssistantServiceStub, timeout=timeout) as stub:
+            while True:
+                request = ListAssistantVersionsRequest(
+                    assistant_id=self.id,
+                    page_size=page_size_,
+                    page_token=page_token_,
+                )
+
+                response = await self._client.call_service(
+                    stub.ListVersions,
+                    request,
+                    timeout=timeout,
+                    expected_type=ListAssistantVersionsResponse,
+                )
+                for version in response.versions:
+                    yield AssistantVersion(
+                        id=version.id,
+                        assistant=ReadOnlyAssistant._from_proto(
+                            sdk=self._sdk,
+                            proto=version.assistant
+                        ),
+                        update_mask=tuple(a for a in version.update_mask.paths)
+                    )
+
+                if not response.versions:
+                    return
+
+                page_token_ = response.next_page_token
+
+    @safe_on_delete
+    async def _run_impl(
+        self,
+        thread: str | ThreadTypeT,
+        *,
+        stream: bool,
+        custom_temperature: UndefinedOr[float] = UNDEFINED,
+        custom_max_tokens: UndefinedOr[int] = UNDEFINED,
+        custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        custom_prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
+        custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
+        timeout: float = 60,
+    ) -> RunTypeT:
+        return await self._sdk.runs._create(
+            assistant=self,
+            thread=thread,
+            stream=stream,
+            custom_temperature=custom_temperature,
+            custom_max_tokens=custom_max_tokens,
+            custom_max_prompt_tokens=custom_max_prompt_tokens,
+            custom_prompt_truncation_strategy=custom_prompt_truncation_strategy,
+            custom_response_format=custom_response_format,
+            timeout=timeout,
+        )
+
+    async def _run(
+        self,
+        thread: str | ThreadTypeT,
+        *,
+        custom_temperature: UndefinedOr[float] = UNDEFINED,
+        custom_max_tokens: UndefinedOr[int] = UNDEFINED,
+        custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        custom_prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
+        custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
+        timeout: float = 60,
+    ) -> RunTypeT:
+        """
+        Execute a non-streaming run with the assistant on the given thread.
+
+        :param thread: Thread ID or Thread object to run on
+        :param custom_temperature: Override for model temperature
+        :param custom_max_tokens: Override for max tokens to generate
+        :param custom_max_prompt_tokens: Override for max prompt tokens
+        :param custom_prompt_truncation_strategy: Override for prompt truncation strategy
+        :param custom_response_format: Override for response format
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
+        return await self._run_impl(
+            thread=thread,
+            stream=False,
+            custom_temperature=custom_temperature,
+            custom_max_tokens=custom_max_tokens,
+            custom_max_prompt_tokens=custom_max_prompt_tokens,
+            custom_prompt_truncation_strategy=custom_prompt_truncation_strategy,
+            custom_response_format=custom_response_format,
+            timeout=timeout,
+        )
+
+    async def _run_stream(
+        self,
+        thread: str | ThreadTypeT,
+        *,
+        custom_temperature: UndefinedOr[float] = UNDEFINED,
+        custom_max_tokens: UndefinedOr[int] = UNDEFINED,
+        custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        custom_prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
+        custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
+        timeout: float = 60,
+    ) -> RunTypeT:
+        """
+        Execute a streaming run with the assistant on the given thread.
+
+        :param thread: Thread ID or Thread object to run on
+        :param custom_temperature: Override for model temperature
+        :param custom_max_tokens: Override for max tokens to generate
+        :param custom_max_prompt_tokens: Override for max prompt tokens
+        :param custom_prompt_truncation_strategy: Override for prompt truncation strategy
+        :param custom_response_format: Override for response format
+        :param timeout: The timeout, or the maximum time to wait for the request to complete in seconds.
+            Defaults to 60 seconds.
+        """
+        return await self._run_impl(
+            thread=thread,
+            stream=True,
+            custom_temperature=custom_temperature,
+            custom_max_tokens=custom_max_tokens,
+            custom_max_prompt_tokens=custom_max_prompt_tokens,
+            custom_prompt_truncation_strategy=custom_prompt_truncation_strategy,
+            custom_response_format=custom_response_format,
+            timeout=timeout,
+        )
+
+
+
+@dataclasses.dataclass(frozen=True)
+class ReadOnlyAssistant(BaseAssistant[RunTypeT, ThreadTypeT]):
+    """
+    Base class providing read-only access to Yandex AI Studio Assistant configuration and metadata.
+
+    This class implements the core interface for interacting with Yandex AI Studio Assistant API
+    in a read-only manner. It serves as the parent class for both synchronous (Assistant)
+    and asynchronous (AsyncAssistant) implementations.
+    """
+
+    #: The name of the assistant.
+    name: str | None
+    #: The description of the assistant.
+    description: str | None
+    #: The identifier of the user who created the assistant.
+    created_by: str
+    #: The timestamp when the assistant was created.
+    created_at: datetime
+    #: The identifier of the user who last updated the assistant.
+    updated_by: str
+    #: The timestamp when the assistant was last updated.
+    updated_at: datetime
+    #: The timestamp when the assistant will expire.
+    expires_at: datetime
+    #: Additional labels associated with the assistant.
+    labels: dict[str, str] | None
+
+@dataclasses.dataclass(frozen=True)
+class AssistantVersion:
+    """
+    Represents a specific version of an Assistant.
+    """
+    #: ID of the assistant version.
+    id: str
+    #: The assistant instance for this version.
+    assistant: ReadOnlyAssistant
+    #: Mask specifying which fields were updated in this version. Mask also have a custom JSON encoding
+    update_mask: tuple[str, ...]
+
+@doc_from(ReadOnlyAssistant)
+class AsyncAssistant(ReadOnlyAssistant[AsyncRun, AsyncThread]):
+    @doc_from(ReadOnlyAssistant._update)
+    async def update(
+        self,
+        *,
+        model: UndefinedOr[str | BaseGPTModel] = UNDEFINED,
+        temperature: UndefinedOr[float] = UNDEFINED,
+        max_tokens: UndefinedOr[int] = UNDEFINED,
+        instruction: UndefinedOr[str] = UNDEFINED,
+        max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
+        name: UndefinedOr[str] = UNDEFINED,
+        description: UndefinedOr[str] = UNDEFINED,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        tools: UndefinedOr[Iterable[BaseTool]] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
+        response_format: UndefinedOr[ResponseType] = UNDEFINED,
+        timeout: float = 60,
+    ) -> Self:
+        return await self._update(
+            model=model,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            instruction=instruction,
+            max_prompt_tokens=max_prompt_tokens,
+            prompt_truncation_strategy=prompt_truncation_strategy,
+            name=name,
+            description=description,
+            labels=labels,
+            ttl_days=ttl_days,
+            tools=tools,
+            expiration_policy=expiration_policy,
+            response_format=response_format,
+            timeout=timeout
+        )
+
+    @doc_from(ReadOnlyAssistant._delete)
+    async def delete(
+        self,
+        *,
+        timeout: float = 60,
+    ) -> None:
+        await self._delete(timeout=timeout)
+
+    @doc_from(ReadOnlyAssistant._list_versions)
+    async def list_versions(
+        self,
+        page_size: UndefinedOr[int] = UNDEFINED,
+        page_token: UndefinedOr[str] = UNDEFINED,
+        timeout: float = 60
+    ) -> AsyncIterator[AssistantVersion]:
+        async for version in self._list_versions(
+            page_size=page_size,
+            page_token=page_token,
+            timeout=timeout,
+        ):
+            yield version
+
+    @doc_from(ReadOnlyAssistant._run)
+    async def run(
+        self,
+        thread: str | AsyncThread,
+        *,
+        custom_temperature: UndefinedOr[float] = UNDEFINED,
+        custom_max_tokens: UndefinedOr[int] = UNDEFINED,
+        custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        custom_prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
+        custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
+        timeout: float = 60,
+    ) -> AsyncRun:
+        return await self._run(
+            thread=thread,
+            custom_temperature=custom_temperature,
+            custom_max_tokens=custom_max_tokens,
+            custom_max_prompt_tokens=custom_max_prompt_tokens,
+            custom_prompt_truncation_strategy=custom_prompt_truncation_strategy,
+            custom_response_format=custom_response_format,
+            timeout=timeout
+        )
+
+    @doc_from(ReadOnlyAssistant._run_stream)
+    async def run_stream(
+        self,
+        thread: str | AsyncThread,
+        *,
+        custom_temperature: UndefinedOr[float] = UNDEFINED,
+        custom_max_tokens: UndefinedOr[int] = UNDEFINED,
+        custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        custom_prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
+        custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
+        timeout: float = 60,
+    ) -> AsyncRun:
+        return await self._run_stream(
+            thread=thread,
+            custom_temperature=custom_temperature,
+            custom_max_tokens=custom_max_tokens,
+            custom_max_prompt_tokens=custom_max_prompt_tokens,
+            custom_prompt_truncation_strategy=custom_prompt_truncation_strategy,
+            custom_response_format=custom_response_format,
+            timeout=timeout
+        )
+
+@doc_from(ReadOnlyAssistant)
+class Assistant(ReadOnlyAssistant[Run, Thread]):
+    @doc_from(ReadOnlyAssistant._update)
+    def update(
+        self,
+        *,
+        model: UndefinedOr[str | BaseGPTModel] = UNDEFINED,
+        temperature: UndefinedOr[float] = UNDEFINED,
+        max_tokens: UndefinedOr[int] = UNDEFINED,
+        instruction: UndefinedOr[str] = UNDEFINED,
+        max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
+        name: UndefinedOr[str] = UNDEFINED,
+        description: UndefinedOr[str] = UNDEFINED,
+        labels: UndefinedOr[dict[str, str]] = UNDEFINED,
+        ttl_days: UndefinedOr[int] = UNDEFINED,
+        tools: UndefinedOr[Iterable[BaseTool]] = UNDEFINED,
+        expiration_policy: UndefinedOr[ExpirationPolicyAlias] = UNDEFINED,
+        response_format: UndefinedOr[ResponseType] = UNDEFINED,
+        timeout: float = 60,
+    ) -> Self:
+        return run_sync_impl(self._update(
+            model=model,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            instruction=instruction,
+            max_prompt_tokens=max_prompt_tokens,
+            prompt_truncation_strategy=prompt_truncation_strategy,
+            name=name,
+            description=description,
+            labels=labels,
+            ttl_days=ttl_days,
+            tools=tools,
+            expiration_policy=expiration_policy,
+            response_format=response_format,
+            timeout=timeout
+        ), self._sdk)
+
+    @doc_from(ReadOnlyAssistant._delete)
+    def delete(
+        self,
+        *,
+        timeout: float = 60,
+    ) -> None:
+        run_sync_impl(self._delete(timeout=timeout), self._sdk)
+
+    @doc_from(ReadOnlyAssistant._list_versions)
+    def list_versions(
+        self,
+        page_size: UndefinedOr[int] = UNDEFINED,
+        page_token: UndefinedOr[str] = UNDEFINED,
+        timeout: float = 60
+    ) -> Iterator[AssistantVersion]:
+        yield from run_sync_generator_impl(
+            self._list_versions(
+                page_size=page_size,
+                page_token=page_token,
+                timeout=timeout,
+            ),
+            self._sdk
+        )
+
+    @doc_from(ReadOnlyAssistant._run)
+    def run(
+        self,
+        thread: str | Thread,
+        *,
+        custom_temperature: UndefinedOr[float] = UNDEFINED,
+        custom_max_tokens: UndefinedOr[int] = UNDEFINED,
+        custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        custom_prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
+        custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
+        timeout: float = 60,
+    ) -> Run:
+        return run_sync_impl(self._run(
+            thread=thread,
+            custom_temperature=custom_temperature,
+            custom_max_tokens=custom_max_tokens,
+            custom_max_prompt_tokens=custom_max_prompt_tokens,
+            custom_prompt_truncation_strategy=custom_prompt_truncation_strategy,
+            custom_response_format=custom_response_format,
+            timeout=timeout
+        ), self._sdk)
+
+    @doc_from(ReadOnlyAssistant._run_stream)
+    def run_stream(
+        self,
+        thread: str | Thread,
+        *,
+        custom_temperature: UndefinedOr[float] = UNDEFINED,
+        custom_max_tokens: UndefinedOr[int] = UNDEFINED,
+        custom_max_prompt_tokens: UndefinedOr[int] = UNDEFINED,
+        custom_prompt_truncation_strategy: UndefinedOr[PromptTruncationStrategyType] = UNDEFINED,
+        custom_response_format: UndefinedOr[ResponseType] = UNDEFINED,
+        timeout: float = 60,
+    ) -> Run:
+        return run_sync_impl(self._run_stream(
+            thread=thread,
+            custom_temperature=custom_temperature,
+            custom_max_tokens=custom_max_tokens,
+            custom_max_prompt_tokens=custom_max_prompt_tokens,
+            custom_prompt_truncation_strategy=custom_prompt_truncation_strategy,
+            custom_response_format=custom_response_format,
+            timeout=timeout
+        ), self._sdk)
+
+
+AssistantTypeT = TypeVar('AssistantTypeT', bound=BaseAssistant)

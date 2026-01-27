@@ -5,11 +5,11 @@ from __future__ import annotations
 
 import asyncio
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk import AsyncAIStudio
 
 
 async def main() -> None:
-    sdk = AsyncYCloudML(folder_id='yc.fomo.storage.prod.service')
+    sdk = AsyncAIStudio(folder_id='yc.fomo.storage.prod.service')
     sdk.setup_default_logging()
 
     model = sdk.models.text_classifiers("yandexgpt").configure(

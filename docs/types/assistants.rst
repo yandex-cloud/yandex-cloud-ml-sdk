@@ -1,25 +1,25 @@
 Assistant types
 ---------------
 
-.. automodule:: yandex_cloud_ml_sdk._types.expiration
+.. automodule:: yandex_ai_studio_sdk._types.expiration
    :undoc-members:
    :exclude-members: ExpirationPolicyAlias
 
-.. autodata:: yandex_cloud_ml_sdk._types.expiration.ExpirationPolicyAlias
+.. autodata:: yandex_ai_studio_sdk._types.expiration.ExpirationPolicyAlias
 
-.. py:class:: yandex_cloud_ml_sdk._types.expiration.ExpirationPolicyAlias
+.. py:class:: yandex_ai_studio_sdk._types.expiration.ExpirationPolicyAlias
 
 
-.. automodule:: yandex_cloud_ml_sdk._assistants.prompt_truncation_options
+.. automodule:: yandex_ai_studio_sdk._assistants.prompt_truncation_options
    :undoc-members:
 
-.. autodata:: yandex_cloud_ml_sdk._assistants.prompt_truncation_options.PromptTruncationStrategyType
+.. autodata:: yandex_ai_studio_sdk._assistants.prompt_truncation_options.PromptTruncationStrategyType
 
-.. py:class:: yandex_cloud_ml_sdk._assistants.prompt_truncation_options.PromptTruncationStrategyType
+.. py:class:: yandex_ai_studio_sdk._assistants.prompt_truncation_options.PromptTruncationStrategyType
 
 
-.. autoclass:: yandex_cloud_ml_sdk._assistants.assistant.ReadOnlyAssistant
+.. autoclass:: yandex_ai_studio_sdk._assistants.assistant.ReadOnlyAssistant
    :undoc-members:
 
-.. autoclass:: yandex_cloud_ml_sdk._assistants.assistant.AssistantVersion
+.. autoclass:: yandex_ai_studio_sdk._assistants.assistant.AssistantVersion
    :undoc-members:

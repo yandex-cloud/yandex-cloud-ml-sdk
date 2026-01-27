@@ -6,14 +6,13 @@ import dataclasses
 import pytest
 from yandex.cloud.ai.assistants.v1.common_pb2 import Tool as ProtoAssistantsTool
 from yandex.cloud.ai.foundation_models.v1.text_common_pb2 import Tool as ProtoCompletionsTool
-
-from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk._tools.function import ParametersType
-from yandex_cloud_ml_sdk._tools.tool import FunctionTool
+from yandex_ai_studio_sdk import AsyncAIStudio
+from yandex_ai_studio_sdk._tools.function import ParametersType
+from yandex_ai_studio_sdk._tools.tool import FunctionTool
 
 
 @pytest.mark.require_env('pydantic')
-def test_pydantic_model_function_tool(async_sdk: AsyncYCloudML) -> None:
+def test_pydantic_model_function_tool(async_sdk: AsyncAIStudio) -> None:
     import pydantic
 
     etalon = FunctionTool(
@@ -54,7 +53,7 @@ def test_pydantic_model_function_tool(async_sdk: AsyncYCloudML) -> None:
 
 
 @pytest.mark.require_env('pydantic')
-def test_pydantic_dataclass_function_tool(async_sdk: AsyncYCloudML) -> None:
+def test_pydantic_dataclass_function_tool(async_sdk: AsyncAIStudio) -> None:
     import pydantic.dataclasses
 
     etalon = FunctionTool(
@@ -100,7 +99,7 @@ def test_pydantic_dataclass_function_tool(async_sdk: AsyncYCloudML) -> None:
     assert function_tool.description == 'otherd'
 
 
-def test_raw_json_function_tool(async_sdk: AsyncYCloudML) -> None:
+def test_raw_json_function_tool(async_sdk: AsyncAIStudio) -> None:
     etalon = FunctionTool(
         name="Function",
         description="function description",
@@ -130,7 +129,7 @@ def test_raw_json_function_tool(async_sdk: AsyncYCloudML) -> None:
     assert tool.description == etalon.description
 
 
-def test_bad_types(async_sdk: AsyncYCloudML) -> None:
+def test_bad_types(async_sdk: AsyncAIStudio) -> None:
     parameters: ParametersType = {
         "type": "object",
         "properties": {
@@ -151,7 +150,7 @@ def test_bad_types(async_sdk: AsyncYCloudML) -> None:
         async_sdk.tools.function([], name='foo')  # type: ignore[arg-type]
 
 
-def test_strict(async_sdk: AsyncYCloudML) -> None:
+def test_strict(async_sdk: AsyncAIStudio) -> None:
     tool = async_sdk.tools.function({}, name='foo')
 
     assistant_proto = tool._to_proto(ProtoAssistantsTool)

@@ -3,11 +3,11 @@ requires = ["flit"]
 build-backend = "flit.buildapi"
 
 [project]
-name =  "yandex-cloud-ml-sdk"
+name =  "yandex-ai-studio-sdk"
 authors = [
     {name = "Vladimir Lipkin", email = "lipkin@yandex-team.ru"},
 ]
-description = "Multimodal SDK for working with Yandex Cloud ML services"
+description = "Multimodal SDK for working with Yandex AI Studio services"
 readme = "README.md"
 license = {file = "LICENSE"}
 classifiers = [
@@ -61,11 +61,11 @@ datasets = [
 
 [project.urls]
 Documentation = "https://yandex.cloud/ru/docs/foundation-models/"
-Source = "https://github.com/yandex-cloud/yandex-cloud-ml-sdk"
-Tracker = "https://github.com/yandex-cloud/yandex-cloud-ml-sdk/issues"
+Source = "https://github.com/yandex-cloud/yandex-ai-studio-sdk"
+Tracker = "https://github.com/yandex-cloud/yandex-ai-studio-sdk/issues"
 
 [tool.flit.module]
-name = "yandex_cloud_ml_sdk"
+name = "yandex_ai_studio_sdk"
 
 [tool.bandit]
 exclude_dirs = ["build","dist","tests","scripts"]

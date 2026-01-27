@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from yandex_cloud_ml_sdk import YCloudML
+from yandex_ai_studio_sdk import AIStudio
 
 
 def clear():
@@ -11,7 +11,7 @@ def clear():
     print(chr(27) + "[2J")
 
 
-def get_model(sdk: YCloudML):
+def get_model(sdk: AIStudio):
     models = sdk.chat.completions.list()
     i = 0
     print('You have access to the following models:')
@@ -27,7 +27,7 @@ def main() -> None:
     # You can set authentication using environment variables instead of the 'auth' argument:
     # YC_OAUTH_TOKEN, YC_TOKEN, YC_IAM_TOKEN, or YC_API_KEY
     # You can also set 'folder_id' using the YC_FOLDER_ID environment variable
-    sdk = YCloudML(
+    sdk = AIStudio(
         # folder_id="<YC_FOLDER_ID>",
         # auth="<YC_API_KEY/YC_IAM_TOKEN>",
     )
@@ -59,7 +59,7 @@ def main() -> None:
     # There is very important difference between choice.text and
     # choice.delta:
     # * choice.text contains a constantly increasing PREFIX of generated text,
-    #   like in other parts of yandex-cloud-ml-sdk
+    #   like in other parts of yandex-ai-studio-sdk
     # * choice.delta contains only newly generated text delta in openai-streaming style
     clear()
     print(f"{request}:")
@@ -80,7 +80,7 @@ def main() -> None:
 
     assert chunk.finish_reason.name == 'LENGTH'
     # status field is a synonym for finish_reason, but with names consistent with
-    # another parts of yandex_cloud_ml_sdk
+    # another parts of yandex_ai_studio_sdk
     assert chunk.status.name == 'TRUNCATED_FINAL'
 
 

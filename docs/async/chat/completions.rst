@@ -1,10 +1,10 @@
 Domain
 ------
 
-.. autoclass:: yandex_cloud_ml_sdk._chat.completions.function.AsyncChatCompletions
+.. autoclass:: yandex_ai_studio_sdk._chat.completions.function.AsyncChatCompletions
 
 Model
 -----
 
-.. autoclass:: yandex_cloud_ml_sdk._chat.completions.model.AsyncChatModel
+.. autoclass:: yandex_ai_studio_sdk._chat.completions.model.AsyncChatModel
    :undoc-members:

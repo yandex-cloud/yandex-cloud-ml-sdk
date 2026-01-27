@@ -1,0 +1,48 @@
+interactions:
+- request:
+    body: '{"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest","messages":[{"role":"user","content":"collect
+      all numbers from: 5, 4, a, 1"}],"stream":false,"temperature":0,"response_format":{"type":"json_schema","json_schema":{"schema":{"properties":{"numbers":{"items":{"type":"integer"},"title":"Numbers","type":"array"}},"required":["numbers"],"title":"Numbers","type":"object"},"name":"Numbers","strict":true}}}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate, zstd
+      connection:
+      - keep-alive
+      content-length:
+      - '407'
+      content-type:
+      - application/json
+      host:
+      - llm.api.cloud.yandex.net
+      user-agent:
+      - yandex-cloud-ml-sdk/0.15.0 python/3.12
+      x-client-request-id:
+      - c5256f32-f42a-49d6-86f6-3684fde3e303
+    method: POST
+    uri: https://llm.api.cloud.yandex.net/v1/chat/completions
+  response:
+    body:
+      string: '{"id":"56a7bf36-76cf-4c98-9496-e957014a6478","object":"chat.completion","created":1758047632,"model":"gpt://b1ghsjum2v37c2un8h64/yandexgpt/latest","choices":[{"index":0,"message":{"role":"assistant","content":"{\"numbers\":
+        [5, 4, 1]}"},"finish_reason":"stop"}],"usage":{"prompt_tokens":25,"total_tokens":37,"completion_tokens":12}}
+
+        '
+    headers:
+      content-length:
+      - '333'
+      content-type:
+      - application/json
+      date:
+      - Tue, 16 Sep 2025 18:33:52 GMT
+      server:
+      - ycalb
+      x-client-request-id:
+      - c5256f32-f42a-49d6-86f6-3684fde3e303
+      x-request-id:
+      - 3bd83819-c82b-417f-912e-566a9a4a9cd1
+      x-server-trace-id:
+      - 19fc24cf8173bff3:e87ab885cc475353:19fc24cf8173bff3:1
+    status:
+      code: 200
+      message: OK
+version: 1

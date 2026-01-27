@@ -1,4 +1,4 @@
 GRPC Client
 ===========
 
-.. automodule:: yandex_cloud_ml_sdk._client
+.. automodule:: yandex_ai_studio_sdk._client

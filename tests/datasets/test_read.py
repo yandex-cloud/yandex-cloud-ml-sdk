@@ -13,9 +13,8 @@ import pyarrow.parquet as pq
 import pytest
 from pytest_httpx import HTTPXMock
 from yandex.cloud.ai.dataset.v1.dataset_pb2 import DatasetInfo
-
-from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk._datasets.dataset import AsyncDataset
+from yandex_ai_studio_sdk import AsyncAIStudio
+from yandex_ai_studio_sdk._datasets.dataset import AsyncDataset
 
 pytestmark = [pytest.mark.asyncio, pytest.mark.require_env('pyarrow')]
 
@@ -39,7 +38,7 @@ def mock_dataset(mocker) -> AsyncDataset:
 
 @pytest.mark.allow_grpc
 @pytest.mark.vcr
-async def test_simple_read(async_sdk: AsyncYCloudML, completions_jsonlines: Path) -> None:
+async def test_simple_read(async_sdk: AsyncAIStudio, completions_jsonlines: Path) -> None:
     name = uuid.uuid4()
     dataset_draft = async_sdk.datasets.completions.draft_from_path(
         completions_jsonlines,

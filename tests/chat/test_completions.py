@@ -7,12 +7,11 @@ from typing import cast
 
 import httpx._client
 import pytest
-
-from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk._chat.completions.result import AlternativeStatus, FinishReason
-from yandex_cloud_ml_sdk._types.misc import UNDEFINED
-from yandex_cloud_ml_sdk._types.tools.function import FunctionDictType
-from yandex_cloud_ml_sdk._types.tools.tool_choice import ToolChoiceType
+from yandex_ai_studio_sdk import AsyncAIStudio
+from yandex_ai_studio_sdk._chat.completions.result import AlternativeStatus, FinishReason
+from yandex_ai_studio_sdk._types.misc import UNDEFINED
+from yandex_ai_studio_sdk._types.tools.function import FunctionDictType
+from yandex_ai_studio_sdk._types.tools.tool_choice import ToolChoiceType
 
 pytestmark = [pytest.mark.asyncio, pytest.mark.vcr]
 
@@ -226,7 +225,7 @@ async def test_structured_output_json_schema(async_sdk):
     assert json.loads(result.text) == {'numbers': [5, 4, 1]}
 
 
-async def test_function_call(async_sdk: AsyncYCloudML, tool) -> None:
+async def test_function_call(async_sdk: AsyncAIStudio, tool) -> None:
     model = async_sdk.chat.completions('yandexgpt')
     model = model.configure(tools=tool)
 
@@ -256,7 +255,7 @@ async def test_function_call(async_sdk: AsyncYCloudML, tool) -> None:
 
 
 @pytest.mark.xfail(reason="parallel_tool_calls is not working with openai api right now")
-async def test_parallel_function_call(async_sdk: AsyncYCloudML, tool, schema) -> None:
+async def test_parallel_function_call(async_sdk: AsyncAIStudio, tool, schema) -> None:
     # pylint: disable=too-many-locals
     tool2 = async_sdk.tools.function(
         schema,  # type: ignore[arg-type]
@@ -313,7 +312,7 @@ async def test_parallel_function_call(async_sdk: AsyncYCloudML, tool, schema) ->
 
 
 @pytest.mark.xfail(reason="parallel_tool_calls is not working with openai api right now")
-async def test_tool_choice(async_sdk: AsyncYCloudML, tool, schema) -> None:
+async def test_tool_choice(async_sdk: AsyncAIStudio, tool, schema) -> None:
     tool2 = async_sdk.tools.function(
         schema,  # type: ignore[arg-type]
         name='something_else',
@@ -359,7 +358,7 @@ async def test_tool_choice(async_sdk: AsyncYCloudML, tool, schema) -> None:
     assert result.status.name == 'TOOL_CALLS'
 
 
-async def test_multimodal(async_sdk: AsyncYCloudML) -> None:
+async def test_multimodal(async_sdk: AsyncAIStudio) -> None:
     model = async_sdk.chat.completions('gemma-3-27b-it')
     image_path = pathlib.Path(__file__).parent / 'example.png'
     image_data = image_path.read_bytes()
@@ -386,7 +385,7 @@ async def test_multimodal(async_sdk: AsyncYCloudML) -> None:
     assert 'complex' in result.text
 
 
-async def test_extra_query(async_sdk: AsyncYCloudML, monkeypatch) -> None:
+async def test_extra_query(async_sdk: AsyncAIStudio, monkeypatch) -> None:
     top_k = None
 
     original = httpx._client.AsyncClient.request
@@ -414,7 +413,7 @@ async def test_extra_query(async_sdk: AsyncYCloudML, monkeypatch) -> None:
     "model_name",
     ['yandexgpt', 'gemma-3-27b-it', 'llama', 'qwen3-235b-a22b-fp8']
 )
-async def test_stream_function_call(async_sdk: AsyncYCloudML, model_name) -> None:
+async def test_stream_function_call(async_sdk: AsyncAIStudio, model_name) -> None:
     calculator_tool = async_sdk.tools.function(
         name="calculator",
         description=(

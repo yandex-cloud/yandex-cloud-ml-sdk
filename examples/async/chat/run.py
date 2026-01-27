@@ -5,10 +5,10 @@ from __future__ import annotations
 import asyncio
 import pprint
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
+from yandex_ai_studio_sdk import AsyncAIStudio
 
 
-async def get_model(sdk: AsyncYCloudML):
+async def get_model(sdk: AsyncAIStudio):
     models = await sdk.chat.completions.list()
     i = 0
     print('You have access to the following models:')
@@ -24,7 +24,7 @@ async def main() -> None:
     # You can set authentication using environment variables instead of the 'auth' argument:
     # YC_OAUTH_TOKEN, YC_TOKEN, YC_IAM_TOKEN, or YC_API_KEY
     # You can also set 'folder_id' using the YC_FOLDER_ID environment variable
-    sdk = AsyncYCloudML(
+    sdk = AsyncAIStudio(
         # folder_id="<YC_FOLDER_ID>",
         # auth="<YC_API_KEY/YC_IAM_TOKEN>",
     )
@@ -55,7 +55,7 @@ async def main() -> None:
     result = await model.run(request)
     assert result.finish_reason.name == 'LENGTH'
     # status field is a synonym for finish_reason, but with names consistent with
-    # another parts ofr yandex_cloud_ml_sdk
+    # another parts ofr yandex_ai_studio_sdk
     assert result.status.name == 'TRUNCATED_FINAL'
 
 

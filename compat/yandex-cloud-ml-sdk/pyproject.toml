@@ -1,0 +1,294 @@
+[build-system]
+requires = ["flit"]
+build-backend = "flit.buildapi"
+
+[project]
+name =  "yandex-cloud-ml-sdk"
+authors = [
+    {name = "Vladimir Lipkin", email = "lipkin@yandex-team.ru"},
+]
+description = "Multimodal SDK for working with Yandex Cloud ML services"
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = [
+    "Typing :: Typed",
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent",
+    "Operating System :: POSIX",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Development Status :: 7 - Inactive",
+]
+requires-python = ">=3.9"
+dynamic = ["version"]
+dependencies = [
+    "yandex-ai-studio-sdk>=0.19"
+]
+
+[project.optional-dependencies]
+test = [
+    "pre-commit",
+    "tox",
+]
+langchain = [
+    "langchain-core>=0.3",
+    "pydantic<2.10"
+]
+pydantic = [
+    "pydantic>2",
+]
+datasets = [
+    "pyarrow>=19"
+]
+
+[project.urls]
+Documentation = "https://yandex.cloud/ru/docs/foundation-models/"
+Source = "https://github.com/yandex-cloud/yandex-ai-studio-sdk"
+Tracker = "https://github.com/yandex-cloud/yandex-ai-studio-sdk/issues"
+
+[tool.flit.module]
+name = "yandex_cloud_ml_sdk"
+
+[tool.bandit]
+exclude_dirs = ["build","dist","tests","scripts"]
+number = 4
+recursive = true
+targets = "src"
+
+[tool.black]
+line-length = 120
+
+[tool.isort]
+use_parentheses = true
+multi_line_output = 5
+line_length = 120
+
+[tool.flake8]
+max-line-length = 120
+select = "F,E,W,B,B901,B902,B903"
+exclude = [
+    ".eggs",
+    ".git",
+    ".tox",
+]
+ignore = [
+    "E722",
+    "B001",
+    "W503",
+    "E203"
+]
+
+[tool.pytest.ini_options]
+pythonpath = [
+  "src"
+]
+testpaths = "tests"
+asyncio_default_fixture_loop_scope = "function"
+filterwarnings = [
+    "ignore::DeprecationWarning:pytest_pylint"
+]
+addopts = [
+    "--import-mode=importlib",
+]
+
+[tool.pylint]
+ignore="CVS"
+init-hook='import sys; sys.setrecursionlimit(8 * sys.getrecursionlimit())'
+jobs=0
+limit-inference-results=100
+persistent="yes"
+unsafe-load-any-extension="no"
+disable = [
+    'missing-module-docstring',
+    'too-few-public-methods',
+    'fixme',
+    'missing-class-docstring',  # TMP
+    'missing-function-docstring',  # TMP
+    'duplicate-code',  # TMP
+]
+load-plugins = [
+    'pylint_protobuf'
+]
+
+[tool.pylint.'MESSAGES CONTROL']
+enable="c-extension-no-member"
+
+[tool.pylint.'REPORTS']
+evaluation="10.0 - ((float(5 * error + warning + refactor + convention) / statement) * 10)"
+output-format="text"
+reports="no"
+score="yes"
+
+[tool.pylint.'REFACTORING']
+max-nested-blocks=5
+never-returning-functions="sys.exit"
+
+[tool.pylint.'BASIC']
+argument-naming-style="snake_case"
+attr-naming-style="snake_case"
+bad-names= [
+    "foo",
+    "bar"
+]
+class-attribute-naming-style="any"
+class-naming-style="PascalCase"
+const-naming-style="UPPER_CASE"
+docstring-min-length=-1
+function-naming-style="snake_case"
+good-names= [
+    "i",
+    "j",
+    "k",
+    "ex",
+    "Run",
+    "_"
+]
+include-naming-hint="yes"
+inlinevar-naming-style="any"
+method-naming-style="snake_case"
+module-naming-style="any"
+no-docstring-rgx="^_"
+property-classes="abc.abstractproperty"
+variable-naming-style="snake_case"
+
+[tool.pylint.'FORMAT']
+ignore-long-lines="^\\s*(# )?.*['\"]?<?https?://\\S+>?"
+indent-after-paren=4
+indent-string='    '
+max-line-length=120
+max-module-lines=1000
+single-line-class-stmt="no"
+single-line-if-stmt="no"
+
+[tool.pylint.'LOGGING']
+logging-format-style="old"
+logging-modules="logging"
+
+notes= [
+    "FIXME",
+    "XXX",
+    "TODO"
+]
+
+[tool.pylint.'SIMILARITIES']
+ignore-comments="yes"
+ignore-docstrings="yes"
+ignore-imports="yes"
+min-similarity-lines=10
+
+[tool.pylint.'SPELLING']
+max-spelling-suggestions=4
+spelling-store-unknown-words="no"
+
+[tool.pylint.'STRING']
+check-str-concat-over-line-jumps="no"
+
+[tool.pylint.'TYPECHECK']
+contextmanager-decorators="contextlib.contextmanager"
+generated-members="numpy.*,np.*,pyspark.sql.functions,collect_list"
+ignore-none="yes"
+ignore-on-opaque-inference="yes"
+ignored-classes="optparse.Values,thread._local,_thread._local,numpy,torch,swagger_client"
+ignored-modules="numpy,torch,swagger_client,netCDF4,scipy"
+missing-member-hint="yes"
+missing-member-hint-distance=1
+missing-member-max-choices=1
+
+[tool.pylint.'VARIABLES']
+additional-builtins="dbutils"
+allow-global-unused-variables="yes"
+callbacks= [
+    "cb_",
+    "_cb"
+]
+dummy-variables-rgx="_+$|(_[a-zA-Z0-9_]*[a-zA-Z0-9]+?$)|dummy|^ignored_|^unused_"
+ignored-argument-names="_.*|^ignored_|^unused_"
+init-import="no"
+redefining-builtins-modules="six.moves,past.builtins,future.builtins,builtins,io"
+
+[tool.pylint.'CLASSES']
+defining-attr-methods= [
+    "__init__",
+    "__new__",
+    "setUp",
+    "__post_init__"
+]
+exclude-protected=[
+    "_asdict",
+    "_fields",
+    "_replace",
+    "_source",
+    "_make",
+    "_client",
+    "_sdk",
+    "_folder_id",
+    "_from_proto",
+    "_from_json",
+    "_from_xml",
+    "_from_upper_proto",
+    "_to_proto",
+    "_result_type",
+    "_proto_result_type",
+    "_proto_field_name",
+    "_coerce",
+    "_coerce_to_str",
+    "_validate_configure",
+    "_validate_run",
+    "_canonize",
+]
+valid-classmethod-first-arg="cls"
+valid-metaclass-classmethod-first-arg="cls"
+
+[tool.pylint.'DESIGN']
+max-args=17
+max-attributes=15
+max-bool-expr=5
+max-branches=12
+max-locals=15
+max-parents=8
+max-public-methods=20
+max-returns=6
+max-statements=50
+min-public-methods=2
+max-positional-arguments=7
+
+[tool.pylint.'IMPORTS']
+allow-wildcard-with-all="no"
+analyse-fallback-blocks="no"
+deprecated-modules="optparse,tkinter.tix"
+
+[tool.pylint.'EXCEPTIONS']
+overgeneral-exceptions= [
+    "builtins.BaseException",
+    "builtins.Exception"
+]
+
+[[tool.mypy.overrides]]
+module = [
+    "get_annotations",
+    "langchain_core",
+    "langchain_core.callbacks",
+    "langchain_core.callbacks.manager",
+    "langchain_core.language_models.base",
+    "langchain_core.language_models.chat_models",
+    "langchain_core.messages",
+    "langchain_core.messages.ai",
+    "langchain_core.outputs",
+    "pydantic",
+    "scipy.spatial.distance",
+    "traitlets.utils.warnings",
+    "sounddevice",
+]
+ignore_missing_imports = true

@@ -1,4 +1,4 @@
-# pylint: disable=no-name-in-module
+# pylint: disable=no-name-in-module,import-outside-toplevel
 from __future__ import annotations
 
 import asyncio
@@ -20,13 +20,11 @@ from yandex.cloud.ai.foundation_models.v1.text_generation.text_generation_servic
 )
 from yandex.cloud.endpoint.api_endpoint_service_pb2 import ListApiEndpointsRequest, ListApiEndpointsResponse
 from yandex.cloud.endpoint.api_endpoint_service_pb2_grpc import ApiEndpointServiceStub
-
-import yandex_cloud_ml_sdk._client
-from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk._client import AsyncCloudClient, _get_user_agent
-from yandex_cloud_ml_sdk._types.misc import UNDEFINED
-from yandex_cloud_ml_sdk.auth import NoAuth
-from yandex_cloud_ml_sdk.exceptions import AioRpcError, UnknownEndpointError
+from yandex_ai_studio_sdk import AsyncAIStudio
+from yandex_ai_studio_sdk._client import AsyncCloudClient, _get_user_agent
+from yandex_ai_studio_sdk._types.misc import UNDEFINED
+from yandex_ai_studio_sdk.auth import NoAuth
+from yandex_ai_studio_sdk.exceptions import AioRpcError, UnknownEndpointError
 
 
 class NewChannelException(Exception):
@@ -72,7 +70,7 @@ def fixture_servicers():
 @pytest.mark.require_env('internet')
 @pytest.mark.asyncio
 async def test_multiple_requests(folder_id):
-    async_sdk = AsyncYCloudML(folder_id=folder_id)
+    async_sdk = AsyncAIStudio(folder_id=folder_id)
     test_client = async_sdk._client
 
     stubs = []
@@ -102,12 +100,14 @@ async def test_multiple_requests(folder_id):
 
 @pytest.fixture(name='forbid_grpc_call')
 def forbid_grpc_call_fixure(monkeypatch):
+    import yandex_ai_studio_sdk._client
+
     def raise_(*args, **kwargs):
         endpoint = args[1] if len(args) > 1 else kwargs['endpoint']
 
         raise NewChannelException(endpoint)
 
-    monkeypatch.setattr(yandex_cloud_ml_sdk._client.AsyncCloudClient, '_new_channel', raise_)
+    monkeypatch.setattr(yandex_ai_studio_sdk._client.AsyncCloudClient, '_new_channel', raise_)
 
 
 @pytest.mark.asyncio
@@ -231,18 +231,18 @@ async def test_x_data_logging(interceptors, retry_policy):
 
 @pytest.mark.asyncio
 async def test_channel_credentials(folder_id):
-    sdk = AsyncYCloudML(folder_id=folder_id)
+    sdk = AsyncAIStudio(folder_id=folder_id)
     assert sdk._client._verify is True
     sdk._client._new_channel('foo')
 
     path = certifi.where()
-    sdk = AsyncYCloudML(folder_id=folder_id, verify=path)
+    sdk = AsyncAIStudio(folder_id=folder_id, verify=path)
     assert sdk._client._verify is path
     sdk._client._new_channel('foo')
 
     # this test checks if passed grpc_credentials is really used in
     # channel creation
-    sdk = AsyncYCloudML(folder_id=folder_id, verify=1)
+    sdk = AsyncAIStudio(folder_id=folder_id, verify=1)
     with pytest.raises(TypeError):
         sdk._client._new_channel('foo')
 
@@ -264,7 +264,7 @@ async def test_httpx_credentials(folder_id, monkeypatch):
     # I coulnd't improvise any other easy way to make sure our cert is actually passing to
     # httpx at the moment
     monkeypatch.setattr(httpx._transports.default, 'create_ssl_context', create_ssl_context)
-    sdk = AsyncYCloudML(folder_id=folder_id, verify=path)
+    sdk = AsyncAIStudio(folder_id=folder_id, verify=path)
     async with sdk._client.httpx(timeout=10, auth=False) as client:
         assert client
         assert called
@@ -272,6 +272,8 @@ async def test_httpx_credentials(folder_id, monkeypatch):
 
 @pytest.mark.asyncio
 async def test_grpc_base_exception(async_sdk, monkeypatch, test_server):
+    import yandex_ai_studio_sdk._client
+
     result = await async_sdk.models.completions('foo').tokenize("bar")
     assert result
 
@@ -284,7 +286,7 @@ async def test_grpc_base_exception(async_sdk, monkeypatch, test_server):
             debug_error_string="some debug"
         )
 
-    monkeypatch.setattr(yandex_cloud_ml_sdk._client.AsyncCloudClient, 'call_service', raise_call_service)
+    monkeypatch.setattr(yandex_ai_studio_sdk._client.AsyncCloudClient, 'call_service', raise_call_service)
 
     with pytest.raises(AioRpcError) as exc_info:
         await async_sdk.models.completions('foo').tokenize("bar")
@@ -301,6 +303,8 @@ async def test_grpc_base_exception(async_sdk, monkeypatch, test_server):
 
 @pytest.mark.asyncio
 async def test_grpc_unauth_exception(async_sdk, monkeypatch, auth):
+    import yandex_ai_studio_sdk._client
+
     result = await async_sdk.models.completions('foo').tokenize("bar")
     assert result
 
@@ -313,7 +317,7 @@ async def test_grpc_unauth_exception(async_sdk, monkeypatch, auth):
             debug_error_string="some debug"
         )
 
-    monkeypatch.setattr(yandex_cloud_ml_sdk._client.AsyncCloudClient, 'call_service', raise_call_service_unauth)
+    monkeypatch.setattr(yandex_ai_studio_sdk._client.AsyncCloudClient, 'call_service', raise_call_service_unauth)
 
     with pytest.raises(AioRpcError) as exc_info:
         await async_sdk.models.completions('foo').tokenize("bar")
@@ -326,6 +330,8 @@ async def test_grpc_unauth_exception(async_sdk, monkeypatch, auth):
 
 @pytest.mark.asyncio
 async def test_grpc_request_id_in_initial_metadata_exception(async_sdk, monkeypatch):
+    import yandex_ai_studio_sdk._client
+
     def raise_call_service_initial(*args, **kwargs):
         raise grpc.aio.AioRpcError(
             code=grpc.StatusCode.INTERNAL,
@@ -335,7 +341,7 @@ async def test_grpc_request_id_in_initial_metadata_exception(async_sdk, monkeypa
             debug_error_string="some debug"
         )
 
-    monkeypatch.setattr(yandex_cloud_ml_sdk._client.AsyncCloudClient, 'call_service', raise_call_service_initial)
+    monkeypatch.setattr(yandex_ai_studio_sdk._client.AsyncCloudClient, 'call_service', raise_call_service_initial)
 
     with pytest.raises(AioRpcError) as exc_info:
         await async_sdk.models.completions('foo').tokenize("bar")
@@ -348,6 +354,8 @@ async def test_grpc_request_id_in_initial_metadata_exception(async_sdk, monkeypa
 
 @pytest.mark.asyncio
 async def test_grpc_request_id_in_trailing_metadata_exception(async_sdk, monkeypatch):
+    import yandex_ai_studio_sdk._client
+
     def raise_call_service_trailing(*args, **kwargs):
         raise grpc.aio.AioRpcError(
             code=grpc.StatusCode.INTERNAL,
@@ -357,7 +365,7 @@ async def test_grpc_request_id_in_trailing_metadata_exception(async_sdk, monkeyp
             debug_error_string="some debug"
         )
 
-    monkeypatch.setattr(yandex_cloud_ml_sdk._client.AsyncCloudClient, 'call_service', raise_call_service_trailing)
+    monkeypatch.setattr(yandex_ai_studio_sdk._client.AsyncCloudClient, 'call_service', raise_call_service_trailing)
 
     with pytest.raises(AioRpcError) as exc_info:
         await async_sdk.models.completions('foo').tokenize("bar")
@@ -370,6 +378,8 @@ async def test_grpc_request_id_in_trailing_metadata_exception(async_sdk, monkeyp
 
 @pytest.mark.asyncio
 async def test_grpc_request_id_wrong_metadata_exception(async_sdk, monkeypatch):
+    import yandex_ai_studio_sdk._client
+
     def raise_call_service_wrong(*args, **kwargs):
         raise grpc.aio.AioRpcError(
             code=grpc.StatusCode.INTERNAL,
@@ -379,7 +389,7 @@ async def test_grpc_request_id_wrong_metadata_exception(async_sdk, monkeypatch):
             debug_error_string="some debug"
         )
 
-    monkeypatch.setattr(yandex_cloud_ml_sdk._client.AsyncCloudClient, 'call_service', raise_call_service_wrong)
+    monkeypatch.setattr(yandex_ai_studio_sdk._client.AsyncCloudClient, 'call_service', raise_call_service_wrong)
 
     with pytest.raises(AioRpcError) as exc_info:
         await async_sdk.models.completions('foo').tokenize("bar")
@@ -394,7 +404,7 @@ async def test_grpc_request_id_wrong_metadata_exception(async_sdk, monkeypatch):
 @pytest.mark.asyncio
 @pytest.mark.parametrize('endpoint', [None, UNDEFINED])
 async def test_client_custom_map(folder_id, forbid_grpc_call, endpoint) -> None:
-    sdk = AsyncYCloudML(
+    sdk = AsyncAIStudio(
         folder_id=folder_id,
         endpoint=endpoint,
         service_map={'ai-foundation-models': 'ya.ru'}
@@ -414,7 +424,7 @@ async def test_client_custom_map(folder_id, forbid_grpc_call, endpoint) -> None:
 
 @pytest.mark.asyncio
 async def test_client_endpoint(folder_id, forbid_grpc_call) -> None:
-    sdk = AsyncYCloudML(
+    sdk = AsyncAIStudio(
         folder_id=folder_id,
         endpoint=None,
     )
@@ -425,7 +435,7 @@ async def test_client_endpoint(folder_id, forbid_grpc_call) -> None:
     ):
         await sdk.files.get('123')
 
-    sdk = AsyncYCloudML(folder_id=folder_id, endpoint="yandex.cloud:999")
+    sdk = AsyncAIStudio(folder_id=folder_id, endpoint="yandex.cloud:999")
     with pytest.raises(
         NewChannelException,
         match='yandex.cloud:999'

@@ -4,9 +4,8 @@ from __future__ import annotations
 from typing import Any
 
 import pytest
-
-from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk.assistants import AutoPromptTruncationStrategy, LastMessagesPromptTruncationStrategy
+from yandex_ai_studio_sdk import AsyncAIStudio
+from yandex_ai_studio_sdk.assistants import AutoPromptTruncationStrategy, LastMessagesPromptTruncationStrategy
 
 pytestmark = pytest.mark.asyncio
 
@@ -32,7 +31,7 @@ def tool_fixture(async_sdk):
 
 
 @pytest.mark.allow_grpc
-async def test_assistant_common(async_sdk: AsyncYCloudML, tool):
+async def test_assistant_common(async_sdk: AsyncAIStudio, tool):
     assistant = await async_sdk.assistants.create('yandexgpt')
     assistants = [assistant]
 

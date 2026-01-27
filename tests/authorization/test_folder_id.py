@@ -1,11 +1,10 @@
 from __future__ import annotations
 
 import pytest
+from yandex_ai_studio_sdk import AIStudio, AsyncAIStudio
 
-from yandex_cloud_ml_sdk import AsyncYCloudML, YCloudML
 
-
-@pytest.mark.parametrize("sdk_class", [YCloudML, AsyncYCloudML])
+@pytest.mark.parametrize("sdk_class", [AIStudio, AsyncAIStudio])
 def test_folder_id_from_env(monkeypatch, sdk_class, auth, interceptors, retry_policy):
     monkeypatch.setenv("YC_FOLDER_ID", "test-folder-id")
     sdk = sdk_class(
@@ -15,7 +14,7 @@ def test_folder_id_from_env(monkeypatch, sdk_class, auth, interceptors, retry_po
     )
     assert sdk._folder_id == "test-folder-id"
 
-@pytest.mark.parametrize("sdk_class", [YCloudML, AsyncYCloudML])
+@pytest.mark.parametrize("sdk_class", [AIStudio, AsyncAIStudio])
 def test_folder_id_missing_raises_error(sdk_class, auth, interceptors, retry_policy):
     with pytest.raises(ValueError) as exc_info:
         sdk_class(

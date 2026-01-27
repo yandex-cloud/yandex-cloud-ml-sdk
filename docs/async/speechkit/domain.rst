@@ -1,7 +1,7 @@
 SpheechKit domain
 =================
 
-.. autoclass:: yandex_cloud_ml_sdk._speechkit.domain.AsyncSpeechKitDomain
+.. autoclass:: yandex_ai_studio_sdk._speechkit.domain.AsyncSpeechKitDomain
    :undoc-members:
 
 .. toctree::

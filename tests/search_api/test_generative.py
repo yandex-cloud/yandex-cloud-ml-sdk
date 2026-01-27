@@ -1,16 +1,15 @@
 from __future__ import annotations
 
 import pytest
-
-from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk._models.completions.result import Alternative, GPTModelResult
-from yandex_cloud_ml_sdk._search_api.generative.message import GenSearchMessage, messages_to_proto
-from yandex_cloud_ml_sdk._search_api.generative.result import GenerativeSearchResult
-from yandex_cloud_ml_sdk.exceptions import YCloudMLConfigurationError
+from yandex_ai_studio_sdk import AsyncAIStudio
+from yandex_ai_studio_sdk._models.completions.result import Alternative, GPTModelResult
+from yandex_ai_studio_sdk._search_api.generative.message import GenSearchMessage, messages_to_proto
+from yandex_ai_studio_sdk._search_api.generative.result import GenerativeSearchResult
+from yandex_ai_studio_sdk.exceptions import AIStudioConfigurationError
 
 
 @pytest.mark.asyncio
-async def test_generative_settings(async_sdk: AsyncYCloudML) -> None:
+async def test_generative_settings(async_sdk: AsyncAIStudio) -> None:
     for field in ('host', 'site', 'url'):
         search = async_sdk.search_api.generative(**{field: 'foo'})  # type: ignore[arg-type]
         assert getattr(search.config, field) == ('foo', )
@@ -18,13 +17,13 @@ async def test_generative_settings(async_sdk: AsyncYCloudML) -> None:
         search = async_sdk.search_api.generative(**{field: ['foo', 'bar']})  # type: ignore[arg-type]
         assert getattr(search.config, field) == ('foo', 'bar')
 
-    with pytest.raises(YCloudMLConfigurationError):
+    with pytest.raises(AIStudioConfigurationError):
         async_sdk.search_api.generative(host='foo', site='bar')
 
     search = async_sdk.search_api.generative(host='foo')
     assert search.config.host == ('foo', )
     assert search.config.site is None
-    with pytest.raises(YCloudMLConfigurationError):
+    with pytest.raises(AIStudioConfigurationError):
         search.configure(site='bar')
 
     search = search.configure(site='bar', host=None)
@@ -35,7 +34,7 @@ async def test_generative_settings(async_sdk: AsyncYCloudML) -> None:
     assert search.config.site is None
     assert search.config.host is None
     assert search.config.url is None
-    with pytest.raises(YCloudMLConfigurationError):
+    with pytest.raises(AIStudioConfigurationError):
         await search.run('foo')
 
     with pytest.raises(TypeError):
@@ -43,7 +42,7 @@ async def test_generative_settings(async_sdk: AsyncYCloudML) -> None:
 
 
 @pytest.mark.asyncio
-async def test_generative_filters(async_sdk: AsyncYCloudML) -> None:
+async def test_generative_filters(async_sdk: AsyncAIStudio) -> None:
     for field in ('lang', 'format', 'date'):
         search = async_sdk.search_api.generative(search_filters={field: 'ods'})  # type: ignore[arg-type,misc]
         search2 = (
@@ -60,7 +59,7 @@ async def test_generative_filters(async_sdk: AsyncYCloudML) -> None:
         {'format': 'foo'},
         [['foo']]
     ):
-        with pytest.raises(YCloudMLConfigurationError):
+        with pytest.raises(AIStudioConfigurationError):
             async_sdk.search_api.generative(search_filters=bad_value)  # type: ignore[arg-type]
 
     for format_ in async_sdk.search_api.generative.available_formats:
@@ -168,7 +167,7 @@ def test_generative_messages_fail() -> None:
 
 @pytest.mark.asyncio
 @pytest.mark.allow_grpc
-async def test_search_simple_run(async_sdk: AsyncYCloudML) -> None:
+async def test_search_simple_run(async_sdk: AsyncAIStudio) -> None:
     search = async_sdk.search_api.generative(site='yandex.cloud')
 
     result = await search.run('Yandex DataLense')

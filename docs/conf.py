@@ -1,17 +1,16 @@
 from __future__ import annotations
 
+import yandex_ai_studio_sdk
+import yandex_ai_studio_sdk._sdk
 from sphinx.domains.python import PythonDomain
-
-import yandex_cloud_ml_sdk
-import yandex_cloud_ml_sdk._sdk
 
 # -- Project information -----------------------------------------------------
 
-project = 'yandex-cloud-ml-sdk'
+project = 'yandex-ai-studio-sdk'
 copyright = '2024, YANDEX LLC'  # pylint: disable=redefined-builtin
 author = 'Vladimir Lipkin'
-version = yandex_cloud_ml_sdk.__version__
-release = yandex_cloud_ml_sdk.__version__
+version = yandex_ai_studio_sdk.__version__
+release = yandex_ai_studio_sdk.__version__
 
 # -- General configuration ---------------------------------------------------
 
@@ -39,9 +38,9 @@ autodoc_default_options = {
 }
 autodoc_inherit_docstrings = True
 autodoc_type_aliases = {
-    'BaseSDK': 'yandex_cloud_ml_sdk._sdk.BaseSDK',
+    'BaseSDK': 'yandex_ai_studio_sdk._sdk.BaseSDK',
     'asyncio': 'asyncio',
-    'JsonArray': 'yandex_cloud_ml_sdk._types.schemas.JsonArray',
+    'JsonArray': 'yandex_ai_studio_sdk._types.schemas.JsonArray',
 }
 autodoc_member_order = 'bysource'
 autodoc_class_signature = 'separated'
@@ -64,17 +63,17 @@ nitpick_ignore = {
     ('py:class', 'TypeAliasForwardRef'),
     ('py:class', 'sphinx.util.inspect.TypeAliasForwardRef'),
     # This leaks from CloudClient and don't really makes any interest for user
-    ('py:class', 'yandex_cloud_ml_sdk._client._T'),
-    ('py:class', 'yandex_cloud_ml_sdk._client._D'),
+    ('py:class', 'yandex_ai_studio_sdk._client._T'),
+    ('py:class', 'yandex_ai_studio_sdk._client._D'),
     ('py:class', 'google.protobuf.message.Message'),
     ('py:class', 'httpx.AsyncClient'),
     ('py:class', 'httpx_sse._models.ServerSentEvent'),
     # It creates a ton of langchain refs I want to pass right now
-    ('py:class', 'yandex_cloud_ml_sdk._types.langchain.BaseYandexLanguageModel'),
+    ('py:class', 'yandex_ai_studio_sdk._types.langchain.BaseYandexLanguageModel'),
     ('py:class', 'BaseYandexLanguageModel'),
     # Json types documented as a py:data but some autodocs refs it with py:class
-    ('py:class', 'yandex_cloud_ml_sdk._types.schemas.JsonArray'),
-    ('py:class', "'yandex_cloud_ml_sdk._types.schemas.JsonArray'"),
+    ('py:class', 'yandex_ai_studio_sdk._types.schemas.JsonArray'),
+    ('py:class', "'yandex_ai_studio_sdk._types.schemas.JsonArray'"),
     ('py:class', 'JsonObject'),
     ('py:class', 'JsonArray'),
     ('py:class', 'JsonSchemaType'),
@@ -97,7 +96,7 @@ def setup(_):
     original_find_obj = PythonDomain.find_obj
 
     def patched_find_obj(self, env, modname, name, *args, **kwargs):
-        if modname.startswith('yandex_cloud_ml_sdk._retry'):
+        if modname.startswith('yandex_ai_studio_sdk._retry'):
             modname = modname.replace('_retry', 'retry')
         return original_find_obj(self, env, modname, name, *args, **kwargs)
 

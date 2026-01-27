@@ -1,16 +1,15 @@
 from __future__ import annotations
 
 import pytest
-
-from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk.search_api import (
+from yandex_ai_studio_sdk import AsyncAIStudio
+from yandex_ai_studio_sdk.search_api import (
     FamilyMode, FixTypoMode, ImageColor, ImageFormat, ImageOrientation, ImageSize, SearchType
 )
 
 
 @pytest.mark.asyncio
 @pytest.mark.allow_grpc
-async def test_image_search_simple_run(async_sdk: AsyncYCloudML) -> None:
+async def test_image_search_simple_run(async_sdk: AsyncAIStudio) -> None:
     search = async_sdk.search_api.image('ru')
 
     result = await search.run('yandex cloud')
@@ -23,7 +22,7 @@ async def test_image_search_simple_run(async_sdk: AsyncYCloudML) -> None:
 
 @pytest.mark.asyncio
 @pytest.mark.allow_grpc
-async def test_image_search_simple_raw_run(async_sdk: AsyncYCloudML) -> None:
+async def test_image_search_simple_raw_run(async_sdk: AsyncAIStudio) -> None:
     search = async_sdk.search_api.image('ru')
 
     result = await search.run('yandex cloud', format='xml')
@@ -31,7 +30,7 @@ async def test_image_search_simple_raw_run(async_sdk: AsyncYCloudML) -> None:
     assert result.startswith(b'<?xml')
 
 
-def test_image_search_settings(async_sdk: AsyncYCloudML) -> None:
+def test_image_search_settings(async_sdk: AsyncAIStudio) -> None:
     # pylint: disable=protected-access
     search = async_sdk.search_api.image('RU')
     assert search._config.search_type.name == 'RU'
@@ -67,7 +66,7 @@ def test_image_search_settings(async_sdk: AsyncYCloudML) -> None:
     assert search1._config == search2._config
 
 
-def test_image_search_validation(async_sdk: AsyncYCloudML) -> None:
+def test_image_search_validation(async_sdk: AsyncAIStudio) -> None:
     with pytest.raises(ValueError):
         async_sdk.search_api.image('FOO')
 

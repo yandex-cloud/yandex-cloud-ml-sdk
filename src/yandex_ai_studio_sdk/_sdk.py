@@ -1,0 +1,276 @@
+from __future__ import annotations
+
+import asyncio
+import inspect
+import os
+import threading
+from collections.abc import Sequence
+
+from get_annotations import get_annotations
+from grpc import aio
+from typing_extensions import Self
+from yandex_ai_studio_sdk._utils.doc import doc_from
+
+from ._assistants.domain import Assistants, AsyncAssistants, BaseAssistants
+from ._auth import BaseAuth
+from ._authorization import get_folder_id
+from ._batch.domain import AsyncBatch, BaseBatch, Batch
+from ._chat import AsyncChat, BaseChat, Chat
+from ._client import AsyncCloudClient
+from ._datasets.domain import AsyncDatasets, BaseDatasets, Datasets
+from ._files.domain import AsyncFiles, BaseFiles, Files
+from ._logging import DEFAULT_DATE_FORMAT, DEFAULT_LOG_FORMAT, DEFAULT_LOG_LEVEL, LogLevel
+from ._logging.utils import setup_default_logging_impl
+from ._messages.domain import AsyncMessages, BaseMessages, Messages
+from ._models import AsyncModels, BaseModels, Models
+from ._retry import RetryPolicy
+from ._runs.domain import AsyncRuns, BaseRuns, Runs
+from ._search_api.domain import AsyncSearchAPIDomain, BaseSearchAPIDomain, SearchAPIDomain
+from ._search_indexes.domain import AsyncSearchIndexes, BaseSearchIndexes, SearchIndexes
+from ._speechkit.domain import AsyncSpeechKitDomain, BaseSpeechKitDomain, SpeechKitDomain
+from ._threads.domain import AsyncThreads, BaseThreads, Threads
+from ._tools.domain import AsyncTools, BaseTools, Tools
+from ._tuning.domain import AsyncTuning, BaseTuning, Tuning
+from ._types.domain import BaseDomain
+from ._types.misc import UNDEFINED, PathLike, UndefinedOr, get_defined_value, is_defined
+
+
+class BaseSDK:
+    """The main class that needs to be instantiated to work with SDK."""
+    #: Domain for creating various tools for assistants and function calling
+    tools: BaseTools
+    #: Domain for working with models (inference and tuning)
+    models: BaseModels
+    #: Domain for working with threads (a part of the Assistants API)
+    threads: BaseThreads
+    #: Domain for working with files (a part of the Asssistants API)
+    files: BaseFiles
+    #: Domain for working with assistants (a part of the Assistants API)
+    assistants: BaseAssistants
+    #: Domain for working with assistants' runs (a part of the Assistants API)
+    runs: BaseRuns
+    #: Domain for working with `Search API <https://yandex.cloud/docs/search-api>`_
+    search_api: BaseSearchAPIDomain
+    #: Domain for working with search indexes (a part of the Assistants API)
+    search_indexes: BaseSearchIndexes
+    #: Domain for working with datasets
+    datasets: BaseDatasets
+    #: Domain for working with tuning
+    tuning: BaseTuning
+    #: Domain for working with batch tasks
+    batch: BaseBatch
+    #: Domain for working with
+    #: `Yandex Cloud OpenAI Compatible API_BaseSDK_URL <https://yandex.cloud/docs/ai-studio/concepts/openai-compatibility>`_.
+    chat: BaseChat
+    #: Domain for working with
+    #: `Yandex SpeechKit <https://yandex.cloud/docs/speechkit>`_ services.
+    speechkit: BaseSpeechKitDomain
+
+    _messages: BaseMessages
+
+    _logger_name: str = 'yandex_ai_studio_sdk'
+
+    def __init__(
+        self,
+        *,
+        folder_id: UndefinedOr[str] | None = UNDEFINED,
+        endpoint: UndefinedOr[str] | None = UNDEFINED,
+        auth: UndefinedOr[str | BaseAuth] = UNDEFINED,
+        retry_policy: UndefinedOr[RetryPolicy] = UNDEFINED,
+        yc_profile: UndefinedOr[str] = UNDEFINED,
+        service_map: UndefinedOr[dict[str, str]] = UNDEFINED,
+        interceptors: UndefinedOr[Sequence[aio.ClientInterceptor]] = UNDEFINED,
+        enable_server_data_logging: UndefinedOr[bool] = UNDEFINED,
+        verify: UndefinedOr[bool | PathLike] = UNDEFINED,
+    ):
+        """Construct a new asynchronous sdk instance.
+
+        :param folder_id: Yandex Cloud folder identifier which will be billed
+            for models usage. In case of default Undefined value,
+            the parameter will be taken from the environment variable ``YC_FOLDER_ID``.
+        :type folder_id: str
+        :param endpoint: domain:port pair for Yandex Cloud API or any other
+            grpc compatible target.
+            In case of ``None`` passed it turns off service endpoint discovery mechanism
+            and requires ``service_map`` to be passed.
+        :type endpoint: str
+        :param auth: string with API Key, IAM token or one of yandex_ai_studio_sdk.auth objects;
+            in case of default Undefined value, the token will be taken from one of the
+            environment variables: ``YC_OAUTH_TOKEN``, ``YC_TOKEN``, ``YC_IAM_TOKEN``, or ``YC_API_KEY``.
+        :type api_key: BaseAuth | str
+        :param service_map: a way to redefine endpoints for one or more cloud subservices
+            with a format of dict ``{"service_name": "service_address"}``.
+        :type service_map: Dict[str, str]
+        :param enable_server_data_logging: when passed bool, we will add
+            `x-data-logging-enabled: <value>` to all of requests, which will
+            enable or disable logging of user data on server side.
+            It will do something only on those parts of backends which supports
+            this option.
+        :param verify: SSL certificates (a.k.a CA bundle) used to verify the identity
+            of requested hosts. Either `True` (default CA bundle), a path to an SSL certificate file, or `False`
+            (which will disable verification).
+        :type verify: bool | pathlib.Path | str | os.PathLike
+        """
+        endpoint = self._get_endpoint(endpoint)
+        retry_policy = retry_policy if is_defined(retry_policy) else RetryPolicy()
+
+        self._client = AsyncCloudClient(
+            endpoint=endpoint,
+            auth=get_defined_value(auth, None),  # type: ignore[arg-type]
+            service_map=get_defined_value(service_map, {}),
+            retry_policy=retry_policy,
+            interceptors=get_defined_value(interceptors, None),
+            yc_profile=get_defined_value(yc_profile, None),
+            enable_server_data_logging=get_defined_value(enable_server_data_logging, None),
+            verify=get_defined_value(verify, None),  # type: ignore[arg-type]
+        )
+        self._folder_id = get_folder_id(folder_id=get_defined_value(folder_id, None))
+
+        self._init_domains()
+
+    def setup_default_logging(
+        self,
+        log_level: LogLevel = DEFAULT_LOG_LEVEL,
+        log_format: str = DEFAULT_LOG_FORMAT,
+        date_format: str = DEFAULT_DATE_FORMAT,
+    ) -> Self:
+        """Sets up the default logging configuration.
+
+        Read more about log_levels, log_format, and date_format in `Python documentation (logging) <https://docs.python.org/3/library/logging.html>`_.
+
+        :param log_level: The logging level to set.
+        :param log_format: The format of the log messages.
+        :param date_format: The format for timestamps in log messages.
+        :return: The instance of the SDK with logging configured.
+        """
+
+        setup_default_logging_impl(
+            log_level=log_level,
+            log_format=log_format,
+            date_format=date_format,
+            logger_name=self._logger_name,
+        )
+        return self
+
+    def _init_domains(self) -> None:
+        """Initializes domain members by creating instances of them.
+
+        This method inspects the class for any members that are subclasses of
+        BaseDomain and initializes them.
+        """
+
+        members: dict[str, type] = {}
+        for kls in reversed(self.__class__.__mro__):
+            if kls in (BaseSDK, object):
+                continue
+            kls_members = get_annotations(kls, eval_str=True)
+            members.update(kls_members)
+
+        for member_name, member in members.items():
+            if inspect.isclass(member) and issubclass(member, BaseDomain):
+                resource = member(name=member_name, sdk=self)
+                setattr(self, member_name, resource)
+
+    def _get_endpoint(self, endpoint: UndefinedOr[str] | None) -> str | None:
+        """Retrieves the API endpoint.
+
+        If the endpoint is defined, it will be returned. Otherwise, it checks for
+        an environment variable and defaults to a predefined endpoint.
+
+        :param endpoint: An optional, customized endpoint.
+        :return: The resolved API endpoint as a string.
+        """
+        if is_defined(endpoint):
+            return endpoint
+
+        if env_endpoint := os.getenv('YC_API_ENDPOINT'):
+            return env_endpoint
+
+        return 'api.cloud.yandex.net:443'
+
+    # NB: All typehints on these classes must be 3.8-compatible
+    # to properly work with get_annotations
+    _event_loop: asyncio.AbstractEventLoop | None = None
+    _loop_thread: threading.Thread | None = None
+    _number: int = 0
+    _lock = threading.Lock()
+
+    @classmethod
+    def _start_event_loop(cls):
+        """Starts the event loop in a separate thread.
+
+        This method sets the event loop for the current thread and runs it
+        infinitely.
+        """
+        loop = cls._event_loop
+        asyncio.set_event_loop(loop)
+        loop.run_forever()
+
+    @staticmethod
+    def _get_event_loop() -> asyncio.AbstractEventLoop:
+        """This event loop is used at yandex_ai_studio_sdk._utils.sync.run_sync
+        for synchronized run of async functions.
+
+        NB that loop must be kinda a singleton, because grpc.aio.* things
+        are breaking when you try to use it at different event loops with different
+        threads.
+        """
+        # pylint: disable=protected-access
+
+        # it was a class method first, but it breaked when test with
+        # both AsyncSDK and SDK appeared
+        kls = BaseSDK
+
+        if kls._event_loop is not None:
+            return kls._event_loop
+
+        with kls._lock:
+            if kls._event_loop is None:
+                thread_name = f'{kls.__name__}-{kls._number}'
+                kls._number += 1
+
+                kls._event_loop = asyncio.new_event_loop()
+                kls._loop_thread = threading.Thread(
+                    target=kls._start_event_loop,
+                    daemon=True,
+                    name=thread_name
+                )
+                kls._loop_thread.start()
+
+        return kls._event_loop
+
+
+@doc_from(BaseSDK)
+class AsyncAIStudio(BaseSDK):
+    tools: AsyncTools
+    models: AsyncModels
+    files: AsyncFiles
+    threads: AsyncThreads
+    assistants: AsyncAssistants
+    runs: AsyncRuns
+    search_api: AsyncSearchAPIDomain
+    search_indexes: AsyncSearchIndexes
+    datasets: AsyncDatasets
+    tuning: AsyncTuning
+    batch: AsyncBatch
+    chat: AsyncChat
+    speechkit: AsyncSpeechKitDomain
+    _messages: AsyncMessages
+
+
+@doc_from(BaseSDK)
+class AIStudio(BaseSDK):
+    tools: Tools
+    models: Models
+    files: Files
+    threads: Threads
+    assistants: Assistants
+    runs: Runs
+    search_api: SearchAPIDomain
+    search_indexes: SearchIndexes
+    datasets: Datasets
+    tuning: Tuning
+    batch: Batch
+    chat: Chat
+    speechkit: SpeechKitDomain
+    _messages: Messages

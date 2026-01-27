@@ -1,8 +1,8 @@
 Batch domain
 ============
 
-.. autoclass:: yandex_cloud_ml_sdk._batch.domain.Batch
+.. autoclass:: yandex_ai_studio_sdk._batch.domain.Batch
    :undoc-members:
 
-.. autoclass:: yandex_cloud_ml_sdk._types.batch.operation.BatchTaskOperation
+.. autoclass:: yandex_ai_studio_sdk._types.batch.operation.BatchTaskOperation
    :undoc-members:

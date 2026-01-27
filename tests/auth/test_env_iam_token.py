@@ -2,8 +2,7 @@
 from __future__ import annotations
 
 import pytest
-
-from yandex_cloud_ml_sdk.auth import EnvIAMTokenAuth
+from yandex_ai_studio_sdk.auth import EnvIAMTokenAuth
 
 pytestmark = pytest.mark.asyncio
 

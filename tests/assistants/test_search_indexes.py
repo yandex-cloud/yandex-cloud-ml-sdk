@@ -3,9 +3,8 @@ from __future__ import annotations
 from dataclasses import fields
 
 import pytest
-
-from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk.search_indexes import (
+from yandex_ai_studio_sdk import AsyncAIStudio
+from yandex_ai_studio_sdk.search_indexes import (
     HybridSearchIndexType, IndexNormalizationStrategy, MeanIndexCombinationStrategy, MeanIndexEvaluationTechnique,
     ReciprocalRankFusionIndexCombinationStrategy, StaticIndexChunkingStrategy, TextSearchIndexType,
     VectorSearchIndexType
@@ -148,7 +147,7 @@ async def test_assistant_with_search_index(async_sdk, tmp_path):
 
 
 @pytest.mark.allow_grpc
-async def test_hybrid_search_index(async_sdk: AsyncYCloudML, test_file_path):
+async def test_hybrid_search_index(async_sdk: AsyncAIStudio, test_file_path):
     file = await async_sdk.files.upload(test_file_path)
     operation = await async_sdk.search_indexes.create_deferred(
         file,
@@ -176,7 +175,7 @@ async def test_hybrid_search_index(async_sdk: AsyncYCloudML, test_file_path):
 
 
 @pytest.mark.allow_grpc
-async def test_hybrid_search_index_mean(async_sdk: AsyncYCloudML, test_file_path):
+async def test_hybrid_search_index_mean(async_sdk: AsyncAIStudio, test_file_path):
     file = await async_sdk.files.upload(test_file_path)
     operation = await async_sdk.search_indexes.create_deferred(
         file,

@@ -4,14 +4,14 @@ from __future__ import annotations
 
 import pathlib
 
-from yandex_cloud_ml_sdk import YCloudML
-from yandex_cloud_ml_sdk.search_api import FamilyMode
+from yandex_ai_studio_sdk import AIStudio
+from yandex_ai_studio_sdk.search_api import FamilyMode
 
 EXAMPLE_FILE = pathlib.Path(__file__).parent / 'image.jpeg'
 
 
 def main() -> None:
-    sdk = YCloudML(folder_id='b1ghsjum2v37c2un8h64')
+    sdk = AIStudio(folder_id='b1ghsjum2v37c2un8h64')
     sdk.setup_default_logging()
 
     # You could pass initial configuration here:

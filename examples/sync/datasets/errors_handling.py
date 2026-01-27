@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pathlib
 
-from yandex_cloud_ml_sdk import YCloudML
-from yandex_cloud_ml_sdk.exceptions import DatasetValidationError
+from yandex_ai_studio_sdk import AIStudio
+from yandex_ai_studio_sdk.exceptions import DatasetValidationError
 
 PATH = pathlib.Path(__file__)
 NAME = f'example-{PATH.parent.name}-{PATH.name}'
@@ -19,7 +19,7 @@ def main() -> None:
     # You can set authentication using environment variables instead of the 'auth' argument:
     # YC_OAUTH_TOKEN, YC_TOKEN, YC_IAM_TOKEN, or YC_API_KEY
     # You can also set 'folder_id' using the YC_FOLDER_ID environment variable
-    sdk = YCloudML(
+    sdk = AIStudio(
         # folder_id="<YC_FOLDER_ID>",
         # auth="<YC_API_KEY/YC_IAM_TOKEN>",
     )

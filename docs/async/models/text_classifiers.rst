@@ -1,10 +1,10 @@
 Domain
 ------
 
-.. autoclass:: yandex_cloud_ml_sdk._models.text_classifiers.function.AsyncTextClassifiers
+.. autoclass:: yandex_ai_studio_sdk._models.text_classifiers.function.AsyncTextClassifiers
 
 Model
 -----
 
-.. autoclass:: yandex_cloud_ml_sdk._models.text_classifiers.model.AsyncTextClassifiersModel
+.. autoclass:: yandex_ai_studio_sdk._models.text_classifiers.model.AsyncTextClassifiersModel
    :undoc-members:

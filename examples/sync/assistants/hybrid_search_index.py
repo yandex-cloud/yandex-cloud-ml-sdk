@@ -5,8 +5,8 @@ from __future__ import annotations
 import pathlib
 import pprint
 
-from yandex_cloud_ml_sdk import YCloudML
-from yandex_cloud_ml_sdk.search_indexes import (
+from yandex_ai_studio_sdk import AIStudio
+from yandex_ai_studio_sdk.search_indexes import (
     HybridSearchIndexType, ReciprocalRankFusionIndexCombinationStrategy, StaticIndexChunkingStrategy,
     TextSearchIndexType, VectorSearchIndexType
 )
@@ -20,7 +20,7 @@ def main() -> None:
     # You can set authentication using environment variables instead of the 'auth' argument:
     # YC_OAUTH_TOKEN, YC_TOKEN, YC_IAM_TOKEN, or YC_API_KEY
     # You can also set 'folder_id' using the YC_FOLDER_ID environment variable
-    sdk = YCloudML(
+    sdk = AIStudio(
         # folder_id="<YC_FOLDER_ID>",
         # auth="<YC_API_KEY/YC_IAM_TOKEN>",
     )

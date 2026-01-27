@@ -49,7 +49,7 @@ async def test_logging_unary_unary(async_sdk, caplog):
     # and I'm too lazy to write a code here about selecting this test target log message
     # instead of just records[0]
     caplog.set_level(50)
-    caplog.set_level(logging.DEBUG, logger="yandex_cloud_ml_sdk")
+    caplog.set_level(logging.DEBUG, logger="yandex_ai_studio_sdk")
 
     result = await async_sdk.models.completions('foo').tokenize('bar')
     assert result[0].text == 'abc'
@@ -70,7 +70,7 @@ async def test_logging_unary_stream(async_sdk, caplog):
     # and I'm too lazy to write a code here about selecting this test target log message
     # instead of just records[0]
     caplog.set_level(50)
-    caplog.set_level(logging.DEBUG, logger="yandex_cloud_ml_sdk")
+    caplog.set_level(logging.DEBUG, logger="yandex_ai_studio_sdk")
     result = await async_sdk.models.completions('foo').run('bar')
     assert result is not None
     assert not result.alternatives
