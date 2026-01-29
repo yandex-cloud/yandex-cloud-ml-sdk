@@ -40,13 +40,22 @@ dependencies = [
     "httpx-sse>=0.4.1",
     "typing-extensions>=4",
     "aiofiles>=24.1.0",
-    "packaging>=24"
+    "packaging>=24",
+    "click>=8.0.0",
+    "tqdm>=4.0.0",
+    "python-dotenv>=1.0.0",
+    "boto3>=1.26.0",
+    "atlassian-python-api>=3.41.0",
+    "pyyaml>=6.0",
+    "requests>=2.31.0",
+    "mwclient>=0.10.1",
 ]
 
 [project.optional-dependencies]
 test = [
     "pre-commit",
     "tox",
+    "types-PyYAML",
 ]
 langchain = [
     "langchain-core>=0.3",
@@ -58,6 +67,9 @@ pydantic = [
 datasets = [
     "pyarrow>=19"
 ]
+
+[project.scripts]
+vector_stores = "yandex_ai_studio_sdk.cli.search_index:main"
 
 [project.urls]
 Documentation = "https://yandex.cloud/ru/docs/foundation-models/"
@@ -311,5 +323,9 @@ module = [
     "scipy.spatial.distance",
     "traitlets.utils.warnings",
     "sounddevice",
+    "boto3",
+    "botocore",
+    "botocore.exceptions",
+    "atlassian",
 ]
 ignore_missing_imports = true
