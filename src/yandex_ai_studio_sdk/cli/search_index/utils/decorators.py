@@ -3,7 +3,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import click
-
 from yandex_ai_studio_sdk.cli.search_index.constants import (
     DEFAULT_CHUNK_OVERLAP_TOKENS, DEFAULT_MAX_CHUNK_SIZE_TOKENS, DEFAULT_MAX_WORKERS, DEFAULT_SKIP_ON_ERROR
 )

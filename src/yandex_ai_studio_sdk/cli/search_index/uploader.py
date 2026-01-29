@@ -6,7 +6,6 @@ from dataclasses import dataclass
 from typing import Literal
 
 from tqdm.asyncio import tqdm
-
 from yandex_ai_studio_sdk import AsyncAIStudio
 from yandex_ai_studio_sdk._files.file import AsyncFile, File
 from yandex_ai_studio_sdk._search_indexes.index_type import BaseSearchIndexType

@@ -6,7 +6,6 @@ from pathlib import Path
 from typing import Any
 
 import click
-
 from yandex_ai_studio_sdk.auth import APIKeyAuth, IAMTokenAuth, MetadataAuth, OAuthTokenAuth, YandexCloudCLIAuth
 
 logger = logging.getLogger(__name__)
