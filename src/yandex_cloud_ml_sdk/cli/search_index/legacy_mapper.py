@@ -124,7 +124,7 @@ class LegacyYandexMapper:
         """
         Create UploadConfig from OpenAI create parameters for legacy Yandex SDK.
 
-        ⚠️ This method bridges OpenAI params to old UploadConfig structure.
+        This method bridges OpenAI params to old UploadConfig structure.
         It will be removed when we switch to native OpenAI API implementation.
 
         Args:

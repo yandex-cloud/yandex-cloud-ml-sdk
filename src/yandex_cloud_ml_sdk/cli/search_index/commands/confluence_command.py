@@ -3,58 +3,40 @@ from __future__ import annotations
 import click
 
 from ..file_sources.base import BaseFileSource
+from ..file_sources.confluence import ConfluenceFileSource
 from ..utils import all_common_options, create_command_executor, validate_authentication
 from .base import BaseCommand
 
 
-# Placeholder - ConfluenceFileSource not yet implemented
-class ConfluenceFileSource(BaseFileSource):
-    """Placeholder for Confluence file source (not yet implemented)."""
-
-    def __init__(self, **kwargs):
-        raise NotImplementedError("ConfluenceFileSource is not yet implemented")
-
-    def list_files(self):
-        raise NotImplementedError("ConfluenceFileSource is not yet implemented")
-
-    def get_file_content(self, file_metadata):
-        raise NotImplementedError("ConfluenceFileSource is not yet implemented")
-
-    def get_file_count_estimate(self):
-        return None
-
-
 class ConfluenceCommand(BaseCommand):
-    """Command for creating search index from Atlassian Confluence."""
+    """Command for creating search index from Atlassian Confluence pages."""
 
     def __init__(
         self,
         # Confluence-specific options
-        url: str,
+        page_urls: tuple[str, ...],
+        base_url: str | None,
         username: str | None,
         api_token: str | None,
-        space_key: str | None,
-        page_ids: tuple[str, ...],
-        include_attachments: bool,
         export_format: str,
         # Common options
         **kwargs,
     ):
         """Initialize Confluence command with Confluence-specific and common parameters."""
-        self.url = url
+        self.page_urls = page_urls
+        self.base_url = base_url
         self.username = username
         self.api_token = api_token
-        self.space_key = space_key
-        self.page_ids = page_ids
-        self.include_attachments = include_attachments
         self.export_format = export_format
 
-        # Validate authentication
-        self.username, self.api_token = validate_authentication(
-            self.username,
-            self.api_token,
-            auth_type="Confluence authentication",
-        )
+        # Validate authentication (optional for public instances)
+        if self.username or self.api_token:
+            # If either is provided, both must be provided
+            self.username, self.api_token = validate_authentication(
+                self.username,
+                self.api_token,
+                auth_type="Confluence authentication",
+            )
 
         # Initialize base command
         super().__init__(**kwargs)
@@ -62,47 +44,35 @@ class ConfluenceCommand(BaseCommand):
     def create_file_source(self) -> BaseFileSource:
         """Create ConfluenceFileSource with configured parameters."""
         return ConfluenceFileSource(
-            url=self.url,
+            page_urls=list(self.page_urls),
+            base_url=self.base_url,
             username=self.username,
             api_token=self.api_token,
-            space_key=self.space_key,
-            page_ids=list(self.page_ids) if self.page_ids else None,
-            include_attachments=self.include_attachments,
             export_format=self.export_format,
         )
 
 
 @click.command(name="confluence")
 @click.option(
-    "--url",
+    "--page-url",
+    "page_urls",
+    multiple=True,
     required=True,
-    help="Confluence instance URL (e.g., https://your-domain.atlassian.net/wiki)",
+    help="Page URL(s) to export (e.g., https://your-domain/display/SPACE/Page+Title). Can be specified multiple times.",
+)
+@click.option(
+    "--base-url",
+    help="Confluence base URL (e.g., https://cwiki.apache.org/confluence). If not specified, extracted from first page URL.",
 )
 @click.option(
     "--username",
     envvar="CONFLUENCE_USERNAME",
-    help="Confluence username (email) (or use CONFLUENCE_USERNAME env var)",
+    help="Confluence username (email) - optional for public instances (or use CONFLUENCE_USERNAME env var)",
 )
 @click.option(
     "--api-token",
     envvar="CONFLUENCE_API_TOKEN",
-    help="Confluence API token (or use CONFLUENCE_API_TOKEN env var)",
-)
-@click.option(
-    "--space-key",
-    help="Confluence space key to export",
-)
-@click.option(
-    "--page-id",
-    "page_ids",
-    multiple=True,
-    help="Specific page IDs to export (can be specified multiple times)",
-)
-@click.option(
-    "--include-attachments/--no-include-attachments",
-    default=True,
-    show_default=True,
-    help="Whether to include page attachments",
+    help="Confluence API token - optional for public instances (or use CONFLUENCE_API_TOKEN env var)",
 )
 @click.option(
     "--export-format",
@@ -114,12 +84,16 @@ class ConfluenceCommand(BaseCommand):
 @all_common_options
 def confluence_command(**kwargs):
     """
-    Create a search index from Atlassian Confluence.
+    Create a search index from Atlassian Confluence pages.
 
-    This command exports pages and attachments from Confluence,
-    uploads them to Yandex Cloud, and creates a search index.
+    This command exports page content from Confluence by URL,
+    uploads it to Yandex Cloud, and creates a search index.
 
-    Authentication is required via --username and --api-token options
-    or CONFLUENCE_USERNAME and CONFLUENCE_API_TOKEN environment variables.
+    Simply copy the page URL from your browser and use it with --page-url.
+    You can specify multiple pages by using --page-url multiple times.
+
+    Authentication is optional. For public Confluence instances, you can omit
+    --username and --api-token. For private instances, provide credentials via
+    command line options or CONFLUENCE_USERNAME and CONFLUENCE_API_TOKEN environment variables.
     """
     create_command_executor(ConfluenceCommand, **kwargs)

@@ -137,8 +137,6 @@ class AsyncSearchIndexUploader:
         """
         Upload all files from the source with concurrent execution.
 
-        Note: Files are read on-demand during upload to avoid loading all files into memory.
-
         Args:
             source: File source to upload from
         """

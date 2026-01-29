@@ -16,7 +16,7 @@ class LocalFileSource(BaseFileSource):
         self,
         directory: Path | str,
         *,
-        pattern: str = "**/*",
+        include_patterns: list[str] | None = None,
         recursive: bool = True,
         exclude_patterns: list[str] | None = None,
         max_file_size: int | None = None,
@@ -26,7 +26,8 @@ class LocalFileSource(BaseFileSource):
 
         Args:
             directory: Root directory to scan for files
-            pattern: Glob pattern for matching files (default: all files)
+            include_patterns: List of glob patterns for matching files (e.g., ["**/*.md", "**/*.txt"])
+                              If None or empty, defaults to ["**/*"] (all files)
             recursive: Whether to scan subdirectories recursively
             exclude_patterns: List of glob patterns to exclude
             max_file_size: Maximum file size in bytes (files larger will be skipped)
@@ -37,70 +38,78 @@ class LocalFileSource(BaseFileSource):
         if not self.directory.is_dir():
             raise ValueError(f"Path is not a directory: {self.directory}")
 
-        self.pattern = pattern
+        self.include_patterns = include_patterns if include_patterns else ["**/*"]
         self.recursive = recursive
         self.exclude_patterns = exclude_patterns or []
         self.max_file_size = max_file_size
 
     def list_files(self) -> Iterator[FileMetadata]:
-        """List all files matching the pattern in the directory."""
-        logger.info("Scanning directory: %s with pattern: %s", self.directory, self.pattern)
+        """List all files matching the include patterns in the directory."""
+        logger.info("Scanning directory: %s with patterns: %s", self.directory, self.include_patterns)
 
-        for file_path in self.directory.glob(self.pattern):
-            if not file_path.is_file():
-                continue
+        # Collect all unique files matching any pattern
+        seen_files = set()
 
-            if self._is_excluded(file_path):
-                logger.debug("Skipping excluded file: %s", file_path)
-                continue
-
-            try:
-                file_size = file_path.stat().st_size
-                if self.max_file_size and file_size > self.max_file_size:
-                    logger.warning(
-                        "Skipping file (too large): %s (%d bytes > %d max)",
-                        file_path,
-                        file_size,
-                        self.max_file_size,
-                    )
+        for pattern in self.include_patterns:
+            logger.debug("Applying pattern: %s", pattern)
+            for file_path in self.directory.glob(pattern):
+                if not file_path.is_file():
                     continue
-            except OSError as e:
-                logger.error("Cannot access file: %s - %s", file_path, e)
-                continue
 
-            metadata = FileMetadata(
-                path=file_path,
-                name=file_path.name,
-                mime_type=None,  # Let SDK auto-detect MIME type
-                labels={"source": "local", "directory": str(self.directory.name)},
-            )
+                # Skip if already processed
+                if file_path in seen_files:
+                    continue
+                seen_files.add(file_path)
 
-            logger.debug("Found file: %s (size: %d)", file_path, file_size)
-            yield metadata
+                if self._is_excluded(file_path):
+                    logger.debug("Skipping excluded file: %s", file_path)
+                    continue
+
+                try:
+                    file_size = file_path.stat().st_size
+                    if self.max_file_size and file_size > self.max_file_size:
+                        logger.warning(
+                            "Skipping file (too large): %s (%d bytes > %d max)",
+                            file_path,
+                            file_size,
+                            self.max_file_size,
+                        )
+                        continue
+                except OSError as e:
+                    logger.error("Cannot access file: %s - %s", file_path, e)
+                    continue
+
+                metadata = FileMetadata(
+                    path=file_path,
+                    name=file_path.name,
+                    mime_type=None,
+                )
+
+                yield metadata
+
+        logger.info("Finished scanning with %d unique files found", len(seen_files))
 
     def get_file_content(self, file_metadata: FileMetadata) -> bytes:
         """Read file content from the local filesystem."""
         file_path = Path(file_metadata.path)
-
         try:
-            logger.debug("Reading file: %s", file_path)
             with open(file_path, "rb") as f:
-                content = f.read()
-            logger.debug("Read %d bytes from %s", len(content), file_path)
-            return content
+                return f.read()
         except OSError as e:
             logger.error("Failed to read file: %s - %s", file_path, e)
             raise
 
     def get_file_count_estimate(self) -> int | None:
-        """Count files matching the pattern."""
+        """Count files matching the include patterns."""
         try:
-            count = sum(
-                1
-                for file_path in self.directory.glob(self.pattern)
-                if file_path.is_file() and not self._is_excluded(file_path)
-            )
-            logger.info("Found %d files matching pattern", count)
+            seen_files = set()
+            for pattern in self.include_patterns:
+                for file_path in self.directory.glob(pattern):
+                    if file_path.is_file() and not self._is_excluded(file_path):
+                        seen_files.add(file_path)
+
+            count = len(seen_files)
+            logger.info("Found %d files matching patterns", count)
             return count
         except Exception as e:
             logger.warning("Failed to count files: %s", e)

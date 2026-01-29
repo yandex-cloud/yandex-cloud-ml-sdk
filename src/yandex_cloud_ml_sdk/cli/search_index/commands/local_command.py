@@ -17,7 +17,7 @@ class LocalCommand(BaseCommand):
         self,
         # Local-specific options
         directory: Path,
-        pattern: str,
+        include_patterns: tuple[str, ...],
         exclude_patterns: tuple[str, ...],
         max_file_size: int | None,
         recursive: bool,
@@ -26,7 +26,7 @@ class LocalCommand(BaseCommand):
     ):
         """Initialize local command with local-specific and common parameters."""
         self.directory = directory
-        self.pattern = pattern
+        self.include_patterns = include_patterns if include_patterns else ("**/*",)  # Default pattern if none specified
         self.exclude_patterns = exclude_patterns
         self.max_file_size = max_file_size
         self.recursive = recursive
@@ -42,7 +42,7 @@ class LocalCommand(BaseCommand):
         """Create LocalFileSource with configured parameters."""
         return LocalFileSource(
             directory=self.directory,
-            pattern=self.pattern,
+            include_patterns=list(self.include_patterns),
             recursive=self.recursive,
             exclude_patterns=list(self.exclude_patterns) if self.exclude_patterns else None,
             max_file_size=self.max_file_size,
@@ -56,9 +56,9 @@ class LocalCommand(BaseCommand):
 )
 @click.option(
     "--pattern",
-    default="**/*",
-    show_default=True,
-    help="Glob pattern for matching files (e.g., '**/*.pdf' for all PDFs)",
+    "include_patterns",
+    multiple=True,
+    help="Glob pattern for matching files (e.g., '**/*.pdf' for all PDFs). Can be specified multiple times.",
 )
 @click.option(
     "--exclude-pattern",

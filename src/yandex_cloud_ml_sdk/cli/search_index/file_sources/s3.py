@@ -50,31 +50,14 @@ class S3FileSource(BaseFileSource):
         self.max_file_size = max_file_size
 
         # Create S3 client
-        try:
-            self.s3_client = boto3.client(
-                "s3",
-                endpoint_url=endpoint_url,
-                aws_access_key_id=aws_access_key_id,
-                aws_secret_access_key=aws_secret_access_key,
-                region_name=region_name,
-            )
-            logger.info(
-                "S3 client initialized for bucket '%s' (endpoint: %s)",
-                bucket,
-                endpoint_url or "default AWS",
-            )
-            # Test connection
-            self._test_connection()
-        except Exception as e:
-            raise ValueError(f"Failed to initialize S3 client: {e}") from e
-
-    def _test_connection(self) -> None:
-        """Test S3 connection by checking if bucket exists."""
-        try:
-            self.s3_client.head_bucket(Bucket=self.bucket)
-            logger.info("Successfully connected to bucket '%s'", self.bucket)
-        except ClientError as e:
-            raise ValueError(f"Error accessing bucket '{self.bucket}': {e}") from e
+        self.s3_client = boto3.client(
+            "s3",
+            endpoint_url=endpoint_url,
+            aws_access_key_id=aws_access_key_id,
+            aws_secret_access_key=aws_secret_access_key,
+            region_name=region_name,
+        )
+        logger.info("S3FileSource initialized for bucket '%s'", bucket)
 
     def list_files(self) -> Iterator[FileMetadata]:
         """List files in S3 bucket using pagination to avoid loading all objects into memory.
@@ -120,47 +103,25 @@ class S3FileSource(BaseFileSource):
                     )
                     continue
 
-                # Extract filename
                 filename = Path(key).name
 
                 metadata = FileMetadata(
-                    path=key,  # Use S3 key as path
+                    path=key,
                     name=filename,
-                    mime_type=None,  # Let SDK auto-detect MIME type
-                    labels={
-                        "source": "s3",
-                        "bucket": self.bucket,
-                        "prefix": self.prefix,
-                    },
+                    mime_type=None,
                 )
 
                 file_count += 1
-                logger.debug("Found file: %s (size: %d)", key, size)
                 yield metadata
 
         logger.info("Found %d files matching patterns", file_count)
 
     def get_file_content(self, file_metadata: FileMetadata) -> bytes:
-        """Download file content from S3.
-
-        Args:
-            file_metadata: File metadata with S3 key in path field
-        """
+        """Download file content from S3."""
         key = str(file_metadata.path)
-
         try:
-            logger.debug("Downloading file from s3://%s/%s", self.bucket, key)
             response = self.s3_client.get_object(Bucket=self.bucket, Key=key)
-
-            content = response["Body"].read()
-
-            logger.debug("Downloaded %d bytes from %s", len(content), key)
-            return content
-
-        except ClientError as e:
-            error_code = e.response.get("Error", {}).get("Code", "Unknown")
-            logger.error("Failed to download file %s: %s", key, error_code)
-            raise
+            return response["Body"].read()
         except Exception as e:
             logger.error("Failed to download file %s: %s", key, e)
             raise

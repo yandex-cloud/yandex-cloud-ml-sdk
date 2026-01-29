@@ -45,12 +45,16 @@ dependencies = [
     "tqdm>=4.0.0",
     "python-dotenv>=1.0.0",
     "boto3>=1.26.0",
+    "atlassian-python-api>=3.41.0",
+    "pyyaml>=6.0",
+    "requests>=2.31.0",
 ]
 
 [project.optional-dependencies]
 test = [
     "pre-commit",
     "tox",
+    "types-PyYAML",
 ]
 langchain = [
     "langchain-core>=0.3",
@@ -321,5 +325,6 @@ module = [
     "boto3",
     "botocore",
     "botocore.exceptions",
+    "atlassian",
 ]
 ignore_missing_imports = true
