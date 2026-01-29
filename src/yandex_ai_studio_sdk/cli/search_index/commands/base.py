@@ -8,9 +8,9 @@ import sys
 
 import click
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk._types.misc import UNDEFINED
-from yandex_cloud_ml_sdk.search_indexes import (
+from yandex_ai_studio_sdk import AsyncAIStudio
+from yandex_ai_studio_sdk._types.misc import UNDEFINED
+from yandex_ai_studio_sdk.search_indexes import (
     HybridSearchIndexType, StaticIndexChunkingStrategy, TextSearchIndexType, VectorSearchIndexType
 )
 
@@ -98,10 +98,10 @@ class BaseCommand(abc.ABC):
             datefmt=LOG_DATE_FORMAT,
         )
 
-    def create_sdk(self) -> AsyncYCloudML:
-        """Create and configure AsyncYCloudML SDK instance."""
+    def create_sdk(self) -> AsyncAIStudio:
+        """Create and configure AsyncAIStudio SDK instance."""
         try:
-            sdk = AsyncYCloudML(
+            sdk = AsyncAIStudio(
                 folder_id=self.folder_id if self.folder_id else UNDEFINED,
                 auth=self.auth if self.auth else UNDEFINED,
                 endpoint=self.endpoint if self.endpoint else UNDEFINED,

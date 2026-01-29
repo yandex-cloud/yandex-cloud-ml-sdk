@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Literal
 
-from yandex_cloud_ml_sdk.search_indexes import HybridSearchIndexType, TextSearchIndexType, VectorSearchIndexType
+from yandex_ai_studio_sdk.search_indexes import HybridSearchIndexType, TextSearchIndexType, VectorSearchIndexType
 
 ExpiresAfterAnchor = Literal["created_at", "last_active_at"]
 

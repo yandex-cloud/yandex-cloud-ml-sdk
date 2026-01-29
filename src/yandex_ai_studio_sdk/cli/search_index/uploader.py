@@ -7,11 +7,11 @@ from typing import Literal
 
 from tqdm.asyncio import tqdm
 
-from yandex_cloud_ml_sdk import AsyncYCloudML
-from yandex_cloud_ml_sdk._files.file import AsyncFile, File
-from yandex_cloud_ml_sdk._search_indexes.index_type import BaseSearchIndexType
-from yandex_cloud_ml_sdk._search_indexes.search_index import AsyncSearchIndex
-from yandex_cloud_ml_sdk._types.misc import UNDEFINED
+from yandex_ai_studio_sdk import AsyncAIStudio
+from yandex_ai_studio_sdk._files.file import AsyncFile, File
+from yandex_ai_studio_sdk._search_indexes.index_type import BaseSearchIndexType
+from yandex_ai_studio_sdk._search_indexes.search_index import AsyncSearchIndex
+from yandex_ai_studio_sdk._types.misc import UNDEFINED
 
 from .constants import BYTES_PER_MB, DEFAULT_MAX_WORKERS, DEFAULT_SKIP_ON_ERROR
 from .file_sources.base import BaseFileSource, FileMetadata
@@ -93,14 +93,14 @@ class AsyncSearchIndexUploader:
 
     def __init__(
         self,
-        sdk: AsyncYCloudML,
+        sdk: AsyncAIStudio,
         config: UploadConfig | None = None,
     ):
         """
         Initialize the search index uploader.
 
         Args:
-            sdk: Initialized AsyncYCloudML SDK instance
+            sdk: Initialized AsyncAIStudio SDK instance
             config: Upload configuration (uses defaults if not provided)
         """
         self.sdk = sdk

@@ -68,7 +68,7 @@ datasets = [
 ]
 
 [project.scripts]
-vector_stores = "yandex_cloud_ml_sdk.cli.search_index:main"
+vector_stores = "yandex_ai_studio_sdk.cli.search_index:main"
 
 [project.urls]
 Documentation = "https://yandex.cloud/ru/docs/foundation-models/"

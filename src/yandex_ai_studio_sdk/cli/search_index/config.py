@@ -7,7 +7,7 @@ from typing import Any
 
 import click
 
-from yandex_cloud_ml_sdk.auth import APIKeyAuth, IAMTokenAuth, MetadataAuth, OAuthTokenAuth, YandexCloudCLIAuth
+from yandex_ai_studio_sdk.auth import APIKeyAuth, IAMTokenAuth, MetadataAuth, OAuthTokenAuth, YandexCloudCLIAuth
 
 logger = logging.getLogger(__name__)
 
@@ -39,7 +39,7 @@ class ConfigLoader:
     @staticmethod
     def _load_yaml(config_path: Path) -> dict[str, Any]:
         try:
-            import yaml
+            import yaml  # type: ignore[import-untyped]
         except ImportError:
             raise click.ClickException(
                 "PyYAML required for YAML configs. Install: pip install pyyaml"

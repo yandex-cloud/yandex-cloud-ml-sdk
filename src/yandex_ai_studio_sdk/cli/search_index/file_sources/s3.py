@@ -6,7 +6,6 @@ from collections.abc import Iterator
 from pathlib import Path
 
 import boto3  # type: ignore[import-untyped]
-from botocore.exceptions import ClientError  # type: ignore[import-untyped]
 
 from .base import BaseFileSource, FileMetadata
 
