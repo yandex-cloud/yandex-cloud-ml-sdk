@@ -28,7 +28,7 @@ class S3FileSource(BaseFileSource):
         exclude_patterns: list[str] | None = None,
         max_file_size: int | None = None,
     ):
-        """Initialize S3 file source and test connection.
+        """Initialize S3 file source.
 
         Args:
             bucket: S3 bucket name
@@ -42,13 +42,11 @@ class S3FileSource(BaseFileSource):
             max_file_size: Maximum file size in bytes
         """
         self.bucket = bucket
-        self.prefix = prefix.rstrip("/")  # Remove trailing slash
-        self.endpoint_url = endpoint_url
+        self.prefix = prefix.rstrip("/")
         self.include_patterns = include_patterns or []
         self.exclude_patterns = exclude_patterns or []
         self.max_file_size = max_file_size
 
-        # Create S3 client
         self.s3_client = boto3.client(
             "s3",
             endpoint_url=endpoint_url,
@@ -56,134 +54,80 @@ class S3FileSource(BaseFileSource):
             aws_secret_access_key=aws_secret_access_key,
             region_name=region_name,
         )
-        logger.info("S3FileSource initialized for bucket '%s'", bucket)
+        logger.info("S3FileSource initialized for s3://%s/%s", bucket, prefix or "(root)")
 
-    def list_files(self) -> Iterator[FileMetadata]:
-        """List files in S3 bucket using pagination to avoid loading all objects into memory.
+    def _get_relative_key(self, key: str) -> str:
+        """Get key relative to prefix."""
+        if not self.prefix:
+            return key
+        return key[len(self.prefix):].lstrip("/")
 
-        Yields:
-            FileMetadata for each matching file
-        """
-        logger.info("Listing files in s3://%s/%s", self.bucket, self.prefix)
+    def _should_include(self, key: str, size: int) -> bool:
+        """Check if file should be included based on patterns and size."""
+        # Skip directories
+        if key.endswith("/"):
+            return False
 
+        # Check size limit
+        if self.max_file_size and size > self.max_file_size:
+            return False
+
+        # Check patterns
+        relative_key = self._get_relative_key(key)
+        return self._matches_patterns(relative_key)
+
+    def _matches_patterns(self, relative_path: str) -> bool:
+        """Check if file path matches include/exclude patterns using fnmatch."""
+        # If include patterns specified, file must match at least one
+        if self.include_patterns:
+            if not any(fnmatch.fnmatch(relative_path, pattern) for pattern in self.include_patterns):
+                return False
+
+        # If exclude patterns specified, file must not match any
+        if self.exclude_patterns:
+            if any(fnmatch.fnmatch(relative_path, pattern) for pattern in self.exclude_patterns):
+                return False
+
+        return True
+
+    def _iter_objects(self):
+        """Iterate over all objects in bucket with prefix."""
         paginator = self.s3_client.get_paginator("list_objects_v2")
-        page_iterator = paginator.paginate(
-            Bucket=self.bucket,
-            Prefix=self.prefix,
-        )
-
-        prefix_len = len(self.prefix) if self.prefix else 0
-        file_count = 0
+        page_iterator = paginator.paginate(Bucket=self.bucket, Prefix=self.prefix)
 
         for page in page_iterator:
-            if "Contents" not in page:
-                logger.warning("No objects found with prefix '%s'", self.prefix)
-                continue
+            if "Contents" in page:
+                yield from page["Contents"]
 
-            for obj in page["Contents"]:
-                key = obj["Key"]
-                size = obj["Size"]
+    def list_files(self) -> Iterator[FileMetadata]:
+        """List files in S3 bucket using pagination."""
+        logger.info("Listing files in s3://%s/%s", self.bucket, self.prefix)
 
-                if key.endswith("/"):
-                    continue
+        file_count = 0
+        for obj in self._iter_objects():
+            key = obj["Key"]
+            size = obj["Size"]
 
-                relative_key = key[prefix_len:].lstrip("/") if prefix_len else key
-
-                if not self._matches_patterns(relative_key):
-                    logger.debug("Skipping file (pattern mismatch): %s", key)
-                    continue
-
-                if self.max_file_size and size > self.max_file_size:
-                    logger.warning(
-                        "Skipping file (too large): %s (%d bytes > %d max)",
-                        key,
-                        size,
-                        self.max_file_size,
-                    )
-                    continue
-
-                filename = Path(key).name
-
-                metadata = FileMetadata(
+            if self._should_include(key, size):
+                yield FileMetadata(
                     path=key,
-                    name=filename,
+                    name=Path(key).name,
                     mime_type=None,
                 )
-
                 file_count += 1
-                yield metadata
 
         logger.info("Found %d files matching patterns", file_count)
 
     def get_file_content(self, file_metadata: FileMetadata) -> bytes:
         """Download file content from S3."""
         key = str(file_metadata.path)
-        try:
-            response = self.s3_client.get_object(Bucket=self.bucket, Key=key)
-            return response["Body"].read()
-        except Exception as e:
-            logger.error("Failed to download file %s: %s", key, e)
-            raise
+        response = self.s3_client.get_object(Bucket=self.bucket, Key=key)
+        return response["Body"].read()
 
     def get_file_count_estimate(self) -> int | None:
-        """Count files matching patterns by paginating through all objects.
-        """
+        """Count files matching patterns by paginating through all objects."""
         try:
-            paginator = self.s3_client.get_paginator("list_objects_v2")
-            page_iterator = paginator.paginate(
-                Bucket=self.bucket,
-                Prefix=self.prefix,
-            )
-
-            prefix_len = len(self.prefix) if self.prefix else 0
-            count = 0
-
-            for page in page_iterator:
-                if "Contents" not in page:
-                    break
-
-                for obj in page["Contents"]:
-                    key = obj["Key"]
-                    size = obj.get("Size", 0)
-
-                    if key.endswith("/"):
-                        continue
-
-                    relative_key = key[prefix_len:].lstrip("/") if prefix_len else key
-
-                    if self._matches_patterns(relative_key):
-                        if not self.max_file_size or size <= self.max_file_size:
-                            count += 1
-
-            logger.info("Estimated %d files in bucket", count)
-            return count
-
+            return sum(1 for obj in self._iter_objects() if self._should_include(obj["Key"], obj["Size"]))
         except Exception as e:
             logger.warning("Failed to count files: %s", e)
             return None
-
-    def _matches_patterns(self, relative_path: str) -> bool:
-        """Check if file path matches include/exclude patterns using fnmatch.
-
-        Args:
-            relative_path: Path relative to bucket prefix
-        """
-        # If include patterns specified, file must match at least one
-        if self.include_patterns:
-            matches_include = any(
-                fnmatch.fnmatch(relative_path, pattern)
-                for pattern in self.include_patterns
-            )
-            if not matches_include:
-                return False
-
-        # If exclude patterns specified, file must not match any
-        if self.exclude_patterns:
-            matches_exclude = any(
-                fnmatch.fnmatch(relative_path, pattern)
-                for pattern in self.exclude_patterns
-            )
-            if matches_exclude:
-                return False
-
-        return True
