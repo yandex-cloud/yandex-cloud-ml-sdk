@@ -7,7 +7,7 @@ from pathlib import Path
 
 import boto3  # type: ignore[import-untyped]
 
-from .base import BaseFileSource, FileMetadata
+from yandex_ai_studio_sdk.cli.search_index.file_sources.base import BaseFileSource, FileMetadata
 
 logger = logging.getLogger(__name__)
 

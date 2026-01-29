@@ -38,12 +38,7 @@ class ConfigLoader:
 
     @staticmethod
     def _load_yaml(config_path: Path) -> dict[str, Any]:
-        try:
-            import yaml  # type: ignore[import-untyped]
-        except ImportError:
-            raise click.ClickException(
-                "PyYAML required for YAML configs. Install: pip install pyyaml"
-            )
+        import yaml  # type: ignore[import-untyped]
 
         with open(config_path, encoding="utf-8") as f:
             config = yaml.safe_load(f)

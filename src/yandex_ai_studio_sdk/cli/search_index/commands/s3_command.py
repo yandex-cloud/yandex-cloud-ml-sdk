@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import click
 
-from ..file_sources.base import BaseFileSource
-from ..file_sources.s3 import S3FileSource
-from ..utils import all_common_options, create_command_executor
-from .base import BaseCommand
+from yandex_ai_studio_sdk.cli.search_index.commands.base import BaseCommand
+from yandex_ai_studio_sdk.cli.search_index.file_sources.base import BaseFileSource
+from yandex_ai_studio_sdk.cli.search_index.file_sources.s3 import S3FileSource
+from yandex_ai_studio_sdk.cli.search_index.utils import all_common_options, create_command_executor
 
 
 class S3Command(BaseCommand):

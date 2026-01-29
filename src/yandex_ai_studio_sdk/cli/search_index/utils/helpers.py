@@ -6,13 +6,13 @@ from typing import TYPE_CHECKING, Any
 
 import click
 
-from ..config import (
+from yandex_ai_studio_sdk.cli.search_index.config import (
     ConfigLoader, add_default_values, extract_source_config, filter_null_values, merge_config_with_cli_args,
     normalize_config_keys, normalize_list_params, parse_auth_config
 )
 
 if TYPE_CHECKING:
-    from ..commands.base import BaseCommand
+    from yandex_ai_studio_sdk.cli.search_index.commands.base import BaseCommand
 
 logger = logging.getLogger(__name__)
 

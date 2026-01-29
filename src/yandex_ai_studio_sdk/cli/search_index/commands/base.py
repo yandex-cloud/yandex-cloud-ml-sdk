@@ -10,15 +10,14 @@ import click
 
 from yandex_ai_studio_sdk import AsyncAIStudio
 from yandex_ai_studio_sdk._types.misc import UNDEFINED
+from yandex_ai_studio_sdk.cli.search_index.constants import LOG_DATE_FORMAT, LOG_FORMAT
+from yandex_ai_studio_sdk.cli.search_index.file_sources.base import BaseFileSource
+from yandex_ai_studio_sdk.cli.search_index.legacy_mapper import LegacyYandexMapper
+from yandex_ai_studio_sdk.cli.search_index.openai_types import OpenAIFileCreateParams, OpenAIVectorStoreCreateParams
+from yandex_ai_studio_sdk.cli.search_index.uploader import AsyncSearchIndexUploader, UploadConfig
 from yandex_ai_studio_sdk.search_indexes import (
     HybridSearchIndexType, StaticIndexChunkingStrategy, TextSearchIndexType, VectorSearchIndexType
 )
-
-from ..constants import LOG_DATE_FORMAT, LOG_FORMAT
-from ..file_sources.base import BaseFileSource
-from ..legacy_mapper import LegacyYandexMapper
-from ..openai_types import OpenAIFileCreateParams, OpenAIVectorStoreCreateParams
-from ..uploader import AsyncSearchIndexUploader, UploadConfig
 
 logger = logging.getLogger(__name__)
 
