@@ -3,7 +3,7 @@ data-science-types
 mypy
 psutil
 pyarrow-stubs
-pydantic<2.10
+pydantic>2.10
 pylint-protobuf
 pytest
 pytest-asyncio
