@@ -108,7 +108,17 @@ class RetrierBase:
 
                 code = e.code()
 
-                if code not in self._policy.retriable_codes:
+                # A deadline caused by the per-attempt timeout is retryable while
+                # there is still time left in the overall request budget.  An
+                # exhausted overall deadline keeps its previous terminal
+                # behaviour.
+                attempt_deadline_exceeded = (
+                    code == grpc.StatusCode.DEADLINE_EXCEEDED
+                    and self._policy.attempt_timeout is not None
+                    and (deadline is None or time.time() < deadline)
+                )
+
+                if code not in self._policy.retriable_codes and not attempt_deadline_exceeded:
                     raise
 
                 await self._policy.sleep(attempt, deadline)
@@ -153,12 +163,20 @@ class RetrierBase:
         if attempt > 0:
             assert client_call_details.metadata is not None  # it is always is not None because of our client
             client_call_details.metadata[self._ATTEMPT_METADATA_KEY] = str(attempt)
-            if deadline is not None:
-                new_timeout = max((deadline - time.time(), 0))
 
-                # client_call_details is the namedtuple but apparently this nuance is lacking from
-                # grpc-stubs package
-                client_call_details = client_call_details._replace(timeout=new_timeout)  # type: ignore[attr-defined]
+        remaining_timeout = max((deadline - time.time(), 0)) if deadline is not None else None
+        attempt_timeout = self._policy.attempt_timeout
+        new_timeout: float | None
+
+        if attempt_timeout is not None:
+            new_timeout = min(attempt_timeout, remaining_timeout) if remaining_timeout is not None else attempt_timeout
+        else:
+            new_timeout = remaining_timeout
+
+        if new_timeout is not None and (attempt > 0 or attempt_timeout is not None):
+            # client_call_details is the namedtuple but apparently this nuance is lacking from
+            # grpc-stubs package
+            client_call_details = client_call_details._replace(timeout=new_timeout)  # type: ignore[attr-defined]
 
         call = await continuation(client_call_details, request)
 
@@ -242,6 +260,9 @@ class RetryPolicy:
     backoff_multiplier: float = 1.5
     #: the maximum amount of jitter to add to the backoff
     jitter: float = 1.0
+    #: maximum duration of a single attempt in seconds; ``None`` means that an
+    #: attempt may use the whole remaining request timeout
+    attempt_timeout: float | None = None
     #: the grpc status codes that are considered retriable
     retriable_codes: Iterable[grpc.StatusCode] = (
         grpc.StatusCode.UNAVAILABLE,
@@ -251,6 +272,10 @@ class RetryPolicy:
     unary_unary_interceptor_class: type[UnaryUnaryRetryInterceptor] | None = UnaryUnaryRetryInterceptor
     #: :meta private:
     unary_stream_interceptor_class: type[UnaryStreamRetryInterceptor] | None = UnaryStreamRetryInterceptor
+
+    def __post_init__(self) -> None:
+        if self.attempt_timeout is not None and self.attempt_timeout <= 0:
+            raise ValueError("attempt_timeout must be greater than zero")
 
     def get_interceptors(self) -> tuple[grpc.aio.ClientInterceptor, ...]:
         klasses = [self.unary_unary_interceptor_class, self.unary_stream_interceptor_class]

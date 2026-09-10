@@ -18,8 +18,8 @@ from yandex_ai_studio_sdk.retry import RetryPolicy
 
 
 @pytest.fixture(name='retry_policy')
-def fixture_retry_policy() -> RetryPolicy:
-    return RetryPolicy(jitter=0, max_backoff=1.5)
+def fixture_retry_policy(request) -> RetryPolicy:
+    return getattr(request, 'param', RetryPolicy(jitter=0, max_backoff=1.5))
 
 
 @pytest.fixture
@@ -59,8 +59,19 @@ def servicers():
     class TokenizerService(TokenizerServiceServicer):
         def __init__(self):
             self.i = 0
+            self.slow_i = 0
 
         def TokenizeCompletion(self, request, context):
+            if request.messages[0].text == 'slow-first-attempt':
+                self.slow_i += 1
+                if self.slow_i == 1:
+                    time.sleep(0.25)
+
+                return TokenizeResponse(
+                    tokens=[Token(id=2, text='retried', special=False)],
+                    model_version='attempt-timeout'
+                )
+
             self.i += 1
             time.sleep(0.1)
 
@@ -133,3 +144,37 @@ async def test_retry_deadline(async_sdk):
         await async_sdk.models.completions('foo').run('bar', timeout=1)
     retry_delta = time.time() - initial_time
     assert 1 <= retry_delta < 2
+
+
+@pytest.mark.parametrize(
+    'retry_policy',
+    [
+        RetryPolicy(
+            max_attempts=3,
+            initial_backoff=0,
+            max_backoff=0,
+            jitter=0,
+            attempt_timeout=0.05,
+        )
+    ],
+    indirect=True,
+)
+@pytest.mark.asyncio
+async def test_retry_attempt_timeout(async_sdk):
+    initial_time = time.monotonic()
+    result = await async_sdk.models.completions('foo').tokenize(
+        'slow-first-attempt',
+        timeout=1,
+    )
+    retry_delta = time.monotonic() - initial_time
+
+    assert result[0].text == 'retried'
+    assert result[0].id == 2
+    assert result[0].special is False
+    assert retry_delta < 0.5
+
+
+@pytest.mark.parametrize('attempt_timeout', [0, -1])
+def test_retry_attempt_timeout_must_be_positive(attempt_timeout):
+    with pytest.raises(ValueError, match='attempt_timeout must be greater than zero'):
+        RetryPolicy(attempt_timeout=attempt_timeout)
